@@ -1,0 +1,103 @@
+---
+layout: post
+title: Graspを使ったJavaScriptのリファクタリング
+date: '2014-01-13T22:23:32+09:00'
+tags:
+- JavaScript
+- AST
+- Console
+- Tools
+tumblr_url: http://jser.info/post/73202282881/grasp-javascript
+---
+<p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a></p>
+
+<p>という記事では、<a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> を使ったJavaScriptコードのリファクタリングについて書かれています。</p>
+
+<p>この記事は <a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a> の簡単な紹介です</p>
+
+<h3>Grasp</h3>
+
+<p><a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> は JavaScript ASTを元にgrepのような検索、sedのような置換などを行えるコマンドラインツールです。</p>
+
+<p>GraspはNodeで(実際には<a href="http://livescript.net/" title="LiveScript" target="_blank">LiveScript</a>で)書かれているツールで <code>npm</code> 経由でインストールできます。</p>
+
+<pre><code>npm install -g grasp
+</code></pre>
+
+<p>紹介されてるユースケースはインストールしなくても、<a href="http://graspjs.com/#demo" title="Demo" target="_blank">Demo</a>から実際に入力して試すことが出来ます。</p>
+
+<h3>識別子のリネーム</h3>
+
+<p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#renaming_an_identifier" title="Renaming an identifier" target="_blank">Renaming an identifier</a> では、
+JavaScriptの識別子 - 変数や関数名のリネームを例にASTを元にした置換のメリットが紹介されています。</p>
+
+<p>例えば、以下のようなJSで、 <code>remote</code> を <code>remoteConnection</code> という名前にリネームしたいと考えます。</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">remote</span> <span class="o">=</span> <span class="nx">createConnection</span><span class="p">(</span><span class="s1">'remote'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">remote</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+<span class="nx">remote</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'receive'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">remote</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">process</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">remote</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>この時に、単純な文字列置換(sedで <code>'s/remote/remoteConnection/g'</code> のように)した場合は、文字列である <code>'remote'</code>も置換されてしまいます。</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">remoteConnection</span> <span class="o">=</span> <span class="nx">createConnection</span><span class="p">(</span><span class="s1">'remoteConnection'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</pre></div>
+
+<p>Graspでは、文字列と<a href="http://graspjs.com/docs/squery/" title="Squery" target="_blank">Squery</a>というCSSセレクタライクなASTセレクタを利用してどのように処理をするかを指定します。
+(別途<a href="http://graspjs.com/docs/equery/" title="Example Query" target="_blank">Example Query</a>という別の書式を利用するオプションも用意されています)</p>
+
+<p>そのため、<code>remote</code> という 識別子(Squeryでは#を付ける)を <code>remoteConnection</code> という風にリネームする場合は以下のように指定すれば識別子だけをリネーム出来ます。</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>grasp <span class="s1">'#remote'</span> -R remoteConnection file.js
+</pre></div>
+
+<p>Result&#160;:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">remoteConnection</span> <span class="o">=</span> <span class="nx">createConnection</span><span class="p">(</span><span class="s1">'remote'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+<span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'receive'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">process</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Grasp はデフォルトでdry-runとなっていて、上記のコマンドでは標準出力に結果が表示されるだけですが、
+実際にファイルの内容も置換したい場合は <a href="http://graspjs.com/docs/options/" title="-i, --in-place" target="_blank">-i, &#8212;in-place</a> オプションを指定することで行えます。</p>
+
+<hr><p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a>では他にも色々なユースケースが紹介されていて、</p>
+
+<ul><li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#multiple_arguments_to_a_single_options_object" title="Multiple arguments to a single options object" target="_blank">Multiple arguments to a single options object</a> では引数を一つのオブジェクトにまとめるリファクタリング</li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#reducing_the_scope_of_your_changes" title="Reducing the scope of your changes" target="_blank">Reducing the scope of your changes</a> では特定のスコープ(関数内)ある変数だけをリネーム</li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#refactoring_a_function_call" title="Refactoring a function call" target="_blank">Refactoring a function call</a> では、引数に指定している値によって別々のリファクタリング
+
+<ul><li><code>something(true)</code> と <code>something(false)</code> で別々のリファクタリングを適応するような事</li>
+</ul></li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#to_yoda_conditions_we_change" title="To Yoda conditions, we change" target="_blank">To Yoda conditions, we change</a> では、 <code>==</code> の演算子の左右を反転させるリファクタリング</li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#changing_how_you_do_default_arguments" title="Changing how you do default arguments" target="_blank">Changing how you do default arguments</a> では、デフォルト引数のリファクタリング</li>
+</ul><p>等について書かれています。</p>
+
+<hr><h3>後記</h3>
+
+<p>今回紹介した <a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#renaming_an_identifier" title="Renaming an identifier" target="_blank">Renaming an identifier</a> のような簡単なものなら、<a href="http://www.jetbrains.com/webstorm/" title="WebStorm" target="_blank">WebStorm</a>のようなIDEには同等の事ができるかもしれませんが、
+IDEの置換は基本的に一つのコンテキスト(変数とそれを参照してる)が範囲になるので、ファイルを超えた適応や<a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#changing_how_you_do_default_arguments" title="Changing how you do default arguments" target="_blank">Changing how you do default arguments</a>のような変更をまとめて行うのは難しいはずです。</p>
+
+<p><a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> では<a href="http://graspjs.com/docs/squery/" title="squery" target="_blank">squery</a> or <a href="http://graspjs.com/docs/equery/" title="equery" target="_blank">equery</a> という多少セレクタの書き方を学ぶ必要がありますが、
+かなり柔軟でASTを元に置換をするので単純な置換ツールよりは正確なものが行える事が特徴的です。</p>
+
+<p>他にも似たような事をするJS ASTを元にしたツールとしては、GHCの置換ルールのようにコメントで置換する内容を指定して行う<a href="https://github.com/puffnfresh/rephrase" title="Rephrase" target="_blank">Rephrase</a>等や、自分が実験的に書いたQunitをJasmineのテストに変換する<a href="https://github.com/azu/reQUnit" title="reQUnit" target="_blank">reQUnit</a>もJS ASTを元にしたツールです。</p>
+
+<p>この辺のツールやライブラリについては <a href="http://efcl.info/2013/1117/res3481/" title="tkbjsでJavaScript ASTについて発表してきました | Web scratch" target="_blank">tkbjsでJavaScript ASTについて発表してきました | Web scratch</a> 等を見ていただくといいかもしれません。</p>
+
+<p>他の言語でも<a href="http://hitode909.hatenablog.com/entry/2013/09/16/120823" title="Perlでメソッドが呼ばれたときに呼出元のソースコードを書き換えるやつ - hitode909の日記" target="_blank">Perlでメソッドが呼ばれたときに呼出元のソースコードを書き換えるやつ - hitode909の日記</a> や <a href="https://github.com/QafooLabs/php-refactoring-browser" title="QafooLabs/php-refactoring-browser" target="_blank">QafooLabs/php-refactoring-browser</a> など似たような趣旨のツールがあったりします。</p>
+
+<p><a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> は結構完成度が高くて、<a href="http://graspjs.com/docs/equery/" title="equery" target="_blank">equery</a>の方は学習コストも小さく使えて、
+<a href="http://graspjs.com/docs/squery/" title="squery" target="_blank">squery</a>を使えば細かい事ができるようになっていて使い道は色々あるので、一度触ってみるといいかもしれません。</p>

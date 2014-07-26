@@ -1,0 +1,260 @@
+---
+layout: post
+title: '2014-05-12のJS: browserify 4.0.0、JSテスト環境の移行、ES6-Learning'
+date: '2014-05-12T23:42:56+09:00'
+tags:
+- browserify
+- JavaScript
+- testing
+- ES6
+tumblr_url: http://jser.info/post/85527368079/2014-05-12-js-browserify-4-0-0-js-es6-learning
+---
+<p>JSer.info #174 - <a href="https://github.com/substack/node-browserify" title="browserify" target="_blank">browserify</a> 4.0.0がリリースされました。(もう<a href="https://github.com/substack/node-browserify/releases/tag/4.1.2" title="4.1.2" target="_blank">4.1.2</a>まででてました)</p>
+
+<p><a href="http://semver.org/" title="Semantic Versioning" target="_blank">Semantic Versioning</a>的な上げ方な気がしますが、4.0.0での変更点について以下にまとめられています。</p>
+
+<ul><li><a href="https://gist.github.com/substack/e831c05da4a74a29b50b" title="browserify v4 changelog" target="_blank">browserify v4 changelog</a></li>
+</ul><hr><p><a href="http://developer.cybozu.co.jp/tech/?p=7089" title="kintoneのJSユニットテスト最新事情 | Cybozu Inside Out | サイボウズエンジニアのブログ" target="_blank">kintoneのJSユニットテスト最新事情 | Cybozu Inside Out | サイボウズエンジニアのブログ</a> という記事では、
+<a href="http://jsunit.berlios.de/" title="JsUnit" target="_blank">JsUnit</a>ベースのテスト環境から、<a href="http://karma-runner.github.io/0.12/index.html" title="Karma" target="_blank">Karma</a>( <a href="http://visionmedia.github.io/mocha/" title="Mocha" target="_blank">Mocha</a> + <a href="https://github.com/LearnBoost/expect.js/" title="expect.js" target="_blank">expect.js</a> + <a href="http://sinonjs.org/" title="Sinon.JS" target="_blank">Sinon.JS</a> )へのテスト環境へ移行について書かれています。</p>
+
+<p>元は単独のHTMLとしてテストが独立しているためDOMの追加やグローバルによる汚染が無いですが、Karma等のTest Runnerは同じHTML上でテスト走らせるため、cleanup処理が抜けていると汚染が起きてしまいます。</p>
+
+<p>そのようなケースにどう対応していったかについても書かれていて興味深いです。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p>.<a href="https://twitter.com/azu_re" target="_blank">@azu_re</a> 既存のテストケースはそのままで、平行で運用しています。既存のを触るときに新しい形式に書き換えてる感じですね。コンバートも検討していますが、モックやアサーションの書き方ががらっと変わったので単純なルールで置換するのが難しくて。。今後の課題としています。</p>— ama-ch (@ama_ch) <a href="https://twitter.com/ama_ch/statuses/465845889559318530" target="_blank">May 12, 2014</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>よく使われるテストライブラリでも以下の3種類で結構壁があります。(主に非同期周り)</p>
+
+<pre>
+QUnit | Jasmine 1.x | Mocha / Jasmine 2.x
+</pre>
+
+<p>理論的には <a href="https://github.com/azu/reQUnit" title="reQUnit" target="_blank">変換ツール等</a> を書いて自動的にできなくもないですが、FacebookのES6移行の話でも出てきたような<a href="http://benjamn.github.io/pivotal-meetup-talk/#/31" title="Technical and Social Progress Toward ECMAScript 6 at Facebook" target="_blank">移行する際のルールを明確化</a>することや<a href="http://hitode909.hatenablog.com/entry/2014/04/25/193345" title="全自動リファクタリング君 - hitode909の日記" target="_blank">変換が失敗したことを検知する</a>仕組みなどが必要になってくると思います。</p>
+
+<p>なので、既存のテストも変換するかは時と場合による感じになる気がします。</p>
+
+<ul><li><a href="http://www.hakkalabs.co/articles/ecmascript-6-at-facebook" title="Regenerator, AST, and ES6 at Facebook" target="_blank">Regenerator, AST, and ES6 at Facebook</a>
+
+<ul><li><a href="http://benjamn.github.io/pivotal-meetup-talk/#/31" title="Technical and Social Progress Toward ECMAScript 6 at Facebook" target="_blank">Technical and Social Progress Toward ECMAScript 6 at Facebook</a></li>
+</ul></li>
+<li><a href="http://hitode909.hatenablog.com/entry/2014/04/25/193345" title="全自動リファクタリング君 - hitode909の日記" target="_blank">全自動リファクタリング君 - hitode909の日記</a></li>
+</ul><p>長々と書きましたが、テストに限らず最近はこういった環境の移行をするという話が多いので(特にES6やモジュール周り)、色々と考えてみると面白いかもしれませんね。</p>
+
+<ul><li><a href="https://github.com/ractivejs/ractive/pull/678" title="AMD -&gt; ES6 by Rich-Harris · Pull Request #678 · ractivejs/ractive" target="_blank">AMD -&gt; ES6 by Rich-Harris · Pull Request #678 · ractivejs/ractive</a></li>
+<li><a href="http://emberjs.com/blog/2014/02/15/core-team-meeting-minutes-2014-02-14.html" title="Ember.js - Core Team Meeting Minutes - 2014/02/14" target="_blank">Ember.js - Core Team Meeting Minutes - 2014/02/14</a></li>
+<li><a href="http://blog.angularjs.org/2014/03/angular-20.html" title="AngularJS 2.0 | AngularJS" target="_blank">AngularJS 2.0 | AngularJS</a></li>
+</ul><hr><p><a href="https://github.com/ericdouglas/ES6-Learning" title="ericdouglas/ES6-Learning" target="_blank">ericdouglas/ES6-Learning</a> というリポジトリでは、ES6に関する記事や書籍や動画等のリンクがまとまっています。</p>
+
+<p>個人的にはtagtreeの<a href="http://tagtree.tv/ecmascript-6-episode-1" title="ES6 - episode 1" target="_blank">ES6 - episode 1</a>と<a href="https://github.com/lukehoban/es6features" title="lukehoban/es6features" target="_blank">lukehoban/es6features</a>とリストには載ってないですが<a href="http://es6.ruanyifeng.com/" title="ECMAScript 6入门" target="_blank">ECMAScript 6入门</a>あたりが分かりやすいかなーと思います。</p>
+
+<p>簡単にコードを試したい場合は<a href="http://www.es6fiddle.net/" title="ES6 Fiddle" target="_blank">ES6 Fiddle</a>を利用するのがお手軽です。</p>
+
+<p>ツールに関しては<a href="https://github.com/addyosmani/es6-tools" title="addyosmani/es6-tools" target="_blank">addyosmani/es6-tools</a>を参照するのがいいと思います。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="https://github.com/appium/appium/releases/tag/v1.0.0" title="Release 1.0.0 (Orion) · appium/appium">
+<p class="jser-sitelink"><strong>Release 1.0.0 (Orion) · appium/appium</strong></p><footer><cite><a href="https://github.com/appium/appium/releases/tag/v1.0.0" title="Release 1.0.0 (Orion) · appium/appium" target="_blank">github.com/appium/appium/releases/tag/v1.0.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">mobile</span><span class="jser-tag">ios</span><span class="jser-tag">Android</span><span class="jser-tag">Selenium</span></p>
+
+<p>appium1.0.0リリース</p>
+
+<ul><li><a href="https://groups.google.com/forum/#!topic/seleniumjp/uv4M6auC9Kg" title="ChromeDriver 2.10 リリース / Appium 1.0.0 リリース / BuckによるSeleniumのビルド手順 - Google グループ" target="_blank">ChromeDriver 2.10 リリース / Appium 1.0.0 リリース / BuckによるSeleniumのビルド手順 - Google グループ</a></li>
+</ul><blockquote cite="https://gist.github.com/substack/e831c05da4a74a29b50b" title="browserify v4 changelog">
+<p class="jser-sitelink"><strong>browserify v4 changelog</strong></p><footer><cite><a href="https://gist.github.com/substack/e831c05da4a74a29b50b" title="browserify v4 changelog" target="_blank">gist.github.com/substack/e831c05da4a74a29b50b</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>browserify 4.0.0リリース。</p>
+
+<ul><li><a href="https://github.com/substack/node-browserify/compare/3.46.1...master" target="_blank">Comparing 3.46.1&#8230;master · substack/node-browserify</a></li>
+</ul><h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://jakearchibald.com/2014/service-worker-first-draft/" title="Service Worker - first draft published - JakeArchibald.com">
+<p class="jser-sitelink"><strong>Service Worker - first draft published - JakeArchibald.com</strong></p><footer><cite><a href="http://jakearchibald.com/2014/service-worker-first-draft/" title="Service Worker - first draft published - JakeArchibald.com" target="_blank">jakearchibald.com/2014/service-worker-first-draft/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">browser</span><span class="jser-tag">セキュリティ</span></p>
+
+<p>Service Worker の最初のドラフトがリリースされた。</p>
+
+<p>オフラインアプリで使うようなキャッシュの仕様。</p>
+
+<p>今のところセキュリティの観点からSSL下でないと使えない仕様になってる。</p>
+
+<ul><li><a href="https://github.com/slightlyoff/ServiceWorker/issues/199" title="SSL/TLS Only? · Issue #199 · slightlyoff/ServiceWorker" target="_blank">SSL/TLS Only? · Issue #199 · slightlyoff/ServiceWorker</a></li>
+</ul><blockquote cite="https://cybozudev.zendesk.com/hc/ja/articles/201850320-JavaScript%E3%81%A7%E3%82%BB%E3%82%AD%E3%83%A5%E3%82%A2%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%92%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AB%E6%B0%97%E3%82%92%E3%81%A4%E3%81%91%E3%82%8B%E3%81%93%E3%81%A8" title="JavaScriptでセキュアなコーディングをするために気をつけること – cybozu.com developer network">
+<p class="jser-sitelink"><strong>JavaScriptでセキュアなコーディングをするために気をつけること – cybozu.com developer network</strong></p><footer><cite><a href="https://cybozudev.zendesk.com/hc/ja/articles/201850320-JavaScript%E3%81%A7%E3%82%BB%E3%82%AD%E3%83%A5%E3%82%A2%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%92%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AB%E6%B0%97%E3%82%92%E3%81%A4%E3%81%91%E3%82%8B%E3%81%93%E3%81%A8" title="JavaScriptでセキュアなコーディングをするために気をつけること – cybozu.com developer network" target="_blank">cybozudev.zendesk.com/hc/ja/articles/201850320-JavaScript%E3%81%A7%E3%82%BB%E3%82%AD%E3%83%A5%E3%82%A2%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%92%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AB%E6%B0%97%E3%82%92%E3%81%A4%E3%81%91%E3%82%8B%E3%81%93%E3%81%A8</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">セキュリティ</span></p>
+
+<p>JavaScriptで脆弱性を作り出しやすい所と注意点。</p>
+
+<blockquote cite="http://developer.cybozu.co.jp/tech/?p=7089" title="kintoneのJSユニットテスト最新事情 | Cybozu Inside Out | サイボウズエンジニアのブログ">
+<p class="jser-sitelink"><strong>kintoneのJSユニットテスト最新事情 | Cybozu Inside Out | サイボウズエンジニアのブログ</strong></p><footer><cite><a href="http://developer.cybozu.co.jp/tech/?p=7089" title="kintoneのJSユニットテスト最新事情 | Cybozu Inside Out | サイボウズエンジニアのブログ" target="_blank">developer.cybozu.co.jp/tech/?p=7089</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">browser</span></p>
+
+<p>それぞれのテストが独立したtestbedとなるHTMLを持つ方式から、</p>
+
+<p>test runnerとしてKarmaを採用し乗り換えた時に起きた問題と対策、乗り換えたことによって得られた効果について</p>
+
+<blockquote cite="http://www.toptal.com/javascript/javascript-prototypes-scopes-and-performance-what-you-need-to-know" title="Guide to JavaScript Prototypes, Scopes, and Performance | Toptal">
+<p class="jser-sitelink"><strong>Guide to JavaScript Prototypes, Scopes, and Performance | Toptal</strong></p><footer><cite><a href="http://www.toptal.com/javascript/javascript-prototypes-scopes-and-performance-what-you-need-to-know" title="Guide to JavaScript Prototypes, Scopes, and Performance | Toptal" target="_blank">www.toptal.com/javascript/javascript-prototypes-scopes-and-performance-what-you-need-to-know</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">tutorial</span></p>
+
+<p>JavaScriptのprototypeチェーン、スコープと変数のlookupについての解説。</p>
+
+<p>図がキレイで分かりやすい。</p>
+
+<blockquote cite="http://speakingjs.com/es5/ch28.html" title="Chapter 28. Subclassing Built-ins">
+<p class="jser-sitelink"><strong>Chapter 28. Subclassing Built-ins</strong></p><footer><cite><a href="http://speakingjs.com/es5/ch28.html" title="Chapter 28. Subclassing Built-ins" target="_blank">speakingjs.com/es5/ch28.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>ビルトインオブジェクトのサブクラス的な実装をする方法について。(<a href="http://speakingjs.com/" title="Speaking JavaScript " target="_blank">Speaking JavaScript </a>)</p>
+
+<p>Arrayのサブクラスの実装例、Errorのサブクラス、delegateによる実装について書かれてる。</p>
+
+<blockquote cite="http://html5experts.jp/furoshiki/6242/" title="Navigation Timingだからできる、Webアプリを俯瞰したパフォーマンス計測(1/3) | HTML5Experts.jp">
+<p class="jser-sitelink"><strong>Navigation Timingだからできる、Webアプリを俯瞰したパフォーマンス計測(1/3) | HTML5Experts.jp</strong></p><footer><cite><a href="http://html5experts.jp/furoshiki/6242/" title="Navigation Timingだからできる、Webアプリを俯瞰したパフォーマンス計測(1/3) | HTML5Experts.jp" target="_blank">html5experts.jp/furoshiki/6242/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">browser</span><span class="jser-tag">tutorial</span></p>
+
+<p>Navigation Timing APIについての連載。</p>
+
+<p>Navigation Timingの使い方、計測できるモノなどについて</p>
+
+<blockquote cite="http://codezine.jp/article/detail/7729" title="JavaScriptでスパイ、スタブ、モックなどのテストダブルを行う （1/3）：CodeZine">
+<p class="jser-sitelink"><strong>JavaScriptでスパイ、スタブ、モックなどのテストダブルを行う （1/3）：CodeZine</strong></p><footer><cite><a href="http://codezine.jp/article/detail/7729" title="JavaScriptでスパイ、スタブ、モックなどのテストダブルを行う （1/3）：CodeZine" target="_blank">codezine.jp/article/detail/7729</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">tutorial</span></p>
+
+<p>sinon.jsを使ったテストダブルを使ったテストのチュートリアル</p>
+
+<blockquote cite="https://github.com/ericdouglas/ES6-Learning" title="ericdouglas/ES6-Learning">
+<p class="jser-sitelink"><strong>ericdouglas/ES6-Learning</strong></p><footer><cite><a href="https://github.com/ericdouglas/ES6-Learning" title="ericdouglas/ES6-Learning" target="_blank">github.com/ericdouglas/ES6-Learning</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span><span class="jser-tag">links</span><span class="jser-tag">まとめ</span></p>
+
+<p>ES6のチュートリアルや記事、書籍、スライドやポッドキャスト等のリソースまとめ</p>
+
+<blockquote cite="http://www.2ality.com/2014/05/es6-array-methods.html" title="ECMAScript 6’s new array methods">
+<p class="jser-sitelink"><strong>ECMAScript 6’s new array methods</strong></p><footer><cite><a href="http://www.2ality.com/2014/05/es6-array-methods.html" title="ECMAScript 6’s new array methods" target="_blank">www.2ality.com/2014/05/es6-array-methods.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6のArray likeやiterableオブジェクトを配列にする<code>Array.from</code>、可変長の引数を受けて配列にする<code>Array.of</code>、新たに追加されたentries、keys、valuesについて</p>
+
+<blockquote cite="https://medium.com/web-code-junk/a2010c13d3d5" title="Getting gulpy — Medium">
+<p class="jser-sitelink"><strong>Getting gulpy — Medium</strong></p><footer><cite><a href="https://medium.com/web-code-junk/a2010c13d3d5" title="Getting gulpy — Medium" target="_blank">medium.com/web-code-junk/a2010c13d3d5</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span><span class="jser-tag">node.js</span></p>
+
+<p>gulpとstreamについて詳しく書かれてる。</p>
+
+<p>buffer &lt;-&gt; stream、いつもpluginが必要という訳ではないという話、<a href="https://github.com/orchestrator/orchestrator" title="Orchestrator" target="_blank">Orchestrator</a>について</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="http://tagtree.tv/gulp" title="Gulp">
+<p class="jser-sitelink"><strong>Gulp</strong></p><footer><cite><a href="http://tagtree.tv/gulp" title="Gulp" target="_blank">tagtree.tv/gulp</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span><span class="jser-tag">tutorial</span><span class="jser-tag">動画</span></p>
+
+<p>gulpチュートリアル動画 @ tagtree</p>
+
+<blockquote cite="http://blog.testdouble.com/posts/2014-05-09-javascript-testing-tactics-lightning-edition.html" title="Test Double | Our Thinking | JavaScript Testing Tactics: Lightning Edition">
+<p class="jser-sitelink"><strong>Test Double | Our Thinking | JavaScript Testing Tactics: Lightning Edition</strong></p><footer><cite><a href="http://blog.testdouble.com/posts/2014-05-09-javascript-testing-tactics-lightning-edition.html" title="Test Double | Our Thinking | JavaScript Testing Tactics: Lightning Edition" target="_blank">blog.testdouble.com/posts/2014-05-09-javascript-testing-tactics-lightning-edition.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">動画</span><span class="jser-tag">スライド</span></p>
+
+<p>JasmineとCoffeeScriptを使ったテスト。</p>
+
+<p>XHRに対してはFake server、UI Eventじはテストしやすくするためにも、自分の手に届くようにラッパーを作る、非同期コード、DOMへのテストの方針について書かれてる。</p>
+
+<p>Long版&#160;: <a href="http://blog.testdouble.com/posts/2013-10-03-javascript-testing-tactics.html" title="Test Double | Our Thinking | JavaScript Testing Tactics." target="_blank">Test Double | Our Thinking | JavaScript Testing Tactics.</a></p>
+
+<blockquote cite="https://speakerdeck.com/3rdeden/bigpipe" title="BigPipe // Speaker Deck">
+<p class="jser-sitelink"><strong>BigPipe // Speaker Deck</strong></p><footer><cite><a href="https://speakerdeck.com/3rdeden/bigpipe" title="BigPipe // Speaker Deck" target="_blank">speakerdeck.com/3rdeden/bigpipe</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">library</span><span class="jser-tag">スライド</span></p>
+
+<p>NodeのウェブアプリケーションフレームワークであるBigPipeについてのスライド</p>
+
+<ul><li><a href="http://bigpipe.io/" target="_blank">BigPipe.io</a></li>
+</ul><h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="http://webcomponents.org/" title="WebComponents.org">
+<p class="jser-sitelink"><strong>WebComponents.org</strong></p><footer><cite><a href="http://webcomponents.org/" title="WebComponents.org" target="_blank">webcomponents.org/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p>
+
+<p>WebComponentsについてのドキュメントやプラクティスを集約するサイト</p>
+
+<ul><li><a href="https://github.com/webcomponents/webcomponents.github.io/" target="_blank">webcomponents/webcomponents.github.io</a></li>
+</ul><h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="https://github.com/rdio/jsfmt" title="rdio/jsfmt">
+<p class="jser-sitelink"><strong>rdio/jsfmt</strong></p><footer><cite><a href="https://github.com/rdio/jsfmt" title="rdio/jsfmt" target="_blank">github.com/rdio/jsfmt</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">AST</span><span class="jser-tag">Tools</span></p>
+
+<p>gofmtみたいなJavaScriptの整形/検索/置換ツール。</p>
+
+<p>整形だけではなくルールを使った置換等も行える。</p>
+
+<p>JavaScript ASTを使ったツール。</p>
+
+<blockquote cite="https://github.com/quilljs/quill" title="quilljs/quill">
+<p class="jser-sitelink"><strong>quilljs/quill</strong></p><footer><cite><a href="https://github.com/quilljs/quill" title="quilljs/quill" target="_blank">github.com/quilljs/quill</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">editor</span></p>
+
+<p>SalesforceによるJavaScriptのリッチテキストエディタライブラリ</p>
+
+<blockquote cite="http://www.vvvvjs.com/" title="VVVV.js - Visual Web Client Programming">
+<p class="jser-sitelink"><strong>VVVV.js - Visual Web Client Programming</strong></p><footer><cite><a href="http://www.vvvvjs.com/" title="VVVV.js - Visual Web Client Programming" target="_blank">www.vvvvjs.com/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>ビジュアルプログラミング言語 <a href="http://vvvv.org/" target="_blank">http://vvvv.org/</a> のJavaScript版</p>
+
+<blockquote cite="http://emailjs.org/" title="email.js">
+<p class="jser-sitelink"><strong>email.js</strong></p><footer><cite><a href="http://emailjs.org/" title="email.js" target="_blank">emailjs.org/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">mail</span><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>IMAP、SMTPクライアント、Emailパーサとビルダーをまとめたライブラリ</p>
+
+<blockquote cite="https://github.com/cofounders/urlutils" title="cofounders/urlutils">
+<p class="jser-sitelink"><strong>cofounders/urlutils</strong></p><footer><cite><a href="https://github.com/cofounders/urlutils" title="cofounders/urlutils" target="_blank">github.com/cofounders/urlutils</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">node.js</span><span class="jser-tag">URL</span></p>
+
+<p><a href="https://github.com/medialize/URI.js" target="_blank">https://github.com/medialize/URI.js</a> をベースにした<code>URL</code> コンストラクタの実装。</p>
+
+<p>文字列からURLオブジェクトを作成出来る</p>
+
+<ul><li><a href="https://github.com/medialize/URI.js" target="_blank">medialize/URI.js</a></li>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/API/URL.URL" target="_blank">URL() - Web API インターフェイス | MDN</a></li>
+</ul><h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://shop.oreilly.com/product/0636920033738.do" title="You Don't Know JS: this &amp; Object Prototypes - O'Reilly Media">
+<p class="jser-sitelink"><strong>You Don&#8217;t Know JS: this &amp; Object Prototypes - O&#8217;Reilly Media</strong></p><footer><cite><a href="http://shop.oreilly.com/product/0636920033738.do" title="You Don't Know JS: this &amp; Object Prototypes - O'Reilly Media" target="_blank">shop.oreilly.com/product/0636920033738.do</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">boook</span></p>
+
+<p>June 2014発売</p>
+
+<p>JavaScriptのthisとprototypeについての書籍</p>
+
+<blockquote cite="http://chimera.labs.oreilly.com/books/1234000001623" title="JS.next: A Manager's Guide">
+<p class="jser-sitelink"><strong>JS.next: A Manager&#8217;s Guide</strong></p><footer><cite><a href="http://chimera.labs.oreilly.com/books/1234000001623" title="JS.next: A Manager's Guide" target="_blank">chimera.labs.oreilly.com/books/1234000001623</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">book</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>現状とES6。</p>
+
+<p>ES6の機能紹介,ES7についての書籍</p>

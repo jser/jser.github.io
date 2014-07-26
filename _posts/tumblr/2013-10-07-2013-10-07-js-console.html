@@ -1,0 +1,140 @@
+---
+layout: post
+title: '2013-10-07のJS: なぜテストをするのか、console API、PromisesライブラリBluebird'
+date: '2013-10-07T23:17:06+09:00'
+tags:
+- JavaScript
+- testing
+- debug
+- library
+tumblr_url: http://jser.info/post/63373114717/2013-10-07-js-console
+---
+<p>JSer.info #143 - <a title="Testable &amp; Tested Client-side Code - Tech.Pro" href="http://tech.pro/tutorial/1589/testable--tested-client-side-code" target="_blank">Testable &amp; Tested Client-side Code - Tech.Pro</a> という記事では、<br/>なぜテストするのかという事から、テストのツール、コードメトリクスなど、<br/>テスト全体について簡単にまとまっています。</p>
+<p><a title="The JavaScript console API" href="http://www.2ality.com/2013/10/console-api.html" target="_blank">The JavaScript console API</a> ではJavaScriptランタイムで使える事が多いconsole APIについてまとまっています。<br/>ここに載ってないAPIとしては、Chromiumに最近入った<a title="Issue 265360 - chromium - Implement console.timeline/console.timelineEnd - An open-source project to help move the web forward. - Google Project Hosting" href="https://code.google.com/p/chromium/issues/detail?id=265360" target="_blank">console.timeline/console.timelineEnd</a>やIE10の<a href="http://msdn.microsoft.com/en-us/library/ie/hh781493(v=vs.85).aspx" target="_blank">msIsIndependentlyComposed</a>、<br/>Firebugや Chromeで実装されていて<a href="http://the.mohayonao.com/console-sushi/" target="_blank">console-sushi</a>などで使われているconsole.logにstyle付きのものを表示する拡張等があります。</p>
+<p>上記の記事を見るとわかりますがconsole APIに標準となるものは存在していなくて(多くはFirebug由来ですが)、<br/>その問題に対して @<a href="https://github.com/bkardell" target="_blank">bkardell</a> と @<a title="paulirish (Paul Irish)" href="https://github.com/paulirish" target="_blank">paulirish</a> が中心にconsole APIのデファクトについてまとめる<a title="DeveloperToolsWG/console-object" href="https://github.com/DeveloperToolsWG/console-object" target="_blank">DeveloperToolsWG/console-object</a>を立ち上げたそうです。 </p>
+<p>ブラウザの開発ツールはブラウザ間の互換性などは無視して、独自路線に突っ走る事が多いので、こういう共通化出来そうな部分のデファクトスタンダードができるのはとてもいいと思います。</p>
+
+<p>このサイトについての連絡&#160;: 意見を受けてJSer.infoの記事間のマージンなどを少し調整しました。</p>
+<p>他にも何か意見や要望や取り上げてほしいことやおもしろJavaScript求人情報などありましたら、<br/>メールや<a href="https://twitter.com/azu_re" target="_blank">@azu_re</a>へのmention、Githubの<a title="azu/jser.info" href="https://github.com/azu/jser.info" target="_blank">azu/jser.info</a>に<a title="Issues · azu/jser.info" href="https://github.com/azu/jser.info/issues" target="_blank">Issue</a>を立てるなどして伝えて下さい。</p>
+<p>少し話は飛びますが、毎日意欲的に更新してる<a title="Open Web Platform Daily Digest" href="http://webplatformdaily.org/" target="_blank">Open Web Platform Daily Digest</a>が<a title="Funding · Issue #61 · simevidas/webplatformdaily-site" href="https://github.com/simevidas/webplatformdaily-site/issues/61" target="_blank">Funding</a> planについて意見を募集してるそうです。<br/>とてもいいサイトなのでどうやって継続していくかは課題になると思います。 </p>
+<p>このサイトでは最初から<a href="http://azu.github.io/slide/offline_study/jser_info.html#slide5" target="_blank">更新コストを小さくして、継続できる形</a>を取ることにしているので、<br/>金銭的なものよりは、どうしたらより興味深い記事が見つけられるか書いてもらえるか、更新が楽にできるかを優先して考えていきたいです。<br/>(<a href="https://github.com/azu/jser.info/issues/1" target="_blank">そういうIssue</a>も<a title="azu/jser.info" href="https://github.com/azu/jser.info" target="_blank">azu/jser.info</a>に立ててもらうといいですね) </p>
+<blockquote class="twitter-tweet">
+<p>より実務に近い内容についての記事を書く事を対価にして、job listingに掲載出来る権利を与えるみたいな事をしたい。</p>
+— azu (@azu_re) <a href="https://twitter.com/azu_re/statuses/386146793899032576" target="_blank">October 4, 2013</a></blockquote>
+<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><hr><div class="site-genre"><strong>ヘッドライン</strong></div>
+
+<div id="content">
+<div class="jser-output" style="position: sticky; max-height: 100%; right: 10px; top: 0;">
+<blockquote title="Node v0.10.20 (Stable)" cite="http://blog.nodejs.org/2013/09/30/node-v0-10-20-stable/">
+<p class="jser-sitelink"><strong>Node v0.10.20 (Stable)</strong><br/><a title="Node v0.10.20 (Stable)" href="http://blog.nodejs.org/2013/09/30/node-v0-10-20-stable/" target="_blank">http://blog.nodejs.org/2013/09/30/node-v0-10-20-stable/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>Node v0.10.20リリース。</p>
+<blockquote title="Standards for Web Applications on Mobile: current state and roadmap (September 2013)" cite="http://www.w3.org/2013/09/mobile-web-app-state/">
+<p class="jser-sitelink"><strong>Standards for Web Applications on Mobile: current state and roadmap (September 2013)</strong><br/><a title="Standards for Web Applications on Mobile: current state and roadmap (September 2013)" href="http://www.w3.org/2013/09/mobile-web-app-state/" target="_blank">http://www.w3.org/2013/09/mobile-web-app-state/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span> <span class="jser-tag">W3C</span> <span class="jser-tag">まとめ</span></p>
+<p>HTML5関連仕様と実装状況についてまとめられてるレポートのSeptember 2013版が公開された</p>
+<div class="site-genre"><strong>アーティクル</strong></div>
+<blockquote title="HTML5スコアコード：iOS7の良いところと悪いところ | 株式会社ゼノフィ" cite="http://www.xenophy.com/sencha-blog/8938">
+<p class="jser-sitelink"><strong>HTML5スコアコード：iOS7の良いところと悪いところ | 株式会社ゼノフィ</strong><br/><a title="HTML5スコアコード：iOS7の良いところと悪いところ | 株式会社ゼノフィ" href="http://www.xenophy.com/sencha-blog/8938" target="_blank">http://www.xenophy.com/sencha-blog/8938</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span> <span class="jser-tag">ios</span></p>
+<p>The HTML5 Scorecard: The Good, The Bad and the Ugly in iOS 7 | Blog | Sencha<br/><a href="http://www.sencha.com/blog/the-html5-scorecard-the-good-the-bad-and-the-ugly-in-ios7/" target="_blank">http://www.sencha.com/blog/the-html5-scorecard-the-good-the-bad-and-the-ugly-in-ios7/</a> の翻訳</p>
+<p>iOS7 safariの挙動について色々まとまってる。</p>
+<blockquote title="アドビの新プロジェクト：JavaScript で WebGL シェーダを記述できる ShaderDSL.js - akihiro kamijo" cite="http://cuaoar.jp/2013/10/javascript-webgl-shaderd.html">
+<p class="jser-sitelink"><strong>アドビの新プロジェクト：JavaScript で WebGL シェーダを記述できる ShaderDSL.js - akihiro kamijo</strong><br/><a title="アドビの新プロジェクト：JavaScript で WebGL シェーダを記述できる ShaderDSL.js - akihiro kamijo" href="http://cuaoar.jp/2013/10/javascript-webgl-shaderd.html" target="_blank">http://cuaoar.jp/2013/10/javascript-webgl-shaderd.html</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span> <span class="jser-tag">adobe</span></p>
+<p>WebGLの<a title="adobe-webplatform/shaderdsl" href="https://github.com/adobe-webplatform/shaderdsl" target="_blank">ShaderDSL.js</a>について。<br/>"ShaderDSL.js は内部的に Gladder と RiverTrail を利用"</p>
+<blockquote title="Running JavaScript tests with Karma in WebStorm 7 | JetBrains WebStorm Blog" cite="http://blog.jetbrains.com/webstorm/2013/10/running-javascript-tests-with-karma-in-webstorm-7/">
+<p class="jser-sitelink"><strong>Running JavaScript tests with Karma in WebStorm 7 | JetBrains WebStorm Blog</strong><br/><a title="Running JavaScript tests with Karma in WebStorm 7 | JetBrains WebStorm Blog" href="http://blog.jetbrains.com/webstorm/2013/10/running-javascript-tests-with-karma-in-webstorm-7/" target="_blank">http://blog.jetbrains.com/webstorm/2013/10/running-javascript-tests-with-karma-in-webstorm-7/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">testing</span> <span class="jser-tag">動画</span> <span class="jser-tag">tutorial</span></p>
+<p>WebStorm7 の karma 連携についてのスクリーンキャスト.<br/>Karmaでのテストやkarma-coverage(+istanbul)を使ったコードカバレッジについて</p>
+<blockquote title="Testable &amp; Tested Client-side Code - Tech.Pro" cite="http://tech.pro/tutorial/1589/testable--tested-client-side-code">
+<p class="jser-sitelink"><strong>Testable &amp; Tested Client-side Code - Tech.Pro</strong><br/><a title="Testable &amp; Tested Client-side Code - Tech.Pro" href="http://tech.pro/tutorial/1589/testable--tested-client-side-code" target="_blank">http://tech.pro/tutorial/1589/testable&#8212;tested-client-side-code</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+<p>なぜテストを書くのか、テストの書き方/気をつけること、<br/>自動化、Lintツール、ユニットテスト、コードカバレッジ、platoでのコードメトリクス、統合テストについてなどテストに関して全体的にまとまってる。</p>
+<blockquote title="An introduction to ES6 Part 1: Using ES6 Today" cite="http://globaldev.co.uk/2013/09/es6-part-1/">
+<p class="jser-sitelink"><strong>An introduction to ES6 Part 1: Using ES6 Today</strong><br/><a title="An introduction to ES6 Part 1: Using ES6 Today" href="http://globaldev.co.uk/2013/09/es6-part-1/" target="_blank">http://globaldev.co.uk/2013/09/es6-part-1/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p>
+<p>ES6の機能を紹介していく連載.<br/>現段階でブラウザやNodeなどでそれらの機能を使う手段についても書かれてる</p>
+<blockquote title="JavaScript の ArrayLike Object について - latest log" cite="http://uupaa.hatenablog.com/entry/2013/09/27/223405">
+<p class="jser-sitelink"><strong>JavaScript の ArrayLike Object について - latest log</strong><br/><a title="JavaScript の ArrayLike Object について - latest log" href="http://uupaa.hatenablog.com/entry/2013/09/27/223405" target="_blank">http://uupaa.hatenablog.com/entry/2013/09/27/223405</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+<p>JavaScriptのArray likeなオブジェクトについて.<br/>それぞれのブラウザでの動作や配列への変換方法、<a title="ECMAScript Language Specification ECMA-262 6th Edition – DRAFT" href="http://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-22.1.2.1" target="_blank">Array.from</a>について。 </p>
+<blockquote title="The JavaScript console API" cite="http://www.2ality.com/2013/10/console-api.html">
+<p class="jser-sitelink"><strong>The JavaScript console API</strong><br/><a title="The JavaScript console API" href="http://www.2ality.com/2013/10/console-api.html" target="_blank">http://www.2ality.com/2013/10/console-api.html</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">デバック</span></p>
+<p>ブラウザ/Firebug/Node.jsでのconsole APIがサポートしてるメソッドについてまとまってる。<br/>関連して @<a href="https://github.com/bkardell" target="_blank">bkardell</a> と @<a title="paulirish (Paul Irish)" href="https://github.com/paulirish" target="_blank">paulirish</a> が中心にconsole APIのデファクトについてまとめる<a title="DeveloperToolsWG/console-object" href="https://github.com/DeveloperToolsWG/console-object" target="_blank">DeveloperToolsWG/console-object</a>を立ち上げたそうです。</p>
+<blockquote title="Unit Testing Async JavaScript with Promises and Stubs | Jonny Reeves" cite="http://www.jonnyreeves.co.uk/2012/unit-testing-async-javascript-with-promises-and-stubs/">
+<p class="jser-sitelink"><strong>Unit Testing Async JavaScript with Promises and Stubs | Jonny Reeves</strong><br/><a title="Unit Testing Async JavaScript with Promises and Stubs | Jonny Reeves" href="http://www.jonnyreeves.co.uk/2012/unit-testing-async-javascript-with-promises-and-stubs/" target="_blank">http://www.jonnyreeves.co.uk/2012/unit-testing-async-javascript-with-promises-and-stubs/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+<p>Promiseを返すメソッドをsinon.JSでstubしてテストする方法について</p>
+<blockquote title="Rethinking JavaScript’s Try/Catch | Flippin' Awesome" cite="http://flippinawesome.org/2013/09/30/rethinking-javascripts-trycatch/">
+<p class="jser-sitelink"><strong>Rethinking JavaScript’s Try/Catch | Flippin&#8217; Awesome</strong><br/><a title="Rethinking JavaScript’s Try/Catch | Flippin' Awesome" href="http://flippinawesome.org/2013/09/30/rethinking-javascripts-trycatch/" target="_blank">http://flippinawesome.org/2013/09/30/rethinking-javascripts-trycatch/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+<p>try&#8230;catchのにはパフォーマンス的な問題があり、window.onerrorとcallbackを使いエラーからの復帰で代用できないか?という話</p>
+<blockquote title="三世代のFirefox ESRを比較する - Mozilla Flux" cite="http://d.hatena.ne.jp/Rockridge/20130929/1380464736">
+<p class="jser-sitelink"><strong>三世代のFirefox ESRを比較する - Mozilla Flux</strong><br/><a title="三世代のFirefox ESRを比較する - Mozilla Flux" href="http://d.hatena.ne.jp/Rockridge/20130929/1380464736" target="_blank">http://d.hatena.ne.jp/Rockridge/20130929/1380464736</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">まとめ</span></p>
+<p>Firefox ESR(10 ,17, 24)でのベンチマーク結果の比較。<br/>インクリメンタルGCの導入やJITコンパイラの違いなどで多く変化している事が見える。</p>
+<blockquote title="Autoprefixer ― CSSのベンダー接頭辞をいろいろする - fragmentary" cite="http://myakura.hatenablog.com/entry/2013/09/30/035244">
+<p class="jser-sitelink"><strong>Autoprefixer ― CSSのベンダー接頭辞をいろいろする - fragmentary</strong><br/><a title="Autoprefixer ― CSSのベンダー接頭辞をいろいろする - fragmentary" href="http://myakura.hatenablog.com/entry/2013/09/30/035244" target="_blank">http://myakura.hatenablog.com/entry/2013/09/30/035244</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span></p>
+<p>ホストプロセッサ. CanIuseの情報を元に、CSSに対してベンダー接頭辞や無駄なものを削除してくれる</p>
+<div class="site-genre"><strong>スライド、動画関係</strong></div>
+<blockquote title="WebStorm 7 - Overview video | JetBrains TV" cite="http://tv.jetbrains.net/videocontent/webstorm-7-overview-video">
+<p class="jser-sitelink"><strong>WebStorm 7 - Overview video | JetBrains TV</strong><br/><a title="WebStorm 7 - Overview video | JetBrains TV" href="http://tv.jetbrains.net/videocontent/webstorm-7-overview-video" target="_blank">http://tv.jetbrains.net/videocontent/webstorm-7-overview-video</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">TypeScript</span></p>
+<p>WebStorm7の機能を使ったデモ. TypeScript, REST Client, Terminal, File Watcher + browserify</p>
+<div class="site-genre"><strong>サイト、サービス、ソフトウェア関係</strong></div>
+<blockquote title="You Can't JavaScript Under Pressure - by UsVsTh3m" cite="http://toys.usvsth3m.com/javascript-under-pressure/">
+<p class="jser-sitelink"><strong>You Can&#8217;t JavaScript Under Pressure - by UsVsTh3m</strong><br/><a title="You Can't JavaScript Under Pressure - by UsVsTh3m" href="http://toys.usvsth3m.com/javascript-under-pressure/" target="_blank">http://toys.usvsth3m.com/javascript-under-pressure/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+<p>テストを通るJavaScriptを書いていくタイムアタック的な腕試しゲーム</p>
+<blockquote title="Better search for Node.js modules" cite="http://node-modules.com/">
+<p class="jser-sitelink"><strong>Better search for Node.js modules</strong><br/><a title="Better search for Node.js modules" href="http://node-modules.com/" target="_blank">http://node-modules.com/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">検索</span></p>
+<p>nodeモジュール検索サービス.<br/>Yet another search engine for npm</p>
+<div class="site-genre"><strong>ツール、ライブラリ関係</strong></div>
+<blockquote title="wanasit/chrono" cite="https://github.com/wanasit/chrono">
+<p class="jser-sitelink"><strong>wanasit/chrono</strong><br/><a title="wanasit/chrono" href="https://github.com/wanasit/chrono" target="_blank">https://github.com/wanasit/chrono</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+<p>JavaScriptで自然言語な日付表現をパースするライブラリ。<br/>英語、日本語、タイ語に対応してる</p>
+<blockquote title="petkaantonov/bluebird" cite="https://github.com/petkaantonov/bluebird">
+<p class="jser-sitelink"><strong>petkaantonov/bluebird</strong><br/><a title="petkaantonov/bluebird" href="https://github.com/petkaantonov/bluebird" target="_blank">https://github.com/petkaantonov/bluebird</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+<p>Promises A+をベースに実装したライブラリ.<br/>PromisesA+の仕様、Q、When.jsのテストをパスしてたり、デバッグのしやすさ(error handling、stack trace)やパフォーマンスにかなり気を配ってる</p>
+<blockquote title="evanw/node-source-map-support" cite="https://github.com/evanw/node-source-map-support">
+<p class="jser-sitelink"><strong>evanw/node-source-map-support</strong><br/><a title="evanw/node-source-map-support" href="https://github.com/evanw/node-source-map-support" target="_blank">https://github.com/evanw/node-source-map-support</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">デバック</span></p>
+<p>V8のstack trace APIをつかって、Node/ChromeのスタックトレースをSourcemapするライブラリ。<br/>altJS等のJSにコンパイルするものとエラースタックトレースの対応を取る用途で利用できる。</p>
+<blockquote title="opentype.js – JavaScript parser for OpenType and TrueType fonts." cite="http://nodebox.github.io/opentype.js/">
+<p class="jser-sitelink"><strong>opentype.js – JavaScript parser for OpenType and TrueType fonts.</strong><br/><a title="opentype.js – JavaScript parser for OpenType and TrueType fonts." href="http://nodebox.github.io/opentype.js/" target="_blank">http://nodebox.github.io/opentype.js/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">font</span> <span class="jser-tag">library</span></p>
+<p>OpenType/TrueTypeフォントのJavaScriptパーサーライブラリ</p>
+<div class="site-genre"><strong>書籍関係</strong></div>
+<blockquote title="JavaScript Allonge is Free" cite="http://braythwayt.com/2013/10/01/javascript-allonge-is-free.html">
+<p class="jser-sitelink"><strong>JavaScript Allonge is Free</strong><br/><a title="JavaScript Allonge is Free" href="http://braythwayt.com/2013/10/01/javascript-allonge-is-free.html" target="_blank">http://braythwayt.com/2013/10/01/javascript-allonge-is-free.html</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+<p>JavaScript Allongéが無料で読めるようになった<br/><a href="https://leanpub.com/javascript-allonge/read" target="_blank">https://leanpub.com/javascript-allonge/read</a></p>
+</div>
+</div>

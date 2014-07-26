@@ -1,0 +1,34 @@
+---
+layout: post
+title: "演算子にもstrict modeを \"use restrict\"; "
+date: '2011-03-29T00:18:00+09:00'
+tags:
+- javascript
+- tools
+tumblr_url: http://jser.info/post/4160215988
+---
+<blockquote>
+<p class="jser-sitelink"><strong>Restrict Mode</strong><br/><a target="_blank" href="http://restrictmode.org/">http://restrictmode.org/</a></p>
+</blockquote>
+<p>JavaScriptの演算子の扱いに対するstrict modeという名目で作成されたRestrict modeというものが公開されていました。これはJavaScriptの演算子の扱いは暗黙な変換などもあり、意図通りではない場合も存在してしまっている。それに対するJavaScript(ECMAscript)のサブセットのようなものです。</p>
+<blockquote>
+<p class="jser-sitelink"><strong>The case for restrict mode - The JSMentors JavaScript Discussion Group | Google グループ</strong><br/><a target="_blank" href="http://groups.google.com/group/jsmentors/browse_thread/thread/d552623443f70df9/539021aa0c4c8bfa">http://groups.google.com/group/jsmentors/browse_thread/thread/d552623443f70df9/539021aa0c4c8bfa</a></p>
+</blockquote>
+<p>JSMentorsにて作者のOlov LassusさんがRestrict Modeとはどのようなものかを説明していたので、簡単に取り出してみました。(スピリチュアル翻訳なので、意図をつかみたいからは原文を)<br/>======</p>
+<p>strict modeのように<br/>"use restrict";<br/>という文字列があるとき、JavaScriptの複雑な演算子の扱いを制限させて書きやすくするrestrict modeというサブセットを作成した事について。<br/>多くの人が==よりも===を推奨している。事実、厳密演算子のみでプログラムは書ける。<br/>なぜ厳密演算子のみにするか?というのは、より強固なプログラムを書くため。<br/>同じように&gt;, &lt;= , &gt;=,+, -演算子があるがこれは緩いものしかないため、これらを使用した時に型変換が起きてしまう。<br/>ここが重要なポイントでこれらが破壊的な挙動をしてるのを検知して修正する必要がある。そこで作成したのがrestrict modeというサブセットです。<br/>ES5 strict modeと同じように簡単にオプト(イン|アウト)できます。このツールはrestricterと呼び、<a href="https://github.com/olov/jsshaper" target="_blank">JSShaper</a>のプラグインとして作成されました。<br/><strong>restrict modeのルール</strong></p>
+<ol><li>=== と&#160;!==<br/>これらはデフォルトでstrictだ。なのでrestrict modeでも同じ</li>
+<li>== と&#160;!= <br/>restrict modeでは<br/>undefined == null;// true<br/>undefined&#160;!= null;// false<br/>以外の場合は===と!==と同じ結果を得られる</li>
+<li>+ &lt; &lt;= &gt;= &gt; <br/>restrict modeではプリミティブなstringとnumberに対して使える。(しかしmixはできない)</li>
+<li><code>- * / % &amp; | ^ ~v &lt;&lt; &gt;&gt; &gt;&gt;&gt; -v ++v v++ --v v--<br/></code>restrict modeではプリミティブなnumberに対して使える。</li>
+<li><code>+v !v &amp;&amp; || ?: o[k]<br/>ほかの演算子はrestrict modeでも同一<br/></code></li>
+</ol><p>(もっと詳しいルールや理由については<a href="http://restrictmode.org/#a" target="_blank">Restrict Mode</a>のclick for why?に書いてあります)</p>
+<p>======</p>
+<p>使い方</p>
+<p><a href="https://github.com/olov/jsshaper" target="_blank">JSShaper</a>をダウンロードして、その中にrestricter pluginが含まれているのでV8エンジンで実行するようです。</p>
+<p><code>git clone git://github.com/olov/jsshaper.git<br/> cd jsshaper<br/> git submodule init<br/> git submodule update<br/> cd src<br/> d8 run-restricter.js -- myfile.js # or js/node</code></p>
+<p>対象となるJavaScriptプログラム(<code>myfile.js</code>)にはstrict modeと同じように、プログラム内や関数内に</p>
+<p><code>"use restrict";<br/></code></p>
+<p>と書いておく必要があります。strict modeと併用できるので、</p>
+<p><code>"use strict"; "use restrict";// 対応してないエンジンはただの文字リテラルと認識<br/></code></p>
+<p>という風に書いておく事もできるため、より強固なプログラムを書くためにこれを推奨しています。また<a href="http://restrictmode.org/try/" target="_blank">Try restrict mode</a>にてオンラインで試すこともできます。</p>
+<p>感覚的にはJSLintをかけるつもりでrestricterにかける感じになっているみたいです。<br/>JavaScriptでできることが多くなっているため、こうした厳格なJavaScriptをかけるようにするためのツールはとても意味があると思います。</p>

@@ -1,0 +1,31 @@
+---
+layout: post
+title: jQueryの.bind(), .live(), .delegate()の違い
+date: '2011-02-15T19:19:00+09:00'
+tags:
+- jquery
+tumblr_url: http://jser.info/post/3307464125
+---
+<blockquote>
+<p><strong>The Difference Between jQuery’s .bind(), .live(), and .delegate() - Alfa Jango Blog</strong><br/><a title="The Difference Between jQuerys .bind(), .live(), and .delegate() - Alfa Jango Blog" href="http://www.alfajango.com/blog/the-difference-between-jquerys-bind-live-and-delegate/" target="_blank">http://www.alfajango.com/blog/the-difference-between-jquerys-bind-live-and-delegate/</a></p>
+</blockquote>
+<p>jQueryの<a href="http://api.jquery.com/bind/" target="_blank">.bind()</a>, <a href="http://api.jquery.com/live/" target="_blank">.live()</a>, <a href="http://api.jquery.com/delegate/" target="_blank">.delegate()</a>違いや仕組みの理解、また.delegate()の方が.live()より優れている理由について書かれています。</p>
+<p>内容を簡単に書き出すと以下のようなことについて書かれています。</p>
+<pre>$(<span class="synConstant">'a'</span>).bind(<span class="synConstant">'click'</span>, <span class="synIdentifier">function</span>() <span class="synIdentifier">{</span> <span class="synStatement">alert</span>(<span class="synConstant">"That tickles!"</span>) <span class="synIdentifier">}</span>);<br/></pre>
+<p>.bind()は$(&#8216;a&#8217;)に対してイベントを設定してる。</p>
+<pre>$(<span class="synConstant">'a'</span>).live(<span class="synConstant">'click'</span>, <span class="synIdentifier">function</span>() <span class="synIdentifier">{</span> <span class="synStatement">alert</span>(<span class="synConstant">"That tickles!"</span>) <span class="synIdentifier">}</span>);<br/></pre>
+<p>.live()は$(document)に対してイベントを設定しバブリングで上がってきたtarget要素がCSSセレクタと一致するかを見てイベントを実行してる。</p>
+<pre>$(<span class="synConstant">'a'</span>, $(<span class="synConstant">'#container'</span>)<span class="synIdentifier">[</span>0<span class="synIdentifier">]</span>).live(...);<br/></pre>
+<p>とすることでdocument以外に対してもliveイベントを設定できる。</p>
+<pre>$(<span class="synConstant">'#container'</span>).delegate(<span class="synConstant">'a'</span>, <span class="synConstant">'click'</span>, <span class="synIdentifier">function</span>() <span class="synIdentifier">{</span> <span class="synStatement">alert</span>(<span class="synConstant">"That tickles!"</span>) <span class="synIdentifier">}</span>);
+</pre>
+<p>.delegate()は$(&#8216;#container&#8217;)に対してバブリングで上がってきたtarget要素がCSSセレクタにマッチするかとイベント(clickなど)が一致する時に実行するイベントを設定してる。 live()に似ているがイコールではない。 以下を見ると違いがわかる</p>
+<pre>$(<span class="synConstant">'a'</span>).live(<span class="synConstant">'click'</span>, <span class="synIdentifier">function</span>() <span class="synIdentifier">{</span> blah() <span class="synIdentifier">}</span>);<br/><span class="synComment">// 比較</span><br/>$(<span class="synStatement">document</span>).delegate(<span class="synConstant">'a'</span>, <span class="synConstant">'click'</span>, <span class="synIdentifier">function</span>() <span class="synIdentifier">{</span> blah() <span class="synIdentifier">}</span>);<br/></pre>
+<p>liveの方は最初に$(&#8216;a&#8217;)を実行するため、aリンクを全て探索してしまうため、$(document)を見るだけのdelegate比べて設定するのが遅くなる。 またliveは$(&#8216;a&#8217;)に設定してように見えて実際には$(document)に設定していることから$.live(&#8216;a&#8217;,&#8230;)のようなもっと分かりやすい形であった方がよいと思われること。<br/>またliveで指定したCSSセレクタのみでしか操作ができないため柔軟性に欠けていること(die関係)。<br/>最後になぜ.bind()の代わりに.live() や .delegate()を使うかについて書かれています。</p>
+<p>元記事には仕組みなどももっと詳細に書かれているので気になった方はそちらを読むといいでしょう。</p>
+<p>追記</p>
+<p>他にも下記の記事が参考になると思います。</p>
+<ul><li><a href="http://0-9.tumblr.com/post/11618211320/jquery-live-delegate" target="_blank">0-9, jQueryのliveやdelegateは実際何をやってるのか</a></li>
+<li><a href="http://d.hatena.ne.jp/gnarl/20110304/1299210266" target="_blank">jQueryコードリーディング: bind(),live(),delegate() - &lt;s&gt;gnarl,&lt;/s&gt;技術メモ”’&lt;marquee&gt;&lt;textarea&gt;￥</a></li>
+<li><a href="http://d.hatena.ne.jp/y-kawaz/20111002/1317489435" target="_blank">jQueryのbind/live/delegateの違いまとめ、と新API .on()の使い方 - y-kawazの日記</a><br/>jQuery 1.7ではon/offに統一されてます。</li>
+</ul>

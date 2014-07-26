@@ -1,0 +1,239 @@
+---
+layout: post
+title: '2014-04-14のJS: Chrome35β、JavaScript非同期処理、spy-js'
+date: '2014-04-14T19:01:38+09:00'
+tags:
+- Chrome
+- JavaScript
+- Async
+- WebStorm
+tumblr_url: http://jser.info/post/82675654535/2014-04-14-js-chrome35-javascript-spy-js
+---
+<p>JSer.info #170 - <a href="http://blog.chromium.org/2014/04/chrome-35-beta-more-developer-control.html" title="Chrome 35 Beta" target="_blank">Chrome 35 Beta</a>がリリースされました。
+Stableに全部入るかわかりませんがChrome 35βでは、ES6 Promises、WeakMapやWeakSet、Angular2.0でも使うとしてる<code>Object.observe</code>等が入ったり色々新しいものが入っています。</p>
+
+<p>また、前回紹介した開発者ツールに非同期処理のスタックトレースをちゃんと追跡出来る仕組み等、大きな機能追加が多いバージョンとなりそうです。</p>
+
+<ul><li><a href="http://www.html5rocks.com/en/tutorials/developertools/async-call-stack/" title="Debugging Asynchronous JavaScript with Chrome DevTools - HTML5 Rocks" target="_blank">Debugging Asynchronous JavaScript with Chrome DevTools - HTML5 Rocks</a></li>
+</ul><hr><p><a href="http://medikoo.com/asynchronous-javascript-interfaces/" title="Asynchronous JavaScript Interfaces" target="_blank">Asynchronous JavaScript Interfaces</a>というスライドでは、JavaScriptの非同期処理について書かれています。</p>
+
+<p>特にChrome 35βでも入ってる、ES6 Promisesについてよく書かれています。
+<a href="https://github.com/medikoo/plain-promise" title="medikoo/plain-promise" target="_blank">medikoo/plain-promise</a>というPromisesの実装をしながらどのような動きになってるかや、ES6 Promisesに<code>done</code>がないのは何故か?等詳しく書かれています。</p>
+
+<hr><p><a href="http://blog.jetbrains.com/webstorm/2014/04/webstorm-8-0-1-bug-fix-update/" title="WebStorm 8.0.1 Bug Fix Update is Available: node-webkit, TypeScript 1.0 and Sass 3.3 | JetBrains WebStorm Blog" target="_blank">WebStorm 8.0.1</a>がリリースされましたが、8.xから入ったspy-jsについて
+<a href="http://blog.jetbrains.com/webstorm/2014/04/spy-js-webstorm-secret-service/" title="Spy-js: WebStorm secret service | JetBrains WebStorm Blog" target="_blank">Spy-js: WebStorm secret service</a>という記事で詳しい機能解説がされています。</p>
+
+<p>簡単に紹介するとspy-jsはproxyとして機能するJavaScriptのコードの実行時間やイベントのトレースを行えるツールです。(<a href="http://spy-js.com/" title="spy-js: tracing, profiling, debugging javascript" target="_blank">元々は独立したツール</a>だったがJetBrainsが買収して統合された)</p>
+
+<p>例えば、ボタンをクリックした時にJavaScriptのコードのどの行が実行されて、どの行が実行されてないか、それぞれの処理に何msかかったか、どのような順番で実行されたか、関数が返した値等をトレースすることが出来ます。</p>
+
+<p>どのような仕組みでやっているかというと、proxyを通ったコードは一度JavaScript ASTにパースされて、<code>instrument.js</code>という所でそれぞれのステートメントに対して計測用の関数をラップして、<a href="https://github.com/Constellation/escodegen" title="Escodegen" target="_blank">escodegen</a>でJavaScriptのコードに戻して実行するという事をしています。</p>
+
+<p>この仕組みは、<a href="http://efcl.info/2014/0411/res3820/" title="power-assertでJavaScriptのテストをする ブラウザ編 | Web scratch" target="_blank">power-assertでJavaScriptのテストをする ブラウザ編 | Web scratch</a>で紹介している、 <a href="https://github.com/twada/power-assert" title="power-assert" target="_blank">power-assert</a>でも似たような事を行っています。</p>
+
+<p>コードを変換して実行時にassertのエラー情報をより詳細に取れるようにするためにやっていて、他にも<a href="https://github.com/yahoo/istanbul" title="Istanbul" target="_blank">Istanbul</a>のようなコードカバレッジツールなどで似たような手法が使われてると思います。</p>
+
+<p>このような今まではよくわからない技術(独自の)に見えるところも、既にあるツールやライブラリの組み合わせでできてる事などが見えると色々と面白いなと思いました。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://blog.jetbrains.com/webstorm/2014/04/webstorm-8-0-1-bug-fix-update/" title="WebStorm 8.0.1 Bug Fix Update is Available: node-webkit, TypeScript 1.0 and Sass 3.3 | JetBrains WebStorm Blog">
+<p class="jser-sitelink"><strong>WebStorm 8.0.1 Bug Fix Update is Available: node-webkit, TypeScript 1.0 and Sass 3.3 | JetBrains WebStorm Blog</strong></p><footer><cite><a href="http://blog.jetbrains.com/webstorm/2014/04/webstorm-8-0-1-bug-fix-update/" title="WebStorm 8.0.1 Bug Fix Update is Available: node-webkit, TypeScript 1.0 and Sass 3.3 | JetBrains WebStorm Blog" target="_blank">blog.jetbrains.com/webstorm/2014/04/webstorm-8-0-1-bug-fix-update/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span><span class="jser-tag">ReleaseNote</span><span class="jser-tag">node.js</span><span class="jser-tag">TypeScript</span></p>
+
+<p>WebStorm 8.0.1リリース。</p>
+
+<p>TypeScript 1.0、Sass3.3対応、node-webkitのデバッグ実行に対応</p>
+
+<blockquote cite="http://blog.chromium.org/2014/04/chrome-35-beta-more-developer-control.html" title="Chromium Blog: Chrome 35 Beta: More developer control over touch input, new JavaScript features, and unprefixed Shadow DOM">
+<p class="jser-sitelink"><strong>Chromium Blog: Chrome 35 Beta: More developer control over touch input, new JavaScript features, and unprefixed Shadow DOM</strong></p><footer><cite><a href="http://blog.chromium.org/2014/04/chrome-35-beta-more-developer-control.html" title="Chromium Blog: Chrome 35 Beta: More developer control over touch input, new JavaScript features, and unprefixed Shadow DOM" target="_blank">blog.chromium.org/2014/04/chrome-35-beta-more-developer-control.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span></p>
+
+<p>Chrome35βリリース。</p>
+
+<p>35で入るCSSの<code>touch-action</code>プロパティ、ES6 Promises、WeakMap/WeakSet、<code>Object.observe</code>、WebAudio、Shadow DOMのprefixがなし、CSS Font Loading</p>
+
+<ul><li><a href="http://blogs.msdn.com/b/ie_ja/archive/2012/04/28/guidelines-for-building-touch-friendly-sites.aspx" target="_blank">タッチ操作向けサイト構築のガイドライン - IEBlog 日本語 - Site Home - MSDN Blogs</a></li>
+<li><a href="http://qiita.com/damele0n/items/6afc5160cf7ea8b15787" target="_blank">JavaScript - ナウでヤングな CSS Font Loading - Qiita</a></li>
+</ul><blockquote cite="http://eslint.org/blog/2014/04/eslint-0.5.0-released/" title="ESLint 0.5.0 released - ESLint">
+<p class="jser-sitelink"><strong>ESLint 0.5.0 released - ESLint</strong></p><footer><cite><a href="http://eslint.org/blog/2014/04/eslint-0.5.0-released/" title="ESLint 0.5.0 released - ESLint" target="_blank">eslint.org/blog/2014/04/eslint-0.5.0-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Tools</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint 0.5.0リリース</p>
+
+<p><code>eslint-env</code>又はCLIの<code>--env</code>オプションで実行環境の設定が出来るように、グローバル変数を定義するCLI <code>--global</code>オプションの追加等</p>
+
+<ul><li><a href="https://github.com/eslint/eslint/tree/master/docs/command-line-interface#--env" target="_blank">eslint/docs/command-line-interface at master · eslint/eslint</a></li>
+</ul><blockquote cite="http://www.yuiblog.com/blog/2014/04/10/yui-3-16-0-released/" title="YUI 3.16.0 Released - YUI Blog">
+<p class="jser-sitelink"><strong>YUI 3.16.0 Released - YUI Blog</strong></p><footer><cite><a href="http://www.yuiblog.com/blog/2014/04/10/yui-3-16-0-released/" title="YUI 3.16.0 Released - YUI Blog" target="_blank">www.yuiblog.com/blog/2014/04/10/yui-3-16-0-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">YUI</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>YUI 3.16.0リリース。</p>
+
+<blockquote cite="https://blog.getfirebug.com/2014/04/11/firebug-2-0-beta-1/" title="Getfirebug Blog » Blog Archive » Firebug 2.0 beta 1">
+<p class="jser-sitelink"><strong>Getfirebug Blog&#160;» Blog Archive&#160;» Firebug 2.0 beta 1</strong></p><footer><cite><a href="https://blog.getfirebug.com/2014/04/11/firebug-2-0-beta-1/" title="Getfirebug Blog » Blog Archive » Firebug 2.0 beta 1" target="_blank">blog.getfirebug.com/2014/04/11/firebug-2-0-beta-1/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firebug</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firebug 2.0 beta 1リリース。</p>
+
+<p>ブレークポイント周りの強化。</p>
+
+<p>コンソールパネルからエラーに対してブレークポイントを貼れるようになる等</p>
+
+<blockquote cite="https://github.com/bower/bower/releases/tag/v1.3.2" title="Release Release 1.3.2 · bower/bower">
+<p class="jser-sitelink"><strong>Release Release 1.3.2 · bower/bower</strong></p><footer><cite><a href="https://github.com/bower/bower/releases/tag/v1.3.2" title="Release Release 1.3.2 · bower/bower" target="_blank">github.com/bower/bower/releases/tag/v1.3.2</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Tools</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Bower 1.3.2リリース。</p>
+
+<p>concurrency実行した時の問題を修正等</p>
+
+<blockquote cite="https://medium.com/javascript-and-the-server/aa6992b52bcd" title="Express 4 — Javascript and the server — Medium">
+<p class="jser-sitelink"><strong>Express 4 — Javascript and the server — Medium</strong></p><footer><cite><a href="https://medium.com/javascript-and-the-server/aa6992b52bcd" title="Express 4 — Javascript and the server — Medium" target="_blank">medium.com/javascript-and-the-server/aa6992b52bcd</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Express 4がリリースされた</p>
+
+<h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://efcl.info/2014/0411/res3820/" title="power-assertでJavaScriptのテストをする ブラウザ編 | Web scratch">
+<p class="jser-sitelink"><strong>power-assertでJavaScriptのテストをする ブラウザ編 | Web scratch</strong></p><footer><cite><a href="http://efcl.info/2014/0411/res3820/" title="power-assertでJavaScriptのテストをする ブラウザ編 | Web scratch" target="_blank">efcl.info/2014/0411/res3820/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">browser</span><span class="jser-tag">browserify</span></p>
+
+<p>power-assertを使ったブラウザでのテストについて。</p>
+
+<p>testemとgulpを使った方法、browserifyとkarmaを使った方法、sourcemapでのデバッグについて書かれてる。</p>
+
+<ul><li><a href="http://efcl.info/2014/0406/res3809/" title="power-assertの使い方 Node.js編 | Web scratch" target="_blank">power-assertの使い方 Node.js編 | Web scratch</a> の続き</li>
+</ul><blockquote cite="http://blog.jetbrains.com/webstorm/2014/04/spy-js-webstorm-secret-service/" title="Spy-js: WebStorm secret service | JetBrains WebStorm Blog">
+<p class="jser-sitelink"><strong>Spy-js: WebStorm secret service | JetBrains WebStorm Blog</strong></p><footer><cite><a href="http://blog.jetbrains.com/webstorm/2014/04/spy-js-webstorm-secret-service/" title="Spy-js: WebStorm secret service | JetBrains WebStorm Blog" target="_blank">blog.jetbrains.com/webstorm/2014/04/spy-js-webstorm-secret-service/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">debug</span><span class="jser-tag">Tools</span><span class="jser-tag">WebStorm</span></p>
+
+<p>WebStorm8に入ったspy-jsの詳細。</p>
+
+<p>トレースを行うproxyサーバを立てて、JSのトレースを行う。</p>
+
+<p>イベントのスタックを見たり、カバレッジのようにコードの実行された部分の可視化や実行時の値の確認等が出来る。</p>
+
+<ul><li><a href="http://spy-js.com/" target="_blank">spy-js: tracing, profiling, debugging javascript</a></li>
+</ul><blockquote cite="http://blog.imagedrive.jp/web/2014-04-09/using-wai-aria-in-html-ja" title="Using WAI-ARIA in HTML の日本語訳を公開しました ｜ IMAGEDRIVE">
+<p class="jser-sitelink"><strong>Using WAI-ARIA in HTML の日本語訳を公開しました ｜ IMAGEDRIVE</strong></p><footer><cite><a href="http://blog.imagedrive.jp/web/2014-04-09/using-wai-aria-in-html-ja" title="Using WAI-ARIA in HTML の日本語訳を公開しました ｜ IMAGEDRIVE" target="_blank">blog.imagedrive.jp/web/2014-04-09/using-wai-aria-in-html-ja</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WAI-ARIA</span><span class="jser-tag">翻訳</span></p>
+
+<p>"Using WAI-ARIA in HTML"の翻訳</p>
+
+<blockquote cite="http://qiita.com/damele0n/items/6afc5160cf7ea8b15787" title="JavaScript - ナウでヤングな CSS Font Loading - Qiita">
+<p class="jser-sitelink"><strong>JavaScript - ナウでヤングな CSS Font Loading - Qiita</strong></p><footer><cite><a href="http://qiita.com/damele0n/items/6afc5160cf7ea8b15787" title="JavaScript - ナウでヤングな CSS Font Loading - Qiita" target="_blank">qiita.com/damele0n/items/6afc5160cf7ea8b15787</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">web</span><span class="jser-tag">fonts</span></p>
+
+<p>WebFontsのロードタイミングを取得できたりするCSS Font Loadingについて。</p>
+
+<p><code>document.fonts</code>の使い方について書かれてる。</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="http://events.pozoga.eu/meet-js/" title="meet.js - kwiecień 2014 | Events Poznań Blog">
+<p class="jser-sitelink"><strong>meet.js - kwiecień 2014 | Events Poznań Blog</strong></p><footer><cite><a href="http://events.pozoga.eu/meet-js/" title="meet.js - kwiecień 2014 | Events Poznań Blog" target="_blank">events.pozoga.eu/meet-js/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">イベント</span><span class="jser-tag">動画</span></p>
+
+<p>meet.jsの動画が公開された。</p>
+
+<p>メモリ管理、gulp、WebComponents、Selenium Builderの話等</p>
+
+<blockquote cite="http://themouette.github.io/slides-clermontjs-js101/#/" title="Javascript 101">
+<p class="jser-sitelink"><strong>Javascript 101</strong></p><footer><cite><a href="http://themouette.github.io/slides-clermontjs-js101/#/" title="Javascript 101" target="_blank">themouette.github.io/slides-clermontjs-js101/#/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">スライド</span></p>
+
+<p>JavaScriptの基本からnpmやGrunt等のツールやリソースについて幅広く書かれてるスライド</p>
+
+<blockquote cite="http://ireneros.com/conf/nicar/introduction-to-d3.html#1" title="Introduction to d3.js">
+<p class="jser-sitelink"><strong>Introduction to d3.js</strong></p><footer><cite><a href="http://ireneros.com/conf/nicar/introduction-to-d3.html#1" title="Introduction to d3.js" target="_blank">ireneros.com/conf/nicar/introduction-to-d3.html#1</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span><span class="jser-tag">スライド</span></p>
+
+<p>d3.jsについてのスライド。</p>
+
+<p>セレクタ、スタイルの適応、scale、データの操作、アニメーション等について</p>
+
+<blockquote cite="http://fhemberger.github.io/talks/nodejs-in-production/#/cover" title="Running Node.js apps in production">
+<p class="jser-sitelink"><strong>Running Node.js apps in production</strong></p><footer><cite><a href="http://fhemberger.github.io/talks/nodejs-in-production/#/cover" title="Running Node.js apps in production" target="_blank">fhemberger.github.io/talks/nodejs-in-production/#/cover</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">Tools</span><span class="jser-tag">スライド</span></p>
+
+<p>Node.jsアプリのデプロイ、モニタリング等についてのスライド。</p>
+
+<p>recluster, PM2, kibana, new relic、エラーレポート等ツールについて色々まとまってる</p>
+
+<blockquote cite="http://medikoo.com/asynchronous-javascript-interfaces/" title="Asynchronous JavaScript Interfaces">
+<p class="jser-sitelink"><strong>Asynchronous JavaScript Interfaces</strong></p><footer><cite><a href="http://medikoo.com/asynchronous-javascript-interfaces/promises-deferred/" title="Asynchronous JavaScript Interfaces" target="_blank">medikoo.com/asynchronous-javascript-interfaces/promises-deferred/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">スライド</span></p>
+
+<p>JavaScriptの非同期処理についてのスライド。Event、コールバック、Generator、Promises。</p>
+
+<p>Promisesのエラーハンドリング、簡単に実装しながら学ぶ、<code>done</code>と<code>then</code>の違い、Deferred、<code>done</code>の論争についてよくまとまってる</p>
+
+<ul><li><a href="https://github.com/medikoo/plain-promise" title="medikoo/plain-promise" target="_blank">medikoo/plain-promise</a></li>
+</ul><h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="https://plus.google.com/s/%23DevTools%20Tip" title="#DevTools Tip 検索 - Google+">
+<p class="jser-sitelink"><strong>#DevTools Tip 検索 - Google+</strong></p><footer><cite><a href="https://plus.google.com/s/%23DevTools%20Tip" title="#DevTools Tip 検索 - Google+" target="_blank">plus.google.com/s/%23DevTools%20Tip</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span><span class="jser-tag">debug</span><span class="jser-tag">Tools</span><span class="jser-tag">Tips</span></p>
+
+<p>Chrome DevToolsのTips集</p>
+
+<blockquote cite="http://bripkens.github.io/relato/" title="Relato - Open Source Statistics">
+<p class="jser-sitelink"><strong>Relato - Open Source Statistics</strong></p><footer><cite><a href="http://bripkens.github.io/relato/" title="Relato - Open Source Statistics" target="_blank">bripkens.github.io/relato/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">webservice</span></p>
+
+<p>npmに登録されてるパッケージの統計データ。</p>
+
+<p>ユーザー数、利用者(dependencies)、開発利用者(devDependencies)、ページランク等でソートして一覧出来る
+(元なるデータがちょっと更新されてないので若干古いかも)</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="https://github.com/famous/famous" title="Famous/famous">
+<p class="jser-sitelink"><strong>Famous/famous</strong></p><footer><cite><a href="https://github.com/famous/famous" title="Famous/famous" target="_blank">github.com/famous/famous</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">UI</span><span class="jser-tag">mobile</span></p>
+
+<p>リッチウェブアプリ向けのJavaScriptフレームワーク。</p>
+
+<p>Event管理、物理エンジン、数学ライブラリ、transform、transition、Canvasのコンテナ、View Layout等を持ってる。</p>
+
+<p>UIのパフォーマンスとメンテンスビリティに重きがある感じ</p>
+
+<h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="https://leanpub.com/understandinges6" title="Understanding… by Nicholas C. Zakas [Leanpub PDF/iPad/Kindle]">
+<p class="jser-sitelink"><strong>Understanding… by Nicholas C. Zakas [Leanpub PDF/iPad/Kindle]</strong></p><footer><cite><a href="https://leanpub.com/understandinges6" title="Understanding… by Nicholas C. Zakas [Leanpub PDF/iPad/Kindle]" target="_blank">leanpub.com/understandinges6</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span><span class="jser-tag">book</span></p>
+
+<p>Nicholas C. ZakasによるES6についての書籍</p>
+
+<ul><li><a href="http://www.nczonline.net/blog/2014/03/26/announcing-understanding-ecmascript-6/" title="Announcing Understanding ECMAScript 6 | NCZOnline" target="_blank">Announcing Understanding ECMAScript 6 | NCZOnline</a></li>
+</ul><blockquote cite="http://www.packtpub.com/backbone-js-patterns-and-best-practices/book" title="Backbone.js Patterns and Best Practices | Packt Publishing">
+<p class="jser-sitelink"><strong>Backbone.js Patterns and Best Practices | Packt Publishing</strong></p><footer><cite><a href="http://www.packtpub.com/backbone-js-patterns-and-best-practices/book" title="Backbone.js Patterns and Best Practices | Packt Publishing" target="_blank">www.packtpub.com/backbone-js-patterns-and-best-practices/book</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span><span class="jser-tag">book</span></p>
+
+<p>Backbone.jsのベストプラクティスとパターンについての書籍</p>
+
+<p><a href="https://github.com/nzakas/understandinges6" target="_blank">https://github.com/nzakas/understandinges6</a></p>

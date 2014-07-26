@@ -1,0 +1,33 @@
+---
+layout: post
+title: WebkitベースのJavaScriptコマンドラインツール「PhantomJS」
+date: '2011-01-23T17:37:00+09:00'
+tags:
+- javascript
+- test
+- webkit
+tumblr_url: http://jser.info/post/2888913234
+---
+<blockquote>
+<p class="jser-sitelink"><strong>don&#8217;t code today what you can&#8217;t debug tomorrow: PhantomJS: minimalistic headless WebKit-based JavaScript-driven tool</strong><br/><a title="don't code today what you can't debug tomorrow: PhantomJS: minimalistic headless WebKit-based JavaScript-driven tool" href="http://ariya.blogspot.com/2011/01/phantomjs-minimalistic-headless-webkit.html" target="_blank">http://ariya.blogspot.com/2011/01/phantomjs-minimalistic-headless-webkit.html</a></p>
+</blockquote>
+<p><a title="PhantomJS" href="http://code.google.com/p/phantomjs/" target="_blank">PhantomJS</a>はJavaScriptファイルを実行できるWebkitベースのコマンドラインツールです。<br/> PhantomJSの面白い所はDOMやCanvasなど他のコマンドラインツールで触れにくい部分もネイティブにアクセスできるため、リッチアプリケーションなどのテストツールとして活用できそうです。</p>
+<p><!-- more --><br/><code>phantomjs somescript.js [argument [argument ...]]</code><br/> という感じでjsファイルを指定し、引数を渡して実行できるようで、phantom.argsで引数を受け取ったりできます。<br/> そのほかにもsleepや表示画面を画像にするrenderなどのAPIが用意されています。<br/> -<a title="Interface - phantomjs - API Reference - Project Hosting on Google Code" href="http://code.google.com/p/phantomjs/wiki/Interface" target="_blank">Interface - phantomjs - API Reference - Project Hosting on Google Code</a><br/><a title="SourceCode" href="http://code.google.com/p/phantomjs/wiki/SourceCode" target="_blank">SourceCode</a>はgitなどでも用意されていて、ソースからビルドする方法も解説されています。<br/> (Windowsはバイナリが<a title="Downloads - phantomjs - Project Hosting on Google Code" href="http://code.google.com/p/phantomjs/downloads/list" target="_blank">ダウンロード</a>できる)<br/> -<a title="BuildInstructions - phantomjs - Build Instructions - Project Hosting on Google Code" href="http://code.google.com/p/phantomjs/wiki/BuildInstructions" target="_blank">BuildInstructions - phantomjs - Build Instructions - Project Hosting on Google Code</a><br/> Jasmineとの連携が用意されていたり、かなり面白いJavaScript開発ツールとなっていそうです。</p>
+<p>sampleフォルダにいろいろなサンプルが入っているし、APIもそこまで多くないため扱うのにはあんまり苦戦はしないと思います。 <br/>簡単な例(renderで画像にすると日本語が化けてる)</p>
+<pre><span class="synComment">//$ phantomjs.exe screenshot.js <a href="http://d.hatena.ne.jp/unageanu/20110123/1295759061" target="_blank">http://d.hatena.ne.jp/unageanu/20110123/1295759061</a></span><br/><span class="synStatement">if</span> (phantom.state.length === 0) <span class="synIdentifier">{</span><br/><span class="synIdentifier">var</span> address = phantom.args<span class="synIdentifier">[</span>0<span class="synIdentifier">]</span>;<br/>    phantom.state = <span class="synConstant">'ss'</span>;<br/>    phantom.viewportSize = <span class="synIdentifier">{</span> width: 480, height: 600 <span class="synIdentifier">}</span>;<br/>    phantom.open(address);<br/><span class="synIdentifier">}</span> <span class="synStatement">else</span> <span class="synIdentifier">{</span><br/>    phantom.render(<span class="synConstant">'screenshot.png'</span>);<br/>    phantom.exit();<br/><span class="synIdentifier">}</span></pre>
+<p>open(URL)というAPIが結構面白くて、<span id="text-tw2c-29081931102560256" class="status">ページに入り込んでDOMとかを扱う感じになるた、ものすごく自然にDOM操作を書くことができます。<br/>サンプルのtweet.jsを例に見てみると、最初はphantom.stateは空となっているため、(phantom.state.length === 0);//trueとなり、phantom.stateを設定してから、phantom.openで指定したURLに入ります。指定URLが読み終わると、もう一度上から実行されて今度はphantom.stateに&#8221;tweets&#8221;が入ってるため、ページ内でdocument.querySelectorAll(&#8216;span.status&#8217;);して内容をスクレイピングするような処理をしてphantom.exit();で終了となります。</span></p>
+<pre><span class="synComment">// Get twitter status from someone</span>
+<span class="synStatement">if</span> (phantom.state.length === 0) <span class="synIdentifier">{</span>
+    phantom.state = <span class="synConstant">'tweets'</span>;
+    phantom.open(<span class="synConstant">'http://mobile.twitter.com/azu_re'</span>);
+<span class="synIdentifier">}</span> <span class="synStatement">else</span> <span class="synIdentifier">{</span>
+    <span class="synIdentifier">var</span> list = <span class="synStatement">document</span>.querySelectorAll(<span class="synConstant">'span.status'</span>);
+    <span class="synStatement">for</span> (<span class="synIdentifier">var</span> i = 0; i &lt; list.length; ++i) <span class="synIdentifier">{</span>
+        console.log((i + 1) + <span class="synConstant">': '</span> + list<span class="synIdentifier">[</span>i<span class="synIdentifier">]</span>.innerHTML.replace(<span class="synConstant">/&lt;.*?&gt;/g</span>, <span class="synConstant">''</span>));
+    <span class="synIdentifier">}</span>
+    phantom.exit();
+<span class="synIdentifier">}</span>
+
+</pre>
+<p>奇妙な動きっぽいですが、XHRでデータを取得してパースして…みたいな処理を書くより単純に動作を書ける感じがします。また<a title="Selenium" href="http://seleniumhq.org/" target="_blank">Selenium</a>のようにクロスブラウザのテストにはWebkitベースなためできませんが、素早くチェックが行えると思います。まだ公開されたばかりで荒削りな感じの所はありますが、コマンドラインからJavaScriptを実行してDOMも操作できかなり面白いツールになっています。<a title="Selenium" href="http://seleniumhq.org/" target="_blank"><br/></a></p>
+<dl><dt><strong>phantomjs - Project Hosting on Google Code</strong></dt><dd><a title="phantomjs - Project Hosting on Google Code" href="http://code.google.com/p/phantomjs/" target="_blank">http://code.google.com/p/phantomjs/</a></dd></dl>
