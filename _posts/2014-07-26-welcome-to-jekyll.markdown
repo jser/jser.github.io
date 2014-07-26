@@ -25,6 +25,7 @@ categories: jekyll update
 - ## strict mode - motivation and semantics - Constellation Scorpius
 
   [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  
   strict modeの概念とは何か  
   static解析につながる話
 
