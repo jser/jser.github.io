@@ -5,6 +5,14 @@ date:   2014-07-26 16:26:40
 categories: jekyll update
 ---
 
+- # タイトル
+  [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  
+  H1タイプ基本的な表示の流れ。
+  
+  - [Custom Markdown Processors](http://jekyllrb.com/docs/configuration/#custom-markdown-processors "Custom Markdown Processors")
+  - 参考リンク
+
 - ## タイトル
   [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
   
