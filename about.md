@@ -4,8 +4,46 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+このサイトについて。
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
+[JSer.info](http://jser.info/ "JSer.info")は世界中言語問わずJavaScriptの情報を紹介していくサイトです。
+JavaScriptやWeb開発といった点において興味深いと思った情報を一週間ほどを目処にして2-3行の説明文と共に紹介していきます。
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+> **JSer.info**
+> [http://jser.info/](http://jser.info/ "JSer.info")
+
+世界中のJavaScriptについての情報を紹介するサイトです。
+
+
+なぜこのようなサイトを始めたのかというと、現在のインターネットは
+JavaScriptの情報が溢れていて自分の周りだけの情報で全てだと錯覚してしまうほど情報量だと思います
+そのようなキャパシティをオーバーしてしまう状況はあまり好ましくないため、ある程度の内容に絞った情報を提供する場所が必要ではないかと考えました。
+幸いにも私は情報を集めることが好きなので、そのような人間が少し整理した情報を提供することでより良い流れが作れるのではないかと思っています。
+
+このサイトを作成するにあたり、以下のようなサイトを参考にしました。
+またその中で海外ではこのような形態をとるサイトが多くあることを知りました。
+
+-   [JavaScript Weekly](http://javascriptweekly.com/)
+-   [Badass JavaScript](http://badassjs.com/)
+-   [JsMag](http://www.jsmag.com/)
+-   [A Minute With Brendan](http://www.aminutewithbrendan.com/)
+-   [The Changelog](http://thechangelog.com/)
+
+改めて、このサイトは言語問わないJavaScriptの情報を紹介するサイトです。しかし、真の目的はJavaScriptの情報を”紹介”ではなく”知ってもらう”事にあるため、継続的な活動が必要となるでしょう。
+
+しかしながら、余程の事がない限り私が率先してこのサイトを更新することになるでしょう。そのため、このサイトの更新のために私への負荷をできる限り減らしスムーズに行えることが継続への鍵となります。そのための工夫はまた別の機会に置いておいて、継続のためには重要で無いとこを手抜きする事があると思いますがよろしくお願いします。
+
+最後に、何かデザインや書き方などでこうした方が良いことやこのサイトがオススメなどのご意見などがありましたら私が気づける方法でご連絡ください。
+
+GitHubの[jser/jser.info](https://github.com/jser/jser.info "azu/jser.info")にIssueを立ててもらえるとありがたいです。
+
+Twitterは@[azu_re](https://twitter.com/azu_re "azu_re")
+
+その他の連絡先などは[About | Web Scratch](http://efcl.info/about/ "About | Web Scratch")をみて下さい
+
+* * * * *
+
+[JSer.info](http://jser.info/ "JSer.info")
+に書かれた文章はCC-BYで利用することが出来ます。
+
+[![クリエイティブ・コモンズ・ライセンス](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
