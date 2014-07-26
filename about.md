@@ -39,7 +39,7 @@ GitHubの[jser/jser.info](https://github.com/jser/jser.info "azu/jser.info")にI
 
 Twitterは@[azu_re](https://twitter.com/azu_re "azu_re")
 
-その他の連絡先などは[About | Web Scratch](http://efcl.info/about/ "About | Web Scratch")をみて下さい
+その他の連絡先などは[About \| Web Scratch](http://efcl.info/about/ "About \| Web Scratch")をみて下さい
 
 * * * * *
 
