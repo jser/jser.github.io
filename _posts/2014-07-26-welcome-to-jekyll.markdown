@@ -15,7 +15,7 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
 
 ----
 
-<h3 class="site-genre">ヘッドライン</h3>
+<h2 class="site-genre">ヘッドライン</h2>
 
 
 - # タイトル
@@ -42,7 +42,7 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
   strict modeの概念とは何か  
   static解析につながる話
 
-<h3 class="site-genre">ニュース</h3>
+<h2 class="site-genre">ニュース</h2>
 
 - # strict mode - motivation and semantics - Constellation Scorpius
 
