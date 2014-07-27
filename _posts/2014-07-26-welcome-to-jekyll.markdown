@@ -37,13 +37,6 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
   今回のIE1の開発者向けプレビューでは、以下のようなWebDriver APIやGamepad APIの実装が入っています。
 
 
-- # strict mode - motivation and semantics - Constellation Scorpius
-
-  [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
-  
-  strict modeの概念とは何か  
-  static解析につながる話
-
 <h2 class="site-genre">ニュース</h2>
 
 - # strict mode - motivation and semantics - Constellation Scorpius
