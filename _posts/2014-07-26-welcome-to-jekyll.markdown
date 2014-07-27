@@ -18,9 +18,9 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
 <h1 class="site-genre">ヘッドライン</h1>
 
 
-- # タイトル
+- # Release v2.0.0 · chrisdickinson/beefy
   - [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
-  - <p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span><span class="jser-tag">ReleaseNote</span></p>
+  - <p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span> <span class="jser-tag">ReleaseNote</span></p>
   
   H1タイプ基本的な表示の流れ。
   大体23行の説明文をレイアウトしていく感じ
