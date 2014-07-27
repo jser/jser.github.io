@@ -15,7 +15,7 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
 
 ----
 
-<h2 class="site-genre">ヘッドライン</h2>
+<h1 class="site-genre">ヘッドライン</h1>
 
 
 - # タイトル
@@ -37,7 +37,7 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
   今回のIE1の開発者向けプレビューでは、以下のようなWebDriver APIやGamepad APIの実装が入っています。
 
 
-<h2 class="site-genre">ニュース</h2>
+<h1 class="site-genre">ニュース</h1>
 
 - # strict mode - motivation and semantics - Constellation Scorpius
 
