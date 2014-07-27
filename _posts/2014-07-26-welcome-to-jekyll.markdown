@@ -15,6 +15,9 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
 
 ----
 
+<h3 class="site-genre">ヘッドライン</h3>
+
+
 - # タイトル
   [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
   
@@ -23,7 +26,7 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
   - [Custom Markdown Processors](http://jekyllrb.com/docs/configuration/#custom-markdown-processors "Custom Markdown Processors")
   - 参考リンク
 
-- ## タイトル
+- # タイトル
   [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
   
   基本的な表示の流れ。
@@ -32,10 +35,25 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
   - 参考リンク
 
 
-- ## strict mode - motivation and semantics - Constellation Scorpius
+- # strict mode - motivation and semantics - Constellation Scorpius
 
   [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
   
   strict modeの概念とは何か  
   static解析につながる話
 
+<h3 class="site-genre">ニュース</h3>
+
+- # strict mode - motivation and semantics - Constellation Scorpius
+
+  [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  
+  strict modeの概念とは何か  
+  static解析につながる話
+
+- # strict mode - motivation and semantics - Constellation Scorpius
+
+  [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  
+  strict modeの概念とは何か  
+  static解析につながる話
