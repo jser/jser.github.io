@@ -19,20 +19,22 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
 
 
 - # タイトル
-  [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  - [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  - <p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span><span class="jser-tag">ReleaseNote</span></p>
   
   H1タイプ基本的な表示の流れ。
+  大体23行の説明文をレイアウトしていく感じ
   
   - [Custom Markdown Processors](http://jekyllrb.com/docs/configuration/#custom-markdown-processors "Custom Markdown Processors")
   - 参考リンク
 
 - # タイトル
-  [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  - [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
+  - <p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span><span class="jser-tag">ReleaseNote</span></p>
+
   
-  基本的な表示の流れ。
-  
-  - [Custom Markdown Processors](http://jekyllrb.com/docs/configuration/#custom-markdown-processors "Custom Markdown Processors")
-  - 参考リンク
+  今後IEに実装されていく機能については[status.modern.IE](http://status.modern.ie/ "Internet Explorer Web Platform Status and Roadmap - status.modern.IE")にまとめられています。
+  今回のIE1の開発者向けプレビューでは、以下のようなWebDriver APIやGamepad APIの実装が入っています。
 
 
 - # strict mode - motivation and semantics - Constellation Scorpius
