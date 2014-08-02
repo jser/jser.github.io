@@ -20,15 +20,14 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
 
 - # Release v2.0.0 · chrisdickinson/beefy
   - [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
-  - <p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span> <span class="jser-tag">ReleaseNote</span></p>
+  - ![][tags] Angular.js, library
   
   H1タイプ基本的な表示の流れ。
   大体23行の説明文をレイアウトしていく感じ
   
   - [Custom Markdown Processors](http://jekyllrb.com/docs/configuration/#custom-markdown-processors "Custom Markdown Processors")
-  - 参考リンク
 
-- # タイトル
+-タイトル
   - [http://utatane-constellation.tumblr.com/post/3711268645](http://utatane-constellation.tumblr.com/post/3711268645 "strict mode - motivation and semantics - Constellation Scorpius")
   - <p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span><span class="jser-tag">ReleaseNote</span></p>
 
@@ -52,3 +51,6 @@ Operaのリリースノートの方が変更内容が分かりやすいかもし
   
   strict modeの概念とは何か  
   static解析につながる話
+
+
+[tags]: https://cloud.githubusercontent.com/assets/19714/3773066/6032c550-1908-11e4-921a-e1c7732a1da9.png "tag image"
