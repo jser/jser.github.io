@@ -32,7 +32,7 @@ bundle exec jekyll build
 
 ## Contributing
 
-記事上部の**Edit on GitHub** 又は 下部の**この記事へ修正リクエストをする** から修正を送れます。
+記事上部の **Edit on GitHub** 又は 下部の **この記事へ修正リクエストをする** から修正を送れます。
 
 ![pull-request](http://take.ms/suw5I)
 
