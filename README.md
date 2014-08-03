@@ -10,7 +10,8 @@ JSer.info のブログリポジトリです。
 
 JSer.info に関するIssueは以下のどちらに立てても問題ありません。
 
-[jser/jser.github.io](https://github.com/jser/jser.github.io "jser/jser.github.io") と [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")
+* [jser/jser.github.io](https://github.com/jser/jser.github.io "jser/jser.github.io") 
+* [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")
 
 しいて分けるなら、以下のような感じです。
 
