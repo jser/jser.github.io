@@ -17,7 +17,7 @@ JSer.info に関するIssueは以下のどちらに立てても問題ありま�
 * [jser/jser.github.io](https://github.com/jser/jser.github.io "jser/jser.github.io") はサイトそのものについて
 * [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info") はその他全般
 
-Gitterは共通で以下を使用していますので、気になったことは以下に書き込んで下さい。
+Gitterは共通で使用していますので、気になったことは以下に書き込んで下さい。
 
 [![Gitter chat](https://badges.gitter.im/jser/jser.info.png)](https://gitter.im/jser/jser.info)
 
