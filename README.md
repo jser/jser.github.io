@@ -27,7 +27,7 @@ Gitterは共通で使用していますので、気になったことは以下�
 npm install
 # Jekyllのインストールとビルド
 bundle install
-bundle exec jekyll build"
+bundle exec jekyll build
 ```
 
 ## Contributing
