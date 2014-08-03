@@ -20,3 +20,12 @@
 * componentは基本的にpaddingを変更する
 * marginについてはlayoutで考える
 * component同士の境界(border)もlayoutが扱う
+
+## 構造
+
+```
+content-wrapper 
+    |- page-content
+        |- post-content
+       
+```
