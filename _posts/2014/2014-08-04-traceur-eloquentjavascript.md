@@ -42,7 +42,7 @@ CC-BY-NCでリリースされていてソースコードも[marijnh/Eloquent-Jav
 
 技術的な背景など詳しくは[JSer.infoをTumblrからGitHub Pagesに移行しました - JSer.info](http://jser.info/2014/08/03/renewal/ "JSer.infoをTumblrからGitHub Pagesに移行しました - JSer.info")に書いてあります。
 
-GitHub上でソースがそのままあるため、記事の修正等が[jser/jser.github.io](https://github.com/jser/jser.github.io "jser/jser.github.io")へ直接送れるようになっています。
+GitHub上にソースがそのままあるため、記事の修正等が[jser/jser.github.io](https://github.com/jser/jser.github.io "jser/jser.github.io")へ直接送れるようになっています。
 
 今後ともよろしくお願いします。
 
