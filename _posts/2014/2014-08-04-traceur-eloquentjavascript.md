@@ -28,7 +28,7 @@ ES6のサンプルコードは[es6features](https://github.com/lukehoban/es6feat
 
 CC-BY-NCでリリースされていてソースコードも[marijnh/Eloquent-JavaScript](https://github.com/marijnh/Eloquent-JavaScript "marijnh/Eloquent-JavaScript")で公開されています。
 
-自分も[JavaScript Promiseの本](http://azu.github.io/promises-book/ "JavaScript Promiseの本")で同じような仕組みを実装しましたが、[Eloquent JavaScript](http://eloquentjavascript.net/ "Eloquent JavaScript")のオンライン版ではコードがその場で実行して見られれるようになっています。
+自分も[JavaScript Promiseの本](http://azu.github.io/promises-book/ "JavaScript Promiseの本")で同じような仕組みを実装しましたが、[Eloquent JavaScript](http://eloquentjavascript.net/ "Eloquent JavaScript")のオンライン版ではコードがその場で実行して見られるようになっています。
 
 ![interactive](http://gyazo.com/8df4fdd8333d98bfa91ea786ca1cd7ca.gif)
 
