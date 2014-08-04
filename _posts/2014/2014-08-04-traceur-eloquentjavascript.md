@@ -36,7 +36,7 @@ CC-BY-NCでリリースされていてソースコードも[marijnh/Eloquent-Jav
 
 ---
 
-## お知らせ
+# お知らせ
 
 今サイト上で見てる人は気づいてると思いますが、JSer.infoがTumblrからGitHub Pagesに移行しました。
 
