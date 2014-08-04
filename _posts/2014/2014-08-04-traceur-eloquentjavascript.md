@@ -171,7 +171,7 @@ entry-pointの違い、Chromiumアップデートの対応(ビルドシステム
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">JavaScript</span></p>
 
-Firefox34あたりで入るTwmplate Stringsについて
+Firefox34あたりで入るTemplate Stringsについて
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
