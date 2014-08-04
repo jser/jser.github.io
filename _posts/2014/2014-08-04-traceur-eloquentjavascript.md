@@ -1,5 +1,5 @@
 ---
-title: 2014-08-04のJS: traceur-compiler入門、Eloquent JavaScript第二版
+title: "2014-08-04のJS: traceur-compiler入門、Eloquent JavaScript第二版"
 author: azu
 layout: post
 tags:
