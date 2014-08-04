@@ -10,9 +10,7 @@ tags:
 
 ---
 
-JSer.info #186 - 
-
-[traceur-compiler 入門 - from scratch](http://yosuke-furukawa.hatenablog.com/entry/2014/07/31/093041 "traceur-compiler 入門 - from scratch") という記事では、ES6をES5(要runtime)に変換するツールである[Traceur](https://github.com/google/traceur-compiler "Traceur")について詳しく書かれています。
+JSer.info #186 - [traceur-compiler 入門 - from scratch](http://yosuke-furukawa.hatenablog.com/entry/2014/07/31/093041 "traceur-compiler 入門 - from scratch") という記事では、ES6をES5(要runtime)に変換するツールである[Traceur](https://github.com/google/traceur-compiler "Traceur")について詳しく書かれています。
 Traceur Compilerの基本的な使い方からES6のコード例などについて書かれています。
 
 ES6のサンプルコードは[es6features](https://github.com/lukehoban/es6features "es6features")がよくまとまっていますが、以前試した時もTraceurで結構扱えていたのでこの辺も試してみるといいかもしれません。
