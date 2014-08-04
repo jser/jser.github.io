@@ -15,7 +15,7 @@ Traceur Compilerの基本的な使い方からES6のコード例などについ�
 
 ES6のサンプルコードは[es6features](https://github.com/lukehoban/es6features "es6features")がよくまとまっていますが、以前試した時もTraceurで結構扱えていたのでこの辺も試してみるといいかもしれません。
 
-* [ECMAScript6についてes6featuresで学んだ | Web Scratch](http://efcl.info/2014/0323/res3750/ "ECMAScript6についてes6featuresで学んだ | Web Scratch")
+* [ECMAScript6についてes6featuresで学んだ \| Web Scratch](http://efcl.info/2014/0323/res3750/ "ECMAScript6についてes6featuresで学んだ \| Web Scratch")
 
 また、[Using ECMAScript 6 today](http://www.2ality.com/2014/08/es6-today.html "Using ECMAScript 6 today")という記事ではES6で入った機能の概要や関連リソースの紹介がされています。
 
