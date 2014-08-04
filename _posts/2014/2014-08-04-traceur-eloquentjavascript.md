@@ -19,7 +19,8 @@ ES6のサンプルコードは[es6features](https://github.com/lukehoban/es6feat
 
 また、[Using ECMAScript 6 today](http://www.2ality.com/2014/08/es6-today.html "Using ECMAScript 6 today")という記事ではES6で入った機能の概要や関連リソースの紹介がされています。
 
-[es6-tools](https://github.com/addyosmani/es6-tools "es6-tools")にES6関係のツールはまとまっていますが最初にみても迷うと思うので、上記の記事では主要なツールについてがまとまっているので興味をもった人は見ておくといいかもしれません。
+[es6-tools](https://github.com/addyosmani/es6-tools "es6-tools")にES6関係のツールはまとまっていますが最初にみても迷うと思います。
+上記の記事では主要なツールについてがまとまっているので興味をもった人は見ておくといいかもしれません。
 
 ---
 
