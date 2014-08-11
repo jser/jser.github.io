@@ -24,7 +24,7 @@ spy-js for node.jsについては以下の動画で詳しく解説されてい�
 <iframe width="560" height="315" src="//www.youtube.com/embed/kzw8GmakYGY" frameborder="0" allowfullscreen></iframe>
 
 Java(IntelliJ)の方ではすでに入っていましたが、新しい補完方法として**Postfix completion**がサポートされました。
-これは以下のように、式の末尾に`.return<TAB>`などと入力する出来る補完の方式です。
+これは以下のように、式の末尾に`.return<TAB>`としてスニペット的な補完をする方式です。
 
 ![gif](http://gyazo.com/095afae3db42318dfb0a1ea3f00d47d1.gif)
 
