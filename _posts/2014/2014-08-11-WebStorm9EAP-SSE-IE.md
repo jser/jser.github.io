@@ -19,7 +19,7 @@ Live EditがNode.jsアプリにも対応したり、JavaScriptのトレーシン
 
 - [Live Edit Updates in WebStorm 9 — What’s New? \| JetBrains WebStorm Blog](http://blog.jetbrains.com/webstorm/2014/08/live-edit-updates-in-webstorm-9/ "Live Edit Updates in WebStorm 9 — What’s New? | JetBrains WebStorm Blog")
 
-spy-js for node.jsについては以下の動画で詳しく解説されていますが、Node.jsに対してそれぞれの関数などの処理時間や変数の値、returnした値などが実行後に見ることが出来ます。(実効された値が入った状態で見られるので、コードを読むのにも便利)
+spy-js for node.jsについては以下の動画で詳しく解説されていますが、Node.jsに対してそれぞれの関数などの処理時間や変数の値、returnした値などが実行後に見ることが出来ます。(実行された値が入った状態で見られるので、コードを読むのにも便利)
 
 <iframe width="560" height="315" src="//www.youtube.com/embed/kzw8GmakYGY" frameborder="0" allowfullscreen></iframe>
 
