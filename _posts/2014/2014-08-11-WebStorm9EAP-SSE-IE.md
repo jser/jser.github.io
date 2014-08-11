@@ -204,7 +204,7 @@ XHRをFakeXHRにすり替えておき、リクエストに対するレスポン�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">github</span> <span class="jser-tag">WebComponents</span></p>
 
-GitHubで使われている`&lt;time&gt;`のCustom Elementsライブラリ
+GitHubで使われている`<time>`のCustom Elementsライブラリ
 
 ----
 
