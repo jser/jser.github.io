@@ -224,7 +224,7 @@ localstorage, cookie ,session storage , in memoryにおいて統一的なAPIで�
 
 形態素解析器ライブラリ。
 
-日本語と中国語の分から単語単位に分割し、品詞を付与出来る
+日本語と中国語の文から単語単位に分割し、品詞を付与出来る
 
 - [Twitter / rakuten\_tech: 楽天技術研究所は本日、JavaScript版・形態素解析器R ...](https://twitter.com/rakuten_tech/status/496913434668064768 "Twitter / rakuten\_tech: 楽天技術研究所は本日、JavaScript版・形態素解析器R ...")
 
