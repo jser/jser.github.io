@@ -13,11 +13,11 @@ tags:
 
 ---
 
-JSer.info #187 - [WebStorm 9 EAP](http://blog.jetbrains.com/webstorm/2014/08/webstorm-9-eap/ "WebStorm 9 EAP is Open! | JetBrains WebStorm Blog")(Early Access Program いわゆるβ版)がリリースされました。
+JSer.info #187 - [WebStorm 9 EAP](http://blog.jetbrains.com/webstorm/2014/08/webstorm-9-eap/ "WebStorm 9 EAP is Open! \| JetBrains WebStorm Blog")(Early Access Program いわゆるβ版)がリリースされました。
 
 Live EditがNode.jsアプリにも対応したり、JavaScriptのトレーシングが行えるSpy-jsもNode.jsに対応しています。
 
-- [Live Edit Updates in WebStorm 9 — What’s New? | JetBrains WebStorm Blog](http://blog.jetbrains.com/webstorm/2014/08/live-edit-updates-in-webstorm-9/ "Live Edit Updates in WebStorm 9 — What’s New? | JetBrains WebStorm Blog")
+- [Live Edit Updates in WebStorm 9 — What’s New? \| JetBrains WebStorm Blog](http://blog.jetbrains.com/webstorm/2014/08/live-edit-updates-in-webstorm-9/ "Live Edit Updates in WebStorm 9 — What’s New? | JetBrains WebStorm Blog")
 
 spy-js for node.jsについては以下の動画で詳しく解説されていますが、Node.jsに対してそれぞれの関数などの処理時間や変数の値、returnした値などが実行後に見ることが出来ます。(実効された値が入った状態で見られるので、コードを読むのにも便利)
 
@@ -28,14 +28,14 @@ Java(IntelliJ)の方ではすでに入っていましたが、新しい補完方
 
 ![gif](http://gyazo.com/095afae3db42318dfb0a1ea3f00d47d1.gif)
 
-- [Postfix Code Completion in IntelliJ IDEA 13.1 EAP | JetBrains IntelliJ IDEA Blog](http://blog.jetbrains.com/idea/2014/03/postfix-completion/ "Postfix Code Completion in IntelliJ IDEA 13.1 EAP | JetBrains IntelliJ IDEA Blog")
+- [Postfix Code Completion in IntelliJ IDEA 13.1 EAP \| JetBrains IntelliJ IDEA Blog](http://blog.jetbrains.com/idea/2014/03/postfix-completion/ "Postfix Code Completion in IntelliJ IDEA 13.1 EAP | JetBrains IntelliJ IDEA Blog")
 - [おもしろプラグイン：Postfix Completionプラグイン - marsのメモ](http://d.hatena.ne.jp/masanobuimai/20131218/1387292674 "おもしろプラグイン：Postfix Completionプラグイン - marsのメモ")
 
 また、[EditorConfig](http://editorconfig.org/ "EditorConfig")、[Web Components](http://plugins.jetbrains.com/plugin/7312?pr=webStorm "Web Components")のプラグイン対応などが含まれています。
 
 ----
 
-[Server Sent Events(SSE)の使いどころと使い方 | GREE Engineers&#39; Blog](http://labs.gree.jp/blog/2014/08/11070/ "Server Sent Events(SSE)の使いどころと使い方 | GREE Engineers&#39; Blog") という記事では、Server Sent Eventsについて解説されています。
+[Server Sent Events(SSE)の使いどころと使い方 \| GREE Engineers&#39; Blog](http://labs.gree.jp/blog/2014/08/11070/ "Server Sent Events(SSE)の使いどころと使い方 | GREE Engineers&#39; Blog") という記事では、Server Sent Eventsについて解説されています。
 
 Server Sent Eventsは名前の通り、既存のHTTP上でサーバからのPush通信を行うW3Cで定義されてる仕様です。
 
@@ -49,7 +49,7 @@ Server Sent Eventsは名前の通り、既存のHTTP上でサーバからのPush
 
 [Stay up-to-date with Internet Explorer - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2014/08/07/stay-up-to-date-with-internet-explorer.aspx "Stay up-to-date with Internet Explorer - IEBlog - Site Home - MSDN Blogs") では今後(2016年1月以降)のIEのサポートライフサイクルが変更される件について書かれています。
 
-[Internet Explorer のサポートライフサイクルが変更されます | Hebikuzure&#39;s Tech Memo](http://hebikuzure.wordpress.com/2014/08/08/lifecycle-change-on-internet-explorer/ "Internet Explorer のサポートライフサイクルが変更されます | Hebikuzure&#39;s Tech Memo") でも解説されていますが、該当Windowsバージョンでインストール可能な最新版のIEのみをサポートというポリシーに変更されています。
+[Internet Explorer のサポートライフサイクルが変更されます \| Hebikuzure&#39;s Tech Memo](http://hebikuzure.wordpress.com/2014/08/08/lifecycle-change-on-internet-explorer/ "Internet Explorer のサポートライフサイクルが変更されます | Hebikuzure&#39;s Tech Memo") でも解説されていますが、該当Windowsバージョンでインストール可能な最新版のIEのみをサポートというポリシーに変更されています。
 
 このライフサイクルの変更や、開発者向けの[Internet Explorer Developer Channel](http://devchannel.modern.ie/ "Internet Explorer Developer Channel")のリリースなど、IEも他のブラウザのようにリリースサイクルが少し変わってきています。
 
@@ -97,7 +97,7 @@ Cometと違い標準仕様が定義されている点や、WebSocketと違いHTT
 
 - [Server Side Events](http://www.slideshare.net/thepilif/server-side-events "Server Side Events")
 - [リアルタイムWebの栄光を願い\!\! これから死に行くせめてものこの間に\!\! SSEの戦術的価値を説きます\!\!](http://0-9.sakura.ne.jp/pub/HTML5han/start.html "リアルタイムWebの栄光を願い\!\! これから死に行くせめてものこの間に\!\! SSEの戦術的価値を説きます\!\!")
-- [Fanout Blog » You might not need a WebSocket](http://blog.fanout.io/2014/06/24/you-might-not-need-a-websocket/ "Fanout Blog » You might not need a WebSocket") (翻訳: [【翻訳】WebSocketはもう必要ないかも | POSTD](http://postd.cc/you-might-not-need-a-websocket/ "【翻訳】WebSocketはもう必要ないかも | POSTD"))
+- [Fanout Blog » You might not need a WebSocket](http://blog.fanout.io/2014/06/24/you-might-not-need-a-websocket/ "Fanout Blog » You might not need a WebSocket") (翻訳: [【翻訳】WebSocketはもう必要ないかも \| POSTD](http://postd.cc/you-might-not-need-a-websocket/ "【翻訳】WebSocketはもう必要ないかも | POSTD"))
 
 ----
 
