@@ -152,7 +152,7 @@ OSごとの最新版のIEのみをサポート対象として、後方互換性�
 
 AngularJSパフォーマンス改善Tips.
 
-`{{ ::title }}` 一度きりのバインディング、$scope.$apply() と $scope.$digest()の違い、ng-repeat、ディレクティブ内でのDOM操作について
+一度きりのバインディング、$scope.$apply() と $scope.$digest()の違い、ng-repeat、ディレクティブ内でのDOM操作について
 
 ----
 
