@@ -66,7 +66,7 @@ Server Sent Eventsは名前の通り、既存のHTTP上でサーバからのPush
 
 mapやreduceのような高階関数を提供するwu.js2.0リリース。
 
-ES6に対応してGenrator関数なども受け取って処理することが出来るようになった。
+ES6に対応してGenerator関数なども受け取って処理することが出来るようになった。
 
 - [wu.js 2.0](http://fitzgeraldnick.com/weblog/58/ "wu.js 2.0")
 
@@ -77,9 +77,9 @@ ES6に対応してGenrator関数なども受け取って処理することが出
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">ReleaseNote</span></p>
 
-WebStorm 9EAPリリース。
+WebStorm 9 EAPリリース。
 
-Live Editの強化、JavaScriptのトレーシングを行うSpy-jsがNode.jsに対応、PhoneGap対応、`.if`などを末尾から補完出来る、Postfix templates の追加、EditorConfig、Web componentsの対応
+Live Editの強化、JavaScriptのトレーシングを行うSpy-jsがNode.jsに対応、PhoneGap対応、`.if`などを末尾から補完出来る、Postfix templates の追加、EditorConfig、Web Componentsの対応
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -93,7 +93,7 @@ Live Editの強化、JavaScriptのトレーシングを行うSpy-jsがNode.jsに
 
 Server Sent Eventsについての解説。
 
-Cometと違い標準仕様が定義されている点や、WebSocketと違いHTTPを使うため通信的な互換性が高いあり、Polyfillが作れる事や現状の問題点について書かれている
+Cometと違い標準仕様が定義されている点や、WebSocketと違いHTTPを使うため通信的な互換性が高くあり、Polyfillが作れる事や現状の問題点について書かれている
 
 - [Server Side Events](http://www.slideshare.net/thepilif/server-side-events "Server Side Events")
 - [リアルタイムWebの栄光を願い\!\! これから死に行くせめてものこの間に\!\! SSEの戦術的価値を説きます\!\!](http://0-9.sakura.ne.jp/pub/HTML5han/start.html "リアルタイムWebの栄光を願い\!\! これから死に行くせめてものこの間に\!\! SSEの戦術的価値を説きます\!\!")
@@ -108,7 +108,7 @@ Cometと違い標準仕様が定義されている点や、WebSocketと違いHTT
 
 ウェブにおけるコンポーネントの流れについて。
 
-AngularやEmberなどがもつコンポーネントを作る機能の紹介とWeb componentsについて簡単にまとまってる
+AngularやEmberなどがもつコンポーネントを作る機能の紹介とWeb Componentsについて簡単にまとまってる
 
 ----
 
@@ -117,7 +117,7 @@ AngularやEmberなどがもつコンポーネントを作る機能の紹介とWe
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p>
 
-Web componentsは複雑で現時点ではpolyfillは難しいが、Custom Elementに関してはシンプルなAPIであるためPolyfillが簡単で、現実に使うことができるという話
+Web Componentsは複雑で現時点ではpolyfillは難しいが、Custom Elementに関してはシンプルなAPIであるためPolyfillが簡単で、現実に使うことができるという話
 
 ----
 
@@ -193,7 +193,7 @@ test262の大幅な改善、SIMD-128、指数演算子についてなど
 
 HTTPモックライブラリ。
 
-XHRをFakeXHRにすり替えておき、リクエストに対するレスポンスの定義して、任意のリソースへのリクエストをテストするモックライブラリ。
+XHRをFakeXHRにすり替えておき、リクエストに対するレスポンスを定義して、任意のリソースへのリクエストをテストするモックライブラリ。
 
 - [trek/FakeXMLHttpRequest](https://github.com/trek/FakeXMLHttpRequest "trek/FakeXMLHttpRequest")
 
@@ -213,7 +213,7 @@ GitHubで使われている`<time>`のCustom Elementsライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-localstorage, cookie ,session storage , in memoryにおいて統一的なAPIで扱えるメソッドを提供してくれるライブラリ。
+localstorage, cookie, session storage, in memoryにおいて統一的なAPIで扱えるメソッドを提供してくれるライブラリ。
 
 ----
 
