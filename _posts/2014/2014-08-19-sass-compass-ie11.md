@@ -38,7 +38,7 @@ Sassを使ったフレームワークである[Compass](http://compass-style.org
 - [Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2014/08/14/announcing-new-f12-dev-tools-features-in-august-update.aspx "Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs")
 
 上記の記事ではIE11の8月度のアップデートについて書かれています。
-IE11でWebDriverをサポートしたことや開発者ツールのアップデートがされています。
+IE11でWebDriverをサポートや開発者ツールのアップデートがされています。
 
 [Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2014/08/14/announcing-new-f12-dev-tools-features-in-august-update.aspx "Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs") の方に開発者ツールの変更点が書かれていますが、表示周りが幅広く更新されています。
 
