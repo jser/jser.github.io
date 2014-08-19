@@ -44,7 +44,7 @@ IE11でWebDriverをサポートや開発者ツールのアップデートがさ�
 
 カラーピッカーの追加、watchでの補完、ブレーク時に関数がreturnしてる値の表示、UI Responsiveness tool/Memory toolのデザイン改善、セッションをimport/export出来るようなる等、結構変わっている部分が多いです。
 
-
+----
 
 <h1 class="site-genre">ヘッドライン</h1>
 
