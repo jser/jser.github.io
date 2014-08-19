@@ -42,7 +42,7 @@ IE11でWebDriverをサポートや開発者ツールのアップデートがさ�
 
 [Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2014/08/14/announcing-new-f12-dev-tools-features-in-august-update.aspx "Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs") の方に開発者ツールの変更点が書かれていますが、表示周りが幅広く更新されています。
 
-カラーピッカーの追加、watchでの補完、ブレーク時に関数がreturnしてる値の表示、UI Responsiveness tool/Memory toolのデザイン改善やセッションをimport/export出来るようなるなど、結構変わっている部分が多いです。
+カラーピッカーの追加、watchでの補完、ブレーク時に関数がreturnしてる値の表示、UI Responsiveness tool/Memory toolのデザイン改善、セッションをimport/export出来るようなる等、結構変わっている部分が多いです。
 
 
 
