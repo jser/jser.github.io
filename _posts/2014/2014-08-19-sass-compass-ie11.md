@@ -26,9 +26,9 @@ Sassを使ったフレームワークである[Compass](http://compass-style.org
 
 [autoprefixer](https://github.com/ai/autoprefixer "autoprefixer")と同じようにvendor prefixは[Can I use](http://caniuse.com/ "Can I use")のデータを使って生成するようになったことや、CompassのCoreライブラリをCompassコマンドなしで利用出来るようになっています。
 
-またSassのsourcemapのサポートや[Compass-blueprint](http://compass-blueprint.org/ "Compass-blueprint")はCoreからはずされてpluginとして利用する用になっています。
+またSassのsourcemapのサポートや[Compass-blueprint](http://compass-blueprint.org/ "Compass-blueprint")はCoreからはずされてpluginとして利用するようになっています。
 
-その他や以下のChangelogに書かれています。
+その他の変更点についてはChangelogを参照して下さい。
 
 - [Compass History | Compass Documentation](http://compass-style.org/CHANGELOG/ "Compass History | Compass Documentation")
 
