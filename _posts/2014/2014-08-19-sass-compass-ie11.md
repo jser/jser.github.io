@@ -38,11 +38,11 @@ Sassを使ったフレームワークである[Compass](http://compass-style.org
 - [Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2014/08/14/announcing-new-f12-dev-tools-features-in-august-update.aspx "Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs")
 
 上記の記事ではIE11の8月度のアップデートについて書かれています。
-IE11でWebDriverをサポートや開発者ツールのアップデートがされています。
+IE11でのWebDriverのサポートや開発者ツールのアップデートがされています。
 
 [Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2014/08/14/announcing-new-f12-dev-tools-features-in-august-update.aspx "Announcing new F12 dev tools features in August update - IEBlog - Site Home - MSDN Blogs") の方に開発者ツールの変更点が書かれていますが、表示周りが幅広く更新されています。
 
-カラーピッカーの追加、watchでの補完、ブレーク時に関数がreturnしてる値の表示、UI Responsiveness tool/Memory toolのデザイン改善、セッションをimport/export出来るようなる等、結構変わっている部分が多いです。
+カラーピッカーの追加、watchでの補完、ブレーク時に関数がreturnしてる値の表示、UI Responsiveness tool/Memory toolのデザイン改善、セッションをimport/export出来るようになる等、結構変わっている部分が多いです。
 
 ----
 
@@ -143,7 +143,7 @@ espowerのオプションでアサーションの指定がescallmatchを使っ�
 大規模プロジェクトでのCSSのメンテナンスビリティについて。
 
 - DRYより修正する時に迷わず消せるような疎結合なコンポーネントである方が長期的にはよかった
-- プロジェクにおける命名ルールを持つことはいいこと
+- プロジェクトにおける命名ルールを持つことはいいこと
 - コンポーネントに名前空間をもたせると分かりやすいこと
 - ファイルの管理について
 - ライブラリmixinの問題について
@@ -192,7 +192,7 @@ BlinkはPointerEventsを実装しないことにした事について。
 
 IE11のF12開発者ツールの変更点について。
 
-カラーピッカー、sourcemapの選択機能、補完の強化、Asyncコールスタック、パフォーマンス、メモリパネルでセッションをImport/exportが可能になる等
+カラーピッカー、sourcemapの選択機能、補完の強化、Asyncコールスタック、パフォーマンス、メモリパネルでセッションをimport/exportが可能になる等
 
 - [米MS、8月のIE11更新で強化された「F12開発者ツール」の新機能を紹介：CodeZine](http://codezine.jp/article/detail/8034 "米MS、8月のIE11更新で強化された「F12開発者ツール」の新機能を紹介：CodeZine")
 
@@ -265,7 +265,7 @@ Browserify内にAMD的な動的ロードを持ち込むplugin。
 
 HTML formで入力した内容をStorageに保存したり、JSONにしたり、監視や値のやり取りが出来るライブラリ。
 
-フォームに属性をしておくだけで、フォーム内容の保存的な事が出来る
+フォームに属性を指定しておくだけで、フォーム内容の保存的な事が出来る
 
 ----
 
