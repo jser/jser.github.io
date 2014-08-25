@@ -1,5 +1,5 @@
 ---
-title: "Autoprefixer 3.0、JavaScriptのオブジェクト、Next Component"
+title: "2014-08-25のJS: Autoprefixer 3.0、JavaScriptのオブジェクト、Next Component"
 author: azu
 layout: post
 date : 2014-08-25T22:09
