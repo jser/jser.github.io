@@ -41,6 +41,11 @@ Sass等がプリプロセスと呼ばれるのに対して、プリプロセス�
 
 また、Duoとは違いこちらはComponentに対して後方互換性はありませんが、[normalize.io](https://normalize.github.io/ "normalize.io - an ES6 module, Web Component, and SPDY/HTTP2 Push frontend development worfklow")というパッケージ管理もβ公開されているのでコンセプトとして面白いので見てみるといいかもしれません。
 
+----
+
+### お知らせ
+
+[アイコンが欲しい · Issue #4 · jser/jser.info](https://github.com/jser/jser.info/issues/4 "アイコンが欲しい · Issue #4 · jser/jser.info") というIssueがかなり曖昧でしたが、もう少しイメージを出してみたので興味ある方是非。
 
 ----
 
