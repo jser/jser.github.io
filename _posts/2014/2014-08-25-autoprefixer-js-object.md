@@ -142,7 +142,7 @@ WebRTCを使った分散ハッシュテーブル (DHT: Distributed Hash Table) �
 
 &quot;JavaScript Quality Guide&quot;
 
-JavaScriptコーディングスタイルルール。
+JavaScriptコーディングスタイルガイド。
 
 ----
 
@@ -174,7 +174,7 @@ FirefoxのES6サポート状況についてまとまってるページ
 
 node.js製のターミナル上で動くテキストエディタ。
 
-SublimeText的なファイルリストやマウスやキーバインドの対応などデフォルトでもそのまま使えるような感じで面白い
+SublimeText的なファイルリスト、マウス対応、キーバインドの対応などデフォルトでもそのまま使えるような感じで面白い
 
 ----
 
@@ -206,7 +206,7 @@ npm、URL、components等に対応してて、パッケージをURLで指定す�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">AngularJS</span></p>
 
-COntent EditableとかテキストエリアでGitHub的な@ mentionの補完が出来るライブラリ
+Content Editableとかテキストエリアにおいて、GitHubのような@によるmentionの補完が出来るライブラリ
 
 ----
 
@@ -215,7 +215,9 @@ COntent EditableとかテキストエリアでGitHub的な@ mentionの補完が�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Markdown</span> <span class="jser-tag">document</span></p>
 
-CSSスタイルガイド生成ツール。 コメントでmarkdownで書いてスタイルガイドを生成する
+CSSスタイルガイド生成ツール。 
+
+コメントにmarkdownで書いてスタイルガイドを生成する事が出来る。
 
 ----
 
@@ -237,7 +239,7 @@ SourceMapに対応してる
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">editor</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-node.js + CodeMirrorなブラウザで動くIDE的なツール。
+node.js + CodeMirrorなブラウザで動くIDE。
 
 ローカルサーバを立ち上げて、ブラウザで使う。hexエディタ、ターミナル、HTMLの表示などが出来る
 
