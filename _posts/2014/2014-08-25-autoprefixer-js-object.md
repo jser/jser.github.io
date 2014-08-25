@@ -14,7 +14,7 @@ tags:
 
 JSer.info #189 - CSSファイルに対してvendor prefixを付加できる[Autoprefixer 3.0](https://github.com/postcss/autoprefixer/releases/tag/3.0.0 "Autoprefixer 3.0")がリリースされました。
 
-Sass等がプリプロセスに対して、SassからtranspileされたCSSに対して処理をするので[PostCSS](https://github.com/postcss "PostCSS")とか言われるジャンルのツールです。
+Sass等がプリプロセスと呼ばれるのに対して、プリプロセスされた後のCSSに対して処理をするので[PostCSS](https://github.com/postcss "PostCSS")とか言われるジャンルのツールです。
 ([ポストプロセスという用語が適切なのか](http://morishitter.hatenablog.com/entry/2014/07/09/024347 "CSSポストプロセッサーの必要性 - morishitter blog")という話もありますが)
 
 [Autoprefixer 3.0](https://github.com/postcss/autoprefixer/releases/tag/3.0.0 "Autoprefixer 3.0")では、CoffeeScriptで書かれていたものがES6ベースに書きなおされました。またそれに伴ってコードから使う場合のAPIも変わっています。
