@@ -129,7 +129,7 @@ MooTools 1.5.1リリース・
 
 コードスタイルチェックツールのjscs 1.6.0リリース。
 
-Googleプリセットの改善やバグシュウセイ等
+Googleプリセットの改善やバグ修正等
 
 ----
 
@@ -149,7 +149,7 @@ Ember 1.7.0 と 1.8 Betaリリース
 
 Chrome 38βリリース。
 
-picture要素、Map/Set、for...of、Symbol、Math周りの追加。
+picture要素、Map/Set、`for...of`、Symbol、Math周りの追加。
 
 [Network Information API](http://w3c.github.io/netinfo/ "Network Information API")、 [Screen Orientation API](http://www.w3.org/TR/screen-orientation/ "Screen Orientation API")、[Encoding API](http://updates.html5rocks.com/2014/08/Easier-ArrayBuffer---String-conversion-with-the-Encoding-API "Encoding API")でXHRでバイナリを取得しながらデコードが出来るようになるなど。
 
@@ -158,7 +158,7 @@ picture要素、Map/Set、for...of、Symbol、Math周りの追加。
 
 ----
 
-## The Meteor blog
+## Introducing Meteor 0.9.0 and the official Meteor packaging system
 [www.meteor.com/blog/2014/08/26/meteor-090-new-packaging-system](https://www.meteor.com/blog/2014/08/26/meteor-090-new-packaging-system "The Meteor blog")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p>
@@ -175,7 +175,7 @@ Meteor 0.9.0リリース
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">YUI</span> <span class="jser-tag">ReleaseNote</span></p>
 
-YUIは新規開発終了するというアナウンス。
+YUIは新規開発終了し、今後はYahoo内部向けの修正に留めるとの事。
 
 - [Yahoo stopping all new development of YUI | Hacker News](https://news.ycombinator.com/item?id=8243523 "Yahoo stopping all new development of YUI | Hacker News")
 
@@ -186,9 +186,13 @@ YUIは新規開発終了するというアナウンス。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">正規表現</span></p>
 
-ES6で導入された正規表現の`u`フラグについての解説とES5でも使えるようにするTransppilerについて。
+ES6で導入された正規表現の`u`フラグについての解説とES5でも使えるようにするtranspilerについて。
 
-正規表現でユニコード文字を正しく扱うためのフラグ
+正規表現でユニコード文字を正しく扱うためのフラグ。
+
+ES5やES6でのユニコード文字の扱いについては以下のスライドと動画で詳しく解説されてる。
+
+- [Hacking with Unicode // Speaker Deck](https://speakerdeck.com/mathiasbynens/hacking-with-unicode "Hacking with Unicode // Speaker Deck")
 
 ----
 
