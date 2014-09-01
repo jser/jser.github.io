@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info - [Underscore](http://underscorejs.org/ "Underscore") 1.7.0がリリースされました。
+JSer.info #190 - [Underscore](http://underscorejs.org/ "Underscore") 1.7.0がリリースされました。
 
 破壊的な変更も多いですが、主な変更内容はChangeLogに、掲載されてない変更内容は以下のコメントにまとめられています。
 
