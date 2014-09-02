@@ -1,5 +1,5 @@
 ---
-title: "2014-09-01のJS: Underscore1.7.0、Browserify入門、Gravit"
+title: "2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit"
 author: azu
 layout: post
 date : 2014-09-01T08:19
@@ -30,7 +30,7 @@ JSer.info #190 - [Underscore](http://underscorejs.org/ "Underscore") 1.7.0がリ
 
 [A Gentle Browserify Walkthrough - Pony Foo](http://blog.ponyfoo.com/2014/08/25/a-gentle-browserify-walkthrough "A Gentle Browserify Walkthrough - Pony Foo")という記事はBrowserifyの入門的な内容について書かれています。
 
-CommonJSとは何かという所からbrowserifyの基本的な使い方、CommonJSを扱えることのメリット等が分かりやすく書かれています。
+CommonJSとは何かという所からBrowserifyの基本的な使い方、CommonJSを扱えることのメリット等が分かりやすく書かれています。
 
 より詳しくBrowserifyについて知りたい方は[substack/browserify-handbook](https://github.com/substack/browserify-handbook "substack/browserify-handbook")も参照するといいと思います。
 
@@ -68,7 +68,7 @@ BlackBerry 10のサポート強化とtoast コンポーネントの追加
 
 Underscore 1.7.0 リリース。
 
-Arrayのネイティブ関数では無く独自の実装を使うように変更し高速化、`_.iteratee`がカスタマイズ可能に`_.before`のメソッド追加、`_.extend`の挙動がES6 `Object.assign`にあわせた形へ変更するなど。
+Arrayのネイティブ関数では無く独自の実装を使うように変更し高速化、`_.iteratee`がカスタマイズ可能に、`_.before`のメソッド追加、`_.extend`の挙動がES6 `Object.assign`にあわせた形へ変更するなど。
 
 &quot;Sparse&quot; arrays、extend、union、template等破壊的な変更も多く含まれている。
 
@@ -116,7 +116,7 @@ loadLibraryというDeferred loadingを提供するlibraryが入った。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p>
 
-MooTools 1.5.1リリース・
+MooTools 1.5.1リリース。
 
 パッケージ周りの改善
 
@@ -175,7 +175,7 @@ Meteor 0.9.0リリース
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">YUI</span> <span class="jser-tag">ReleaseNote</span></p>
 
-YUIは新規開発終了し、今後はYahoo内部向けの修正に留めるとの事。
+YUIは新規開発を終了し、今後はYahoo内部向けの修正に留めるとの事。
 
 - [Yahoo stopping all new development of YUI | Hacker News](https://news.ycombinator.com/item?id=8243523 "Yahoo stopping all new development of YUI | Hacker News")
 
@@ -214,7 +214,7 @@ mercuryのModel(State)、View(Virtual DOM)、Controller(Event)について。
 
 Browserifyについての丁寧なチュートリアル。
 
-CommonJSとは何か、browserifyの基本的な使い方、利点としてnpmのモジュールが使える点やCJS以外のモジュールをbrowserify-shimで扱う事について等
+CommonJSとは何か、Browserifyの基本的な使い方、利点としてnpmのモジュールが使える点やCJS以外のモジュールをbrowserify-shimで扱う事について等
 
 - [Browserify All The Things // Speaker Deck](https://speakerdeck.com/bevacqua/browserify-all-the-things "Browserify All The Things // Speaker Deck")
 - [substack/browserify-handbook](https://github.com/substack/browserify-handbook "substack/browserify-handbook")
@@ -226,9 +226,9 @@ CommonJSとは何か、browserifyの基本的な使い方、利点としてnpm�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
 
-webpackを使ったビルドについて。 browserifyとの比較
+webpackを使ったビルドについて。 Browserifyとの比較
 
-webpackがデフォルトで webpack-dev-serverや差分コンパイル、bower統合、js以外を読み込めるloaderを持ってる点について書かれている
+webpackがデフォルトでwebpack-dev-serverや差分コンパイル、bower統合、js以外を読み込めるloaderを持ってる点について書かれている
 
 ----
 
@@ -280,7 +280,7 @@ DOM leakやV8のメモリ管理の方法、世代別GC、DevToolsを使っての
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">webservice</span> <span class="jser-tag">library</span></p>
 
-CaperJSのコードをオンラインで書いて実行、REST APIとAPIを使って実行出来るライブラリを提供してるサービス
+CasperJSのコードをオンラインで書いて実行、REST APIとAPIを使って実行出来るライブラリを提供してるサービス
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
@@ -336,7 +336,7 @@ Illustratorライクなデザインツール。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">C++</span> <span class="jser-tag">JavaScript</span></p>
 
-C++からJavaScriptへコードへのコードコンパイラ。
+C++からJavaScriptのコードへのコードコンパイラ。
 
 LLVMを使用、DOM等扱うC++のラッパライブラリ的なのを持っている
 
