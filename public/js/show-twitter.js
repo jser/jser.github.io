@@ -30,9 +30,8 @@
     // まずは自動では読みこないようにする + 隠す
     Socialite.process(document, Socialite.getElements(document, 'socialite'));
 
-    // 画面に表示されたら読み込みを開始する
     var screenHeight = window.parent.screen.height;
-
+    // 画面に表示されたら読み込みを開始する
     function updateTwitterButton() {
         // 現在の位置
         var wScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -47,6 +46,10 @@
             // 処理済みは対象から外していく
             divList.splice(index, 1);
         });
+        // 全てが処理済みになったらハンドラを解除する
+        if (divList.length === 0) {
+            window.removeEventListener("scroll", onScroll);
+        }
     }
 
     function onScroll() {
