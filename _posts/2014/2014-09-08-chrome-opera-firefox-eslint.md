@@ -54,6 +54,7 @@ PlugableなLintツールである[ESLint 0.8.0](http://eslint.org/blog/2014/09/e
 ## お知らせ
 
 それぞれの記事にTwitterへのTweetボタンを表示するようにしました。
+Tweet数を参考にしたり、直接言及できるので役立てて貰えればいいかなと思いつけました。
 
 パフォーマンス的な問題やデメリットが多そうならrevertするので、ご意見のある方は[Twitterボタンを各リンクに表示する · Issue #8 · jser/jser.github.io](https://github.com/jser/jser.github.io/issues/8 "Twitterボタンを各リンクに表示する · Issue #8 · jser/jser.github.io")や[@jser_info](https://twitter.com/jser_info "@jser_info")などへ適当に投げてください。
 
