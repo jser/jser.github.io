@@ -15,7 +15,7 @@ tags:
 JSer.info #191 - [Chrome 37](http://googlechromereleases.blogspot.jp/2014/08/stable-channel-update_26.html "Chrome 37")と[Opera 24](https://dev.opera.com/blog/opera-24/ "Opera 24")(Chromium 37がベース)がリリースされました。
 
 共通の変更内容が多いですが[Dev.Opera — Opera 24 released](https://dev.opera.com/blog/opera-24/ "Dev.Opera — Opera 24 released")に分かりやすくまとめられています。
-CSS ShapesやCSSの`all`プロパティが利用できるようになったこと、`showModalDialog()`が廃止され、代わりに[`<dialog>`](http://updates.html5rocks.com/2013/09/dialog-element-Modals-made-easy "dialog element")要素が利用できるようになりました。
+CSS ShapesやCSSの`all`プロパティが利用できるようになったこと、`showModalDialog()`が廃止され代わりに[`<dialog>`](http://updates.html5rocks.com/2013/09/dialog-element-Modals-made-easy "dialog element")要素が利用できるようになりました。
 
 CSS Shapesに興味がある人は以下も参照するといいと思います。
 
