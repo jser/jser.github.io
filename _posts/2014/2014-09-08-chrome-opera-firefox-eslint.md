@@ -5,12 +5,11 @@ layout: post
 date : 2014-09-08T21:38
 category: JSer
 tags:
-	- Chrome
+    - Chrome
     - Opera
     - Firefox
     - AST
     - ECMAScript
-
 ---
 
 JSer.info #191 - [Chrome 37](http://googlechromereleases.blogspot.jp/2014/08/stable-channel-update_26.html "Chrome 37")と[Opera 24](https://dev.opera.com/blog/opera-24/ "Opera 24")(Chromium 37がベース)がリリースされました。
