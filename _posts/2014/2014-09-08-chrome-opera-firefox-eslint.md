@@ -128,7 +128,7 @@ ESLint 0.8.0リリース。
 
 プラグインの仕組みがstableになって、作り方、テスト方法、命名ルール等が公開された。
 
-ignorefileの`/**`の変更、パフォーマンスの改善等
+ignorefileの`node_modules/`と書いた時の挙動を変更、パフォーマンスの改善等
 
 - [Working with Plugins](http://eslint.org/docs/developer-guide/working-with-plugins.html "Working with Plugins")
 
@@ -221,7 +221,7 @@ ES6 modulesの構文について。
 
 構文の仕様は固まり、CommonJSのような同期的な形とAMDのような非同期的な呼び出しどちらでも使える。
 
-ES6 modulesの構文、使い方、default exportやSystem.importについて等まとまってる
+ES6 modulesの構文、基本的な使い方、default exportやSystem.importについて等まとまってる
 
 ----
 
@@ -316,9 +316,7 @@ ES6 Promisesを使ったPromiseベースのAPIになってる
 
 acornのCSP対応版を生成するツール。
 
-`new Function`を使っているのを、
-
-AST変換を使ったインライン展開的な事をして対応してる
+`new Function`を使っている所に対して、AST変換を使ったインライン展開的な事をして対応していて興味深い
 
 - [Acorn-cspのできた流れ - efcl’s blog](http://efcl.hatenablog.com/entry/2014/09/07/022914 "Acorn-cspのできた流れ - efcl’s blog")
 
@@ -329,7 +327,7 @@ AST変換を使ったインライン展開的な事をして対応してる
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">Selenium</span> <span class="jser-tag">webdriver</span> <span class="jser-tag">library</span></p>
 
-Cucumber的なDSLと、そのDSLに対応した処理をJavaScriptで書けるStep、どこをテストするのかのDOMをラップしたWIdgetsの3層構造のテストフレームワーク。
+Cucumber的なDSLと、そのDSLに対応した処理をJavaScriptで書けるStep、どこをテストするのかのDOMをラップしたWidgetsの3層構造のテストフレームワーク。
 
 WebDriverを使ってブラウザ自動テストが出来る
 
