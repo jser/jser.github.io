@@ -33,6 +33,7 @@ CSS Shapesに興味がある人は以下も参照するといいと思います�
 [Firefox 32.0](https://www.mozilla.org/en-US/firefox/32.0/releasenotes/ "32.0")がリリースされました。
 
 Web Audio Editorの追加、`<img>`の`srcset`属性がフラグ付きで実装されたことや、ES6の`Array.from()`等が実装されています。
+また、フラグ付きで実装されていた`position: sticky;`がデフォルト有効なりました。
 
 - [Web Audio Editor - 開発ツール | MDN](https://developer.mozilla.org/ja/docs/Tools/Web_Audio_Editor "Web Audio Editor - 開発ツール | MDN")
 - [Web Audio Editor の紹介 | Mozilla Developer Street (modest)](https://dev.mozilla.jp/2014/06/introducing-the-web-audio-editor-in-firefox-developer-tools/ "Web Audio Editor の紹介 | Mozilla Developer Street (modest)")
