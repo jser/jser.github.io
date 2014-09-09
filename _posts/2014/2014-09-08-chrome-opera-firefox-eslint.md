@@ -1,5 +1,5 @@
 ---
-title: "2014-09-08のJS: Chrome 37/Opera 24、Firefox32、ESLint 0.8.0"
+title: "2014-09-08のJS: Chrome 37/Opera 24、Firefox 32、ESLint 0.8.0"
 author: azu
 layout: post
 date : 2014-09-08T21:38
@@ -33,7 +33,7 @@ CSS Shapesに興味がある人は以下も参照するといいと思います�
 [Firefox 32.0](https://www.mozilla.org/en-US/firefox/32.0/releasenotes/ "32.0")がリリースされました。
 
 Web Audio Editorの追加、`<img>`の`srcset`属性がフラグ付きで実装されたことや、ES6の`Array.from()`等が実装されています。
-また、フラグ付きで実装されていた`position: sticky;`がデフォルト有効なりました。
+また、フラグ付きで実装されていた`position: sticky;`がデフォルトで有効になりました。
 
 - [Web Audio Editor - 開発ツール | MDN](https://developer.mozilla.org/ja/docs/Tools/Web_Audio_Editor "Web Audio Editor - 開発ツール | MDN")
 - [Web Audio Editor の紹介 | Mozilla Developer Street (modest)](https://dev.mozilla.jp/2014/06/introducing-the-web-audio-editor-in-firefox-developer-tools/ "Web Audio Editor の紹介 | Mozilla Developer Street (modest)")
@@ -55,7 +55,7 @@ PlugableなLintツールである[ESLint 0.8.0](http://eslint.org/blog/2014/09/e
 
 それぞれの記事にTwitterへのTweetボタンを表示するようにしました。
 
-パフォーマンス的な問題やデメリットが多そうならrevertするので、ご意見ある方は[Twitterボタンを各リンクに表示する · Issue #8 · jser/jser.github.io](https://github.com/jser/jser.github.io/issues/8 "Twitterボタンを各リンクに表示する · Issue #8 · jser/jser.github.io")や[@jser_info](https://twitter.com/jser_info "@jser_info")などへ適当に投げてください。
+パフォーマンス的な問題やデメリットが多そうならrevertするので、ご意見のある方は[Twitterボタンを各リンクに表示する · Issue #8 · jser/jser.github.io](https://github.com/jser/jser.github.io/issues/8 "Twitterボタンを各リンクに表示する · Issue #8 · jser/jser.github.io")や[@jser_info](https://twitter.com/jser_info "@jser_info")などへ適当に投げてください。
 
 ----
 
@@ -70,7 +70,7 @@ PlugableなLintツールである[ESLint 0.8.0](http://eslint.org/blog/2014/09/e
 
 Opera 24リリース。
 
-Windowsでのフォントレンダリングの改善、CSSの`all`プロパティのサポート、`navigator.hardwareConcurrency`でCPUコア数の取得、Cryptography APIのサポート等
+Windowsでのフォントレンダリングの改善、CSSの`all`プロパティのサポート、`navigator.hardwareConcurrency`でCPUコア数の取得、Web Cryptography APIのサポート等
 
 ----
 
@@ -189,7 +189,7 @@ Ext JS 1.0より前はYUIに依存してて、その後は3.0までアダプタ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span> <span class="jser-tag">browser</span> <span class="jser-tag">mobile</span></p>
 
-IE 11のアップデートでTouch Eventsがサポートが入り、Mouser/Touch/Pointerの3つのモデルが存在する。
+IE 11のアップデートでTouch Eventsのサポートが入り、Mouse/Touch/Pointerの3つのモデルが存在するようになった。
 
 それらのモデルの比較とfeature detectによる互換性のない実装がよくみられる事について等
 
@@ -260,7 +260,7 @@ JavaScriptエンジンの最適化についてのスライド。
 
 <a href='http://codeguide.co/'>http://codeguide.co/</a> の訳
 
-HTMLやCSSやJavaScriptそれぞれを書く時のルールを統一感を持つためのガイドライン
+HTMLやCSSやJavaScriptそれぞれを書く時のルールの統一感を持つためのガイドライン
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
@@ -356,7 +356,7 @@ AngularJSの脱初心者〜中級者向けの書籍
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Selenium</span> <span class="jser-tag">book</span> <span class="jser-tag">ios</span> <span class="jser-tag">Android</span></p>
 
-2014年09月18日 発売
+2014年9月18日発売
 
 Seleniumについての書籍。
 
