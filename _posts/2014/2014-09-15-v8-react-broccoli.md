@@ -227,11 +227,12 @@ Promiseとはどういうものかについて
 
 CSPについてのスライド。
 
-CSPとは何か、どうやって適応するか、どうやって管理するか。
+CSPとは何か、どうやって適応するか、どうやって管理するかについてTwitterの人が発表した内容。
 
-CSP Lv2のhashについてやCSPレポート解析と <a href='http://caspr.io/'>http://caspr.io/</a> ついて
+CSP Lv2のscript hashについてやCSPレポート解析と <a href='http://caspr.io/'>http://caspr.io/</a> ついて
 
 - [Caspr](http://caspr.io/#/ "Caspr")
+- [This blog uses CSP level 2 script hash support | blawg](https://blog.matatall.com/2014/08/this-blog-uses-csp-level-2-script-hash-support/ "This blog uses CSP level 2 script hash support | blawg")
 
 ----
 <h1 class="site-genre">サイト、サービス</h1>
