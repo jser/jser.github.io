@@ -3,16 +3,22 @@ title: "2014-09-15のJS: JavaScriptエンジンの最適化、ビルドツール
 author: azu
 layout: post
 date : 2014-09-15T21:24
-category: JavaScript
+category: JSer
 tags:
-    - 
+    - JavaScript
+    - V8
+    - ビルド
+    - Tools
+    - イベント
+    - Performance
+    
 
 ---
-JSer.info #192 - 今週は[nodeconfeu](http://nodeconfeu.com/ "Nodeland Conference 2014")があったのと、自分でも[V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch](http://efcl.info/2014/09/13/v8-optimization-memo/ "V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch")という記事を書いた影響でV8の最適化に関するものが多いです。
+JSer.info #192 - 今週は[nodeconfeu](http://nodeconfeu.com/ "Nodeland Conference 2014")があったのと、[自分でも最適化についての記事](http://efcl.info/2014/09/13/v8-optimization-memo/ "V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch")を書いた影響でV8の最適化に関するものが多いです。
 
 [V8 Installation and d8 shell usage](https://gist.github.com/kevincennis/0cd2138c78a07412ef21 "V8 Installation and d8 shell usage") では、V8をビルドして起動オプションを使って最適化やトレースをする方法について分かりやすく紹介されています。
 
-[V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch](http://efcl.info/2014/09/13/v8-optimization-memo/ "V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch") では、Hidden Class等の著名な最適化がどうなると効かなくなるかを[IRHydra2](http://mrale.ph/irhydra/2/# "IRHydra2")を使って見る方法等について書かれています。
+[V8の最適化とIRHydraでの可視化とベンチマークについてのメモ](http://efcl.info/2014/09/13/v8-optimization-memo/ "V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch") では、Hidden Class等の著名な最適化がどうなると効かなくなるかを[IRHydra2](http://mrale.ph/irhydra/2/# "IRHydra2")を使って見る方法等について書かれています。
 
 V8の仕組みやプロファイリングについては[thlorenz/v8-perf](https://github.com/thlorenz/v8-perf "thlorenz/v8-perf")に参考となる資料がまとめられていて、また同作者による[Demystifying v8 and JavaScript Performance](http://thlorenz.github.io/talks/demystifying-v8/talk.pdf "talk.key - talk.pdf")というスライドが公開されています。
 (内容的にはv8-perfの一部)
