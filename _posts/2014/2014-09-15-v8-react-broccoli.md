@@ -190,7 +190,7 @@ Reactの歴史とReactのDOM Diffについてのスライド
 
 <a href='https://www.youtube.com/watch?v=eCf5CquV_Bw'>https://www.youtube.com/watch?v=eCf5CquV_Bw</a>
 
-DOMのバージョン管理に擬えて、Virtual DOMのdiffの仕組みについて解説されてる
+ReactのVirtualDOM = DOMのバージョン管理という話やVirtual DOMのdiffの仕組みについて解説されてる
 
 - [JavaScript’s History and How it Led To ReactJS | The New Stack](http://thenewstack.io/javascripts-history-and-how-it-led-to-reactjs/ "JavaScript’s History and How it Led To ReactJS | The New Stack")
 
