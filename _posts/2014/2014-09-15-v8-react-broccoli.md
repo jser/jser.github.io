@@ -84,7 +84,7 @@ autoprefixer 3.1リリース
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span> <span class="jser-tag">tutorial</span></p>
 
-d8コマンドをインストールして、最適化/非最適化、プロファイリング、GCのトレース、hidden class等のチェック方法などについてまとまってるチュートリアル
+d8コマンドをインストールして、最適化/非最適化、プロファイリング、GCのトレース、Hidden Class等のチェック方法などについてまとまってるチュートリアル
 
 ----
 
@@ -104,7 +104,7 @@ IRHydra2を使った最適化されてない事の可視化や参考リソース
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span></p>
 
-node.jsにおけるイベントループとブロッグについて。
+node.jsにおけるイベントループとブロックについて。
 
 setTimeout、process.nextTick、setImmediateの意味の違い。
 
@@ -190,7 +190,7 @@ Reactの歴史とReactのDOM Diffについてのスライド
 
 <a href='https://www.youtube.com/watch?v=eCf5CquV_Bw'>https://www.youtube.com/watch?v=eCf5CquV_Bw</a>
 
-ReactのVirtualDOM = DOMのバージョン管理という話やVirtual DOMのdiffの仕組みについて解説されてる
+ReactのVirtual DOM = DOMのバージョン管理という話やVirtual DOMのdiffの仕組みについて解説されてる
 
 - [JavaScript’s History and How it Led To ReactJS | The New Stack](http://thenewstack.io/javascripts-history-and-how-it-led-to-reactjs/ "JavaScript’s History and How it Led To ReactJS | The New Stack")
 
@@ -229,7 +229,7 @@ CSPについてのスライド。
 
 CSPとは何か、どうやって適応するか、どうやって管理するかについてTwitterの人が発表した内容。
 
-CSP Lv2のscript hashについてやCSPレポート解析と <a href='http://caspr.io/'>http://caspr.io/</a> ついて
+CSP Lv2のscript hashについてやCSPレポート解析と <a href='http://caspr.io/'>http://caspr.io/</a> について
 
 - [Caspr](http://caspr.io/#/ "Caspr")
 - [This blog uses CSP level 2 script hash support | blawg](https://blog.matatall.com/2014/08/this-blog-uses-csp-level-2-script-hash-support/ "This blog uses CSP level 2 script hash support | blawg")
@@ -352,7 +352,7 @@ FileSystem, IndexedDB, Quota Management APIを使って100MB超えのテンポ�
 
 OAuth 2対応のアプリの認証やAPIを叩く機能を持ったライブラリ。
 
-<a href='https://auth-server.herokuapp.com/'>https://auth-server.herokuapp.com/</a> という認証のサーバを使っていて、クライアントサイトを書くだけでGitHubやFacebook等のAPIを利用できる
+<a href='https://auth-server.herokuapp.com/'>https://auth-server.herokuapp.com/</a> という認証のサーバを使っていて、クライアントサイドを書くだけでGitHubやFacebook等のAPIを利用できる
 
 ----
 
