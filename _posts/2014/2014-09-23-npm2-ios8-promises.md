@@ -18,6 +18,12 @@ JSer.info #193 - node.jsのパッケージ管理ツールであるnpm 2.0.0が�
 
 [Scoped packages](https://www.npmjs.org/doc/misc/npm-scope.html "Scoped packages")は企業利用などで使うときにpublicじゃなくて社内でモジュールを管理するためのスコープ機能を提供する仕組みです。
 
+npm 2.0.0はnpmからインストールできます。
+
+```sh
+npm install -g npm 
+```
+
 詳細は以下の記事に書かれています。
 
 - [The npm Blog — npm@2.0.0](http://blog.npmjs.org/post/98131109725/npm-2-0-0 "The npm Blog — npm@2.0.0")
