@@ -133,7 +133,8 @@ IEの開発中、検討中の機能について
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">まとめ</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span></p>
 
-iPhone6とplusの仕様やviewportまわりの違い、iOS8 safariでサポートされたAPIやCSSサポート、minimal-uiの廃止、safariの追加機能、UIWebViewとWKWebVIewの違い、バグについて詳しくまとめられている
+iPhone6とiPhone6 plusの仕様やviewportまわりの違いについて。
+また、iOS8 safariでサポートされたAPIやCSSサポート、minimal-uiの廃止、safariの追加機能、UIWebViewとWKWebVIewの違い、バグについて詳しくまとめられている
 
 - [iOS8 presents serious issues that prevent file uploading | Blog](http://blog.fineuploader.com/2014/09/10/ios8-presents-serious-issues-that-prevent-file-uploading/ "iOS8 presents serious issues that prevent file uploading | Blog")
 
@@ -170,7 +171,7 @@ Promiseについてよくまとまってるチュートリアル
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">spec</span> <span class="jser-tag">検索</span></p>
 
-Promisesの仕様を前提にしてる仕様の一覧。また、仕様をどうやって調べるかについて。W3CやWHATWGの仕様をまとめてダウンロードして検索する方法について書かれてる
+Promiseの仕様を前提にしてる仕様の一覧。また、仕様をどうやって調べるかについて。W3CやWHATWGの仕様をまとめてダウンロードして検索する方法について書かれてる
 
 ----
 
