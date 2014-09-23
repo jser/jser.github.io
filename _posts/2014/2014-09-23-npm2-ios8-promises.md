@@ -16,7 +16,7 @@ JSer.info #193 - node.jsのパッケージ管理ツールであるnpm 2.0.0が�
 
 [npm run-scriptに引数を渡せるように](https://github.com/npm/npm/pull/5518 "Passing args into run-scripts by bcoe · Pull Request #5518 · npm/npm")なったことや、npmの[リリースプロセスがドキュメント化](https://github.com/npm/npm/wiki/Release-Process "Release Process · npm/npm Wiki")されたこと、[Scoped packages](https://www.npmjs.org/doc/misc/npm-scope.html "Scoped packages")という機能が追加された点等結構色々変更があります。
 
-[Scoped packages](https://www.npmjs.org/doc/misc/npm-scope.html "Scoped packages")は企業利用などで使うときにpublicじゃなくて社内でモジュールを管理するためのスコープ機能を提供する仕組みです。
+[Scoped packages](https://www.npmjs.org/doc/misc/npm-scope.html "Scoped packages")は企業利用などで使うときにPublicではなく社内でモジュールを管理するためのスコープ機能を提供する仕組みです。
 
 npm 2.0.0はnpmからインストールできます。
 
@@ -37,14 +37,14 @@ iOS8がリリースされ内蔵されているSafariのアップデートと新�
 - [iOS 8 and iPhone 6 for web developers and designers: next evolution for Safari and native webapps | Breaking the Mobile Web](http://www.mobilexweb.com/blog/safari-ios8-iphone6-web-developers-designers "iOS 8 and iPhone 6 for web developers and designers: next evolution for Safari and native webapps | Breaking the Mobile Web")
 - [Apple Shows Love for HTML5 with iOS 8 | Blog | Sencha](http://www.sencha.com/blog/apple-shows-love-for-html5-with-ios-8 "Apple Shows Love for HTML5 with iOS 8 | Blog | Sencha")
 
-まだ、バグ等も多いですが、新しいWKWebViewでは今までのWebViewのような制限がないので、アプリ内でもSafariと同じように動くものができるかもしれません。
+まだバグ等も多いですが、新しいWKWebViewでは今までのWebViewのような制限がないので、アプリ内でもSafariと同じように動くものができるかもしれません。
 
 ---
 
 [Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog](http://blog.otakumode.com/2014/09/17/nodejs-promise/ "Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog") という記事では、Promiseの基本的な使い方やNodeで[よく使われているasync.js](http://blog.futurice.com/npm-registry-in-numbers "NPM registry in numbers | Futurice blog")モジュールからの切り替えについて詳しく書かれています。
 
-まだ、Node.jsのstableであるv0.10にはネイティブでPromiseが入っていないため、[Bluebird](https://github.com/petkaantonov/bluebird "Bluebird")を使った例で書かれています。
-[次期安定版 v0.12](http://d.hatena.ne.jp/jovi0608/20140319/1395199285 "次期安定版 v0.12")ではネイティブでPromiseが入ることや、Node以外でもPromiseを使ったAPIは増えていくため、Promiseについて分かりやすくまとまっていていいと思います。
+まだNode.jsのstableであるv0.10にはネイティブでPromiseが入っていないため、[Bluebird](https://github.com/petkaantonov/bluebird "Bluebird")を使った例で書かれています。
+[次期安定版 v0.12](http://d.hatena.ne.jp/jovi0608/20140319/1395199285 "次期安定版 v0.12")ではネイティブでPromiseが入ることや、Node以外でもPromiseを使ったAPIは増えていくため、Promiseについて分かりやすくまとまっているため読んでみるといいかと思います。。
 
 - [JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch](http://efcl.info/2014/09/16/promises-spec-ref-list/ "JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch")
 
