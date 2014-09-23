@@ -1,5 +1,5 @@
 ---
-title: "2014-09-23のJS: "
+title: "2014-09-23のJS: npm2.0.0、iOS8 WKWebView、NodeとPromise"
 author: azu
 layout: post
 date : 2014-09-23T16:58
