@@ -1,5 +1,5 @@
 ---
-title: "2014-09-23のJS: npm2.0.0、iOS8 WKWebView、NodeとPromise"
+title: "2014-09-23のJS: npm 2.0.0、iOS8 WKWebView、Node.jsとPromise"
 author: azu
 layout: post
 date : 2014-09-23T16:58
@@ -12,7 +12,7 @@ tags:
 
 ---
 
-JSer.info #193 - node.jsのパッケージ管理ツールであるnpm 2.0.0がリリースされました。
+JSer.info #193 - Node.jsのパッケージ管理ツールであるnpm 2.0.0がリリースされました。
 
 [npm run-scriptに引数を渡せるように](https://github.com/npm/npm/pull/5518 "Passing args into run-scripts by bcoe · Pull Request #5518 · npm/npm")なったことや、npmの[リリースプロセスがドキュメント化](https://github.com/npm/npm/wiki/Release-Process "Release Process · npm/npm Wiki")されたこと、[Scoped packages](https://www.npmjs.org/doc/misc/npm-scope.html "Scoped packages")という機能が追加された点等結構色々変更があります。
 
@@ -41,10 +41,10 @@ iOS8がリリースされ内蔵されているSafariのアップデートと新�
 
 ---
 
-[Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog](http://blog.otakumode.com/2014/09/17/nodejs-promise/ "Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog") という記事では、Promiseの基本的な使い方やNodeで[よく使われているasync.js](http://blog.futurice.com/npm-registry-in-numbers "NPM registry in numbers | Futurice blog")モジュールからの切り替えについて詳しく書かれています。
+[Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog](http://blog.otakumode.com/2014/09/17/nodejs-promise/ "Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog")という記事では、Promiseの基本的な使い方やNode.jsで[よく使われているasync.js](http://blog.futurice.com/npm-registry-in-numbers "NPM registry in numbers | Futurice blog")モジュールからの切り替えについて詳しく書かれています。
 
 まだNode.jsのstableであるv0.10にはネイティブでPromiseが入っていないため、[Bluebird](https://github.com/petkaantonov/bluebird "Bluebird")を使った例で書かれています。
-[次期安定版 v0.12](http://d.hatena.ne.jp/jovi0608/20140319/1395199285 "次期安定版 v0.12")ではネイティブでPromiseが入ることや、Node以外でもPromiseを使ったAPIは増えていくため、Promiseについて分かりやすくまとまっているため読んでみるといいかと思います。。
+[次期安定版 v0.12](http://d.hatena.ne.jp/jovi0608/20140319/1395199285 "次期安定版 v0.12")ではネイティブでPromiseが入ることや、Node.js以外でもPromiseを使ったAPIは増えていくため、Promiseについて分かりやすくまとまっているため読んでみるといいかと思います。
 
 - [JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch](http://efcl.info/2014/09/16/promises-spec-ref-list/ "JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch")
 
@@ -108,9 +108,7 @@ dialogとpicture要素のサポート、flowの型チェックツール用のア
 
 Polymer 0.4.1リリース。
 
-WAI-ARIAについての`core-a11y-keys`要素を追加、
-
-iOS8のバグに対するworkaroundを追加
+WAI-ARIAについての`core-a11y-keys`要素を追加、iOS8のバグに対するworkaroundを追加
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -134,7 +132,7 @@ IEの開発中、検討中の機能について
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">まとめ</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span></p>
 
 iPhone6とiPhone6 plusの仕様やviewportまわりの違いについて。
-また、iOS8 safariでサポートされたAPIやCSSサポート、minimal-uiの廃止、safariの追加機能、UIWebViewとWKWebVIewの違い、バグについて詳しくまとめられている
+また、iOS8 SafariでサポートされたAPIやCSSサポート、minimal-uiの廃止、Safariの追加機能、UIWebViewとWKWebVIewの違い、バグについて詳しくまとめられている
 
 - [iOS8 presents serious issues that prevent file uploading | Blog](http://blog.fineuploader.com/2014/09/10/ios8-presents-serious-issues-that-prevent-file-uploading/ "iOS8 presents serious issues that prevent file uploading | Blog")
 
@@ -147,7 +145,7 @@ iPhone6とiPhone6 plusの仕様やviewportまわりの違いについて。
 
 iOS8のSafariでサポートされた新しい機能について。
 
-また今までのWebViewと新しく追加されたWebKitの機能がちゃんと使えるWKWerbViewのパフォーマンスの比較。
+また今までのWebViewと新しく追加されたWebKitの機能がちゃんと使えるWKWebViewのパフォーマンスの比較。
 
 既知のバグについても書かれてる
 
@@ -202,9 +200,9 @@ Gulp+TraceurでES6のコードを使う方法と、Browserify + es6ifyでTraceur
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">画像</span></p>
 
-JPG画像とマスクとなるPNG画像をsvgのmask要素を合わせる事で擬似アルファチャネルをやる事について。
+JPG画像とマスクとなるPNG画像をSVGのmask要素によって合わせる事で擬似アルファチャンネルをやる事について。
 
-単体の透過pngよりサイズサイズが軽量に出来る話。
+単体の透過PNGよりファイルサイズが軽量に出来る話。
 
 <a href='http://blog.jackadam.net/2010/alpha-jpegs/'>http://blog.jackadam.net/2010/alpha-jpegs/</a>
 
@@ -228,9 +226,9 @@ CSSセレクタは要素とセレクタの数だけ判定を行う回数が増�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">node.js</span></p>
 
-spy.jsを実行した結果を使ったコード補完が行えるように。また、今までは引数や返り値のみだったか、式にも対応した。
+spy.jsを実行した結果を使ったコード補完が行えるように。また、今までは引数や返り値のみだったが、式にも対応した。
 
-emacsみたいなScratchファイルの機能を追加、indexingの範囲をデフォルトではnode_moduleまでに限定、JSX(React)のサポート改善等
+emacsみたいなScratchファイルの機能を追加、indexingの範囲をデフォルトではnode_modulesまでに限定、JSX(React)のサポート改善等
 
 ----
 
@@ -297,7 +295,7 @@ CORS in Actionの人。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
 
-コンポーネントベースで考えるウェブ開発についてスライド。
+コンポーネントベースで考えるウェブ開発についてのスライド。
 
 ディレクトリ単位だとバラけてしまうのでコンポーネント単位でまとめる。
 
@@ -326,9 +324,9 @@ CSSやNodeにどういう操作が行われたかの情報が取れる
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span></p>
 
-node.jsで非同期処理のプロファイルを取るためのライブラリ。callback待ちにどれくらいの時間を使ってるかの表示、
+Node.jsで非同期処理のプロファイルを取るためのライブラリ。
 
-非同期処理の結果をネスト表示も出来る
+callback待ちにどれくらいの時間を使ってるかの表示、非同期処理の結果をネスト表示も出来る
 
 - [A CPU Profiler for Node.js - Bugsnag](https://bugsnag.com/blog/async-profile "A CPU Profiler for Node.js - Bugsnag")
 
@@ -339,7 +337,7 @@ node.jsで非同期処理のプロファイルを取るためのライブラリ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">library</span></p>
 
-nodeスタイルで書かれた関数(error, response)をPromiseラッパにするライブラリ
+Node.jsスタイルで書かれた関数(error, response)をPromiseラッパにするライブラリ
 
 ----
 
@@ -372,7 +370,7 @@ on/off/fire/one/cloneが用意されている。cloneではNodeと共にeventを
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
 
-プロジェクトで使ってるファイルからら.npmignoreを生成するコマンドラインツール。
+プロジェクトで使ってるファイルから.npmignoreを生成するコマンドラインツール。
 
 また、インストール済みのnode_modulesから不要なファイルを削除する事も出来る。
 
