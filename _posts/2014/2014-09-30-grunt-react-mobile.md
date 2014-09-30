@@ -20,7 +20,7 @@ GulpやBroccoliのpluginを[optional adapter](http://cowboy.github.io/state-of-g
 
 ----
 
-[Get Started React.js // Speaker Deck](https://speakerdeck.com/koba04/get-started-react-dot-js "Get Started React.js // Speaker Deck") というスライドでは[React](http://facebook.github.io/react/ "React")の基本的な使い方からComponentやProp、State等の構成要素などについて詳しく書かれています。
+[Get Started React.js // Speaker Deck](https://speakerdeck.com/koba04/get-started-react-dot-js "Get Started React.js // Speaker Deck") というスライドでは[React](http://facebook.github.io/react/ "React")の基本的な使い方からComponent、Prop、State等の構成要素などについて詳しく書かれています。
 
 最近、[色々](http://maketea.co.uk/2014/06/30/building-robust-web-apps-with-react-part-4.html "Building robust web apps with React: Part 4, server-side rendering | Matt Hinchliffe, Front-End Developer")な[ところ](http://www.princeton.edu/~crmarsh/react-ssr/ "Rendering React Components on the Server | Charlie Marsh")で[SEO等の視点などから](http://blog.risingstack.com/from-angularjs-to-react-the-isomorphic-way/ "From AngularJS to React: The Isomorphic Way")もみかけるようになったReactの[Server-Side Rendering](http://reactjs.net/guides/server-side-rendering.html "Server-Side Rendering")についても触れられています。
 
