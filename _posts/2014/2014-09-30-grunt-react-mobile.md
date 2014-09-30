@@ -30,7 +30,7 @@ Reactのpropとstateを使ったUIのアプローチについては[From Backbon
 
 PPK([Peter-Paul Koch](http://www.quirksmode.org/about/ "Peter-Paul Koch"))さんよるWebkitやAndroidなどのモバイルブラウザにおける問題や解決方法などについて書かれた[The Mobile Web Handbook](http://www.smashingmagazine.com/2014/09/30/mobile-web-handbook-release/ "“There Are More Bugs In Mobile Than... Particles In The Universe!” | Smashing Magazine")という書籍がリリースされました。
 
-モバイルサイトのややこしい問題などについて色々とかかれているようです。
+モバイルサイトのややこしい問題などについて色々とかかれていて、viewportやTouch Eventに一章使ったりかなり特化した内容になってるようです。
 
 ----
 
