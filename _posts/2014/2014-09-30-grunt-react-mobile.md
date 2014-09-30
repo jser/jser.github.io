@@ -1,5 +1,5 @@
 ---
-title: "2014-09-30のJS: Gruntと現在と未来、React.js、The Mobile Web Handbook"
+title: "2014-09-30のJS: Gruntの現在と未来、React.js、The Mobile Web Handbook"
 author: azu
 layout: post
 date : 2014-09-30T22:36
