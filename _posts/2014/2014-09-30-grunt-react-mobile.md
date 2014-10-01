@@ -174,7 +174,7 @@ Grunt/Gulp/Broccoliの目的の違いについてまとめられてる
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MVC</span> <span class="jser-tag">library</span> <span class="jser-tag">スライド</span></p>
 
-JavaScriptのAngular、Ember、Backbone、React、Ampersand.jsなどのライブラリの特徴、またそれらを使って何を解決のかというガイドラインを示すスライド
+JavaScriptのAngular、Ember、Backbone、React、Ampersand.jsなどのライブラリの特徴、またそれらを使って何を解決するのかというガイドラインを示すスライド
 
 ----
 
