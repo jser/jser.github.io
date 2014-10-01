@@ -67,13 +67,13 @@ VirtualDOMの構成要素やdiffのアルゴリズムについて
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browserify</span></p>
 
-Browserifyから見たWebpackのメリットについて。 Browserifyはデフォルト(factor-bundleなどが必要)では1ビルドに1出力で、Webpackは複数のファイルを吐き出せる。
+Browserifyから見たWebpackのメリットについて。 Browserifyはデフォルトでは1ビルドに1ファイル出力、一方Webpackは最初から複数のファイルを吐き出せる。
+(Browserifyは[factor-bundle](https://github.com/substack/factor-bundle "factor-bundle")などが必要)
 
 また、Webpackはデフォルトで賢いビルドをするため高速にビルド出来る。
-
 (BrowserifyはAdvanced Optionsなどで細かい指定やビルドの工夫が必要)
 
-どちらもビルド時間の多くがSourceMap出力が占めている傾向がある。
+どちらもビルド時間の多くをSourceMap出力が占めている傾向がある。
 
 ----
 
