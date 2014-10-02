@@ -12,15 +12,15 @@ tags:
 
 ---
 
-JSer.info #194 - [The State of Grunt](http://cowboy.github.io/state-of-grunt-fe-summit-2014-talk/ "The State of Grunt") というスライドでは、Gruntの現状と将来について書かれています。
+JSer.info #194 - [The State of Grunt](http://cowboy.github.io/state-of-grunt-fe-summit-2014-talk/ "The State of Grunt")というスライドでは、Gruntの現状と将来について書かれています。
 
 GulpやBroccoliのpluginを[optional adapter](http://cowboy.github.io/state-of-grunt-fe-summit-2014-talk/#59 "plugins via optional adapter")を使ったサポート、GulpのようなStreamやPromiseベースのタスクのサポート等を予定しているそうです。
 
-また、[最後のページ](http://cowboy.github.io/state-of-grunt-fe-summit-2014-talk/#66 "The State of Grunt")ではGruntとGulpとBroccoliのそれぞれには目的の違いについて書かれています。
+また、[最後のページ](http://cowboy.github.io/state-of-grunt-fe-summit-2014-talk/#66 "The State of Grunt")ではGruntとGulpとBroccoliのそれぞれの目的の違いについて書かれています。
 
 ----
 
-[Get Started React.js // Speaker Deck](https://speakerdeck.com/koba04/get-started-react-dot-js "Get Started React.js // Speaker Deck") というスライドでは[React](http://facebook.github.io/react/ "React")の基本的な使い方からComponent、Prop、State等の構成要素などについて詳しく書かれています。
+[Get Started React.js // Speaker Deck](https://speakerdeck.com/koba04/get-started-react-dot-js "Get Started React.js // Speaker Deck")というスライドでは[React](http://facebook.github.io/react/ "React")の基本的な使い方からComponent、Prop、State等の構成要素などについて詳しく書かれています。
 
 最近、[色々](http://maketea.co.uk/2014/06/30/building-robust-web-apps-with-react-part-4.html "Building robust web apps with React: Part 4, server-side rendering | Matt Hinchliffe, Front-End Developer")な[ところ](http://www.princeton.edu/~crmarsh/react-ssr/ "Rendering React Components on the Server | Charlie Marsh")で[SEO等の視点などから](http://blog.risingstack.com/from-angularjs-to-react-the-isomorphic-way/ "From AngularJS to React: The Isomorphic Way")もみかけるようになったReactの[Server-Side Rendering](http://reactjs.net/guides/server-side-rendering.html "Server-Side Rendering")についても触れられています。
 
@@ -28,7 +28,7 @@ Reactのpropとstateを使ったUIのアプローチについては[From Backbon
 
 ----
 
-PPK([Peter-Paul Koch](http://www.quirksmode.org/about/ "Peter-Paul Koch"))さんよるWebkitやAndroidなどのモバイルブラウザにおける問題や解決方法などについて書かれた[The Mobile Web Handbook](http://www.smashingmagazine.com/2014/09/30/mobile-web-handbook-release/ "“There Are More Bugs In Mobile Than... Particles In The Universe!” | Smashing Magazine")という書籍がリリースされました。
+PPK([Peter-Paul Koch](http://www.quirksmode.org/about/ "Peter-Paul Koch"))さんによるWebKitやAndroidなどのモバイルブラウザにおける問題や解決方法などについて書かれた[The Mobile Web Handbook](http://www.smashingmagazine.com/2014/09/30/mobile-web-handbook-release/ "“There Are More Bugs In Mobile Than... Particles In The Universe!” | Smashing Magazine")という書籍がリリースされました。
 
 モバイルサイトのややこしい問題などについて色々とかかれていて、viewportやTouch Eventに一章使ったりかなり特化した内容になってるようです。
 
