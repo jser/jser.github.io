@@ -20,7 +20,7 @@ var articleMetaList = JSerMetaJSON.map(function (object) {
         return;
     }
     return object;
-}).filter(isNotEmpty);
+}).filter(isNotEmpty).slice(0, 200 - 1);
 
 function getNextText() {
     return articleMetaList.pop();
