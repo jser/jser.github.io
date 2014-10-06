@@ -26,7 +26,7 @@ IEに関する多くのバグ修正や古いブラウザ(Firefox4やChrome31以�
 
 [Part 1](http://www.2ality.com/2014/09/es6-promises-foundations.html "1")ではPromiseについては殆ど出ていませんでしたが(前置き的な非同期処理についてが主)、Part 2ではPromiseの大分部の機能や仕組みについて書かれています。
 
-[JavaScript Promiseの本](http://azu.github.io/promises-book/ "JavaScript Promiseの本")が内容的に似ている部分も多いですが、Qの`done`や`finally`やブラウザのデバッガの対応等についても書かれているので、一緒に読むといい気がします。
+[JavaScript Promiseの本](http://azu.github.io/promises-book/ "JavaScript Promiseの本")は内容的に似ている部分も多いですが、Qの`done`や`finally`やブラウザのデバッガの対応等についても書かれているので、一緒に読むといい気がします。
 
 ----
 
@@ -382,7 +382,7 @@ JavaScriptのStreamベースのビルドシステムであるGulpについての
 ----
 
 ## Amazon.co.jp: Webアプリ構築のためのAngularJS 電子書籍: 外村 和仁, CodeGrid: Kindleストア
-[www.amazon.co.jp/Web%E3%82%A2%E3%83%97%E3%83%AA%E6%A7%8B%E7%AF%89%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AEAngularJS-%E5%A4%96%E6%9D%91-%E5%92%8C%E4%BB%81-ebook/dp/B00O4RMZ4O](http://www.amazon.co.jp/Web%E3%82%A2%E3%83%97%E3%83%AA%E6%A7%8B%E7%AF%89%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AEAngularJS-%E5%A4%96%E6%9D%91-%E5%92%8C%E4%BB%81-ebook/dp/B00O4RMZ4O "Amazon.co.jp: Webアプリ構築のためのAngularJS 電子書籍: 外村 和仁, CodeGrid: Kindleストア")
+[www.amazon.co.jp/dp/B00O4RMZ4O/](http://www.amazon.co.jp/dp/B00O4RMZ4O/ "Amazon.co.jp: Webアプリ構築のためのAngularJS 電子書籍: 外村 和仁, CodeGrid: Kindleストア")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">book</span> <span class="jser-tag">kindle</span></p>
 
