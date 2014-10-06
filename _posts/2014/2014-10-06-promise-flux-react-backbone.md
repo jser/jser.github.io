@@ -3,9 +3,14 @@ title: "2014-10-06のJS: localForage 1.0.0、Promises API、FluxとReact.jsとBa
 author: azu
 layout: post
 date : 2014-10-06T19:59
-category: 
+category: JSer
 tags:
-    - 
+    - JavaScript
+    - Promise
+    - localstorage
+    - Flux
+    - React.js
+    - Backbone.js
 
 ---
 
