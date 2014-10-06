@@ -16,6 +16,8 @@ tags:
 
 JSer.info #195 - IndexedDBやWebSQLやlocalStorage等をラップしたAPIを提供する[localForage](https://github.com/mozilla/localForage "localForage") 1.0.0がリリースされました。
 
+localForageやPromiseベースのAPIとコールバックのAPIどちらでも利用でき、ストレージとしてどのバックエンドを使うかを選択出来る形をとっています。
+
 IEに関する多くのバグ修正や古いブラウザ(Firefox4やChrome31以下)のサポートを終了したり、細かい改善が多く入っています。
 
 詳しくは[CHANGELOG](https://github.com/mozilla/localForage/blob/1.0.1/CHANGELOG.md "CHANGELOG")を参照して下さい。
