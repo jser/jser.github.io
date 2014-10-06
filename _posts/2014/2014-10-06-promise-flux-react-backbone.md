@@ -18,7 +18,7 @@ JSer.info #195 - IndexedDBやWebSQLやlocalStorage等をラップしたAPIを提
 
 localForageはPromiseベースのAPIとコールバックのAPIどちらでも利用でき、ストレージとしてどのバックエンドを使うかを選択出来る形をとっています。
 
-1.0.0ではIEに関する多くのバグ修正や古いブラウザ(Firefox4やChrome31以下)のサポートを終了したり、細かい改善が多く入っています。
+1.0.0ではIEに関するバグ修正や古いブラウザ(Firefox4やChrome31以下)のサポートを終了したり、細かい改善が多く入っています。
 
 詳しくは[CHANGELOG](https://github.com/mozilla/localForage/blob/1.0.1/CHANGELOG.md "CHANGELOG")を参照して下さい。
 
