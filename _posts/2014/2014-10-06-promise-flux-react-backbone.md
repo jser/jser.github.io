@@ -1,5 +1,5 @@
 ---
-title: "localForage 1.0.0、Promises API、FluxとReact.jsとBackbone.js"
+title: "2014-10-06のJS: localForage 1.0.0、Promises API、FluxとReact.jsとBackbone.js"
 author: azu
 layout: post
 date : 2014-10-06T19:59
