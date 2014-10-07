@@ -1,5 +1,5 @@
 ---
-title: "2014-10-06のJS: localForage 1.0.0、Promises API、FluxとReact.jsとBackbone.js"
+title: "2014-10-06のJS: localForage 1.0.0、Promises API、FluxとReactとBackbone.js"
 author: azu
 layout: post
 date : 2014-10-06T19:59
@@ -9,7 +9,7 @@ tags:
     - Promise
     - localstorage
     - Flux
-    - React.js
+    - React
     - Backbone.js
 
 ---
@@ -18,7 +18,7 @@ JSer.info #195 - IndexedDBやWebSQLやlocalStorage等をラップしたAPIを提
 
 localForageはPromiseベースのAPIとコールバックのAPIどちらでも利用でき、ストレージとしてどのバックエンドを使うかを選択出来る形をとっています。
 
-1.0.0ではIEに関するバグ修正や古いブラウザ(Firefox4やChrome31以下)のサポートを終了したり、細かい改善が多く入っています。
+1.0.0ではIEに関するバグ修正や古いブラウザ(Firefox 4やChrome 31以下)のサポートを終了したり、細かい改善が多く入っています。
 
 詳しくは[CHANGELOG](https://github.com/mozilla/localForage/blob/1.0.1/CHANGELOG.md "CHANGELOG")を参照して下さい。
 
@@ -26,13 +26,13 @@ localForageはPromiseベースのAPIとコールバックのAPIどちらでも�
 
 [ECMAScript 6 promises (2/2): the API](http://www.2ality.com/2014/10/es6-promises-api.html "ECMAScript 6 promises (2/2): the API")ではES6 Promisesについて詳しく解説されています。
 
-[Part 1](http://www.2ality.com/2014/09/es6-promises-foundations.html "1")ではPromiseについては殆ど出ていませんでしたが(前置き的な非同期処理についてが主)、Part 2ではPromiseの大分部の機能や仕組みについて書かれています。
+[Part 1](http://www.2ality.com/2014/09/es6-promises-foundations.html "1")ではPromiseについては殆ど出ていませんでしたが(前置き的な非同期処理についてが主)、Part 2ではPromiseの大部分の機能や仕組みについて書かれています。
 
 [JavaScript Promiseの本](http://azu.github.io/promises-book/ "JavaScript Promiseの本")は内容的に似ている部分も多いですが、Qの`done`や`finally`やブラウザのデバッガの対応等についても書かれているので、一緒に読むといい気がします。
 
 ----
 
-[React Apps Using Flux and Backbone | Toptal](http://www.toptal.com/front-end/simple-data-flow-in-react-applications-using-flux-and-backbone "React Apps Using Flux and Backbone | Toptal") という記事では、[Fluxアーキテクチャ](http://facebook.github.io/react/docs/flux-overview.html "Flux Application Architecture ")について分かりやすく解説されています。。
+[React Apps Using Flux and Backbone | Toptal](http://www.toptal.com/front-end/simple-data-flow-in-react-applications-using-flux-and-backbone "React Apps Using Flux and Backbone | Toptal") という記事では、[Fluxアーキテクチャ](http://facebook.github.io/react/docs/flux-overview.html "Flux Application Architecture ")について分かりやすく解説されています。
 
 [facebook/flux](https://github.com/facebook/flux "facebook/flux")と[React](http://facebook.github.io/react/ "React")を使った基本的な流れの紹介とBackbone.jsを組み合わせてやるにはどうするかという話が書かれています。
 
@@ -90,7 +90,7 @@ JavaScriptパーサのacorn 0.9.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">sourcemap</span></p>
 
-browserify 6.0.0リリース。
+Browserify 6.0.0リリース。
 
 SourceMapのファイルパスがベースURLからの相対パスとなった。
 
@@ -154,7 +154,7 @@ eval、strict mode、sudoしない、シェルを叩いてコマンドを実行�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span></p>
 
-npm 2.0.0からdependenciesにローカルパスを指定出来るようになり、プロジェクトだけで使うUitlsを読み込みやすくなった話
+npm 2.0.0からdependenciesにローカルパスを指定出来るようになり、プロジェクトだけで使うUtilsを読み込みやすくなった話
 
 ----
 
@@ -163,7 +163,7 @@ npm 2.0.0からdependenciesにローカルパスを指定出来るようにな�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">翻訳</span> <span class="jser-tag">まとめ</span></p>
 
-HTML5Rockに現在公開されている翻訳記事のまとめ
+HTML5 Rocksに現在公開されている翻訳記事のまとめ
 
 ----
 
@@ -174,7 +174,7 @@ HTML5Rockに現在公開されている翻訳記事のまとめ
 
 レスポンシブに画像を扱うpicture要素について。
 
-media queryでの分岐、srcset属性での解像度対応、読み込む画像の種類によるfailback
+media queryでの分岐、srcset属性での解像度対応、読み込む画像の種類によるfallback
 
 ----
 
@@ -239,7 +239,7 @@ CSPのルールについての紹介
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">スライド</span></p>
 
-React.js入門的なスライド。
+React入門的なスライド。
 
 render、state、componentのライフサイクル、テストについて
 
@@ -250,7 +250,7 @@ render、state、componentのライフサイクル、テストについて
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MVC</span> <span class="jser-tag">library</span> <span class="jser-tag">スライド</span></p>
 
-Ampersand.js の紹介スライド
+Ampersand.jsの紹介スライド
 
 - [▶ Kamil Ogórek – Ampersand.js – Minimalistic Approach to not so minimalistic Problems \[Reject.JS 2014\] - YouTube](https://www.youtube.com/watch?v=2Rzxn-xaFkg&amp;index=5&amp;list=PL37ZVnwpeshF8Sr8JZNFU6boKMmod9YBw "▶ Kamil Ogórek – Ampersand.js – Minimalistic Approach to not so minimalistic Problems \[Reject.JS 2014\] - YouTube")
 
@@ -337,7 +337,7 @@ CADライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">画像</span> <span class="jser-tag">library</span></p>
 
-複数枚の画像や動画からgifを作成する JavaScriptライブラリ
+複数枚の画像や動画からgifを作成するJavaScriptライブラリ
 
 ----
 
@@ -346,7 +346,7 @@ CADライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Mozilla</span> <span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span></p>
 
-WebComponentを使ったUIコンポーネントライブラリ
+Web Componentsを使ったUIコンポーネントライブラリ
 
 ----
 
