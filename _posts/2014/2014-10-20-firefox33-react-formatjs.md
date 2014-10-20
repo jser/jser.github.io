@@ -28,8 +28,8 @@ Firefoxの開発者ツールの開発について興味がある方は以下の�
 ----
 [ReactJS For Stupid People](http://blog.andrewray.me/reactjs-for-stupid-people/ "ReactJS For Stupid People")という記事は最近よく見る[React](http://facebook.github.io/react/ "React")とは何かについて整理されています。
 
-React自体はViewのみを扱うライブラリですが、[Flux](http://facebook.github.io/flux/ "Flux")アーキテクチャの話と混ざって話されてたりするため役割が大きく見えることがあります。
-この記事では特徴と良い所、良くない所についてまとめられています。
+React自体はViewのみを扱うライブラリですが、[Flux](http://facebook.github.io/flux/ "Flux")アーキテクチャの話と混ざって話されたりするため、Reactの役割が大きく見えることがあります。
+この記事では特徴や良い所、良くない所についてまとめられています。
 
 [React v0.12 RC](http://facebook.github.io/react/blog/2014/10/16/react-v0.12-rc1.html "React v0.12 RC")がリリースされていますが、
 [JSX](http://facebook.github.io/jsx/ "JSX")まわり変更やAPIのリネームなど整理してる感じがするのでReactがどういうものかについて知るにはいい機会なのかもしれません。
