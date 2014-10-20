@@ -110,7 +110,7 @@ React v0.12 RCリリース。
 
 JSXに破壊的な変更が多く含まれている。
 
-`@jsx` pragmaは不要に、JSXタグは小文字or`-`が含まれてるならHTMLとして扱うように、Spread attributesのサポートし代わりにtransferPropsToは非推奨に等など
+`@jsx` pragmaは不要に、JSXタグは小文字or`-`が含まれてるならHTMLとして扱うように、Spread attributesをサポートする代わりにtransferPropsToは非推奨にする等など
 
 ----
 
