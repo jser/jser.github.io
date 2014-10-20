@@ -37,7 +37,7 @@ React自体はViewのみを扱うライブラリですが、[Flux](http://facebo
 ----
 Yahoo社から[FormatJS](http://formatjs.io/ "FormatJS")という国際化のためJavaScriptライブラリがリリースされました。
 
-各地域別の数値、日付、相対時間、複数形の表現などの国際化対応やHandlebarsやReact、Dustと一緒に使える拡張も提供しています。
+各地域別の数値、日付、相対時間、複数形の表現などの国際化対応の仕組みを提供するモジュールとそれらを使ってローカライズした画面を作成するHandlebarsやReact、Dust等のテンプレートエンジンと一緒に使える拡張を提供しています。
 
 このライブラリは[ECMAScript Internationalization API Specification](http://www.ecma-international.org/ecma-402/1.0/ "ECMAScript Internationalization API Specification")がベースとなっていて、まだ全てのブラウザがECMA i18n APIをサポートしてる訳ではないので、polyfillとして[Intl.js](https://github.com/andyearnshaw/Intl.js)と一緒に使うようになっています。
 
