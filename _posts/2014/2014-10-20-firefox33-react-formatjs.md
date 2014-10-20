@@ -1,5 +1,5 @@
 ---
-title: "2014年10月20日のJS: Firefox33、Reactとは何か、FormatJS"
+title: "2014-10-20のJS: Firefox33、Reactとは何か、FormatJS"
 author: azu
 layout: post
 date : 2014-10-19T23:31
