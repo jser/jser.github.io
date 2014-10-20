@@ -52,7 +52,7 @@ ECMA i18n API 1st editiionでは、ICU MessageFormat等の書式ついては仕�
 JavaScriptを使った国際化については以下の話が面白いです。
 
 - [Localize your frontend // slidr.io](http://slidr.io/klyrr/localize-your-frontend "Localize your frontend // slidr.io")
-	- 動画: https://www.youtube.com/watch?v=Lu4mholN2lA&index=3&list=PL37ZVnwpeshF8Sr8JZNFU6boKMmod9YBw
+	- 動画: [https://www.youtube.com/watch?v=Lu4mholN2lA&index=3&list=PL37ZVnwpeshF8Sr8JZNFU6boKMmod9YBw](https://www.youtube.com/watch?v=Lu4mholN2lA&index=3&list=PL37ZVnwpeshF8Sr8JZNFU6boKMmod9YBw)
 	- jimdo.com の国際化対応の話
 - [WEB+DB PRESS Vol.78に「フロントエンドの国際化」について書いた！ - teppeis blog](http://teppeis.hatenablog.com/entry/2013/12/webdb-press-javascript-i18n "WEB+DB PRESS Vol.78に「フロントエンドの国際化」について書いた！ - teppeis blog")
 
