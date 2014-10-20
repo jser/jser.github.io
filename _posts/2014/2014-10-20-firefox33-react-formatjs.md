@@ -42,10 +42,10 @@ Yahoo社から[FormatJS](http://formatjs.io/ "FormatJS")という国際化のた
 このライブラリは[ECMAScript Internationalization API Specification](http://www.ecma-international.org/ecma-402/1.0/ "ECMAScript Internationalization API Specification")がベースとなっていて、まだ全てのブラウザがECMA i18n APIをサポートしてる訳ではないので、polyfillとして[Intl.js](https://github.com/andyearnshaw/Intl.js)と一緒に使うようになっています。
 
 またECMA i18n APIでは、相対時間や複数形のローカライズについてのAPIは用意されていません。
-そのため、FormatJSでは[Unicode CLDR](http://cldr.unicode.org/ "Unicode CLDR")のデータと[ICU MessageFormat](http://userguide.icu-project.org/formatparse/messages "ICU MessageFormat")で書いてローカライズするようになっていて、そのパーサ等はそれぞれ[モジュール](http://formatjs.io/github/ "GitHub — FormatJS")として提供されています。
+そのため、FormatJSでは[Unicode CLDR](http://cldr.unicode.org/ "Unicode CLDR")のデータと[ICU MessageFormat](http://userguide.icu-project.org/formatparse/messages "ICU MessageFormat")で書いてローカライズするようになっていて、そのフォーマッター等はそれぞれ[モジュール](http://formatjs.io/github/ "GitHub — FormatJS")として提供されています。
 
 ECMA i18n API 1st editiionでは、ICU MessageFormat等の書式ついては仕様がありませんが、次期バージョンでは[Message Formatting](http://wiki.ecmascript.org/doku.php?id=globalization:messageformatting "Message Formatting")が検討されているようです。
-そのため、すべてがECMA標準仕様に則ったものではなく拡張もありますが、FormatJSはICU MessageFormatをASTにパースする[Parser](https://github.com/yahoo/intl-messageformat-parser "Parser")も用意しているので次期仕様への配慮もしやすい作りになっている気がします。
+そのため、すべてがECMA標準仕様に則ったものではなく拡張もありますが、FormatJSはICU MessageFormatをASTにパースする[パーサ](https://github.com/yahoo/intl-messageformat-parser "Parser")も用意しているので次期仕様への配慮もしやすい作りになっている気がします。
 
 またコード自体もES6 moduleを使って書かれていて、それを[grunt-bundle-jsnext-lib](grunt-bundle-jsnext-lib)でbundle化したものを配布しているようです。
 
