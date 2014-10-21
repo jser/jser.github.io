@@ -1,5 +1,5 @@
 ---
-title: "2014-10-20のJS: Firefox33、Reactとは何か、FormatJS"
+title: "2014-10-20のJS: Firefox 33、Reactとは何か、FormatJS"
 author: azu
 layout: post
 date : 2014-10-19T23:31
@@ -28,14 +28,13 @@ Firefoxの開発者ツールの開発について興味がある方は以下の�
 ----
 [ReactJS For Stupid People](http://blog.andrewray.me/reactjs-for-stupid-people/ "ReactJS For Stupid People")という記事は最近よく見る[React](http://facebook.github.io/react/ "React")とは何かについて整理されています。
 
-React自体はViewのみを扱うライブラリですが、[Flux](http://facebook.github.io/flux/ "Flux")アーキテクチャの話と混ざって話されたりするため、Reactの役割が大きく見えることがあります。
-この記事では特徴や良い所、良くない所についてまとめられています。
+React自体はViewのみを扱うライブラリですが、[Flux](http://facebook.github.io/flux/ "Flux")アーキテクチャの話と混ざって話されたりするため、Reactの役割が大きく見えることがあります。この記事では特徴や良い所、良くない所についてまとめられています。
 
 [React v0.12 RC](http://facebook.github.io/react/blog/2014/10/16/react-v0.12-rc1.html "React v0.12 RC")がリリースされていますが、
-[JSX](http://facebook.github.io/jsx/ "JSX")まわり変更やAPIのリネームなど整理してる感じがするのでReactがどういうものかについて知るにはいい機会なのかもしれません。
+[JSX](http://facebook.github.io/jsx/ "JSX")まわりの変更やAPIのリネームなど整理してる感じがするのでReactがどういうものかについて知るにはいい機会なのかもしれません。
 
 ----
-Yahoo社から[FormatJS](http://formatjs.io/ "FormatJS")という国際化のためJavaScriptライブラリがリリースされました。
+Yahoo社から[FormatJS](http://formatjs.io/ "FormatJS")という国際化のためのJavaScriptライブラリがリリースされました。
 
 各地域別の数値、日付、相対時間、複数形の表現などの国際化対応の仕組みを提供するモジュールとそれらを使ってローカライズした画面を作成するHandlebarsやReact、Dust等のテンプレートエンジンと一緒に使える拡張を提供しています。
 
@@ -44,8 +43,7 @@ Yahoo社から[FormatJS](http://formatjs.io/ "FormatJS")という国際化のた
 またECMA i18n APIでは、相対時間や複数形のローカライズについてのAPIは用意されていません。
 そのため、FormatJSでは[Unicode CLDR](http://cldr.unicode.org/ "Unicode CLDR")のデータと[ICU MessageFormat](http://userguide.icu-project.org/formatparse/messages "ICU MessageFormat")で書いてローカライズするようになっていて、そのフォーマッター等はそれぞれ[モジュール](http://formatjs.io/github/ "GitHub — FormatJS")として提供されています。
 
-ECMA i18n API 1st editiionでは、ICU MessageFormat等の書式ついては仕様がありませんが、次期バージョンでは[Message Formatting](http://wiki.ecmascript.org/doku.php?id=globalization:messageformatting "Message Formatting")が検討されているようです。
-そのため、すべてがECMA標準仕様に則ったものではなく拡張もありますが、FormatJSはICU MessageFormatをASTにパースする[パーサ](https://github.com/yahoo/intl-messageformat-parser "Parser")も用意しているので次期仕様への配慮もしやすい作りになっている気がします。
+ECMA i18n API 1st editiionでは、ICU MessageFormat等の書式については仕様がありませんが、次期バージョンでは[Message Formatting](http://wiki.ecmascript.org/doku.php?id=globalization:messageformatting "Message Formatting")が検討されているようです。そのため、すべてがECMA標準仕様に則ったものではなく拡張もありますが、FormatJSはICU MessageFormatをASTにパースする[パーサ](https://github.com/yahoo/intl-messageformat-parser "Parser")も用意しているので次期仕様への配慮もしやすい作りになっている気がします。
 
 またコード自体もES6 moduleを使って書かれていて、それを[grunt-bundle-jsnext-lib](grunt-bundle-jsnext-lib)でbundle化したものを配布しているようです。
 
@@ -67,7 +65,7 @@ JavaScriptを使った国際化については以下の話が面白いです。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Firefox33リリース。
+Firefox 33リリース。
 
 OpenH264のサポート、CSPのバックエンドが新しくなりました。
 また、`<picture>`をフラグ付きでサポート、[開発者ツールの機能追加](https://hacks.mozilla.org/2014/07/event-listeners-popup-media-sidebar-cubic-bezier-editor-more-firefox-developer-tools-episode-33/ "Event listeners popup, @media sidebar, Cubic bezier editor + more – Firefox Developer Tools Episode 33 ✩ Mozilla Hacks – the Web developer blog")等が行われています。
@@ -86,9 +84,9 @@ OpenH264のサポート、CSPのバックエンドが新しくなりました。
 
 SassコンパイラのC++実装であるlibsass 3.0リリース。
 
-Sass3.4の動作に近づけていく改善が中心。
+Sass 3.4の動作に近づけていく改善が中心。
 
-`@extends`、Map、`call()`のサポート、WIndowsでの動作を改善など
+`@extends`、Map、`call()`のサポート、Windowsでの動作を改善など
 
 ----
 
@@ -130,7 +128,7 @@ ECMAScript 6 Draft Rev 28リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Android</span> <span class="jser-tag">webview</span></p>
 
-Android5以降のChromium WebViewはGoogle Playからアップデートすることが出来るようになっている
+Android 5.0以降のChromium WebViewはGoogle Playからアップデートすることが出来るようになっている
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -286,7 +284,7 @@ React/Fluxパターンで全部入りな感じのStarter Kit。
 
 150言語以上に対応しており、HandlebarsやReact等のテンプレートの対応も用意されている。
 
-ECMA i18n APIやUnicode CLDR、ICU Messageなどの標準の上に実装されている
+ECMA i18n APIやUnicode CLDR、ICU MessageFormatなどの標準の上に実装されている
 
 - [Announcing Format.JS: Internationalize your web apps on the client &amp; server | Yahoo Engineering](http://yahooeng.tumblr.com/post/100006468771/announcing-format-js-internationalize-your-web-apps-on "Announcing Format.JS: Internationalize your web apps on the client &amp; server | Yahoo Engineering")
 - [米Yahoo!が国際化のためのJavaScriptライブラリ「Format.JS」を公開 | SourceForge.JP Magazine](http://sourceforge.jp/magazine/14/10/17/151500 "米Yahoo!が国際化のためのJavaScriptライブラリ「Format.JS」を公開 | SourceForge.JP Magazine")
@@ -300,7 +298,7 @@ ECMA i18n APIやUnicode CLDR、ICU Messageなどの標準の上に実装され�
 
 memorizeを行うためのライブラリ。
 
-多彩なキャッシュするルールが用意されていて、特定の引数をキーにしたり、非同期対応、Weakなmemorizeなども用意されている
+多彩なキャッシュをするルールが用意されていて、特定の引数をキーにしたり、非同期対応、Weakなmemorizeなども用意されている
 
 ----
 
@@ -318,7 +316,7 @@ leveldownのdbとして使えるlocalStorageのバックエンド実装。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
 
-uber社のNodeのプロダクションプロジェクトを作成するscaffold、CIの設定等行うpluginで拡張可能なコマンドラインツール
+uber社のNode.jsのプロダクションプロジェクトを作成するscaffold、CIの設定等を行うpluginで拡張可能なコマンドラインツール
 
 <a href='http://raynos.github.io/nodeconfeu2014-talk/'>http://raynos.github.io/nodeconfeu2014-talk/</a>
 
@@ -340,7 +338,7 @@ MochaとSinonと共に使う事を想定して作られている
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">WebComponents</span></p>
 
-Angular2.0ではWeb Components対応が予定されているが、1.xでもCustom Elementsを使ってディレクティブを定義出来るようにするライブラリ
+Angular 2.0ではWeb Components対応が予定されているが、1.xでもCustom Elementsを使ってディレクティブを定義出来るようにするライブラリ
 
 ----
 
@@ -351,7 +349,7 @@ Angular2.0ではWeb Components対応が予定されているが、1.xでもCusto
 
 KnockoutのCSP対応なバインディングを出来るようにするライブラリ。
 
-`new Function`を使わないようにすることでCSP対応している。
+`new Function`を使わないようにすることでCSPに対応している。
 
 ----
 
@@ -360,7 +358,7 @@ KnockoutのCSP対応なバインディングを出来るようにするライブ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p>
 
-Node 0.11のasyncListener APIのpolyfillライブラリ。
+Node.js 0.11のasyncListener APIのpolyfillライブラリ。
 
 ----
 
