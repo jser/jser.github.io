@@ -1,5 +1,5 @@
 ---
-title: "2014-10-27のJS: WebStorm 9、ESLint 0.9.0、Angular 2.0とAtScript"
+title: "2014-10-27のJS: WebStorm 9、ESLint 0.9.0、AngularJS 2.0とAtScript"
 author: azu
 layout: post
 date : 2014-10-27T19:41
