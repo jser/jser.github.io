@@ -51,6 +51,18 @@ Pluginの使用がstableとなり、ESLintの[Governance Model](http://eslint.or
 
 ----
 
+## お知らせ
+
+今週末の土曜日に[JSer.info 200回記念イベント](http://connpass.com/event/9067/ "JSer.info 200回記念イベント")を行います。
+
+[JSer.info 200回記念イベントの質問](http://www.google.com/moderator/?hl=ja#16/e=213da7 "JSer.info 200回記念イベントの質問")等まだ募集しているので、`#jserinfo` をつけて適当つぶやくとかでも募集しています。
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=jserinfo&text=%E8%81%9E%E3%81%8D%E3%81%9F%E3%81%84%E3%81%93%E3%81%A8%3A%20" class="twitter-hashtag-button">Tweet #jserinfo</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
