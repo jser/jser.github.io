@@ -29,7 +29,7 @@ JSer.info #198 - [WebStorm 9](http://blog.jetbrains.com/webstorm/2014/10/webstor
 
 PluginでLintのルールを拡張可能な[ESLint 0.9.0](http://eslint.org/blog/2014/10/eslint-0.9.0-released/ "ESLint 0.9.0")がリリースされました。
 
-Pluginの使用がstableとなり、ESLintの[Governance Model](http://eslint.org/docs/developer-guide/governance.html "Governance")やContributors向けの[Contributingドキュメント](http://eslint.org/docs/developer-guide/contributing.html "Contributing")が整備されています。
+Pluginの仕様がstableとなり、ESLintの[Governance Model](http://eslint.org/docs/developer-guide/governance.html "Governance")やContributors向けの[Contributingドキュメント](http://eslint.org/docs/developer-guide/contributing.html "Contributing")が整備されています。
 (具体的にはCLIへのサイン、コミットメッセージの書式などルールが書かれています)
 
 今後はES6サポートやよりpluginを扱いやすくする仕組みなどが[Upcoming](https://github.com/eslint/eslint/wiki/Release-goals#upcoming "Upcoming")にあげられています。(ES6サポートはパーサ側がサポートしてないとできないので、それを待っている感じだと思います)
