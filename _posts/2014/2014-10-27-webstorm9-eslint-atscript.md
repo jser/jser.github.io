@@ -30,13 +30,13 @@ JSer.info #198 - [WebStorm 9](http://blog.jetbrains.com/webstorm/2014/10/webstor
 PluginでLintのルールを拡張可能な[ESLint 0.9.0](http://eslint.org/blog/2014/10/eslint-0.9.0-released/ "ESLint 0.9.0")がリリースされました。
 
 Pluginの仕様がstableとなり、ESLintの[Governance Model](http://eslint.org/docs/developer-guide/governance.html "Governance")やContributors向けの[Contributingドキュメント](http://eslint.org/docs/developer-guide/contributing.html "Contributing")が整備されています。
-(具体的にはCLAへのサイン、コミットメッセージの書式などルールなどのPull Requestを送るときのルールが書かれています)
+(具体的にはCLAへのサイン、コミットメッセージの書式などのPull Requestを送るときのルールが書かれています)
 
 今後はES6サポートやよりpluginを扱いやすくする仕組みなどが[Upcoming](https://github.com/eslint/eslint/wiki/Release-goals#upcoming "Upcoming")にあげられています。(ES6サポートはパーサ側がサポートしてないとできないので、それを待っている感じだと思います)
 
 ----
 
-[ng-europe](http://ngeurope.org/ "ng-europe - The first AngularJS European conference in Paris, France.")にてAngularJS 2.0について色々な発表がありました。(またライブラリ自体は公開されてないですが)
+[ng-europe](http://ngeurope.org/ "ng-europe - The first AngularJS European conference in Paris, France.")にてAngularJS 2.0について色々な発表がありました。(まだライブラリ自体は公開されてないですが)
 
 - [AngularJS カンファレンス（ng-europe 2014）のスライドまとめ - AngularJS Ninja](http://angularjsninja.com/blog/2014/10/24/slides-at-ngeurope-2014/ "AngularJS カンファレンス（ng-europe 2014）のスライドまとめ - AngularJS Ninja")
 
@@ -44,8 +44,8 @@ Pluginの仕様がstableとなり、ESLintの[Governance Model](http://eslint.or
 
 このAtScript(ES6+Annotaions)は[traceur-compiler 入門](http://yosuke-furukawa.hatenablog.com/entry/2014/07/31/093041 "traceur-compiler 入門 - from scratch")で書かれているように[Traceur](https://github.com/google/traceur-compiler "Traceur")によってTranspileして使うようになっています。
 
-またソース自体が公開されてないのであまり深い追いしてもしょうがないですが、
-[ES6+カジュアルトーク](http://connpass.com/event/9113/ "ES6+カジュアルトーク")で発表する[スライド](http://azu.github.io/slide/es6talks/ "明日には使えなくなるES7トーク")にもう少し詳しくまとめてありますので、興味がある人はそちらを見ておくといいのかもしれません。
+まだソース自体が公開されてないのであまり深い追いしてもしょうがないですが、
+[ES6+カジュアルトーク](http://connpass.com/event/9113/ "ES6+カジュアルトーク")で発表する[スライド](http://azu.github.io/slide/es6talks/ "明日には使えなくなるES7トーク")にもう少し詳しくまとめてありますので、興味がある人はそちらを見ておくといいかもしれません。
 
 - [slide/es7.md at gh-pages · azu/slide](https://github.com/azu/slide/blob/gh-pages/es6talks/es7.md "slide/es7.md at gh-pages · azu/slide")
 
@@ -55,7 +55,7 @@ Pluginの仕様がstableとなり、ESLintの[Governance Model](http://eslint.or
 
 今週末の土曜日に[JSer.info 200回記念イベント](http://connpass.com/event/9067/ "JSer.info 200回記念イベント")を行います。
 
-[JSer.info 200回記念イベントの質問](http://www.google.com/moderator/?hl=ja#16/e=213da7 "JSer.info 200回記念イベントの質問")等まだ募集しているので、`#jserinfo` をつけて適当つぶやくとかでも募集しています。
+[JSer.info 200回記念イベントの質問](http://www.google.com/moderator/?hl=ja#16/e=213da7 "JSer.info 200回記念イベントの質問")等まだ募集しているので、`#jserinfo` をつけて適当につぶやくとかでも募集しています。
 
 <a href="https://twitter.com/intent/tweet?button_hashtag=jserinfo&text=%E8%81%9E%E3%81%8D%E3%81%9F%E3%81%84%E3%81%93%E3%81%A8%3A%20" class="twitter-hashtag-button">Tweet #jserinfo</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -153,9 +153,9 @@ CoffeeScriptやScala、PHP等のmodeを改善。Textileのサポート、ロゴ�
 
 TypeScript 2.0のロードマップ。
 
-1.4で union types のサポート、1.5からES6の親和性の向上などを目指す。
+1.4でunion typesのサポート、1.5からES6の親和性の向上などを目指す。
 
-またFacebookのFlowやAngular2.0で使われてるAtScriptのチームと一緒にType AnnotaionsをECMAScriptへの提案を進めていく方針
+またFacebookのFlowやAngularJS 2.0で使われてるAtScriptのチームと一緒にType AnnotaionsをECMAScriptへの提案を進めていく方針
 
 ----
 
@@ -173,9 +173,9 @@ Fluxアーキテクチャのサンプルや解説やライブラリ等のまと�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">Android</span> <span class="jser-tag">画像</span> <span class="jser-tag">canvas</span> <span class="jser-tag">browser</span></p>
 
-iOS6.0~、Android4.0~に対応した画像を扱う時に起きる問題と対処について。
+iOS 6.0~、Android 4.0~に対応した画像を扱う時に起きる問題と対処について。
 
-iOS6のファイルサイズの問題、AndroidのtoDataURLがJPEGをサポートしてない問題、フィルタ処理やリサイズについてなどハマりどころをまとめられている
+iOS 6のファイルサイズの問題、AndroidのtoDataURLがJPEGをサポートしてない問題、フィルタ処理やリサイズについてなどハマりどころをまとめられている
 
 ----
 
@@ -195,9 +195,9 @@ iOS6のファイルサイズの問題、AndroidのtoDataURLがJPEGをサポー�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">インタビュー</span></p>
 
-ES6,7についてJafar Husainさん(Async Generatorの人)へのインタビュー。
+ES6/7についてJafar Husainさん(Async Generatorの人)へのインタビュー。
 
-何故ES6,7を同時進行しているのか、Async functionとAsync Generatorについて、大きなアプリケーションと型の必要性について。
+何故ES6/7を同時進行しているのか、Async functionとAsync Generatorについて、大きなアプリケーションと型の必要性について。
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
@@ -233,10 +233,9 @@ AtScriptのロードマップについても書かれている。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">document</span> <span class="jser-tag">spec</span></p>
 
-Angular2.0で使われているES6に型定義を拡張したもの。
+AngularJS 2.0で使われているES6に型定義を拡張したもの。
 
-assert.jsを使ったES6 validなものへTraceurで変換が出来る。 
-またDI等に利用できるMetadata Annotationsがある。
+assert.jsを使ったES6 validなものへTraceurで変換が出来る。またDI等に利用できるMetadata Annotationsがある。
 
 こちらもECMAScript標準への提案を行っていく方針。
 
