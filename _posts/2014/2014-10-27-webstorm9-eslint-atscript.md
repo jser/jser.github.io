@@ -39,6 +39,7 @@ Pluginの仕様がstableとなり、ESLintの[Governance Model](http://eslint.or
 [ng-europe](http://ngeurope.org/ "ng-europe - The first AngularJS European conference in Paris, France.")にてAngularJS 2.0について色々な発表がありました。(まだライブラリ自体は公開されてないですが)
 
 - [AngularJS カンファレンス（ng-europe 2014）のスライドまとめ - AngularJS Ninja](http://angularjsninja.com/blog/2014/10/24/slides-at-ngeurope-2014/ "AngularJS カンファレンス（ng-europe 2014）のスライドまとめ - AngularJS Ninja")
+- [ng-europe - YouTube](https://www.youtube.com/channel/UCEGUP3TJJfMsEM_1y8iviSQ/feed "ng-europe - YouTube")
 
 以前2.0の構想について書かれた[AngularJS: AngularJS 2.0](https://blog.angularjs.org/2014/03/angular-20.html "AngularJS: AngularJS 2.0")でも出てきていましたが、AngularJS 2.0ではAtScriptというES6にAnnotationsを加えたもので作られていることが[Keynote: AtScript](https://docs.google.com/presentation/d/1hr2IM-8G-0RzpB-WY8pLHvxqNggKPzUO0KvEv1IKPws/edit#slide=id.p "Keynote: AtScript - Google スライド")で語られています。
 
