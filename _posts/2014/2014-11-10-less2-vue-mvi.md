@@ -29,7 +29,7 @@ APIの破壊的な変更や、追加されたオプション、機能につい�
 
 ![vue](http://monosnap.com/image/nsEWKGQcP0aGgqMJ2eYAdH1RQi38X0.png)
 
-以前のv0.10.6のドキュメントは[legacy.vuejs.org](http://legacy.vuejs.org/)に置かれています。
+以前のバージョンであるv0.10.6のドキュメントは[legacy.vuejs.org](http://legacy.vuejs.org/)に置かれています。
 
 ----
 
