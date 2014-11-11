@@ -23,7 +23,7 @@ V2へのアップグレードについては[V2 Upgrade Guide](http://lesscss.or
 - [Release 0.11.0: Cowboy Bebop · yyx990803/vue](https://github.com/yyx990803/vue/releases/tag/0.11.0 "Release 0.11.0: Cowboy Bebop · yyx990803/vue")
 
 一から書きなおされているため、コードベースが結構変わっています。
-APIの破壊的な変更や、追加されたオプション、機能については以下のまとめられています。
+APIの破壊的な変更や、追加されたオプション、機能については以下にまとめられています。
 
 - [vue/changes.md at master · yyx990803/vue](https://github.com/yyx990803/vue/blob/master/changes.md "vue/changes.md at master · yyx990803/vue")
 
@@ -33,7 +33,7 @@ APIの破壊的な変更や、追加されたオプション、機能につい�
 
 ----
 
-[Reactive MVC and the Virtual DOM — Futurice](http://futurice.com/blog/reactive-mvc-and-the-virtual-dom "Reactive MVC and the Virtual DOM — Futurice") という記事では、リアクティブなパターンについて書かれています。
+[Reactive MVC and the Virtual DOM — Futurice](http://futurice.com/blog/reactive-mvc-and-the-virtual-dom "Reactive MVC and the Virtual DOM — Futurice")という記事では、リアクティブなパターンについて書かれています。
 
 以下のスライドの記事版という感じです。
 
@@ -97,7 +97,7 @@ Vue.js 0.11.0リリース。
 
 Brackets 1.0リリース。
 
-同時にExtract for Brackets というPSDファイルからテキストや色などの情報が取得出来るプラグインのα版が公開されている
+同時にExtract for BracketsというPSDファイルからテキストや色などの情報が取得出来るプラグインのα版が公開されている
 
 - [Adobe、オープンソースのWeb開発向けテキストエディター「Brackets」v1.0をリリース - 窓の杜](http://www.forest.impress.co.jp/docs/news/20141105_674571.html "Adobe、オープンソースのWeb開発向けテキストエディター「Brackets」v1.0をリリース - 窓の杜")
 
@@ -144,7 +144,7 @@ JavaScriptの必要な機能のpolyfillをCDN的に使えるPolyfill.ioについ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browserify</span></p>
 
-埋め込み配布を目的としてJavaScriptをBrowserifyビルドするにあたっての話。
+埋め込み配布を目的としてJavaScriptをBrowserifyでビルドするにあたっての話。
 
 bowerでインストールしたjQueryの依存関係の解決、browserify-shimを使ってCommonJSに対応してないライブラリを使う方法について
 
@@ -230,7 +230,7 @@ Reactの特徴である再利用性、コンポーネントのネスト、ステ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">news</span></p>
 
-ReactのWeeblyニュースサイト
+ReactのWeeklyニュースサイト
 
 ----
 
@@ -251,7 +251,7 @@ ReactのWeeblyニュースサイト
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
 
-Webdriverを使ったE2Eテストを行うライブラリ。
+WebDriverを使ったE2Eテストを行うライブラリ。
 
 wd.jsやleadfootなどのクライアントライブラリはオプションで指定できる。
 
@@ -262,7 +262,7 @@ wd.jsやleadfootなどのクライアントライブラリはオプションで�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">library</span> <span class="jser-tag">AMD</span></p>
 
-ECMA-402 JavaScript  Internationalization API のshimライブラリ
+ECMA-402 JavaScript  Internationalization APIのshimライブラリ
 
 ----
 
@@ -282,7 +282,7 @@ HTMLで読み込み指定されてるJavaScriptやCSS、画像をインライン
 
 ES5の機能を使ってImmutableな配列やオブジェクトを作成するライブラリ。
 
-それぞれのオブジェクトは`Object.freeze`された状態になり、幾つか補助するメソッドが追加が用意されている
+それぞれのオブジェクトは`Object.freeze`された状態になり、幾つか補助するメソッドが追加で用意されている
 
 ----
 
@@ -304,7 +304,7 @@ App Storeみたいにnpmモジュールの更新一覧を見られるツール
 
 JavaScriptテンプレートライブラリ。
 
-データバインディングについての方向をテンプレート内に`&lt;~&gt;`演算子を使って指定する事ができるのが特徴的
+データバインディングについての方向をテンプレート内に`<~>`演算子を使って指定する事ができるのが特徴的
 
 ----
 <h1 class="site-genre">書籍関係</h1>
