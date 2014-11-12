@@ -31,7 +31,7 @@ APIの破壊的な変更や、追加されたオプション、機能につい�
 
 以前のバージョンであるv0.10.6のドキュメントは[legacy.vuejs.org](http://legacy.vuejs.org/)に置かれています。
 
-追記: 作者である[Evan You](https://github.com/yyx990803 "Evan You")さんは[Meteor](https://www.meteor.com/ "Meteor")社の人になったそうです。
+追記: 作者である[Evan You](https://github.com/yyx990803 "Evan You")さんはGoogleから[Meteor](https://www.meteor.com/ "Meteor")社の人になったそうです。
 
 ----
 
