@@ -14,7 +14,7 @@ tags:
 
 JSer.info #203 - [Chrome 39](http://googlechromereleases.blogspot.jp/2014/11/stable-channel-update_18.html "Chrome 39")がリリースされました。
 
-実装された機能などについては以下にβ時のリリースノートを参照して下さい。
+実装された機能などについてはβ時のリリースノートを参照して下さい。
 
 - [Chromium Blog: Chrome 39 Beta: JS Generators, Animation Playback Control, and the WebApp Manifest](http://blog.chromium.org/2014/10/chrome-39-beta-js-generators-animation.html "Chromium Blog: Chrome 39 Beta: JS Generators, Animation Playback Control, and the WebApp Manifest")
 
