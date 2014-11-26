@@ -34,7 +34,7 @@ ES6 Generatorがデフォルトで有効になったり、Web Animationsの実�
 
 ----
 
-FacebookからJavaScriptの型チェックである[Flow](http://flowtype.org/ "Flow")がリリースされました。
+FacebookからJavaScriptの型チェックツールである[Flow](http://flowtype.org/ "Flow")がリリースされました。
 
 - [Flow, a new static type checker for JavaScript | Engineering Blog | Facebook Code](https://code.facebook.com/posts/1505962329687926/flow-a-new-static-type-checker-for-javascript/ "Flow, a new static type checker for JavaScript | Engineering Blog | Facebook Code")
 
@@ -87,7 +87,7 @@ Beacon APIを使えばクリックしてページ移動するときのクリッ�
 
 開発者ツールを使ったデバッグ方法のTips。
 
-debuggerステートメント、コールスタック、getter/setter/Object.observe等を使ったアクセス時にBreakさせる方法やWatch Expression、イベントリスナーのデバッグ等について書かれている
+`debugger`ステートメント、コールスタック、getter/setter/Object.observe等を使ったアクセス時にBreakさせる方法やWatch Expression、イベントリスナーのデバッグ等について書かれている
 
 ----
 
@@ -98,7 +98,7 @@ debuggerステートメント、コールスタック、getter/setter/Object.obs
 
 Promiseパターンについて
 
-Nodeスタイルの高階関数をPromiseを返すようにするdenodeify、`bind`による引数の固定、コールバックとの併用、`reject`ではなく常にthrowする、処理の終わりでいつも`catch`する
+Node.jsスタイルの高階関数をPromiseを返すようにするdenodeify、`bind`による引数の固定、コールバックとの併用、`reject`ではなく常にthrowする、処理の終わりでいつも`catch`する
 
 ----
 
@@ -107,7 +107,7 @@ Nodeスタイルの高階関数をPromiseを返すようにするdenodeify、`bi
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p>
 
-JavaScriptのQuickChek実装である [quick_check.js](https://github.com/gampleman/quick_check.js/) について
+JavaScriptのQuickCheck実装である [quick_check.js](https://github.com/gampleman/quick_check.js/) について
 
 ----
 
@@ -184,7 +184,7 @@ node-inspectorのようにGUIでNode.jsアプリのデバッグを行う事が�
 
 Facebookの静的型チェックツール。
 
-Ocamlで書かれていて、TypeScriptと大体互換性が型定義を行える。
+OCamlで書かれていて、TypeScriptと大体互換性のある型定義を行える。
 
 サーバとして動かす事もできる。HHVM/Hackみたいなインクリメンタルな型付けを行える
 
@@ -204,7 +204,7 @@ Protractorのパフォーマンス測定版のようなツール
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-HTMLのスクレイピング、変換処理(Reprocessing)を行えるNodeモジュール
+HTMLのスクレイピング、変換処理(Reprocessing)を行えるNode.jsモジュール
 
 ----
 
