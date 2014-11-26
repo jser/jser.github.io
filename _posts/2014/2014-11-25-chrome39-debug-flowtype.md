@@ -1,5 +1,5 @@
 ---
-title: "2014-11-25のJS: Chrome 39 Beta、デバッグTips、Facebook Flow"
+title: "2014-11-25のJS: Chrome 39、デバッグTips、Facebook Flow"
 author: azu
 layout: post
 date : 2014-11-25T08:12
@@ -12,7 +12,11 @@ tags:
 
 ---
 
-JSer.info #203 - [Chrome 39 Beta](http://blog.chromium.org/2014/10/chrome-39-beta-js-generators-animation.html "Chrome 39 Beta")がリリースされました。
+JSer.info #203 - [Chrome 39](http://googlechromereleases.blogspot.jp/2014/11/stable-channel-update_18.html "Chrome 39")がリリースされました。
+
+実装された機能などについては以下にβ時のリリースノートを参照して下さい。
+
+- [Chromium Blog: Chrome 39 Beta: JS Generators, Animation Playback Control, and the WebApp Manifest](http://blog.chromium.org/2014/10/chrome-39-beta-js-generators-animation.html "Chromium Blog: Chrome 39 Beta: JS Generators, Animation Playback Control, and the WebApp Manifest")
 
 ES6 Generatorがデフォルトで有効になったり、Web Animationsの実装が進められています。
 また Web Application Manifestの対応や[Beacon API](http://updates.html5rocks.com/2014/10/Send-beacon-data-in-Chrome-39 "Beacon API")が実装されています。
@@ -57,7 +61,7 @@ Flowは同じくFacebookが公開してる[Hack](https://code.facebook.com/posts
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Chrome 39βリリース。
+Chrome 39リリース。([Stableのリリースノートはこちら](http://googlechromereleases.blogspot.jp/2014/11/stable-channel-update_18.html "Chrome Releases: Stable Channel Update"))
 
 Generatorがデフォルトで有効、Web Animationの`play()`や`pause()`のサポート、 Web Application Manifest、 Beacon API のサポート
 
