@@ -21,7 +21,7 @@ JSer.info #203 - [Chrome 39](http://googlechromereleases.blogspot.jp/2014/11/sta
 ES6 Generatorがデフォルトで有効になったり、Web Animationsの実装が進められています。
 また Web Application Manifestの対応や[Beacon API](http://updates.html5rocks.com/2014/10/Send-beacon-data-in-Chrome-39 "Beacon API")が実装されています。
 
-通常のXHRを使った非同期通信ではページを閉じてしまうとそのデータを送ることが保証出来ませんが、 [Beacon API](http://updates.html5rocks.com/2014/10/Send-beacon-data-in-Chrome-39 "Beacon API")を使うことでUIをブロックすることなくちゃんとデータを送れるようになります(ビーコンというぐらいなので大きなデータは送れません)
+通常のXHRを使った非同期通信ではページを閉じてしまうとそのデータを送ることが保証出来ませんが、 [Beacon API](http://updates.html5rocks.com/2014/10/Send-beacon-data-in-Chrome-39 "Beacon API")を使うことでUIをブロックすることなくちゃんとデータを送れるようになります(ビーコンというぐらいなので大きなデータを送る用途ではありません)
 
 例えば、リンクがクリックされた計測データを画面が遷移する前に送ろうとした時にXHRでは一度Clickをキャンセル->XHRでデータを送る->遷移し直すという事(もしくは同期XHR)をしていましたが、 Beacon APIを使えば単純にデータを`navigator.sendBeacon`で送ればよくなります。
 
