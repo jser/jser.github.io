@@ -14,7 +14,7 @@ tags:
 
 JSer.info #204 - 今年も[DailyJSによるJavaScript開発者向けアンケート](http://dailyjs.com/2014/12/01/javascript-survey/ "DailyJS: JavaScript Developer Survey 2014")の受付が開始されました。
 
-[DailyJS: JavaScript Developer Survey 2014](http://dailyjs.com/2014/12/01/javascript-survey/ "DailyJS: JavaScript Developer Survey 2014")からどんなターゲット向けにJavaScriptを書いてるかや使ってるライブラリやテストについてのアンケートをやっています。
+[DailyJS: JavaScript Developer Survey 2014](http://dailyjs.com/2014/12/01/javascript-survey/ "DailyJS: JavaScript Developer Survey 2014")からどんなターゲット向けにJavaScriptを書いてるか、使ってるライブラリやテストについて等のアンケートをやっています。
 
 [2010年](http://dailyjs.com/2010/11/29/javascript-survey/ "DailyJS: JavaScript Developer Survey")から継続的に行われているアンケートなので、是非参加しましょう。
 
