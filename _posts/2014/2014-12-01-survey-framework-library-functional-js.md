@@ -20,9 +20,9 @@ JSer.info #204 - 今年も[DailyJSによるJavaScript開発者向けアンケー
 
 ----
 
-[The State of JavaScript in 2015 - Jimmy Breck-McKye](http://www.breck-mckye.com/blog/2014/12/the-state-of-javascript-in-2015/ "The State of JavaScript in 2015 - Jimmy Breck-McKye") という記事では、ライブラリとテクノロジーの変化にどう対応していくべきかについて書かれています。
+[The State of JavaScript in 2015 - Jimmy Breck-McKye](http://www.breck-mckye.com/blog/2014/12/the-state-of-javascript-in-2015/ "The State of JavaScript in 2015 - Jimmy Breck-McKye")という記事では、ライブラリとテクノロジーの変化にどう対応していくべきかについて書かれています。
 
-AngularやEmberのようなモノリシックなフレームワークではなく、専門の役割を持ったライブラリを使うことで、
+AngularJSやEmberのようなモノリシックなフレームワークではなく、専門の役割を持ったライブラリを使うことで、
 レガシーになったプロジェクトに新しいテクノロジーを導入するときも全てを書き換えないでインクリメンタルに変更していける事や、
 新しいライブラリやテクノロジーを採用する際に気をつける3つの教訓などの考えが書かれています。
 
@@ -34,9 +34,9 @@ AngularやEmberのようなモノリシックなフレームワークではな�
 
 ----
 
-[Functional Programming](http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/ "Functional Programming") というスライドではJavaScriptにおける関数型プログラミングについて書かれています。
+[Functional Programming](http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/ "Functional Programming")というスライドではJavaScriptにおける関数型プログラミングについて書かれています。
 
-オブジェクト指向的に書いた場合と、関数型的書いた場合を比較しながら紹介していてるため考え方が分かりやすいです。
+オブジェクト指向的に書いた場合と、関数型的に書いた場合を比較しながら紹介しているため考え方が分かりやすいです。
 
 また、JavaScriptでは末尾呼出し最適化が実装されてない事やパターンマッチ、遅延評価、同図像性（Homoiconicity）など言語的に難しい部分はありますが、関数型プログラミングのアプローチを知る分にはよくまとまっていると思います。
 
@@ -51,7 +51,7 @@ AngularやEmberのようなモノリシックなフレームワークではな�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
-vue.js 0.11.1リリース。
+Vue.js 0.11.1リリース。
 
 v-componentのスコープの変更、`wait-for`属性で特定のeventがemitされるまで待てるように、`v-style`にdataとしてCSSオブジェクトを渡してスタイルを適応出来るようになるなど
 
@@ -157,7 +157,7 @@ JavaScriptの関数名について。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebComponents</span> <span class="jser-tag">動画</span></p>
 
-Custom Elements についての解説。
+Custom Elementsについての解説。
 
 Custom Elementsの作り方、仕組み、ライフサイクルコールバック、ユースケースについて
 
