@@ -29,6 +29,7 @@ CSS Fonts Level 3の実験的サポート、template stringsなど[色々なES6�
 JavaScriptテストライブラリの[QUnit 1.16.0](https://github.com/jquery/qunit/blob/1.16.0/History.md "1.16.0")がリリースされました。
 
 メソッドのリファクタリング、`done()`スタイルの非同期テストサポート、Promiseテストのサポートなど[QUnit 2.x](http://qunitjs.com/upgrade-guide-2.x/ "QUnit 2.x")に向けての色々な変更が入っています。
+
 どのような部分が2.0で変わっていくのかについては[QUnit 2.xで変わること](http://azu.github.io/slide/chatwork/qunit2.html "QUnit 2.xで変わること")というスライドを書いたのでこちらを見るといいかもしれません。
 
 ----
