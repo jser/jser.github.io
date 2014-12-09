@@ -1,5 +1,5 @@
 ---
-title: "2014-12-08のJS: Firefox34、QUnit 1.16、ES7 Async Generator"
+title: "2014-12-08のJS: Firefox 34、QUnit 1.16、ES7 Async Generator"
 author: azu
 layout: post
 date : 2014-12-08T19:47
@@ -34,12 +34,12 @@ JavaScriptテストライブラリの[QUnit 1.16.0](https://github.com/jquery/qu
 
 ----
 
-[▶ Netflix JavaScript Talks - Version 7: The Evolution of JavaScript - YouTube](https://www.youtube.com/watch?v=DqMFX91ToLw "▶ Netflix JavaScript Talks - Version 7: The Evolution of JavaScript - YouTube") という発表では[ES7のAsynchronous Generators](https://github.com/jhusain/asyncgenerator "Asynchronous Generators for ES7")について仕様策定者でもある[@jhusain](https://twitter.com/jhusain "@jhusain")さんが話されています。
+[▶ Netflix JavaScript Talks - Version 7: The Evolution of JavaScript - YouTube](https://www.youtube.com/watch?v=DqMFX91ToLw "▶ Netflix JavaScript Talks - Version 7: The Evolution of JavaScript - YouTube")という発表では[ES7のAsynchronous Generators](https://github.com/jhusain/asyncgenerator "Asynchronous Generators for ES7")について仕様策定者でもある[@jhusain](https://twitter.com/jhusain "@jhusain")さんが話されています。
 
 本題はAsync Generatorですが、JavaScriptにおける非同期処理全体について話されています。
 単純な同期的な処理からコールバック、Promise、Generator、ES7 async/awaitと順を追って話を進めています。
 
-同期的なプログラミングで値を取り出すのはBlocking/pulling、コールバックスタイルのように受け取る関数を渡すのはWaiting/pushingといったような表現を使っていて 分かりやすくまとめられていると思います。
+同期的なプログラミングで値を取り出すのはBlocking/pulling、コールバックスタイルのように受け取る関数を渡すのはWaiting/pushingといったような表現を使っていて分かりやすくまとめられていると思います。
 
 1時間程あって長いですが、よくできてる発表なのでJavaScriptにおける非同期処理について考えたい人は見ておくといいかもしれません。
 
@@ -85,7 +85,7 @@ Service WorkersとCSP Lv2の部分的サポート、`element.closest()`のサポ
 
 Firefox 34リリース。
 
-CSS Fonts Level 3 の実験的な実装、ES6のObject.assign()やTemplate String、メソッド定義の短縮記法等の実装、開発者ツールの改善等
+CSS Fonts Level 3 の実験的な実装、ES6のObject.assign()やtemplate strings、メソッド定義の短縮記法等の実装、開発者ツールの改善等
 
 - [Firefox 34 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/34 "Firefox 34 for developers - Mozilla | MDN")
 - [WebIDE, Storage inspector, jQuery events, iframe switcher + more – Firefox Developer Tools Episode 34 ✩ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2014/09/webide-storage-inspector-jquery-events-iframe-switcher-more-firefox-developer-tools-episode-34/ "WebIDE, Storage inspector, jQuery events, iframe switcher + more – Firefox Developer Tools Episode 34 ✩ Mozilla Hacks – the Web developer blog")
@@ -133,7 +133,7 @@ Service Workerのライフサイクル、Service Workerへのスクリプトの�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">まとめ</span></p>
 
-Nodeで開発時にやってしまう間違いとそれを改善する方法や参考リソース。
+Node.jsで開発時にやってしまう間違いとそれを改善する方法や参考リソース。
 
 半分以上JavaScriptで同様の事が当てはまりそう
 
@@ -151,7 +151,7 @@ Nodeで開発時にやってしまう間違いとそれを改善する方法や�
 - QUnitを始めとするテストフレームワークのレポーターの標準化活動。
 - 国際化に使うCLDRのJSON版の管理など
 
-などjQuery Fundationとしての活動がまとめられています。
+などjQuery Foundationとしての活動がまとめられています。
 
 - [Roadmap · jquery/jquery Wiki](https://github.com/jquery/jquery/wiki/Roadmap "Roadmap · jquery/jquery Wiki")
 - [jquery/css-framework](https://github.com/jquery/css-framework "jquery/css-framework")
@@ -196,7 +196,7 @@ Direct Proxiesを使ったmethod missingの実装について
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span></p>
 
-webpackのloader紹介、`resolve`フィールドの指定による`require`のパス解決、pluginsの紹介、Webpack Deb Server、非同期読み込みについて
+webpackのloader紹介、`resolve`フィールドの指定による`require`のパス解決、pluginsの紹介、Webpack Dev Server、非同期読み込みについて
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
@@ -232,7 +232,7 @@ npmのサイトのGetting Startedに動画チュートリアルが追加され�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">動画</span> <span class="jser-tag">スライド</span></p>
 
-ES7についてのAsync Generatorに紹介する発表。
+ES7のAsync Generatorについて紹介する発表。
 
 Object.observeの変更通知とイベントループの話から始まり、
 Promises、Generator、またES7のasync/await、さらに発展してObservableを返すAsync Generatorについて話されている。
@@ -278,7 +278,7 @@ JSON Schemaの書き方やリファレンス等が用意されている
 
 JavaScriptアニメーションプロキシライブラリ。
 
-既にアニメーション機能を実装してるGSAP、 Velocity.js、 Transit、 jQuery等のライブラリを共通のAPIで利用できるようにするラッパライブラリ
+既にアニメーション機能を実装してるGSAP、Velocity.js、Transit、jQuery等のライブラリを共通のAPIで利用できるようにするラッパライブラリ
 
 ----
 
@@ -287,7 +287,7 @@ JavaScriptアニメーションプロキシライブラリ。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">design</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span></p>
 
-画面サイズやUA等のシミュレートして、あるURLで使ってない要素や画像の検出、通信量などのデータを一覧出来るパフォーマンス測定ツール
+画面サイズやUA等のシミュレートをして、あるURLで使ってない要素や画像の検出、通信量などのデータを一覧出来るパフォーマンス測定ツール
 
 ----
 
