@@ -19,7 +19,7 @@ ES6 Proxyを使うことでどういう事ができるのかというユース�
 
 [Web Componentsの基本的な使い方・まとめ](http://www.h2.dion.ne.jp/%7Edefghi/webc/webc.htm "Web Componentsの基本的な使い方・まとめ")ではWeb Componentsについて詳しく書かれています。
 
-template要素、HTML Imports、Shadow DOM、Custom Elementsといった構成要素毎に書かれています。
+template要素、HTML Imports、Shadow DOM、Custom Elementsといった構成要素毎に書かれているので、興味があるところから読んでみるといいかもしれません。
 
 ----
 
