@@ -11,7 +11,7 @@ tags:
 
 ---
 
-JSer.info #206 - [Meta programming with ECMAScript 6 proxies](http://www.2ality.com/2014/12/es6-proxies.html "Meta programming with ECMAScript 6 proxies") ([日本語訳](http://panda.node.ws/?p=1371 "ECMAScript 6 proxyによるメタプログラミング(1/11) | JSお散歩"))という記事では、ECMAScript6のProxyについて詳しく解説されています。
+JSer.info #206 - [Meta programming with ECMAScript 6 proxies](http://www.2ality.com/2014/12/es6-proxies.html "Meta programming with ECMAScript 6 proxies")([日本語訳](http://panda.node.ws/?p=1371 "ECMAScript 6 proxyによるメタプログラミング(1/11) | JSお散歩"))という記事では、ECMAScript 6のProxyについて詳しく解説されています。
 
 ES6 Proxyを使うことでどういう事ができるのかというユースケースやReflect APIについても解説されていて、メタプログラミング的に面白い部分が多いので見ておくといいかもしれません。
 
@@ -115,7 +115,7 @@ Dynatrace AJAX Edition 4.5リリース
 
 2014年のJavaScript全体のアーキテクチャを振り返り今後どうなるかについての話。
 
-データバインディング、Immutable、Virtual DOM、Web Component、Component同士のメッセージング、ES6とBrowserify、オフラインファースト等
+データバインディング、Immutable、Virtual DOM、Web Components、Component同士のメッセージング、ES6とBrowserify、オフラインファースト等
 
 ----
 
@@ -181,7 +181,7 @@ SVGの最適化を行うSVGOの使い方について。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">tutorial</span></p>
 
-polyfillとはどういうものか、実際に`Number.isInteger()`や`placeholder`属性の実装しながら学ぶチュートリアル
+polyfillとはどういうものか、実際に`Number.isInteger()`や`placeholder`属性を実装しながら学ぶチュートリアル
 
 ----
 
@@ -192,7 +192,7 @@ polyfillとはどういうものか、実際に`Number.isInteger()`や`placehold
 
 Web Componentsの構成要素、それぞれの機能について詳しく解説されてる。
 
-template要素、HTML Import、Shadow DOM、Custom Elementsについて
+template要素、HTML Imports、Shadow DOM、Custom Elementsについて
 
 ----
 
@@ -221,7 +221,7 @@ mustache拡張なテンプレートとイベント、データバインディン
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">JavaScript</span></p>
 
-ServiceWorkerを使ったオフライン処理、スクリプトの登録、更新方法、FetchやCache APIについて
+Service Workerを使ったオフライン処理、スクリプトの登録、更新方法、FetchやCache APIについて
 
 ----
 
@@ -230,7 +230,7 @@ ServiceWorkerを使ったオフライン処理、スクリプトの登録、更�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">JavaScript</span></p>
 
-ServiceWorkerを使った典型的なパターンの紹介。
+Service Workerを使った典型的なパターンの紹介。
 
 ----
 
