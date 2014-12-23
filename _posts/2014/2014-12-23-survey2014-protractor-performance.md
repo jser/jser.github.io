@@ -18,6 +18,8 @@ JSer.info #207 - [DailyJS](http://dailyjs.com/ "DailyJS: A JavaScript Blog")が�
 毎年微妙に質問や回答方法(複数可となってたり)が異なるため、単純に比較はしにくい設問もありますが、
 [去年](http://dailyjs.com/2013/12/12/javascript-survey-results/ "DailyJS: JavaScript Developer Survey 2013: Results")はGrunt一強だったビルドツールについてがGulpが35%、Gruntは47%となっていたり見ていて面白い変化も多いです。
 
+<div class="kwout" style="text-align: center;"><a href="http://dailyjs.com/files/2014-survey-summary.pdf"><img src="http://kwout.com/cutout/s/ar/v6/t94_bor.jpg" alt="http://dailyjs.com/files/2014-survey-summary.pdf" title="JavaScript Developer Survey 2014 - Google Forms - 2014-survey-summary.pdf" width="554" height="357" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://dailyjs.com/files/2014-survey-summary.pdf">2014-survey-summary.pdf</a> via <a href="http://dailyjs.com/2014/12/16/javascript-survey-results/">DailyJS: JavaScript Developer Survey 2014: Results</a></p></div>
+
 ----
 
 [JavaScript - こわくない Protractor - Qiita](http://qiita.com/shuhei/items/6973fe694d29a193f224 "JavaScript - こわくない Protractor - Qiita")という記事では、[Protractor](https://github.com/angular/protractor "Protractor")というE2Eテストツールがどのようにして[WebDriverJS](https://code.google.com/p/selenium/wiki/WebDriverJs "WebDriverJS")を扱ってテストしているのかについて詳しく書かれています。
