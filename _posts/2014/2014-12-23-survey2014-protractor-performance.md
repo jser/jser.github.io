@@ -15,8 +15,7 @@ tags:
 
 JSer.info #207 - [DailyJS](http://dailyjs.com/ "DailyJS: A JavaScript Blog")が毎年この時期にやっているアンケートである[JavaScript Developer Survey 2014](http://dailyjs.com/2014/12/16/javascript-survey-results/ "DailyJS: JavaScript Developer Survey 2014: Results")([翻訳](http://panda.node.ws/?p=1620 "翻訳"))の結果が公開されました。
 
-毎年微妙に質問や回答方法(複数可となってたり)が異なるため、単純に比較はしにくい設問もありますが、
-[去年](http://dailyjs.com/2013/12/12/javascript-survey-results/ "DailyJS: JavaScript Developer Survey 2013: Results")はGrunt一強だったビルドツールについてがGulpが35%、Gruntは47%となっていたり見ていて面白い変化も多いです。
+毎年微妙に質問や回答方法(複数可となってたり)が異なるため、単純に比較はしにくい設問もありますが、[去年](http://dailyjs.com/2013/12/12/javascript-survey-results/ "DailyJS: JavaScript Developer Survey 2013: Results")はGrunt一強だったビルドツールについてがGulpが35%、Gruntは47%となっていたり見ていて面白い変化も多いです。
 
 <div class="kwout" style="text-align: center;"><a href="http://dailyjs.com/files/2014-survey-summary.pdf"><img src="http://kwout.com/cutout/s/ar/v6/t94_bor.jpg" alt="http://dailyjs.com/files/2014-survey-summary.pdf" title="JavaScript Developer Survey 2014 - Google Forms - 2014-survey-summary.pdf" width="554" height="357" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://dailyjs.com/files/2014-survey-summary.pdf">2014-survey-summary.pdf</a> via <a href="http://dailyjs.com/2014/12/16/javascript-survey-results/">DailyJS: JavaScript Developer Survey 2014: Results</a></p></div>
 
@@ -34,8 +33,7 @@ Protractorも同じように[WebDriverJS](https://code.google.com/p/selenium/wik
 
 [Effective web performance tuning for smartphone](http://www.slideshare.net/dena_study/effective-web-performance-tuning-for-smartphone "Effective web performance tuning for smartphone")というスライドではスマートフォン向けウェブアプリのパフォーマンス改善について実践的な内容が紹介されています。
 
-実際にどうやって問題を見つけて、計測して、何を指標にして改善していったかが書かれていて、
-どうやってパフォーマンス改善に取り組んでいけばいいのかの参考になる点も多いと思います。
+実際にどうやって問題を見つけて、計測して、何を指標にして改善していったかが書かれていて、どうやってパフォーマンス改善に取り組んでいけばいいのかの参考になる点も多いと思います。
 
 以下もあわせて
 
@@ -52,7 +50,7 @@ Protractorも同じように[WebDriverJS](https://code.google.com/p/selenium/wik
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Node v0.10.34 リリース。
+Node v0.10.34リリース。
 
 v0.11.15がv0.12RCとなるので、次のStableで0.12がリリースされる予定(が[ルート証明書のトラブル](http://d.hatena.ne.jp/jovi0608/20141222/1419265270 "Node-v0.10.34がはまったクロスルート証明書とOpenSSLの落とし穴 - ぼちぼち日記")により多少ずれそう)
 
@@ -67,9 +65,9 @@ v0.11.15がv0.12RCとなるので、次のStableで0.12がリリースされる�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">ReleaseNote</span></p>
 
-jQuery 1.11.2 と 2.1.3リリース。
+jQuery 1.11.2と2.1.3リリース。
 
-iOS7と8のquerySelectorバグの対処(Workaound)
+iOS7と8のquerySelectorバグの対処(Workaround)
 
 ----
 
@@ -156,7 +154,7 @@ Web Componentsのテストの参考になりそう
 
 ProtractorというE2Eテストツールの仕組みについての解説。
 
-element() は DOM 要素を選択してる訳ではない、ブラウザの操作をするメソッドはPromiseを返している、書いた順番で実行されるようになっている点などどのような仕組みで動いているかについてまとめられている
+element()はDOM要素を選択してる訳ではない、ブラウザの操作をするメソッドはPromiseを返している、書いた順番で実行されるようになっている点などどのような仕組みで動いているかについてまとめられている
 
 ----
 
@@ -189,7 +187,7 @@ npmライクなコマンドラインインタフェースを持ったd.ts管理�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">Flux</span></p>
 
-React, Virtual DOM, Flux(Fluxxor) を全体的に眺めた感じのスライド。 Reactが持つ機能やライフサイクル、Fluxのフローについて
+React, Virtual DOM, Flux(Fluxxor)を全体的に眺めた感じのスライド。Reactが持つ機能やライフサイクル、Fluxのフローについて
 
 ----
 
@@ -213,9 +211,7 @@ http://backboneconf.com/ の動画が公開された
 
 どうやって調査するか、改善のワークフロー、何を指標に改善するか。
 
-改善すべき目安やポイントとして
-処理時間が20ms超、一定間隔で同一処理、描画の負荷が高いイベント、5MB超のGC、メモリリーク、意図しないレイヤーの合成
-などについて書かれている。
+改善すべき目安やポイントとして処理時間が20ms超、一定間隔で同一処理、描画の負荷が高いイベント、5MB超のGC、メモリリーク、意図しないレイヤーの合成などについて書かれている。
 
 - [第三回DeNAゲーム開発勉強会 : ATND](https://atnd.org/events/59594 "第三回DeNAゲーム開発勉強会 : ATND")
 - [2014年のWebパフォーマンスふりかえり - 来年以降の期待etc ::ハブろぐ](http://havelog.ayumusato.com/develop/performance/e637-web_performance_2014.html "2014年のWebパフォーマンスふりかえり - 来年以降の期待etc ::ハブろぐ")
