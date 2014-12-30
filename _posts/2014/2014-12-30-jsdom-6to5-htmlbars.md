@@ -39,7 +39,7 @@ ES6のコードをES5へ変換するツールである[6to5](https://6to5.org/ "
 
 [HTMLBars](https://github.com/tildeio/htmlbars "htmlbars")ではHandlebarsのSyntax自体はほぼ同じですが、レンダリングまでのフローが以下のように変更されます。
 
-> テンプレート -> JavaScript関数 -> DOM
+> テンプレート (HTMLBarsがコンパイル)-> JavaScript関数 -> DOM
 
 これは、今の[React](http://facebook.github.io/react/ "React")がJSX(テンプレート)から`React.createElement`のような関数に変換するのと似ていると思います。
 
@@ -168,9 +168,11 @@ Emberが採用する[HTMLBars](https://github.com/tildeio/htmlbars "htmlbars")�
 
 HTMLBarsはHandlebarsのテンプレート記法を使うのは同様だが、上記のフローを以下のように行える。
 
-> テンプレート -> JavaScript関数(DOM API) -> DOM
+> テンプレート (HTMLBarsがコンパイル)-> JavaScript関数(DOM API) -> DOM
 
 このようなフローとなった理由や仕組みについて書かれている。
+
+内部的にはHTMLBars ASTというものがあるが、レンダリングのフローではコンパイル結果の関数を使うので、HTML Stringのパースがなくなる点が大きな違い。
 
 - [htmlbars/ARCHITECTURE.md at master · tildeio/htmlbars](https://github.com/tildeio/htmlbars/blob/master/ARCHITECTURE.md "htmlbars/ARCHITECTURE.md at master · tildeio/htmlbars")
 
