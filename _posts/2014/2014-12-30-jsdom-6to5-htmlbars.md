@@ -16,7 +16,7 @@ JSer.info #208 - DOMのJavaScript実装(Node.jsでも動くDOMの実装)であ�
 
 機能的な追加ではないですが、2.0.0となったのは今までDOM Level{1,2,3}別で実装されていたが、今後は[Living Standard](https://wiki.whatwg.org/wiki/FAQ#What_does_.22Living_Standard.22_mean.3F "Living Standard")モデルで実装していくという方針を示すためだそうです。
 
-[バージョン番号をつけるのはメリットよりもデメリットのほうが多いと過去の経験](https://plus.google.com/+HayatoIto/posts/axVAUzFEu4L "バージョン番号をつけるのはメリットよりもデメリットのほうが多いと過去の経験")やjsdom内部でも[level別だと辛い感じ](https://github.com/tmpvar/jsdom/pull/933#issuecomment-61679063 "Living standard: Add support fot NodeFilter constants by fhemberger · Pull Request #933 · tmpvar/jsdom")になってきたので、Living Standardモデルへと変えていくことになったようです。
+[バージョン番号をつけるのはメリットよりもデメリットのほうが多いという過去の経験](https://plus.google.com/+HayatoIto/posts/axVAUzFEu4L "バージョン番号をつけるのはメリットよりもデメリットのほうが多いという過去の経験")やjsdom内部でも[level別だと辛い感じ](https://github.com/tmpvar/jsdom/pull/933#issuecomment-61679063 "Living standard: Add support fot NodeFilter constants by fhemberger · Pull Request #933 · tmpvar/jsdom")になってきたので、Living Standardモデルへと変えていくことになったようです。
 
 公開APIについては殆ど変更はありませんが、内部的にかなり構造を変更していくリファクタリングをして行くようです。
 
@@ -94,9 +94,9 @@ JSXのパースをサポート
 
 jsdom 2.0.0リリース。
 
-リファクタリング、内部構造が大きく変えていくリリース。
+リファクタリング、内部構造を大きく変えていくリリース。
 
-`levels`という概念を捨ててliving standart modelに従う用に。
+`levels`という概念を捨ててLiving Standard Modelに従うように。
 
 非標準なAPIを標準化されたものへ変更など
 
@@ -124,7 +124,7 @@ FlowTypeのサポート、polyfill等をcore-jsに変更、Performanceの改善�
 
 Brackets 1.1リリース。
 
-クロスプラウザのLive Previewを実験的にサポート。
+クロスブラウザのLive Previewを実験的にサポート。
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -306,6 +306,6 @@ ESLintのようにルールをJavaScriptで書いて拡張出来る。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">book</span></p>
 
-Knockout.js についての書籍
+Knockout.jsについての書籍
 
 ----
