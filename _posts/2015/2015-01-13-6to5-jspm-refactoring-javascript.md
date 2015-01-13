@@ -1,4 +1,3 @@
-
 ---
 title: "2015-01-13のJS: 6to5、ES6とjspm、リファクタリングJavaScript"
 author: azu
