@@ -32,6 +32,11 @@ JSer.info #210 - ES6+のコードをES5に変換するツールである[6to5](h
 
 開発中はRequireJSのように動的にES6 modulesやCommonJS、AMD等を読み込み、最後に[Production Workflows](https://github.com/jspm/jspm-cli/wiki/Production-Workflows "Production Workflows")にあるように一つのファイルにバンドルする流れで紹介されています。
 
+また、現在の多くのモジュール周りのツールはHTTP/1での配信を考えてひとつのファイルに結合します。
+しかし、HTTP/2ではモジュール的なデータの通信効率がよくなるため、モジュールそのままで配信するとどうなるかという話がjspmの作者でもある@[guybedford](https://github.com/guybedford "guybedford")によって話されています。
+
+- [▶ Multiplexing with SPDY and HTTP/2 - YouTube](https://www.youtube.com/watch?v=J_BxVEOVRNw "▶ Multiplexing with SPDY and HTTP/2 - YouTube")
+
 ----
 
 [The Refactoring Tales](http://javascriptplayground.com/the-refactoring-tales/refactoring-tales.html "The Refactoring Tales")という電子書籍ではJavaScriptのリファクタリングについて書かれています。
