@@ -22,7 +22,7 @@ JSer.info #210 - ES6+のコードをES5に変換するツールである[6to5](h
 
 ----
 
-[JavaScript in 2015 - Glen Maddern: Internet Pro](http://glenmaddern.com/articles/javascript-in-2015 "JavaScript in 2015 - Glen Maddern: Internet Pro") という記事では、[jspm](http://jspm.io/ "jspm")というパッケージ管理ツールについて紹介しています。
+[JavaScript in 2015 - Glen Maddern: Internet Pro](http://glenmaddern.com/articles/javascript-in-2015 "JavaScript in 2015 - Glen Maddern: Internet Pro")という記事では、[jspm](http://jspm.io/ "jspm")というパッケージ管理ツールについて紹介しています。
 
 [jspm](http://jspm.io/ "jspm")はnpmやGitHubからライブラリをインストールするコマンドラインツールと[SystemJS](https://github.com/systemjs/systemjs "SystemJS")を使ったモジュールローダから成っています。
 
@@ -58,7 +58,7 @@ JSer.info #210 - ES6+のコードをES5に変換するツールである[6to5](h
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
 
 包含的にES6のコードをES5に変換する6to5の公式サイトリニューアル。
- JSXやFlowとか多くの部分を対応、polyfill出来るところは外部のpolyfillを読み込み対応、可読性が高いコードを吐くようになっている。
+JSXやFlowとか多くの部分に対応、polyfill出来るところは外部のpolyfillを読み込み対応、可読性が高いコードを吐くようになっている。
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -122,7 +122,7 @@ QUnit 1.16について。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
 
-localStorageを使ったタブ間のやり取りする方法。
+localStorageを使ったタブ間のやり取りをする方法。
 より簡単に行う`local-storage`というライブラリについて
 
 - [bevacqua/local-storage](https://github.com/bevacqua/local-storage "bevacqua/local-storage")
@@ -203,7 +203,7 @@ ES7のpolyfillライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-localStorageのAPIをシンプルにしたライブラリ
+localStorageのAPIをシンプルにしたライブラリ  
 タブ間のコミュニケーションに使うような監視機能も持ってる
 
 ----
@@ -222,7 +222,7 @@ localStorageのAPIをシンプルにしたライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">module</span> <span class="jser-tag">Tools</span> <span class="jser-tag">console</span></p>
 
-使用してないNodeモジュールがあるかどうかをチェックするコマンドラインツール
+使用してないNode.jsモジュールがあるかどうかをチェックするコマンドラインツール
 
 ----
 
@@ -240,7 +240,7 @@ localStorageのAPIをシンプルにしたライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">console</span> <span class="jser-tag">firefox</span> <span class="jser-tag">browser</span></p>
 
-Firefoxなどヘッドレスで動かすのにXvfbが必要なアプリをxvfb-run firefoxという感じで起動できるコマンドラインツール
+Firefoxなどヘッドレスで動かすのにXvfbが必要なアプリを`xvfb-run firefox`という感じで起動できるコマンドラインツール
 
 ----
 
@@ -273,7 +273,7 @@ Node.jsのデザインパターンについての書籍
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span> <span class="jser-tag">jQuery</span></p>
 
-JavaScriptのリファクタリングについてのウェブで公開されてる書籍。(まだ執筆中)
+JavaScriptのリファクタリングについてのウェブで公開されてる書籍。(まだ執筆中)  
 1,2章はjQueryべったりな書き方のリファクタリング、3章は不必要な複雑性を分離、4章はデザインパターン、5章はFat Controller等
 
 - [The Refactoring Tales](http://javascriptplayground.com/the-refactoring-tales/ "The Refactoring Tales")
