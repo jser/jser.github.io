@@ -27,7 +27,7 @@ ES6の構文サポートの改善、ES6のコードを出力するモードも�
 
 Node.jsのforkである[io.js](https://iojs.org/ "io.js")の1.0.0がリリースされました。
 
-[io.js - FAQ](https://iojs.org/faq.html "io.js - FAQ")にも書かれていますが、semverなのでNode.jsからのメジャーアップデートあるという意味で1.0なので、production-readyだから1.0という意味ではないです。
+[io.js - FAQ](https://iojs.org/faq.html "io.js - FAQ")にも書かれていますが、semverなのでNode.jsからのメジャーアップデートという意味で1.0なので、production-readyだから1.0という意味ではないです。
 
 [JSer.info 4周年 - JSer.info](http://jser.info/2015/01/16/4-years/ "JSer.info 4周年 - JSer.info")でも少し書いていましたが、オープンガバナンスモデルを元に予測可能なリリースサイクルの提供を目的としていて、これにより新しい技術([ES6](https://iojs.org/es6.html "ES6")への対応)などを取り入れやすく等が主な目的としてあります。
 
@@ -35,7 +35,7 @@ Node.jsのforkである[io.js](https://iojs.org/ "io.js")の1.0.0がリリース
 
 Promiseの実装ライブラリである[bluebird](https://github.com/petkaantonov/bluebird "bluebird") [v2.7.0](https://github.com/petkaantonov/bluebird/releases/tag/v2.7.0 "v2.7.0")がリリースされました。([v2.8.0](https://github.com/petkaantonov/bluebird/releases/tag/v2.8.0 "v2.8.0")まででています)
 
-大きな機能として[Global rejection events](https://github.com/petkaantonov/bluebird/blob/master/API.md#global-rejection-events "Global rejection events")のサポートが入りました。
+大きな機能として[Global rejection events](https://github.com/petkaantonov/bluebird/blob/master/API.md#global-rejection-events "Global rejection events")が追加されました。
 
 これは、グローバルにイベントを登録しておくと[unhandled rejection](http://azu.github.io/promises-book/#promise-done "unhandled rejection")(`.catch`等でエラー処理を行わない場合にエラーが握りつぶされてしまう現象)をキャッチすることができるようになっています。
 
