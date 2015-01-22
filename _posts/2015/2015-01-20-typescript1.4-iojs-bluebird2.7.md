@@ -29,7 +29,7 @@ Node.jsのforkである[io.js](https://iojs.org/ "io.js")の1.0.0がリリース
 
 [io.js - FAQ](https://iojs.org/faq.html "io.js - FAQ")にも書かれていますが、semverなのでNode.jsからのメジャーアップデートという意味で1.0なので、production-readyだから1.0という意味ではないです。
 
-[JSer.info 4周年 - JSer.info](http://jser.info/2015/01/16/4-years/ "JSer.info 4周年 - JSer.info")でも少し書いていましたが、オープンガバナンスモデルを元に予測可能なリリースサイクルの提供を目的としていて、これにより新しい技術([ES6](https://iojs.org/es6.html "ES6")への対応)などを取り入れやすく等が主な目的としてあります。
+[JSer.info 4周年 - JSer.info](http://jser.info/2015/01/16/4-years/ "JSer.info 4周年 - JSer.info")でも少し書いていましたが、オープンガバナンスモデルを元に予測可能なリリースサイクルの提供を目的としていて、これにより新しい技術([ES6](https://iojs.org/es6.html "ES6")への対応)などを取り入れやすくする等が主な目的としてあります。
 
 ----
 
@@ -134,7 +134,7 @@ Node.jsのforkであるio.js 1.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
 bluebird 2.7.0リリース。
-`process.on("unhandledRejection", fn)` という感じでグローバルにunhandled Rejectionをキャッチ出来るイベントを登録できるように。
+`process.on("unhandledRejection", fn)`という感じでグローバルにunhandled Rejectionをキャッチ出来るイベントを登録できるように。
 
 - [Promise unhandled rejection tracking global handler hook](https://gist.github.com/benjamingr/0237932cee84712951a2 "Promise unhandled rejection tracking global handler hook")
 - [\[whatwg\] An API for unhandled promise rejections from Domenic Denicola on 2014-09-12 (public-whatwg-archive@w3.org from September 2014)](http://lists.w3.org/Archives/Public/public-whatwg-archive/2014Sep/0024.html "\[whatwg\] An API for unhandled promise rejections from Domenic Denicola on 2014-09-12 (public-whatwg-archive@w3.org from September 2014)")
@@ -146,7 +146,7 @@ bluebird 2.7.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
-JavaScriptコードスタイルチェックツール jscs 1.10.0リリース。
+JavaScriptコードスタイルチェックツールjscs 1.10.0リリース。
 
 ----
 
@@ -217,7 +217,7 @@ npmやgem等色々な言語のライブラリの更新チェック、依存関�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p>
 
-ES6 modulesのコードをCommonJS、AMD、UMDに変換するコマンドラインツール。Nodeモジュールとしても利用できる。
+ES6 modulesのコードをCommonJS、AMD、UMDに変換するコマンドラインツール。Node.jsモジュールとしても利用できる。
 
 ----
 
