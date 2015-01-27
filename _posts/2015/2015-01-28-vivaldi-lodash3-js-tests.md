@@ -39,8 +39,7 @@ JavaScriptのテストと言っても色々な役割を持つ組み合わせで�
 
 <iframe src="//www.slideshare.net/slideshow/embed_code/20015155?startSlide=33" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/teppeis/javascript-testwhywhathow" title="JavaScript Unit Test Why? What? How?" target="_blank">JavaScript Unit Test Why? What? How?</a> </strong> from <strong><a href="//www.slideshare.net/teppeis" target="_blank">teppeis </a></strong> </div>
 
-またTODOMVCを例にテストの実行についても紹介してます。
-ユニットテストというよりIntegration Testsという感じの話となっています。
+またTODOMVCを例にテストの実行についても紹介していて、ユニットテストというよりIntegration Testsという感じの話となっています。
 
 最近、Integration Testsの話として[Testium](https://github.com/groupon-testium/testium "Testium")について書いたのでこちらも合わせてみるといいかもしれません。
 
@@ -59,7 +58,7 @@ JavaScriptのテストと言っても色々な役割を持つ組み合わせで�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Opera</span> <span class="jser-tag">blink</span></p>
 
 元Opera CEOが始めたブラウザ。
-Chromium(Blink)をベースにUIにReact等ウェブの技術を使っている。
+Chromium(Blink)をベースにしていて、UIにReact等ウェブの技術を使用している。
 
 ----
 
