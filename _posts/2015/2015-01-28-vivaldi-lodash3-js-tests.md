@@ -39,7 +39,7 @@ JavaScriptのテストと言っても色々な役割を持つ組み合わせで�
 
 <iframe src="//www.slideshare.net/slideshow/embed_code/20015155?startSlide=33" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/teppeis/javascript-testwhywhathow" title="JavaScript Unit Test Why? What? How?" target="_blank">JavaScript Unit Test Why? What? How?</a> </strong> from <strong><a href="//www.slideshare.net/teppeis" target="_blank">teppeis </a></strong> </div>
 
-またTODOMVCを例にテストの実行についても紹介していて、ユニットテストというよりIntegration Testsという感じの話となっています。
+またTodoMVCを例にテストの実行についても紹介していて、ユニットテストというよりIntegration Testsという感じの話となっています。
 
 最近、Integration Testsの話として[Testium](https://github.com/groupon-testium/testium "Testium")について書いたのでこちらも合わせてみるといいかもしれません。
 
@@ -128,7 +128,7 @@ Mocha+Testium+power-assertでユニットテストと同じようにE2Eテスト
 ----
 
 ## Fetch API in action
-[blog.gospodarets.com/fetch_in_action](http://blog.gospodarets.com/fetch_in_action "Fetch API in action")
+[blog.gospodarets.com/fetch\_in\_action](http://blog.gospodarets.com/fetch_in_action "Fetch API in action")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">API</span> <span class="jser-tag">XHR</span></p>
 
@@ -177,11 +177,11 @@ ES6 Template Stringsについての解説
 ----
 
 ## 5分でわかる正しい Web サイト常時 SSL 化のための基礎知識 | WWW WATCH
-[hyper-text.org/archives/2015/01/full_time_ssl_website_quick_start.shtml](http://hyper-text.org/archives/2015/01/full_time_ssl_website_quick_start.shtml "5分でわかる正しい Web サイト常時 SSL 化のための基礎知識 | WWW WATCH")
+[hyper-text.org/archives/2015/01/full\_time\_ssl\_website\_quick\_start.shtml](http://hyper-text.org/archives/2015/01/full_time_ssl_website_quick_start.shtml "5分でわかる正しい Web サイト常時 SSL 化のための基礎知識 | WWW WATCH")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP</span> <span class="jser-tag">SSL</span> <span class="jser-tag">まとめ</span></p>
 
-SSLの効果 - メリットとデメリット、SSL証明書の種類と取得方法、外部リソースの読み込みとMixed Content、HTTPSに接続を強制する方法 - HSTS、リダイレクト、CookieのSecure属性などついて
+SSLの効果 - メリットとデメリット、SSL証明書の種類と取得方法、外部リソースの読み込みとMixed Content、HTTPSに接続を強制する方法 - HSTS、リダイレクト、CookieのSecure属性などについて
 
 ----
 
@@ -213,7 +213,7 @@ ChromeのCSS animationのデバッグ機能についての紹介
 
 Chrome 39と40でviewportの仕組みが変わった。
 40からLayout ViewportとVisual Viewportに分かれて処理されるようになった。(IEと同様)
-ズーム時にposition:fixedな要素等の動作が違いがでる。
+ズーム時にposition: fixedな要素等の動作の違いがでる。
 
 - [Chrome Viewports - Google スライド](https://docs.google.com/presentation/d/1nJvJqL2dw5STi5FFpR6tP371vSpDWWs5Beksbfitpzc/present "Chrome Viewports - Google スライド")
 - [A tale of two viewports — part two](http://www.quirksmode.org/mobile/viewports2.html "A tale of two viewports — part two")
@@ -248,7 +248,7 @@ JavaScriptと関数型プログラミングについてのスライド。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">WAI-ARIA</span> <span class="jser-tag">アクセシビリティ</span> <span class="jser-tag">スライド</span></p>
 
-WebComponentsとアクセシビリティについてのスライド。
+Web Componentsとアクセシビリティについてのスライド。
 既存要素があるケースと独自要素の場合はWAI-ARIAを使うことについて
 
 ----
