@@ -15,9 +15,9 @@ JSer.info #213 - ES6+αのコードをES5へ変換するツールである6to5�
 
 - [2to3 · 6to5](http://6to5.org/blog/2015/01/27/2to3/ "2to3 · 6to5")
 
-オプションを整理して削除やリネームしたり、[Transformers](http://6to5.org/docs/usage/transformers/ "Transformers")について互換性のない変更が含まれています。
+オプションを削除やリネームし整理していて、また[Transformers](http://6to5.org/docs/usage/transformers/ "Transformers")について互換性のない変更が含まれています。
 
-また6to5プロジェクトとして、ES6とES5に限定してるように見える名前の変更や、今後フォーカスを当ててて行く場所についての意見を募集しているようです。
+また6to5プロジェクトとして、ES6とES5に限定してるように見える名前の変更や、今後フォーカスを当てていく箇所についての意見を募集しているようです。
 
 - [Name suggestions · Issue #596 · 6to5/6to5](https://github.com/6to5/6to5/issues/596)
 - [Project scope and future · Issue #568 · 6to5/6to5](https://github.com/6to5/6to5/issues/568 "Project scope and future · Issue #568 · 6to5/6to5")
