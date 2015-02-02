@@ -7,10 +7,11 @@ category: JSer
 tags:
     - ES6
     - CoffeeScript
+    - webkit
 
 ---
 
-JSer.info #214 - ES6+のコードをES5へ変換するツールである6to5のversion 3.0がリリースされました。(現在[3.3.4](https://github.com/6to5/6to5/blob/v3.3.4/CHANGELOG.md "3.3.4")まででています)
+JSer.info #213 - ES6+のコードをES5へ変換するツールである6to5のversion 3.0がリリースされました。(現在[3.3.4](https://github.com/6to5/6to5/blob/v3.3.4/CHANGELOG.md "3.3.4")まででています)
 
 - [2to3 · 6to5](http://6to5.org/blog/2015/01/27/2to3/ "2to3 · 6to5")
 
