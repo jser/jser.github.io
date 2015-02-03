@@ -38,7 +38,7 @@ Generatorの構文をサポートやパースエラー等のエラーメッセ�
 
 - [Release of PhantomJS 2.0 · Issue #12897 · ariya/phantomjs](https://github.com/ariya/phantomjs/issues/12897#issuecomment-71651159 "Release of PhantomJS 2.0 · Issue #12897 · ariya/phantomjs")
 
-Qtでは[QtWebEngine](http://qt-project.org/wiki/QtWebEngine "QtWebEngine")というChroniumベースのがあるため、今後のアップデートでここも変わるかもしれません。
+Qtでは[QtWebEngine](http://qt-project.org/wiki/QtWebEngine "QtWebEngine")というChromiumベースのがあるため、今後のアップデートでここも変わるかもしれません。
 
 ----
 
@@ -92,7 +92,7 @@ Node v0.10.36リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Opera</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Opera 27 (based on Chromium 40) リリース。
+Opera 27(based on Chromium 40)リリース。
 minlength属性、form要素の`reportValidity()`の実装、CSP Lv2の実装、Service Workers等
 
 ----
@@ -102,7 +102,7 @@ minlength属性、form要素の`reportValidity()`の実装、CSP Lv2の実装、
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">ReleaseNote</span></p>
 
-ヘッドレスブラウザのPhantomJS 2.0リリース。 QtとWebkitのアップデート、CoffeeScriptのデフォルトサポートを廃止
+ヘッドレスブラウザのPhantomJS 2.0リリース。QtとWebKitのアップデート、CoffeeScriptのデフォルトサポートを廃止
 
 
 ----
@@ -116,7 +116,7 @@ minlength属性、form要素の`reportValidity()`の実装、CSP Lv2の実装、
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CoffeeScript</span> <span class="jser-tag">JavaScript</span></p>
 
 CoffeeScriptのSyntaxをES6に書き換える方法について
-[eventualbuddha/decaffeinate](https://github.com/eventualbuddha/decaffeinate "eventualbuddha/decaffeinate") のようなツールではなくて、どういう対応のコードを示しながら解説している。
+[eventualbuddha/decaffeinate](https://github.com/eventualbuddha/decaffeinate "eventualbuddha/decaffeinate")のようなツールではなくて、どういう対応のコードを示しながら解説している。
 
 ----
 
@@ -157,7 +157,7 @@ Canvas 2Dの機能として追加されたPath2Dについて
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">スライド</span></p>
 
 Esprima/Esprima-FB/espree、Shift AST、acorn/acorn-6to5とかのJS ASTパーサの近況についてのスライド。
-EsprimaがjQuery Fundationに移管した話についてなど
+EsprimaがjQuery Foundationに移管した話についてなど
 
 ----
 
@@ -225,7 +225,7 @@ Yahoo製のFlux実装ライブラリ。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">関数型プログラミング</span> <span class="jser-tag">library</span></p>
 
-undrescoreやlodashよりも関数型スタイル向けに沿った作りとする事を目的としたライブラリ。
+Underscore.jsやlodashよりも関数型スタイル向けに沿った作りとする事を目的としたライブラリ。
 Immutable、副作用の排除、関数同士を組み合わせしやすいようなインターフェースにしているのが特徴。
 
 ----
