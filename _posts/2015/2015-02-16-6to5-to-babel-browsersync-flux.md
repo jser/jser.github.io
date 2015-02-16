@@ -27,6 +27,8 @@ LiveReload的な機能を持っている開発用のローカルサーバを立�
 
 元々多機能でしたが、[Pesticide](http://pesticide.io/ "Pesticide - Kill Your Css Layout Bugs")を使ったCSSアウトラインのデバッグ機能やレイテンシーのシミュレート等Remote debug機能が強化されています。
 
+- [BrowserSync - Time-saving synchronised browser testing](http://www.browsersync.io/ "BrowserSync - Time-saving synchronised browser testing")
+
 -----
 
 [Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog](http://pixelhunter.me/post/110248593059/flux-solutions-compared-by-example "Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog")という記事では[voronianski/flux-comparison](https://github.com/voronianski/flux-comparison "voronianski/flux-comparison")というFlux実装の比較をした経験から得た事について書かれています。
