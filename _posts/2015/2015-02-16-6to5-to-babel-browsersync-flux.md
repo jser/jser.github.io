@@ -6,6 +6,9 @@ date : 2015-02-15T22:46
 category: JSer
 tags:
     - Tools
+    - ES6
+    - Flux
+    - library
 
 ---
 JSer.info #215 - ES6+のコードをES5に変換するツールである [6to5](https://6to5.org/) が [Babel](https://babeljs.io/ "Babel · The transpiler for writing next generation JavaScript") にリネームされてリリースされました。
@@ -26,6 +29,10 @@ LiveReload的な機能を持っている開発用のローカルサーバを立�
 
 -----
 
+[Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog](http://pixelhunter.me/post/110248593059/flux-solutions-compared-by-example "Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog")という記事では[voronianski/flux-comparison](https://github.com/voronianski/flux-comparison "voronianski/flux-comparison")というFlux実装の比較をした経験から得た事について書かれています。
+
+"Flux Online Shop"を題材にそれぞれのライブラリがどのようなアプローチをとっているかや、そこから見えてくるFluxアーキテクチャの構造について書かれています。
+一度、[Facebookで紹介されている素のFlux](http://facebook.github.io/flux/)を実装してみから読んでみると面白いと思います。
 
 -----
 
