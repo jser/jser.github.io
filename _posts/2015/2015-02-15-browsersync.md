@@ -20,6 +20,11 @@ Babelとしても[@sebmck](https://github.com/sebmck "sebmck")氏が[ESTree](htt
 
 -----
 
+LiveReload的な機能を持っている開発用のローカルサーバを立ててくれる[BrowserSync 2.0](http://www.wearejh.com/news/browsersync-2-0/ "BrowserSync 2.0 - JH")がリリースされました。
+
+元々多機能でしたが、[Pesticide](http://pesticide.io/ "Pesticide - Kill Your Css Layout Bugs")を使ったCSSアウトラインのデバッグ機能やレイテンシーのシミュレート等Remote debug機能が強化されています。
+
+-----
 
 
 -----
