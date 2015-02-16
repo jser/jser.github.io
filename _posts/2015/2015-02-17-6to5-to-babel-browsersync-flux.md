@@ -1,8 +1,8 @@
 ---
-title: "2015-02-16のJS: Babel(6to5)、BrowserSync 2.0"
+title: "2015-02-17のJS: Babel(6to5)、BrowserSync 2.0、Flux実装比較"
 author: azu
 layout: post
-date : 2015-02-15T22:46
+date : 2015-02-17T00:00
 category: JSer
 tags:
     - Tools
