@@ -11,7 +11,7 @@ tags:
     - library
 
 ---
-JSer.info #215 - ES6+のコードをES5に変換するツールである [6to5](https://6to5.org/) が [Babel](https://babeljs.io/ "Babel · The transpiler for writing next generation JavaScript") にリネームされてリリースされました。
+JSer.info #215 - ES6+のコードをES5に変換するツールである[6to5](https://6to5.org/)が[Babel](https://babeljs.io/ "Babel · The transpiler for writing next generation JavaScript")にリネームされてリリースされました。
 
 - [Not Born to Die · Babel](http://babeljs.io/blog/2015/02/15/not-born-to-die/ "Not Born to Die · Babel")
 
@@ -34,7 +34,7 @@ LiveReload的な機能を持っている開発用のローカルサーバを立�
 [Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog](http://pixelhunter.me/post/110248593059/flux-solutions-compared-by-example "Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog")という記事では[voronianski/flux-comparison](https://github.com/voronianski/flux-comparison "voronianski/flux-comparison")というFlux実装の比較をした経験から得た事について書かれています。
 
 "Flux Online Shop"を題材にそれぞれのライブラリがどのようなアプローチをとっているかや、そこから見えてくるFluxアーキテクチャについて書かれています。
-一度、[Facebookで紹介されている素のFlux](http://facebook.github.io/flux/)を実装してみから読んでみると面白いと思います。
+一度、[Facebookで紹介されている素のFlux](http://facebook.github.io/flux/)を実装してみてから読んでみると面白いと思います。
 
 -----
 
@@ -212,9 +212,9 @@ TypeScriptで書かれている
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
 
-ES6 Classについて。
+ES6 Classesについて。
 ES5ではどのように"クラス"を書いてたかと、ES6ではどのように書けるかについて。
-継承や`surper()`についても触れている
+継承や`super()`についても触れている
 
 ----
 
@@ -234,8 +234,8 @@ Isomorphicとシングルトン、ComponentをラップしたContainerのレイ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">canvas</span> <span class="jser-tag">React</span> <span class="jser-tag">DOM</span></p>
 
-React Canvas について。
-Cavnas要素でUIを作ることで60FPSのスクロールを実現する。
+React Canvasについて。
+canvas要素でUIを作ることで60FPSのスクロールを実現する。
 宣言的にUIを作れるためDOM的な抽象レイヤーとしてReactを使い、内部的にCanvasでレンダリングするReact Canvasを開発した話
 
 - [Flipboard/react-canvas](https://github.com/flipboard/react-canvas "Flipboard/react-canvas")
@@ -249,7 +249,7 @@ Cavnas要素でUIを作ることで60FPSのスクロールを実現する。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">Tools</span></p>
 
 npmでモジュールを公開するのを補助する色々なツールの紹介。
-TravisCIの設定、gh-pagesへのデプロイスクリプト、package.jsonの整形、npm release、依存パッケージのチェックなど
+Travis CIの設定、gh-pagesへのデプロイスクリプト、package.jsonの整形、npm release、依存パッケージのチェックなど
 
 ----
 
@@ -280,7 +280,7 @@ ES6を使ってみようという感じのスライド
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">動画</span></p>
 
-NetflixのJafar HusainさんよるJavaScriptの非同期プログラミングについてのスクリーンキャスト。
+NetflixのJafar HusainさんによるJavaScriptの非同期プログラミングについてのスクリーンキャスト。
 聞きやすくて、分かりやすくて、書き起こしもある
 
 ----
@@ -321,7 +321,7 @@ npmについてコマンドラインで学べるインタラクティブな教�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Sass</span> <span class="jser-tag">webservice</span></p>
 
-CSSからSCSSの機能を使ったもの変換したり、色見本を作ってくれるサービス。
+CSSからSCSSの機能を使ったものを変換したり、色見本を作ってくれるサービス。
 
 - [汚いcssを整形するWebアプリ「css2scss」でリファクタリングした際、「ヤバい」と感じた３つの機能と３つの点 - Qiita](http://qiita.com/koh-taka@github/items/bf638dd64c7c09e93557 "汚いcssを整形するWebアプリ「css2scss」でリファクタリングした際、「ヤバい」と感じた３つの機能と３つの点 - Qiita")
 
@@ -365,7 +365,7 @@ https://github.com/idok/react-templates-plugin
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span></p>
 
-CavasのレンダリングをするReact components。
+CanvasのレンダリングをするReact components。
 基本的な要素、Events、Text sizing、css-layout(パフォーマンス優先なのでなくなるかも?)、Accessibilityへの配慮が予定されてる
 
 - [60fps on the mobile web — Flipboard Engineering](http://engineering.flipboard.com/2015/02/mobile-web/ "60fps on the mobile web — Flipboard Engineering")
@@ -395,7 +395,7 @@ beefyみたいなBrowserifyを使ったローカルサーバを立てるコマ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p>
 
-Object.observe を使って読み込んだJSONを書き換えたら自動的に保存するNodeモジュール
+Object.observeを使って読み込んだJSONを書き換えたら自動的に保存するNode.jsモジュール
 
 ----
 
@@ -405,7 +405,7 @@ Object.observe を使って読み込んだJSONを書き換えたら自動的に�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
 Flux実装ライブラリ。
-コアとなるFlummoxクラスをを継承して、そこにStoreとActionを登録することでシングルトンを避ける作りになっている。ES6 classやasync/awaitを使った書き方等が考慮されている。
+コアとなるFlummoxクラスを継承して、そこにStoreとActionを登録することでシングルトンを避ける作りになっている。ES6 Classesやasync/awaitを使った書き方等が考慮されている。
 
 ----
 
