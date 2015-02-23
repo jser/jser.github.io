@@ -14,8 +14,7 @@ tags:
 
 JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.js") 1.8.0がリリースされています。
 
-1.8.0ではファイルサイズの削減を目的としたコミットによりIE8の互換性がなくなる問題がありましたが、1.8.1と1.8.2で一部修正されています。
-また1.8.0ではいくつかメソッドが追加されています。
+1.8.0ではファイルサイズの削減を目的としたコミットによりIE8の互換性がなくなる問題がありましたが、1.8.1と1.8.2で一部修正されています。また1.8.0ではいくつかメソッドが追加されています。
 
 - [http://underscorejs.org/#changelog](http://underscorejs.org/#changelog)
 - [Go on a Diet · Issue #2060 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2060 "Go on a Diet · Issue #2060 · jashkenas/underscore")
