@@ -264,7 +264,7 @@ RxJSやBacon.jsを使ったサンプルについて
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">スライド</span></p>
 
 オフラインを実現するために関連するAPI、主にService Workerについてのスライド。
-Cache API、Push APIについて
+Cache API、Push APIについて解説されている。
 
 ----
 
