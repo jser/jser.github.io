@@ -149,6 +149,15 @@ Ecma-402(ECMA i18n API) 2.0ドラフト Rev 9リリース
 
 ----
 
+## harmony:specification_drafts [ES Wiki]
+[wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#february_20_2015_rev_34_release_candidate_1](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#february_20_2015_rev_34_release_candidate_1 "harmony:specification\_drafts \[ES Wiki\]")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">ReleaseNote</span></p>
+
+ES6 Draft RC1リリース(Rev 34)
+
+----
+
 ## Release 0.7.0 · airportyh/testem
 [github.com/airportyh/testem/releases/tag/v0.7.0](https://github.com/airportyh/testem/releases/tag/v0.7.0 "Release 0.7.0 · airportyh/testem")
 
