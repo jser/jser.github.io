@@ -20,7 +20,7 @@ JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.
 - [http://underscorejs.org/#changelog](http://underscorejs.org/#changelog)
 - [Go on a Diet · Issue #2060 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2060 "Go on a Diet · Issue #2060 · jashkenas/underscore")
 
-リリース直前に1.8.0に入るメソッド名の一部が変更されているので、masterを直接使っていた場合には注意が必要です。
+リリース直前に1.8.0に入る予定だったメソッド名の一部が変更されているので、masterを直接使っていた場合には注意が必要です。
 
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
@@ -47,7 +47,7 @@ CodeMirror 5.0では`contentEditable`を使って、iOSなど今まで表示の�
 
 また、音を扱う場合に中心となるWeb Audio APIについては[音を扱うJavaScriptライブラリや記事 - Qiita](http://qiita.com/mohayonao/items/d79e9fc56b4e9c157be1 "音を扱うJavaScriptライブラリや記事 - Qiita")という記事でどこを参照したらいいかがまとまっていて、これから始めるにあたってアタリが付けやすいと思います。
 
-自分も[JavaScriptとWeb Audio事始め](http://azu.github.io/slide/webaudioapi/web-audio.html "JavaScriptとWeb Audio事始め")という簡単に触ってみての引っかかりそうな点などについてまとめてたスライドを作ったりしました。
+自分も[JavaScriptとWeb Audio事始め](http://azu.github.io/slide/webaudioapi/web-audio.html "JavaScriptとWeb Audio事始め")という簡単に触ってみて引っかかりそうな点などについてまとめてたスライドを作りました。
 
 <div class="kwout" style="text-align: center;"><a href="http://azu.github.io/slide/webaudioapi/web-audio.html"><img src="http://kwout.com/cutout/s/a8/48/pmv_bor.jpg" alt="http://azu.github.io/slide/webaudioapi/web-audio.html" title="JavaScriptとWeb Audio事始め" width="600" height="232" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://azu.github.io/slide/webaudioapi/web-audio.html">JavaScriptとWeb Audio事始め</a> via <a href="http://kwout.com/quote/sa848pmv">kwout</a></p></div>
 
