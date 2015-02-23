@@ -266,8 +266,6 @@ RxJSやBacon.jsを使ったサンプルについて
 オフラインを実現するために関連するAPI、主にService Workerについてのスライド。
 Cache API、Push APIについて
 
-- [dummy](http://dummy "dummy")
-
 ----
 
 ## Introduction To React // Speaker Deck
