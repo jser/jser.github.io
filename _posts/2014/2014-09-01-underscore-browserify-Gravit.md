@@ -22,6 +22,8 @@ JSer.info #190 - [Underscore](http://underscorejs.org/ "Underscore") 1.7.0がリ
 
 大きな変更としては、` _.template`が[初期化時にdataを受け取らなくなり、常に関数を返すように](https://github.com/jashkenas/underscore/issues/1736 "_.template should not accept data argument · Issue #1736 · jashkenas/underscore")なったこと、`_.extend`の[挙動](https://github.com/jashkenas/underscore/pull/1770)がES6 Object.assignに近いものに変わったことや、ネイティブの`Array.prototype.*`を使わなくなった事による高速化や(疎の配列における)挙動の違い等が含まれています。
 
+互換性のない変更がminorバージョンでも含まれる傾向があるため、npmでは`^`よりも`~`とした方が安全だと思います。
+
 今後のリリース方針については以下を参照するといいかと思います。
 
 - [Fix the versioning · Issue #1805 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/1805 "Fix the versioning · Issue #1805 · jashkenas/underscore")
