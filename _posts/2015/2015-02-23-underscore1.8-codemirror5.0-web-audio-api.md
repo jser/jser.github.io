@@ -42,7 +42,7 @@ CodeMirror 5.0では`contentEditable`を使って、iOSなど今まで表示の�
 
 -----
 
-[HTML5で音を扱う3つの方法](http://150217-html5sound.fnobi.com/ "HTML5で音を扱う3つの方法")というスライドでは、JavaScriptから音を扱う方法としてAudio要素、Web Audio API、Media Stream APIについて簡単に紹介されています。
+[HTML5で音を扱う3つの方法](http://150217-html5sound.fnobi.com/ "HTML5で音を扱う3つの方法")というスライドでは、JavaScriptから音を扱う方法としてAudio要素、Web Audio API、MediaStream Processing APIについて簡単に紹介されています。
 
 また、音を扱う場合に中心となるWeb Audio APIについては[音を扱うJavaScriptライブラリや記事 - Qiita](http://qiita.com/mohayonao/items/d79e9fc56b4e9c157be1 "音を扱うJavaScriptライブラリや記事 - Qiita")という記事でどこを参照したらいいかがまとまっていて、これから始めるにあたってアタリが付けやすいと思います。
 
@@ -64,10 +64,10 @@ Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeou
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-underscore.js 1.8.0(現在1.8.2まで出てる)リリース。
+Underscore.js 1.8.0(現在1.8.2まで出てる)リリース。
 ファイルサイズの削減、エイリアスとして使われていたメソッド名を一部変更、削除などのBreaking Changeを含んでいる。
 詳しくは下記のIssueを参照。
-1.8.0はIE 8の互換性がないので、1.8.1と1.8.2で互換性の修正が行われている。
+1.8.0はIE8との互換性がないので、1.8.1と1.8.2で互換性の修正が行われている。
 
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
@@ -92,7 +92,7 @@ ES6についてはESTreeでASTの仕様の議論をしてるので、それに�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Browserify 9.0.0リリース。
-umd 3.0.0へのアップデート。`$`や`_`もモジュール名として利用できるようになったため`--standalone $foo_bar`のような指定した時の挙動がbreaking changeとなる
+umd 3.0.0へのアップデート。`$`や`_`もモジュール名として利用できるようになったため`--standalone $foo_bar`のような指定をした時の挙動がBreaking Changeとなる
 
 - [umd/HISTORY.md at 3.0.0 · ForbesLindesay/umd](https://github.com/ForbesLindesay/umd/blob/3.0.0/HISTORY.md "umd/HISTORY.md at 3.0.0 · ForbesLindesay/umd")
 
@@ -104,7 +104,7 @@ umd 3.0.0へのアップデート。`$`や`_`もモジュール名として利�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
 
 jsdom 4.0.0リリース。
-io.jsの新しいvmモジュールに依存するため、4.xはio.jsでの動作のみで、Nodeの場合は3.xを使うように推奨されてる。
+io.jsの新しいvmモジュールに依存するため、4.xはio.jsでの動作のみで、Node.jsの場合は3.xを使うように推奨されてる。
 
 ----
 
@@ -145,12 +145,12 @@ Componentsの値を変更した時のレンダリングを同期か非同期の�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ecma</span> <span class="jser-tag">spec</span> <span class="jser-tag">i18n</span></p>
 
-Ecma-402(ECMA i18n API) 2.0ドラフト Rev 9リリース
+ECMA-402(ECMA i18n API) 2.0ドラフト Rev 9リリース
 
 ----
 
 ## harmony:specification_drafts [ES Wiki]
-[wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#february_20_2015_rev_34_release_candidate_1](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#february_20_2015_rev_34_release_candidate_1 "harmony:specification\_drafts \[ES Wiki\]")
+[wiki.ecmascript.org/doku.php?id=harmony:specification\_drafts#february\_20\_2015\_rev\_34\_release\_candidate\_1](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#february_20_2015_rev_34_release_candidate_1 "harmony:specification_drafts [ES Wiki]")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">ReleaseNote</span></p>
 
@@ -164,7 +164,7 @@ ES6 Draft RC1リリース(Rev 34)
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
 
 testem 0.7.0リリース。
-iojsやNode 0.12のサポート、Windowsでもci-modeが動くように修正、実行ページをよりisolateに
+io.jsやNode.js 0.12のサポート、Windowsでもci-modeが動くように修正、実行ページをよりisolateに
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -186,7 +186,7 @@ https://github.com/jareware/flotate のプロジェクトのシンタックス�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
 
-ES6 Classについての詳しい解説。
+ES6 Classesについての詳しい解説。
 Classの挙動、使い方、Iterator、継承、`super()`、`new.target`の値、ES5では無理だったビルトインコンストラクタのサブクラスが可能になる点などについて
 
 ----
@@ -249,7 +249,7 @@ ES6でのプロジェクト構成について。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">audio</span> <span class="jser-tag">API</span> <span class="jser-tag">スライド</span></p>
 
-Audioタグ、WebAudio API、MediaStream Processing APIについてのスライド。
+Audioタグ、Web Audio API、MediaStream Processing APIについてのスライド。
 それぞれがどのような用途や機能を持っているかについて書かれている
 
 ----
@@ -318,7 +318,7 @@ Reactを使ったHackerNewsのクローン。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">XHR</span></p>
 
-Node/ブラウザどちらでも動くPromiseベースのHTTPリクエストライブラリ。
+Node.js/ブラウザどちらでも動くPromiseベースのHTTPリクエストライブラリ。
 リクエスト/レスポンスに対してコールバックを呼ばれる前に処理を挟んだりすることも出来る
 
 ----
