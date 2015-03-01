@@ -24,7 +24,7 @@ JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
 1.8.0のリリースにおいて[色々](https://twitter.com/jdalton/status/568568521602412546)と[問題](https://github.com/jashkenas/underscore/issues/2061)が[あり](https://gitter.im/jashkenas/underscore)ま[した](https://github.com/jashkenas/underscore/issues/2062)が、とりあえず普通のユーザーに与える影響は`_.matches`のリネーム以外は大体修正されたように見えます。
-
+ユーザー
 [2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit - JSer.info](http://jser.info/2014/09/01/underscore-browserify-Gravit/ "2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit - JSer.info")で書いていましたがunderscore.jsをアップデートする際には気をつけたほうがいいと思います。
 
 -----
@@ -68,7 +68,7 @@ Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeou
 Underscore.js 1.8.0(現在1.8.2まで出てる)リリース。
 ファイルサイズの削減、エイリアスとして使われていたメソッド名を一部変更、削除などのBreaking Changeを含んでいる。
 詳しくは下記のIssueを参照。
-1.8.0はIE8との互換性がないので、1.8.1と1.8.2で互換性の修正が行われている。
+1.8.0はIE 8との互換性がないので、1.8.1と1.8.2で互換性の修正が行われている。
 
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
