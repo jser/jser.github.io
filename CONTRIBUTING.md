@@ -17,9 +17,10 @@
 
 ### チェック対象となった場合の対応
 
-Lintに対する対応として以下の対応を取ることが出来ます。
+Lint結果に対して以下のような対応を取ることができます。
 
 1. コメントに応じて修正する
 2. [azu/technical-word-rules](https://github.com/azu/technical-word-rules "azu/technical-word-rules")の辞書を修正する
+3. 例外的なので無視する(Lintの手法がおかしいなど)
 
 辞書は完璧ではないので、辞書の方を直したほうが良い場合はコメントなどして下さい。
