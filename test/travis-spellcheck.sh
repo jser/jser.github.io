@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
-  gem --no-document checkstyle_filter-git install saddler saddler-reporter-github
+  gem install --no-document checkstyle_filter-git saddler saddler-reporter-github
 
   echo "gif diff"
   git diff --name-only origin/master \
