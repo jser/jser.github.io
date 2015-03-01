@@ -22,6 +22,6 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
    | xargs $(npm bin)/textlint --rulesdir test/rules -f checkstyle \
    | saddler report \
       --require saddler/reporter/github \
-      --reporter Saddler::Reporter::Github::PullRequestComment
+      --reporter Saddler::Reporter::Github::PullRequestReviewComment
 fi
 exit 0
