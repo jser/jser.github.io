@@ -51,7 +51,7 @@ CodeMirror 5.0では`contentEditable`を使って、iOSなど今まで表示の�
 
 <div class="kwout" style="text-align: center;"><a href="http://azu.github.io/slide/webaudioapi/web-audio.html"><img src="http://kwout.com/cutout/s/a8/48/pmv_bor.jpg" alt="http://azu.github.io/slide/webaudioapi/web-audio.html" title="JavaScriptとWeb Audio事始め" width="600" height="232" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://azu.github.io/slide/webaudioapi/web-audio.html">JavaScriptとWeb Audio事始め</a> via <a href="http://kwout.com/quote/sa848pmv">kwout</a></p></div>
 
-Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeout`などより[正確なスケジューリング](http://www.html5rocks.com/ja/tutorials/audio/scheduling/ "正確なスケジューリング")を行う方法が用意されていたりして、DOM TreeのAPIなどとは少し違うパラダイムを持っていて一度触ってみると面白いと思います。
+Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeout`などより[正確なスケジューリング](http://www.html5rocks.com/ja/tutorials/audio/scheduling/ "正確なスケジューリング")を行う方法が用意されていたりして、DOM TreeのAPIなどとは少し違うパラダイムを持っているので一度触ってみると面白いと思います。
 
 
 -----
