@@ -14,6 +14,10 @@ tags:
 
 JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.js") 1.8.0がリリースされています。
 
+ユーザーではー
+
+browserify用になってる
+
 1.8.0ではファイルサイズの削減を目的としたコミットによりIE8の互換性がなくなる問題がありましたが、1.8.1と1.8.2で一部修正されています。また1.8.0では`_.isError`や`_.mapObject`などいくつかメソッドが追加されています。
 
 - [http://underscorejs.org/#changelog](http://underscorejs.org/#changelog)
@@ -380,5 +384,7 @@ SVGをCanvasでレンダリングするライブラリ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CoffeeScript</span> <span class="jser-tag">book</span></p>
 
 CoffeeScriptについての書籍
+
+ライブライとは
 
 ----
