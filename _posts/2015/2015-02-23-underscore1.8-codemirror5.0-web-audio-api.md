@@ -29,7 +29,7 @@ JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.
 
 -----
 
-CodeMirror 4.13と5.0がリリースされました。
+CodeMirror 4.13と5.0がリリースされています。
 
 - [New releases 4.13 and 5.0 - discuss.CodeMirror](http://discuss.codemirror.net/t/new-releases-4-13-and-5-0/163 "New releases 4.13 and 5.0 - discuss.CodeMirror")
 
