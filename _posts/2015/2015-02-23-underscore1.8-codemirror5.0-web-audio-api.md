@@ -40,6 +40,7 @@ CodeMirror 5.0では`contentEditable`を使って、iOSなど今まで表示の�
 
 まだ状況によって上手く行ってない気がしますが、[JavaScript Promiseの本](http://azu.github.io/promises-book/ "JavaScript Promiseの本")のCodeMirrorを5.0にアップデートしてあるので、試してみるといいかもしれません。
 
+
 -----
 
 [HTML5で音を扱う3つの方法](http://150217-html5sound.fnobi.com/ "HTML5で音を扱う3つの方法")というスライドでは、JavaScriptから音を扱う方法としてAudio要素、Web Audio API、Media Stream APIについて簡単に紹介されています。
