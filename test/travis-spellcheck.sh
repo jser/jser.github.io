@@ -1,5 +1,5 @@
 #!/bin/bash
-set -v
+set -e
 if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
   gem install saddler saddler-reporter-github
 
