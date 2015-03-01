@@ -24,7 +24,7 @@ JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
 1.8.0のリリースにおいて[色々](https://twitter.com/jdalton/status/568568521602412546)と[問題](https://github.com/jashkenas/underscore/issues/2061)が[あり](https://gitter.im/jashkenas/underscore)ま[した](https://github.com/jashkenas/underscore/issues/2062)が、とりあえず普通のユーザーに与える影響は`_.matches`のリネーム以外は大体修正されたように見えます。
-ユーザー
+ユーザー browserify
 
 [2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit - JSer.info](http://jser.info/2014/09/01/underscore-browserify-Gravit/ "2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit - JSer.info")で書いていましたがunderscore.jsをアップデートする際には気をつけたほうがいいと思います。
 
