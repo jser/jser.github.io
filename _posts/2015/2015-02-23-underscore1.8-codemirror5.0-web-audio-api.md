@@ -24,6 +24,7 @@ JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
 1.8.0のリリースにおいて[色々](https://twitter.com/jdalton/status/568568521602412546)と[問題](https://github.com/jashkenas/underscore/issues/2061)が[あり](https://gitter.im/jashkenas/underscore)ま[した](https://github.com/jashkenas/underscore/issues/2062)が、とりあえず普通のユーザーに与える影響は`_.matches`のリネーム以外は大体修正されたように見えます。
+ユーザー browserify
 
 [2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit - JSer.info](http://jser.info/2014/09/01/underscore-browserify-Gravit/ "2014-09-01のJS: Underscore 1.7.0、Browserify入門、Gravit - JSer.info")で書いていましたがunderscore.jsをアップデートする際には気をつけたほうがいいと思います。
 
@@ -51,7 +52,7 @@ CodeMirror 5.0では`contentEditable`を使って、iOSなど今まで表示の�
 
 <div class="kwout" style="text-align: center;"><a href="http://azu.github.io/slide/webaudioapi/web-audio.html"><img src="http://kwout.com/cutout/s/a8/48/pmv_bor.jpg" alt="http://azu.github.io/slide/webaudioapi/web-audio.html" title="JavaScriptとWeb Audio事始め" width="600" height="232" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://azu.github.io/slide/webaudioapi/web-audio.html">JavaScriptとWeb Audio事始め</a> via <a href="http://kwout.com/quote/sa848pmv">kwout</a></p></div>
 
-Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeout`などより[正確なスケジューリング](http://www.html5rocks.com/ja/tutorials/audio/scheduling/ "正確なスケジューリング")を行う方法が用意されていたりして、DOM TreeのAPIなどとは少し違うパラダイムを持っていて一度触ってみると面白いと思います。
+Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeout`などより[正確なスケジューリング](http://www.html5rocks.com/ja/tutorials/audio/scheduling/ "正確なスケジューリング")を行う方法が用意されていたりして、DOM TreeのAPIなどとは少し違うパラダイムを持っているので一度触ってみると面白いと思います。
 
 
 -----
