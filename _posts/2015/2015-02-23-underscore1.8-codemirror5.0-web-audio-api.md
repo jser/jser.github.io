@@ -14,7 +14,7 @@ tags:
 
 JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.js") 1.8.0がリリースされています。
 
-ユーザー
+ユーザーではー
 
 1.8.0ではファイルサイズの削減を目的としたコミットによりIE8の互換性がなくなる問題がありましたが、1.8.1と1.8.2で一部修正されています。また1.8.0では`_.isError`や`_.mapObject`などいくつかメソッドが追加されています。
 
