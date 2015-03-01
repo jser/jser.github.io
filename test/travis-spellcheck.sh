@@ -5,7 +5,7 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
 
   echo "gif diff"
   git diff --name-only origin/master \
-     | grep -a '\.md$' || RETURN_CODE=$?
+   | grep -a '\.md$' || RETURN_CODE=$?
 
   case "$RETURN_CODE" in
     "" ) echo "found" ;;
