@@ -20,7 +20,7 @@ JSer.info #216 - [Underscore.js](http://underscorejs.org/#changelog "Underscore.
 - [Go on a Diet · Issue #2060 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2060 "Go on a Diet · Issue #2060 · jashkenas/underscore")
 
 リリース直前に1.8.0に入る予定だったメソッド名の一部が変更されているので、masterを直接使っていた場合には注意が必要です。
-ユーザー
+ユーザー browserify
 - [Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2061 "Discuss latest changes to master before releasing · Issue #2061 · jashkenas/underscore")
 
 1.8.0のリリースにおいて[色々](https://twitter.com/jdalton/status/568568521602412546)と[問題](https://github.com/jashkenas/underscore/issues/2061)が[あり](https://gitter.im/jashkenas/underscore)ま[した](https://github.com/jashkenas/underscore/issues/2062)が、とりあえず普通のユーザーに与える影響は`_.matches`のリネーム以外は大体修正されたように見えます。
