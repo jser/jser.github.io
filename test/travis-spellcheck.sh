@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
-  gem install saddler saddler-reporter-github
+  gem --no-document checkstyle_filter-git install saddler saddler-reporter-github
 
   echo "gif diff"
   git diff --name-only origin/master \
@@ -20,6 +20,7 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
   git diff --name-only origin/master \
    | grep -a '\.md$' \
    | xargs $(npm bin)/textlint --rulesdir test/rules -f checkstyle \
+   | checkstyle_filter-git diff origin/master \ # 変更行のみを対象にする
    | saddler report \
       --require saddler/reporter/github \
       --reporter Saddler::Reporter::Github::PullRequestReviewComment

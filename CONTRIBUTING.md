@@ -1,0 +1,25 @@
+# Contributing
+
+[JSer.info](http://jser.info/) 記事上部の **Edit on GitHub** 又は 下部の **この記事へ修正リクエストをする** から修正を送れます。
+
+![pull-request](http://take.ms/suw5I)
+
+記事からGitHubで直接編集してpull requestを送ることが出来ます。
+
+ちょっとした誤字脱字でもご気軽に修正を送ってくださると助かります。
+
+## SpellCheck
+
+[azu/technical-word-rules](https://github.com/azu/technical-word-rules "azu/technical-word-rules")の辞書を使った、
+用語統一のLintがpull requestに対してチェックが自動的に行われます。
+
+![lint-image](http://monosnap.com/image/vE9DQn1451rGrWGSCQJrmth5cYzzIj.png)
+
+### チェック対象となった場合の対応
+
+Lintに対する対応として以下の対応を取ることが出来ます。
+
+1. コメントに応じて修正する
+2. [azu/technical-word-rules](https://github.com/azu/technical-word-rules "azu/technical-word-rules")の辞書を修正する
+
+辞書は完璧ではないので、辞書の方を直したほうが良い場合はコメントなどして下さい。
