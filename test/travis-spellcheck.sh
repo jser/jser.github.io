@@ -17,10 +17,11 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
       exit $RETURN_CODE ;;
   esac
 
+  # 変更行のみを対象にする
   git diff --name-only origin/master \
    | grep -a '\.md$' \
    | xargs $(npm bin)/textlint --rulesdir test/rules -f checkstyle \
-   | checkstyle_filter-git diff origin/master \ # 変更行のみを対象にする
+   | checkstyle_filter-git diff origin/master \
    | saddler report \
       --require saddler/reporter/github \
       --reporter Saddler::Reporter::Github::PullRequestReviewComment
