@@ -2,7 +2,7 @@
 title: "2015-03-02のJS: Firefox 36.0、ASTのコミュニティ標準、Service Worker"
 author: azu
 layout: post
-date : 2015-03-02T21:15
+date : 2015-03-02T22:32
 category: JSer
 tags:
     - JavaScript
@@ -11,6 +11,7 @@ tags:
     - ServiceWorker
 
 ---
+
 
 JSer.info #217 - [Firefox 36.0](https://www.mozilla.org/en-US/firefox/36.0/releasenotes/ "Firefox — Notes (36.0) — Mozilla")がリリースされました。
 
