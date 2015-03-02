@@ -194,7 +194,7 @@ RxJS、Bacon.js、Kefire.jsの比較
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
 
 ESLintの設定について。
-packge.jsonにも設定を書くことができ、JSHintからの移行について
+packge.jsonにも設定を書くことができる点やJSHintからの移行について
 
 ----
 
