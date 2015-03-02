@@ -1,5 +1,5 @@
 ---
-title: "2015-03-02のJS: "
+title: "2015-03-02のJS: Firefox 36.0、ASTのコミュニティ標準、Service Worker"
 author: azu
 layout: post
 date : 2015-03-02T21:15
