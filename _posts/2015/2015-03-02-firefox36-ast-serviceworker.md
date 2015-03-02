@@ -14,7 +14,7 @@ tags:
 
 JSer.info #217 - [Firefox 36.0](https://www.mozilla.org/en-US/firefox/36.0/releasenotes/ "Firefox — Notes (36.0) — Mozilla")がリリースされました。
 
-CSSの機能追加として[will-changeプロパティ](https://dev.opera.com/articles/ja/css-will-change-property/ "will-changeプロパティ")、[@font-face unicode-range](http://teppeis.hatenablog.com/entry/2014/09/safari-backslash-yen-sign "@font-face unicode-range")などが入り、ES6の仕様への追従も`Symbol`を始めとして、[Temporal Dead Zone (TDZ)](http://es6rocks.com/2015/01/temporal-dead-zone-tdz-demystified/ "Temporal Dead Zone (TDZ)")の挙動などが行われていて、WebGL 2.0やWeb Animationsの実験的なサポートが追加されています。
+CSSの機能追加として[will-changeプロパティ](https://dev.opera.com/articles/ja/css-will-change-property/ "will-changeプロパティ")、[@font-face unicode-range](http://teppeis.hatenablog.com/entry/2014/09/safari-backslash-yen-sign "@font-face unicode-range")などが入り、ES6の仕様への追従も`Symbol`を始めとして、[Temporal Dead Zone (TDZ)](http://es6rocks.com/2015/01/temporal-dead-zone-tdz-demystified/ "Temporal Dead Zone (TDZ)")の挙動への対応が行われていて、WebGL 2.0やWeb Animationsの実験的なサポートが追加されています。
 
 詳しい更新内容は以下にまとめられています。
 
