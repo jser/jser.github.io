@@ -28,7 +28,7 @@ ES6の細かい挙動について気になる人は以下のクイズもやっ�
 
 -----
 
-[[2015-02] 最近のJavaScript AST標準化の動き | Web Scratch](http://efcl.info/2015/02/26/recent-js-ast/ "[2015-02] 最近のJavaScript AST標準化の動き | Web Scratch") という記事では、JavaScriptのAST(抽象木)についての最近の変化について詳しく書かれています。
+[[2015-02] 最近のJavaScript AST標準化の動き | Web Scratch](http://efcl.info/2015/02/26/recent-js-ast/ "[2015-02] 最近のJavaScript AST標準化の動き | Web Scratch")という記事では、JavaScriptのAST(抽象木)についての最近の変化について詳しく書かれています。
 
 今までは[SpiderMonkey parser](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API "SpiderMonkey parser")によって定義されたASTを元にツールのエコシステムが回っていましたが、ES6の対応が進んでいなかったため各パーサが試行錯誤したり、[Shift AST Specification](https://github.com/shapesecurity/shift-spec "Shift AST Specification")という仕様が登場したりしました。
 
@@ -36,9 +36,9 @@ ES6の細かい挙動について気になる人は以下のクイズもやっ�
 
 ----
 
-[Service worker が拓く mobile web の新しいかたち](http://www.slideshare.net/kinukox/service-worker-mobile-web "Service worker が拓く mobile web の新しいかたち") というスライドでは、Chromeに実装が入っているServiceWorkerがどのような事が出来るのかについてまとまっています。
+[Service worker が拓く mobile web の新しいかたち](http://www.slideshare.net/kinukox/service-worker-mobile-web "Service worker が拓く mobile web の新しいかたち")というスライドでは、Chromeに実装が入っているService Workerがどのような事が出来るのかについてまとまっています。
 
-ServiceWorkerはデバッグやスコープなどで少しはまりやすい部分がありますが、[ServiceWorker のスコープとページコントロールについて - Qiita](http://qiita.com/nhiroki/items/eb16b802101153352bba "ServiceWorker のスコープとページコントロールについて - Qiita")も一緒に読むとServiceWorkerの動きが理解しやすくなると思います。
+Service Workerはデバッグやスコープなどで少しはまりやすい部分がありますが、[ServiceWorker のスコープとページコントロールについて - Qiita](http://qiita.com/nhiroki/items/eb16b802101153352bba "ServiceWorker のスコープとページコントロールについて - Qiita")も一緒に読むとService Workerの動きが理解しやすくなると思います。
 
 
 -----
@@ -61,7 +61,7 @@ ESLint 0.15.1リリース
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p>
 
-AngularJS 1.4.0-betaと1.3.14 リリース。
+AngularJS 1.4.0-betaと1.3.14リリース。
 CommonJS supportの改善
 
 ----
@@ -72,7 +72,7 @@ CommonJS supportの改善
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Firefox 36.0リリース。
-HTTP/2のフルサポート、ES6 Symbolサポート、CSSの`object-fit`と`object-position`、`will-change`、`isolation`の実装、promiseオブジェクトのデバッグ対応など
+HTTP/2のフルサポート、ES6 Symbolサポート、CSSの`object-fit`と`object-position`、`will-change`、`isolation`の実装、Promiseオブジェクトのデバッグ対応など
 
 - [Firefox 36 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/36 "Firefox 36 for developers - Mozilla | MDN")
 
@@ -125,7 +125,7 @@ V8のプロファイリングツール連携、TypeScript 1.4サポート、Scra
 ----
 
 ## [2015-02] 最近のJavaScript AST標準化の動き | Web Scratch
-[efcl.info/2015/02/26/recent-js-ast/](http://efcl.info/2015/02/26/recent-js-ast/ "\[2015-02\] 最近のJavaScript AST標準化の動き | Web Scratch")
+[efcl.info/2015/02/26/recent-js-ast/](http://efcl.info/2015/02/26/recent-js-ast/ "[2015-02] 最近のJavaScript AST標準化の動き | Web Scratch")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">まとめ</span></p>
 
@@ -139,7 +139,7 @@ ESTreeというASTのコミュニティスタンダードについてなどの�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">JavaScript</span></p>
 
-ServiceWorkerのスコープとコントール出来るようになるタイミングなどのライフサイクルについての解説
+Service Workerのスコープとコントロール出来るようになるタイミングなどのライフサイクルについての解説
 
 ----
 
@@ -148,7 +148,7 @@ ServiceWorkerのスコープとコントール出来るようになるタイミ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span></p>
 
-ECMAScript 6 クイズ
+ECMAScript 6クイズ
 
 ----
 
@@ -157,7 +157,7 @@ ECMAScript 6 クイズ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span></p>
 
-Angular 1.xでES6 classを使って記述する方法についての記事
+AngularJS 1.xでES6 Classesを使って記述する方法についての記事
 
 ----
 
@@ -225,7 +225,7 @@ CSS Selector、Media Queries Lv4についてのスライド
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">スライド</span></p>
 
-ServiceWorkerについてのスライド。
+Service Workerについてのスライド。
 どういうことができるのか、Fetch API、Fetch APIのResponse、デバッグ方法、セキュリティポリシーについて。
 Chromeでの実装者によるスライド
 
@@ -301,7 +301,7 @@ querySelector、childNodes、removeChild、createElementのようなAPIが用意
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-依存がするライブラリがないバリデーションライブラリ。
+依存するライブラリがないバリデーションライブラリ。
 
 ----
 <h1 class="site-genre">書籍関係</h1>
@@ -313,7 +313,7 @@ querySelector、childNodes、removeChild、createElementのようなAPIが用意
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
 
-2015年4月17日 発売
+2015年4月17日発売
 オブジェクト指向、イベント、Canvas、Ajax、シングルページアプリケーションについての書籍
 
 ----
