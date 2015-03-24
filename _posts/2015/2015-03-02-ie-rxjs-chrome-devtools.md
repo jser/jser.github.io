@@ -18,7 +18,7 @@ JSer.info #220 - Windows 10 Technical Previewがアップデートされ、IEの
 
 -----
 
-[「RxJS」初心者入門 - JavaScriptの非同期処理の常識を変えるライブラリ | 株式会社LIG](http://liginc.co.jp/web/js/151272 "「RxJS」初心者入門 - JavaScriptの非同期処理の常識を変えるライブラリ | 株式会社LIG")という記事ではReactive ExtensionsのJavaScriptである[RxJS](https://github.com/Reactive-Extensions/RxJS "RxJS")について書かれています。
+[「RxJS」初心者入門 - JavaScriptの非同期処理の常識を変えるライブラリ | 株式会社LIG](http://liginc.co.jp/web/js/151272 "「RxJS」初心者入門 - JavaScriptの非同期処理の常識を変えるライブラリ | 株式会社LIG")という記事ではReactive ExtensionsのJavaScript実装である[RxJS](https://github.com/Reactive-Extensions/RxJS "RxJS")について書かれています。
 
 Rxとはどういう概念やパターンを持っているか、ObserverとObservable、オペレーターといったRxJSを構成する要素について色々なサンプルコード共に解説されています。
 
