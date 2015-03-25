@@ -13,7 +13,7 @@ tags:
 ---
 
 JSer.info #220 - Windows 10 Technical Previewがアップデートされ、IEのレンダリングエンジンもアップデートされています。
-[Rendering engine updates in March for the Windows 10 Technical Preview - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2015/03/18/rendering-engine-updates-in-march-for-the-windows-10-technical-preview.aspx "Rendering engine updates in March for the Windows 10 Technical Preview - IEBlog - Site Home - MSDN Blogs")では Web Audio APIやTouch Events APIなど最近サポートされた機能についてまとめられています。
+[Rendering engine updates in March for the Windows 10 Technical Preview - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2015/03/18/rendering-engine-updates-in-march-for-the-windows-10-technical-preview.aspx "Rendering engine updates in March for the Windows 10 Technical Preview - IEBlog - Site Home - MSDN Blogs")では Web Audio APIやTouch Eventsなど最近サポートされた機能についてまとめられています。
 
 
 -----
@@ -46,7 +46,7 @@ Addy Osmani氏によるChrome開発者ツールの新しい機能の紹介がさ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Windows 10 Technical Previewのアップデートが行われて、ブラウザのレンダリングエンジンもアップデートされている。
-WAI-ARIA Landmark Roles、Web Audio API、Touch Event、Fullscreen APIなどのサポートなど
+WAI-ARIA Landmark Roles、Web Audio API、Touch Events、Fullscreen APIなどのサポートなど
 
 ----
 
@@ -104,7 +104,7 @@ Codecademyのクライアントサイドのアーキテクチャの変遷につ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">JavaScript</span></p>
 
-Chrome41で`async`属性をつけたスクリプトはダウンロードが始まった瞬間にパーサ用の別スレッドでパースされるためより高速になるとの話
+Chrome 41で`async`属性をつけたスクリプトはダウンロードが始まった瞬間にパーサ用の別スレッドでパースされるためより高速になるとの話
 
 - [レンダリングを妨げる JavaScript を削除する - PageSpeed Insights — Google Developers](https://developers.google.com/speed/docs/insights/BlockingJS "レンダリングを妨げる JavaScript を削除する - PageSpeed Insights — Google Developers")
 
@@ -147,7 +147,7 @@ WebWorkerの生成方法についてのまとめ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Flux</span> <span class="jser-tag">ECMAScript</span></p>
 
 特殊なハックをできるだけ排除したFluxライブラリを作った話とREADME駆動について。
-またES6 classをベースとしたAPIについて
+またES6 ClassesをベースとしたAPIについて
 
 ----
 
@@ -201,7 +201,7 @@ jQuery UK 2015の動画が公開された
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">web</span> <span class="jser-tag">performance</span> <span class="jser-tag">スライド</span></p>
 
 通信についてを中心に扱うパフォーマンスについてのスライド
-ウェブサイトの表示までにどういう通信が起きてるか、ブラウザ上でどうやって計測するかやPeformance Timelineなどの仕様について、HTTP/2での戦略の違いなど
+ウェブサイトの表示までにどういう通信が起きてるか、ブラウザ上でどうやって計測するかやPerformance Timelineなどの仕様について、HTTP/2での戦略の違いなど
 
 ----
 <h1 class="site-genre">サイト、サービス</h1>
@@ -213,7 +213,7 @@ jQuery UK 2015の動画が公開された
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">V8</span> <span class="jser-tag">performance</span> <span class="jser-tag">動画</span> <span class="jser-tag">まとめ</span></p>
 
-ウェブサイトで60FPSの描画するためのパフォーマンスチューニング等についてのスライド、動画や記事のまとめサイト。
+ウェブサイトで60FPSの描画をするためのパフォーマンスチューニング等についてのスライド、動画や記事のまとめサイト。
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
@@ -235,8 +235,8 @@ console APIの上書き、DOMのインスペクト、CSSの操作、FPSの表示
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-`Object.observe()` (又はpolyfill)を使ったモデルライブラリ。
-スキーマ的なプロパティの型やデフォルト値の定義、class継承、` Object.observe()` を使った変更監視、find系の探査メソッドを持つ
+`Object.observe()`(又はpolyfill)を使ったモデルライブラリ。
+スキーマ的なプロパティの型やデフォルト値の定義、class継承、` Object.observe()`を使った変更監視、find系の探査メソッドを持つ
 
 ----
 <h1 class="site-genre">書籍関係</h1>
