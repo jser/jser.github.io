@@ -121,7 +121,7 @@ Rxのパラダイム的な話やサンプルなどがまとまってる
 ----
 
 ## ES5の範囲でOption型を表すライブラリ、option-t を作った - snyk_s log
-[saneyukis.hatenablog.com/entry/2015/03/20/191424](http://saneyukis.hatenablog.com/entry/2015/03/20/191424 "ES5の範囲でOption型を表すライブラリ、option-t を作った - snyk\_s log")
+[saneyukis.hatenablog.com/entry/2015/03/20/191424](http://saneyukis.hatenablog.com/entry/2015/03/20/191424 "ES5の範囲でOption型を表すライブラリ、option-t を作った - snyk_s log")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Rust</span> <span class="jser-tag">Promises</span></p>
 
@@ -236,7 +236,7 @@ console APIの上書き、DOMのインスペクト、CSSの操作、FPSの表示
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
 `Object.observe()`(又はpolyfill)を使ったモデルライブラリ。
-スキーマ的なプロパティの型やデフォルト値の定義、class継承、` Object.observe()`を使った変更監視、find系の探査メソッドを持つ
+スキーマ的なプロパティの型やデフォルト値の定義、class継承、`Object.observe()`を使った変更監視、find系の探査メソッドを持つ
 
 ----
 <h1 class="site-genre">書籍関係</h1>
@@ -273,7 +273,7 @@ Developing a React Edgeの翻訳本。
 ----
 
 ## React+d3.js by Swizec Teller [Leanpub PDF/iPad/Kindle]
-[leanpub.com/reactd3js](https://leanpub.com/reactd3js "React+d3.js by Swizec Teller \[Leanpub PDF/iPad/Kindle\]")
+[leanpub.com/reactd3js](https://leanpub.com/reactd3js "React+d3.js by Swizec Teller [Leanpub PDF/iPad/Kindle]")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">d3.js</span> <span class="jser-tag">book</span></p>
 
