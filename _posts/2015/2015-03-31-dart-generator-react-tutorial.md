@@ -1,5 +1,5 @@
 ---
-title: "Dart to JS、ES6 Generator、Reactでシングルアプリケーション作成"
+title: "2015-03-31のJS: Dart to JS、ES6 Generator、Reactでシングルアプリケーション作成"
 author: azu
 layout: post
 date : 2015-03-31T22:04
