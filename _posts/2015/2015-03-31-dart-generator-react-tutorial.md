@@ -38,7 +38,7 @@ Generatorの役割を3種類に分けて紹介していて、それぞれにつ�
 
 ----
 
-[mikechau/react-primer-draft](https://github.com/mikechau/react-primer-draft "mikechau/react-primer-draft")というReactを使ってシングルページアプリケーションを作るチュートリアルが公開されいます。
+[mikechau/react-primer-draft](https://github.com/mikechau/react-primer-draft "mikechau/react-primer-draft")というReactを使ってシングルページアプリケーションを作るチュートリアルが公開されています。
 
 Reactを使ったアプリの作成について丁寧に書かれていて、参考リンクも多く含まれているので一度見てみると良さそうです。
 まだ未完成ですがES6についてやルータ、Fluxといったライブラリについても書いていくようです。
