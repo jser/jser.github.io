@@ -28,10 +28,9 @@ Dartは[ECMA-408](http://www.ecma-international.org/publications/standards/Ecma-
 ----
 
 [ES6 generators in depth](http://www.2ality.com/2015/03/es6-generators.html "ES6 generators in depth")という記事ではES6のGeneratorについてを掘り下げて解説されています。
-
 [Iterables and iterators in ECMAScript 6](http://www.2ality.com/2015/02/es6-iteration.html "Iterables and iterators in ECMAScript 6")の続編的な記事なので、こちらを先に見ておくと良いです。
 
-Generatorの役割を3種類に分けて紹介していて、それぞれについて例とともに詳しくかかれています。
+Generatorの役割を3種類に分けて紹介していて、それぞれについて例とともに詳しく解説されています。
 
 1. Iterators (data producers)
 2. Observers (data consumers)
@@ -42,7 +41,7 @@ Generatorの役割を3種類に分けて紹介していて、それぞれにつ�
 [mikechau/react-primer-draft](https://github.com/mikechau/react-primer-draft "mikechau/react-primer-draft")というReactを使ってシングルアプリケーションを作るチュートリアルが公開されいます。
 
 Reactを使ったアプリの作成について丁寧に書かれていて、参考リンクも多く含まれているので一度見てみると良さそうです。
-まだ未完ですがES6やルータやFluxといったライブラリについても書いていくようです。
+まだ未完成ですがES6についてやルータ、Fluxといったライブラリについても書いていくようです。
 
 
 ----
