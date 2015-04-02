@@ -27,7 +27,7 @@ Dartは[ECMA-408](http://www.ecma-international.org/publications/standards/Ecma-
 
 ----
 
-[ES6 generators in depth](http://www.2ality.com/2015/03/es6-generators.html "ES6 generators in depth")という記事ではES6のGeneratorについてを掘り下げて解説されています。
+[ES6 generators in depth](http://www.2ality.com/2015/03/es6-generators.html "ES6 generators in depth")という記事ではES6のGeneratorについて、掘り下げて解説されています。
 [Iterables and iterators in ECMAScript 6](http://www.2ality.com/2015/02/es6-iteration.html "Iterables and iterators in ECMAScript 6")の続編的な記事なので、こちらを先に見ておくと良いです。
 
 Generatorの役割を3種類に分けて紹介していて、それぞれについて例とともに詳しく解説されています。
@@ -55,7 +55,7 @@ Reactを使ったアプリの作成について丁寧に書かれていて、参
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
-ESLint 0.18.0 リリース。
+ESLint 0.18.0リリース。
 JSXの構文についての処理はESLintから完全に削除され、[eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react "eslint-plugin-react")へ移植された。
 
 ----
@@ -88,7 +88,7 @@ OpenSSLのアップデート
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">dart</span> <span class="jser-tag">ReleaseNote</span></p>
 
-DartはDartVMをChromiumに載せることは諦めて、Dart2jsに集中するとのこと。
+DartはDartVMをChromiumに載せることは諦めて、dart2jsに集中するとのこと。
 また、Dart 1.9がリリースされている。
 
 - [Dart News & Updates: Dart 1.9: The release you’ve been await-ing for](http://news.dartlang.org/2015/03/dart-19-release-youve-been-await-ing-for.html)
@@ -145,7 +145,7 @@ Generatorとは何か、構成要素、Iterator、Generatorの使い方、CSPな
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">book</span></p>
 
 Reactでシングルページアプリケーションを作るチュートリアル的な文章。
-React.Component について詳しく書かれている
+React.Componentについて詳しく書かれている
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
