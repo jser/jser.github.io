@@ -36,7 +36,7 @@ Babelがその隙間を少しでも埋めることを期待する変更だと思
 
 他の変更点としては[babelrc](http://babeljs.io/docs/usage/babelrc/ "babelrc")というドキュメント化されていなかった設定ファイルのドキュメントを追加、[Plugins · Babel](http://babeljs.io/docs/usage/plugins/ "Plugins · Babel")のサポート、ES6 classで `constructor()`時に`super()`を呼んでいない場合にエラーとなるようになるなどしています。
 
-- [Classes in ECMAScript 6 (final semantics)](http://www.2ality.com/2015/02/es6-classes-final.html "Classes in ECMAScript 6 (final semantics)") 
+- [Classes in ECMAScript 6](http://www.2ality.com/2015/02/es6-classes-final.html) 
 
 ----
 
