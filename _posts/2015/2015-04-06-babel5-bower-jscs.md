@@ -112,7 +112,7 @@ ESTree仕様への追従のためにBreaking Change、`super`の対応、RestEle
 less.js 2.5.0 リリース。
 スコープ内でも`@plugin`を動作するように、パーサのパフォーマンス改善や細かい警告の修正など
 
-- [Fix \&#x60;@plugin\&#x60; scoping rules by rjgotten · Pull Request #2522 · less/less.js](https://github.com/less/less.js/pull/2522 "Fix \&#x60;@plugin\&#x60; scoping rules by rjgotten · Pull Request #2522 · less/less.js")
+- [Fix `@plugin` scoping rules by rjgotten · Pull Request #2522 · less/less.js](https://github.com/less/less.js/pull/2522 "Fix \&#x60;@plugin\&#x60; scoping rules by rjgotten · Pull Request #2522 · less/less.js")
 
 ----
 
@@ -168,7 +168,7 @@ Node v0.12.2リリース。
 ----
 
 ## harmony:specification_drafts [ES Wiki]
-[wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#april_3_2015_rev_37_release_candidate_4](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#april_3_2015_rev_37_release_candidate_4 "harmony:specification\_drafts \[ES Wiki\]")
+[`wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#april_3_2015_rev_37_release_candidate_4`](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#april_3_2015_rev_37_release_candidate_4)
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
 
