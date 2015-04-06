@@ -18,7 +18,7 @@ JSer.info #222 - ES6+のコードをES5相当に変換するツールである[B
 - [5.0.0 Released · Babel](http://babeljs.io/blog/2015/03/31/5.0.0/ "5.0.0 Released · Babel")
 - [babel/CHANGELOG.md at master · babel/babel](https://github.com/babel/babel/blob/master/CHANGELOG.md#500 "babel/CHANGELOG.md at master · babel/babel")
 
-大きな変更点としてはブログ記事にも書かれていますが、今までES7以降の機能は`experimental` オプションで有効化して使えるように成っていました。
+大きな変更点としてはブログ記事にも書かれていますが、今までES7以降の機能は`experimental` オプションで有効化して使えるようになっていました。
 5.0.0からは`experimental`オプションを削除して、代わりにTC39 Processに沿った`--stage 0`というようにstage別のオプションを指定して使うようになります。
 
 ECMAScriptを策定するプロセスであるTC39 Processでは、Stage0からStage 4の5段階に分かれていて、Stage 4は次期仕様に含まれるという感じになっています。
