@@ -7,6 +7,8 @@ category:
 tags:
     - JavaScript
     - ECMAScript
+    - Bower
+    - tool
 
 ---
 
