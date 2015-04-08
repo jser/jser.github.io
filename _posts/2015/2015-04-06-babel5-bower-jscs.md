@@ -18,12 +18,12 @@ JSer.info #222 - ES6+のコードをES5相当に変換するツールである[B
 - [5.0.0 Released · Babel](http://babeljs.io/blog/2015/03/31/5.0.0/ "5.0.0 Released · Babel")
 - [babel/CHANGELOG.md at master · babel/babel](https://github.com/babel/babel/blob/master/CHANGELOG.md#500 "babel/CHANGELOG.md at master · babel/babel")
 
-大きな変更点としてはブログ記事にも書かれていますが、今までES7以降の機能は`experimental` オプションで有効化して使えるようになっていました。
+大きな変更点としてはブログ記事にも書かれていますが、今までES7以降の機能は`experimental`オプションで有効化して使えるようになっていました。
 5.0.0からは`experimental`オプションを削除して、代わりにTC39 Processに沿った`--stage 0`というようにstage別のオプションを指定して使うようになります。
 
-ECMAScriptを策定するプロセスであるTC39 Processでは、Stage0からStage 4の5段階に分かれていて、Stage 4は次期仕様に含まれるという感じになっています。
+ECMAScriptを策定するプロセスであるTC39 Processでは、Stage 0からStage 4の5段階に分かれていて、Stage 4は次期仕様に含まれるという感じになっています。
 
-Stage 2 - Draft ぐらいになると、大きな反論がなければ次の仕様に入るというレベルなので、BabelではStage 2の仕様の実装がデフォルトで有効化されています。(またStage 3 - Candidateでは仕様のドラフトに対するフィードバックをどんどん行う段階なので、Babelを使うことでフィードバックがしやすくなると思います)
+Stage 2 - Draftぐらいになると、大きな反論がなければ次の仕様に入るというレベルなので、BabelではStage 2の仕様の実装がデフォルトで有効化されています。(またStage 3 - Candidateでは仕様のドラフトに対するフィードバックをどんどん行う段階なので、Babelを使うことでフィードバックがしやすくなると思います)
 
 [明日には使えなくなるES7トーク](http://azu.github.io/slide/es6talks/ "明日には使えなくなるES7トーク")のスライドで簡単に紹介してるので、こちらも見てみるといいかもしれません。
 
@@ -34,7 +34,7 @@ Stage 2 - Draft ぐらいになると、大きな反論がなければ次の仕�
 
 Babelがその隙間を少しでも埋めることを期待する変更だと思います。
 
-他の変更点としては[babelrc](http://babeljs.io/docs/usage/babelrc/ "babelrc")というドキュメント化されていなかった設定ファイルのドキュメントを追加、[Plugins](http://babeljs.io/docs/usage/plugins/ "Plugins · Babel")のサポート、ES6 classで `constructor()`時に`super()`を呼んでいない場合にエラーとするように変更されています。
+他の変更点としては[babelrc](http://babeljs.io/docs/usage/babelrc/ "babelrc")というドキュメント化されていなかった設定ファイルのドキュメントを追加、[Plugins](http://babeljs.io/docs/usage/plugins/ "Plugins · Babel")のサポート、ES6 Classesで`constructor()`時に`super()`を呼んでいない場合にエラーとするように変更されています。
 
 - [Classes in ECMAScript 6](http://www.2ality.com/2015/02/es6-classes-final.html) 
 
@@ -57,11 +57,11 @@ JavaScriptコードスタイルチェックツールである[JSCS v1.12.0](http
 jscs -x
 ```
 
-JSCSでは`jscs --auto-configure path`とすることで、既存のコードからそれに近いコードスタイルセットを選んだり、インタラクティブに個別のルールを設定できたりするので、途中からでも導入しやすような作りになってきています。
+JSCSでは`jscs --auto-configure path`とすることで、既存のコードからそれに近いコードスタイルセットを選んだり、インタラクティブに個別のルールを設定できたりするので、途中からでも導入しやすいような作りになってきています。
 
 - [JSCS - Overview](http://jscs.info/overview.html "JSCS - Overview")
 
-[実際にJSCSを導入](https://github.com/azu/textlint/commit/d261a7c648c31d888d3fa6e71b89b1fee07bb342)してみましたが、`--auto-configure`でコードスタイルセットを作成して、`-x`でスペース等が自動に整えられて、構造的な部分もWebStormのQuickFixで自動的に書き換え出来るようなものだったので意外と導入はすんなりできた感じがします。
+[実際にJSCSを導入](https://github.com/azu/textlint/commit/d261a7c648c31d888d3fa6e71b89b1fee07bb342)してみましたが、`--auto-configure`でコードスタイルセットを作成して、`-x`でスペース等が自動で整えられて、構造的な部分もWebStormのQuickFixで自動的に書き換え出来るようなものだったので意外と導入はすんなりできた感じがします。
 
 gofmtのようにリポジトリに設定が入っていれば細かいコードスタイルはツールが自動で揃えてくれるようになると便利になりそうな感じはしました。(現時点ではそこまでパワフルではないですが)
 
@@ -109,10 +109,10 @@ ESTree仕様への追従のためにBreaking Change、`super`の対応、RestEle
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
-less.js 2.5.0 リリース。
-スコープ内でも`@plugin`を動作するように、パーサのパフォーマンス改善や細かい警告の修正など
+less.js 2.5.0リリース。
+スコープ内でも`@plugin`が動作するように、パーサのパフォーマンス改善や細かい警告の修正など
 
-- [Fix `@plugin` scoping rules by rjgotten · Pull Request #2522 · less/less.js](https://github.com/less/less.js/pull/2522 "Fix \&#x60;@plugin\&#x60; scoping rules by rjgotten · Pull Request #2522 · less/less.js")
+- [Fix `@plugin` scoping rules by rjgotten · Pull Request #2522 · less/less.js](https://github.com/less/less.js/pull/2522 "Fix `@plugin` scoping rules by rjgotten · Pull Request #2522 · less/less.js")
 
 ----
 
@@ -154,7 +154,7 @@ loginとunregisterコマンドをサポート、pacakge.jsonにBowerの設定を
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 JSCS 1.12.0リリース。
-自動整形機能のサポート(`-x` オプション)、ルールの追加、Auto-configurationのエラー表示の改善など
+自動整形機能のサポート(`-x`オプション)、ルールの追加、Auto-configurationのエラー表示の改善など
 
 ----
 
@@ -173,7 +173,7 @@ Node v0.12.2リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
 
 ECMAScript 2015(ES6) RC4リリース。
-TC39で承認されたバージョン、"Edition 6"という記述を"ECMAScript 2015"に置換されるなど
+TC39で承認されたバージョン、"Edition 6"という記述を"ECMAScript 2015"に置換するなど
 
 - [Allen Wirfs-Brock on Twitter: &quot;@rwaldron @SlexAxton RC4 replaced a lot of &quot;Edition 6&quot; with &quot;ECMAScript 2015&quot;. Will help with ISO version aka ISO/IEC-16262 Edition 4&quot;](https://twitter.com/awbjs/status/584093254045413376 "Allen Wirfs-Brock on Twitter: &quot;@rwaldron @SlexAxton RC4 replaced a lot of &quot;Edition 6&quot; with &quot;ECMAScript 2015&quot;. Will help with ISO version aka ISO/IEC-16262 Edition 4&quot;")
 - [Allen Wirfs-Brock on Twitter: &quot;The final ES6 draft will be RC4 which I will finalize and forward to Ecma next week.&quot;](https://twitter.com/awbjs/status/580326814826020864 "Allen Wirfs-Brock on Twitter: &quot;The final ES6 draft will be RC4 which I will finalize and forward to Ecma next week.&quot;")
