@@ -25,7 +25,7 @@ jQueryがJavaScriptに与えた影響は大きいので、2006年前後のブラ
 
 ----
 
-[Rapid Prototyping in JavaScript](http://mattdesl.svbtle.com/rapid-prototyping "Rapid Prototyping in JavaScript")という記事では、[Browserify](http://browserify.org/ "Browserify")やnpmのエコシステムを使ってGitHubのgh-pagesにページを公開するまでの流れを紹介しています。
+[Rapid Prototyping in JavaScript](http://mattdesl.svbtle.com/rapid-prototyping "Rapid Prototyping in JavaScript")という記事では、[Browserify](http://browserify.org/ "Browserify")やnpmのエコシステムを使ってGitHubにウェブサイトを公開するまでの流れを紹介しています。
 
 - [wtch](https://www.npmjs.com/package/wtch)
 - [budo](https://www.npmjs.com/package/budo)
