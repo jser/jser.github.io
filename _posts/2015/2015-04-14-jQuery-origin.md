@@ -29,9 +29,10 @@ jQueryがJavaScriptに与えた影響は大きいので、2006年前後のブラ
 - [garnish](https://www.npmjs.com/package/garnish)
 - [wzrd](https://www.npmjs.com/package/wzrd)
 
-など目的別に小さなツールを組み合わせて、Live Reloadやプロトタイピングをする話やプロジェクトのディレクトリ構成、リポジトリを作成する[ghrepo](https://github.com/mattdesl/ghrepo "ghrepo")やgh-pagesへのデプロイなどについて書かれています。
+など目的別に小さなツールを組み合わせて、Live Reloadやプロトタイピングをしていく内容になっています。
+また、プロジェクトのディレクトリ構成、リポジトリを作成する[ghrepo](https://github.com/mattdesl/ghrepo "ghrepo")やgh-pagesへのデプロイなどについて書かれているので、出てきたツールを使わない場合でも参考になる所はあると思います。
 
-さっと使えてさっと公開できるのがnpmのいいところでもあるので、こういうプロトタイピングを効率的に行う方法を模索してみるのも楽しいかもしれません。
+さっと使えてさっと公開できるのがJavaScriptやnpmのいいところでもあるので、こういうプロトタイピングを効率的に行う方法を模索してみるのも楽しいかもしれません。
 
 ----
 
