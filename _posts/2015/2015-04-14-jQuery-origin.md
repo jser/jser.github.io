@@ -16,6 +16,9 @@ JSer.info #223 - [John Resig - Annotated Version of the Original jQuery Release]
 
 - [Genius | Annotate the world](http://genius.it/ejohn.org/files/jquery-original.html "Genius | Annotate the world")
 
+<div class="kwout" style="text-align: center;"><a href="http://genius.it/5088390/ejohn.org/files/jquery-original.html"><img src="http://kwout.com/cutout/f/b5/rb/qs2_bor.jpg" alt="http://genius.it/5088390/ejohn.org/files/jquery-original.html" title="Genius | Annotate the world" width="600" height="482" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://genius.it/5088390/ejohn.org/files/jquery-original.html">Genius | Annotate the world</a> via <a href="http://kwout.com/quote/fb5rbqs2">kwout</a></p></div>
+
+
 上記のページで公開されていて、jQueryの名前の由来、prototype.jsからインスパイアした`$`、メソッドチェーンの仕組み、CSS Selectorsの原点の話、タグ文字列からのDOM要素作成などjQueryの特徴的な機能がどういう意図で実装されていたのかを振り返る内容になっていてとても面白いと思います。
 
 jQueryがJavaScriptに与えた影響は大きいので、2006年前後のブラウザやJavaScriptの歴史を振り返るような内容にもなっています。
