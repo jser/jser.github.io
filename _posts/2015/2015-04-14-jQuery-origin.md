@@ -64,6 +64,10 @@ trailing-function-commasのサポート、オブジェクトリテラルのメ�
 
 - [Decorators in object literals trigger SyntaxError · Issue #1154 · babel/babel](https://github.com/babel/babel/issues/1154 "Decorators in object literals trigger SyntaxError · Issue #1154 · babel/babel")
 
+関連してBabelを使ったコードもESLintでチェックできるプッラグインbabel-eslintがBabel 5.xに対応。
+
+- [babel/babel-eslint](https://github.com/babel/babel-eslint "babel/babel-eslint")
+
 ----
 
 ## The npm Blog — npm private modules are here!
