@@ -96,7 +96,7 @@ Browserify、wzrd、budoを使ったプロトタイピングについて。
 ----
 
 ## eval ソースをデバッグする - 開発ツール | MDN
-[developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Debug_eval_sources](https://developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Debug_eval_sources "eval ソースをデバッグする - 開発ツール | MDN")
+[developer.mozilla.org/ja/docs/Tools/Debugger/How\_to/Debug\_eval\_sources](https://developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Debug_eval_sources "eval ソースをデバッグする - 開発ツール | MDN")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">sourcemap</span> <span class="jser-tag">debug</span></p>
 
@@ -203,7 +203,7 @@ Material Design guidelinesに則ったデザインをするためのフレーム
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">画像</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span></p>
 
-画像の比較してその差を出したり、一致するかをテストできるJavaScriptライブラリ。
+画像を比較してその差を出したり、一致するかをテストできるJavaScriptライブラリ。
 どれくらいの差を許すか等も設定できる
 
 ----
