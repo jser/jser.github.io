@@ -16,16 +16,16 @@ JSer.info #224 - 次期ECMAScriptのいわゆるES6の[Rev 38 Final Draft](http:
 最終ドラフトなので、これがECMAへ提出されて2015年の6月のECMAのミーティングにて承認されれば、ECMA標準として公開される予定になっています。
 
 [2014-06-09のJS](http://jser.info/post/88276341744/2014-06-09-js-bluebird/ "2014-06-09のJS")の際にES6のリリース次期が変更されていましたが、この変更した通りに進んでいるようです。
-(図は[2014-06-09のJS](http://jser.info/post/88276341744/2014-06-09-js-bluebird/ "2014-06-09のJS")のもの)
+(図は2014-06-09時点のもの)
 
 <p><a href="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" title="ES6 timeline" target="_blank"><img width="100%" src="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" alt="ES6 Release Schedule"/></a></p>
 
-<p><a href="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" title="ES6 timeline" target="_blank">＊画像横に長いのでクリック</a></p>
+<p><a href="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" title="ES6 timeline" target="_blank">＊画像が横に長いのでクリック</a></p>
 
-ECMA標準として承認された後、ECMAScriptは[ISO/IEC 16262](http://www.iso.org/iso/home/store/catalogue_ics/catalogue_detail_ics.htm?csnumber=55755 "ISO/IEC 16262")として標準化されているためこちらにも提出される予定です。
+ECMA標準として承認された後、ECMAScriptは[ISO/IEC 16262](http://www.iso.org/iso/home/store/catalogue_ics/catalogue_detail_ics.htm?csnumber=55755 "ISO/IEC 16262")としても標準化されているためこちらにも提出される予定です。
 
-ISO/IECではECMAScript5を[ISO/IEC 16262:2011](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=55755 "ISO/IEC 16262:2011")として標準化されていて年号が使われています。
-そのため、この対応関係が分かりにくくなる問題あったため、ES6の仕様書ではECMAScript 2015という表記へ変更されています。
+ISO/IECではECMAScript5を[ISO/IEC 16262:2011](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=55755 "ISO/IEC 16262:2011")として標準化されているように年号が使われています。
+このような対応関係が分かりにくくなる問題あり、ES6の仕様書ではECMAScript 2015という表記へ変更されています。
 
 <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/rwaldron">@rwaldron</a> <a href="https://twitter.com/SlexAxton">@SlexAxton</a> RC4 replaced a lot of &quot;Edition 6&quot; with &quot;ECMAScript 2015&quot;. Will help with ISO version aka ISO/IEC-16262 Edition 4</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/584093254045413376">April 3, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
