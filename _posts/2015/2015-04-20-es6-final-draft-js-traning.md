@@ -15,7 +15,7 @@ JSer.info #224 - 次期ECMAScriptのいわゆるES6の[Rev 38 Final Draft](http:
 
 <blockquote class="twitter-tweet" lang="en"><p>Final Draft of the ECMAScript 2015 Language Specification (ES6) is now available at <a href="http://t.co/pcHkz1muWu">http://t.co/pcHkz1muWu</a> Next step: Ecma GA approval vote</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/588811606236106755">April 16, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-最終ドラフトなので、これがECMAへ提出されて2015年の6月のECMAのミーティングにて承認されれば、ECMA標準として公開される予定になっています。
+ECMAへ提出されて2015年の6月のECMAのミーティングにて承認されれば、ECMA標準として公開される予定になっています。
 
 [2014-06-09のJS](http://jser.info/post/88276341744/2014-06-09-js-bluebird/ "2014-06-09のJS")の際にES6のリリース次期が変更されていましたが、この変更した通りに進んでいるようです。
 (図は2014-06-09時点のもの)
@@ -24,7 +24,7 @@ JSer.info #224 - 次期ECMAScriptのいわゆるES6の[Rev 38 Final Draft](http:
 
 <p><a href="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" title="ES6 timeline" target="_blank">＊画像が横に長いのでクリック</a></p>
 
-ECMA標準として承認された後、ECMAScriptは[ISO/IEC 16262](http://www.iso.org/iso/home/store/catalogue_ics/catalogue_detail_ics.htm?csnumber=55755 "ISO/IEC 16262")としても標準化されているためこちらにも提出される予定です。
+ECMA標準として承認された後、ECMAScriptは[ISO/IEC 16262](http://www.iso.org/iso/home/store/catalogue_ics/catalogue_detail_ics.htm?csnumber=55755 "ISO/IEC 16262")としても標準化されているため、こちらにも提出される予定です。
 
 ISO/IECではECMAScript5を[ISO/IEC 16262:2011](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=55755 "ISO/IEC 16262:2011")として標準化されているように年号が使われています。
 このような対応関係が分かりにくくなる問題あり、ES6の仕様書ではECMAScript 2015という表記へ変更されています。
