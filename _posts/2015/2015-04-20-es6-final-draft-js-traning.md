@@ -11,7 +11,7 @@ tags:
 
 ---
 
-JSer.info #224 - 次期ECMAScriptのいわゆるES6の[Rev 38 Final Draft](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#april_14_2015_rev_38_final_draft "Rev 38 Final Draft")がリリースされました。
+JSer.info #224 - 次期ECMAScriptであるES6 [Rev 38 Final Draft](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#april_14_2015_rev_38_final_draft "Rev 38 Final Draft")がリリースされました。
 
 <blockquote class="twitter-tweet" lang="en"><p>Final Draft of the ECMAScript 2015 Language Specification (ES6) is now available at <a href="http://t.co/pcHkz1muWu">http://t.co/pcHkz1muWu</a> Next step: Ecma GA approval vote</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/588811606236106755">April 16, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
