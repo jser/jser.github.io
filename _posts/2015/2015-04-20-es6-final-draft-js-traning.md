@@ -26,8 +26,8 @@ ECMAへ提出されて2015年の6月のECMAのミーティングにて承認さ�
 
 ECMA標準として承認された後、ECMAScriptは[ISO/IEC 16262](http://www.iso.org/iso/home/store/catalogue_ics/catalogue_detail_ics.htm?csnumber=55755 "ISO/IEC 16262")としても標準化されているため、こちらにも提出される予定です。
 
-ISO/IECではECMAScript5を[ISO/IEC 16262:2011](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=55755 "ISO/IEC 16262:2011")として標準化されているように年号が使われています。
-このような対応関係が分かりにくくなる問題あり、ES6の仕様書ではECMAScript 2015という表記へ変更されています。
+ISO/IECではECMAScript 5を[ISO/IEC 16262:2011](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=55755 "ISO/IEC 16262:2011")として標準化されているように年号が使われています。
+このような対応関係が分かりにくくなる問題のため、ES6の仕様書ではECMAScript 2015という表記へ変更されています。
 
 <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/rwaldron">@rwaldron</a> <a href="https://twitter.com/SlexAxton">@SlexAxton</a> RC4 replaced a lot of &quot;Edition 6&quot; with &quot;ECMAScript 2015&quot;. Will help with ISO version aka ISO/IEC-16262 Edition 4</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/584093254045413376">April 3, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -96,7 +96,7 @@ jsdom 5.0.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Testem 0.8.0リリース。
-SauceLabsのようにリモートとつないで実行する場合の挙動を改善
+Sauce Labsのようにリモートとつないで実行する場合の挙動を改善
 
 ----
 
@@ -119,8 +119,7 @@ ES6の構文をサポート
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Chrome 43 Betaリリース。
-Web MIDI APIがデフォルトで有効に、
-Permissions APIのサポート、DOM属性がprototype chainに移動、Flashなしでもクリップボードへのコピーが出来るように、Fetchでレスポンスをストリーミング出来るようになるなど
+Web MIDI APIがデフォルトで有効に、Permissions APIのサポート、DOM属性がprototype chainに移動、Flashなしでもクリップボードへのコピーが出来るように、Fetchでレスポンスをストリーミング出来るようになるなど
 
 - [Permissions API for the Web](http://updates.html5rocks.com/2015/04/permissions-api-for-the-web "Permissions API for the Web")
 - [DOM Attributes now on the prototype chain](http://updates.html5rocks.com/2015/04/DOM-attributes-now-on-the-prototype "DOM Attributes now on the prototype chain")
@@ -179,7 +178,7 @@ Mochaの基本的な使い方やexpressを使って実装したウェブサー�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">スライド</span></p>
 
-ReactでES6 classesを使ったComponentを作るスライド。
+ReactでES6 Classesを使ったComponentを作るスライド。
 Component内では常にstateじゃなくpropsを使いたい、FormのControlled Componentでもpropsを使うための高階関数について
 
 - [Forms | React](http://facebook.github.io/react/docs/forms.html#controlled-components "Forms | React")
@@ -238,7 +237,7 @@ Private bower registry
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">まとめ</span></p>
 
-HTTP Archive (HAR)を扱うツールやリソースのまとめ
+HTTP Archive(HAR)を扱うツールやリソースのまとめ
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
@@ -270,7 +269,7 @@ JSON Schemaの定義とバリデーションを行うライブラリ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
 Box社のJavaScriptフレームワーク。
-Angular 1.x系みたいなモジュールの仕組みだが、基本はコンパクトでコールスタックもかなり浅くなるように作られている。`debug`オプションを有効にすることでエラーが取りやすいように設計されている
+AngularJS 1.x系みたいなモジュールの仕組みだが、基本はコンパクトでコールスタックもかなり浅くなるように作られている。`debug`オプションを有効にすることでエラーが取りやすいように設計されている
 
 ----
 
