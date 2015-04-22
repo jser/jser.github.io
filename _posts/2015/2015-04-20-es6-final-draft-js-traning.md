@@ -58,6 +58,8 @@ ECMAScript 2015(ES6)の最終ドラフトがリリース。
 
 <blockquote class="twitter-tweet" lang="en"><p>Final Draft of the ECMAScript 2015 Language Specification (ES6) is now available at <a href="http://t.co/pcHkz1muWu">http://t.co/pcHkz1muWu</a> Next step: Ecma GA approval vote</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/588811606236106755">April 16, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+----
+
 ## React v0.13.2 | React
 [facebook.github.io/react/blog/2015/04/18/react-v0.13.2.html](http://facebook.github.io/react/blog/2015/04/18/react-v0.13.2.html "React v0.13.2 | React")
 
