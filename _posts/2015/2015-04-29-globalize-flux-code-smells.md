@@ -20,7 +20,7 @@ JSer.info #225 - [CLDR](http://cldr.unicode.org/ "CLDR - Unicode Common Locale D
 
 ----
 
-[React.js meetup #1](http://reactjs-meetup.connpass.com/event/11232/ "React.js meetup #1 - connpass")や[O&#39;Reilly Fluent](http://fluentconf.com/javascript-html-2015 "O&#39;Reilly Fluent")などのイベントがありFluxについての話が色々でていたのでまとめて紹介。
+[React.js meetup #1](http://reactjs-meetup.connpass.com/event/11232/ "React.js meetup #1 - connpass")や[O&#39;Reilly Fluent](http://fluentconf.com/javascript-html-2015 "O&#39;Reilly Fluent")などのイベントがありReactやFluxについての話が色々でていたのでまとめて紹介。
 
 - [10分で実装するFlux](http://azu.github.io/slide/react-meetup/flux.html "10分で実装するFlux")
 	- Fluxを一から実装してみて、データがホントに一方通行に流れてるのかを確認するという趣旨のスライド
