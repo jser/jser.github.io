@@ -24,10 +24,11 @@ JSer.info #225 - [CLDR](http://cldr.unicode.org/ "CLDR - Unicode Common Locale D
 
 - [10分で実装するFlux](http://azu.github.io/slide/react-meetup/flux.html "10分で実装するFlux")
 	- Fluxを一から実装してみて、データがホントに一方通行に流れてるのかを確認するという趣旨のスライド
-	- EventEmitterから実装してみてますが、Viewを除くと50行程度で書けるものであるという話
+	- EventEmitterから実装してViewを除くと50行程度で書けるものであるという話
 	- 実装: [azu/mini-flux](https://github.com/azu/mini-flux "azu/mini-flux")
 - [ReactとFluxのこと // Speaker Deck](https://speakerdeck.com/geta6/reacttofluxfalsekoto "ReactとFluxのこと // Speaker Deck")
 	- ReactとFluxがどういう仕組みだったり、実際どう動いてるのかを具体的に解説してるスライド
+	- よくある誤解や今までのアプローチとはどういう所に違いがあるのかについて話されている
 - [react-flux-fluent-2015 // Speaker Deck](https://speakerdeck.com/fisherwebdev/react-flux-fluent-2015 "react-flux-fluent-2015 // Speaker Deck")
 	- [facebook/flux](https://github.com/facebook/flux "facebook/flux")のメンテナーである[Bill Fisher](https://github.com/fisherwebdev "Bill Fisher")によるFluxについてのスライド
 	- Fluxの構成する要素の役割を順を追って解説したりアンチパターンについても書かれている
