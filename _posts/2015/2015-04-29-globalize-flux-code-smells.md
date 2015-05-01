@@ -40,7 +40,7 @@ JSer.info #225 - [CLDR](http://cldr.unicode.org/ "CLDR - Unicode Common Locale D
 
 ----
 
-[Eliminate JavaScript Code Smells](http://elijahmanor.github.io/talks/js-smells/#/ "Eliminate JavaScript Code Smells") というスライドでは、いわゆるCode Smells(何かの問題になる兆候)を発見する方法について書かれています。
+[Eliminate JavaScript Code Smells](http://elijahmanor.github.io/talks/js-smells/#/ "Eliminate JavaScript Code Smells")というスライドでは、いわゆるCode Smells(何かの問題になる兆候)を発見する方法について書かれています。
 
 - [コードの臭い - Wikipedia](http://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E8%87%AD%E3%81%84 "コードの臭い - Wikipedia")
 
@@ -57,7 +57,8 @@ JSer.info #225 - [CLDR](http://cldr.unicode.org/ "CLDR - Unicode Common Locale D
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">game</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-JavaScriptゲームエンジンのpixi.js v3リリース。 WebGL Renderer、Particle Containerの追加、Interaction、Resolution管理の改善など
+JavaScriptゲームエンジンのpixi.js v3リリース。
+WebGL Renderer、Particle Containerの追加、Interaction、Resolution管理の改善など
 
 ----
 
@@ -66,8 +67,8 @@ JavaScriptゲームエンジンのpixi.js v3リリース。 WebGL Renderer、Par
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">ReleaseNote</span></p>
 
-jQuery 1.11.3 と 2.1.4リリース。
-iOS8.2と8.3向けのワークアラウンドの追加
+jQuery 1.11.3と2.1.4リリース。
+iOS 8.2と8.3向けのワークアラウンドの追加
 
 - [Prevent iOS from improperly JIT-ing isArrayLike by jridgewell · Pull Request #2094 · jashkenas/underscore](https://github.com/jashkenas/underscore/pull/2094 "Prevent iOS from improperly JIT-ing isArrayLike by jridgewell · Pull Request #2094 · jashkenas/underscore")
 - [Bug 142792 – Objects with numeric properties intermittently get a phantom &#x27;length&#x27; property](https://bugs.webkit.org/show_bug.cgi?id=142792 "Bug 142792 – Objects with numeric properties intermittently get a phantom &#x27;length&#x27; property")
@@ -79,8 +80,8 @@ iOS8.2と8.3向けのワークアラウンドの追加
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Opera</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Opera 29 (based on Chromium 42) リリース。
-ES6 classes、object literalsの拡張サポート、Fetch APIがwindowコンテキストでも利用できるように、Web Audio APIの仕様追従など
+Opera 29(based on Chromium 42)リリース。
+ES6 Classes、object literalsの拡張サポート、Fetch APIがwindowコンテキストでも利用できるように、Web Audio APIの仕様追従など
 
 ----
 
@@ -193,7 +194,8 @@ Fluent Conf 2015の動画が公開されている
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">スライド</span></p>
 
-ES6を使っていくためのスライド。 node_modules以下もBrowserify(Babelify)で変換するには、`global`オプションを利用する。ES6で書いたモジュールをES5から使えるように公開する方法、ES6 classesやBabelのlooseモードについてなど
+ES6を使っていくためのスライド。
+node_modules以下もBrowserify(Babelify)で変換するには、`global`オプションを利用する。ES6で書いたモジュールをES5から使えるように公開する方法、ES6 ClassesやBabelのlooseモードについてなど
 
 ----
 
@@ -202,7 +204,7 @@ ES6を使っていくためのスライド。 node_modules以下もBrowserify(Ba
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">スライド</span></p>
 
-JSHintやESLintを使って複雑なコードの検出、jsinspectやjscpdを使ってコピー&ペーストを検出、色々なあやしいコードの検出するeslint pluginや特定のライブラリをサポートするeslint pluginについて
+JSHintやESLintを使って複雑なコードの検出、jsinspectやjscpdを使ってコピー&ペーストを検出、色々なあやしいコードを検出するeslint pluginや特定のライブラリをサポートするeslint pluginについて
 
 - [elijahmanor/eslint-plugin-smells](https://github.com/elijahmanor/eslint-plugin-smells "elijahmanor/eslint-plugin-smells")
 
@@ -228,9 +230,9 @@ JSHintやESLintを使って複雑なコードの検出、jsinspectやjscpdを使
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">webkit</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">まとめ</span></p>
 
-WebkitのStatusダッシュボード。 新しい機能等の実装状況について書かれてる。
+WebKitのStatusダッシュボード。 新しい機能等の実装状況について書かれてる。
 
-- [Browser Platform Status Tracker](http://platformstatustracker.azurewebsites.net/ "Browser Platform Status Tracker") もWebkitのStatusに対応
+- [Browser Platform Status Tracker](http://platformstatustracker.azurewebsites.net/ "Browser Platform Status Tracker")もWebKitのStatusに対応
 
 ----
 
@@ -269,7 +271,7 @@ React ComponentのmixinをES6 Classesを使って行うライブラリ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-ES6 classesでのmixinを行うライブラリ。
+ES6 Classesでのmixinを行うライブラリ。
 `class Input extends mixin(BaseClass. mixin) {}` という感じでBaseClassを拡張したクラスをその場で作成する
 
 ----
@@ -291,6 +293,7 @@ setTimeout/setInterval互換のAPIを持ち、任意の間隔で進めたり、�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">HTML</span> <span class="jser-tag">セキュリティ</span> <span class="jser-tag">book</span></p>
 
-2015年9月25日発売 ウェブ開発者向けのセキュリティについての書籍
+2015年9月25日発売
+ウェブ開発者向けのセキュリティについての書籍
 
 ----
