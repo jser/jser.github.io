@@ -21,7 +21,7 @@ JSer.info #227 - [Rubyist Magazine - 2015 年の JavaScript と babel の話](ht
 
 
 ----
-[npm update -g npm // Speaker Deck](https://speakerdeck.com/watilde/npm-update-g-npm "npm update -g npm // Speaker Deck") というスライドでは、パッケージ管理ツES6ールであるnpmの最近の変更点や追加された機能などについて紹介されています。
+[npm update -g npm // Speaker Deck](https://speakerdeck.com/watilde/npm-update-g-npm "npm update -g npm // Speaker Deck") というスライドでは、パッケージ管理ツールであるnpmの最近の変更点や追加された機能などについて紹介されています。
 
 npmは`npm install -g npm`することでNode.jsやio.jsのバージョンとは別でアップデート可能ですが、現在のNode.jsにバンドルされているのはnpm v2.5.1なので、そこからどのような変更があったかについて書かれています。
 
