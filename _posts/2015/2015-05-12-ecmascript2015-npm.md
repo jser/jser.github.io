@@ -1,5 +1,5 @@
 ---
-title: "2015-05-12のJS: ECMAScript 2015(ES6)、最近のnpmの変更点を見る"
+title: "2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る"
 author: azu
 layout: post
 date : 2015-05-12T19:21
