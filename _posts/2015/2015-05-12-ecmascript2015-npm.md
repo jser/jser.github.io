@@ -21,7 +21,7 @@ JSer.info #227 - [Rubyist Magazine - 2015 年の JavaScript と babel の話](ht
 
 
 ----
-[npm update -g npm // Speaker Deck](https://speakerdeck.com/watilde/npm-update-g-npm "npm update -g npm // Speaker Deck") というスライドでは、パッケージ管理ツールであるnpmの最近の変更点や追加された機能などについて紹介されています。
+[npm update -g npm // Speaker Deck](https://speakerdeck.com/watilde/npm-update-g-npm "npm update -g npm // Speaker Deck")というスライドでは、パッケージ管理ツールであるnpmの最近の変更点や追加された機能などについて紹介されています。
 
 npmは`npm install -g npm`することでNode.jsやio.jsのバージョンとは別でアップデート可能ですが、現在のNode.jsにバンドルされているのはnpm v2.5.1なので、そこからどのような変更があったかについて書かれています。
 
@@ -64,7 +64,7 @@ ES6 Classesを使った時に非推奨メソッドの警告を改善、
 
 ES6の概要を紹介する記事
 
-- [Hello, ES6 ~これから迎えるJSのミライ~ - @yoshiko\_pg](http://yoshiko-pg.github.io/slides/20150425-jsfes/ "Hello, ES6 ~これから迎えるJSのミライ~ - @yoshiko\_pg")
+- [Hello, ES6 ~これから迎えるJSのミライ~ - @yoshiko_pg](http://yoshiko-pg.github.io/slides/20150425-jsfes/ "Hello, ES6 ~これから迎えるJSのミライ~ - @yoshiko_pg")
 
 ----
 
@@ -87,8 +87,8 @@ Babelのオプションを使いJSXで書くこともでき、Node.js上でも�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p>
 
-Nodeとブラウザどちらでも動くライブラリ書いていく記事。
-faux-jaxを使ったXHRのテストをzuulで動す。コールバックとPromiseのサポートについてやBrowserify等を使ったモジュールの変換、後方互換ガイドの書き方についてなど
+Node.jsとブラウザどちらでも動くライブラリを書いていく記事。
+faux-jaxを使ったXHRのテストをzuulで動かす。コールバックとPromiseのサポートについてやBrowserify等を使ったモジュールの変換、後方互換ガイドの書き方についてなど
 
 - [algolia/faux-jax](https://github.com/algolia/faux-jax "algolia/faux-jax")
 
@@ -109,7 +109,7 @@ immutable.jsを使ったJavaScriptでのImmutabilityの実現について。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">設計</span></p>
 
-AngularJS2のコアコンセプトについて。
+AngularJS 2のコアコンセプトについて。
 テンプレート、ライフサイクル、DI、コンポーネントなどの構成要素について。
 
 - [angular/zone.js](https://github.com/angular/zone.js "angular/zone.js")
@@ -122,7 +122,7 @@ AngularJS2のコアコンセプトについて。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">IE</span></p>
 
 MSEdgeで削除されたIE特有の機能などについて。(IEから引き継がなかった機能)
-逆に `-webkit-border-radius`のような既存のウェブサイドの互換性のためにサポートしている
+逆に`-webkit-border-radius`のようなものを既存のウェブサイトの互換性のためにサポートしている
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
@@ -160,7 +160,7 @@ Front-end Dev Weeklyの翻訳
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">audio</span> <span class="jser-tag">動画</span> <span class="jser-tag">スライド</span></p>
 
-WebAudio、MediaStream Processing API、Web Speech API、Speech Recognition APIの紹介的なスライド
+Web Audio API、MediaStream Processing API、Web Speech API、Speech Recognition APIの紹介的なスライド
 
 ----
 
