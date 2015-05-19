@@ -44,7 +44,7 @@ Viewの作成などをhookする機能の追加、モデルの"update"イベン�
 
 V8について色々な記事を書いてる[@mraleph](https://twitter.com/mraleph "@mraleph")さんによる[Do not Measure the Weather](http://mrale.ph/talks/goto2015/#/ "Do not Measure the Weather")というスライドでは、JavaScriptエンジンの最適化によってマイクロベンチマークが意図したものを計測できていない事がある点について実例と共に解説しています。
 
-よくあるのがループの中で計測した処理を書いていてその結果を使っていないため、ループの中身が最適化によって空になってしまう問題などがおきます(dead code elimination)
+よくあるのがループの中で計測した処理を書いていてその結果を使っていないため、ループの中身が最適化によって空になってしまう問題などが起きています。(dead code elimination)
 
 以下のような原則で最適化によって無意味なベンチマークにならないような方法について書かれています。
 
@@ -55,12 +55,11 @@ V8について色々な記事を書いてる[@mraleph](https://twitter.com/mrale
 - [http://mrale.ph/talks/goto2015/#/74](http://mrale.ph/talks/goto2015/#/74)
 
 しかし、最近のJavaScriptエンジンはホントに賢いので、それでも最適化により意図とは異なるものを計測してる場合があり、
-実際にどういう事が起きているのかを[IRHydra2](http://mrale.ph/irhydra/2/# "IRHydra2")を使って見ていく方法についてもか荒れています。
+実際にどういう事が起きているのかを[IRHydra2](http://mrale.ph/irhydra/2/# "IRHydra2")を使って見ていく方法についても書かれています。
 
 IRHydra2については以前[V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch](http://efcl.info/2014/09/13/v8-optimization-memo/ "V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch")という記事を書いたのでこちらも見てみるといいかもしれません。
 
 > algorithms first, µbenchmarks last
-> -- http://mrale.ph/talks/goto2015/#/168
 
 とも書かれています。
 
