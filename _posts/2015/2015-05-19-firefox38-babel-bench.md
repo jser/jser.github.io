@@ -4,10 +4,15 @@ author: azu
 layout: post
 date : 2015-05-19T23:03
 category: JSer
-tags:
-	- Firefox
+tags: 
+    - Firefox
+    - Backbone
+    - MVC
+    - V8
+    - ベンチマーク
 
 ---
+
 
 JSer.info #228 - [Firefox 38.0](https://www.mozilla.org/en-US/firefox/38.0/releasenotes/ "Firefox — Notes (38.0) — Mozilla")がリリースされました。
 
