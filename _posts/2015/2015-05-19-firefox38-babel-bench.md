@@ -123,7 +123,9 @@ Ruby要素のサポート、WebSocketがWeb Workerで動作するように、Bro
 - [Firefox 38の性能を検証 ゲーム・プラットフォームとしての優秀さを示す - Mozilla Flux](http://rockridge.hatenablog.com/entry/2015/05/13/003218 "Firefox 38の性能を検証 ゲーム・プラットフォームとしての優秀さを示す - Mozilla Flux")
 - [Firefox 38 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/38 "Firefox 38 for developers - Mozilla | MDN")
 - [Firefox 38 サイト互換性情報 - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/38/Site_Compatibility "Firefox 38 サイト互換性情報 - Mozilla | MDN")
-    
+- [HTML5 Web Messaging is a W3C Recommendation | W3C News](http://www.w3.org/blog/news/archives/4704?pk_campaign=feed&pk_kwd=html5-web-messaging-is-a-w3c-recommendation "HTML5 Web Messaging is a W3C Recommendation | W3C News")
+
+
 ----
 
 ## babel/CHANGELOG.md at v5.3.0 · babel/babel
