@@ -1,5 +1,5 @@
 ---
-title: "2015-05-19のJS: Firefox 38、Backebone 1.2.0、マイクロベンチマークの問題"
+title: "2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題"
 author: azu
 layout: post
 date : 2015-05-19T23:03
@@ -18,7 +18,7 @@ JSer.info #228 - [Firefox 38.0](https://www.mozilla.org/en-US/firefox/38.0/relea
 
 タブやウィンドウ間でデータのやり取りができる[BroadcastChannel API](https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/ "BroadcastChannel API")や[HTML5 ruby tags](https://hacks.mozilla.org/2015/03/ruby-support-in-firefox-developer-edition-38/ "HTML5 ruby tags")、` <picture>`や`<img srcset>`のサポートなどが追加されています。
 
-また、[performance.measure](http://www.sitepoint.com/discovering-user-timing-api/ "performance.measure")やFirefoxの開発者ツールで[`copy()`](https://developer.mozilla.org/ja/docs/Tools/Web_Console#Helper_commands "copy()")メソッドのサポート、[JavaScript エンジンの最適化により削除されている変数を表示](https://developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Examine,_modify,_and_watch_variables)する機能など開発者ツールにも色々機能が増えています。
+また、[performance.measure](http://www.sitepoint.com/discovering-user-timing-api/ "performance.measure")やFirefoxの開発者ツールで[`copy()`](https://developer.mozilla.org/ja/docs/Tools/Web_Console#Helper_commands "copy()")メソッドのサポート、[JavaScriptエンジンの最適化により削除されている変数を表示](https://developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Examine,_modify,_and_watch_variables)する機能など開発者ツールにも色々機能が増えています。
 
 詳細は以下から確認できます。
 
@@ -34,7 +34,7 @@ JSer.info #228 - [Firefox 38.0](https://www.mozilla.org/en-US/firefox/38.0/relea
 
 - [Comparing 1.1.2...1.2.0 · jashkenas/backbone](https://github.com/jashkenas/backbone/compare/1.1.2...1.2.0 "Comparing 1.1.2...1.2.0 · jashkenas/backbone")
 
-Viewの作成などをhookする機能の追加、モデルの"update"イベントの追加、ユニークidとなるmodeldの追加、Strict modeだと動かない問題の修正などがされています。
+Viewの作成などをhookする機能の追加、モデルの"update"イベントの追加、ユニークidとなるmodeldの追加、Strict Modeだと動かない問題の修正などがされています。
 
 一部互換性のない変更も含まれているようです。
 
@@ -82,7 +82,7 @@ Node v0.12.3リリース
 ## 0.9 released!
 [blog.polymer-project.org/announcements/2015/05/14/0.9-release/](http://blog.polymer-project.org/announcements/2015/05/14/0.9-release/ "0.9 released!")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
-polymer 0.9リリース。
+Polymer 0.9リリース。
 0.8でexperimentalだった機能がデフォルトサポートされている。
 `:root`セレクタ、Gesture、CSPのサポートやUtilの追加など。
 Breaking Changeもあり、Migration guideが用意されている
@@ -97,7 +97,7 @@ Breaking Changeもあり、Migration guideが用意されている
 [emberjs.com/blog/2015/05/13/ember-1-12-released.html](http://emberjs.com/blog/2015/05/13/ember-1-12-released.html "Ember.js - Ember.js 1.12 and 1.13 Beta (Glimmer!) Released")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 Ember.js 1.12と1.13 Betaリリース。
-computeにgetter/setterを使った方法を追加、併せてDecoratorsを使った方法サポート予定
+computeにgetter/setterを使った方法を追加、併せてDecoratorsを使った方法をサポートする予定
 
 ----
 
@@ -107,8 +107,8 @@ computeにgetter/setterを使った方法を追加、併せてDecoratorsを使�
 Backbone.js 1.2.0リリース
 Viewの作成などをhookする機能の追加、モデルの"update"イベントの追加、ユニークidとなる`modeld`の追加、ES6 modulesとして読み込んでも使えるように修正
 
-- [Use Function(&quot;return this&quot;) to get global? · Issue #2152 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2152 "Use Function(&quot;return this&quot;) to get global? · Issue #2152 · jashkenas/underscore")
-- [ES6 moduleのtop levelにある`this`の値は何になるのか? | Web Scratch](http://efcl.info/2015/05/06/this-is-es6-module/ "ES6 moduleのtop levelにある\&#x60;this\&#x60;の値は何になるのか? | Web Scratch")
+- [Use Function(&quot;return this&quot;) to get global? · Issue #2152 · jashkenas/underscore](https://github.com/jashkenas/underscore/issues/2152 "Use Function(\"return this\") to get global? · Issue #2152 · jashkenas/underscore")
+- [ES6 moduleのtop levelにある\`this\`の値は何になるのか? | Web Scratch](http://efcl.info/2015/05/06/this-is-es6-module/ "ES6 moduleのtop levelにある`this`の値は何になるのか? | Web Scratch")
     
 ----
 
@@ -158,7 +158,7 @@ Babel 5.4でES.nextで提案されているStage 0の`::`によるBind構文の�
 ----
 
 ## We Tested How Googlebot Crawls Javascript And Here&#x27;s What We Learned
-[searchengineland.com/tested-googlebot-crawls-javascript-heres-learned-220157](http://searchengineland.com/tested-googlebot-crawls-javascript-heres-learned-220157 "We Tested How Googlebot Crawls Javascript And Here&#x27;s What We Learned")
+[searchengineland.com/tested-googlebot-crawls-javascript-heres-learned-220157](http://searchengineland.com/tested-googlebot-crawls-javascript-heres-learned-220157 "We Tested How Googlebot Crawls Javascript And Here's What We Learned")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">google</span> <span class="jser-tag">検索</span></p>
 Google検索botがどこまでJavaScript等を解釈してクロールしているかの調査
 
@@ -209,7 +209,7 @@ Chakra JavaScriptエンジンを使ったNode.jsのforkが公開された。
 ## BroadcastChannel API in Firefox 38 ✩ Mozilla Hacks – the Web developer blog
 [hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/](https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/ "BroadcastChannel API in Firefox 38 ✩ Mozilla Hacks – the Web developer blog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span></p>
-Firefox38でBroadcastChannel APIが実装された。
+Firefox 38.0でBroadcastChannel APIが実装された。
 同じchannelを指定すれば、異なるタブやウィンドウ間でもメッセージのやり取りができるようになるAPI。
 Blobデータのやりとりも可能
 
@@ -239,7 +239,8 @@ JSエンジンはJITコンパイルするため計測結果は未最適化+最�
 ## Making a Silky Smooth Web // Speaker Deck
 [speakerdeck.com/paullewis/making-a-silky-smooth-web](https://speakerdeck.com/paullewis/making-a-silky-smooth-web "Making a Silky Smooth Web // Speaker Deck")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
-JavaScript->Style->Layout->Paint->Compositeという表示までの流れをきれいに行う方法や開発者ツールの使い方について。 requestAnimationFrameの活用
+JavaScript->Style->Layout->Paint->Compositeという表示までの流れをきれいに行う方法や開発者ツールの使い方について。
+requestAnimationFrameの活用
 
 ----
 
