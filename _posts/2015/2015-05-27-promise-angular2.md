@@ -22,7 +22,7 @@ Promiseの動作フローの解説、おかしな書き方とそれを修正し�
 
 [JavaScript - AngularJSモダンプラクティス - Qiita](http://qiita.com/armorik83/items/5542daed0c408cb9f605 "JavaScript - AngularJSモダンプラクティス - Qiita")という記事では、既にAngularJS 1.xを使っている人が[AngularJS 2](https://angular.io/ "Angular")に向けてどのように1.xで書いておくとよいかについてまとめられています。
 
-[AngularJS 2](https://angular.io/ "Angular")ではどのように書けるようになるのか、2.xでは廃止される機能、また関連するライブラリやツールについても書かれていて、AngularJSを使ってるいる人は読んでみるといいかもしれません。
+[AngularJS 2](https://angular.io/ "Angular")ではどのように書けるようになるのか、2.xでは廃止される機能、また関連するライブラリやツールについても書かれていて、AngularJSを使っている人は読んでみるといいかもしれません。
 
 ----
 
@@ -65,8 +65,8 @@ Promiseの色々な落とし穴やアンチパターンについてよくまと�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">tutorial</span></p>
 
 AngularJS 2に移行しやすくするにはどうするかというチュートリアル。
-1.xでもES6 classesを使った書き方をするためのリファクタリング方法。
-Angular 2でのdirective、モジュール、関連ライブラリやツール、FAQなど
+1.xでもES6 Classesを使った書き方をするためのリファクタリング方法。
+AngularJS 2でのdirective、モジュール、関連ライブラリやツール、FAQなど
 
 ----
 
@@ -75,7 +75,7 @@ Angular 2でのdirective、モジュール、関連ライブラリやツール�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CoffeeScript</span></p>
 
-CoffeScriptからES6への移行するにおいて文法の比較やES6の構文や機能の紹介
+CoffeeScriptからES6への移行において文法の比較やES6の構文や機能の紹介
 
 ----
 
@@ -161,7 +161,7 @@ Pure JavaScriptでDOM操作などについての逆引きリファレンス
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">podcast</span></p>
 
-EmberJSについてのpodcast
+Ember.jsについてのpodcast
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
@@ -209,7 +209,7 @@ HTMLとCSSを渡して使われてないCSSを検索するツール
 ----
 
 ## High-performance javascript library for animations &amp; interfaces | Famous.org
-[famous.org/](http://famous.org/ "High-performance javascript library for animations &amp; interfaces | Famous.org")
+[famous.org/](http://famous.org/ "High-performance javascript library for animations & interfaces | Famous.org")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">animation</span> <span class="jser-tag">library</span> <span class="jser-tag">WebGL</span></p>
 
