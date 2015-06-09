@@ -5,7 +5,7 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
 
   echo "gif diff"
   git diff --name-only origin/master \
-   | grep -a '\.md$' || RETURN_CODE=$?
+   | grep -a 'ja\/.*\.md$' || RETURN_CODE=$?
 
   case "$RETURN_CODE" in
     "" ) echo "found" ;;
@@ -19,7 +19,7 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
 
   # 変更行のみを対象にする
   git diff --name-only origin/master \
-   | grep -a '\.md$' \
+   | grep -a 'ja\/.*\.md$' \
    | xargs $(npm bin)/textlint --rulesdir test/rules -f checkstyle \
    | checkstyle_filter-git diff origin/master \
    | saddler report \

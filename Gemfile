@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 gem 'github-pages'
+gem 'jekyll-multiple-languages-plugin'
 gem 'rake'
-gem 'rake-jekyll'
+gem 'rake-jekyll', github: 'azu/rake-jekyll'
