@@ -19,7 +19,7 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
 
   # 変更行のみを対象にする
   git diff --name-only origin/master \
-   | grep -a 'jp\/.*\.md$' \
+   | grep -a '\.md$' \
    | xargs $(npm bin)/textlint --rulesdir test/rules -f checkstyle \
    | checkstyle_filter-git diff origin/master \
    | saddler report \
