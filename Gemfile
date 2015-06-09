@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 gem 'github-pages'
 gem 'rake'
-gem 'rake-jekyll'
+gem 'rake-jekyll', github: 'azu/rake-jekyll'
