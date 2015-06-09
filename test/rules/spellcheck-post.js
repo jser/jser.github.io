@@ -2,7 +2,7 @@
 "use strict";
 var RuleHelper = require("textlint-rule-helper").RuleHelper;
 var spellCheck = require("spellcheck-technical-word").spellCheckText;
-var ContributingLink = '[Contributing Guide](https://github.com/jser/jser.github.io/blob/master/CONTRIBUTING.md)';
+var ContributingLink = '[Contributing Guide](https://github.com/jser/jser.github.io/blob/develop/CONTRIBUTING.md)';
 /**
  * @param {RuleContext} context
  */
