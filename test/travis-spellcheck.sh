@@ -4,7 +4,7 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
   gem install --no-document checkstyle_filter-git saddler saddler-reporter-github
 
   echo "gif diff"
-  git diff --name-only origin/master \
+  git diff --name-only origin/develop \
    | grep -a 'ja\/.*\.md$' || RETURN_CODE=$?
 
   case "$RETURN_CODE" in
@@ -18,10 +18,10 @@ if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; t
   esac
 
   # 変更行のみを対象にする
-  git diff --name-only origin/master \
+  git diff --name-only origin/develop \
    | grep -a 'ja\/.*\.md$' \
    | xargs $(npm bin)/textlint --rulesdir test/rules -f checkstyle \
-   | checkstyle_filter-git diff origin/master \
+   | checkstyle_filter-git diff origin/develop \
    | saddler report \
       --require saddler/reporter/github \
       --reporter Saddler::Reporter::Github::PullRequestReviewComment
