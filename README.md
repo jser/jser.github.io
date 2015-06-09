@@ -1,10 +1,12 @@
-# JSer.info [![Build Status](https://travis-ci.org/jser/jser.github.io.svg?branch=master)](https://travis-ci.org/jser/jser.github.io)
+# JSer.info [![Build Status](https://travis-ci.org/jser/jser.github.io.svg?branch=develop)](https://travis-ci.org/jser/jser.github.io)
 
 JSer.info のブログリポジトリです。
 
-* [Jekyll](http://jekyllrb.com/ "Jekyll • Simple, blog-aware, static sites") on [GitHub Pages](https://pages.github.com/ "GitHub Pages")で動いています
-* 記事に対して直接修正を送れます
-* 記事候補のデータ等は [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info") にて管理しています。
+* [Jekyll](http://jekyllrb.com/ "Jekyll") + [Travis CI](https://travis-ci.org/jser/jser.github.io) + [GitHub Pages](https://pages.github.com/ "GitHub Pages")で動いています
+* 記事に対してtypo等の内容の修正をPull Requestすることが出来ます
+    * `develop` ブランチ(デフォルトブランチ)のMarkdownファイルに対して修正を送って下さい。
+    * `master` ブランチのhtmlは自動的に生成されたファイルとなっています。
+* 記事の元となるデータ等は[jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")で管理しています。
 
 ### NOTE
 
