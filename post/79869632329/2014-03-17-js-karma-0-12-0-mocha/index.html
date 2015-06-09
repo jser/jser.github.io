@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-03-17のJS: Karma 0.12.0、mocha 1.18.0、Promisesエラーハンドリング、実践Browserify - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="testing,node.js,promises,browserify" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-03-17のJS: Karma 0.12.0、mocha 1.18.0、Promisesエラーハンドリング、実践Browserify" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #166 - JavaScript test runnerのKarma v..." />
+    
+    
+      <meta content="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha" property="og:url">
+    
+    
+      <meta content="2014-03-17T23:33:59+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="promises" property="article:tag">
+      
+      <meta content="browserify" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/79869632329/2014-03-17-js-karma-0-12-0-mocha">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/79869632329/2014-03-17-js-karma-0-12-0-mocha">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/79869632329/2014-03-17-js-karma-0-12-0-mocha">2014-03-17のJS: Karma 0.12.0、mocha 1.18.0、Promisesエラーハンドリング、実践Browserify</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年03月17日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-03-17-2014-03-17-js-karma-0-12-0-mocha.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2014-03-17-2014-03-17-js-karma-0-12-0-mocha.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #166 - JavaScript test runnerのKarma <a href="http://karma-runner.github.io/0.12/about/changelog.html" title="v0.12.0" target="_blank">v0.12.0</a>がリリースされました。</p>
+
+<p><a href="http://jasmine.github.io/2.0/introduction.html" title="Jasmine version 2.0.0." target="_blank">Jasmine 2.0.0</a>のサポートやSourcemapによるスタックトレースの書き換えがサポートされました。</p>
+
+<p><code>sourceMap</code> サポートを使うと、例えば<a href="https://github.com/karma-runner/karma-traceur-preprocessor" title="karma-traceur-preprocessor" target="_blank">karma-traceur-preprocessor</a>ではtraceurで変換したコードをテストとして実行しますが、そのテストで失敗した時に表示するスタックトレースは変換前のコードを出せるようになります。</p>
+
+<p>(<a href="http://karma-runner.github.io/0.12/config/preprocessors.html" title="Preprocessors" target="_blank">Preprocessors</a>となるmoduleがsourcemapに対応している必要があります)</p>
+
+<hr><p>JavaScript test frameworkである<a href="http://visionmedia.github.io/mocha/" title="Mocha" target="_blank">Mocha</a> <a href="https://github.com/visionmedia/mocha/blob/master/History.md#1180--2014-03-13" title="1.18.0" target="_blank">1.18.0</a>がリリースされました。</p>
+
+<p>メインとなるのはmochaがpromisesのテストをサポートしたことですが、詳細は<a href="http://efcl.info/2014/0314/res3708/" title="MochaがPromisesのテストをサポートしました | Web scratch" target="_blank">MochaがPromisesのテストをサポートしました | Web scratch</a>で紹介しています。</p>
+
+<p>上記の記事でも紹介していますが、PromisesのテストはPromises自体の強力なエラーハンドリングによって、逆にテストが面倒になってしまう部分があります。(そのためtest framework側がサポートした)</p>
+
+<p>そのようなPromisesのエラーハンドリングについて<a href="http://making.change.org/post/69613524472/promises-and-error-handling" title="Making Change.org — Promises and Error Handling" target="_blank">Making Change.org — Promises and Error Handling</a>という記事では、エラーハンドリングを中心にガイドライン的なものが書かれています。(Guideline 4がまさにmochaのテストの例と同じです)</p>
+
+<hr><p><a href="http://aeflash.com/2014-03/a-year-with-browserify.html" title="A Year with Browserify - ÆFLASH" target="_blank">A Year with Browserify - ÆFLASH</a> という記事では、<a href="https://github.com/substack/node-browserify" title="browserify" target="_blank">browserify</a>で実際に開発してみてのTipsが色々書かれています。</p>
+
+<p>npmの機能を活用する方法やビルドの高速化、既存ライブラリとの組み合わせ等ちょっと触って気になる部分については大体書かれている気がします。</p>
+
+<p>Browserifyに興味をもった方は一度読んでみると参考になる部分が多いと思います。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://blog.jetbrains.com/webstorm/2014/03/webstorm-8-beta/" title="WebStorm 8 Beta (build 134.1503) | JetBrains WebStorm Blog">
+<p class="jser-sitelink"><strong>WebStorm 8 Beta (build 134.1503) | JetBrains WebStorm Blog</strong></p><footer><cite><a href="http://blog.jetbrains.com/webstorm/2014/03/webstorm-8-beta/" title="WebStorm 8 Beta (build 134.1503) | JetBrains WebStorm Blog" target="_blank">blog.jetbrains.com/webstorm/2014/03/webstorm-8-beta/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>WebStorm 8βリリース。</p>
+
+<p>Angular/Dartのサポート改善、デバッガーでJSONのinspectが出来るように、ES6 modulesのサポート、Terminalで256-colorのサポート、Spy-jsの改善等</p>
+
+<blockquote cite="http://matthewmanela.com/blog/chutzpah-3-2-a-smarter-approach-to-compilation/" title="Chutzpah - Chutzpah 3.2 – A smarter approach to compilation - Matthew Manela - Farblondzshet in Code">
+<p class="jser-sitelink"><strong>Chutzpah - Chutzpah 3.2 – A smarter approach to compilation - Matthew Manela - Farblondzshet in Code</strong></p><footer><cite><a href="http://matthewmanela.com/blog/chutzpah-3-2-a-smarter-approach-to-compilation/" title="Chutzpah - Chutzpah 3.2 – A smarter approach to compilation - Matthew Manela - Farblondzshet in Code" target="_blank">matthewmanela.com/blog/chutzpah-3-2-a-smarter-approach-to-compilation/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">Tools</span></p>
+
+<p>VSのTest runner拡張であるChutzpah 3.2 リリース。</p>
+
+<p>TypeScript等のaltJSのサポート、テストパターンを指定してのテスト実行、Require.jsのサポート改善</p>
+
+<blockquote cite="https://github.com/bower/bower/blob/master/CHANGELOG.md#130---2014-03-10" title="bower/CHANGELOG.md at master · bower/bower">
+<p class="jser-sitelink"><strong>bower/CHANGELOG.md at master · bower/bower</strong></p><footer><cite><a href="https://github.com/bower/bower/blob/master/CHANGELOG.md#130---2014-03-10" title="bower/CHANGELOG.md at master · bower/bower" target="_blank">github.com/bower/bower/blob/master/CHANGELOG.md#130&#8212;-2014-03-10</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span><span class="jser-tag">browser</span></p>
+
+<p>Bower 1.3.0リリース。</p>
+
+<p>opt-inで統計データの収集するBower <a href="https://github.com/yeoman/yeoman/wiki/Insight" title="Insight" target="_blank">Insight</a>、パッケージがAMD/CJS/globalなのかを示す<code>moduleType</code>の追加、installの前後にhook scriptを設定可能に、SVNのサポート</p>
+
+<blockquote cite="http://karma-runner.github.io/0.12/about/changelog.html" title="Karma - Changelog">
+<p class="jser-sitelink"><strong>Karma - Changelog</strong></p><footer><cite><a href="http://karma-runner.github.io/0.12/about/changelog.html" title="Karma - Changelog" target="_blank">karma-runner.github.io/0.12/about/changelog.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">browser</span><span class="jser-tag">testing</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Karma 0.12.0 リリース。</p>
+
+<p>Jasmine 2.0のサポート、ファイル監視のパフォーマンス改善、sourcemapのサポート(スタックトレースの書き換え)</p>
+
+<ul><li><a href="https://groups.google.com/forum/#!topic/karma-users/6svHczOwCiM" target="_blank">Karma 0.12 is out - Google グループ</a></li>
+<li><a href="https://github.com/karma-runner/karma/issues/594" target="_blank">Use source maps for stacktraces · Issue #594 · karma-runner/karma</a></li>
+</ul><blockquote cite="https://github.com/visionmedia/mocha/blob/master/History.md#1180--2014-03-13" title="mocha/History.md at master · visionmedia/mocha">
+<p class="jser-sitelink"><strong>mocha/History.md at master · visionmedia/mocha</strong></p><footer><cite><a href="https://github.com/visionmedia/mocha/blob/master/History.md#1180--2014-03-13" title="mocha/History.md at master · visionmedia/mocha" target="_blank">github.com/visionmedia/mocha/blob/master/History.md#1180&#8212;2014-03-13</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>mocha 1.18.0リリース。</p>
+
+<p>promiseのテストをサポート。</p>
+
+<p><a href="https://github.com/azu/mocha-support-promise" target="_blank">https://github.com/azu/mocha-support-promise</a> promiseオブジェクトをreturnするだけで良くなる</p>
+
+<ul><li><a href="https://github.com/visionmedia/mocha/pull/329" target="_blank">Adding promise support to runnables (and thus tests). by domenic · Pull Request #329 · visionmedia/mocha</a></li>
+<li><a href="https://github.com/azu/mocha-support-promise" target="_blank">azu/mocha-support-promise</a></li>
+<li><a href="http://efcl.info/2014/0314/res3708/" target="_blank">MochaがPromisesのテストをサポートしました | Web scratch</a></li>
+</ul><blockquote cite="http://blog.purecss.io/post/79180224574/pure-0-5-0-release-candidate-1" title="The Pure Blog — Pure 0.5.0 Release Candidate 1">
+<p class="jser-sitelink"><strong>The Pure Blog — Pure 0.5.0 Release Candidate 1</strong></p><footer><cite><a href="http://blog.purecss.io/post/79180224574/pure-0-5-0-release-candidate-1" title="The Pure Blog — Pure 0.5.0 Release Candidate 1" target="_blank">blog.purecss.io/post/79180224574/pure-0-5-0-release-candidate-1</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Pure 0.5.0 RC1 リリース</p>
+
+<h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://aeflash.com/2014-03/a-year-with-browserify.html" title="A Year with Browserify - ÆFLASH">
+<p class="jser-sitelink"><strong>A Year with Browserify - ÆFLASH</strong></p><footer><cite><a href="http://aeflash.com/2014-03/a-year-with-browserify.html" title="A Year with Browserify - ÆFLASH" target="_blank">aeflash.com/2014-03/a-year-with-browserify.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span><span class="jser-tag">まとめ</span></p>
+
+<p>Browserifyでの開発についてよくまとまってる。</p>
+
+<p>npmで管理できるメリット、npm linkやnodeモジュールでの依存関係の解決がそのまま利用できる。</p>
+
+<p>既存ライブラリがある場合のビルドを高速化する方法としてshimやビルド自体を分ける事、バージョンが異なるライブラリの依存をaliasで解決。</p>
+
+<p>gruntでのビルド、相対パスが深くなるのをaliasMappingsでフラットにする方法などよくまとまっている。</p>
+
+<blockquote cite="http://efcl.info/2014/0316/res3719/" title="Node.jsのrequireをインライン化、無駄なuse strictを取り除くモジュールを書いた | Web scratch">
+<p class="jser-sitelink"><strong>Node.jsのrequireをインライン化、無駄なuse strictを取り除くモジュールを書いた | Web scratch</strong></p><footer><cite><a href="http://efcl.info/2014/0316/res3719/" title="Node.jsのrequireをインライン化、無駄なuse strictを取り除くモジュールを書いた | Web scratch" target="_blank">efcl.info/2014/0316/res3719/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">AST</span><span class="jser-tag">node.js</span><span class="jser-tag">book</span><span class="jser-tag">library</span></p>
+
+<p><code>require</code> で読み込むファイルのインライン化 と 無意味な <code>&amp;quot;use strict&amp;quot;</code> を削除するnode moduleについて。 JavaScript ASTを使った書き換えの方法について</p>
+
+<blockquote cite="http://elijahmanor.com/unit-test-like-a-secret-agent-with-sinon-js/" title="Unit Test like a Secret Agent with Sinon.js">
+<p class="jser-sitelink"><strong>Unit Test like a Secret Agent with Sinon.js</strong></p><footer><cite><a href="http://elijahmanor.com/unit-test-like-a-secret-agent-with-sinon-js/" title="Unit Test like a Secret Agent with Sinon.js" target="_blank">elijahmanor.com/unit-test-like-a-secret-agent-with-sinon-js/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">tutorial</span></p>
+
+<p>Sinon.JSのspy、stub、mock、fake serverを使ったテストの書き方についてのチュートリアル</p>
+
+<blockquote cite="http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0" title="ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch">
+<p class="jser-sitelink"><strong>ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch</strong></p><footer><cite><a href="http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0" title="ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch" target="_blank">scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>ExpressJS 4.0 rc1リリース。</p>
+
+<p>ExpressJS 4.0での変更点等についてまとまってる。</p>
+
+<ul><li><a href="https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x#changed" target="_blank">Migrating from 3.x to 4.x · visionmedia/express Wiki</a></li>
+</ul><blockquote cite="http://amasad.me/2014/03/09/lesser-known-javascript-debugging-techniques/" title="Lesser-Known JavaScript Debugging Techniques">
+<p class="jser-sitelink"><strong>Lesser-Known JavaScript Debugging Techniques</strong></p><footer><cite><a href="http://amasad.me/2014/03/09/lesser-known-javascript-debugging-techniques/" title="Lesser-Known JavaScript Debugging Techniques" target="_blank">amasad.me/2014/03/09/lesser-known-javascript-debugging-techniques/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">event</span><span class="jser-tag">debug</span><span class="jser-tag">library</span></p>
+
+<p>特定のプロパティやイベントやメソッドが呼ばれた時にログ、ブレークポイントを貼れるユーティリティライブラリについて</p>
+
+<blockquote cite="http://blog.rjzaworski.com/2014/03/naming-javascript-functions/" title="Naming JavaScript Functions - @rjzaworski">
+<p class="jser-sitelink"><strong>Naming JavaScript Functions - @rjzaworski</strong></p><footer><cite><a href="http://blog.rjzaworski.com/2014/03/naming-javascript-functions/" title="Naming JavaScript Functions - @rjzaworski" target="_blank">blog.rjzaworski.com/2014/03/naming-javascript-functions/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">debug</span></p>
+
+<p>無名関数と名前付き関数式とのスタックトレースの比較。</p>
+
+<p>また関数として分ける場合の命名規則について書かれてる</p>
+
+<blockquote cite="http://making.change.org/post/69613524472/promises-and-error-handling" title="Making Change.org — Promises and Error Handling">
+<p class="jser-sitelink"><strong>Making Change.org — Promises and Error Handling</strong></p><footer><cite><a href="http://making.change.org/post/69613524472/promises-and-error-handling" title="Making Change.org — Promises and Error Handling" target="_blank">making.change.org/post/69613524472/promises-and-error-handling</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span><span class="jser-tag">debug</span><span class="jser-tag">JavaScript</span></p>
+
+<p>Promisesのエラーハンドリングについて。</p>
+
+<p>rejectする時はエラーオブジェクトを渡す、onRejectが呼ばれないパターンと<code>catch</code>の活用、<code>finally</code>はcleanupに使う、<code>done</code> を呼ぶことで次の処理に移る場合はエラーの時も忘れずに呼ぶ</p>
+
+<ul><li><a href="http://jser.info/post/77696682011/es6-promises" target="_blank">あなたが読むべきJavaScript Promises | JSer.info</a></li>
+</ul><blockquote cite="http://briancavalier.github.io/async-programming-part-3-finally" title="Async Programming Part 3: Finally - Brian Cavalier">
+<p class="jser-sitelink"><strong>Async Programming Part 3: Finally - Brian Cavalier</strong></p><footer><cite><a href="http://briancavalier.github.io/async-programming-part-3-finally" title="Async Programming Part 3: Finally - Brian Cavalier" target="_blank">briancavalier.github.io/async-programming-part-3-finally</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span><span class="jser-tag">debug</span></p>
+
+<p>Promisesでのエラーハンドリングのプラクティス。try-catchとpromiseの場合の違い。</p>
+
+<p><code>otherwise</code> は <code>catch</code> と同じ。</p>
+
+<p>promiseを処理するfinally的なものを書くときに、渡した値を捨てないようにする</p>
+
+<blockquote cite="http://www.mobilexweb.com/blog/ios-7-1-safari-minimal-ui-bugs" title="iOS 7.1: new minimal UI mode and old bugs on Safari | Breaking the Mobile Web">
+<p class="jser-sitelink"><strong>iOS 7.1: new minimal UI mode and old bugs on Safari | Breaking the Mobile Web</strong></p><footer><cite><a href="http://www.mobilexweb.com/blog/ios-7-1-safari-minimal-ui-bugs" title="iOS 7.1: new minimal UI mode and old bugs on Safari | Breaking the Mobile Web" target="_blank">www.mobilexweb.com/blog/ios-7-1-safari-minimal-ui-bugs</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span><span class="jser-tag">safari</span></p>
+
+<p>iOS7.1のSafariのminimal-uiとその他バグについて</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="http://tagtree.tv/ecmascript-6-episode-1" title="ES6 - episode 1">
+<p class="jser-sitelink"><strong>ES6 - episode 1</strong></p><footer><cite><a href="http://tagtree.tv/ecmascript-6-episode-1" title="ES6 - episode 1" target="_blank">tagtree.tv/ecmascript-6-episode-1</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span><span class="jser-tag">動画</span></p>
+
+<p>ES6の機能を紹介してるスクリーンキャスト</p>
+
+<blockquote cite="http://www.slideshare.net/RameshNair6/es6-next-generation-javascript" title="ES6 - Next Generation Javascript">
+<p class="jser-sitelink"><strong>ES6 - Next Generation Javascript</strong></p><footer><cite><a href="http://www.slideshare.net/RameshNair6/es6-next-generation-javascript" title="ES6 - Next Generation Javascript" target="_blank">www.slideshare.net/RameshNair6/es6-next-generation-javascript</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span><span class="jser-tag">スライド</span></p>
+
+<p>ES6の新しいsyntaxについてのスライド.</p>
+
+<p>syntaxの紹介、ES5との違い、サポートブラウザの状況がよくまとまってる。</p>
+
+<p>特に<code>...</code>の使い方についてユースケース、Generatorの使い方、Typed objects、module構文について詳しい</p>
+
+<blockquote cite="http://vimeo.com/88952704" title="MVC in vanilla javascript on Vimeo">
+<p class="jser-sitelink"><strong>MVC in vanilla javascript on Vimeo</strong></p><footer><cite><a href="http://vimeo.com/88952704" title="MVC in vanilla javascript on Vimeo" target="_blank">vimeo.com/88952704</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">MVC</span><span class="jser-tag">動画</span></p>
+
+<p>ライブラリを使わないで、Model,View,CollectionというBackbone.jsっぽい要素を使ったアプリを作るスクリーンキャスト</p>
+
+<blockquote cite="http://ariya.ofilabs.com/2014/03/the-phenomenal-fluent-2014.html" title="The Phenomenal Fluent 2014">
+<p class="jser-sitelink"><strong>The Phenomenal Fluent 2014</strong></p><footer><cite><a href="http://ariya.ofilabs.com/2014/03/the-phenomenal-fluent-2014.html" title="The Phenomenal Fluent 2014" target="_blank">ariya.ofilabs.com/2014/03/the-phenomenal-fluent-2014.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">API</span><span class="jser-tag">スライド</span></p>
+
+<p>JavaScriptのAPIデザインについてのスライド。</p>
+
+<h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="https://github.com/emadurandal/emberjs-guides-japanese-translation" title="emadurandal/emberjs-guides-japanese-translation">
+<p class="jser-sitelink"><strong>emadurandal/emberjs-guides-japanese-translation</strong></p><footer><cite><a href="https://github.com/emadurandal/emberjs-guides-japanese-translation" title="emadurandal/emberjs-guides-japanese-translation" target="_blank">github.com/emadurandal/emberjs-guides-japanese-translation</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">翻訳</span></p>
+
+<p>Ember.js Guides の日本語訳</p>
+
+<ul><li><a href="http://emberjs.com/guides/" target="_blank">Ember.js - Guides and Tutorials: Ember.js Guides</a></li>
+</ul><blockquote cite="http://www.htmlhifive.com/conts/web/view/library/sinonjs" title="Sinon.JS - hifive">
+<p class="jser-sitelink"><strong>Sinon.JS - hifive</strong></p><footer><cite><a href="http://www.htmlhifive.com/conts/web/view/library/sinonjs" title="Sinon.JS - hifive" target="_blank">www.htmlhifive.com/conts/web/view/library/sinonjs</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">library</span></p>
+
+<p>Sinon.JSのAPIリファレンス的なサイト。 それぞれのメソッドの解説等も書かれてる</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="https://github.com/marmelab/gremlins.js" title="marmelab/gremlins.js">
+<p class="jser-sitelink"><strong>marmelab/gremlins.js</strong></p><footer><cite><a href="https://github.com/marmelab/gremlins.js" title="marmelab/gremlins.js" target="_blank">github.com/marmelab/gremlins.js</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">Tools</span></p>
+
+<p>ウェブアプリのMonkey testingライブラリ。</p>
+
+<p>ストレステストの細かいロジックやログ等も設定出来るようになってる</p>
+
+<blockquote cite="https://github.com/t32k/stylestats" title="t32k/stylestats">
+<p class="jser-sitelink"><strong>t32k/stylestats</strong></p><footer><cite><a href="https://github.com/t32k/stylestats" title="t32k/stylestats" target="_blank">github.com/t32k/stylestats</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span><span class="jser-tag">console</span><span class="jser-tag">Tools</span></p>
+
+<p>CSSのサイズやルール/セレクタ数等のメトリクス的な情報を出してくれるコマンドラインツール</p>
+
+<blockquote cite="https://github.com/azer/prova" title="azer/prova">
+<p class="jser-sitelink"><strong>azer/prova</strong></p><footer><cite><a href="https://github.com/azer/prova" title="azer/prova" target="_blank">github.com/azer/prova</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span><span class="jser-tag">testing</span></p>
+
+<p>tape + browserifyなtest runner。</p>
+
+<p>テストの失敗の表示に prettify-error を使ったりして見やすくしてる</p>
+
+<ul><li><a href="https://github.com/azer/prettify-error" target="_blank">azer/prettify-error</a></li>
+</ul><blockquote cite="https://github.com/azer/memdiff" title="azer/memdiff">
+<p class="jser-sitelink"><strong>azer/memdiff</strong></p><footer><cite><a href="https://github.com/azer/memdiff" title="azer/memdiff" target="_blank">github.com/azer/memdiff</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">node.js</span></p>
+
+<p>BDDなテストを書く感じで書けるnode.jsのメモリリークの調査ライブラリ。</p>
+
+<blockquote cite="https://github.com/termi/es6-transpiler" title="termi/es6-transpiler">
+<p class="jser-sitelink"><strong>termi/es6-transpiler</strong></p><footer><cite><a href="https://github.com/termi/es6-transpiler" title="termi/es6-transpiler" target="_blank">github.com/termi/es6-transpiler</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span><span class="jser-tag">library</span><span class="jser-tag">Tools</span></p>
+
+<p>ES6をES5に変換する実装。</p>
+
+<p>traceur-compilerと違って、no runtime libraryで実行出来るようする等の目標が挙げられている</p>
+
+<h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://shop.oreilly.com/product/0636920026327.do" title="You Don't Know JS: Scope and Closures - O'Reilly Media">
+<p class="jser-sitelink"><strong>You Don&#8217;t Know JS: Scope and Closures - O&#8217;Reilly Media</strong></p><footer><cite><a href="http://shop.oreilly.com/product/0636920026327.do" title="You Don't Know JS: Scope and Closures - O'Reilly Media" target="_blank">shop.oreilly.com/product/0636920026327.do</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">book</span></p>
+
+<p>JavaScriptのスコープとクロージャー周りについてだけ扱った書籍</p>
+
+<blockquote cite="http://www.amazon.co.jp/o/ASIN/4798132446/amazon0abac-22/ref=nosim" title="Amazon: Sass&amp;Compass徹底入門 CSSのベストプラクティスを効率よく実現するために [大型本]: Wynn Netherland, Nathan Weizenbaum, Chris Eppstein, Brandon Mathis, 石本 光司 (株式会社サイバーエージェント), 株式会社トップスタジオ">
+<p class="jser-sitelink"><strong>Amazon: Sass&amp;Compass徹底入門 CSSのベストプラクティスを効率よく実現するために [大型本]: Wynn Netherland, Nathan Weizenbaum, Chris Eppstein, Brandon Mathis, 石本 光司 (株式会社サイバーエージェント), 株式会社トップスタジオ</strong></p><footer><cite><a href="http://www.amazon.co.jp/o/ASIN/4798132446/amazon0abac-22/ref=nosim" title="Amazon: Sass&amp;Compass徹底入門 CSSのベストプラクティスを効率よく実現するために [大型本]: Wynn Netherland, Nathan Weizenbaum, Chris Eppstein, Brandon Mathis, 石本 光司 (株式会社サイバーエージェント), 株式会社トップスタジオ" target="_blank">www.amazon.co.jp/o/ASIN/4798132446/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span><span class="jser-tag">book</span></p>
+
+<p>2014年3月18日発売</p>
+
+<p>Sass and Compass in Actionの翻訳本</p>
+
+<ul><li><a href="http://t32k.me/mol/log/sass-and-compass-in-action/" target="_blank">Sass and Compass in Action</a></li>
+<li><a href="http://www.amazon.co.jp/dp/1617290149/" target="_blank">Amazon.co.jp： Sass and Compass in Action: Wynn Netherland, Nathan Weizenbaum, Chris Eppstein, Brandon Mathis: 洋書</a></li>
+</ul>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-03-17-2014-03-17-js-karma-0-12-0-mocha.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["testing","node.js","promises","browserify"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>testing</li>
+                
+                <li>node.js</li>
+                
+                <li>promises</li>
+                
+                <li>browserify</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/79869632329/2014-03-17-js-karma-0-12-0-mocha"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

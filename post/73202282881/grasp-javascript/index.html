@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Graspを使ったJavaScriptのリファクタリング - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="JavaScript,AST,Console,Tools" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="Graspを使ったJavaScriptのリファクタリング" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="Refactoring your JavaScript code with Grasp | G..." />
+    
+    
+      <meta content="http://jser.info/post/73202282881/grasp-javascript" property="og:url">
+    
+    
+      <meta content="2014-01-13T22:23:32+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="AST" property="article:tag">
+      
+      <meta content="Console" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/73202282881/grasp-javascript">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/73202282881/grasp-javascript">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/73202282881/grasp-javascript">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/73202282881/grasp-javascript">Graspを使ったJavaScriptのリファクタリング</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年01月13日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-01-13-grasp-javascript.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2014-01-13-grasp-javascript.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/73202282881/grasp-javascript"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/73202282881/grasp-javascript">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/73202282881/grasp-javascript"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a></p>
+
+<p>という記事では、<a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> を使ったJavaScriptコードのリファクタリングについて書かれています。</p>
+
+<p>この記事は <a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a> の簡単な紹介です</p>
+
+<h3>Grasp</h3>
+
+<p><a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> は JavaScript ASTを元にgrepのような検索、sedのような置換などを行えるコマンドラインツールです。</p>
+
+<p>GraspはNodeで(実際には<a href="http://livescript.net/" title="LiveScript" target="_blank">LiveScript</a>で)書かれているツールで <code>npm</code> 経由でインストールできます。</p>
+
+<pre><code>npm install -g grasp
+</code></pre>
+
+<p>紹介されてるユースケースはインストールしなくても、<a href="http://graspjs.com/#demo" title="Demo" target="_blank">Demo</a>から実際に入力して試すことが出来ます。</p>
+
+<h3>識別子のリネーム</h3>
+
+<p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#renaming_an_identifier" title="Renaming an identifier" target="_blank">Renaming an identifier</a> では、
+JavaScriptの識別子 - 変数や関数名のリネームを例にASTを元にした置換のメリットが紹介されています。</p>
+
+<p>例えば、以下のようなJSで、 <code>remote</code> を <code>remoteConnection</code> という名前にリネームしたいと考えます。</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">remote</span> <span class="o">=</span> <span class="nx">createConnection</span><span class="p">(</span><span class="s1">'remote'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">remote</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+<span class="nx">remote</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'receive'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">remote</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">process</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">remote</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>この時に、単純な文字列置換(sedで <code>'s/remote/remoteConnection/g'</code> のように)した場合は、文字列である <code>'remote'</code>も置換されてしまいます。</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">remoteConnection</span> <span class="o">=</span> <span class="nx">createConnection</span><span class="p">(</span><span class="s1">'remoteConnection'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</pre></div>
+
+<p>Graspでは、文字列と<a href="http://graspjs.com/docs/squery/" title="Squery" target="_blank">Squery</a>というCSSセレクタライクなASTセレクタを利用してどのように処理をするかを指定します。
+(別途<a href="http://graspjs.com/docs/equery/" title="Example Query" target="_blank">Example Query</a>という別の書式を利用するオプションも用意されています)</p>
+
+<p>そのため、<code>remote</code> という 識別子(Squeryでは#を付ける)を <code>remoteConnection</code> という風にリネームする場合は以下のように指定すれば識別子だけをリネーム出来ます。</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>grasp <span class="s1">'#remote'</span> -R remoteConnection file.js
+</pre></div>
+
+<p>Result&#160;:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">remoteConnection</span> <span class="o">=</span> <span class="nx">createConnection</span><span class="p">(</span><span class="s1">'remote'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+<span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'receive'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">process</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">remoteConnection</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Grasp はデフォルトでdry-runとなっていて、上記のコマンドでは標準出力に結果が表示されるだけですが、
+実際にファイルの内容も置換したい場合は <a href="http://graspjs.com/docs/options/" title="-i, --in-place" target="_blank">-i, &#8212;in-place</a> オプションを指定することで行えます。</p>
+
+<hr><p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a>では他にも色々なユースケースが紹介されていて、</p>
+
+<ul><li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#multiple_arguments_to_a_single_options_object" title="Multiple arguments to a single options object" target="_blank">Multiple arguments to a single options object</a> では引数を一つのオブジェクトにまとめるリファクタリング</li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#reducing_the_scope_of_your_changes" title="Reducing the scope of your changes" target="_blank">Reducing the scope of your changes</a> では特定のスコープ(関数内)ある変数だけをリネーム</li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#refactoring_a_function_call" title="Refactoring a function call" target="_blank">Refactoring a function call</a> では、引数に指定している値によって別々のリファクタリング
+
+<ul><li><code>something(true)</code> と <code>something(false)</code> で別々のリファクタリングを適応するような事</li>
+</ul></li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#to_yoda_conditions_we_change" title="To Yoda conditions, we change" target="_blank">To Yoda conditions, we change</a> では、 <code>==</code> の演算子の左右を反転させるリファクタリング</li>
+<li><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#changing_how_you_do_default_arguments" title="Changing how you do default arguments" target="_blank">Changing how you do default arguments</a> では、デフォルト引数のリファクタリング</li>
+</ul><p>等について書かれています。</p>
+
+<hr><h3>後記</h3>
+
+<p>今回紹介した <a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#renaming_an_identifier" title="Renaming an identifier" target="_blank">Renaming an identifier</a> のような簡単なものなら、<a href="http://www.jetbrains.com/webstorm/" title="WebStorm" target="_blank">WebStorm</a>のようなIDEには同等の事ができるかもしれませんが、
+IDEの置換は基本的に一つのコンテキスト(変数とそれを参照してる)が範囲になるので、ファイルを超えた適応や<a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/#changing_how_you_do_default_arguments" title="Changing how you do default arguments" target="_blank">Changing how you do default arguments</a>のような変更をまとめて行うのは難しいはずです。</p>
+
+<p><a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> では<a href="http://graspjs.com/docs/squery/" title="squery" target="_blank">squery</a> or <a href="http://graspjs.com/docs/equery/" title="equery" target="_blank">equery</a> という多少セレクタの書き方を学ぶ必要がありますが、
+かなり柔軟でASTを元に置換をするので単純な置換ツールよりは正確なものが行える事が特徴的です。</p>
+
+<p>他にも似たような事をするJS ASTを元にしたツールとしては、GHCの置換ルールのようにコメントで置換する内容を指定して行う<a href="https://github.com/puffnfresh/rephrase" title="Rephrase" target="_blank">Rephrase</a>等や、自分が実験的に書いたQunitをJasmineのテストに変換する<a href="https://github.com/azu/reQUnit" title="reQUnit" target="_blank">reQUnit</a>もJS ASTを元にしたツールです。</p>
+
+<p>この辺のツールやライブラリについては <a href="http://efcl.info/2013/1117/res3481/" title="tkbjsでJavaScript ASTについて発表してきました | Web scratch" target="_blank">tkbjsでJavaScript ASTについて発表してきました | Web scratch</a> 等を見ていただくといいかもしれません。</p>
+
+<p>他の言語でも<a href="http://hitode909.hatenablog.com/entry/2013/09/16/120823" title="Perlでメソッドが呼ばれたときに呼出元のソースコードを書き換えるやつ - hitode909の日記" target="_blank">Perlでメソッドが呼ばれたときに呼出元のソースコードを書き換えるやつ - hitode909の日記</a> や <a href="https://github.com/QafooLabs/php-refactoring-browser" title="QafooLabs/php-refactoring-browser" target="_blank">QafooLabs/php-refactoring-browser</a> など似たような趣旨のツールがあったりします。</p>
+
+<p><a href="http://graspjs.com/" title="Grasp - JavaScript structural search, replace, and refactor" target="_blank">Grasp</a> は結構完成度が高くて、<a href="http://graspjs.com/docs/equery/" title="equery" target="_blank">equery</a>の方は学習コストも小さく使えて、
+<a href="http://graspjs.com/docs/squery/" title="squery" target="_blank">squery</a>を使えば細かい事ができるようになっていて使い道は色々あるので、一度触ってみるといいかもしれません。</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-01-13-grasp-javascript.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["JavaScript","AST","Console","Tools"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>JavaScript</li>
+                
+                <li>AST</li>
+                
+                <li>Console</li>
+                
+                <li>Tools</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/73202282881/grasp-javascript"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/73202282881/grasp-javascript">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/73202282881/grasp-javascript"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

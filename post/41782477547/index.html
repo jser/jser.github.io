@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2013-01-29のJS: QUnit 1.11、アンチパターンでみるTestable JavaScript、jQueryのDeferredとPromise - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="testing,jquery" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2013-01-29のJS: QUnit 1.11、アンチパターンでみるTestable JavaScript、jQueryのDeferredとPromise" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="Jser.info #107 - QUnitが久々がアップデートがでてQUnit 1.11がリ..." />
+    
+    
+      <meta content="http://jser.info/post/41782477547" property="og:url">
+    
+    
+      <meta content="2013-01-29T22:42:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="jquery" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/41782477547">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/41782477547">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/41782477547">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/41782477547">2013-01-29のJS: QUnit 1.11、アンチパターンでみるTestable JavaScript、jQueryのDeferredとPromise</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2013年01月29日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2013-01-29-2013-01-29-js-qunit-1-11-testable.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2013-01-29-2013-01-29-js-qunit-1-11-testable.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/41782477547"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/41782477547">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/41782477547"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>Jser.info #107 - QUnitが久々がアップデートがでて<a href="http://blog.jquery.com/2013/01/24/qunit-1-11-release-a-look-back-and-forth/" target="_blank">QUnit 1.11</a>がリリースされました。新たなスタートを切った感じで<a href="http://qunitjs.com/" target="_blank">公式サイト</a>も最近新しくなったので、改めて覗いてみるといいかもしれません。</p>
+<p><a href="https://shanetomlinson.com/2013/testing-javascript-frontend-part-1-anti-patterns-and-fixes/" target="_blank">Writing Testable Frontend Javascript Part 1 – Anti-patterns and their fixes | Shane Tomlinson</a>という記事で、テストしにくいコードを例にそれをどう改善していくとテストしやすくなるかについて書かれています。<br/>色々な要素について触れていてよい記事だとおもいます。</p>
+<p><a href="http://tkawachi.github.com/blog/2013/01/06/jquery-deferred/" target="_blank">jQueryのDeferredとPromise - tkawachi Blog</a>という記事では、jQueryでのDeferredとPromiseがどのようなものなのかについて簡潔に書かれています。変に図やコードがなく、状態の遷移について書かれていて、個人的には流れがわかりやすいと思います。</p>
+
+<div class="connectedSortable ui-sortable ui-sortable-disabled" id="output">
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="YUI 3.8.1 Released - YUI Blog">
+<p class="jser-sitelink"><strong>YUI 3.8.1 Released - YUI Blog</strong><br/><a href="http://www.yuiblog.com/blog/2013/01/23/yui-3-8-1-released/" title="YUI 3.8.1 Released - YUI Blog" target="_blank">http://www.yuiblog.com/blog/2013/01/23/yui-3-8-1-released/</a></p>
+</blockquote>
+<p>YUI 3.8.1リリース.<br/> iOSのサポートを追加, DataTable, Attribute, Template</p>
+</div>
+<div>
+<blockquote title="QUnit 1.11 Release: A Look Back (and Forth) | Official jQuery Blog">
+<p class="jser-sitelink"><strong>QUnit 1.11 Release: A Look Back (and Forth) | Official jQuery Blog</strong><br/><a href="http://blog.jquery.com/2013/01/24/qunit-1-11-release-a-look-back-and-forth/" title="QUnit 1.11 Release: A Look Back (and Forth) | Official jQuery Blog" target="_blank">http://blog.jquery.com/2013/01/24/qunit-1-11-release-a-look-back-and-forth/</a></p>
+</blockquote>
+<p>QUnit 1.11リリース.<br/> bugfixやAdd-ons( <a href="http://qunitjs.com/addons/" target="_blank">http://qunitjs.com/addons/</a> )、PhantomJS add-onの改善など</p>
+</div>
+<div>
+<blockquote title="RequireJS 2.1.4 Released ~ James Burke">
+<p class="jser-sitelink"><strong>RequireJS 2.1.4 Released ~ James Burke</strong><br/><a href="http://jrburke.com/2013/01/23/requirejs-2.1.4-released/" title="RequireJS 2.1.4 Released ~ James Burke" target="_blank">http://jrburke.com/2013/01/23/requirejs-2.1.4-released/</a></p>
+</blockquote>
+<p>RequireJS 2.1.4 リリース.<br/> 2.1.3のquickfix<br/> <a href="http://jrburke.com/2013/01/22/requirejs-2.1.3-released/" target="_blank">http://jrburke.com/2013/01/22/requirejs-2.1.3-released/</a></p>
+</div>
+<div>
+<blockquote title="Announcing TypeScript 0.8.2 - TypeScript - Site Home - MSDN Blogs">
+<p class="jser-sitelink"><strong>Announcing TypeScript 0.8.2 - TypeScript - Site Home - MSDN Blogs</strong><br/><a href="http://blogs.msdn.com/b/typescript/archive/2013/01/21/announcing-typescript-0-8-2.aspx" title="Announcing TypeScript 0.8.2 - TypeScript - Site Home - MSDN Blogs" target="_blank">http://blogs.msdn.com/b/typescript/archive/2013/01/21/announcing-typescript-0-8-2.aspx</a></p>
+</blockquote>
+<p>TypeScript 0.8.2リリース。<br/> JSDocのサポート<br/> <a href="http://blogs.msdn.com/b/chack/archive/2013/01/22/typescript-0.8.2-released.aspx" target="_blank">http://blogs.msdn.com/b/chack/archive/2013/01/22/typescript-0.8.2-released.aspx</a></p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="Writing Testable Frontend Javascript Part 1 – Anti-patterns and their fixes | Shane Tomlinson">
+<p class="jser-sitelink"><strong>Writing Testable Frontend Javascript Part 1 – Anti-patterns and their fixes | Shane Tomlinson</strong><br/><a href="https://shanetomlinson.com/2013/testing-javascript-frontend-part-1-anti-patterns-and-fixes/" title="Writing Testable Frontend Javascript Part 1 – Anti-patterns and their fixes | Shane Tomlinson" target="_blank">https://shanetomlinson.com/2013/testing-javascript-frontend-part-1-anti-patterns-and-fixes/</a></p>
+</blockquote>
+<p>アンチパターンのコード例を元にテストしやすいJavaScriptの書き方について.<br/> Public/Private Interface、eventハンドラとロジックの分離、XHRのモック、非同期とコールバック</p>
+</div>
+<div>
+<blockquote title="jQuery 1.9.0 での変更箇所の自分なりのまとめ | 私的なjQuery">
+<p class="jser-sitelink"><strong>jQuery 1.9.0 での変更箇所の自分なりのまとめ | 私的なjQuery</strong><br/><a href="http://myjquery.blog.fc2.com/blog-entry-13.html" title="jQuery 1.9.0 での変更箇所の自分なりのまとめ | 私的なjQuery" target="_blank">http://myjquery.blog.fc2.com/blog-entry-13.html</a></p>
+</blockquote>
+<p>jQuery 1.9の変更点について.<br/> 整理されたAPIやCSSセレクタなどについて</p>
+</div>
+<div>
+<blockquote title="Web Dev .NET: Beginner HTML5, JavaScript, jQuery, Backbone, and CSS3 Resources">
+<p class="jser-sitelink"><strong>Web Dev .NET: Beginner HTML5, JavaScript, jQuery, Backbone, and CSS3 Resources</strong><br/><a href="http://www.elijahmanor.com/2013/01/beginner-html5-javascript-jquery.html" title="Web Dev .NET: Beginner HTML5, JavaScript, jQuery, Backbone, and CSS3 Resources" target="_blank">http://www.elijahmanor.com/2013/01/beginner-html5-javascript-jquery.html</a></p>
+</blockquote>
+<p>HTML5、JavaScript、jQuery、Backbone.js、CSS3、Feature detection、Responsive Web Designについての取っ掛かりとなるリソースまとめ</p>
+</div>
+<div>
+<blockquote title="jQuery 1.9 のソースマップ対応で圧縮版でもデバッグが簡単になった話 - てっく煮ブログ">
+<p class="jser-sitelink"><strong>jQuery 1.9 のソースマップ対応で圧縮版でもデバッグが簡単になった話 - てっく煮ブログ</strong><br/><a href="http://tech.nitoyon.com/ja/blog/2013/01/29/jquery-source-map/" title="jQuery 1.9 のソースマップ対応で圧縮版でもデバッグが簡単になった話 - てっく煮ブログ" target="_blank">http://tech.nitoyon.com/ja/blog/2013/01/29/jquery-source-map/</a></p>
+</blockquote>
+<p>jQuery CDNのソースマップについて.<br/> altJSやSass/Lessでのソースマップ対応オプションや圧縮ツールのソースマップ対応について</p>
+</div>
+<div>
+<blockquote title="jQuery 1.9 の $.parseHTML とかその辺 - ほむらちゃほむほむ">
+<p class="jser-sitelink"><strong>jQuery 1.9 の $.parseHTML とかその辺 - ほむらちゃほむほむ</strong><br/><a href="http://t-ashula.hateblo.jp/entry/2013/01/23/114105" title="jQuery 1.9 の $.parseHTML とかその辺 - ほむらちゃほむほむ" target="_blank">http://t-ashula.hateblo.jp/entry/2013/01/23/114105</a></p>
+</blockquote>
+<p>jQueryの$(String)がXSSを引き起こしやすい問題と、jQuery1.8から追加された$.parseHTMLについて</p>
+</div>
+<div>
+<blockquote title="jQueryのDeferredとPromise - tkawachi Blog">
+<p class="jser-sitelink"><strong>jQueryのDeferredとPromise - tkawachi Blog</strong><br/><a href="http://tkawachi.github.com/blog/2013/01/06/jquery-deferred/" title="jQueryのDeferredとPromise - tkawachi Blog" target="_blank">http://tkawachi.github.com/blog/2013/01/06/jquery-deferred/</a></p>
+</blockquote>
+<p>jQueryのDeferredとPromiseについてのわかりやすい解説. <br/>Deferred objectが持つ状態について(Promise/Aとの対応)、渡されるPromise objectが持つ機能、$.whenでの組み合わせや$.ajaxの返すPromiseについて</p>
+</div>
+<div>
+<blockquote title="How to Run Buster.js Unit Tests in (and Against) the Browser | Levihackwith.com">
+<p class="jser-sitelink"><strong>How to Run Buster.js Unit Tests in (and Against) the Browser | Levihackwith.com</strong><br/><a href="http://www.levihackwith.com/how-to-run-buster-js-unit-tests-in-and-against-the-browser/" title="How to Run Buster.js Unit Tests in (and Against) the Browser | Levihackwith.com" target="_blank">http://www.levihackwith.com/how-to-run-buster-js-unit-tests-in-and-against-the-browser/</a></p>
+</blockquote>
+<p>Buster.JSチュートリアル.<br/> ブラウザを使ったテストについて</p>
+</div>
+<div>
+<blockquote title="What is SVG? [Guide to SVG Part 1] | InsertHTML">
+<p class="jser-sitelink"><strong>What is SVG? [Guide to SVG Part 1] | InsertHTML</strong><br/><a href="http://www.inserthtml.com/" title="What is SVG? [Guide to SVG Part 1] | InsertHTML" target="_blank">http://www.inserthtml.com/</a></p>
+</blockquote>
+<p>SVGの基礎的な要素についてのチュートリアル</p>
+</div>
+<div>
+<blockquote title="Webサイト＆WebアプリのRetina対応方法まとめ | KRAY Inc">
+<p class="jser-sitelink"><strong>Webサイト＆WebアプリのRetina対応方法まとめ | KRAY Inc</strong><br/><a href="http://kray.jp/blog/retina-web/" title="Webサイト＆WebアプリのRetina対応方法まとめ | KRAY Inc" target="_blank">http://kray.jp/blog/retina-web/</a></p>
+</blockquote>
+<p>Retinaディスプレイ対応についてのまとめ.<br/> @2xの画像を用意して、imgタグ、CSS、JavaScriptでの対応例、Canvasでのサイズ指定について</p>
+</div>
+<div class="site-genre ui-sortable"><strong>スライド、動画関係</strong></div>
+<div>
+<blockquote title="Egghead IO">
+<p class="jser-sitelink"><strong>Egghead IO</strong><br/><a href="http://egghead.io/" title="Egghead IO" target="_blank">http://egghead.io/</a></p>
+</blockquote>
+<p>AngularJS のチュートリアル動画<br/> <a href="https://twitter.com/eggheadio" target="_blank">https://twitter.com/eggheadio</a></p>
+</div>
+<div>
+<blockquote title="Client-Side UI Smackdown">
+<p class="jser-sitelink"><strong>Client-Side UI Smackdown</strong><br/><a href="http://www.infoq.com/presentations/JavaScript-Frameworks-Review" title="Client-Side UI Smackdown" target="_blank">http://www.infoq.com/presentations/JavaScript-Frameworks-Review</a></p>
+</blockquote>
+<p>JavaScriptのエコシステムについての発表.<br/> Backbone.js, Spine.js, Knockout, Knockback, Sammy等のMV* フレームワークについて、scaffoldなツール、モジュールについて</p>
+</div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="visionmedia/rework · GitHub">
+<p class="jser-sitelink"><strong>visionmedia/rework · GitHub</strong><br/><a href="https://github.com/visionmedia/rework" title="visionmedia/rework · GitHub" target="_blank">https://github.com/visionmedia/rework</a></p>
+</blockquote>
+<p>CSSプリプロセッサー<br/>arbitrary CSS preprocessing library for node.js</p>
+<blockquote title="この記事はVim Advent Calendar 2012の52日目の記事です。 前回の記事はasion_mさんのフロントエンジニアがちょっと幸せになるかもしれないプラグイン作ってます。でした。 良い具合に、フロントエンドのお話続きになっており「流れがキタ！」などと浮かれていたところ、はてなブログが0時から8時まで長時">
+<p class="jser-sitelink"><strong>JavaScript書くときに便利なVimプラギン集 - Life goes on</strong><br/><a href="http://layzie.hatenablog.com/entry/20130122/1358811539" title="JavaScript書くときに便利なVimプラギン集 - Life goes on" target="_blank">http://layzie.hatenablog.com/entry/20130122/1358811539</a></p>
+</blockquote>
+<p>JavaScript関係のVimプラグイン紹介</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="Backgrid.js">
+<p class="jser-sitelink"><strong>Backgrid.js</strong><br/><a href="http://wyuenho.github.com/backgrid/" title="Backgrid.js" target="_blank">http://wyuenho.github.com/backgrid/</a></p>
+</blockquote>
+<p>Grid表示ライブラリ.<br/> Grid/Column/Cell/Formatter/Header/Row/Body/FooterとわかれたAPIを持つ</p>
+</div>
+<div class="site-genre ui-sortable"><strong>書籍関係</strong></div>
+<div>
+<blockquote title="O'Reilly Japan - Web Workers">
+<p class="jser-sitelink"><strong>O&#8217;Reilly Japan - Web Workers</strong><br/><a href="http://www.oreilly.co.jp/books/9784873115962/" title="O'Reilly Japan - Web Workers" target="_blank">http://www.oreilly.co.jp/books/9784873115962/</a></p>
+</blockquote>
+<p>Web Workers本の日本語版</p>
+</div>
+<div>
+<blockquote title="Amazon: すべての人に知っておいてほしい JavaScriptの基本原則 [単行本]: 岩永 賢明, 勝間 亮, 嶋田 大輔, 土屋 勇人, 西林 孝, 比留間 和也, 吉田 雷">
+<p class="jser-sitelink"><strong>Amazon: すべての人に知っておいてほしい JavaScriptの基本原則 [単行本]: 岩永 賢明, 勝間 亮, 嶋田 大輔, 土屋 勇人, 西林 孝, 比留間 和也, 吉田 雷</strong><br/><a href="http://www.amazon.co.jp/o/ASIN/4844363123" title="Amazon: すべての人に知っておいてほしい JavaScriptの基本原則 [単行本]: 岩永 賢明, 勝間 亮, 嶋田 大輔, 土屋 勇人, 西林 孝, 比留間 和也, 吉田 雷" target="_blank">http://www.amazon.co.jp/o/ASIN/4844363123</a></p>
+</blockquote>
+<p>2013年1月23日発売<br/> デザイナー向けのJavascript/jQuery入門書</p>
+</div>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2013-01-29-2013-01-29-js-qunit-1-11-testable.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["testing","jquery"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>testing</li>
+                
+                <li>jquery</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/41782477547"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/41782477547">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/41782477547"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

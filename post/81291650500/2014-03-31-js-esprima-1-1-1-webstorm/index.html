@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-03-31のJS: Esprima 1.1.1、WebStorm 8.0、JavaScriptとメモリリーク - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="JavaScript,AST,WebStorm,node.js" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-03-31のJS: Esprima 1.1.1、WebStorm 8.0、JavaScriptとメモリリーク" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #168 - JavaScriptパーサーのEsprima 1.1.1がリ..." />
+    
+    
+      <meta content="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm" property="og:url">
+    
+    
+      <meta content="2014-03-31T23:38:10+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="AST" property="article:tag">
+      
+      <meta content="WebStorm" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm">2014-03-31のJS: Esprima 1.1.1、WebStorm 8.0、JavaScriptとメモリリーク</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年03月31日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-03-31-2014-03-31-js-esprima-1-1-1-webstorm.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2014-03-31-2014-03-31-js-esprima-1-1-1-webstorm.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #168 - JavaScriptパーサーのEsprima 1.1.1がリリースされました。</p>
+
+<p><a href="http://azu.github.io/slide/JSojisan/" target="_blank">カジュアルJavaScript AST</a>でも話してきましたが、ESLint等Esprimaをベースとしたツールは多いため、今回のアップデートでパフォーマンスが向上してるツールも多いようです。</p>
+
+<ul><li><a href="https://github.com/eslint/eslint/issues/574#issuecomment-39003814" title="Performance: ESLint is slow · Issue #574 · eslint/eslint" target="_blank">Performance: ESLint is slow · Issue #574 · eslint/eslint</a></li>
+</ul><hr><p><a href="http://blog.jetbrains.com/webstorm/2014/03/welcome-webstorm-8/" title="WebStorm 8.0" target="_blank">WebStorm 8.0</a>がリリースされました。</p>
+
+<ul><li><a href="http://www.jetbrains.com/webstorm/whatsnew/" title="WebStorm 8 — Web Intelligence at Your Service" target="_blank">WebStorm 8 — Web Intelligence at Your Service</a></li>
+</ul><p>JetBrainsが買収したProxy型のパフォーマンス解析ツールである<a href="http://blog.jetbrains.com/webstorm/2014/02/webstorm-8-eap-build-134-1081/#spy-js" title="Spy-js" target="_blank">Spy-js</a>の統合や
+GruntやBowerの統合(npmと同様にWebStorm上でパッケージのインストール管理が出来る)、<a href="https://github.com/cucumber/cucumber-js" title="Cucumber.js" target="_blank">Cucumber.js</a>のサポート、ES6 modulesやRequireJS等のサポート改善等が含まれています。</p>
+
+<ul><li><a href="http://spy-js.com/" title="spy-js: tracing, profiling, debugging javascript" target="_blank">spy-js: tracing, profiling, debugging javascript</a></li>
+</ul><p>以下の動画で詳しく解説されています。</p>
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/rlNmYgNdOkM" frameborder="0" allowfullscreen></iframe>
+
+<hr><p><a href="http://blog.shibu.jp/article/92030639.html" title="Shibu's Diary: JavaScriptのメモリリークを10倍速で発見する" target="_blank">Shibu&#8217;s Diary: JavaScriptのメモリリークを10倍速で発見する</a> という記事では、node.jsで書かれたアプリのメモリリースの検出方法について書かれています。</p>
+
+<p><a href="https://github.com/c4milo/node-webkit-agent" title="Node Webkit Agent" target="_blank">Node Webkit Agent</a>でChrome Dev Toolsを使いメモリリークの調べ方、また無名関数によるデバッグのしにくさを<a href="https://github.com/shibukawa/add-func-name" title="add-func-name" target="_blank">自動的に名前付き関数式</a>にするツールを使って行う方法等について書かれています。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="https://www.meteor.com/blog/2014/03/27/meteor-080-introducing-blaze" title="The Meteor blog">
+<p class="jser-sitelink"><strong>The Meteor blog</strong></p><footer><cite><a href="https://www.meteor.com/blog/2014/03/27/meteor-080-introducing-blaze" title="The Meteor blog" target="_blank">www.meteor.com/blog/2014/03/27/meteor-080-introducing-blaze</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Meteor 0.8.0リリース</p>
+
+<blockquote cite="http://vuejs.org/2014/03/22/vuejs-010-release/" title="Vue.js 0.10 is here! - vue.js">
+<p class="jser-sitelink"><strong>Vue.js 0.10 is here! - vue.js</strong></p><footer><cite><a href="http://vuejs.org/2014/03/22/vuejs-010-release/" title="Vue.js 0.10 is here! - vue.js" target="_blank">vuejs.org/2014/03/22/vuejs-010-release/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">MVC</span><span class="jser-tag">library</span></p>
+
+<p>MVVMライブラリのVue.js 0.10リリース。</p>
+
+<p><code>v-view</code> directiveの追加、<code>v-repeat</code> にorderBy/filterByの追加、delimitersが設定可能になる等</p>
+
+<blockquote cite="http://blog.jquery.com/2014/03/24/jquery-1-11-1-beta-1-and-2-1-1-beta-1-released/" title="jQuery 1.11.1 Beta 1 and 2.1.1 Beta 1 Released | Official jQuery Blog">
+<p class="jser-sitelink"><strong>jQuery 1.11.1 Beta 1 and 2.1.1 Beta 1 Released | Official jQuery Blog</strong></p><footer><cite><a href="http://blog.jquery.com/2014/03/24/jquery-1-11-1-beta-1-and-2-1-1-beta-1-released/" title="jQuery 1.11.1 Beta 1 and 2.1.1 Beta 1 Released | Official jQuery Blog" target="_blank">blog.jquery.com/2014/03/24/jquery-1-11-1-beta-1-and-2-1-1-beta-1-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>jQuery 1.11.1β/2.1.1βリリース。</p>
+
+<p>bower.jsonに<code>main</code>が定義された(1.11.0もtagが打ち直された)ため、browserify等から利用がしやすくなった。</p>
+
+<p>pointer eventとの互換性の向上等</p>
+
+<ul><li><a href="https://github.com/jquery/jquery/commit/027d470b574e15c94cda28f5e2c7a0ed54c11fa6" target="_blank">Bower: add main property, move Sizzle to devDependencies, add license pr&#8230; · 027d470 · jquery/jquery</a></li>
+</ul><blockquote cite="https://github.com/ariya/esprima/blob/master/ChangeLog" title="esprima/ChangeLog at master · ariya/esprima">
+<p class="jser-sitelink"><strong>esprima/ChangeLog at master · ariya/esprima</strong></p><footer><cite><a href="https://github.com/ariya/esprima/blob/master/ChangeLog" title="esprima/ChangeLog at master · ariya/esprima" target="_blank">github.com/ariya/esprima/blob/master/ChangeLog</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span><span class="jser-tag">library</span></p>
+
+<p>Esprima 1.1.1リリース。</p>
+
+<p>IE7以下のサポート廃止、パフォーマンスの改善、<code>attachComment</code> のオプション追加等</p>
+
+<ul><li><a href="http://code.google.com/p/esprima/issues/detail?id=197" target="_blank">Issue 197 - esprima - Attach comment to the owning syntax nodes - ECMAScript parsing infrastructure for multipurpose analysis - Google Project Hosting</a></li>
+<li><a href="http://code.google.com/p/esprima/issues/detail?id=451" target="_blank">Issue 451 - esprima - Support HTML comment syntax - ECMAScript parsing infrastructure for multipurpose analysis - Google Project Hosting</a></li>
+<li><a href="http://code.google.com/p/esprima/issues/detail?id=474" target="_blank">Issue 474 - esprima - Drop support for legacy browsers - ECMAScript parsing infrastructure for multipurpose analysis - Google Project Hosting</a></li>
+</ul><blockquote cite="http://eslint.org/blog/2014/03/eslint-0.4.5-released/" title="ESLint 0.4.5 released - ESLint">
+<p class="jser-sitelink"><strong>ESLint 0.4.5 released - ESLint</strong></p><footer><cite><a href="http://eslint.org/blog/2014/03/eslint-0.4.5-released/" title="ESLint 0.4.5 released - ESLint" target="_blank">eslint.org/blog/2014/03/eslint-0.4.5-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Tools</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint 0.4.5 リリース。</p>
+
+<p><code>--no-eslintrc</code> のオプション追加、<code>handle-callback-err</code>のルールを追加</p>
+
+<ul><li><a href="http://eslint.org/docs/rules/handle-callback-err.html" target="_blank">Ensures Callback Error Handling</a></li>
+</ul><blockquote cite="http://blog.jetbrains.com/webstorm/2014/03/welcome-webstorm-8/" title="Welcome WebStorm 8.0: AngularJS support, spy-js, multiple selections, Grunt and more | JetBrains WebStorm Blog">
+<p class="jser-sitelink"><strong>Welcome WebStorm 8.0: AngularJS support, spy-js, multiple selections, Grunt and more | JetBrains WebStorm Blog</strong></p><footer><cite><a href="http://blog.jetbrains.com/webstorm/2014/03/welcome-webstorm-8/" title="Welcome WebStorm 8.0: AngularJS support, spy-js, multiple selections, Grunt and more | JetBrains WebStorm Blog" target="_blank">blog.jetbrains.com/webstorm/2014/03/welcome-webstorm-8/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span><span class="jser-tag">ReleaseNote</span><span class="jser-tag">AngularJS</span></p>
+
+<p>WebStorm 8.0リリース。</p>
+
+<p>AngularJSのサポート改善、Spy-jsの統合、Grunt・Bowerの統合、Live Consoleの追加、CucumberJSのサポート、ES6 module対応等</p>
+
+<ul><li><a href="http://blog.jetbrains.com/webstorm/2014/02/webstorm-8-eap-build-134-1081/#spy-js" target="_blank">WebStorm 8 EAP (build 134.1081): Bower, improved spy-js and AngularJS support and more | JetBrains WebStorm Blog</a></li>
+</ul><h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://dfkaye.github.io/2014/03/04/tdd-boilerplate/" title="Build your own TDD boilerplate project for JavaScript | dfkaye.github.io">
+<p class="jser-sitelink"><strong>Build your own TDD boilerplate project for JavaScript | dfkaye.github.io</strong></p><footer><cite><a href="http://dfkaye.github.io/2014/03/04/tdd-boilerplate/" title="Build your own TDD boilerplate project for JavaScript | dfkaye.github.io" target="_blank">dfkaye.github.io/2014/03/04/tdd-boilerplate/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">github</span></p>
+
+<p>JavaScriptのtdd-boilerplateを作る話。</p>
+
+<p>Githubでプロジェクトを作成する所からnode、mochaのセットアップ、npm test、browserでのテスト実行、testem、Travis CIの設定等丁寧に書かれてる</p>
+
+<ul><li><a href="https://github.com/dfkaye/tdd-boilerplate" target="_blank">dfkaye/tdd-boilerplate</a></li>
+</ul><blockquote cite="http://jlongster.com/Sweet.js-Tutorial--2--Recursive-Macros-and-Custom-Pattern-Classes" title="Sweet.js Tutorial #2: Recursive Macros and Custom Pattern Classes">
+<p class="jser-sitelink"><strong>Sweet.js Tutorial #2: Recursive Macros and Custom Pattern Classes</strong></p><footer><cite><a href="http://jlongster.com/Sweet.js-Tutorial--2--Recursive-Macros-and-Custom-Pattern-Classes" title="Sweet.js Tutorial #2: Recursive Macros and Custom Pattern Classes" target="_blank">jlongster.com/Sweet.js-Tutorial&#8212;2&#8212;Recursive-Macros-and-Custom-Pattern-Classes</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">tutorial</span></p>
+
+<p>sweet.jsのチュートリアル Part2。</p>
+
+<p>ES6 variable destructuringの実装を題材にsweet.jsについて学ぶ</p>
+
+<ul><li><a href="http://jlongster.com/Writing-Your-First-Sweet.js-Macro" target="_blank">Writing Your First Sweet.js Macro</a></li>
+</ul><blockquote cite="http://ericportis.com/posts/2014/srcset-sizes/" title="Srcset and sizes — ericportis.com">
+<p class="jser-sitelink"><strong>Srcset and sizes — ericportis.com</strong></p><footer><cite><a href="http://ericportis.com/posts/2014/srcset-sizes/" title="Srcset and sizes — ericportis.com" target="_blank">ericportis.com/posts/2014/srcset-sizes/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span><span class="jser-tag">画像</span></p>
+
+<p>imgの<code>srcset</code> 属性と画像サイズについて、仕様とか書き方について。</p>
+
+<p>かわいい感じのイラストと共に説明してる</p>
+
+<blockquote cite="http://www.riaxdnp.jp/?p=6420" title="Parse.comを使ったサーバサイド実装不要のフロントエンド開発[前編]">
+<p class="jser-sitelink"><strong>Parse.comを使ったサーバサイド実装不要のフロントエンド開発[前編]</strong></p><footer><cite><a href="http://www.riaxdnp.jp/?p=6420" title="Parse.comを使ったサーバサイド実装不要のフロントエンド開発[前編]" target="_blank">www.riaxdnp.jp/?p=6420</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">webservice</span><span class="jser-tag">API</span></p>
+
+<p>Parseをバックエンドとして利用したBackboneベースのウェブアプリ作成について。</p>
+
+<p>Parse SDKを使ったウェブアプリについて書かれている</p>
+
+<ul><li><a href="http://www.riaxdnp.jp/?p=6529" target="_blank">Parse.comを使ったサーバサイド実装不要のフロントエンド開発[後編]</a></li>
+</ul><blockquote cite="http://www.kaoriya.net/blog/2014/03/28/" title="jQueryのメモリーリークの傾向と対策 — KaoriYa">
+<p class="jser-sitelink"><strong>jQueryのメモリーリークの傾向と対策 — KaoriYa</strong></p><footer><cite><a href="http://www.kaoriya.net/blog/2014/03/28/" title="jQueryのメモリーリークの傾向と対策 — KaoriYa" target="_blank">www.kaoriya.net/blog/2014/03/28/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span><span class="jser-tag">JavaScript</span></p>
+
+<p>jQueryは自分で要素を保持するので、jQueryのAPIを使わないで要素を削除すると強参照が残ってしまう話。</p>
+
+<p>MutationObserverで監視して削除するアプローチについて。</p>
+
+<blockquote cite="http://blog.shibu.jp/article/92030639.html" title="Shibu's Diary: JavaScriptのメモリリークを10倍速で発見する">
+<p class="jser-sitelink"><strong>Shibu&#8217;s Diary: JavaScriptのメモリリークを10倍速で発見する</strong></p><footer><cite><a href="http://blog.shibu.jp/article/92030639.html" title="Shibu's Diary: JavaScriptのメモリリークを10倍速で発見する" target="_blank">blog.shibu.jp/article/92030639.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">JavaScript</span><span class="jser-tag">debug</span></p>
+
+<p>node-webkit-agentを使ったNode.jsでのメモリリークの検出方法について。</p>
+
+<p>無名関数に自動的に名前を付けるadd-func-nameを利用してデバッグ。</p>
+
+<ul><li><a href="https://github.com/c4milo/node-webkit-agent" target="_blank">c4milo/node-webkit-agent</a></li>
+<li><a href="https://github.com/shibukawa/add-func-name" target="_blank">shibukawa/add-func-name</a></li>
+</ul><h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="https://speakerdeck.com/yosuke_furukawa/ci-on-client-and-server" title="ci_on_client_and_server // Speaker Deck">
+<p class="jser-sitelink"><strong>ci_on_client_and_server // Speaker Deck</strong></p><footer><cite><a href="https://speakerdeck.com/yosuke_furukawa/ci-on-client-and-server" title="ci_on_client_and_server // Speaker Deck" target="_blank">speakerdeck.com/yosuke_furukawa/ci-on-client-and-server</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">browserify</span><span class="jser-tag">testing</span><span class="jser-tag">webservice</span><span class="jser-tag">CI</span></p>
+
+<p>Broserify+テストについてのスライド。</p>
+
+<p>Travis CI、drone.io、testlling-ci、zuulの比較</p>
+
+<ul><li><a href="https://github.com/azer/prova" title="azer/prova" target="_blank">azer/prova</a></li>
+</ul><blockquote cite="http://imaya.blog.jp/archives/7169783.html" title="#JSオジサンで Source Map について話してきました : document">
+<p class="jser-sitelink"><strong>#JSオジサンで Source Map について話してきました&#160;: document</strong></p><footer><cite><a href="http://imaya.blog.jp/archives/7169783.html" title="#JSオジサンで Source Map について話してきました : document" target="_blank">imaya.blog.jp/archives/7169783.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">スライド</span></p>
+
+<p>主にSource Mapの配布についてのスライド。</p>
+
+<p>jsとmapファイルの断片化や不整合が起きるケース、Data URLで埋め込む方法、<code>sourcesContent</code>を使った埋め込み、配布方法と応用について書かれている。</p>
+
+<blockquote cite="http://azu.github.io/slide/JSojisan/" title="カジュアルJavaScript AST">
+<p class="jser-sitelink"><strong>カジュアルJavaScript AST</strong></p><footer><cite><a href="http://azu.github.io/slide/JSojisan/" title="カジュアルJavaScript AST" target="_blank">azu.github.io/slide/JSojisan/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">AST</span><span class="jser-tag">スライド</span></p>
+
+<p>JavaScript ASTについてのスライド。</p>
+
+<p>簡単なASTの概要と実際にどんなツールでASTが使われてるかの紹介、ASTを使ったツールを書いてみる話</p>
+
+<ul><li><a href="http://efcl.info/2014/0328/res3756/" title="JSオジサンで現在のJavaScript ASTについて発表してきた | Web scratch" target="_blank">JSオジサンで現在のJavaScript ASTについて発表してきた | Web scratch</a></li>
+</ul><blockquote cite="http://codelunch.fm/3/" title="NaN-BoxingによるJavaScriptの最適化 - Code Lunch Podcast">
+<p class="jser-sitelink"><strong>NaN-BoxingによるJavaScriptの最適化 - Code Lunch Podcast</strong></p><footer><cite><a href="http://codelunch.fm/3/" title="NaN-BoxingによるJavaScriptの最適化 - Code Lunch Podcast" target="_blank">codelunch.fm/3/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">program</span><span class="jser-tag">podcast</span></p>
+
+<p>IEEE754の浮動小数点について。</p>
+
+<p>JSのNumberがdouble、∞-∞みたいな場合のために定義されてるNaNについて、JSCとか実装されてるメモリ節約のテクニックとしてのNaN-Boxingについての解説。また内部的には整数を扱ったりしてる話</p>
+
+<blockquote cite="https://www.youtube.com/user/ebrainus/videos?tag_id=UCvpuO2DHMdgmxte25k0X6Lg.3.javascript-programming-language&amp;sort=dd&amp;view=46&amp;shelf_id=1" title="eBrainUs - YouTube">
+<p class="jser-sitelink"><strong>eBrainUs - YouTube</strong></p><footer><cite><a href="https://www.youtube.com/user/ebrainus/videos?tag_id=UCvpuO2DHMdgmxte25k0X6Lg.3.javascript-programming-language&amp;sort=dd&amp;view=46&amp;shelf_id=1" title="eBrainUs - YouTube" target="_blank">www.youtube.com/user/ebrainus/videos?tag_id=UCvpuO2DHMdgmxte25k0X6Lg.3.javascript-programming-language&amp;sort=dd&amp;view=46&amp;shelf_id=1</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">イベント</span><span class="jser-tag">動画</span><span class="jser-tag">韓国</span></p>
+
+<p>韓国のOK. JavaScript Conferenceの動画が公開された。</p>
+
+<p><a href="http://jscon.ebrainus.com/" target="_blank">http://jscon.ebrainus.com/</a></p>
+
+<blockquote cite="http://tagtree.tv/ecmascript-6-episode-3" title="ES6 - episode 3">
+<p class="jser-sitelink"><strong>ES6 - episode 3</strong></p><footer><cite><a href="http://tagtree.tv/ecmascript-6-episode-3" title="ES6 - episode 3" target="_blank">tagtree.tv/ecmascript-6-episode-3</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span><span class="jser-tag">動画</span></p>
+
+<p>ES6についてのスクリーンキャスト。</p>
+
+<p><code>class</code> syntax、moduleの<code>export</code>と<code>import</code>と<code>module</code>の意味、分割代入、classのexportについて</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="http://duktape.org/index.html" title="Duktape">
+<p class="jser-sitelink"><strong>Duktape</strong></p><footer><cite><a href="http://duktape.org/index.html" title="Duktape" target="_blank">duktape.org/index.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">C言語</span><span class="jser-tag">C++</span></p>
+
+<p>埋め込み用のJavaScriptエンジン。小さいのが特徴。</p>
+
+<p>正規表現エンジンも内蔵していて、ES5対応でtest262、Underscore等のテストを通してる。</p>
+
+<blockquote cite="https://github.com/andyhmltn/grape-js" title="andyhmltn/grape-js">
+<p class="jser-sitelink"><strong>andyhmltn/grape-js</strong></p><footer><cite><a href="https://github.com/andyhmltn/grape-js" title="andyhmltn/grape-js" target="_blank">github.com/andyhmltn/grape-js</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">library</span></p>
+
+<p>シンプルなDIライブラリ</p>
+
+<blockquote cite="http://pablovallejo.github.io/gillie/" title="Guillie - JavaScript MicroFramework by PabloVallejo">
+<p class="jser-sitelink"><strong>Guillie - JavaScript MicroFramework by PabloVallejo</strong></p><footer><cite><a href="http://pablovallejo.github.io/gillie/" title="Guillie - JavaScript MicroFramework by PabloVallejo" target="_blank">pablovallejo.github.io/gillie/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>backbone.jsインスパイアな小さいMV*フレームワーク。 HTTP通信系のメソッドを元から持ってる</p>
+
+<blockquote cite="https://github.com/rotundasoftware/parcelify" title="rotundasoftware/parcelify">
+<p class="jser-sitelink"><strong>rotundasoftware/parcelify</strong></p><footer><cite><a href="https://github.com/rotundasoftware/parcelify" title="rotundasoftware/parcelify" target="_blank">github.com/rotundasoftware/parcelify</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span><span class="jser-tag">CSS</span><span class="jser-tag">Tools</span></p>
+
+<p>browserifyの上にCSSやテンプレートも扱えるような依存関係の仕組みをもたせたもの。</p>
+
+<p>Componentのように一つのHTML/CSS/JSのセットをmoduleとして管理出来るようにするイメージ</p>
+
+<ul><li><a href="http://havelog.ayumusato.com/develop/javascript/e588-component_package_and_dependency_and_build.html" target="_blank">Componentによるフロントエンドのパッケージ管理 ::ハブろぐ</a></li>
+</ul>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-03-31-2014-03-31-js-esprima-1-1-1-webstorm.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["JavaScript","AST","WebStorm","node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>JavaScript</li>
+                
+                <li>AST</li>
+                
+                <li>WebStorm</li>
+                
+                <li>node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/81291650500/2014-03-31-js-esprima-1-1-1-webstorm"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2013-03-18のJS: Node v0.10.0、setIntervalで非同期処理を回すコードのリファクタリング、CSSフレームワークのまとめ - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="node,Css" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2013-03-18のJS: Node v0.10.0、setIntervalで非同期処理を回すコードのリファクタリング、CSSフレームワークのまとめ" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #114 - Node v0.10.0のメジャーアップデートが公開されまし..." />
+    
+    
+      <meta content="http://jser.info/post/45671679801" property="og:url">
+    
+    
+      <meta content="2013-03-18T22:47:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="node" property="article:tag">
+      
+      <meta content="Css" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/45671679801">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/45671679801">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/45671679801">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/45671679801">2013-03-18のJS: Node v0.10.0、setIntervalで非同期処理を回すコードのリファクタリング、CSSフレームワークのまとめ</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2013年03月18日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2013-03-18-2013-03-18-js-node.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2013-03-18-2013-03-18-js-node.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/45671679801"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/45671679801">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/45671679801"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #114 - <a href="http://blog.nodejs.org/2013/03/11/node-v0-10-0-stable/" target="_blank">Node v0.10.0</a>のメジャーアップデートが公開されました。<br/>なんで0.10.xなのといった疑問やどのような変更があったのかなどは<a href="http://d.hatena.ne.jp/jovi0608/20130312/1363099862" target="_blank">Node.js-v0.10リリースアナウンスの簡単な解説と感想など - ぼちぼち日記</a>がよくまとまっています。</p>
+<p><a href="http://rmurphey.com/blog/2013/02/04/refactoring-setInterval-polling/" target="_blank">Refactoring setInterval-based polling - Adventures in JavaScript Development</a>という記事では、setIntervalで単純にXHRを叩いてPollingを行うコードの問題点を、ちゃんと通信の成否を確認してsetTimeoutでPollingを行うようにリファクタリングする内容が紹介されています。発展としてpromiseを使った方法も書かれていて、流れがあっていい感じの記事だと思います。</p>
+<p><a href="http://usablica.github.com/front-end-frameworks/compare.html?v=2.0" target="_blank">CSS Front-end Frameworks with comparison - By usabli.ca</a>というサイトでは、Twitter bootstrapや960 Grid SystemなどのCSSフレームワークの情報が簡潔にまとまっています。</p>
+<div class="connectedSortable ui-sortable ui-sortable-disabled" id="output">
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="Node v0.10.0 (Stable)">
+<p class="jser-sitelink"><strong>Node v0.10.0 (Stable)</strong><br/><a href="http://blog.nodejs.org/2013/03/11/node-v0-10-0-stable/" title="Node v0.10.0 (Stable)" target="_blank">http://blog.nodejs.org/2013/03/11/node-v0-10-0-stable/</a></p>
+</blockquote>
+<p>Node v0.10.0リリース(stable release)</p>
+<ol><li><a href="http://d.hatena.ne.jp/jovi0608/20130312/1363099862" target="_blank">Node.js-v0.10リリースアナウンスの簡単な解説と感想など - ぼちぼち日記</a></li>
+</ol></div>
+<div>
+<blockquote title="Yeti 0.2.19 released">
+<p class="jser-sitelink"><strong>Yeti 0.2.19 released</strong><br/><a href="http://www.yeti.cx/blog/2013/03/yeti-0-2-19-released/" title="Yeti 0.2.19 released" target="_blank">http://www.yeti.cx/blog/2013/03/yeti-0-2-19-released/</a></p>
+</blockquote>
+<p>Yeti 0.2.19リリース<br/> uncaught errorsの改善、WebDriver CLIオプションの追加<br/>Yeti 0.2.18では、キャプチャーページでのsmart timeouts、parallel browser testingのためのリファクタリング</p>
+</div>
+<div>
+<blockquote title="Announcing YUI 3.9.0 - YUI Blog">
+<p class="jser-sitelink"><strong>Announcing YUI 3.9.0 - YUI Blog</strong><br/><a href="http://www.yuiblog.com/blog/2013/03/13/announcing-yui-3-9-0/" title="Announcing YUI 3.9.0 - YUI Blog" target="_blank">http://www.yuiblog.com/blog/2013/03/13/announcing-yui-3-9-0/</a></p>
+</blockquote>
+<p>YUI 3.9.0リリース.</p>
+</div>
+<div>
+<blockquote title="jQuery UI 1.10.2 | jQuery UI Blog">
+<p class="jser-sitelink"><strong>jQuery UI 1.10.2 | jQuery UI Blog</strong><br/><a href="http://blog.jqueryui.com/2013/03/jquery-ui-1-10-2/" title="jQuery UI 1.10.2 | jQuery UI Blog" target="_blank">http://blog.jqueryui.com/2013/03/jquery-ui-1-10-2/</a></p>
+</blockquote>
+<p>jQuery UI 1.10.2リリース</p>
+</div>
+<div>
+<blockquote title="Grunt 0.4.1 released - Grunt: The JavaScript Task Runner">
+<p class="jser-sitelink"><strong>Grunt 0.4.1 released - Grunt: The JavaScript Task Runner</strong><br/><a href="http://gruntjs.com/blog/2013-03-13-grunt-0.4.1-released" title="Grunt 0.4.1 released - Grunt: The JavaScript Task Runner" target="_blank">http://gruntjs.com/blog/2013-03-13-grunt-0.4.1-released</a></p>
+</blockquote>
+<p>Grunt 0.4.1 リリース</p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="QUnit で ECMAScript 6th Compatibility Test を書いてみた - hogehoge @teramako">
+<p class="jser-sitelink"><strong>QUnit で ECMAScript 6th Compatibility Test を書いてみた - hogehoge @teramako</strong><br/><a href="http://d.hatena.ne.jp/teramako/20130317/p1" title="QUnit で ECMAScript 6th Compatibility Test を書いてみた - hogehoge @teramako" target="_blank">http://d.hatena.ne.jp/teramako/20130317/p1</a></p>
+</blockquote>
+<p>ECMAScript compatibility tableのQunitで実行できるテストケース</p>
+</div>
+<div>
+<blockquote title="Refactoring setInterval-based polling - Adventures in JavaScript Development">
+<p class="jser-sitelink"><strong>Refactoring setInterval-based polling - Adventures in JavaScript Development</strong><br/><a href="http://rmurphey.com/blog/2013/02/04/refactoring-setInterval-polling/" title="Refactoring setInterval-based polling - Adventures in JavaScript Development" target="_blank">http://rmurphey.com/blog/2013/02/04/refactoring-setInterval-polling/</a></p>
+</blockquote>
+<p>setIntervalで単純に回してた処理を、ちゃんと成否を確認してからsetTimeoutで回すように変更する方法やPromiseを使った方法へのリファクタリングについて</p>
+</div>
+<div>
+<blockquote title="Touch And Mouse: Together Again For The First Time - HTML5 Rocks">
+<p class="jser-sitelink"><strong>Touch And Mouse: Together Again For The First Time - HTML5 Rocks</strong><br/><a href="http://www.html5rocks.com/en/mobile/touchandmouse/" title="Touch And Mouse: Together Again For The First Time - HTML5 Rocks" target="_blank">http://www.html5rocks.com/en/mobile/touchandmouse/</a></p>
+</blockquote>
+<p>touch/move/clickのイベントの順序.<br/> タッチイベントとマウスイベントどちらも対応することについて</p>
+</div>
+<div>
+<blockquote title="Firefox上のFlash Playerで、保護モードが有効でもIMEが利用できるようにする方法 - WebStudio">
+<p class="jser-sitelink"><strong>Firefox上のFlash Playerで、保護モードが有効でもIMEが利用できるようにする方法 - WebStudio</strong><br/><a href="http://www.d-toybox.com/studio/weblog/show.php?mode=single;id=2013031500" title="Firefox上のFlash Playerで、保護モードが有効でもIMEが利用できるようにする方法 - WebStudio" target="_blank">http://www.d-toybox.com/studio/weblog/show.php?mode=single;id=2013031500</a></p>
+</blockquote>
+<p>wmodeを使って保護モードでもIMEが利用できるように回避する方法</p>
+</div>
+<div>
+<blockquote title="プライベートメソッドのユニットテストは書かないもの？ - QA@IT">
+<p class="jser-sitelink"><strong>プライベートメソッドのユニットテストは書かないもの？ - QA@IT</strong><br/><a href="http://qa.atmarkit.co.jp/q/2784" title="プライベートメソッドのユニットテストは書かないもの？ - QA@IT" target="_blank">http://qa.atmarkit.co.jp/q/2784</a></p>
+</blockquote>
+<p>プライベートメソッドのテストはどうするべきなのかという質問に対する対処法</p>
+</div>
+<div class="site-genre ui-sortable"><strong>スライド、動画関係</strong></div>
+<div>
+<blockquote title="jQuery Mobile 1.3 最新情報">
+<p class="jser-sitelink"><strong>jQuery Mobile 1.3 最新情報</strong><br/><a href="http://www.slideshare.net/yoshikawa_t/jquery-mobileupdates" title="jQuery Mobile 1.3 最新情報" target="_blank">http://www.slideshare.net/yoshikawa_t/jquery-mobileupdates</a></p>
+</blockquote>
+<p>jQuery Mobile 1.3のあたらしい機能などについてのスライド</p>
+</div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="JS: The Right Way">
+<p class="jser-sitelink"><strong>JS: The Right Way</strong><br/><a href="http://jstherightway.com/" title="JS: The Right Way" target="_blank">http://jstherightway.com/</a></p>
+</blockquote>
+<p>JavaScriptのデザインパターンやツール、リソース、書籍等のまとめ</p>
+</div>
+<div>
+<blockquote title="Dirty Markup · Tidy and Beautify your HTML, CSS, and JavaScript code">
+<p class="jser-sitelink"><strong>Dirty Markup · Tidy and Beautify your HTML, CSS, and JavaScript code</strong><br/><a href="http://www.dirtymarkup.com/" title="Dirty Markup · Tidy and Beautify your HTML, CSS, and JavaScript code" target="_blank">http://www.dirtymarkup.com/</a></p>
+</blockquote>
+<p>HTML/CSS/JavaScriptを整形ツール<br/> Word HTMLを最適化するオプションもあったりする</p>
+</div>
+<div>
+<blockquote title="Run server-side code and discover APIs in your browser">
+<p class="jser-sitelink"><strong>Run server-side code and discover APIs in your browser</strong><br/><a href="http://runnable.com/" title="Run server-side code and discover APIs in your browser" target="_blank">http://runnable.com/</a></p>
+</blockquote>
+<p>node.jsをブラウザ上で書いて実行できるウェブサービス</p>
+</div>
+<div>
+<blockquote title="JS Git by Tim Caswell — Kickstarter">
+<p class="jser-sitelink"><strong>JS Git by Tim Caswell — Kickstarter</strong><br/><a href="http://www.kickstarter.com/projects/creationix/js-git" title="JS Git by Tim Caswell — Kickstarter" target="_blank">http://www.kickstarter.com/projects/creationix/js-git</a></p>
+</blockquote>
+<p>JavaScriptのGit実装を作るKickstarter.<br/> Chromebookのような環境でも使えるGitを</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="非同期プログラミングを驚きのシンプルさに (するかもしれない) Flow.js を公開しました。 - latest log">
+<p class="jser-sitelink"><strong>非同期プログラミングを驚きのシンプルさに (するかもしれない) Flow.js を公開しました。 - latest log</strong><br/><a href="http://uupaa.hatenablog.com/entry/2013/03/12/185555" title="非同期プログラミングを驚きのシンプルさに (するかもしれない) Flow.js を公開しました。 - latest log" target="_blank">http://uupaa.hatenablog.com/entry/2013/03/12/185555</a></p>
+</blockquote>
+<p>カウンタベースのフロー制御ライブラリ</p>
+<ul><li><a href="http://www.slideshare.net/uupaa/flowjs" target="_blank">Flow.js</a> スライド</li>
+</ul></div>
+<div>
+<blockquote title="Formula.js">
+<p class="jser-sitelink"><strong>Formula.js</strong><br/><a href="http://stoic.com/formula/index.html" title="Formula.js" target="_blank">http://stoic.com/formula/index.html</a></p>
+</blockquote>
+<p>Excel関数(ExcelとGoogle SpreadSheets)のJavaScript実装ライブラリ</p>
+</div>
+<div>
+<blockquote title="CSS Front-end Frameworks with comparison - By usabli.ca">
+<p class="jser-sitelink"><strong>CSS Front-end Frameworks with comparison - By usabli.ca</strong><br/><a href="http://usablica.github.com/front-end-frameworks/compare.html?v=2.0" title="CSS Front-end Frameworks with comparison - By usabli.ca" target="_blank">http://usablica.github.com/front-end-frameworks/compare.html?v=2.0</a></p>
+</blockquote>
+<p>CSSフレームワークの対応ブラウザとプラットフォーム、使用してる言語(Sass/Less)、ライセンスのまとめ</p>
+</div>
+<div>
+<blockquote title="Daniel Davis - List of JavaScript charting libraries">
+<p class="jser-sitelink"><strong>Daniel Davis - List of JavaScript charting libraries</strong><br/><a href="http://my.opera.com/tagawa/blog/list-of-javascript-charting-libraries" title="Daniel Davis - List of JavaScript charting libraries" target="_blank">http://my.opera.com/tagawa/blog/list-of-javascript-charting-libraries</a></p>
+</blockquote>
+<p>JavaScriptのグラフ系ライブラリのまとめ</p>
+</div>
+<div>
+<blockquote title="GoodBoyDigital/pixi.js · GitHub">
+<p class="jser-sitelink"><strong>GoodBoyDigital/pixi.js · GitHub</strong><br/><a href="https://github.com/GoodBoyDigital/pixi.js" title="GoodBoyDigital/pixi.js · GitHub" target="_blank">https://github.com/GoodBoyDigital/pixi.js</a></p>
+</blockquote>
+<p>WebGLを使った2Dレンダリングエンジン</p>
+</div>
+<div class="site-genre ui-sortable"><strong>書籍関係</strong></div>
+<div>
+<blockquote title="Aptana Studio Beginner's Guide | Packt Publishing">
+<p class="jser-sitelink"><strong>Aptana Studio Beginner&#8217;s Guide | Packt Publishing</strong><br/><a href="http://www.packtpub.com/aptana-studio-3-integrated-development-environment-beginners-guide/book" title="Aptana Studio Beginner's Guide | Packt Publishing" target="_blank">http://www.packtpub.com/aptana-studio-3-integrated-development-environment-beginners-guide/book</a></p>
+</blockquote>
+<p>Aptana Studioについての書籍</p>
+</div>
+<div>
+<blockquote title="Web Audio API - O'Reilly Media">
+<p class="jser-sitelink"><strong>Web Audio API - O&#8217;Reilly Media</strong><br/><a href="http://shop.oreilly.com/product/0636920025948.do" title="Web Audio API - O'Reilly Media" target="_blank">http://shop.oreilly.com/product/0636920025948.do</a></p>
+</blockquote>
+<p>WebAudioAPIについての書籍</p>
+</div>
+<div>
+<blockquote title="Amazon: Enterprise Web Development: Building HTML5 Applications: From Desktop to Mobile [Paperback]: Yakov Fain, Victor Rasputnis, Anatole Tartakovsky, Viktor Gamov">
+<p class="jser-sitelink"><strong>Amazon: Enterprise Web Development: Building HTML5 Applications: From Desktop to Mobile [Paperback]: Yakov Fain, Victor Rasputnis, Anatole Tartakovsky, Viktor Gamov</strong><br/><a href="http://www.amazon.com/o/ASIN/1449356818/book042-22/ref=nosim" title="Amazon: Enterprise Web Development: Building HTML5 Applications: From Desktop to Mobile [Paperback]: Yakov Fain, Victor Rasputnis, Anatole Tartakovsky, Viktor Gamov" target="_blank">http://www.amazon.com/o/ASIN/1449356818/book042-22/ref=nosim</a></p>
+</blockquote>
+<p>2013年9月22日発売<br/> エンタープライズのウェブアプリケーションについての書籍</p>
+</div>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2013-03-18-2013-03-18-js-node.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["node","Css"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>node</li>
+                
+                <li>Css</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/45671679801"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/45671679801">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/45671679801"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

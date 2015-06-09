@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2013-12-23のJS: Jasmine 2.0、Promises x Generator、Koa、ストリーミングビルドシステムgulp - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="jasmine,testing,promises,generator,node.js" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2013-12-23のJS: Jasmine 2.0、Promises x Generator、Koa、ストリーミングビルドシステムgulp" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #154 - JavaScripttテストフレームワークのJasmine2..." />
+    
+    
+      <meta content="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x" property="og:url">
+    
+    
+      <meta content="2013-12-23T21:05:55+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="jasmine" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="promises" property="article:tag">
+      
+      <meta content="generator" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x">2013-12-23のJS: Jasmine 2.0、Promises x Generator、Koa、ストリーミングビルドシステムgulp</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2013年12月23日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2013-12-23-2013-12-23-js-jasmine-2-0-promises-x.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2013-12-23-2013-12-23-js-jasmine-2-0-promises-x.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #154 - JavaScripttテストフレームワークの<a title="jasmine/release_notes/20.md at v2.0.0 · pivotal/jasmine" href="https://github.com/pivotal/jasmine/blob/v2.0.0/release_notes/20.md" target="_blank">Jasmine2.0</a>がリリースされました。(一つ前は1.3.x)</p>
+<ul><li><a title="Jasmine 2.0 Release" href="http://pivotallabs.com/jasmine-2-release/" target="_blank">Jasmine 2.0 Release</a></li>
+<li><a title="jasmine/release_notes/20.md at master · pivotal/jasmine" href="https://github.com/pivotal/jasmine/blob/master/release_notes/20.md" target="_blank">jasmine/release_notes/20.md at master · pivotal/jasmine</a> (リリースノート)</li>
+<li><a title="introduction.js" href="http://jasmine.github.io/2.0/introduction.html" target="_blank">introduction.js</a> ドキュメントも2.0が別々のページになってる</li>
+</ul><p><a title="DailyJS: JavaScript Developer Survey 2013: Results" href="http://dailyjs.com/2013/12/12/javascript-survey-results/" target="_blank">DailyJS: JavaScript Developer Survey 2013: Results</a>のアンケートでは、Mochaに押されながらも利用者が一番多いテストフレームワークでした。</p>
+<p>Jasmine2.0では破壊的な変更も多いですが、Mochaのようなdoneを使った非同期テストの対応やspyやassertionの改善、<br/><a title="custom_matcher.js" href="http://jasmine.github.io/2.0/custom_matcher.html" target="_blank">custom matcher</a>の仕組みの変更やレポーター画面変更や、Nodeの対応の改善等かなり幅広い変更が入っています。</p>
+<hr><p> <a title="JavaScript Promises: There and back again - HTML5 Rocks" href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">JavaScript Promises: There and back again - HTML5 Rocks</a>という記事ではES6 Promisesについてよくまとまっています。<br/>jQueryの<a title="Deferred Object | jQuery API Documentation" href="http://api.jquery.com/category/deferred-object/" target="_blank">Deferred</a>等のPromisesライクなものを扱う方法や、thenやcatch、allといったメソッド等、Promisesを扱うのに必要な事について書かれているので一度読んでおくと思います。</p>
+<p><a title="Koa - next generation web framework for node.js" href="http://koajs.com/" target="_blank">Koa</a>というNodeのExpressの次世代とも言えるようなウェブアプリケーションフレームワークが公開されました。<br/>特徴的なのはES6のgeneratorをベースとしている事や、Core自体はひとつもミドルウェアが入ってないことなどが挙げられます。<br/>これによりコードベースが小さくなることやエラーハンドリングのし易さなどより強固なウェブフレームワークを作る事を目的としています。</p>
+<p>Generatorを使うとコードを非同期処理も同期的な感じにできて見やすく書けることや、<br/>上記のPromisesの記事でも出ていますが、Promisesと合わせることで一つのtry-catch内に非同期処理を並べてまとめてエラーハンドリング出来たりする等、<br/>コードの書き方も結構変えられる部分が出てきます。 </p>
+<ul><li><a title="Promises and Generators: Control Flow Utopia" href="http://pag.forbeslindesay.co.uk/#/" target="_blank">Promises and Generators: Control Flow Utopia</a></li>
+<li><a title="Harmony generators and promises for Node.js async fun and profit - Atlassian Blogs" href="http://blogs.atlassian.com/2013/11/harmony-generators-and-promises-for-node-js-async-fun-and-profit/" target="_blank">Harmony generators and promises for Node.js async fun and profit - Atlassian Blogs</a> - Error handling FTW</li>
+<li><a title="Google Chromeに入ったジェネレータとPromiseで非同期処理に革命が起きた - 素人がプログラミングを勉強していたブログ" href="http://javascripter.hatenablog.com/entry/2013/05/03/185147" target="_blank">Google Chromeに入ったジェネレータとPromiseで非同期処理に革命が起きた - 素人がプログラミングを勉強していたブログ</a> </li>
+</ul><hr><p><a title="gulp.js - the streaming build system" href="http://gulpjs.com/" target="_blank">gulp</a>というストリーミングベースのビルドシステムが公開されました。<br/>(コマンドラインのパイプで繋いでいく感じをイメージするといいです) </p>
+<p>JavaScriptのビルドシステムというと<a title="Grunt: The JavaScript Task Runner" href="http://gruntjs.com/" target="_blank">Grunt</a>が大分定着した感じだと思いますが、<br/>Gruntはひとつのタスクが複数の役割を持っていたり、コードで書きはしますが実際はオブジェクトの設定を並べる感じのものとなっています。 </p>
+<p><a title="gulp.js - the streaming build system" href="http://gulpjs.com/" target="_blank">gulp</a>はオブジェクトの設定を並べる感じではなく、コードでパイプを繋いだタスクを定義して行く感じになっていて、<br/>gulp自体が持つAPIもシンプルで、一つのプラグインは一つのことをするという原則を持たせています。<br/>また、ストリーミングをベースとするので一時的フォルダなどを作らなくても良いことになります。 </p>
+<p>以下でGruntとの違いなどについて説明されています。</p>
+<ul><li><a title="Gulp by Eric Schoffstall" href="http://slid.es/contra/gulp" target="_blank">Gulp by Eric Schoffstall</a></li>
+<li><a title="No Need To Grunt, Take A Gulp Of Fresh Air | Travis Maynard" href="http://travismaynard.com/writing/no-need-to-grunt-take-a-gulp-of-fresh-air" target="_blank">No Need To Grunt, Take A Gulp Of Fresh Air | Travis Maynard</a></li>
+<li><a title="Writing a gulp plugin · wearefractal/gulp Wiki" href="https://github.com/wearefractal/gulp/wiki/Writing-a-gulp-plugin" target="_blank">Writing a gulp plugin · wearefractal/gulp Wiki</a> プラグインのガイドライン</li>
+</ul><p><a title="gulp.js - the streaming build system" href="http://gulpjs.com/" target="_blank">gulp</a>の根幹にあるストリーミングという概念については以下のドキュメントを参照するといいです。</p>
+<ul><li><a title="substack/stream-handbook" href="https://github.com/substack/stream-handbook" target="_blank">substack/stream-handbook</a> (訳: <a title="meso/stream-handbook" href="https://github.com/meso/stream-handbook" target="_blank">meso/stream-handbook</a>) </li>
+</ul><hr><div class="jser-output">
+<div class="site-genre"><strong>ヘッドライン</strong></div>
+<blockquote title="jasmine/release_notes/20.md at v2.0.0 · pivotal/jasmine" cite="https://github.com/pivotal/jasmine/blob/v2.0.0/release_notes/20.md">
+<p class="jser-sitelink"><strong>jasmine/release_notes/20.md at v2.0.0 · pivotal/jasmine</strong><br/><a title="jasmine/release_notes/20.md at v2.0.0 · pivotal/jasmine" href="https://github.com/pivotal/jasmine/blob/v2.0.0/release_notes/20.md" target="_blank">https://github.com/pivotal/jasmine/blob/v2.0.0/release_notes/20.md</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>Jasmine 2.0リリース。<br/>mochaスタイル(done)の非同期テストに対応、RubyベースのCLIがNode/Gruntに変更、IE8未満は非サポート、spiesのsyntax変更等</p>
+<blockquote title="Brackets Sprint 35 Build – Brackets Blog" cite="http://blog.brackets.io/2013/12/20/brackets-sprint-35-build/">
+<p class="jser-sitelink"><strong>Brackets Sprint 35 Build – Brackets Blog</strong><br/><a title="Brackets Sprint 35 Build – Brackets Blog" href="http://blog.brackets.io/2013/12/20/brackets-sprint-35-build/" target="_blank">http://blog.brackets.io/2013/12/20/brackets-sprint-35-build/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">IDE</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>Brackets Sprint 35 リリース.<br/>Mac ChromeでのLive Preivewの改善、利用するJSとLESSを最適化して起動時間の改善等</p>
+<blockquote title="jQuery 1.11.0/2.1.0 Beta 3 Released | Official jQuery Blog" cite="http://blog.jquery.com/2013/12/20/jquery-1-11-02-1-0-beta-3-released/">
+<p class="jser-sitelink"><strong>jQuery 1.11.0/2.1.0 Beta 3 Released | Official jQuery Blog</strong><br/><a title="jQuery 1.11.0/2.1.0 Beta 3 Released | Official jQuery Blog" href="http://blog.jquery.com/2013/12/20/jquery-1-11-02-1-0-beta-3-released/" target="_blank">http://blog.jquery.com/2013/12/20/jquery-1-11-02-1-0-beta-3-released/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>jQuery 1.11.0と2.1.0 β3リリース.</p>
+<blockquote title="Dojo 1.9.2 and more | The Dojo Toolkit Blog" cite="http://dojotoolkit.org/blog/dojo-1-9-2-and-more">
+<p class="jser-sitelink"><strong>Dojo 1.9.2 and more | The Dojo Toolkit Blog</strong><br/><a title="Dojo 1.9.2 and more | The Dojo Toolkit Blog" href="http://dojotoolkit.org/blog/dojo-1-9-2-and-more" target="_blank">http://dojotoolkit.org/blog/dojo-1-9-2-and-more</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>Dojo 1.9.2リリース.<br/>IE11サポート, Pointer Eventsへの対応.<br/>Dojo2.0でDOH testsを <a href="http://intern.io/" target="_blank">http://intern.io/</a> に移行させる計画</p>
+<blockquote title="Node v0.10.24 (Stable)" cite="http://blog.nodejs.org/2013/12/19/node-v0-10-24-stable/">
+<p class="jser-sitelink"><strong>Node v0.10.24 (Stable)</strong><br/><a title="Node v0.10.24 (Stable)" href="http://blog.nodejs.org/2013/12/19/node-v0-10-24-stable/" target="_blank">http://blog.nodejs.org/2013/12/19/node-v0-10-24-stable/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>Node v0.10.24リリース.</p>
+<blockquote title="PhoneGap | PhoneGap 3.3.0 Released" cite="http://phonegap.com/blog/2013/12/13/phonegap-release/">
+<p class="jser-sitelink"><strong>PhoneGap | PhoneGap 3.3.0 Released</strong><br/><a title="PhoneGap | PhoneGap 3.3.0 Released" href="http://phonegap.com/blog/2013/12/13/phonegap-release/" target="_blank">http://phonegap.com/blog/2013/12/13/phonegap-release/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PhoneGap</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>PhoneGap 3.3.0リリース.<br/>Android KitKat対応</p>
+<blockquote title="React | React v0.5.2, v0.4.2" cite="http://facebook.github.io/react/blog/2013/12/18/react-v0.5.2-v0.4.2.html">
+<p class="jser-sitelink"><strong>React | React v0.5.2, v0.4.2</strong><br/><a title="React | React v0.5.2, v0.4.2" href="http://facebook.github.io/react/blog/2013/12/18/react-v0.5.2-v0.4.2.html" target="_blank">http://facebook.github.io/react/blog/2013/12/18/react-v0.5.2-v0.4.2.html</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">XSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>React v0.5.2, v0.4.2リリース.<br/>XSS脆弱性に関するセキュリティ修正</p>
+<blockquote title="RxJS 2.2 Released - Reactive Extensions Team Blog - Site Home - MSDN Blogs" cite="http://blogs.msdn.com/b/rxteam/archive/2013/12/13/rxjs-2-2-released.aspx">
+<p class="jser-sitelink"><strong>RxJS 2.2 Released - Reactive Extensions Team Blog - Site Home - MSDN Blogs</strong><br/><a title="RxJS 2.2 Released - Reactive Extensions Team Blog - Site Home - MSDN Blogs" href="http://blogs.msdn.com/b/rxteam/archive/2013/12/13/rxjs-2-2-released.aspx" target="_blank">http://blogs.msdn.com/b/rxteam/archive/2013/12/13/rxjs-2-2-released.aspx</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>RxJS 2.2リリース.<br/>ES5をサポートしてるブラウザがメインとなり、レガシーブラウザはrx.compat.jsでのpolyfill実装となる.<br/>rx.asyncにPromisesとのブリッジの追加等</p>
+<blockquote title="YUI 3.14.1 Released - YUI Blog" cite="http://www.yuiblog.com/blog/2013/12/18/yui-3-14-1-released/">
+<p class="jser-sitelink"><strong>YUI 3.14.1 Released - YUI Blog</strong><br/><a title="YUI 3.14.1 Released - YUI Blog" href="http://www.yuiblog.com/blog/2013/12/18/yui-3-14-1-released/" target="_blank">http://www.yuiblog.com/blog/2013/12/18/yui-3-14-1-released/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">YUI</span> <span class="jser-tag">ReleaseNote</span></p>
+<p>YUI 3.14.1 リリース.<br/>IE11、Android4.4対応</p>
+<div class="site-genre"><strong>アーティクル</strong></div>
+<blockquote title="JavaScript Promises: There and back again - HTML5 Rocks" cite="http://www.html5rocks.com/en/tutorials/es6/promises/">
+<p class="jser-sitelink"><strong>JavaScript Promises: There and back again - HTML5 Rocks</strong><br/><a title="JavaScript Promises: There and back again - HTML5 Rocks" href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">http://www.html5rocks.com/en/tutorials/es6/promises/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promise</span> <span class="jser-tag">リファレンス</span></p>
+<p>ES6 Promisesについて。<br/>既存のPromiseライクも扱えるようにするPromise.cast、Promise.thenの使い方、エラーハンドリング、Promiseとeach、Promise.all、Generatorと合わせた場合について</p>
+<blockquote title="スプリットコンソール、ミニファイ済み JS の整形表示など – Firefox 開発ツール エピソード 28 | Mozilla Developer Street (modest)" cite="https://dev.mozilla.jp/2013/12/split-console-pretty-print-minified-js-and-more-firefox-developer-tools-episode-28/">
+<p class="jser-sitelink"><strong>スプリットコンソール、ミニファイ済み JS の整形表示など – Firefox 開発ツール エピソード 28 | Mozilla Developer Street (modest)</strong><br/><a title="スプリットコンソール、ミニファイ済み JS の整形表示など – Firefox 開発ツール エピソード 28 | Mozilla Developer Street (modest)" href="https://dev.mozilla.jp/2013/12/split-console-pretty-print-minified-js-and-more-firefox-developer-tools-episode-28/" target="_blank">https://dev.mozilla.jp/2013/12/split-console-pretty-print-minified-js-and-more-firefox-developer-tools-episode-28/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">firefox</span> <span class="jser-tag">デバック</span></p>
+<p>Firefox DevToolsにEscキーでコンソールを分割表示する機能、jsの整形機能、デバッグ地のツールチップ、カラーピッカーの追加等</p>
+<blockquote title="DevTools Digest December 2013 - HTML5Rocks Updates" cite="http://updates.html5rocks.com/2013/12/DevTools-Digest-December-2013">
+<p class="jser-sitelink"><strong>DevTools Digest December 2013 - HTML5Rocks Updates</strong><br/><a title="DevTools Digest December 2013 - HTML5Rocks Updates" href="http://updates.html5rocks.com/2013/12/DevTools-Digest-December-2013" target="_blank">http://updates.html5rocks.com/2013/12/DevTools-Digest-December-2013</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">デバック</span></p>
+<p>Chrome DevTools の最近アップデート内容についてのまとめ</p>
+<blockquote title="Experiments with Koa and JavaScript Generators - Steve Sanderson’s blog - As seen on YouTube™" cite="http://blog.stevensanderson.com/2013/12/21/experiments-with-koa-and-javascript-generators/">
+<p class="jser-sitelink"><strong>Experiments with Koa and JavaScript Generators - Steve Sanderson’s blog - As seen on YouTube™</strong><br/><a title="Experiments with Koa and JavaScript Generators - Steve Sanderson’s blog - As seen on YouTube™" href="http://blog.stevensanderson.com/2013/12/21/experiments-with-koa-and-javascript-generators/" target="_blank">http://blog.stevensanderson.com/2013/12/21/experiments-with-koa-and-javascript-generators/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ECMAScript</span></p>
+<p>Expressの人達により作られてるGeneratorsベースのKoaについて。<br/>Generatorを使った書き方、エラーハンドリング、非同期処理、Key-value objectsのyeild等</p>
+<ul><li><a title="Koa.js, next generation web framework for Node.js" href="http://www.codersgrid.com/2013/12/19/koa-js-next-generation-web-framework-for-node-js/" target="_blank">Koa.js, next generation web framework for Node.js</a></li>
+</ul><blockquote title="Choosing a JavaScript MVC FrameworkFunny Ant" cite="http://www.funnyant.com/choosing-javascript-mvc-framework/">
+<p class="jser-sitelink"><strong>Choosing a JavaScript MVC FrameworkFunny Ant</strong><br/><a title="Choosing a JavaScript MVC FrameworkFunny Ant" href="http://www.funnyant.com/choosing-javascript-mvc-framework/" target="_blank">http://www.funnyant.com/choosing-javascript-mvc-framework/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MVC</span> <span class="jser-tag">まとめ</span></p>
+<p>JavaScript MV*ライブラリ比較</p>
+<blockquote title="[翻訳] MCSS (Multilayer CSS) | Unformed Building" cite="http://unformedbuilding.com/articles/mcss-ja/">
+<p class="jser-sitelink"><strong>[翻訳] MCSS (Multilayer CSS) | Unformed Building</strong><br/><a title="[翻訳] MCSS (Multilayer CSS) | Unformed Building" href="http://unformedbuilding.com/articles/mcss-ja/" target="_blank">http://unformedbuilding.com/articles/mcss-ja/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">document</span> <span class="jser-tag">翻訳</span></p>
+<p>CSS管理ルールのMultilayer CSSについてのドキュメント翻訳</p>
+<blockquote title="スムーズなアニメーションを実装するコツと仕組みを説明するよ。CPUとGPUを理解しハードウェアアクセラレーションを駆使するのだ！（Frontrend Advent Calendar 2013 – 06日目） | Ginpen.com" cite="http://ginpen.com/2013/12/06/hardware-acceleration/">
+<p class="jser-sitelink"><strong>スムーズなアニメーションを実装するコツと仕組みを説明するよ。CPUとGPUを理解しハードウェアアクセラレーションを駆使するのだ！（Frontrend Advent Calendar 2013 – 06日目） | Ginpen.com</strong><br/><a title="スムーズなアニメーションを実装するコツと仕組みを説明するよ。CPUとGPUを理解しハードウェアアクセラレーションを駆使するのだ！（Frontrend Advent Calendar 2013 – 06日目） | Ginpen.com" href="http://ginpen.com/2013/12/06/hardware-acceleration/" target="_blank">http://ginpen.com/2013/12/06/hardware-acceleration/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">animation</span></p>
+<p>CSSアニメーションとGPUレイヤーについて.<br/>GPUを使った場合のアニメーションが何故高速なのか、また適応範囲が大きすぎるが逆に問題が起きるのかが見た目で分かりやすくまとまってる。</p>
+<blockquote title="WebStormによるJavaScript開発のすすめ - maru source" cite="http://blog.h13i32maru.jp/entry/2013/12/20/091619">
+<p class="jser-sitelink"><strong>WebStormによるJavaScript開発のすすめ - maru source</strong><br/><a title="WebStormによるJavaScript開発のすすめ - maru source" href="http://blog.h13i32maru.jp/entry/2013/12/20/091619" target="_blank">http://blog.h13i32maru.jp/entry/2013/12/20/091619</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">JavaScript</span></p>
+<p>WebStormの機能紹介まとめ</p>
+<blockquote title="俺のWeb Workersがこんなに遅いわけがない" cite="http://lab.sonicmoov.com/development/web-workers/">
+<p class="jser-sitelink"><strong>俺のWeb Workersがこんなに遅いわけがない</strong><br/><a title="俺のWeb Workersがこんなに遅いわけがない" href="http://lab.sonicmoov.com/development/web-workers/" target="_blank">http://lab.sonicmoov.com/development/web-workers/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webworker</span></p>
+<p>WebWorkerのTransferable Objectsについての解説.<br/>データをコピーせずに所有権を渡す事でオーバーヘッドが少なくなる</p>
+<ul><li><a title="Next Mobile WebApplication // Speaker Deck" href="https://speakerdeck.com/uupaa/next-mobile-webapplication" target="_blank">Next Mobile WebApplication // Speaker Deck</a></li>
+</ul><blockquote title="JSDoc vs YUIDoc vs Doxx vs Docco – Choosing a JavaScript documentation generator | The FusionCharts Blog" cite="http://blog.fusioncharts.com/2013/12/jsdoc-vs-yuidoc-vs-doxx-vs-docco-choosing-a-javascript-documentation-generator/">
+<p class="jser-sitelink"><strong>JSDoc vs YUIDoc vs Doxx vs Docco – Choosing a JavaScript documentation generator | The FusionCharts Blog</strong><br/><a title="JSDoc vs YUIDoc vs Doxx vs Docco – Choosing a JavaScript documentation generator | The FusionCharts Blog" href="http://blog.fusioncharts.com/2013/12/jsdoc-vs-yuidoc-vs-doxx-vs-docco-choosing-a-javascript-documentation-generator/" target="_blank">http://blog.fusioncharts.com/2013/12/jsdoc-vs-yuidoc-vs-doxx-vs-docco-choosing-a-javascript-documentation-generator/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">document</span> <span class="jser-tag">Tools</span></p>
+<p>JavaScriptのドキュメントツールの比較</p>
+<div class="site-genre"><strong>サイト、サービス、ソフトウェア関係</strong></div>
+<blockquote title="Node 2013" cite="http://gergelyke.github.io/node2013/">
+<p class="jser-sitelink"><strong>Node 2013</strong><br/><a title="Node 2013" href="http://gergelyke.github.io/node2013/" target="_blank">http://gergelyke.github.io/node2013/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">歴史</span></p>
+<p>タイムライン表示で振り返るNore,jsの歴史</p>
+<blockquote title="Prune: Automatically create QA environments for GitHub pull requests" cite="http://prune.io/">
+<p class="jser-sitelink"><strong>Prune: Automatically create QA environments for GitHub pull requests</strong><br/><a title="Prune: Automatically create QA environments for GitHub pull requests" href="http://prune.io/" target="_blank">http://prune.io/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">github</span> <span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">webservice</span></p>
+<p>Visual Regression Testingサービス.<br/>Githubのpull-requestと連動して、指定ブラウザでのスクリーンショットをissueに貼り付けて見た目を比較出来る。</p>
+<blockquote title="palantir/eclipse-typescript" cite="https://github.com/palantir/eclipse-typescript">
+<p class="jser-sitelink"><strong>palantir/eclipse-typescript</strong><br/><a title="palantir/eclipse-typescript" href="https://github.com/palantir/eclipse-typescript" target="_blank">https://github.com/palantir/eclipse-typescript</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Eclipse</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">plugin</span></p>
+<p>TypeScriptサポートをするEclipseプラグイン</p>
+<blockquote title="Inspect Object :: Add-ons for Firefox" cite="https://addons.mozilla.org/ja/firefox/addon/inspect-object">
+<p class="jser-sitelink"><strong>Inspect Object :: Add-ons for Firefox</strong><br/><a title="Inspect Object :: Add-ons for Firefox" href="https://addons.mozilla.org/ja/firefox/addon/inspect-object/?src=cb-dl-created" target="_blank">https://addons.mozilla.org/ja/firefox/addon/inspect-object/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">デバック</span> <span class="jser-tag">addon</span></p>
+<p>Firefox Dev Toolsに選択中の要素のDOMオブジェクトを表示するボタンを追加するアドオン.<br/>inspect($0)を行うのと同様の事をしてる。</p>
+<div class="site-genre"><strong>ツール、ライブラリ関係</strong></div>
+<blockquote title="wearefractal/gulp" cite="https://github.com/wearefractal/gulp/">
+<p class="jser-sitelink"><strong>wearefractal/gulp</strong><br/><a title="wearefractal/gulp" href="https://github.com/wearefractal/gulp/" target="_blank">https://github.com/wearefractal/gulp/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Grunt</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
+<p>ストリーミングベースなビルドシステム.<br/>Gruntのようにオブジェクトベースな設定ではなく、コードとして設定する方向が強くでてる。<br/>またプラグインがひとつのアクションだけを持つように推奨されてる<br/><a href="http://travismaynard.com/writing/no-need-to-grunt-take-a-gulp-of-fresh-air" target="_blank">http://travismaynard.com/writing/no-need-to-grunt-take-a-gulp-of-fresh-air</a></p>
+<blockquote title="Koa - next generation web framework for node.js" cite="http://koajs.com/">
+<p class="jser-sitelink"><strong>Koa - next generation web framework for node.js</strong><br/><a title="Koa - next generation web framework for node.js" href="http://koajs.com/" target="_blank">http://koajs.com/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">web</span> <span class="jser-tag">library</span></p>
+<p>Expressの人たちが作ってるNodeのウェブフレームワーク.<br/>Generatorが前提の構造になっており、Expressとアーキテクチャが違うので新規作成されてる。</p>
+<blockquote title="Myth - CSS the way it was imagined." cite="http://www.myth.io/">
+<p class="jser-sitelink"><strong>Myth - CSS the way it was imagined.</strong><br/><a title="Myth - CSS the way it was imagined." href="http://www.myth.io/" target="_blank">http://www.myth.io/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span></p>
+<p>CSSプリプロセッサ.<br/>CSS Variablesやcolor()、calc()などCSSの仕様策定が進められてる機能を使えるTranspiler的なツール</p>
+<blockquote title="andyearnshaw/Intl.js" cite="https://github.com/andyearnshaw/Intl.js">
+<p class="jser-sitelink"><strong>andyearnshaw/Intl.js</strong><br/><a title="andyearnshaw/Intl.js" href="https://github.com/andyearnshaw/Intl.js" target="_blank">https://github.com/andyearnshaw/Intl.js</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">library</span></p>
+<p>ECMAScript Internationalization API (ECMA-402) 互換のAPIを実装しているライブラリ</p>
+<blockquote title="blakeembrey/dombars" cite="https://github.com/blakeembrey/dombars">
+<p class="jser-sitelink"><strong>blakeembrey/dombars</strong><br/><a title="blakeembrey/dombars" href="https://github.com/blakeembrey/dombars" target="_blank">https://github.com/blakeembrey/dombars</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+<p>handlebarsを使ったテンプレートにpub/subなイベントやカスタムテンプレートのヘルパーを使えるライブラリ</p>
+<blockquote title="shootaroo/jit-grunt" cite="https://github.com/shootaroo/jit-grunt">
+<p class="jser-sitelink"><strong>shootaroo/jit-grunt</strong><br/><a title="shootaroo/jit-grunt" href="https://github.com/shootaroo/jit-grunt" target="_blank">https://github.com/shootaroo/jit-grunt</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Grunt</span></p>
+<p>Gruntモジュールを遅延ロードする補助ライブラリ</p>
+<blockquote title="palantir/tslint" cite="https://github.com/palantir/tslint">
+<p class="jser-sitelink"><strong>palantir/tslint</strong><br/><a title="palantir/tslint" href="https://github.com/palantir/tslint" target="_blank">https://github.com/palantir/tslint</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p>
+<p>TypeScriptをLintするツール.<br/>ESLintみたいにルールごとに実装されている</p>
+<blockquote title="palantir/coffeescript-to-typescript" cite="https://github.com/palantir/coffeescript-to-typescript">
+<p class="jser-sitelink"><strong>palantir/coffeescript-to-typescript</strong><br/><a title="palantir/coffeescript-to-typescript" href="https://github.com/palantir/coffeescript-to-typescript" target="_blank">https://github.com/palantir/coffeescript-to-typescript</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CoffeeScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p>
+<p>CoffeeScriptをTypeScriptに変換するツール.</p>
+<blockquote title="annotations.js" cite="http://dacap.github.io/annotations.js/">
+<p class="jser-sitelink"><strong>annotations.js</strong><br/><a title="annotations.js" href="http://dacap.github.io/annotations.js/" target="_blank">http://dacap.github.io/annotations.js/</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+<p>google-code-prettifyでシンタックスハイライトしたコードに、コメントで指定した部分にアノテーション的な表示を行えるライブラリ</p>
+<div class="site-genre"><strong>書籍関係</strong></div>
+<blockquote title="Speaking JavaScript - O'Reilly Media" cite="http://shop.oreilly.com/product/0636920029564.do">
+<p class="jser-sitelink"><strong>Speaking JavaScript - O&#8217;Reilly Media</strong><br/><a title="Speaking JavaScript - O'Reilly Media" href="http://shop.oreilly.com/product/0636920029564.do" target="_blank">http://shop.oreilly.com/product/0636920029564.do</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+<p>2014年2月発売<br/>Dr. Axel による JavaScriptという言語の機能、ベストプラクティスやパターン、落とし穴等についての書籍</p>
+<blockquote title="Learning Web App Development - O'Reilly Media" cite="http://shop.oreilly.com/product/0636920030621.do">
+<p class="jser-sitelink"><strong>Learning Web App Development - O&#8217;Reilly Media</strong><br/><a title="Learning Web App Development - O'Reilly Media" href="http://shop.oreilly.com/product/0636920030621.do" target="_blank">http://shop.oreilly.com/product/0636920030621.do</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+<p>2014年2月発売<br/>ウェブアプリ開発についての書籍<br/><a href="https://github.com/semmypurewal/LearningWebAppDev" target="_blank">https://github.com/semmypurewal/LearningWebAppDev</a></p>
+<blockquote title="Amazon: [iOS/Android対応] HTML5 ハイブリッドアプリ開発[実践]入門 (Software Design plus) [単行本（ソフトカバー）]: 久保田 光則, アシアル株式会社" cite="http://www.amazon.co.jp/o/ASIN/4774162116/amazon0abac-22/ref=nosim">
+<p class="jser-sitelink"><strong>Amazon: [iOS/Android対応] HTML5 ハイブリッドアプリ開発[実践]入門 (Software Design plus) [単行本（ソフトカバー）]: 久保田 光則, アシアル株式会社</strong><br/><a title="Amazon: [iOS/Android対応] HTML5 ハイブリッドアプリ開発[実践]入門 (Software Design plus) [単行本（ソフトカバー）]: 久保田 光則, アシアル株式会社" href="http://www.amazon.co.jp/o/ASIN/4774162116/amazon0abac-22/ref=nosim" target="_blank">http://www.amazon.co.jp/o/ASIN/4774162116/amazon0abac-22/ref=nosim</a></p>
+</blockquote>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">mobile</span> <span class="jser-tag">ios</span> <span class="jser-tag">Android</span> <span class="jser-tag">book</span></p>
+<p>2013年12月20日発売<br/>Apache Cordova(PhoneGap)、WebViewアプリについての書籍<br/><a href="http://blog.asial.co.jp/1238" target="_blank">http://blog.asial.co.jp/1238</a></p>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2013-12-23-2013-12-23-js-jasmine-2-0-promises-x.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["jasmine","testing","promises","generator","node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>jasmine</li>
+                
+                <li>testing</li>
+                
+                <li>promises</li>
+                
+                <li>generator</li>
+                
+                <li>node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/70888873447/2013-12-23-js-jasmine-2-0-promises-x"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

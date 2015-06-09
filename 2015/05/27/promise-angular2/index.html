@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="Promise,AngularJS,DOM,jQuery" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #229 - We have a problem with promise..." />
+    
+    
+      <meta content="http://jser.info/2015/05/27/promise-angular2/" property="og:url">
+    
+    
+      <meta content="2015-05-27T22:12:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Promise" property="article:tag">
+      
+      <meta content="AngularJS" property="article:tag">
+      
+      <meta content="DOM" property="article:tag">
+      
+      <meta content="jQuery" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2015/05/27/promise-angular2/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/05/27/promise-angular2/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/05/27/promise-angular2/">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年05月27日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2015/2015-05-27-promise-angular2.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/2015/2015-05-27-promise-angular2.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2015/05/27/promise-angular2/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2015/05/27/promise-angular2/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2015/05/27/promise-angular2/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #229 - <a href="http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html" title="We have a problem with promises">We have a problem with promises</a>という記事では、Promiseでのありがちな間違いなどについてまとめて紹介されています。</p>
+
+<p>Promiseの動作フローの解説、おかしな書き方とそれを修正した書き方を並べて紹介されていてよくまとまっていると思います。</p>
+
+<p><a href="http://azu.github.io/promises-book/" title="JavaScript Promiseの本">JavaScript Promiseの本</a>でも大部分で同様の話をしているので、一緒に見てみるといいかもしれません。</p>
+
+<hr>
+
+<p><a href="http://qiita.com/armorik83/items/5542daed0c408cb9f605" title="JavaScript - AngularJSモダンプラクティス - Qiita">JavaScript - AngularJSモダンプラクティス - Qiita</a>という記事では、既にAngularJS 1.xを使っている人が<a href="https://angular.io/" title="Angular">AngularJS 2</a>に向けてどのように1.xで書いておくとよいかについてまとめられています。</p>
+
+<p><a href="https://angular.io/" title="Angular">AngularJS 2</a>ではどのように書けるようになるのか、2.xでは廃止される機能、また関連するライブラリやツールについても書かれていて、AngularJSを使っている人は読んでみるといいかもしれません。</p>
+
+<hr>
+
+<p><a href="http://plainjs.com/javascript/" title="Plain JavaScript - Functions and Helpers">Plain JavaScript - Functions and Helpers</a>というサイトでは、jQueryのメソッドに対応する事をPure JavaScriptで行うにはどうするかについて逆引きリファレンス的に書かれています。</p>
+
+<p><a href="http://youmightnotneedjquery.com/" title="You Might Not Need jQuery">You Might Not Need jQuery</a>と似たような感じですが、DOM APIの使い方の確認等に使えそうな感じがします。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="async/changelog.md-at-master-·-caolan/async">async/CHANGELOG.md at master · caolan/async</h2>
+
+<p><a href="https://github.com/caolan/async/blob/master/CHANGELOG.md#v100" title="async/CHANGELOG.md at master · caolan/async">github.com/caolan/async/blob/master/CHANGELOG.md#v100</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>非同期処理を管理するライブラリであるasync 1.0.0リリース。</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="we-have-a-problem-with-promises">We have a problem with promises</h2>
+
+<p><a href="http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html" title="We have a problem with promises">pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">まとめ</span></p>
+
+<p>Promiseの色々な落とし穴やアンチパターンについてよくまとまってる</p>
+
+<ul>
+<li><a href="http://azu.github.io/promises-book/" title="JavaScript Promiseの本">JavaScript Promiseの本</a></li>
+</ul>
+
+<hr>
+
+<h2 id="javascript---angularjsモダンプラクティス---qiita">JavaScript - AngularJSモダンプラクティス - Qiita</h2>
+
+<p><a href="http://qiita.com/armorik83/items/5542daed0c408cb9f605" title="JavaScript - AngularJSモダンプラクティス - Qiita">qiita.com/armorik83/items/5542daed0c408cb9f605</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">tutorial</span></p>
+
+<p>AngularJS 2に移行しやすくするにはどうするかというチュートリアル。<br>
+1.xでもES6 Classesを使った書き方をするためのリファクタリング方法。<br>
+AngularJS 2でのdirective、モジュール、関連ライブラリやツール、FAQなど</p>
+
+<hr>
+
+<h2 id="moving-to-es6-from-coffeescript">Moving to ES6 from CoffeeScript</h2>
+
+<p><a href="https://gist.github.com/danielgtaylor/0b60c2ed1f069f118562" title="Moving to ES6 from CoffeeScript">gist.github.com/danielgtaylor/0b60c2ed1f069f118562</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CoffeeScript</span></p>
+
+<p>CoffeeScriptからES6への移行において文法の比較やES6の構文や機能の紹介</p>
+
+<hr>
+
+<h2 id="es6 — classes-and-inheritance-—-medium">ES6 — classes and inheritance — Medium</h2>
+
+<p><a href="https://medium.com/@mrzepinski/es6-classes-and-inheritance-607804080906" title="ES6 — classes and inheritance — Medium">medium.com/@mrzepinski/es6-classes-and-inheritance-607804080906</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6 ClassesとES5との書き方比較。<br>
+getterやsetter、細かいショートハンドとともに紹介してる</p>
+
+<hr>
+
+<h2 id="why-backbone.js?---roost-austin">Why Backbone.js? - Roost Austin</h2>
+
+<p><a href="https://roost.bocoup.com/2015/austin/blog/why-backbone/" title="Why Backbone.js? - Roost Austin">roost.bocoup.com/2015/austin/blog/why-backbone/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">MVC</span></p>
+
+<p>JavaScriptライブラリをどのような基準で比較して選択するかについて。<br>
+メジャーなライブラリの統計を比較した図や学習曲線、欠点などについて書かれていて、どのような見方があるかについての話が興味深い</p>
+
+<hr>
+
+<h2 id="notifying-you-of-changes-to-notifications">Notifying you of Changes to Notifications</h2>
+
+<p><a href="http://updates.html5rocks.com/2015/05/Notifying-you-of-notificiation-changes" title="Notifying you of Changes to Notifications">updates.html5rocks.com/2015/05/Notifying-you-of-notificiation-changes</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>Chrome 44でService Workerを使ったプッシュ通知で任意のオブジェクトを渡せるようになり、また<code>getNotifications()</code>で特定のtagがついたNotificationのみを取り出せるようになった</p>
+
+<hr>
+
+<h2 id="graphite,-grafana,-sitespeed.io,-diamond-で継続-web-パフォーマンスモニタリング---qiita">graphite, grafana, sitespeed.io, diamond で継続 Web パフォーマンスモニタリング - Qiita</h2>
+
+<p><a href="http://qiita.com/Jxck_/items/abfa9f3dd15c5572cbfd" title="graphite, grafana, sitespeed.io, diamond で継続 Web パフォーマンスモニタリング - Qiita">qiita.com/Jxck_/items/abfa9f3dd15c5572cbfd</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p>
+
+<p>sitespeed.ioを使い実際のブラウザを動かしてTiming API等のクライアントサイドでのメトリクス情報を継続的に取得したデータをgraphiteに保存し可視化する方法について</p>
+
+<hr>
+
+<h2 id="ここ最近のweb地図周辺の動向をまとめてみた-|-#gunmagisgeek">ここ最近のWeb地図周辺の動向をまとめてみた | #GUNMAGISGEEK</h2>
+
+<p><a href="http://shimz.me/blog/map/4268" title="ここ最近のWeb地図周辺の動向をまとめてみた | #GUNMAGISGEEK">shimz.me/blog/map/4268</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">GEO</span> <span class="jser-tag">まとめ</span></p>
+
+<p>GeoJSONを始めウェブの地図周りの技術についての変化について</p>
+
+<hr>
+
+<h2 id="testing-javascript-—-medium">Testing JavaScript — Medium</h2>
+
+<p><a href="https://medium.com/@nickheiner/testing-javascript-8c8efe8434e" title="Testing JavaScript — Medium">medium.com/@nickheiner/testing-javascript-8c8efe8434e</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>proxyquireを使ったテスト、E2Eとモック、tapeを使ったテストについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="ウェブクリエイターの為の情報サイト-|-web-programming-primer">ウェブクリエイターの為の情報サイト | Web Programming Primer</h2>
+
+<p><a href="http://wp-p.info/" title="ウェブクリエイターの為の情報サイト | Web Programming Primer">wp-p.info/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">tutorial</span></p>
+
+<p>HTML/CSS/JavaScriptの入門的な内容のチュートリアル集</p>
+
+<hr>
+
+<h2 id="plain-javascript---functions-and-helpers">Plain JavaScript - Functions and Helpers</h2>
+
+<p><a href="http://plainjs.com/javascript/" title="Plain JavaScript - Functions and Helpers">plainjs.com/javascript/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">リファレンス</span></p>
+
+<p>Pure JavaScriptでDOM操作などについての逆引きリファレンス</p>
+
+<hr>
+
+<h2 id="emberweekend">EmberWeekend</h2>
+
+<p><a href="https://emberweekend.com/episodes" title="EmberWeekend">emberweekend.com/episodes</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">podcast</span></p>
+
+<p>Ember.jsについてのpodcast</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="sebastian-lenz/typedoc">sebastian-lenz/typedoc</h2>
+
+<p><a href="https://github.com/sebastian-lenz/typedoc" title="sebastian-lenz/typedoc">github.com/sebastian-lenz/typedoc</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">API</span> <span class="jser-tag">document</span></p>
+
+<p>TypeScriptのAPIドキュメント生成ツール</p>
+
+<hr>
+
+<h2 id="webdriverio---selenium-2.0-javascript-bindings-for-nodejs">WebdriverIO - Selenium 2.0 javascript bindings for nodejs</h2>
+
+<p><a href="http://webdriver.io/" title="WebdriverIO - Selenium 2.0 javascript bindings for nodejs">webdriver.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">Selenium</span> <span class="jser-tag">webdriver</span></p>
+
+<p>Node.jsのSelenium/WebDriver APIのバインディング。<br>
+モバイルのフリックやタブの切替等色々なAPIが用意されてる</p>
+
+<hr>
+
+<h2 id="symdiff">symdiff</h2>
+
+<p><a href="https://symdiff.github.io/" title="symdiff">symdiff.github.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span></p>
+
+<p>HTMLとCSSを渡して使われてないCSSを検索するツール</p>
+
+<hr>
+
+<h2 id="padolsey/operative">padolsey/operative</h2>
+
+<p><a href="https://github.com/padolsey/operative" title="padolsey/operative">github.com/padolsey/operative</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webworker</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>直接関数を渡してそれをWeb Workerで動かせるライブラリ。<br>
+古いブラウザ向けのfallbackやPromiseのサポートなど、できるだけシームレスに書けるようにしてる</p>
+
+<ul>
+<li><a href="http://blog.sasaplus1.com/2015/05/23/01/" title="operativeでWebWorkersを手軽に扱う - 四角革命前夜">operativeでWebWorkersを手軽に扱う - 四角革命前夜</a></li>
+</ul>
+
+<hr>
+
+<h2 id="high-performance-javascript-library-for-animations-&amp;-interfaces-|-famous.org">High-performance javascript library for animations &amp; interfaces | Famous.org</h2>
+
+<p><a href="http://famous.org/" title="High-performance javascript library for animations &amp; interfaces | Famous.org">famous.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">animation</span> <span class="jser-tag">library</span> <span class="jser-tag">WebGL</span></p>
+
+<p>アニメーションライブラリであるFamousがリニューアル公開された</p>
+
+<hr>
+
+<h2 id="easily-testing-react-components-with-react-test-tree-—-qubit-engineering-—-medium">Easily testing React components with react-test-tree — Qubit Engineering — Medium</h2>
+
+<p><a href="https://medium.com/qubit-engineering/easily-testing-react-components-with-react-test-tree-f9e1668b1c2d" title="Easily testing React components with react-test-tree — Qubit Engineering — Medium">medium.com/qubit-engineering/easily-testing-react-components-with-react-test-tree-f9e1668b1c2d</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">DOM</span></p>
+
+<p>React component向けのテストライブラリ。<br>
+対象のReact componentに<code>ref</code>属性を追加しておくことで、clickなどのイベントのシミュレートや子componentをstubすることができる</p>
+
+<ul>
+<li><a href="https://github.com/QubitProducts/react-test-tree" title="QubitProducts/react-test-tree">QubitProducts/react-test-tree</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2015/2015-05-27-promise-angular2.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Promise","AngularJS","DOM","jQuery"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Promise</li>
+                
+                <li>AngularJS</li>
+                
+                <li>DOM</li>
+                
+                <li>jQuery</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2015/05/27/promise-angular2/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2015/05/27/promise-angular2/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2015/05/27/promise-angular2/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-12-23のJS: 開発者アンケート結果、Protractorの仕組み、パフォーマンスチューニング - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="アンケート,E2E,Performance,JavaScript,Angular" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-12-23のJS: 開発者アンケート結果、Protractorの仕組み、パフォーマンスチューニング" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #207 - DailyJSが毎年この時期にやっているアンケートであるJa..." />
+    
+    
+      <meta content="http://jser.info/2014/12/23/survey2014-protractor-performance/" property="og:url">
+    
+    
+      <meta content="2014-12-23T18:26:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="アンケート" property="article:tag">
+      
+      <meta content="E2E" property="article:tag">
+      
+      <meta content="Performance" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="Angular" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2014/12/23/survey2014-protractor-performance/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2014/12/23/survey2014-protractor-performance/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2014/12/23/survey2014-protractor-performance/">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2014/12/23/survey2014-protractor-performance/">2014-12-23のJS: 開発者アンケート結果、Protractorの仕組み、パフォーマンスチューニング</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年12月23日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-12-23-survey2014-protractor-performance.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/2014/2014-12-23-survey2014-protractor-performance.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/12/23/survey2014-protractor-performance/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/12/23/survey2014-protractor-performance/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/12/23/survey2014-protractor-performance/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #207 - <a href="http://dailyjs.com/" title="DailyJS: A JavaScript Blog">DailyJS</a>が毎年この時期にやっているアンケートである<a href="http://dailyjs.com/2014/12/16/javascript-survey-results/" title="DailyJS: JavaScript Developer Survey 2014: Results">JavaScript Developer Survey 2014</a>(<a href="http://panda.node.ws/?p=1620" title="翻訳">翻訳</a>)の結果が公開されました。</p>
+
+<p>毎年微妙に質問や回答方法(複数可となってたり)が異なるため、単純に比較はしにくい設問もありますが、<a href="http://dailyjs.com/2013/12/12/javascript-survey-results/" title="DailyJS: JavaScript Developer Survey 2013: Results">去年</a>はGrunt一強だったビルドツールについてがGulpが35%、Gruntは47%となっていたり見ていて面白い変化も多いです。</p>
+
+<div class="kwout" style="text-align: center;"><a href="http://dailyjs.com/files/2014-survey-summary.pdf"><img src="http://kwout.com/cutout/s/ar/v6/t94_bor.jpg" alt="http://dailyjs.com/files/2014-survey-summary.pdf" title="JavaScript Developer Survey 2014 - Google Forms - 2014-survey-summary.pdf" width="554" height="357" style="border: none;" /></a><p style="margin-top: 10px; text-align: center;"><a href="http://dailyjs.com/files/2014-survey-summary.pdf">2014-survey-summary.pdf</a> via <a href="http://dailyjs.com/2014/12/16/javascript-survey-results/">DailyJS: JavaScript Developer Survey 2014: Results</a></p></div>
+
+<hr>
+
+<p><a href="http://qiita.com/shuhei/items/6973fe694d29a193f224" title="JavaScript - こわくない Protractor - Qiita">JavaScript - こわくない Protractor - Qiita</a>という記事では、<a href="https://github.com/angular/protractor" title="Protractor">Protractor</a>というE2Eテストツールがどのようにして<a href="https://code.google.com/p/selenium/wiki/WebDriverJs" title="WebDriverJS">WebDriverJS</a>を扱ってテストしているのかについて詳しく書かれています。</p>
+
+<p>テスト時にSeleniumでブラウザを操作しているため、操作から実際の結果までに間があったり、その結果をassertするタイミングが難しかったり、非同期とした場合コードが複雑になったりしやすいです。</p>
+
+<p>そのため<a href="https://github.com/groupon-testium/testium" title="groupon-testium/testium">色々なライブラリ</a>がこの<a href="https://theintern.github.io/leadfoot/" title="Leadfoot docs: Index">WebDriver protocolのラッパ</a>を作ったり、それらのラッパを使って直感的に<a href="http://nightwatchjs.org/" title="Nightwatch.js | Node.js powered End-to-End testing framework">テストを書けるような記法</a>を考えたりしています。</p>
+
+<p>Protractorも同じように<a href="https://code.google.com/p/selenium/wiki/WebDriverJs" title="WebDriverJS">WebDriverJS</a>というラッパを使い、<code>ElementFinder</code>という概念を導入したり、Promiseで非同期に処理されつつ直感的に書けるようにしているという話が書かれています。</p>
+
+<hr>
+
+<p><a href="http://www.slideshare.net/dena_study/effective-web-performance-tuning-for-smartphone" title="Effective web performance tuning for smartphone">Effective web performance tuning for smartphone</a>というスライドではスマートフォン向けウェブアプリのパフォーマンス改善について実践的な内容が紹介されています。</p>
+
+<p>実際にどうやって問題を見つけて、計測して、何を指標にして改善していったかが書かれていて、どうやってパフォーマンス改善に取り組んでいけばいいのかの参考になる点も多いと思います。</p>
+
+<p>以下もあわせて</p>
+
+<ul>
+<li><a href="http://havelog.ayumusato.com/develop/performance/e637-web_performance_2014.html" title="2014年のWebパフォーマンスふりかえり - 来年以降の期待etc ::ハブろぐ">2014年のWebパフォーマンスふりかえり - 来年以降の期待etc ::ハブろぐ</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v0.10.34-(stable)">Node v0.10.34 (Stable)</h2>
+
+<p><a href="http://blog.nodejs.org/2014/12/17/node-v0-10-34-stable" title="Node v0.10.34 (Stable)">blog.nodejs.org/2014/12/17/node-v0-10-34-stable</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node v0.10.34リリース。</p>
+
+<p>v0.11.15がv0.12RCとなるので、次のStableで0.12がリリースされる予定(が<a href="http://d.hatena.ne.jp/jovi0608/20141222/1419265270" title="Node-v0.10.34がはまったクロスルート証明書とOpenSSLの落とし穴 - ぼちぼち日記">ルート証明書のトラブル</a>により多少ずれそう)</p>
+
+<ul>
+<li><a href="https://twitter.com/nodejs/status/545349270241435648" title="node js on Twitter: &amp;quot;Node v0.10.34 (Stable) http://t.co/VimTZXc1VK tomorrow is v0.11.15 (the release candidate for v0.12)&amp;quot;">node js on Twitter: &quot;Node v0.10.34 (Stable) http://t.co/VimTZXc1VK tomorrow is v0.11.15 (the release candidate for v0.12)&quot;</a></li>
+<li><a href="http://qiita.com/ken880guchi/items/bb72846fb785b01ced0b" title="node v0.10.34 で CERT_UNTRUSTED のエラーが発生する - Qiita">node v0.10.34 で CERT_UNTRUSTED のエラーが発生する - Qiita</a></li>
+<li><a href="http://d.hatena.ne.jp/jovi0608/20141222/1419265270" title="Node-v0.10.34がはまったクロスルート証明書とOpenSSLの落とし穴 - ぼちぼち日記">Node-v0.10.34がはまったクロスルート証明書とOpenSSLの落とし穴 - ぼちぼち日記</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jquery-1.11.2-and-2.1.3-released-–-safari-fail-safe-edition-|-official-jquery-blog">jQuery 1.11.2 and 2.1.3 Released – Safari Fail-Safe Edition | Official jQuery Blog</h2>
+
+<p><a href="http://blog.jquery.com/2014/12/18/jquery-1-11-2-and-2-1-3-released-safari-fail-safe-edition/" title="jQuery 1.11.2 and 2.1.3 Released – Safari Fail-Safe Edition | Official jQuery Blog">blog.jquery.com/2014/12/18/jquery-1-11-2-and-2-1-3-released-safari-fail-safe-edition/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jQuery 1.11.2と2.1.3リリース。</p>
+
+<p>iOS7と8のquerySelectorバグの対処(Workaround)</p>
+
+<hr>
+
+<h2 id="improving-the-pointer-events-polyfill-|-official-jquery-blog">Improving the Pointer Events Polyfill | Official jQuery Blog</h2>
+
+<p><a href="http://blog.jquery.com/2014/12/17/improving-the-pointer-events-polyfill/" title="Improving the Pointer Events Polyfill | Official jQuery Blog">blog.jquery.com/2014/12/17/improving-the-pointer-events-polyfill/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">jQuery</span> <span class="jser-tag">library</span></p>
+
+<p>GoogleからjQuery FoundationがPointerEventsのpolyfillの管理を引き継いだ</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="dailyjs:-javascript-developer-survey-2014:-results">DailyJS: JavaScript Developer Survey 2014: Results</h2>
+
+<p><a href="http://dailyjs.com/2014/12/16/javascript-survey-results/" title="DailyJS: JavaScript Developer Survey 2014: Results">dailyjs.com/2014/12/16/javascript-survey-results/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">まとめ</span></p>
+
+<p>JavaScript開発者アンケート 2014年の結果が公開された。</p>
+
+<ul>
+<li><a href="http://panda.node.ws/?p=1620" title="DailyJS | JavaScript デベロッパー・サーベイ 2014 結果 | JSお散歩">DailyJS | JavaScript デベロッパー・サーベイ 2014 結果 | JSお散歩</a></li>
+</ul>
+
+<hr>
+
+<h2 id="html-best-practices---weblog---hail2u.net">HTML Best Practices - Weblog - Hail2u.net</h2>
+
+<p><a href="http://hail2u.net/blog/webdesign/html-best-practices.html" title="HTML Best Practices - Weblog - Hail2u.net">hail2u.net/blog/webdesign/html-best-practices.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span></p>
+
+<p>HTMLベストプラクティス。</p>
+
+<p>HTMLの書き方について良い例と悪い例が書かれている</p>
+
+<ul>
+<li><a href="https://github.com/hail2u/html-best-practices" title="hail2u/html-best-practices">hail2u/html-best-practices</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ie10-以下を切る場合の-javascript-チェックリスト---qiita">IE10 以下を切る場合の JavaScript チェックリスト - Qiita</h2>
+
+<p><a href="http://qiita.com/Jxck_/items/fe8a1c49cac717e52ae3" title="IE10 以下を切る場合の JavaScript チェックリスト - Qiita">qiita.com/Jxck_/items/fe8a1c49cac717e52ae3</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">まとめ</span></p>
+
+<p>モダンブラウザでは利用できるJavaScriptやDOM APIについて。</p>
+
+<p>また使いどころが難しい機能についても触れている</p>
+
+<hr>
+
+<h2 id="ソーシャルメディアの読み込みはdnsプリフェッチのまとめ設定がお得-|-ゆっくりと…">ソーシャルメディアの読み込みはDNSプリフェッチのまとめ設定がお得 | ゆっくりと…</h2>
+
+<p><a href="http://tokkono.cute.coocan.jp/blog/slow/index.php/programming/boostup-socials-with-dns-prefetch/" title="ソーシャルメディアの読み込みはDNSプリフェッチのまとめ設定がお得 | ゆっくりと…">tokkono.cute.coocan.jp/blog/slow/index.php/programming/boostup-socials-with-dns-prefetch/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p>
+
+<p><code>&lt;link rel=&quot;dns-prefetch&quot; /&gt;</code>のブラウザサポート状況、同時に指定できる数の制限が無いこと、meta要素を置く場所について。</p>
+
+<hr>
+
+<h2 id="maintaining-javascript-code-quality-with-eslint-|-paypal-engineering-blog">Maintaining JavaScript Code Quality with ESLint | PayPal Engineering Blog</h2>
+
+<p><a href="https://www.paypal-engineering.com/2014/12/12/maintaining-javascript-code-quality-with-eslint/" title="Maintaining JavaScript Code Quality with ESLint | PayPal Engineering Blog">www.paypal-engineering.com/2014/12/12/maintaining-javascript-code-quality-with-eslint/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">AST</span></p>
+
+<p>自分でルールを拡張出来るESLintの紹介。簡単なルールの書き方、設定方法について</p>
+
+<hr>
+
+<h2 id="unit-testing-polymer-elements---polymer">Unit Testing Polymer Elements - Polymer</h2>
+
+<p><a href="https://www.polymer-project.org/articles/unit-testing-elements.html" title="Unit Testing Polymer Elements - Polymer">www.polymer-project.org/articles/unit-testing-elements.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">testing</span> <span class="jser-tag">tutorial</span></p>
+
+<p>Polymerを使ったElementのテストのチュートリアル。</p>
+
+<p>Web Componentsのテストの参考になりそう</p>
+
+<hr>
+
+<h2 id="javascript---こわくない-protractor---qiita">JavaScript - こわくない Protractor - Qiita</h2>
+
+<p><a href="http://qiita.com/shuhei/items/6973fe694d29a193f224" title="JavaScript - こわくない Protractor - Qiita">qiita.com/shuhei/items/6973fe694d29a193f224</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">protractor</span> <span class="jser-tag">E2E</span> <span class="jser-tag">testing</span></p>
+
+<p>ProtractorというE2Eテストツールの仕組みについての解説。</p>
+
+<p>element()はDOM要素を選択してる訳ではない、ブラウザの操作をするメソッドはPromiseを返している、書いた順番で実行されるようになっている点などどのような仕組みで動いているかについてまとめられている</p>
+
+<hr>
+
+<h2 id="私のjavascript情報の集め方---qiita">私のJavaScript情報の集め方 - Qiita</h2>
+
+<p><a href="http://qiita.com/koba04/items/ba2381776d394633de72" title="私のJavaScript情報の集め方 - Qiita">qiita.com/koba04/items/ba2381776d394633de72</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">rss</span> <span class="jser-tag">twitter</span> <span class="jser-tag">github</span></p>
+
+<p>JavaScriptに関連する情報収集について</p>
+
+<ul>
+<li><a href="http://layzie.hatenablog.com/entry/20141104/1415076724" title="Frontrend in Kanazawaのスライドを公開しましたというご連絡と情報収集についての補足など - Life goes on">Frontrend in Kanazawaのスライドを公開しましたというご連絡と情報収集についての補足など - Life goes on</a></li>
+<li><a href="http://azu.github.io/slide/jser200/javascript-2014.html" title="世界のJavaScriptを読もう @ 2014">世界のJavaScriptを読もう @ 2014</a></li>
+</ul>
+
+<hr>
+
+<h2 id="typescript---dtsmのご紹介---qiita">TypeScript - dtsmのご紹介 - Qiita</h2>
+
+<p><a href="http://qiita.com/vvakame/items/38b953ab0f4de63cce8b" title="TypeScript - dtsmのご紹介 - Qiita">qiita.com/vvakame/items/38b953ab0f4de63cce8b</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">package</span> <span class="jser-tag">Tools</span></p>
+
+<p>npmライクなコマンドラインインタフェースを持ったd.ts管理ツール</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="react.js-+-flux入門-#scripty02">React.js + Flux入門 #scripty02</h2>
+
+<p><a href="http://www.slideshare.net/techblogyahoo/reactjs-flux-scripty02" title="React.js + Flux入門 #scripty02">www.slideshare.net/techblogyahoo/reactjs-flux-scripty02</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">Flux</span></p>
+
+<p>React, Virtual DOM, Flux(Fluxxor)を全体的に眺めた感じのスライド。Reactが持つ機能やライフサイクル、Fluxのフローについて</p>
+
+<hr>
+
+<h2 id="backbone-conf-iii---2014---youtube">Backbone Conf III - 2014 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLlgxAbM67lYIGw8DnANC7VgREbzJRQged&amp;amp;app=desktop" title="Backbone Conf III - 2014 - YouTube">www.youtube.com/playlist?list=PLlgxAbM67lYIGw8DnANC7VgREbzJRQged&amp;app=desktop</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span> <span class="jser-tag">動画</span> <span class="jser-tag">イベント</span> <span class="jser-tag">まとめ</span></p>
+
+<p>http://backboneconf.com/ の動画が公開された</p>
+
+<ul>
+<li><a href="http://backboneconf.com/" title="BACKBONECONF 2014, by Bocoup">BACKBONECONF 2014, by Bocoup</a></li>
+</ul>
+
+<hr>
+
+<h2 id="effective-web-performance-tuning-for-smartphone">Effective web performance tuning for smartphone</h2>
+
+<p><a href="http://www.slideshare.net/dena_study/effective-web-performance-tuning-for-smartphone" title="Effective web performance tuning for smartphone">www.slideshare.net/dena_study/effective-web-performance-tuning-for-smartphone</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">mobile</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">game</span> <span class="jser-tag">performance</span> <span class="jser-tag">スライド</span></p>
+
+<p>スマフォのパフォーマンスチューニングについてのスライド。</p>
+
+<p>どうやって調査するか、改善のワークフロー、何を指標に改善するか。</p>
+
+<p>改善すべき目安やポイントとして処理時間が20ms超、一定間隔で同一処理、描画の負荷が高いイベント、5MB超のGC、メモリリーク、意図しないレイヤーの合成などについて書かれている。</p>
+
+<ul>
+<li><a href="https://atnd.org/events/59594" title="第三回DeNAゲーム開発勉強会 : ATND">第三回DeNAゲーム開発勉強会 : ATND</a></li>
+<li><a href="http://havelog.ayumusato.com/develop/performance/e637-web_performance_2014.html" title="2014年のWebパフォーマンスふりかえり - 来年以降の期待etc ::ハブろぐ">2014年のWebパフォーマンスふりかえり - 来年以降の期待etc ::ハブろぐ</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス</h1>
+
+<hr>
+
+<h2 id="libscore">Libscore</h2>
+
+<p><a href="http://libscore.com/" title="Libscore">libscore.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">検索</span></p>
+
+<p>世界中のサイトでどのJavaScriptライブラリがどれくらい使われているかを表示するサービス</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="domenic/html-as-custom-elements">domenic/html-as-custom-elements</h2>
+
+<p><a href="https://github.com/domenic/html-as-custom-elements" title="domenic/html-as-custom-elements">github.com/domenic/html-as-custom-elements</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">WebComponents</span></p>
+
+<p>HTML要素をCustom Elementで実装し直すプロジェクト。</p>
+
+<hr>
+
+<h2 id="foss-haas/fynx">foss-haas/fynx</h2>
+
+<p><a href="https://github.com/foss-haas/fynx" title="foss-haas/fynx">github.com/foss-haas/fynx</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">library</span></p>
+
+<p>Fluxアーキテクチャ的な実装ライブラリ。</p>
+
+<p>Ajax的な操作を行うServicesという場所を明示的に用意している。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="cutt-system:typescriptネットワークプログラミング">CUTT System:TypeScriptネットワークプログラミング</h2>
+
+<p><a href="http://www.cutt.co.jp/book/978-4-87783-354-1.html" title="CUTT System:TypeScriptネットワークプログラミング">www.cutt.co.jp/book/978-4-87783-354-1.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span></p>
+
+<p>2014年1月10日 発売</p>
+
+<p>WebSocketやWebRTC等を使ったアプリをTypeScriptで書いて学んで行く書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-12-23-survey2014-protractor-performance.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["アンケート","E2E","Performance","JavaScript","Angular"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>アンケート</li>
+                
+                <li>E2E</li>
+                
+                <li>Performance</li>
+                
+                <li>JavaScript</li>
+                
+                <li>Angular</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/12/23/survey2014-protractor-performance/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/12/23/survey2014-protractor-performance/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/12/23/survey2014-protractor-performance/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

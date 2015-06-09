@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-12-16のJS: ES6 Proxy、Web Components、Service Worker - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="ES6,WebComponents,ServiceWorker" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-12-16のJS: ES6 Proxy、Web Components、Service Worker" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #206 - Meta programming with ECMAScri..." />
+    
+    
+      <meta content="http://jser.info/2014/12/16/es6proxy-serviceworker/" property="og:url">
+    
+    
+      <meta content="2014-12-16T22:00:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="ES6" property="article:tag">
+      
+      <meta content="WebComponents" property="article:tag">
+      
+      <meta content="ServiceWorker" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2014/12/16/es6proxy-serviceworker/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2014/12/16/es6proxy-serviceworker/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2014/12/16/es6proxy-serviceworker/">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2014/12/16/es6proxy-serviceworker/">2014-12-16のJS: ES6 Proxy、Web Components、Service Worker</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年12月16日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-12-16-es6proxy-serviceworker.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/2014/2014-12-16-es6proxy-serviceworker.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/12/16/es6proxy-serviceworker/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/12/16/es6proxy-serviceworker/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/12/16/es6proxy-serviceworker/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #206 - <a href="http://www.2ality.com/2014/12/es6-proxies.html" title="Meta programming with ECMAScript 6 proxies">Meta programming with ECMAScript 6 proxies</a>(<a href="http://panda.node.ws/?p=1371" title="ECMAScript 6 proxyによるメタプログラミング(1/11) | JSお散歩">日本語訳</a>)という記事では、ECMAScript 6のProxyについて詳しく解説されています。</p>
+
+<p>ES6 Proxyを使うことでどういう事ができるのかというユースケースやReflect APIについても解説されていて、メタプログラミング的に面白い部分が多いので見ておくといいかもしれません。</p>
+
+<hr>
+
+<p><a href="http://www.h2.dion.ne.jp/%7Edefghi/webc/webc.htm" title="Web Componentsの基本的な使い方・まとめ">Web Componentsの基本的な使い方・まとめ</a>ではWeb Componentsについて詳しく書かれています。</p>
+
+<p>template要素、HTML Imports、Shadow DOM、Custom Elementsといった構成要素毎に書かれているので、興味があるところから読んでみるといいかもしれません。</p>
+
+<hr>
+
+<p><a href="http://qiita.com/kinu/items/2abd61b4390f9bbaffc9" title="JavaScript - Chrome 40 で今すぐ ServiceWorker を試す - Qiita">JavaScript - Chrome 40 で今すぐ ServiceWorker を試す - Qiita</a>という記事ではChrome 40から利用できるService Workerについて紹介されています。</p>
+
+<p>以下の動画と合わせて読むと分かりやすいかもしれません。</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=SmdhzKp0JYM&amp;feature=youtu.be" title="▶ Service workersで遊んでみた - YouTube">▶ Service workersで遊んでみた - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="jsdom/changelog.md-at-1.5.0-·-tmpvar/jsdom">jsdom/Changelog.md at 1.5.0 · tmpvar/jsdom</h2>
+
+<p><a href="https://github.com/tmpvar/jsdom/blob/1.5.0/Changelog.md" title="jsdom/Changelog.md at 1.5.0 · tmpvar/jsdom">github.com/tmpvar/jsdom/blob/1.5.0/Changelog.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+
+<p>jsdom 1.5.0リリース。</p>
+
+<p>console APIの定義を追加</p>
+
+<hr>
+
+<h2 id="ember.js---ember.js-1.9.0-and-1.10-beta-released">Ember.js - Ember.js 1.9.0 and 1.10 Beta Released</h2>
+
+<p><a href="http://emberjs.com/blog/2014/12/08/ember-1-9-0-released.html" title="Ember.js - Ember.js 1.9.0 and 1.10 Beta Released">emberjs.com/blog/2014/12/08/ember-1-9-0-released.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Ember.js 1.9.0と1.10βリリース。</p>
+
+<p>Ember 2.0に向けて1.9では非推奨となった機能があることについて書かれている。</p>
+
+<p>Handlebars 2.0へのアップデート、streams observationパターンの導入等</p>
+
+<ul>
+<li><a href="http://emberjs.com/guides/deprecations/" title="Ember.js - Deprecations: Deprecations">Ember.js - Deprecations: Deprecations</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-3.5-“mount-sharp”-·-mbostock/d3">Release 3.5 “Mount Sharp” · mbostock/d3</h2>
+
+<p><a href="https://github.com/mbostock/d3/releases/tag/v3.5.0" title="Release 3.5 “Mount Sharp” · mbostock/d3">github.com/mbostock/d3/releases/tag/v3.5.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">SVG</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>D3.js 3.5リリース</p>
+
+<ul>
+<li><a href="http://daily.d3js.info/?p=775" title="D3 バージョン 3.5 がリリースされました。 | Daily D3">D3 バージョン 3.5 がリリースされました。 | Daily D3</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-0.4-·-sdesalas/triflejs">Release 0.4 · sdesalas/trifleJS</h2>
+
+<p><a href="https://github.com/sdesalas/trifleJS/releases/tag/v0.4" title="Release 0.4 · sdesalas/trifleJS">github.com/sdesalas/trifleJS/releases/tag/v0.4</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>PhantomJSのIE版的なヘッドレスブラウザであるtrifleJS 0.4リリース。</p>
+
+<hr>
+
+<h2 id="harmony:specification_drafts-[es-wiki]">harmony:specification_drafts [ES Wiki]</h2>
+
+<p><a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#december_6_2014_draft_rev_29" title="harmony:specification\_drafts \[ES Wiki\]">wiki.ecmascript.org/doku.php?id=harmony:specification<em>drafts#december</em>6<em>2014</em>draft<em>rev</em>29</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ECMAscript 6 Draft Rev 29リリース。</p>
+
+<p><code>RegExp.prototype.flags</code>の追加、WeakMap/WeakSetから<code>clear</code>メソッドの削除、<code>String.prototype.contains</code>が<code>includes</code>にリネーム</p>
+
+<ul>
+<li><a href="http://azu.github.io/slide/chatwork/tc39-mtg-notes.html" title="TC39 MTG Notes 第43回 報告会">TC39 MTG Notes 第43回 報告会</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/flags" title="RegExp.prototype.flags - JavaScript | MDN">RegExp.prototype.flags - JavaScript | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="dynatrace-ajax-edition-4.5-is-here">Dynatrace AJAX Edition 4.5 is here</h2>
+
+<p><a href="http://apmblog.compuware.com/2014/12/11/dynatrace-ajax-edition-4-5-last-page-chapter-yet-story-continues/" title="Dynatrace AJAX Edition 4.5 is here">apmblog.compuware.com/2014/12/11/dynatrace-ajax-edition-4-5-last-page-chapter-yet-story-continues/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">software</span> <span class="jser-tag">browser</span></p>
+
+<p>Dynatrace AJAX Edition 4.5リリース</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="javascript-application-architecture-on-the-road-to-2015-—-medium">JavaScript Application Architecture On The Road To 2015 — Medium</h2>
+
+<p><a href="https://medium.com/@addyosmani/javascript-application-architecture-on-the-road-to-2015-d8125811101b" title="JavaScript Application Architecture On The Road To 2015 — Medium">medium.com/@addyosmani/javascript-application-architecture-on-the-road-to-2015-d8125811101b</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>2014年のJavaScript全体のアーキテクチャを振り返り今後どうなるかについての話。</p>
+
+<p>データバインディング、Immutable、Virtual DOM、Web Components、Component同士のメッセージング、ES6とBrowserify、オフラインファースト等</p>
+
+<hr>
+
+<h2 id="[javascript-advent-calendar-2014-no.6]-navigator.online-in-blink">[JavaScript Advent Calendar 2014 No.6] navigator.onLine in Blink</h2>
+
+<p><a href="http://blog.oimou.com/javascript-advent-calendar-2014-6ri-mu-navigator-onlinemaniatukusu2589ed73/" title="\[JavaScript Advent Calendar 2014 No.6\] navigator.onLine in Blink">blog.oimou.com/javascript-advent-calendar-2014-6ri-mu-navigator-onlinemaniatukusu2589ed73/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">blink</span> <span class="jser-tag">コードリーディング</span></p>
+
+<p>navigator.onLineがどのように実装されているかをBlink/Chromeのソースコードから追っていく話。</p>
+
+<p>ブラウザのソースコードを見ていく方法について実例での参考になりそう</p>
+
+<hr>
+
+<h2 id="how-to-use-npm-as-a-build-tool">How to Use npm as a Build Tool</h2>
+
+<p><a href="http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/" title="How to Use npm as a Build Tool">blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span></p>
+
+<p>npm run-scriptをビルドツールとして使う話</p>
+
+<p>クロスプラットフォーム向けにrmの代わりにrimrafモジュールを使ったり、タスクのグループ化やhookについて書かれている。</p>
+
+<hr>
+
+<h2 id="meta-programming-with-ecmascript-6-proxies">Meta programming with ECMAScript 6 proxies</h2>
+
+<p><a href="http://www.2ality.com/2014/12/es6-proxies.html" title="Meta programming with ECMAScript 6 proxies">www.2ality.com/2014/12/es6-proxies.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">リファレンス</span> <span class="jser-tag">まとめ</span></p>
+
+<p>ES6のProxyについて詳しい解説。</p>
+
+<p>メタプログラミングとは何か、Proxyはどのように動くのか、ユースケース、Proxyかどうかの判定方法、PropertyDescriptorとあわせた場合の挙動、Reflect APIについて</p>
+
+<ul>
+<li><a href="http://panda.node.ws/?p=1371" title="ECMAScript 6 proxyによるメタプログラミング(1/11) | JSお散歩">ECMAScript 6 proxyによるメタプログラミング(1/11) | JSお散歩</a></li>
+</ul>
+
+<hr>
+
+<h2 id="snap.svgの使い方まとめ">Snap.svgの使い方まとめ</h2>
+
+<p><a href="http://www.h2.dion.ne.jp/%7Edefghi/snapsvg/snapsvg.xhtml" title="Snap.svgの使い方まとめ">www.h2.dion.ne.jp/~defghi/snapsvg/snapsvg.xhtml</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">まとめ</span></p>
+
+<p>Snap.svgについての詳しい解説、チュートリアル。</p>
+
+<p>目的や基本的な使い方から応用、Raphaël.jsとの違いなどよくまとまってる</p>
+
+<hr>
+
+<h2 id="svgoを使ったsvgの軽量化方法（アニメーションさせるときの注意とか）｜2.idea">SVGOを使ったSVGの軽量化方法（アニメーションさせるときの注意とか）｜2.IDEA</h2>
+
+<p><a href="http://2ndidea.com/svg/optimize-svg-with-svgo/" title="SVGOを使ったSVGの軽量化方法（アニメーションさせるときの注意とか）｜2.IDEA">2ndidea.com/svg/optimize-svg-with-svgo/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">Tools</span></p>
+
+<p>SVGの最適化を行うSVGOの使い方について。</p>
+
+<p>それぞれのプラグインについて解説されてる</p>
+
+<hr>
+
+<h2 id="polyfilling-doesn&#x27;t-have-to-be-difficult--telerik-developer-network">Polyfilling Doesn&#x27;t Have to be Difficult -Telerik Developer Network</h2>
+
+<p><a href="http://developer.telerik.com/featured/polyfilling-doesnt-difficult/" title="Polyfilling Doesn&amp;#x27;t Have to be Difficult -Telerik Developer Network">developer.telerik.com/featured/polyfilling-doesnt-difficult/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">tutorial</span></p>
+
+<p>polyfillとはどういうものか、実際に<code>Number.isInteger()</code>や<code>placeholder</code>属性を実装しながら学ぶチュートリアル</p>
+
+<hr>
+
+<h2 id="web-componentsの基本的な使い方・まとめ">Web Componentsの基本的な使い方・まとめ</h2>
+
+<p><a href="http://www.h2.dion.ne.jp/%7Edefghi/webc/webc.htm" title="Web Componentsの基本的な使い方・まとめ">www.h2.dion.ne.jp/~defghi/webc/webc.htm</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">まとめ</span></p>
+
+<p>Web Componentsの構成要素、それぞれの機能について詳しく解説されてる。</p>
+
+<p>template要素、HTML Imports、Shadow DOM、Custom Elementsについて</p>
+
+<hr>
+
+<h2 id="実践入門-ember.js：連載｜gihyo.jp-…-技術評論社">実践入門 Ember.js：連載｜gihyo.jp … 技術評論社</h2>
+
+<p><a href="http://gihyo.jp/dev/serial/01/emberjs" title="実践入門 Ember.js：連載｜gihyo.jp … 技術評論社">gihyo.jp/dev/serial/01/emberjs</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MVC</span> <span class="jser-tag">library</span></p>
+
+<p>Ember.jsについての連載</p>
+
+<hr>
+
+<h2 id="ractive.js-の紹介-—-kaoriya">Ractive.js の紹介 — KaoriYa</h2>
+
+<p><a href="http://www.kaoriya.net/blog/2014/12/13/" title="Ractive.js の紹介 — KaoriYa">www.kaoriya.net/blog/2014/12/13/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MVC</span> <span class="jser-tag">library</span></p>
+
+<p>簡単なTODOアプリを使ったRactive.jsの紹介。</p>
+
+<p>mustache拡張なテンプレートとイベント、データバインディングについて</p>
+
+<hr>
+
+<h2 id="javascript---chrome-40-で今すぐ-serviceworker-を試す---qiita">JavaScript - Chrome 40 で今すぐ ServiceWorker を試す - Qiita</h2>
+
+<p><a href="http://qiita.com/kinu/items/2abd61b4390f9bbaffc9" title="JavaScript - Chrome 40 で今すぐ ServiceWorker を試す - Qiita">qiita.com/kinu/items/2abd61b4390f9bbaffc9</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Service Workerを使ったオフライン処理、スクリプトの登録、更新方法、FetchやCache APIについて</p>
+
+<hr>
+
+<h2 id="the-offline-cookbook---jakearchibald.com">The offline cookbook - JakeArchibald.com</h2>
+
+<p><a href="http://jakearchibald.com/2014/offline-cookbook/" title="The offline cookbook - JakeArchibald.com">jakearchibald.com/2014/offline-cookbook/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Service Workerを使った典型的なパターンの紹介。</p>
+
+<hr>
+
+<h2 id="on-third-party-javascript---in-production-case-study">On Third-Party JavaScript - In Production Case-Study</h2>
+
+<p><a href="http://blog.risingstack.com/on-third-party-javascript-in-production/" title="On Third-Party JavaScript - In Production Case-Study">blog.risingstack.com/on-third-party-javascript-in-production/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">セキュリティ</span></p>
+
+<p>サードパーティJavaScriptのケーススタディから学べる事について。</p>
+
+<p>Mixpanel、Disqusからサイズやキャッシュ、どういう初期化経路を踏むかなどについて書かれている</p>
+
+<hr>
+
+<h2 id="introducing-the-javascript-internationalization-api-✩-mozilla-hacks-–-the-web-developer-blog">Introducing the JavaScript Internationalization API ✩ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/" title="Introducing the JavaScript Internationalization API ✩ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">API</span></p>
+
+<p>ECMA i18n APIの使い方について。</p>
+
+<p>元々localeCompareやtoLocaleStringといったものがあったがローカライズには不十分であり、その部分にECMA i18n APIを使える。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="papa-parse---powerful-csv-parser-for-javascript">Papa Parse - Powerful CSV parser for Javascript</h2>
+
+<p><a href="http://papaparse.com/" title="Papa Parse - Powerful CSV parser for Javascript">papaparse.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>CSVパーサーライブラリ。</p>
+
+<p>CSVをJSONに変換、WebWorkerを使っての並列処理、ダウンロードしながらのパース等</p>
+
+<hr>
+
+<h2 id="gcanti/uvdom">gcanti/uvdom</h2>
+
+<p><a href="https://github.com/gcanti/uvdom" title="gcanti/uvdom">github.com/gcanti/uvdom</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">VirualDOM</span> <span class="jser-tag">library</span></p>
+
+<p>Virtual DOMを持っているライブラリ(React、virtual-dom等)向けに、それぞれ変換出来る抽象レイヤーの実装。</p>
+
+<hr>
+
+<h2 id="offline.js-–-handle-your-users-losing-their-internet-connection-like-a-pro">Offline.js – Handle your users losing their internet connection like a pro</h2>
+
+<p><a href="http://github.hubspot.com/offline/docs/welcome/" title="Offline.js – Handle your users losing their internet connection like a pro">github.hubspot.com/offline/docs/welcome/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>オフラインかどうかを検知して通知出来るライブラリ</p>
+
+<hr>
+
+<h2 id="decimal.js-api">decimal.js API</h2>
+
+<p><a href="http://mikemcl.github.io/decimal.js/" title="decimal.js API">mikemcl.github.io/decimal.js/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Decimalを扱うライブラリ。</p>
+
+<p>小数点同士の演算、丸め込みの挙動の指定等、フォーマットを指定しての出力等が出来る</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="amazon:-typescript実践プログラミング-(programmer&#x27;s-selection):-スティーブ・フェントン,-鈴木-幸敏,-株式会社クイープ">Amazon: TypeScript実践プログラミング (Programmer&#x27;s SELECTION): スティーブ・フェントン, 鈴木 幸敏, 株式会社クイープ</h2>
+
+<p><a href="http://www.amazon.co.jp/dp/4798139807?tag=amazon0abac-22" title="Amazon: TypeScript実践プログラミング (Programmer&amp;#x27;s SELECTION): スティーブ・フェントン, 鈴木 幸敏, 株式会社クイープ">www.amazon.co.jp/dp/4798139807?tag=amazon0abac-22</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span> <span class="jser-tag">翻訳</span></p>
+
+<p>2015年1月23日 発売</p>
+
+<p>Pro TypeScriptの翻訳本</p>
+
+<p>http://www.apress.com/9781430267911</p>
+
+<hr>
+
+<h2 id="websocket---o&#x27;reilly-media">WebSocket - O&#x27;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/0636920030485.do" title="WebSocket - O&amp;#x27;Reilly Media">shop.oreilly.com/product/0636920030485.do</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebSocket</span> <span class="jser-tag">book</span></p>
+
+<p>WebSocketについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-12-16-es6proxy-serviceworker.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["ES6","WebComponents","ServiceWorker"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>ES6</li>
+                
+                <li>WebComponents</li>
+                
+                <li>ServiceWorker</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/12/16/es6proxy-serviceworker/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/12/16/es6proxy-serviceworker/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/12/16/es6proxy-serviceworker/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

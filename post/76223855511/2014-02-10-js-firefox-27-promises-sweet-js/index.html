@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-02-10のJS: Firefox 27、Promisesガイドライン、Sweet.js チュートリアル - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="Firefox,Promises,Sweet.js" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-02-10のJS: Firefox 27、Promisesガイドライン、Sweet.js チュートリアル" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #161 - Firefox 27がリリースされました。CSSのall:u..." />
+    
+    
+      <meta content="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js" property="og:url">
+    
+    
+      <meta content="2014-02-11T00:03:27+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="Promises" property="article:tag">
+      
+      <meta content="Sweet.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js">2014-02-10のJS: Firefox 27、Promisesガイドライン、Sweet.js チュートリアル</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年02月11日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-02-11-2014-02-10-js-firefox-27-promises-sweet-js.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/tumblr/2014-02-11-2014-02-10-js-firefox-27-promises-sweet-js.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #161 - <a href="http://www.mozilla.jp/firefox/27.0/releasenotes/" title="Firefox 27" target="_blank">Firefox 27</a>がリリースされました。</p>
+
+<p>CSSの<code>all:unset</code>のサポート等もありますが、古くはFirebugの<a href="https://addons.mozilla.org/ja/firefox/addon/javascript-deminifier/" title="Javascript Deminifier" target="_blank">Javascript Deminifier</a>拡張、Chrome DevToolsの<a href="http://os0x.hatenablog.com/entry/20110422/1303468821" title="圧縮されたコードの整形" target="_blank">圧縮されたコードの整形</a>機能のような、圧縮されたJavaScriptコードを整形表示する機能がFirefoxのDevToolsに追加されました。</p>
+
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=762761" title="762761 – An option to deobfuscate javascripts in the debugger" target="_blank">762761 – An option to deobfuscate javascripts in the debugger</a></li>
+<li>Chrome DevToolsと同様に整形したコードのブレークポイントも対応しています</li>
+</ul><hr><p><a href="https://github.com/w3ctag/promises-guide" title="w3ctag/promises-guide" target="_blank">w3ctag/promises-guide</a>ではES/DOM Promisesの仕様策定の中心である@<a href="https://github.com/domenic" title="domenic" target="_blank">domenic</a>さんがPromisesを利用する上で勘違いしやすいことに対するガイドラインを書かれています。</p>
+
+<p>また、Promisesの仕様でよく出るフレーズの意味についても書かれているので仕様を書く人へのガイドラインにもなっています。</p>
+
+<p><a href="https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world" title="JavaScript Promises - Thinking Sync in an Async World // Speaker Deck" target="_blank">JavaScript Promises - Thinking Sync in an Async World // Speaker Deck</a> というスライドではPromisesの使い方や、どういう値が <code>onFulfilled</code>, <code>onRejected</code>に渡るかといった状態の流れが分かりやすく説明されています。</p>
+
+<ul><li><a href="http://www.youtube.com/watch?v=wc72cyYt8-c" title="▶ JavaScript Promises: Thinking Sync in an Async World - YouTube" target="_blank">▶ JavaScript Promises: Thinking Sync in an Async World - YouTube</a></li>
+<li>質疑応答も多いので動画と一緒に見るといいです</li>
+</ul><p>ECMAScript Promisesの記事もでてきた感じがするので、一度その辺をまとめたもの(記事の紹介記事)を書こうかなとか思ってるので下記で意見募集中です。</p>
+
+<ul><li><a href="https://github.com/azu/jser.info/pull/17" title="[WIP] あなたが読むべきPromises by azu · Pull Request #17 · azu/jser.info" target="_blank">[WIP] あなたが読むべきPromises by azu · Pull Request #17 · azu/jser.info</a></li>
+</ul><hr><p><a href="http://jlongster.com/Writing-Your-First-Sweet.js-Macro" title="Writing Your First Sweet.js Macro" target="_blank">Writing Your First Sweet.js Macro</a> という記事では、JavaScriptに<a href="http://en.wikipedia.org/wiki/Hygienic_macro" title="Hygienic macro" target="_blank">Hygienic macro</a>(識別子の衝突を自動的に回避する仕組みをもったマクロ?)を持ってくる<a href="http://sweetjs.org/" title="Sweet.js" target="_blank">Sweet.js</a>について書かれています。</p>
+
+<p>記事内ではStepごとに変換結果を見られるエディタで実行できるのでかなり分かりやすく<a href="http://sweetjs.org/" title="Sweet.js" target="_blank">Sweet.js</a>のマクロの仕組みやパターンマッチ、識別子の衝突回避について書かれています。</p>
+
+<hr><h3>Info</h3>
+
+<p><a href="http://jser.info/post/75446735069/jser-info-pull-request" title="JSer.infoに紹介してもらいたい記事のPull Requestが出来るようになりました | JSer.info" target="_blank">JSer.infoに紹介してもらいたい記事のPull Requestが出来るようになりました | JSer.info</a>にも追記しましたが、<a href="https://github.com/azu/JSer.info-tribute/pull/1" title="ブックマークレット" target="_blank">ブックマークレット</a>や<a href="https://github.com/azu/jser.info/blob/gh-pages/CONTRIBUTING.md" title="紹介記事の書き方" target="_blank">紹介記事の書き方</a>などを追加しました。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="https://github.com/yui/pure/releases/tag/v0.4.1" title="Release Pure 0.4.1 - It's the little things · yui/pure">
+<p class="jser-sitelink"><strong>Release Pure 0.4.1 - It&#8217;s the little things · yui/pure</strong></p><footer><cite><a href="https://github.com/yui/pure/releases/tag/v0.4.1" title="Release Pure 0.4.1 - It's the little things · yui/pure" target="_blank">github.com/yui/pure/releases/tag/v0.4.1</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span><span class="jser-tag">library</span></p>
+
+<p>Pure 0.4.1リリース。</p>
+
+<p><code>hidden</code> 属性で表示の有無、input要素周りのスタイル修正等</p>
+
+<blockquote cite="http://mozillazine.jp/?p=4308" title="MozillaZine.jp » Blog Archive » Firefox 27 がリリースされた">
+<p class="jser-sitelink"><strong>MozillaZine.jp&#160;» Blog Archive&#160;» Firefox 27 がリリースされた</strong></p><footer><cite><a href="http://mozillazine.jp/?p=4308" title="MozillaZine.jp » Blog Archive » Firefox 27 がリリースされた" target="_blank">mozillazine.jp/?p=4308</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firefox 27リリース。</p>
+
+<p>SPDY 3.1 をサポート、DevToolsでコード整形機能の追加、CSSの <code>all:unset</code>のサポート</p>
+
+<ul><li><a href="https://developer.mozilla.org/ja/docs/Mozilla/Firefox/Releases/27" target="_blank">Firefox 27 for developers - Mozilla | MDN</a></li>
+<li><a href="http://www.mozilla.jp/firefox/27.0/releasenotes/" target="_blank">Firefox 27.0 リリースノート</a></li>
+<li><a href="https://dev.mozilla.jp/2013/12/split-console-pretty-print-minified-js-and-more-firefox-developer-tools-episode-28/" title="スプリットコンソール、ミニファイ済み JS の整形表示など – Firefox 開発ツール エピソード 28 | Mozilla Developer Street (modest)" target="_blank">スプリットコンソール、ミニファイ済み JS の整形表示など – Firefox 開発ツール エピソード 28 | Mozilla Developer Street (modest)</a></li>
+</ul><h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://cedricruiz.me/blog/building-a-jquery-like-library/" title="Building a jQuery-like library – Blog of Cedric Ruiz">
+<p class="jser-sitelink"><strong>Building a jQuery-like library – Blog of Cedric Ruiz</strong></p><footer><cite><a href="http://cedricruiz.me/blog/building-a-jquery-like-library/" title="Building a jQuery-like library – Blog of Cedric Ruiz" target="_blank">cedricruiz.me/blog/building-a-jquery-like-library/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">jQuery</span><span class="jser-tag">関数型プログラミング</span></p>
+
+<p>ES5で増えたArray拡張やquerySelector等を使ってjQueryライクなDOM操作ライブラリを書くチュートリアル。</p>
+
+<p>関数型プログラミングっぽい感じの構成になっている</p>
+
+<blockquote cite="http://efcl.info/2014/0209/res3658/" title="JavaScriptライブラリの気になる実装をどうやって見ていくか | Web scratch">
+<p class="jser-sitelink"><strong>JavaScriptライブラリの気になる実装をどうやって見ていくか | Web scratch</strong></p><footer><cite><a href="http://efcl.info/2014/0209/res3658/" title="JavaScriptライブラリの気になる実装をどうやって見ていくか | Web scratch" target="_blank">efcl.info/2014/0209/res3658/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>JavaScriptライブラリ等の実装の調べ方について。</p>
+
+<p><a href="http://vuejs.org/" title="Vue.js" target="_blank">Vue.js</a>のデータバインディングを題材に、デバッガーで実行しながら探す方法とキーワードを元にgraspのようなツールを使って探す方法について</p>
+
+<blockquote cite="https://github.com/w3ctag/promises-guide" title="w3ctag/promises-guide">
+<p class="jser-sitelink"><strong>w3ctag/promises-guide</strong></p><footer><cite><a href="https://github.com/w3ctag/promises-guide" title="w3ctag/promises-guide" target="_blank">github.com/w3ctag/promises-guide</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span><span class="jser-tag">spec</span><span class="jser-tag">document</span></p>
+
+<p>いつPromisesを使うか、いつ使うべきではないか。</p>
+
+<p>エラーが起きた時にどうするべきか、コントロールフローの管理であってタスクのキューではない事、引数にpromiseを受ける場合についてのガイドライン。</p>
+
+<p>また仕様書でよく使われるフレーズについてまとめられている</p>
+
+<ul><li><a href="http://saneyukis.hatenablog.com/entry/2014/02/04/233817" target="_blank">Promiseはコールバックに対する聖杯ではない - snyk_s log</a></li>
+</ul><blockquote cite="http://keyholesoftware.com/2014/01/06/advanced-debugging-techniques-in-javascript-part-1/" title="Advanced Debugging Techniques in JavaScript - Part 1 | Keyhole Software">
+<p class="jser-sitelink"><strong>Advanced Debugging Techniques in JavaScript - Part 1 | Keyhole Software</strong></p><footer><cite><a href="http://keyholesoftware.com/2014/01/06/advanced-debugging-techniques-in-javascript-part-1/" title="Advanced Debugging Techniques in JavaScript - Part 1 | Keyhole Software" target="_blank">keyholesoftware.com/2014/01/06/advanced-debugging-techniques-in-javascript-part-1/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span><span class="jser-tag">debug</span></p>
+
+<p>debugger;ステートメントを使ったデバッグについてのユースケース</p>
+
+<blockquote cite="https://curiosity-driven.org/private-fields-using-symbols" title="Private fields in JavaScript using Symbols">
+<p class="jser-sitelink"><strong>Private fields in JavaScript using Symbols</strong></p><footer><cite><a href="https://curiosity-driven.org/private-fields-using-symbols" title="Private fields in JavaScript using Symbols" target="_blank">curiosity-driven.org/private-fields-using-symbols</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6 Symbols を使った真なプライベート変数の作り方について。</p>
+
+<ul><li><a href="http://d.hatena.ne.jp/teramako/20130317/p3" target="_blank">Symbol でプライベートな値を作る - hogehoge @teramako</a></li>
+<li><a href="http://www.nczonline.net/blog/2014/01/21/private-instance-members-with-weakmaps-in-javascript/" target="_blank">Private instance members with weakmaps in JavaScript | NCZOnline</a></li>
+</ul><blockquote cite="http://learnjs.io/blog/2014/02/06/creating-js-library-builds-with-browserify-and-other-npm-modules/" title="Creating standalone JavaScript library builds with browserify, watchify, and uglify-js">
+<p class="jser-sitelink"><strong>Creating standalone JavaScript library builds with browserify, watchify, and uglify-js</strong></p><footer><cite><a href="http://learnjs.io/blog/2014/02/06/creating-js-library-builds-with-browserify-and-other-npm-modules/" title="Creating standalone JavaScript library builds with browserify, watchify, and uglify-js" target="_blank">learnjs.io/blog/2014/02/06/creating-js-library-builds-with-browserify-and-other-npm-modules/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span><span class="jser-tag">tutorial</span><span class="jser-tag">node.js</span><span class="jser-tag">npm</span></p>
+
+<p>npm runを使ったタスクの実行についてのチュートリアル。</p>
+
+<p>browserify + watchify + uglify-jsでbuild(-min,-debug),watchとそれぞれのタスクをnpm scriptsで行うシンプルな話。</p>
+
+<p>Gruntやgulpでも同じ事はできるけど、サンプルと構成共にとても小さく書かれているので分かりやすい。</p>
+
+<ul><li><a href="http://solarianprogrammer.com/2014/02/05/modular-javascript-development-browserify-livepage/" target="_blank">Modular JavaScript development with Browserify and LivePage | Solarian Programmer</a></li>
+</ul><blockquote cite="http://jlongster.com/Writing-Your-First-Sweet.js-Macro" title="Writing Your First Sweet.js Macro">
+<p class="jser-sitelink"><strong>Writing Your First Sweet.js Macro</strong></p><footer><cite><a href="http://jlongster.com/Writing-Your-First-Sweet.js-Macro" title="Writing Your First Sweet.js Macro" target="_blank">jlongster.com/Writing-Your-First-Sweet.js-Macro</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">sweet.js</span><span class="jser-tag">tutorial</span><span class="jser-tag">JavaScript</span></p>
+
+<p>sweet.jsを使ったマクロの書き方のチュートリアル。</p>
+
+<p>sweet.jsによる変換をステップ毎に見られるインタラクティブエディタがあり分かりやすい。</p>
+
+<p>マクロルールのパターンマッチ、<code>let</code> の使い方、名前の衝突回避、コマンドラインオプションについて</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world" title="JavaScript Promises - Thinking Sync in an Async World // Speaker Deck">
+<p class="jser-sitelink"><strong>JavaScript Promises - Thinking Sync in an Async World // Speaker Deck</strong></p><footer><cite><a href="https://speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world" title="JavaScript Promises - Thinking Sync in an Async World // Speaker Deck" target="_blank">speakerdeck.com/kerrick/javascript-promises-thinking-sync-in-an-async-world</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">スライド</span></p>
+
+<p>ES6 Promisesの流れについてまとまってるスライド.</p>
+
+<p>Promiseが持つ状態、メソッド、Promiseコンストラクタの使い方とショートカット、Promiseとthisとbindを利用についてなど</p>
+
+<ul><li><a href="http://www.youtube.com/watch?v=wc72cyYt8-c" target="_blank">▶ JavaScript Promises: Thinking Sync in an Async World - YouTube</a></li>
+</ul><h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="https://docs.google.com/document/d/1LPaPA30bLUB_publLIMF0RlhdnPx_ePXm7oW02iiT6o/preview" title="jQuery's browser bug workarounds - Google ドライブ">
+<p class="jser-sitelink"><strong>jQuery&#8217;s browser bug workarounds - Google ドライブ</strong></p><footer><cite><a href="https://docs.google.com/document/d/1LPaPA30bLUB_publLIMF0RlhdnPx_ePXm7oW02iiT6o/preview" title="jQuery's browser bug workarounds - Google ドライブ" target="_blank">docs.google.com/document/d/1LPaPA30bLUB_publLIMF0RlhdnPx_ePXm7oW02iiT6o/preview</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span><span class="jser-tag">browser</span><span class="jser-tag">まとめ</span></p>
+
+<p>jQueryが対応してるブラウザバグのワークアラウンドについてのまとめ。</p>
+
+<ul><li><a href="http://youmightnotneedjquery.com/" target="_blank">You Might Not Need jQuery</a></li>
+</ul><blockquote cite="https://github.com/jsdelivr/jsdelivr.com/commit/c958acc742a1bb8d2966ff48a09632284e1dfa05" title="Replaced js with 1 single HTTP request · c958acc · jsdelivr/jsdelivr.com">
+<p class="jser-sitelink"><strong>Replaced js with 1 single HTTP request · c958acc · jsdelivr/jsdelivr.com</strong></p><footer><cite><a href="https://github.com/jsdelivr/jsdelivr.com/commit/c958acc742a1bb8d2966ff48a09632284e1dfa05" title="Replaced js with 1 single HTTP request · c958acc · jsdelivr/jsdelivr.com" target="_blank">github.com/jsdelivr/jsdelivr.com/commit/c958acc742a1bb8d2966ff48a09632284e1dfa05</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>JavaScript CDNのjsDelivrが複数のファイルを一つにまとめて配布出来るようになった</p>
+
+<ul><li><a href="http://www.jsdelivr.com/" target="_blank">jsDelivr - Free CDN for javascript libraries, jQuery plugins, CSS frameworks, Fonts and more</a></li>
+</ul><blockquote cite="http://blog.webplatform.org/2014/02/web-platform-wednesdays-meet-javascript/" title="Web Platform Wednesdays, meet JavaScript! | Web Platform Blog">
+<p class="jser-sitelink"><strong>Web Platform Wednesdays, meet JavaScript! | Web Platform Blog</strong></p><footer><cite><a href="http://blog.webplatform.org/2014/02/web-platform-wednesdays-meet-javascript/" title="Web Platform Wednesdays, meet JavaScript! | Web Platform Blog" target="_blank">blog.webplatform.org/2014/02/web-platform-wednesdays-meet-javascript/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">リファレンス</span></p>
+
+<p>Web PlatformにJavaScriptリファレンスページが出来た。</p>
+
+<p>MSが寄稿したものが取り込まれてて、CC-BYライセンスが適応される?</p>
+
+<ul><li><a href="http://docs.webplatform.org/wiki/javascript" target="_blank">javascript · javascript · WPD · WebPlatform.org</a></li>
+</ul><h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="http://vuejs.org/" title="vue.js">
+<p class="jser-sitelink"><strong>vue.js</strong></p><footer><cite><a href="http://vuejs.org/" title="vue.js" target="_blank">vuejs.org/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">MVC</span></p>
+
+<p>ViewとModelのデータバインディングライブラリ。</p>
+
+<p>Object.defineProperty等を使っているためES5以降のブラウザをサポート</p>
+
+<blockquote cite="https://github.com/boo1ean/casual" title="boo1ean/casual">
+<p class="jser-sitelink"><strong>boo1ean/casual</strong></p><footer><cite><a href="https://github.com/boo1ean/casual" title="boo1ean/casual" target="_blank">github.com/boo1ean/casual</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>ダミーデータ(オブジェクト)生成ライブラリ。</p>
+
+<p>標準で色々用意されているが、自分で定義して作成も出来る。</p>
+
+<blockquote cite="http://eliperelman.com/fn.js/" title="fn.js | A JavaScript library built to encourage a functional programming style &amp; strategy.">
+<p class="jser-sitelink"><strong>fn.js | A JavaScript library built to encourage a functional programming style &amp; strategy.</strong></p><footer><cite><a href="http://eliperelman.com/fn.js/" title="fn.js | A JavaScript library built to encourage a functional programming style &amp; strategy." target="_blank">eliperelman.com/fn.js/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">関数型プログラミング</span><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>Functionalスタイルなメソッドを提供するライブラリ</p>
+
+<blockquote cite="http://kotas.hatenablog.jp/entry/2014/02/04/005146" title="gulp.js で TypeScript をコンパイルするプラグインを作った - kotas.tech">
+<p class="jser-sitelink"><strong>gulp.js で TypeScript をコンパイルするプラグインを作った - kotas.tech</strong></p><footer><cite><a href="http://kotas.hatenablog.jp/entry/2014/02/04/005146" title="gulp.js で TypeScript をコンパイルするプラグインを作った - kotas.tech" target="_blank">kotas.hatenablog.jp/entry/2014/02/04/005146</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span><span class="jser-tag">TypeScript</span><span class="jser-tag">plugin</span></p>
+
+<p>gulpのTypeScriptコンパイラプラグイン</p>
+
+<ul><li><a href="https://npmjs.org/package/gulp-tsc" target="_blank">gulp-tsc</a></li>
+</ul><blockquote cite="https://github.com/WebReflection/restyle" title="WebReflection/restyle">
+<p class="jser-sitelink"><strong>WebReflection/restyle</strong></p><footer><cite><a href="https://github.com/WebReflection/restyle" title="WebReflection/restyle" target="_blank">github.com/WebReflection/restyle</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">CSS</span><span class="jser-tag">library</span></p>
+
+<p>absurd.jsのようにJavaScriptでCSSライクなオブジェクトを書いてCSSにする。</p>
+
+<p>ブラウザ、Nodeで動くライブラリ。</p>
+
+<ul><li><a href="http://webreflection.blogspot.jp/2014/02/restylejs-simplified-css-approach.html" target="_blank">Web Reflection: restyle.js - a simplified CSS approach</a></li>
+<li><a href="http://krasimir.github.io/absurd/" target="_blank">AbsurdJS - the new CSS preprocessor</a></li>
+</ul><blockquote cite="http://asmblah.github.io/uniter/" title="Uniter">
+<p class="jser-sitelink"><strong>Uniter</strong></p><footer><cite><a href="http://asmblah.github.io/uniter/" title="Uniter" target="_blank">asmblah.github.io/uniter/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PHP</span><span class="jser-tag">JavaScript</span><span class="jser-tag">Node.js</span></p>
+
+<p>PHPのコードをブラウザや、Node.jsで動かすライブラリのαリリース。
+JavaScriptでPHPのパーサやインタープリタを実装して動かしている。</p>
+
+<ul><li><a href="http://asmblah.github.io/uniter/demo/interactive.html" target="_blank">Demo</a></li>
+</ul><blockquote cite="http://www.listjs.com/" title="List.js - Search, sort, filters, flexibility to tables, list and more!">
+<p class="jser-sitelink"><strong>List.js - Search, sort, filters, flexibility to tables, list and more!</strong></p><footer><cite><a href="http://www.listjs.com/" title="List.js - Search, sort, filters, flexibility to tables, list and more!" target="_blank">www.listjs.com/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">検索</span></p>
+
+<p>リスト表示して絞込検索、フィルター、ソート等を行えるライブラリ。</p>
+
+<p>依存ライブラリ等がなくシンプルなライブラリ</p>
+
+<h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://www.amazon.com/o/ASIN/0321994531/amazon0abac-22/ref=nosim" title="Amazon: The Ember.js Way (Developer's Library) [Paperback]: Brian Cardarella, Alex Navasardyan">
+<p class="jser-sitelink"><strong>Amazon: The Ember.js Way (Developer&#8217;s Library) [Paperback]: Brian Cardarella, Alex Navasardyan</strong></p><footer><cite><a href="http://www.amazon.com/o/ASIN/0321994531/amazon0abac-22/ref=nosim" title="Amazon: The Ember.js Way (Developer's Library) [Paperback]: Brian Cardarella, Alex Navasardyan" target="_blank">www.amazon.com/o/ASIN/0321994531/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">MVC</span><span class="jser-tag">library</span><span class="jser-tag">book</span></p>
+
+<p>2014年8月12日発売</p>
+
+<p>Ember.jsについての書籍</p>
+
+<blockquote cite="http://tatsu-zine.com/books/3rdparty-javascript" title="サードパーティJavaScript【委託】 - 達人出版会">
+<p class="jser-sitelink"><strong>サードパーティJavaScript【委託】 - 達人出版会</strong></p><footer><cite><a href="http://tatsu-zine.com/books/3rdparty-javascript" title="サードパーティJavaScript【委託】 - 達人出版会" target="_blank">tatsu-zine.com/books/3rdparty-javascript</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">book</span><span class="jser-tag">電子書籍</span></p>
+
+<p>サードパーティJavaScriptの電子書籍</p>
+
+<blockquote cite="http://www.amazon.co.jp/o/ASIN/4873116465/amazon0abac-22/ref=nosim" title="Amazon: インタラクティブ・データビジュアライゼーション ―D3.jsによるデータの可視化 [大型本]: Scott Murray, 長尾 高弘">
+<p class="jser-sitelink"><strong>Amazon: インタラクティブ・データビジュアライゼーション ―D3.jsによるデータの可視化 [大型本]: Scott Murray, 長尾 高弘</strong></p><footer><cite><a href="http://www.amazon.co.jp/o/ASIN/4873116465/amazon0abac-22/ref=nosim" title="Amazon: インタラクティブ・データビジュアライゼーション ―D3.jsによるデータの可視化 [大型本]: Scott Murray, 長尾 高弘" target="_blank">www.amazon.co.jp/o/ASIN/4873116465/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span><span class="jser-tag">book</span></p>
+
+<p>2014年02月19日 発売</p>
+
+<p>Interactive Data Visualization for the Webの翻訳本。</p>
+
+<p>D3.jsについての書籍</p>
+
+<ul><li><a href="http://www.oreilly.co.jp/books/9784873116464/" target="_blank">O&#8217;Reilly Japan - インタラクティブ・データビジュアライゼーション</a></li>
+</ul><blockquote cite="http://www.amazon.co.jp/o/ASIN/4774163260/amazon0abac-22/ref=nosim" title="Amazon: エンジニアのための データ可視化[実践]入門 ~D3.jsによるWebの可視化 (Software Design plus) [単行本（ソフトカバー）]: 森藤 大地, あんちべ">
+<p class="jser-sitelink"><strong>Amazon: エンジニアのための データ可視化[実践]入門 ~D3.jsによるWebの可視化 (Software Design plus) [単行本（ソフトカバー）]: 森藤 大地, あんちべ</strong></p><footer><cite><a href="http://www.amazon.co.jp/o/ASIN/4774163260/amazon0abac-22/ref=nosim" title="Amazon: エンジニアのための データ可視化[実践]入門 ~D3.jsによるWebの可視化 (Software Design plus) [単行本（ソフトカバー）]: 森藤 大地, あんちべ" target="_blank">www.amazon.co.jp/o/ASIN/4774163260/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span><span class="jser-tag">book</span></p>
+
+<p>2014年2月20日発売</p>
+
+<p>D3.jsを使ったデータの可視化についての書籍</p>
+
+<hr><h3><a href="https://github.com/azu/jser.info/graphs/contributors" title="Contributors to azu/jser.info" target="_blank">Contributors to JSer.info</a></h3>
+
+<p>Thanks @<a href="https://github.com/Layzie" title="Layzie" target="_blank">Layzie</a></p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/tumblr/2014-02-11-2014-02-10-js-firefox-27-promises-sweet-js.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Firefox","Promises","Sweet.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Firefox</li>
+                
+                <li>Promises</li>
+                
+                <li>Sweet.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/post/76223855511/2014-02-10-js-firefox-27-promises-sweet-js"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

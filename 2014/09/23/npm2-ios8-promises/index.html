@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-09-23のJS: npm 2.0.0、iOS8 WKWebView、Node.jsとPromise - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="node.js,npm,iOS,Promises" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-09-23のJS: npm 2.0.0、iOS8 WKWebView、Node.jsとPromise" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #193 - Node.jsのパッケージ管理ツールであるnpm 2.0.0..." />
+    
+    
+      <meta content="http://jser.info/2014/09/23/npm2-ios8-promises/" property="og:url">
+    
+    
+      <meta content="2014-09-23T16:58:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="iOS" property="article:tag">
+      
+      <meta content="Promises" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2014/09/23/npm2-ios8-promises/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2014/09/23/npm2-ios8-promises/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2014/09/23/npm2-ios8-promises/">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2014/09/23/npm2-ios8-promises/">2014-09-23のJS: npm 2.0.0、iOS8 WKWebView、Node.jsとPromise</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年09月23日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-09-23-npm2-ios8-promises.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/2014/2014-09-23-npm2-ios8-promises.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/09/23/npm2-ios8-promises/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/09/23/npm2-ios8-promises/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/09/23/npm2-ios8-promises/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #193 - Node.jsのパッケージ管理ツールであるnpm 2.0.0がリリースされました。</p>
+
+<p><a href="https://github.com/npm/npm/pull/5518" title="Passing args into run-scripts by bcoe · Pull Request #5518 · npm/npm">npm run-scriptに引数を渡せるように</a>なったことや、npmの<a href="https://github.com/npm/npm/wiki/Release-Process" title="Release Process · npm/npm Wiki">リリースプロセスがドキュメント化</a>されたこと、<a href="https://www.npmjs.org/doc/misc/npm-scope.html" title="Scoped packages">Scoped packages</a>という機能が追加された点等結構色々変更があります。</p>
+
+<p><a href="https://www.npmjs.org/doc/misc/npm-scope.html" title="Scoped packages">Scoped packages</a>は企業利用などで使うときにPublicではなく社内でモジュールを管理するためのスコープ機能を提供する仕組みです。</p>
+
+<p>npm 2.0.0はnpmからインストールできます。</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">npm install -g npm 
+</code></pre></div>
+<p>詳細は以下の記事に書かれています。</p>
+
+<ul>
+<li><a href="http://blog.npmjs.org/post/98131109725/npm-2-0-0" title="The npm Blog — npm@2.0.0">The npm Blog — npm@2.0.0</a></li>
+</ul>
+
+<hr>
+
+<p>iOS8がリリースされ内蔵されているSafariのアップデートと新しいWebViewが入りました。</p>
+
+<p>以下の記事ではどのような機能が入ったかや、今までのWebView(UIWebView)と新しいWebView(WKWebView)のパフォーマンスや制限の違い等について書かれています。</p>
+
+<ul>
+<li><a href="http://www.mobilexweb.com/blog/safari-ios8-iphone6-web-developers-designers" title="iOS 8 and iPhone 6 for web developers and designers: next evolution for Safari and native webapps | Breaking the Mobile Web">iOS 8 and iPhone 6 for web developers and designers: next evolution for Safari and native webapps | Breaking the Mobile Web</a></li>
+<li><a href="http://www.sencha.com/blog/apple-shows-love-for-html5-with-ios-8" title="Apple Shows Love for HTML5 with iOS 8 | Blog | Sencha">Apple Shows Love for HTML5 with iOS 8 | Blog | Sencha</a></li>
+</ul>
+
+<p>まだバグ等も多いですが、新しいWKWebViewでは今までのWebViewのような制限がないので、アプリ内でもSafariと同じように動くものができるかもしれません。</p>
+
+<hr>
+
+<p><a href="http://blog.otakumode.com/2014/09/17/nodejs-promise/" title="Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog">Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog</a>という記事では、Promiseの基本的な使い方やNode.jsで<a href="http://blog.futurice.com/npm-registry-in-numbers" title="NPM registry in numbers | Futurice blog">よく使われているasync.js</a>モジュールからの切り替えについて詳しく書かれています。</p>
+
+<p>まだNode.jsのstableであるv0.10にはネイティブでPromiseが入っていないため、<a href="https://github.com/petkaantonov/bluebird" title="Bluebird">Bluebird</a>を使った例で書かれています。<br>
+<a href="http://d.hatena.ne.jp/jovi0608/20140319/1395199285" title="次期安定版 v0.12">次期安定版 v0.12</a>ではネイティブでPromiseが入ることや、Node.js以外でもPromiseを使ったAPIは増えていくため、Promiseについて分かりやすくまとまっているため読んでみるといいかと思います。</p>
+
+<ul>
+<li><a href="http://efcl.info/2014/09/16/promises-spec-ref-list/" title="JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch">JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="the-npm-blog-—-npm@2.0.0">The npm Blog — npm@2.0.0</h2>
+
+<p><a href="http://blog.npmjs.org/post/98131109725/npm-2-0-0" title="The npm Blog — npm@2.0.0">blog.npmjs.org/post/98131109725/npm-2-0-0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>npm 2.0.0リリース。</p>
+
+<p>リリースプロセスのドキュメント化、semverの挙動の変更、企業など社内モジュールの管理等に使えるscopeという機能を追加、npm runが引数を取れるようになるなど</p>
+
+<ul>
+<li><a href="https://github.com/npm/npm/wiki/Release-Process" title="Release Process · npm/npm Wiki">Release Process · npm/npm Wiki</a></li>
+<li><a href="https://www.npmjs.org/doc/misc/npm-scope.html" title="npm-scope">npm-scope</a></li>
+</ul>
+
+<hr>
+
+<h2 id="winjs-everywhere">WinJS Everywhere</h2>
+
+<p><a href="http://blogs.windows.com/buildingapps/2014/09/17/winjs-everywhere/" title="WinJS Everywhere">blogs.windows.com/buildingapps/2014/09/17/winjs-everywhere/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>WinJS 3.0リリース。</p>
+
+<p>クロスプラットフォームのデザイン互換性周りの修正が中心</p>
+
+<ul>
+<li><a href="http://blogs.msdn.com/b/osamum/archive/2014/09/19/winjs3-0.aspx" title="WinJS3.0 がリリースされました。 - monoe&amp;#x27;s blog - Site Home - MSDN Blogs">WinJS3.0 がリリースされました。 - monoe&#x27;s blog - Site Home - MSDN Blogs</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v0.10.32-(stable)">Node v0.10.32 (Stable)</h2>
+
+<p><a href="http://blog.nodejs.org/2014/09/16/node-v0-10-32-stable/" title="Node v0.10.32 (Stable)">blog.nodejs.org/2014/09/16/node-v0-10-32-stable/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node v0.10.32 リリース。</p>
+
+<hr>
+
+<h2 id="react-v0.11.2-|-react">React v0.11.2 | React</h2>
+
+<p><a href="http://facebook.github.io/react/blog/2014/09/16/react-v0.11.2.html" title="React v0.11.2 | React">facebook.github.io/react/blog/2014/09/16/react-v0.11.2.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">facebook</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React v0.11.2リリース。</p>
+
+<p>dialogとpicture要素のサポート、flowの型チェックツール用のアノテーションを取り除くフラグをjsxコマンドに追加</p>
+
+<hr>
+
+<h2 id="polymer-0.4.1-released!">Polymer 0.4.1 Released!</h2>
+
+<p><a href="http://blog.polymer-project.org/releases/2014/09/18/release-0.4.1/" title="Polymer 0.4.1 Released!">blog.polymer-project.org/releases/2014/09/18/release-0.4.1/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Polymer 0.4.1リリース。</p>
+
+<p>WAI-ARIAについての<code>core-a11y-keys</code>要素を追加、iOS8のバグに対するworkaroundを追加</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="updates-to-our-platform-roadmap---ieblog---site-home---msdn-blogs">Updates to our platform roadmap - IEBlog - Site Home - MSDN Blogs</h2>
+
+<p><a href="http://blogs.msdn.com/b/ie/archive/2014/09/18/updates-to-our-platform-roadmap.aspx" title="Updates to our platform roadmap - IEBlog - Site Home - MSDN Blogs">blogs.msdn.com/b/ie/archive/2014/09/18/updates-to-our-platform-roadmap.aspx</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>IEの開発中、検討中の機能について</p>
+
+<ul>
+<li><a href="http://status.modern.ie/" title="Internet Explorer Web Platform Status and Roadmap - status.modern.IE">Internet Explorer Web Platform Status and Roadmap - status.modern.IE</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ios-8-and-iphone-6-for-web-developers-and-designers:-next-evolution-for-safari-and-native-webapps-|-breaking-the-mobile-web">iOS 8 and iPhone 6 for web developers and designers: next evolution for Safari and native webapps | Breaking the Mobile Web</h2>
+
+<p><a href="http://www.mobilexweb.com/blog/safari-ios8-iphone6-web-developers-designers" title="iOS 8 and iPhone 6 for web developers and designers: next evolution for Safari and native webapps | Breaking the Mobile Web">www.mobilexweb.com/blog/safari-ios8-iphone6-web-developers-designers</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">まとめ</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span></p>
+
+<p>iPhone6とiPhone6 plusの仕様やviewportまわりの違いについて。<br>
+また、iOS8 SafariでサポートされたAPIやCSSサポート、minimal-uiの廃止、Safariの追加機能、UIWebViewとWKWebVIewの違い、バグについて詳しくまとめられている</p>
+
+<ul>
+<li><a href="http://blog.fineuploader.com/2014/09/10/ios8-presents-serious-issues-that-prevent-file-uploading/" title="iOS8 presents serious issues that prevent file uploading | Blog">iOS8 presents serious issues that prevent file uploading | Blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="apple-shows-love-for-html5-with-ios-8-|-blog-|-sencha">Apple Shows Love for HTML5 with iOS 8 | Blog | Sencha</h2>
+
+<p><a href="http://www.sencha.com/blog/apple-shows-love-for-html5-with-ios-8" title="Apple Shows Love for HTML5 with iOS 8 | Blog | Sencha">www.sencha.com/blog/apple-shows-love-for-html5-with-ios-8</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">まとめ</span> <span class="jser-tag">performance</span></p>
+
+<p>iOS8のSafariでサポートされた新しい機能について。</p>
+
+<p>また今までのWebViewと新しく追加されたWebKitの機能がちゃんと使えるWKWebViewのパフォーマンスの比較。</p>
+
+<p>既知のバグについても書かれてる</p>
+
+<ul>
+<li><a href="https://www.xenophy.com/sencha-blog/11578" title="iOS 8 に Apple の HTML5 への愛を見た | 株式会社ゼノフィ">iOS 8 に Apple の HTML5 への愛を見た | 株式会社ゼノフィ</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node.jsエンジニアなら2014年内に知っておきたいpromise入門-|-tokyo-otaku-mode-tech-blog">Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog</h2>
+
+<p><a href="http://blog.otakumode.com/2014/09/17/nodejs-promise/" title="Node.jsエンジニアなら2014年内に知っておきたいPromise入門 | Tokyo Otaku Mode Tech Blog">blog.otakumode.com/2014/09/17/nodejs-promise/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Promises</span> <span class="jser-tag">tutorial</span></p>
+
+<p>JavaScript Promiseの基本的な使い方、async.jsを使っていた場合にそれをPromiseに書き換える実装方法について。</p>
+
+<p>Promiseについてよくまとまってるチュートリアル</p>
+
+<hr>
+
+<h2 id="javascript-promiseを使うウェブの仕様を調べてみた-|-web-scratch">JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2014/09/16/promises-spec-ref-list/" title="JavaScript Promiseを使うウェブの仕様を調べてみた | Web Scratch">efcl.info/2014/09/16/promises-spec-ref-list/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">spec</span> <span class="jser-tag">検索</span></p>
+
+<p>Promiseの仕様を前提にしてる仕様の一覧。また、仕様をどうやって調べるかについて。W3CやWHATWGの仕様をまとめてダウンロードして検索する方法について書かれてる</p>
+
+<hr>
+
+<h2 id="node.js-best-practices">Node.js Best Practices</h2>
+
+<p><a href="http://blog.risingstack.com/node-js-best-practices/" title="Node.js Best Practices">blog.risingstack.com/node-js-best-practices/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">開発環境</span></p>
+
+<p>Node.jsにおけるコーディングルール的なのとエラーについて。</p>
+
+<p>callbackのerrorはチェックする事と早期return、Operational errorとProgrammer errorsの違いと対処、npmを使ったWorkflowについて書かれてる</p>
+
+<ul>
+<li><a href="http://www.joyent.com/developers/node/design/errors" title="Error Handling in Nodejs - Developer Center - Joyent">Error Handling in Nodejs - Developer Center - Joyent</a></li>
+</ul>
+
+<hr>
+
+<h2 id="traceur,-gulp,-browserify-and-es6---matt-greer">Traceur, Gulp, Browserify and ES6 - Matt Greer</h2>
+
+<p><a href="http://www.mattgreer.org/articles/traceur-gulp-browserify-es6/" title="Traceur, Gulp, Browserify and ES6 - Matt Greer">www.mattgreer.org/articles/traceur-gulp-browserify-es6/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">gulp</span> <span class="jser-tag">browserify</span></p>
+
+<p>Gulp+TraceurでES6のコードを使う方法と、Browserify + es6ifyでTraceurを使う方法について。</p>
+
+<hr>
+
+<h2 id="透過pngをsvgを利用して軽くするテクニック---weblog---hail2u.net">透過PNGをSVGを利用して軽くするテクニック - Weblog - Hail2u.net</h2>
+
+<p><a href="http://hail2u.net/blog/webdesign/with-svg.html" title="透過PNGをSVGを利用して軽くするテクニック - Weblog - Hail2u.net">hail2u.net/blog/webdesign/with-svg.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">画像</span></p>
+
+<p>JPG画像とマスクとなるPNG画像をSVGのmask要素によって合わせる事で擬似アルファチャンネルをやる事について。</p>
+
+<p>単体の透過PNGよりファイルサイズが軽量に出来る話。</p>
+
+<p><a href='http://blog.jackadam.net/2010/alpha-jpegs/'>http://blog.jackadam.net/2010/alpha-jpegs/</a></p>
+
+<hr>
+
+<h2 id="cssセレクターマッチングのコスト---unreviewed">CSSセレクターマッチングのコスト - Unreviewed</h2>
+
+<p><a href="http://takenspc.hatenablog.com/entry/2014/09/16/152157" title="CSSセレクターマッチングのコスト - Unreviewed">takenspc.hatenablog.com/entry/2014/09/16/152157</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">webkit</span></p>
+
+<p>CSSセレクタは要素とセレクタの数だけ判定を行う回数が増えるため、そのコストを減らすアプローチについて。</p>
+
+<p>また、CSSセレクタのマッチ判定の手順について結合子別に詳しく解説してる。</p>
+
+<ul>
+<li><a href="http://constellation.github.io/blog/2014/07/14/webkit-css-jit-internals/" title="WebKit CSS JIT Internals - Constellation Scorpius">WebKit CSS JIT Internals - Constellation Scorpius</a></li>
+</ul>
+
+<hr>
+
+<h2 id="webstorm-9-eap,-138.2406:-spy-js-code-completion,-css3-enhancements,-scratch-files-and…-jsx-|-jetbrains-webstorm-blog">WebStorm 9 EAP, 138.2406: spy-js code completion, CSS3 enhancements, Scratch files and… JSX | JetBrains WebStorm Blog</h2>
+
+<p><a href="http://blog.jetbrains.com/webstorm/2014/09/webstorm-9-eap-138-2406/" title="WebStorm 9 EAP, 138.2406: spy-js code completion, CSS3 enhancements, Scratch files and… JSX | JetBrains WebStorm Blog">blog.jetbrains.com/webstorm/2014/09/webstorm-9-eap-138-2406/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">node.js</span></p>
+
+<p>spy.jsを実行した結果を使ったコード補完が行えるように。また、今までは引数や返り値のみだったが、式にも対応した。</p>
+
+<p>emacsみたいなScratchファイルの機能を追加、indexingの範囲をデフォルトではnode_modulesまでに限定、JSX(React)のサポート改善等</p>
+
+<hr>
+
+<h2 id="webide、ストレージインスペクタ、jquery-イベント、iframe-切り替えなど-–-firefox-開発ツール-エピソード-34-|-mozilla-developer-street-(modest)">WebIDE、ストレージインスペクタ、jQuery イベント、iframe 切り替えなど – Firefox 開発ツール エピソード 34 | Mozilla Developer Street (modest)</h2>
+
+<p><a href="https://dev.mozilla.jp/2014/09/webide-storage-inspector-jquery-events-iframe-switcher-more-firefox-developer-tools-episode-34/" title="WebIDE、ストレージインスペクタ、jQuery イベント、iframe 切り替えなど – Firefox 開発ツール エピソード 34 | Mozilla Developer Street (modest)">dev.mozilla.jp/2014/09/webide-storage-inspector-jquery-events-iframe-switcher-more-firefox-developer-tools-episode-34/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span></p>
+
+<p>Firefox 34 で追加されてる開発ツールの機能について</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="slide-decks-of-jsconf-2014">Slide decks of JSConf 2014</h2>
+
+<p><a href="https://gist.github.com/nikcorg/1fe60d2da6e22653806c" title="Slide decks of JSConf 2014">gist.github.com/nikcorg/1fe60d2da6e22653806c</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">event</span> <span class="jser-tag">スライド</span></p>
+
+<p>JSConf.eu 2014のスライドまとめ</p>
+
+<p><a href='http://2014.jsconf.eu/'>http://2014.jsconf.eu/</a></p>
+
+<p><a href='https://www.youtube.com/user/jsconfeu/'>https://www.youtube.com/user/jsconfeu/</a></p>
+
+<hr>
+
+<h2 id="a-quick-introduction-to-browsersync---tuts+-web-design-tutorial">A Quick Introduction to BrowserSync - Tuts+ Web Design Tutorial</h2>
+
+<p><a href="http://webdesign.tutsplus.com/tutorials/a-quick-introduction-to-browsersync--cms-22135" title="A Quick Introduction to BrowserSync - Tuts+ Web Design Tutorial">webdesign.tutsplus.com/tutorials/a-quick-introduction-to-browsersync--cms-22135</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">動画</span> <span class="jser-tag">Tools</span></p>
+
+<p>BrowserSyncについて紹介するスクリーンキャスト</p>
+
+<hr>
+
+<h2 id="syncing-async">Syncing Async</h2>
+
+<p><a href="http://www.slideshare.net/fitc_slideshare/syncingasync" title="Syncing Async">www.slideshare.net/fitc_slideshare/syncingasync</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">スライド</span></p>
+
+<p>非同期処理とPromiseについてのスライド。</p>
+
+<p>コールバックのネストの問題、PromiseやGeneratorで考える非同期で逐次的な処理について。</p>
+
+<hr>
+
+<h2 id="cors-для-тестирования-и-для-жизни.-Константин-Якушев.-moscowjs-14">CORS для тестирования и для жизни. Константин Якушев. MoscowJS 14</h2>
+
+<p><a href="http://www.slideshare.net/moscowjs/cors-moscowjs-14" title="CORS для тестирования и для жизни. Константин Якушев. MoscowJS 14">www.slideshare.net/moscowjs/cors-moscowjs-14</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">XHR</span> <span class="jser-tag">スライド</span></p>
+
+<p>CORSのHTTPヘッダの設定と動作について分かりやすくまとめられてる。 </p>
+
+<p>指定する値の書き方についてが分かりやすい</p>
+
+<p>CORS in Actionの人。</p>
+
+<hr>
+
+<h2 id="componentization-for-reality">Componentization for Reality</h2>
+
+<p><a href="http://ja.slideshare.net/ygoto3q/componentization-for-reality" title="Componentization for Reality">ja.slideshare.net/ygoto3q/componentization-for-reality</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
+
+<p>コンポーネントベースで考えるウェブ開発についてのスライド。</p>
+
+<p>ディレクトリ単位だとバラけてしまうのでコンポーネント単位でまとめる。</p>
+
+<p>ジェネレータ、webpack、insertCSS、Angular</p>
+
+<ul>
+<li><a href="https://schoo.jp/class/1190" title="俺の話を聞け、5分だけでもいい　ーJavaScriptだいすきな男たちとJavaScriptを学ぼう！【JSオジサン#3】 JSオジサン 先生 - 無料動画学習｜schoo（スクー）">俺の話を聞け、5分だけでもいい　ーJavaScriptだいすきな男たちとJavaScriptを学ぼう！【JSオジサン#3】 JSオジサン 先生 - 無料動画学習｜schoo（スクー）</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="wingify/dom-comparator">wingify/dom-comparator</h2>
+
+<p><a href="https://github.com/wingify/dom-comparator" title="wingify/dom-comparator">github.com/wingify/dom-comparator</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>2つのDOM文字列を比較した結果を取得するライブラリ。</p>
+
+<p>CSSやNodeにどういう操作が行われたかの情報が取れる</p>
+
+<hr>
+
+<h2 id="conradirwin/async-profile">ConradIrwin/async-profile</h2>
+
+<p><a href="https://github.com/ConradIrwin/async-profile" title="ConradIrwin/async-profile">github.com/ConradIrwin/async-profile</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span></p>
+
+<p>Node.jsで非同期処理のプロファイルを取るためのライブラリ。</p>
+
+<p>callback待ちにどれくらいの時間を使ってるかの表示、非同期処理の結果をネスト表示も出来る</p>
+
+<ul>
+<li><a href="https://bugsnag.com/blog/async-profile" title="A CPU Profiler for Node.js - Bugsnag">A CPU Profiler for Node.js - Bugsnag</a></li>
+</ul>
+
+<hr>
+
+<h2 id="matthew-andrews/denodeify">matthew-andrews/denodeify</h2>
+
+<p><a href="https://github.com/matthew-andrews/denodeify/" title="matthew-andrews/denodeify">github.com/matthew-andrews/denodeify/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">library</span></p>
+
+<p>Node.jsスタイルで書かれた関数(error, response)をPromiseラッパにするライブラリ</p>
+
+<hr>
+
+<h2 id="deloreanjs/delorean">deloreanjs/delorean</h2>
+
+<p><a href="https://github.com/deloreanjs/delorean" title="deloreanjs/delorean">github.com/deloreanjs/delorean</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Flux patternの実装ライブラリ</p>
+
+<p>dispatcherとstore、ComponentとしてReactやFlight、Ractiveなどと組み合わせて使うことができる</p>
+
+<ul>
+<li><a href="http://fluxxor.com/" title="Fluxxor - Home">Fluxxor - Home</a></li>
+</ul>
+
+<hr>
+
+<h2 id="fat/bean">fat/bean</h2>
+
+<p><a href="https://github.com/fat/bean" title="fat/bean">github.com/fat/bean</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">event</span></p>
+
+<p>JavaScriptのDOMイベントを簡単に扱える小さなライブラリ。</p>
+
+<p>on/off/fire/one/cloneが用意されている。cloneではNodeと共にeventをコピーすることができる</p>
+
+<hr>
+
+<h2 id="inikulin/dmn">inikulin/dmn</h2>
+
+<p><a href="https://github.com/inikulin/dmn" title="inikulin/dmn">github.com/inikulin/dmn</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
+
+<p>プロジェクトで使ってるファイルから.npmignoreを生成するコマンドラインツール。</p>
+
+<p>また、インストール済みのnode_modulesから不要なファイルを削除する事も出来る。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-09-23-npm2-ios8-promises.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["node.js","npm","iOS","Promises"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>npm</li>
+                
+                <li>iOS</li>
+                
+                <li>Promises</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/09/23/npm2-ios8-promises/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/09/23/npm2-ios8-promises/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/09/23/npm2-ios8-promises/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>

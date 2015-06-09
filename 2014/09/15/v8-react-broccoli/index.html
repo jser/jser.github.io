@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-09-15のJS: JavaScriptエンジンの最適化、ビルドツールBroccoli - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="JavaScript,V8,ビルド,Tools,イベント,Performance" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2014-09-15のJS: JavaScriptエンジンの最適化、ビルドツールBroccoli" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #192 - 今週はnodeconfeuがあったのと、自分でも最適化につい..." />
+    
+    
+      <meta content="http://jser.info/2014/09/15/v8-react-broccoli/" property="og:url">
+    
+    
+      <meta content="2014-09-15T21:24:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="V8" property="article:tag">
+      
+      <meta content="ビルド" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="イベント" property="article:tag">
+      
+      <meta content="Performance" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2014/09/15/v8-react-broccoli/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1><a class="site-title" href="/">JSer.info</a></h1>
+    <h2>JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2014/09/15/v8-react-broccoli/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2014/09/15/v8-react-broccoli/">한국어</a></li>
+        </ul>
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2014/09/15/v8-react-broccoli/">2014-09-15のJS: JavaScriptエンジンの最適化、ビルドツールBroccoli</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年09月15日</span>
+
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-09-15-v8-react-broccoli.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/master/_i18n/ja/_posts/2014/2014-09-15-v8-react-broccoli.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/09/15/v8-react-broccoli/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/09/15/v8-react-broccoli/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/09/15/v8-react-broccoli/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #192 - 今週は<a href="http://nodeconfeu.com/" title="Nodeland Conference 2014">nodeconfeu</a>があったのと、<a href="http://efcl.info/2014/09/13/v8-optimization-memo/" title="V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch">自分でも最適化についての記事</a>を書いた影響でV8の最適化に関するものが多いです。</p>
+
+<p><a href="https://gist.github.com/kevincennis/0cd2138c78a07412ef21" title="V8 Installation and d8 shell usage">V8 Installation and d8 shell usage</a> では、V8をビルドして起動オプションを使って最適化やトレースをする方法について分かりやすく紹介されています。</p>
+
+<p><a href="http://efcl.info/2014/09/13/v8-optimization-memo/" title="V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch">V8の最適化とIRHydraでの可視化とベンチマークについてのメモ</a> では、Hidden Class等の著名な最適化がどうなると効かなくなるかを<a href="http://mrale.ph/irhydra/2/#" title="IRHydra2">IRHydra2</a>を使って見る方法等について書かれています。</p>
+
+<p>V8の仕組みやプロファイリングについては<a href="https://github.com/thlorenz/v8-perf" title="thlorenz/v8-perf">thlorenz/v8-perf</a>に参考となる資料がまとめられていて、また同作者による<a href="http://thlorenz.github.io/talks/demystifying-v8/talk.pdf" title="talk.key - talk.pdf">Demystifying v8 and JavaScript Performance</a>というスライドが公開されています。<br>
+(内容的にはv8-perfの一部)</p>
+
+<hr>
+
+<p><a href="http://aexmachina.info/assets/talks/intro-to-broccoli/#1" title="Intro to Broccoli">Intro to Broccoli</a> というスライドでは、ビルドツールである<a href="https://github.com/broccolijs/broccoli" title="Broccoli">Broccoli</a>とは何かについて書かれています。</p>
+
+<blockquote>
+<p>In Rails speak Broccoli is the asset pipeline, and Grunt and Gulp are rake</p>
+</blockquote>
+
+<p>というように、Railsでいうasset piplineのような効率的なビルドを目的にしています。</p>
+
+<p>ビルド対象はファイル単位ではなくTreeで扱うようになっていて、その仕組みについては<a href="http://www.solitr.com/blog/2014/02/broccoli-first-release/" title="Broccoli: First Beta Release">Broccoli: First Beta Release</a>や<a href="https://emberfest.eu/talks/talks_12C5ADD371A9A5D4" title="Talk talks_12C5ADD371A9A5D4 - Ember Fest!">No more <code>grunt watch</code>: Modern build workflows with Broccoli - Ember Fest!</a>にて紹介されています。</p>
+
+<p>See also : <a href="https://github.com/nodeca/mincer" title="nodeca/mincer">nodeca/mincer</a></p>
+
+<hr>
+
+<h2 id="お知らせ">お知らせ</h2>
+
+<p>今回で192回目の更新ですが、このままのペースだと11月10日(月)に200回目となるので、<br>
+それを記念して勉強会的なイベントをやろうかと思ってます。</p>
+
+<p>詳細は(まだ詳細は決まってない)以下に書いてありますが、2014年11月09日(日)を予定しています。</p>
+
+<ul>
+<li><a href="https://github.com/jser/jser.info/issues/31" title="JSer.info 200回記念イベント · Issue #31 · jser/jser.info">JSer.info 200回記念イベント · Issue #31 · jser/jser.info</a></li>
+</ul>
+
+<p>まだ、参加人数とか会場も決まってないので(会場を募集しています!)、イベントページを作って詳細が決まったらもう一度お知らせします。</p>
+
+<p>参加人数の参考にしたいので、参加するかもという人は <a href="http://voting-badge.herokuapp.com/vote?url=https://github.com/jser/jser.info/issues/31"><img src="http://voting-badge.herokuapp.com/img?url=https://github.com/jser/jser.info/issues/31" alt="Vote"></a> を押しておいてもらえると助かります。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="intern-2.1-released-|-blog-|-sitepen">Intern 2.1 released | Blog | SitePen</h2>
+
+<p><a href="http://www.sitepen.com/blog/2014/09/12/intern-2-1-released/" title="Intern 2.1 released | Blog | SitePen">www.sitepen.com/blog/2014/09/12/intern-2-1-released/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Intern 2.1リリース。</p>
+
+<p>HTMLレポーター/JUnit XMLレポーターの追加。</p>
+
+<hr>
+
+<h2 id="release-3.1-“satyameva-jayate”-·-postcss/autoprefixer">Release 3.1 “Satyameva Jayate” · postcss/autoprefixer</h2>
+
+<p><a href="https://github.com/postcss/autoprefixer/releases/tag/3.1.0" title="Release 3.1 “Satyameva Jayate” · postcss/autoprefixer">github.com/postcss/autoprefixer/releases/tag/3.1.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>autoprefixer 3.1リリース</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="v8-installation-and-d8-shell-usage">V8 Installation and d8 shell usage</h2>
+
+<p><a href="https://gist.github.com/kevincennis/0cd2138c78a07412ef21" title="V8 Installation and d8 shell usage">gist.github.com/kevincennis/0cd2138c78a07412ef21</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span> <span class="jser-tag">tutorial</span></p>
+
+<p>d8コマンドをインストールして、最適化/非最適化、プロファイリング、GCのトレース、Hidden Class等のチェック方法などについてまとまってるチュートリアル</p>
+
+<hr>
+
+<h2 id="v8の最適化とirhydraでの可視化とベンチマークについてのメモ-|-web-scratch">V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2014/09/13/v8-optimization-memo/" title="V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch">efcl.info/2014/09/13/v8-optimization-memo/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">V8</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">まとめ</span></p>
+
+<p>V8のHidden Class等のJavaScriptの最適化やhot codeについて。</p>
+
+<p>IRHydra2を使った最適化されてない事の可視化や参考リソースについて。</p>
+
+<hr>
+
+<h2 id="「for-やめろ」またはイベントループと-nexttick()---block-rockin’-codes">「for やめろ」またはイベントループと nextTick() - Block Rockin’ Codes</h2>
+
+<p><a href="http://jxck.hatenablog.com/entry/for-with-eventloop" title="「for やめろ」またはイベントループと nextTick() - Block Rockin’ Codes">jxck.hatenablog.com/entry/for-with-eventloop</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span></p>
+
+<p>node.jsにおけるイベントループとブロックについて。</p>
+
+<p>setTimeout、process.nextTick、setImmediateの意味の違い。</p>
+
+<p>I/Oイベントとそれぞれの実行タイミングについて分かりやすく解説してる。</p>
+
+<hr>
+
+<h2 id="integrating-d3.js-visualizations-in-a-react-app---nicolas-hery">Integrating D3.js visualizations in a React app - Nicolas Hery</h2>
+
+<p><a href="http://nicolashery.com/integrating-d3js-visualizations-in-a-react-app/" title="Integrating D3.js visualizations in a React app - Nicolas Hery">nicolashery.com/integrating-d3js-visualizations-in-a-react-app/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span> <span class="jser-tag">DOM</span></p>
+
+<p>D3.jsのデータ・ドリブンのデータ更新とReactのVirtual DOMを組み合わせた話</p>
+
+<ul>
+<li><a href="http://tech.nitoyon.com/ja/blog/2013/10/24/d3js/" title="D3.js の Data-Driven な DOM 操作がおもしろい - てっく煮ブログ">D3.js の Data-Driven な DOM 操作がおもしろい - てっく煮ブログ</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-add-on-enables-web-development-across-browsers-and-devices-✩-mozilla-hacks-–-the-web-developer-blog">Firefox Add-on Enables Web Development Across Browsers and Devices ✩ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2014/09/firefox-tools-adapter/" title="Firefox Add-on Enables Web Development Across Browsers and Devices ✩ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2014/09/firefox-tools-adapter/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">addon</span></p>
+
+<p>Firefoxの開発者ツールを使ってChromeやSafariで表示してるページをデバッグするアダプタのアドオン。</p>
+
+<p>remotedebug.org と似ているが、共有のプロトコルの提供ではなく、Firefoxのプロトコルをベースとしてる</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Firefox_Tools_Adapter" title="Firefox Tools Adapter - Firefox Developer Tools | MDN">Firefox Tools Adapter - Firefox Developer Tools | MDN</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="intro-to-broccoli">Intro to Broccoli</h2>
+
+<p><a href="http://aexmachina.info/assets/talks/intro-to-broccoli/#1" title="Intro to Broccoli">aexmachina.info/assets/talks/intro-to-broccoli/#1</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">スライド</span></p>
+
+<p>ビルドツールであるBroccoliについてのスライド。 Railsで言えばBroccoliはasset pipelineで、GruntやGulpはrakeに当たるツール。</p>
+
+<p>ビルドに焦点をおいているという特徴がある</p>
+
+<hr>
+
+<h2 id="talk-talks_12c5add371a9a5d4---ember-fest!">Talk talks_12C5ADD371A9A5D4 - Ember Fest!</h2>
+
+<p><a href="https://emberfest.eu/talks/talks_12C5ADD371A9A5D4" title="Talk talks\_12C5ADD371A9A5D4 - Ember Fest!">emberfest.eu/talks/talks_12C5ADD371A9A5D4</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">動画</span></p>
+
+<p>JavaScriptベースのビルドツールであるBroccoliについての動画</p>
+
+<p><a href='https://github.com/broccolijs/broccoli'>https://github.com/broccolijs/broccoli</a></p>
+
+<p>Broccoliがどのようなプロセスでファイルを処理するかについて話されてる</p>
+
+<hr>
+
+<h2 id="9-anti-patterns-for-node.js-teams">9 anti-patterns for node.js teams</h2>
+
+<p><a href="http://www.slideshare.net/jeharrell/9-antipatterns-for-nodejs-teams" title="9 anti-patterns for node.js teams">www.slideshare.net/jeharrell/9-antipatterns-for-nodejs-teams</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">スライド</span></p>
+
+<p>node.jsにおける9つのアンチパターンについてのスライド <a href='http://efcl.hatenablog.com/entry/2014/09/11/212846'>http://efcl.hatenablog.com/entry/2014/09/11/212846</a></p>
+
+<hr>
+
+<h2 id="2014-09-09-performance-in-css-hikalab-yuya-saito.pdf-•-droplr">2014-09-09-performance-in-css-hikalab-yuya-saito.pdf • Droplr</h2>
+
+<p><a href="http://d.pr/f/sP4H" title="2014-09-09-performance-in-css-hikalab-yuya-saito.pdf • Droplr">d.pr/f/sP4H</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">スライド</span></p>
+
+<p>CSSとパフォーマンスについてのスライド。CSSのスタイル変更がどのようなレンダリングツリーの変更/再描画を起こしてるか、それを計測する方法、回避する方法について詳しく書かれてる</p>
+
+<hr>
+
+<h2 id="oscon---react-architecture-//-speaker-deck">OSCON - React Architecture // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/vjeux/oscon-react-architecture" title="OSCON - React Architecture // Speaker Deck">speakerdeck.com/vjeux/oscon-react-architecture</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">スライド</span></p>
+
+<p>Reactの歴史とReactのDOM Diffについてのスライド</p>
+
+<p><a href='https://www.youtube.com/watch?v=eCf5CquV_Bw'>https://www.youtube.com/watch?v=eCf5CquV_Bw</a></p>
+
+<p>ReactのVirtual DOM = DOMのバージョン管理という話やVirtual DOMのdiffの仕組みについて解説されてる</p>
+
+<ul>
+<li><a href="http://thenewstack.io/javascripts-history-and-how-it-led-to-reactjs/" title="JavaScript’s History and How it Led To ReactJS | The New Stack">JavaScript’s History and How it Led To ReactJS | The New Stack</a></li>
+</ul>
+
+<hr>
+
+<h2 id="building-high-quality-services-at-uber">Building high quality services at Uber</h2>
+
+<p><a href="http://raynos.github.io/nodeconfeu2014-talk/#/" title="Building high quality services at Uber">raynos.github.io/nodeconfeu2014-talk/#/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">スライド</span></p>
+
+<p>Uber社のnode.jsを使ったプロダクションを運用するにあたってのスライド。</p>
+
+<p>ログ、モニター、設定の管理、例外のログ、プロファイル、初期設定のscaffolding等のツールについて。</p>
+
+<hr>
+
+<h2 id="asynchronous-javascript-&amp;-promises">Asynchronous JavaScript &amp; Promises</h2>
+
+<p><a href="http://www.innoarchitech.com/asynchronous-javascript-promises/" title="Asynchronous JavaScript &amp;amp; Promises">www.innoarchitech.com/asynchronous-javascript-promises/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">スライド</span> <span class="jser-tag">動画</span></p>
+
+<p>JavaScriptの非同期処理、Promiseについての動画とスライド。</p>
+
+<p>Promiseとはどういうものかについて</p>
+
+<ul>
+<li><a href="http://slides.com/alexcastrounis/async-js-promises#/" title="Asynchronous JavaScript &amp;amp; Promises by Alex Castrounis">Asynchronous JavaScript &amp; Promises by Alex Castrounis</a></li>
+</ul>
+
+<hr>
+
+<h2 id="bsidesla-managing-content-security-policy-//-speaker-deck">BSidesLA Managing Content Security Policy // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/oreoshake/bsidesla-managing-content-security-policy" title="BSidesLA Managing Content Security Policy // Speaker Deck">speakerdeck.com/oreoshake/bsidesla-managing-content-security-policy</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">セキュリティ</span> <span class="jser-tag">CSP</span> <span class="jser-tag">browser</span> <span class="jser-tag">スライド</span></p>
+
+<p>CSPについてのスライド。</p>
+
+<p>CSPとは何か、どうやって適応するか、どうやって管理するかについてTwitterの人が発表した内容。</p>
+
+<p>CSP Lv2のscript hashについてやCSPレポート解析と <a href='http://caspr.io/'>http://caspr.io/</a> について</p>
+
+<ul>
+<li><a href="http://caspr.io/#/" title="Caspr">Caspr</a></li>
+<li><a href="https://blog.matatall.com/2014/08/this-blog-uses-csp-level-2-script-hash-support/" title="This blog uses CSP level 2 script hash support | blawg">This blog uses CSP level 2 script hash support | blawg</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス</h1>
+
+<hr>
+
+<h2 id="polyfill-service">Polyfill service</h2>
+
+<p><a href="https://cdn.polyfill.io/v1/" title="Polyfill service">cdn.polyfill.io/v1/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>polyfillライブラリを配信してくれるCDNサービス。</p>
+
+<p>クエリでfeaturesやuaを指定してそれに対するpolyfillをまとめくれたものを配信してくれる</p>
+
+<ul>
+<li><a href="http://labs.ft.com/2014/09/polyfills-as-a-service/" title="Polyfills as a service | FT Labs">Polyfills as a service | FT Labs</a></li>
+</ul>
+
+<hr>
+
+<h2 id="srcset-と-sizes">srcset と sizes</h2>
+
+<p><a href="http://terkel.github.io/srcset-sizes/" title="srcset と sizes">terkel.github.io/srcset-sizes/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">画像</span> <span class="jser-tag">CSS</span> <span class="jser-tag">翻訳</span></p>
+
+<p>srcset と sizes 属性の入門の翻訳</p>
+
+<p><a href='http://ericportis.com/posts/2014/srcset-sizes/'>http://ericportis.com/posts/2014/srcset-sizes/</a></p>
+
+<ul>
+<li><a href="http://terkel.jp/archives/2014/09/srcset-sizes/" title="Srcset and sizes の日本語訳 · terkel.jp">Srcset and sizes の日本語訳 · terkel.jp</a></li>
+</ul>
+
+<hr>
+
+<h2 id="thlorenz/v8-perf">thlorenz/v8-perf</h2>
+
+<p><a href="https://github.com/thlorenz/v8-perf" title="thlorenz/v8-perf">github.com/thlorenz/v8-perf</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">V8</span> <span class="jser-tag">performance</span> <span class="jser-tag">まとめ</span></p>
+
+<p>V8のパフォーマンスに関するレポートや資料のまとめ。</p>
+
+<p>Data type、コンパイラ、最適化、GC、メモリ、CPUプロファイリング。</p>
+
+<p>またfast objectであるかどうかの確認方法やプロファイルの取り方などについて</p>
+
+<hr>
+
+<h2 id="speed-hall-of-fame---the-chromium-projects">Speed Hall of Fame - The Chromium Projects</h2>
+
+<p><a href="http://www.chromium.org/developers/speed-hall-of-fame" title="Speed Hall of Fame - The Chromium Projects">www.chromium.org/developers/speed-hall-of-fame</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">まとめ</span></p>
+
+<p>ChromiumやV8のパフォーマンスの最適化/向上のIssue(内容)とその結果についてまとめられてるページ</p>
+
+<hr>
+
+<h2 id="dartlanguagespecification_japanese.pdf">DartLanguageSpecification_Japanese.pdf</h2>
+
+<p><a href="http://www.cresc.co.jp/tech/java/Google_Dart/DartLanguageSpecification_Japanese.pdf" title="DartLanguageSpecification\_Japanese.pdf">www.cresc.co.jp/tech/java/Google<em>Dart/DartLanguageSpecification</em>Japanese.pdf</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">dart</span> <span class="jser-tag">spec</span> <span class="jser-tag">翻訳</span></p>
+
+<p>Dartの仕様書日本語訳</p>
+
+<p>ECMA-408版</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="es6-right-now">ES6 right now</h2>
+
+<p><a href="http://johnkpaul.github.io/presentations/jqcon/2014/es6-now/#/" title="ES6 right now">johnkpaul.github.io/presentations/jqcon/2014/es6-now/#/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
+
+<p>ES6の動かせるサンプルと共に機能紹介と今スグ使う設定についてのスライド</p>
+
+<p>traceur(+grunt/gulp/broccoli/browserify)やes6-shimの紹介</p>
+
+<hr>
+
+<h2 id="davidmarkclements/decofun">davidmarkclements/decofun</h2>
+
+<p><a href="https://github.com/davidmarkclements/decofun" title="davidmarkclements/decofun">github.com/davidmarkclements/decofun</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span></p>
+
+<p>無名関数を自動的にそのコンテキストに応じた名前を付けるデバッグツール。</p>
+
+<hr>
+
+<h2 id="graftjs/jschan-·-github">GraftJS/jschan · GitHub</h2>
+
+<p><a href="https://github.com/GraftJS/jschan" title="GraftJS/jschan · GitHub">github.com/GraftJS/jschan</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>libchanのJavaScriptポート。</p>
+
+<p>ネットワークを超えてChannel同士でやり取りをする。</p>
+
+<p>WebSocketsとSPDYをサポートしていて、msgpackを使う</p>
+
+<hr>
+
+<h2 id="uupaa/wmcache.js">uupaa/WMCache.js</h2>
+
+<p><a href="https://github.com/uupaa/WMCache.js" title="uupaa/WMCache.js">github.com/uupaa/WMCache.js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">safari</span></p>
+
+<p>FileSystem, IndexedDB, Quota Management APIを使って100MB超えのテンポラリなストレージを管理するライブラリ</p>
+
+<ul>
+<li><a href="https://github.com/uupaa/WMCache.js/wiki/WMCache" title="WMCache · uupaa/WMCache.js Wiki">WMCache · uupaa/WMCache.js Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="hello.js---javascript-api-for-oauth2-authentication-and-rest-services">hello.js - Javascript API for OAuth2 authentication and REST services</h2>
+
+<p><a href="http://adodson.com/hello.js/" title="hello.js - Javascript API for OAuth2 authentication and REST services">adodson.com/hello.js/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">OAuth</span> <span class="jser-tag">library</span></p>
+
+<p>OAuth 2対応のアプリの認証やAPIを叩く機能を持ったライブラリ。</p>
+
+<p><a href='https://auth-server.herokuapp.com/'>https://auth-server.herokuapp.com/</a> という認証のサーバを使っていて、クライアントサイドを書くだけでGitHubやFacebook等のAPIを利用できる</p>
+
+<hr>
+
+<h2 id="blackdice/lill">BlackDice/lill</h2>
+
+<p><a href="https://github.com/BlackDice/lill" title="BlackDice/lill">github.com/BlackDice/lill</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span></p>
+
+<p>es6-symbolを使った linked-listの実装ライブラリ</p>
+
+<hr>
+
+<h2 id="ブラウザ内で安全に文字列からdomを組み立てるためのrickdomというライブラリを書いた---葉っぱ日記">ブラウザ内で安全に文字列からDOMを組み立てるためのRickDOMというライブラリを書いた - 葉っぱ日記</h2>
+
+<p><a href="http://d.hatena.ne.jp/hasegawayosuke/20140912/p1" title="ブラウザ内で安全に文字列からDOMを組み立てるためのRickDOMというライブラリを書いた - 葉っぱ日記">d.hatena.ne.jp/hasegawayosuke/20140912/p1</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+
+<p>DOMParserやcreateHTMLDocumentを使って文字列から安全にDOMを組み立てるライブラリ</p>
+
+<ul>
+<li><a href="https://github.com/hasegawayosuke/rickdom" title="hasegawayosuke/rickdom">hasegawayosuke/rickdom</a></li>
+</ul>
+
+<hr>
+
+<h2 id="thlorenz/proxyquireify">thlorenz/proxyquireify</h2>
+
+<p><a href="https://github.com/thlorenz/proxyquireify" title="thlorenz/proxyquireify">github.com/thlorenz/proxyquireify</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">plugin</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p><code>require</code>をラップして読み込んだモジュールのメソッドのstubを行えるbrowserify plugin。</p>
+
+<p>変換によってDIが行われるので元モジュールに特殊な仕組みが必要ない</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript:-novice-to-ninja---o&#x27;reilly-media">JavaScript: Novice to Ninja - O&#x27;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/9780992461225.do" title="JavaScript: Novice to Ninja - O&amp;#x27;Reilly Media">shop.oreilly.com/product/9780992461225.do</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+
+<p>2014年10月 発売</p>
+
+<p>基礎から学ぶJavaScript</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/master/_i18n/ja/_posts/2014/2014-09-15-v8-react-broccoli.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["JavaScript","V8","ビルド","Tools","イベント","Performance"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>JavaScript</li>
+                
+                <li>V8</li>
+                
+                <li>ビルド</li>
+                
+                <li>Tools</li>
+                
+                <li>イベント</li>
+                
+                <li>Performance</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li>
+        <a href="https://twitter.com/share"
+           class="socialite twitter-share socialite-auto-loading"
+           data-url="http://jser.info/2014/09/15/v8-react-broccoli/"
+           data-via="jser_info"
+           data-dnt="true">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2014/09/15/v8-react-broccoli/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2014/09/15/v8-react-broccoli/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/socialite.min.js"></script>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        if (f) {
+                            s.id = f;
+                        }
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="/about/" title="About"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="/about/" title="About">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/about/">JSer.infoについて</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/06/02/Angular1.4.0-Polymer1.0/">2015-06-02のJS: AngularJS 1.4.0、Polymer 1.0リリース、今後のJSの流れ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/27/promise-angular2/">2015-05-27のJS: Promiseのありがちな間違い、AngularJS 2に向けて、Plain JS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/12/ecmascript2015-npm/">2015-05-12のJS: ECMAScript 2015(ES6)入門、最近のnpmの変更点を見る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/05/06/iojs2.0.0-msedge-isomorphic/">2015-05-06のJS: io.js 2.0.0、Microsoft Edge、Isomorphic</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/29/globalize-flux-code-smells/">2015-04-29のJS: Globalize 1.0、Flux実装、Code Smellsの検出</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/20/es6-final-draft-js-traning/">2015-04-20のJS: ECMAScript6最終ドラフト、JavaScriptトレーニング</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/04/14/jQuery-origin/">2015-04-14のJS: 初代jQueryをコードリーディング、npmのエコシステムとプロトタイピング</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>
