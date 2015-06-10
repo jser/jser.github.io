@@ -1,7 +1,7 @@
 ---
 title: "2015-06-10 JS: 브라우저와 ES6 상황 、Web Audio API 튜토리얼"
 author: azu
-translate: ChoEun
+translator: ChoEun
 layout: post
 date : 2015-06-10T12:45
 category: JSer
