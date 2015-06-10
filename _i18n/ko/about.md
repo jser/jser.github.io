@@ -1,0 +1,43 @@
+이 사이트에 관하여.
+
+[JSer.info](http://jser.info/ "JSer.info")는 전세계 언어 구별없이 JavaScript 소식을 소개하는 사이트입니다.
+JavaScript나 Web 개발 관점에서 흥미롭다고 느낀 정보를 2-3 줄의 설명문과 함께 매주 소개해 드리는 것을 목표로 하고 있습니다.
+
+> **JSer.info**
+> [http://jser.info/](http://jser.info/ "JSer.info")
+
+JavaScript에 관한 전세계의 정보를 소개하는 사이트입니다.
+
+
+주변에서 접하는 정보가 전부라고 착각해버릴 정도로 현재 인터넷에는 JavaScript에 관한 정보가 넘처 흐른다고 생각합니다.
+하지만 수용력(capacity)을 초과하는 일은 별로 바람직한 상황이 아니기 때문에 어느 정도 내용을 간추려서 제공하는 장소가 필요하다고 생각했습니다.
+다행히 저는 정보를 모으는 것을 좋아하기 때문에 저와 같은 사람이 정보를 조금 정리하여 제공하면 보다 좋은 흐름을 만들 수 있다고 생각하여 시작하게 됐습니다.
+
+
+이 사이트를 작성하는데 있어 다음과 같은 사이트를 참고했습니다.
+또, 그 중 해외에는 이런 컨셉의 사이트가 많다는 사실도 알게됐습니다.
+
+-   [JavaScript Weekly](http://javascriptweekly.com/)
+-   [Badass JavaScript](http://badassjs.com/)
+-   [JsMag](http://www.jsmag.com/)
+-   [A Minute With Brendan](http://www.aminutewithbrendan.com/)
+-   [The Changelog](http://thechangelog.com/)
+
+다시 말해, 이 사이트는 언어 구별없이 JavaScript 소식을 소개하는 사이트입니다. 하지만, 진짜 목적은 JavaScript의 소식을 단순히 소개하는 것 뿐만 아니라 이해할 수 있도록 도와주는 것이기 때문에 지속적인 활동이 필요하게 됩니다.
+
+한편, 특별한 일이 없는 한 제가 솔선하여 이 사이트를 업데이트할 것이며 원활하고 지속적인 업데이트를 위해 저의 부하를 가능한 한 줄일 것입니다. 이를 위한 고민은 또 다른 기회에 놓아 두고, 지속적인 활동을 위해서 중요하지 않다고 판단되는 것은 생략할 수 있다고 생각합니다만 잘 부탁드리겠습니다.
+
+마지막으로, 디자인이나 작성법 등에 개선 점이나 이 사이트가 추천 되는 등의 소식이 있다면 저에게 연락주세요.
+
+GitHub 저장소 [jser/jser.info](https://github.com/jser/jser.info "azu/jser.info")에 Issue를 생성해 주시면 감사하겠습니다.
+
+Twitter는 @[azu_re](https://twitter.com/azu_re "azu_re")
+
+기타 연락처 등은 [About \| Web Scratch](http://efcl.info/about/ "About \| Web Scratch")를 참고하세요.
+
+* * * * *
+
+[JSer.info](http://jser.info/ "JSer.info")
+에 작성한 글은 CC-BY로 이용할 수 있습니다.
+
+[![크리에이티브 커먼즈 라이센스](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
