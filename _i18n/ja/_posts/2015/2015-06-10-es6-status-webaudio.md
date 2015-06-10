@@ -47,7 +47,7 @@ Web Audio APIのコードを書いて、想定した挙動になるように合�
 
 ## お知らせ
 
-以前から@[UYEONG](https://github.com/UYEONG "UYEONG")さんが[JSer.infoの韓国語訳](http://wit.nts-corp.com/)をやって頂いていましたが、韓国語訳も[http://jser.info/ko/](http://jser.info/ko/)という感じで同じサイトで公開するようになりました。
+以前から@[UYEONG](https://github.com/UYEONG "UYEONG")さんが[JSer.infoの韓国語訳](http://wit.nts-corp.com/)をやって頂いていましたが、韓国語訳も[http://jser.info/ko/](http://jser.info/ko/)という感じで同じサイト内で公開するようになりました。
 
 ![header](http://monosnap.com/image/whz0nvwzXYcZfhtIwxyhL0aowGyOZD.png) 
 
