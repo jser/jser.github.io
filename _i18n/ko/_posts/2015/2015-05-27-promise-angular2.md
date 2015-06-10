@@ -1,6 +1,7 @@
 ---
 title: "2015-05-27 JS: Promise의 있을법한 오류, AngularJS 2를 향해서、Plain JS"
 author: azu
+translator: ChoEun
 layout: post
 date : 2015-05-27T22:12
 category: JSer
