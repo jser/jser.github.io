@@ -18,7 +18,7 @@ JSer.info #231 - [Safari 9.0](https://developer.apple.com/library/prerelease/mac
 JavaScriptにおいてはES6のClasses、Template Strings、Symbol、Computed Propertiesといった機能などのサポートが入っています。
 またCSSにおいては、`-webkit-` prefixが外されたものも多いですが、逆に`-webkit-` prefix付きで`-webkit-scroll-snap-type`などのサポートが追加されています。
 
-WebkitのES6やCSSなどに関する実装状況は以下のステータスページに公開されているので、気になる人は見てみるといいと思います。
+WebKitのES6やCSSなどに関する実装状況は以下のステータスページに公開されているので、気になる人は見てみるといいと思います。
 
 - [The WebKit Open Source Project - Web Platform Status](http://www.webkit.org/status.html "The WebKit Open Source Project - Web Platform Status")
 
@@ -103,7 +103,7 @@ Chrome 44 Betaリリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Safari 9.0での変更点としてTemplate strings、Classes、WeakSet、SymbolなどのES6サポート、開発者ツールのデザインや機能追加などが行われている
+Safari 9.0での変更点としてTemplate Strings、Classes、WeakSet、SymbolなどのES6サポート、開発者ツールのデザインや機能追加などが行われている
 
 - [Safari 9.0の新機能の概要 - console.lealog();](http://lealog.hateblo.jp/entry/2015/06/09/115905 "Safari 9.0の新機能の概要 - console.lealog();")
 - [iOS9_changes · uupaa/WebKitChangeLog Wiki](https://github.com/uupaa/WebKitChangeLog/wiki/iOS9_changes "iOS9_changes · uupaa/WebKitChangeLog Wiki")
@@ -137,8 +137,8 @@ Firefox 40の開発者ツールについて。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span></p>
 
-Polymerに関連するツールやライブラリの消化。
-コンポーネントのドキュメント作り方、開発時の補助ツール、配布向けのビルド作成、CIでのテストについてなど
+Polymerに関連するツールやライブラリの紹介。
+コンポーネントのドキュメントの作り方、開発時の補助ツール、配布向けのビルド作成、CIでのテストについてなど
 
 ----
 
@@ -157,7 +157,7 @@ ReactのコンポーネントをES6 Classesで書くと`this`が多くなる問�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">tutorial</span></p>
 
-React、Component、Flux、デバッグツール、GraphQLとReactNative等の関連するプロジェクトなどReactに全般についてまとまってる記事
+React、Component、Flux、デバッグツール、GraphQLとReactNative等の関連するプロジェクトなどReactの全般についてまとまってる記事
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
@@ -204,7 +204,7 @@ RxやObservableについての発表。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">web</span> <span class="jser-tag">audio</span> <span class="jser-tag">tutorial</span></p>
 
 Web Audio APIについてのチュートリアルサイト。
-それぞれのAudio Nodeについての解説や実行結果を視覚的に分かるようにしているので分かりやすい
+それぞれのAudioNodeについての解説や実行結果を視覚的に分かるようにしているので分かりやすい
 
 ----
 
@@ -272,7 +272,7 @@ CSSの新しい構文等を現在のCSSに変換するTranspilerツール。
 ----
 
 ## ECMAScript 2015… by Maciej Rzepiński [Leanpub PDF/iPad/Kindle]
-[leanpub.com/ecmascript2015es6guide](https://leanpub.com/ecmascript2015es6guide "ECMAScript 2015… by Maciej Rzepiński \[Leanpub PDF/iPad/Kindle\]")
+[leanpub.com/ecmascript2015es6guide](https://leanpub.com/ecmascript2015es6guide "ECMAScript 2015… by Maciej Rzepiński [Leanpub PDF/iPad/Kindle]")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">電子書籍</span></p>
 
