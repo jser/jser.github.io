@@ -1,9 +1,8 @@
 ---
 title: "2014-08-11のJS: WebStorm 9 EAP、Server Sent Events、IEのサポートサイクル"
+category: JSer
 author: azu
 layout: post
-categories:
-    - JSer
 tags:
     - JavaScript
     - WebStorm

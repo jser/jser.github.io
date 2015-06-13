@@ -3,7 +3,7 @@ title: "2014-11-25のJS: Chrome 39、デバッグTips、Facebook Flow"
 author: azu
 layout: post
 date : 2014-11-25T08:12
-category: Jser
+category: JSer
 tags:
     - Chrome
     - debug

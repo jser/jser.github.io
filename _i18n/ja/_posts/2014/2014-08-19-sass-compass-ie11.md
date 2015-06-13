@@ -1,5 +1,6 @@
 ---
 title: "2014-08-19のJS: Sass 3.4、Compass 1.0、IE11/F12開発者ツール"
+category: JSer
 author: azu
 layout: post
 tags:

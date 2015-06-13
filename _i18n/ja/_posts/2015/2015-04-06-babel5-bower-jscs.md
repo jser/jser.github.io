@@ -3,7 +3,7 @@ title: "2015-04-06のJS: Babel 5.0.0と次期ECMAScript、Bower 1.4.0、JSCSと�
 author: azu
 layout: post
 date : 2015-04-06T22:53
-category: 
+category: JSer
 tags:
     - JavaScript
     - ECMAScript
