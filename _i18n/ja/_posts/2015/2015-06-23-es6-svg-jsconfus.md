@@ -19,9 +19,8 @@ JSer.info #233 - ECMAScript 2015(aka. ES6)がEcma標準として承認されま�
 [Standard ECMA-262](http://www.ecma-international.org/publications/standards/Ecma-262.htm "Standard ECMA-262")にPDFとHTMLでES6の仕様書が公開されています。
 正式な仕様として公開されたのでこれからブラウザの実装も進んだり、学ぶためのリソースも増えてくると思います。
 
-今だと、[WEB+DB PRESS Vol.87](http://teppeis.hatenablog.com/entry/2015/06/webdb-press-es6-and-yapc-asia "WEB+DB PRESS Vol.87")で機能概要を把握して、
-[http://es6-features.org/](http://es6-features.org/)で簡単にどんな機能が増えたのかをみたり、
-[tower-of-babel](https://github.com/yosuke-furukawa/tower-of-babel "tower-of-babel")で実際に書いてみたり、
+今だと、[WEB+DB PRESS Vol.87](http://teppeis.hatenablog.com/entry/2015/06/webdb-press-es6-and-yapc-asia "WEB+DB PRESS Vol.87")で概要を把握して、
+[http://es6-features.org/](http://es6-features.org/)で簡単にどんな機能が増えたのかを見て、[tower-of-babel](https://github.com/yosuke-furukawa/tower-of-babel "tower-of-babel")で実際に書いてみたり、
 もっと深く知りたい場合は[Exploring ES6](http://exploringjs.com/ "Exploring ES6")を読むなどするのが良い気がします。
 
 以前書いた、Promise本もアップデートしているので、Promiseについてはこっちを見てみるといいかもしれません。
