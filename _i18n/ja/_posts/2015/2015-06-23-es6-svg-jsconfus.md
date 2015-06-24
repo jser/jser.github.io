@@ -12,7 +12,7 @@ tags:
 
 ---
 
-JSer.info #233 - ECMAScript 2015(aka. ES6)がECMA標準として承認されました！ :tada:
+JSer.info #233 - ECMAScript 2015(aka. ES6)がEcma標準として承認されました！ :tada:
 
 - [ECMAScript 2015 is now an Ecma Standard](https://esdiscuss.org/topic/ecmascript-2015-is-now-an-ecma-standard "ECMAScript 2015 is now an Ecma Standard")
 
