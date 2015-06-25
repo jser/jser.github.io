@@ -31,11 +31,11 @@ JSer.info #233 - ECMAScript 2015(aka. ES6)がEcma標準として承認されま�
 
 [A Practical Guide to SVGs on the web](https://svgontheweb.com/ "A Practical Guide to SVGs on the web")というサイトでは、現在[殆どのブラウザでサポートされている](http://caniuse.com/#feat=svg)SVGについて書かれています。
 
-ファイルサイズの最適化や表示方法、JavaScriptやCSSとの連携方法などについてなど分かりやすくまとまっています。
+ファイルサイズの最適化や表示方法、JavaScriptやCSSとの連携方法などについて分かりやすくまとまっています。
 
 ----
 
-[JSConf US 2015](http://2015.jsconf.us/ "JSConf US 2015 - The best conference for JS and the Web. Period")の動画一部公開され始めています。
+[JSConf US 2015](http://2015.jsconf.us/ "JSConf US 2015 - The best conference for JS and the Web. Period")の動画が一部公開され始めています。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL37ZVnwpeshEkVjFZlLm1krvx0mPYPOoq" frameborder="0" allowfullscreen></iframe>
 
@@ -52,7 +52,7 @@ JSer.info #233 - ECMAScript 2015(aka. ES6)がEcma標準として承認されま�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">ReleaseNote</span></p>
 
-ECMAScript 2015(ES6) 正式リリース。
+ECMAScript 2015(ES6)正式リリース。
 
 - [ECMAScript 2015 Language Specification – ECMA-262 6th Edition](http://www.ecma-international.org/ecma-262/6.0/ "ECMAScript 2015 Language Specification – ECMA-262 6th Edition")
 
@@ -64,7 +64,7 @@ ECMAScript 2015(ES6) 正式リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Babel 5.6.0リリース。
-`--watch` 開始時にパースエラーが起きてもCLIを停止しないように、transformerの一部をpluginとして分離するなど
+`--watch`開始時にパースエラーが起きてもCLIを停止しないように、transformerの一部をpluginとして分離するなど
 
 - [transformers](https://github.com/babel/babel/commit/3247851019dd350504689ad57c42ef45eb2381c7 "transformers")
 - [Babel Plugins](https://github.com/babel-plugins "Babel Plugins")
@@ -77,7 +77,7 @@ Babel 5.6.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p>
 
 JavaScriptのRIAフレームワークであるqooxdoo 5.0リリース。
-qx.Website widgetsの追加、MSEdgeの対応、pointer eventなど対応、SVG、フルスクリーンAPIの対応、WebDriverを使ってテストの導入など
+qx.Website widgetsの追加、MSEdgeの対応、Pointer Eventsなどの対応、SVG、Fullscreen APIの対応、WebDriverを使ってテストの導入など
 
 ----
 
@@ -120,7 +120,8 @@ Node.jsとio.jsのマージやガバナンスモデルについての同意が�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">asm.js</span> <span class="jser-tag">JavaScript</span></p>
 
-ブラウザ向けのバイナリフォーマットの標準化プロジェクトとして WebAssemblyが公開された。 サイズやデコードの効率化を目的としたバイナリフォーマットで、第一段階の目標としてはasm.jsのバイナリ版相当の機能を予定している。
+ブラウザ向けのバイナリフォーマットの標準化プロジェクトとしてWebAssemblyが公開された。
+サイズやデコードの効率化を目的としたバイナリフォーマットで、第一段階の目標としてはasm.jsのバイナリ版相当の機能を予定している。
 
 JavaScriptを置き換えるものではなく、JavaScriptが苦手な部分を補完できるような立ち位置であることなどが[FAQ](https://github.com/WebAssembly/design/blob/master/FAQ.md "FAQ")にかかれています。
 
@@ -146,7 +147,7 @@ WebAssemblyの概要解説
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p>
 
 SetとMapについて。
-それぞれのメソッドの解説、JSと他の言語でのMap特性の違い、列挙の順序問題、WeakSet、WeakMapが何故必要になるのかについてなど
+それぞれのメソッドの解説、JSと他の言語でのMapの特性の違い、列挙の順序問題、WeakSet、WeakMapが何故必要になるのかについてなど
 
 ----
 
@@ -178,7 +179,7 @@ JavaScriptでMIDIファイル(SMF)を解析してヘッダ情報やトラック�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">動画</span></p>
 
 JSConf US 2015の動画が公開された。
-それぞれの動画の文字起こしをしたgistも公開されている
+それぞれの動画の文字起こしをしたGistも公開されている
 
 - [JSConf US 2015 - The best conference for JS and the Web. Period](http://2015.jsconf.us/ "JSConf US 2015 - The best conference for JS and the Web. Period")
 - [una/js-conf-notes](https://github.com/una/js-conf-notes "una/js-conf-notes")
