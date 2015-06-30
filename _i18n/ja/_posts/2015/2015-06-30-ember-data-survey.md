@@ -27,7 +27,7 @@ JSer.info #234 - Ember DataがついにStableリリースされました。
 
 ![es6 usage](http://monosnap.com/image/gH4VufcCf2VC8KtiXvauSawStslt7X.png)
 
-ES6を使った事があるかや興味のあるES6の機能、興味のあるフレームワークなどについてなどへの回答がまとめれています。
+ES6を使った事があるかや興味のあるES6の機能、興味のあるフレームワークなどについてなどへの回答がまとめられています。
 
 若干新しいもの好き、Node.jsユーザが多めで、DailyJSが行っている[JavaScript Developer Survey](http://dailyjs.com/2014/12/16/1333-javascript-survey-results/ "JavaScript Developer Survey")とは回答者の層が少し違う感じがして面白いと思います。
 
