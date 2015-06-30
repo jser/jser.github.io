@@ -33,7 +33,7 @@ ES6を使った事があるかや興味のあるES6の機能、興味のある�
 
 -----
 
-とつぜんのアンケート
+とつぜんの[アンケート](https://azu.typeform.com/to/AGW5qu)です。
 
 <!-- Change the width and height values to suit you best -->
 <div class="typeform-widget" data-url="https://azu.typeform.com/to/AGW5qu" data-text="ES6" style="width:100%;height:500px;"></div>
