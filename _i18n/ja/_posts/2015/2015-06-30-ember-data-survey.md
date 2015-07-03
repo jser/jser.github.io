@@ -23,17 +23,17 @@ JSer.info #234 - Ember DataがついにStableリリースされました。
 
 -----
 
-[JavaScript Scene Tech Survey Results — JavaScript Scene — Medium](https://medium.com/javascript-scene/javascript-scene-tech-survey-d2449a529ed "JavaScript Scene Tech Survey Results — JavaScript Scene — Medium")という記事ではTwitterで[Eric Elliott](https://twitter.com/_ericelliott "Eric Elliott")さんが中心にJavaScriptについてアンケートを取った結果が公開されています。
+[JavaScript Scene Tech Survey Results — JavaScript Scene — Medium](https://medium.com/javascript-scene/javascript-scene-tech-survey-d2449a529ed "JavaScript Scene Tech Survey Results — JavaScript Scene — Medium")という記事ではTwitterで[Eric Elliott](https://twitter.com/_ericelliott "Eric Elliott")さんが中心となってJavaScriptについてアンケートを取った結果が公開されています。
 
 ![es6 usage](http://monosnap.com/image/gH4VufcCf2VC8KtiXvauSawStslt7X.png)
 
-ES6を使った事があるかや興味のあるES6の機能、興味のあるフレームワークなどについてなどへの回答がまとめられています。
+ES6を使った事があるかや興味のあるES6の機能、興味のあるフレームワークなどについての回答がまとめられています。
 
 若干新しいもの好き、Node.jsユーザが多めで、DailyJSが行っている[JavaScript Developer Survey](http://dailyjs.com/2014/12/16/1333-javascript-survey-results/ "JavaScript Developer Survey")とは回答者の層が少し違う感じがして面白いと思います。
 
 -----
 
-とつぜんの[アンケート](https://azu.typeform.com/to/AGW5qu)です。
+突然の[アンケート](https://azu.typeform.com/to/AGW5qu)です。
 
 <!-- Change the width and height values to suit you best -->
 <div class="typeform-widget" data-url="https://azu.typeform.com/to/AGW5qu" data-text="ES6" style="width:100%;height:500px;"></div>
@@ -63,7 +63,7 @@ postMessageのサポート、`cloneNode`と`importNode`の問題を修正など
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Flow v0.13.1リリース。
-`fiow ast`でESTree ASTを出力するように。class式、binary/octal integer literalのサポートなど
+`flow ast`でESTree ASTを出力するように。class式、binary/octal integer literalのサポートなど
 
 ----
 
@@ -137,7 +137,7 @@ Node.jsのユーザーが多めで、ES6を利用したことがある人が半�
 ----
 
 ## Metaprogramming in ES6: Symbols and why they&#x27;re awesome
-[blog.keithcirkel.co.uk/metaprogramming-in-es6-symbols/](http://blog.keithcirkel.co.uk/metaprogramming-in-es6-symbols/ "Metaprogramming in ES6: Symbols and why they&#x27;re awesome")
+[blog.keithcirkel.co.uk/metaprogramming-in-es6-symbols/](http://blog.keithcirkel.co.uk/metaprogramming-in-es6-symbols/ "Metaprogramming in ES6: Symbols and why they're awesome")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
 
@@ -182,7 +182,7 @@ JavaScriptのビルドツールであるGrunt、Gulp、Broccoli、Brunchにつ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">backbone.js</span> <span class="jser-tag">Flux</span> <span class="jser-tag">library</span></p>
 
-BackboneでFlux的なデータの流れにするためにModeをラップしてDispatcherを入れるライブラリについて
+Backbone.jsでFlux的なデータの流れにするためにModeをラップしてDispatcherを入れるライブラリについて
 
 ----
 
@@ -203,7 +203,7 @@ Sassに関連するTipsやライブラリ、ツールについて
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">動画</span></p>
 
-JavaScriptyやCSSや関連するツールなどについて5分程度のスクリーンキャストをやっているサイト
+JavaScriptやCSSや関連するツールなどについて5分程度のスクリーンキャストをやっているサイト
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
