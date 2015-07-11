@@ -60,5 +60,5 @@ JSHint 3ではこの方針に則り
 ESLintと役割が微妙に競合でもある[JSCS](https://github.com/jscs-dev/node-jscs "JSCS")の[@mikesherov](https://twitter.com/mikesherov "@mikesherov")さんが言うように、
 競合がいることは健全であるため、これからもLintツールにおいても互いの方針によって発展していくのは正しいと思います。
 
-<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/mikesherov">@mikesherov</a> <a href="https://twitter.com/sebmck">@sebmck</a> having 2 impls is fine. Better than monoculture. It&#39;s when 20 show up that sucks. Why I love Acorn AND Esprima.</p>&mdash; Mike Sherov (@mikesherov) <a href="https://twitter.com/mikesherov/status/619694583476322304">July 11, 2015</a></blockquote>
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/mikesherov">@mikesherov</a> <a href="https://twitter.com/sebmck">@sebmck</a> having 2 impls is fine. Better than monoculture. It&#39;s when 20 show up that sucks. Why I love Acorn AND Esprima.</p>&mdash; Mike Sherov (@mikesherov) <a href="https://twitter.com/mikesherov/status/619694583476322304">July 11, 2015</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
