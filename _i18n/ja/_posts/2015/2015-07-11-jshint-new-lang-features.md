@@ -49,9 +49,9 @@ JSHint 3ではこの方針に則り
 
 ----
 
-この記事にも出てくる[ESLint](https://github.com/eslint/eslint "ESLint")やそれを利用して[BabelがサポートするStage nのプロポーサル](http://babeljs.io/blog/2015/03/31/5.0.0/ "5.0.0 Released · Babel")もLintできる[babel-eslint](https://github.com/babel/babel-eslint "babel-eslint")があります。
+JSHintの競合として[ESLint](https://github.com/eslint/eslint "ESLint")やそれを利用して[BabelがサポートするStage nのプロポーサル](http://babeljs.io/blog/2015/03/31/5.0.0/ "5.0.0 Released · Babel")もLintできる[babel-eslint](https://github.com/babel/babel-eslint "babel-eslint")があります。
 
-これらはJSHintの競合でもありますが、柔軟なサポートをするためにプラグインシステムを導入していますが、
+ESLintは柔軟なサポートをするためにプラグインシステムを導入していますが、
 プラグインにはプラグインなりの難しさがあり今回の件が発端で議論されてます。
 
 <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/mjackson">@mjackson</a> FWIW (roughly) over 1/3 of ESLint users use babel-eslint. In the future ESLint won&#39;t even be required as it&#39;ll be rolled into core</p>&mdash; Sebastian McKenzie (@sebmck) <a href="https://twitter.com/sebmck/status/619607489252880384">July 10, 2015</a></blockquote>
