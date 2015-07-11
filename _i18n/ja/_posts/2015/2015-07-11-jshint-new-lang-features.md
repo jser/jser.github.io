@@ -12,11 +12,10 @@ tags:
 
 ---
 
-[JSHint](http://jshint.com/ "JSHint, a JavaScript Code Quality Tool")のブログに投稿された
 
-[A Formal Commitment to New Language Features](http://jshint.com/blog/new-lang-features/ "A Formal Commitment to New Language Features")
+## [A Formal Commitment to New Language Features](http://jshint.com/blog/new-lang-features/ "A Formal Commitment to New Language Features")
 
-という記事の紹介です。
+[JSHint](http://jshint.com/ "JSHint, a JavaScript Code Quality Tool")のブログに投稿された[A Formal Commitment to New Language Features](http://jshint.com/blog/new-lang-features/ "A Formal Commitment to New Language Features")という記事の紹介です。
 
 BabelなどによってES nextの機能を試せるようになっていますが、
 JSHintがそれらの新しすぎる構文をサポートするのが難しい理由について。
