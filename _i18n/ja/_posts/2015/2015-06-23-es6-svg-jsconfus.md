@@ -3,7 +3,7 @@ title: "2015-06-23のJS: ECMAScript 6公開、SVGガイド、JSConf US 2015"
 author: azu
 layout: post
 date : 2015-06-23T21:06
-category: 
+category: JSer
 tags:
     - ES6
     - Promise
