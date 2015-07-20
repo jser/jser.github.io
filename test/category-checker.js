@@ -8,20 +8,20 @@ var MDFileParser = require("./lib/MDFileParser");
 function isEmptyCategory(categories) {
     return categories.length === 0;
 }
+/**
+ * validate category, then return array of errors.
+ * @returns {Error[]}
+ */
+module.exports = function validateCategory() {
+    var warningFiles = files.map(function (filePath) {
+        return new MDFileParser(filePath);
+    }).filter(function (checker) {
+        return isEmptyCategory(checker.getCategories());
+    }).map(function (checker) {
+        return checker.file;
+    });
 
-// <MAIN>
-var warningFiles = files.map(function (filePath) {
-    return new MDFileParser(filePath);
-}).filter(function (checker) {
-    return isEmptyCategory(checker.getCategories());
-}).map(function (checker) {
-    return checker.file;
-});
-
-warningFiles.forEach(function (filePath) {
-    console.error('Error : "Not found category" @ ' + filePath);
-});
-
-if (warningFiles.length > 0) {
-    process.exit(1);
-}
+    return warningFiles.map(function (filePath) {
+        return new Error('Error : "Not found category" @ ' + filePath);
+    });
+};

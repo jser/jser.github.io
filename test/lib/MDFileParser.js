@@ -18,5 +18,10 @@ MDFileParser.prototype.getCategories = function () {
     }
     return cats;
 };
-
+MDFileParser.prototype.getAuthor = function () {
+    return this.parsedTree.attributes["author"];
+};
+MDFileParser.prototype.getTranslator = function () {
+    return this.parsedTree.attributes["translator"];
+};
 module.exports = MDFileParser;
