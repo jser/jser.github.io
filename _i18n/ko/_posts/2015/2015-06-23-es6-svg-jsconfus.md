@@ -4,7 +4,7 @@ author: azu
 layout: post
 date : 2015-06-23T21:06
 translator: ChoEun
-category: 
+category: JSer
 tags:
     - ES6
     - Promise
