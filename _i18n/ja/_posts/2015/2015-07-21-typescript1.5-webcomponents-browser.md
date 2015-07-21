@@ -1,15 +1,48 @@
 ---
-title: "2015-07-21のJS: "
+title: "2015-07-21のJS: TypeScript 1.5、Web Compoents概要、ブラウザの情報源"
 author: azu
 layout: post
 date : 2015-07-21T22:54
 category: JSer
 tags:
     - TypeScript
+    - WebCompoents
+    - Browser
 
 ---
 
-JSer.info #237 - 
+JSer.info #237 -  [TypeScript 1.5](https://github.com/Microsoft/TypeScript/releases/tag/v1.5.3 "TypeScript 1.5")がリリースされました。
+
+- [Announcing TypeScript 1.5 - TypeScript - Site Home - MSDN Blogs](http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx "Announcing TypeScript 1.5 - TypeScript - Site Home - MSDN Blogs")
+
+新しい機能については[What's new in TypeScript](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-15 "What's new in TypeScript")でまとめられていますが、ES6周りでは modules、destructuring、spread、for/of、symbols、computed properties、let、constなどがサポートされています。
+
+またTypeScriptとしては`--module umd`や`--module system`での出力する種類の追加、`--inlineSourceMap`でインラインSourceMapのサポート、`--experimentalDecorators`のフラグでDecoratorのサポートなどが追加されています。
+
+既存の構文やCompiler APIでの破壊的な変更について以下にまとめられています。
+
+- [Breaking Changes · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#typescript-15 "Breaking Changes · Microsoft/TypeScript Wiki")
+- [API Breaking Changes · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/API-Breaking-Changes#typescript-15 "API Breaking Changes · Microsoft/TypeScript Wiki")
+
+-----
+
+[Bringing componentization to the web: An overview of Web Components | Microsoft Edge Dev Blog](http://blogs.windows.com/msedgedev/2015/07/14/bringing-componentization-to-the-web-an-overview-of-web-components/ "Bringing componentization to the web: An overview of Web Components | Microsoft Edge Dev Blog")という記事ではWeb Componentsによって何が変わるのかについて詳しく書かれています。
+
+Web Componentsがどういう事を解決してくれるのか、既存の類似実装などの歴史、既存の実装では何を解決出来なかったか、今現在のWeb Componentsの状況などについて書かれています。
+
+また、[Microsoft Edge and Web Components | Microsoft Edge Dev Blog](http://blogs.windows.com/msedgedev/2015/07/15/microsoft-edge-and-web-components/ "Microsoft Edge and Web Components | Microsoft Edge Dev Blog")という記事ではMSEdgeでのWeb Componentsの実装方針について書かれています。
+
+----
+
+先ほどのMSEdgeの話もそうですが、最近ではブラウザベンダーが色々な情報を発信しています。
+
+公式の情報だけに絞っても、色々な場所に書かれているのでどこを探せばいいのかは結構難しいです。
+
+そういった公式の情報源についてを[azu/browser-javascript-resource](https://github.com/azu/browser-javascript-resource "azu/browser-javascript-resource")にまとめてみました。
+
+- [ブラウザ毎のリリースノートや実装状況はどこを見ればいいかをまとめました | Web Scratch](http://efcl.info/2015/07/21/browser-javascript-resource/ "ブラウザ毎のリリースノートや実装状況はどこを見ればいいかをまとめました | Web Scratch")
+
+[変化を作ってる人が集まる場所には情報が集まる](http://azu.github.io/slide/jser200/javascript-2014.html)ので、ブラウザベンダーが発信してる情報だけ見ても、かなり幅広いことが分かると思います。
 
 ----
 
@@ -57,7 +90,7 @@ modulesやdestructuring等ES6の対応改善、tsconfig.jsonによるプロジ�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Browserify 11.0.0リリース。
-ブラウザ向けの`stream`として使うreadable-streamをアップデートしStreams3ベースに。
+ブラウザ向けの`stream`として使うreadable-streamをアップデートしStreams3ベースに変更。
 ブラウザ向け`http`モジュールをFetch APIをベースとしたstream-httpへ変更しstreamをサポートできるように
 
 - [nodejs/readable-stream](https://github.com/nodejs/readable-stream "nodejs/readable-stream")
@@ -112,8 +145,7 @@ Vorlon.jsを使ったJavaScriptのリモートデバッグについて
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
 
 Proxy APIについての解説。
-Proxyで扱える14コのhandler、
-Proxyの使いどころ、Revocable proxiesについてなど。
+Proxyで扱える14コのhandler、Proxyの使いどころ、Revocable proxiesについてなど。
 "オブジェクトはプロパティのコレクションである"といえるかどうかの話
 
 ----
@@ -154,8 +186,8 @@ Sassの関数まとめ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span></p>
 
 Fluxからネットワークを含めたデータフローについて。
-Store --> View、View --> Storeまでの流れ、モデルとStateの分離。
-Network --> UI、UI --> Networkのパターンについて
+Store -> View、View -> Storeまでの流れ、モデルとStateの分離。
+Network -> UI、UI -> Networkのパターンについて
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
