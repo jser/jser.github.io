@@ -24,6 +24,8 @@ JSer.info #237 -  [TypeScript 1.5](https://github.com/Microsoft/TypeScript/relea
 - [Breaking Changes · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#typescript-15 "Breaking Changes · Microsoft/TypeScript Wiki")
 - [API Breaking Changes · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/API-Breaking-Changes#typescript-15 "API Breaking Changes · Microsoft/TypeScript Wiki")
 
+[TypeScript 1.5.3 変更点 - Qiita](http://qiita.com/vvakame/items/9b9fde6c71aae6a824c0 "TypeScript 1.5.3 変更点 - Qiita")という記事にも変更点が詳しく書かれているので一緒に見てみるといいと思います。
+
 -----
 
 [Bringing componentization to the web: An overview of Web Components | Microsoft Edge Dev Blog](http://blogs.windows.com/msedgedev/2015/07/14/bringing-componentization-to-the-web-an-overview-of-web-components/ "Bringing componentization to the web: An overview of Web Components | Microsoft Edge Dev Blog")という記事ではWeb Componentsによって何が変わるのかについて詳しく書かれています。
@@ -81,6 +83,7 @@ TypeScript 1.5リリース。
 modulesやdestructuring等ES6の対応改善、tsconfig.jsonによるプロジェクト設定、Decoratorを`--experimentalDecorators`フラグで試験的サポートなど
 
 - [Roadmap · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Roadmap#15 "Roadmap · Microsoft/TypeScript Wiki")
+- [TypeScript 1.5.3 変更点 - Qiita](http://qiita.com/vvakame/items/9b9fde6c71aae6a824c0 "TypeScript 1.5.3 変更点 - Qiita")
 
 ----
 
