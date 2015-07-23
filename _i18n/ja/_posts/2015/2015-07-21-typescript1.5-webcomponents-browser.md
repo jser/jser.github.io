@@ -1,5 +1,5 @@
 ---
-title: "2015-07-21のJS: TypeScript 1.5、Web Compoents概要、ブラウザの情報源"
+title: "2015-07-21のJS: TypeScript 1.5、Web Components概要、ブラウザの情報源"
 author: azu
 layout: post
 date : 2015-07-21T22:54
@@ -15,7 +15,7 @@ JSer.info #237 -  [TypeScript 1.5](https://github.com/Microsoft/TypeScript/relea
 
 - [Announcing TypeScript 1.5 - TypeScript - Site Home - MSDN Blogs](http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx "Announcing TypeScript 1.5 - TypeScript - Site Home - MSDN Blogs")
 
-新しい機能については[What's new in TypeScript](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-15 "What's new in TypeScript")でまとめられていますが、ES6周りでは modules、destructuring、spread、for/of、symbols、computed properties、let、constなどがサポートされています。
+新しい機能については[What's new in TypeScript](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-15 "What's new in TypeScript")でまとめられていますが、ES6周りではmodules、destructuring、spread、for/of、symbols、computed properties、let、constなどがサポートされています。
 
 またTypeScriptとしては`--module umd`や`--module system`での出力する種類の追加、`--inlineSourceMap`でインラインSourceMapのサポート、`--experimentalDecorators`のフラグでDecoratorのサポートなどが追加されています。
 
@@ -58,7 +58,7 @@ Web Componentsがどういう事を解決してくれるのか、既存の類似
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p>
 
 V8 4.5(Chrome 45)リリース。
-Array Function、Array/TypedArrayのメソッド追加、Object.assign、最適化コンパイラのTurboFan、V8 APIの変更など
+Arrow Function、Array/TypedArrayのメソッド追加、Object.assign、最適化コンパイラのTurboFan、V8 APIの変更など
 
 ----
 
@@ -109,7 +109,7 @@ Browserify 11.0.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">MSEdge</span> <span class="jser-tag">browser</span></p>
 
-WebComponentsについての詳しい解説。
+Web Componentsについての詳しい解説。
 何を目的にしているか、関連するコンポーネント実装の歴史。
 CSSスタイルのisolation、スタイルのスコープ、Global object isolation、iframeには欠けている部分についてなど
 
@@ -125,7 +125,7 @@ Socket.IOからWebRTCを利用してP2Pでの通信を行えるように
 ----
 
 ## Comprehensive Beginner&#x27;s Guide To ReactJS - AntJanus
-[antjanus.com/blog/web-development-tutorials/front-end-development/comprehensive-beginners-guide-to-reactjs/](http://antjanus.com/blog/web-development-tutorials/front-end-development/comprehensive-beginners-guide-to-reactjs/ "Comprehensive Beginner&#x27;s Guide To ReactJS - AntJanus")
+[antjanus.com/blog/web-development-tutorials/front-end-development/comprehensive-beginners-guide-to-reactjs/](http://antjanus.com/blog/web-development-tutorials/front-end-development/comprehensive-beginners-guide-to-reactjs/ "Comprehensive Beginner's Guide To ReactJS - AntJanus")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">React</span></p>
 
@@ -184,7 +184,7 @@ Sassの関数まとめ
 ----
 
 ## Flux in Depth. Store and Network Communication. – Minko Gechev&#x27;s blog
-[blog.mgechev.com/2015/07/18/flux-in-depth-store-network-communication-services](http://blog.mgechev.com/2015/07/18/flux-in-depth-store-network-communication-services "Flux in Depth. Store and Network Communication. – Minko Gechev&#x27;s blog")
+[blog.mgechev.com/2015/07/18/flux-in-depth-store-network-communication-services](http://blog.mgechev.com/2015/07/18/flux-in-depth-store-network-communication-services "Flux in Depth. Store and Network Communication. – Minko Gechev's blog")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span></p>
 
@@ -242,7 +242,7 @@ JavaScriptでの関数型プログラミングについての無料の書籍
 ----
 
 ## JavaScript Regular Expressions - O&#x27;Reilly Media
-[shop.oreilly.com/product/9781783282258.do](http://shop.oreilly.com/product/9781783282258.do "JavaScript Regular Expressions - O&#x27;Reilly Media")
+[shop.oreilly.com/product/9781783282258.do](http://shop.oreilly.com/product/9781783282258.do "JavaScript Regular Expressions - O'Reilly Media")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">正規表現</span> <span class="jser-tag">book</span></p>
 
