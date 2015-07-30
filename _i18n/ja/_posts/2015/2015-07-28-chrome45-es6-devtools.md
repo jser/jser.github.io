@@ -14,7 +14,7 @@ JSer.info #238 - [Chrome 45 Beta](http://blog.chromium.org/2015/07/chrome-45-bet
 
 [Chromium Blog: Chrome 45 Beta: New ES2015 features, service worker improvements, and media controls](http://blog.chromium.org/2015/07/chrome-45-beta-new-es2015-features.html "Chromium Blog: Chrome 45 Beta: New ES2015 features, service worker improvements, and media controls")
 
-Chrome 45ではArrow Functionや`Array.of`や`Array.from`、`Object.assign`等のES6の実装やService workerの改善などが行われています。
+Chrome 45ではArrow Functionや`Array.of`や`Array.from`、`Object.assign`等のES6の実装やService Workerの改善などが行われています。
 
 またSMILやMediaStreamのlabel属性など古い仕様のものがdeprecatedとなったりしています。
 
@@ -29,7 +29,7 @@ Chrome 45ではArrow Functionや`Array.of`や`Array.from`、`Object.assign`等�
 
 -----
 
-[Introduction | Down and Dirty with Chrome Developer Tools](http://blittle.github.io/chrome-dev-tools/ "Introduction | Down and Dirty with Chrome Developer Tools") というGitBookでできた電子書籍ではChromeの開発者ツールについて書かれています。
+[Introduction | Down and Dirty with Chrome Developer Tools](http://blittle.github.io/chrome-dev-tools/ "Introduction | Down and Dirty with Chrome Developer Tools")というGitBookでできた電子書籍ではChromeの開発者ツールについて書かれています。
 
 実際にChromeを使って開発者ツールを動かし機能を学べるような作りになっていて、細かい機能についても画像豊富に紹介しているため一度見てみると何か発見があるかもしれません。
 
@@ -57,7 +57,7 @@ Babelにも同梱されてるES5、ES6、ES.nextのpolyfillであるcore-js 1.0.
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Chrome 45 Betaリリース。
-Arrow FunctionやObject.assignなどのサポート、Subresource Integrityのサポート、SVGアニメーションを行うSMILを非推奨に、ServiceWorkerからページへpostMessageしたときのメッセージ配送先オブジェクトの変更など
+Arrow FunctionやObject.assignなどのサポート、Subresource Integrityのサポート、SVGアニメーションを行うSMILを非推奨に、Service WorkerからページへpostMessageしたときのメッセージ配送先オブジェクトの変更など
 
 - [Subresource Integrity Sample](https://googlechrome.github.io/samples/subresource-integrity/index.html "Subresource Integrity Sample")
 
@@ -125,7 +125,7 @@ polyfillの書き方のガイド
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Flux</span> <span class="jser-tag">tutorial</span></p>
 
-React Componentを独立性を保つにはどうするかという話
+React Componentの独立性を保つにはどうするかという話
 Store同士に複雑な依存があると大変なので中央で管理するOmniStoreという概念の導入、Componentがただのデータであることを利用したDIする仕組み、Componentの独立性を確保するパターンについて等
 
 ----
@@ -134,7 +134,7 @@ Store同士に複雑な依存があると大変なので中央で管理するOmn
 ----
 
 ## ECMAScript 6 Features - ALPROSYS
-[www.alprosys.com/es6/es6_features_ol.html](http://www.alprosys.com/es6/es6_features_ol.html "ECMAScript 6 Features - ALPROSYS")
+[www.alprosys.com/es6/es6\_features\_ol.html](http://www.alprosys.com/es6/es6_features_ol.html "ECMAScript 6 Features - ALPROSYS")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">チートシート</span></p>
 
@@ -161,7 +161,7 @@ Chrome Tech Talk Night #8の動画とスライドまとめ
 TXJS 2015の動画
 
 - [Texas JavaScript Conference 2015 | TXJS](https://2015.texasjavascript.com/ "Texas JavaScript Conference 2015 | TXJS")
-- [Texas JavaScript 2015 | Chris Missal&#x27;s Blog](https://lostechies.com/chrismissal/2015/07/27/texas-javascript-2015/ "Texas JavaScript 2015 | Chris Missal&#x27;s Blog")
+- [Texas JavaScript 2015 | Chris Missal&#x27;s Blog](https://lostechies.com/chrismissal/2015/07/27/texas-javascript-2015/ "Texas JavaScript 2015 | Chris Missal's Blog")
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
@@ -195,7 +195,7 @@ ES6について学ぶチュートリアルサイト。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
 
-サムスンの組み込み向けJavaScriptエンジン。ファイルサイズが小さめでIoT向け。 iotjs というNode.js的なフレームワークも作ってる。
+サムスンの組み込み向けJavaScriptエンジン。ファイルサイズが小さめでIoT向け。iotjsというNode.js的なフレームワークも作ってる。
 
 - JerryScript : V8
 - iotjs : Node.js
