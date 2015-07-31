@@ -12,6 +12,9 @@ tags:
 
 ---
 
+browserify
+
+
 JSer.info #223 - [John Resig - Annotated Version of the Original jQuery Release](http://ejohn.org/blog/annotated-version-of-the-original-jquery-release/ "John Resig - Annotated Version of the Original jQuery Release")ではjQueryの作者であるJohn ResigによるjQueryの初期バージョンのアノテーション付きソースコードが公開されています。
 
 - [Genius | Annotate the world](http://genius.it/ejohn.org/files/jquery-original.html "Genius | Annotate the world")
@@ -22,6 +25,8 @@ JSer.info #223 - [John Resig - Annotated Version of the Original jQuery Release]
 上記のページで公開されていて、jQueryの名前の由来、prototype.jsからインスパイアした`$`、メソッドチェーンの仕組み、CSS Selectorsの原点の話、タグ文字列からのDOM要素作成などjQueryの特徴的な機能がどういう意図で実装されていたのかを振り返る内容になっていてとても面白いと思います。
 
 jQueryがJavaScriptに与えた影響は大きいので、2006年前後のブラウザやJavaScriptの歴史を振り返るような内容にもなっています。
+
+ECMA標準では
 
 ----
 
