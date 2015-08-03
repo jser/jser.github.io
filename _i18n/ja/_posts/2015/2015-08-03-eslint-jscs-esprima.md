@@ -72,7 +72,7 @@ JSCSでは[CST](https://github.com/mdevils/cst "CST")というConcrete Syntax Tr
 ## お知らせ
 
 [Realtime JSer.info](http://realtime.jser.info/ "Realtime JSer.info") β始めました。
-JSer.infoは週一ですが、[realtime.jser.info](realtime.jser.info/)は名前の通りその場その場で更新されます。
+JSer.infoは週一ですが、[realtime.jser.info](http://realtime.jser.info/)は名前の通りその場その場で更新されます。
 
 何かご意見あったら以下のIssueとかに下さい。
 (hugoで作り直すPRとかも募集してます)
