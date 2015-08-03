@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #239 - JavaScript LintツールであるESLint 1.0.0がリリースされました。
+JSer.info #239 - JavaScript Lintツールである[ESLint](http://eslint.org/) 1.0.0がリリースされました。
 
 `--reset`のオプションがデフォルトとなり[全てのルールがデフォルトOFF](http://eslint.org/docs/user-guide/migrating-to-1.0.0#all-rules-off-by-default "All Rules Off by Default")となりました。今までのデフォルトは `"eslint:recommended"` という設定を使うことでできるようです。
 
@@ -29,15 +29,35 @@ JSer.info #239 - JavaScript LintツールであるESLint 1.0.0がリリースさ
 
 ----
 
-JavaScriptのスタイルチェックツールであるJSCS 2.0.0がリリースされました。
+JavaScriptのスタイルチェックツールである[JSCS](https://github.com/jscs-dev/node-jscs) 2.0.0がリリースされました。
 
 - [Release 2.0.0 · jscs-dev/node-jscs](https://github.com/jscs-dev/node-jscs/releases/tag/v2.0.0 "Release 2.0.0 · jscs-dev/node-jscs")
 
-`esnext`というオプションでES6(とJSX)のサポート、スタイルの自動修正が改善、ES6関連のルールの追加、`//`コメントでチェックを無効化などがサポートされました。
+`esnext`というオプションでES6(とJSX)のサポート、スタイルの自動修正機能を改善、ES6関連のルールの追加、`//`コメントでチェックを無効化などがサポートされました。
 
 ```
 if (x) y(); // jscs:ignore requireCurlyBraces
 ```
+
+----
+
+JavaScriptのパーサライブラリである[esprima](http://esprima.org/ "Esprima") 2.5.0がリリースされました。
+
+- [esprima/ChangeLog at 2.5.0 · jquery/esprima](https://github.com/jquery/esprima/blob/2.5.0/ChangeLog "esprima/ChangeLog at 2.5.0 · jquery/esprima")
+
+2.5.0で[ES6の機能をフルサポート](https://github.com/jquery/esprima/issues/1099)したため、ES6のコードを全てパースできるようになりました。
+
+先ほど出てきた[JSCS](https://github.com/jscs-dev/node-jscs)はesprimaを、[ESLint](http://eslint.org/)はesprimaをforkした[Espree](https://github.com/eslint/espree "Espree")をパーサとして利用しています。
+
+また[@hzoo](https://github.com/hzoo)さんよりどちらも[babel-jscs](https://github.com/jscs-dev/babel-jscs "babel-jscs")と[babel-eslint](https://github.com/babel/babel-eslint "babel-eslint")のようにBabelがサポートするexperimentalなES.nextのコードもサポートしています。
+
+このbabel-*の仕組みとしては、Babelが内蔵するacornベースのパーサを使いパースした結果を、esprima互換のAST/CSTに変換することで、ES.nextのコードもJSCSとESLintで使えるようにしています。
+
+JavaScriptのASTについては[ESTree](https://github.com/estree/estree "ESTree")というデファクトスタンダードがありますが、CST(Concrete Syntax Tree)についてはまだ標準的なものはありません。
+
+ESLint、JSCSどちらも、コードとしては意味がないためESTreeの仕様では定義されていない"スペース"や";"(セミコロン)といった文字列などもチェックしています。
+
+JSCSでは[CST](https://github.com/mdevils/cst "CST")というConcrete Syntax Treeの実装を作り使うようになっています。この辺の実装がこなれてくれば、今あるツールももっと充実したものが出やすくなってくると思います。
 
 ----
 
@@ -68,6 +88,21 @@ JavaScriptスタイルチェックツールjscs 2.0.0リリース。
 ES.nextをサポートする`--esnext`フラグの追加、CSTを実装しAutofixingに利用するように、ES6に対応したルールの追加、コメントによるルールの無効化のサポートなど
 
 - [mdevils/cst](https://github.com/mdevils/cst "mdevils/cst")
+
+----
+
+
+## Release 2.5.0 · jquery/esprima
+[github.com/jquery/esprima/releases/tag/2.5.0](https://github.com/jquery/esprima/releases/tag/2.5.0 "Release 2.5.0 · jquery/esprima")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+esprima 2.5.0リリース。
+ES6の全ての機能をパースできるように
+
+- [esprima/ChangeLog at 2.5.0 · jquery/esprima](https://github.com/jquery/esprima/blob/2.5.0/ChangeLog "esprima/ChangeLog at 2.5.0 · jquery/esprima")
+- [ES6 Main Tracking Issue · Issue #1099 · jquery/esprima](https://github.com/jquery/esprima/issues/1099 "ES6 Main Tracking Issue · Issue #1099 · jquery/esprima")
+- [Esprima Meeting Agenda - Google ドキュメント](https://docs.google.com/document/d/1l02VT94tdphwUUZfPJorRYOY0Q_v41R_TyYhKayiP9M/edit "Esprima Meeting Agenda - Google ドキュメント")
 
 ----
 
