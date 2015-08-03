@@ -1,5 +1,5 @@
 ---
-title: "2015-08-03のJS: "
+title: "2015-08-03のJS: ESLint 1.0.0、JSCS 2.0.0、esprima 2.5.0"
 author: azu
 layout: post
 date : 2015-08-03T09:13
@@ -49,15 +49,35 @@ JavaScriptのパーサライブラリである[esprima](http://esprima.org/ "Esp
 
 先ほど出てきた[JSCS](https://github.com/jscs-dev/node-jscs)はesprimaを、[ESLint](http://eslint.org/)はesprimaをforkした[Espree](https://github.com/eslint/espree "Espree")をパーサとして利用しています。
 
-また[@hzoo](https://github.com/hzoo)さんよりどちらも[babel-jscs](https://github.com/jscs-dev/babel-jscs "babel-jscs")と[babel-eslint](https://github.com/babel/babel-eslint "babel-eslint")のようにBabelがサポートするexperimentalなES.nextのコードもサポートしています。
+また[@hzoo](https://github.com/hzoo)さんによりどちらも[babel-jscs](https://github.com/jscs-dev/babel-jscs "babel-jscs")と[babel-eslint](https://github.com/babel/babel-eslint "babel-eslint")という形で、BabelがサポートするexperimentalなES.nextのコードもサポートしています。
 
 このbabel-*の仕組みとしては、Babelが内蔵するacornベースのパーサを使いパースした結果を、esprima互換のAST/CSTに変換することで、ES.nextのコードもJSCSとESLintで使えるようにしています。
 
 JavaScriptのASTについては[ESTree](https://github.com/estree/estree "ESTree")というデファクトスタンダードがありますが、CST(Concrete Syntax Tree)についてはまだ標準的なものはありません。
 
-ESLint、JSCSどちらも、コードとしては意味がないためESTreeの仕様では定義されていない"スペース"や";"(セミコロン)といった文字列などもチェックしています。
+- [Abstract vs. Concrete Syntax Trees - Eli Bendersky's website](http://eli.thegreenplace.net/2009/02/16/abstract-vs-concrete-syntax-trees/ "Abstract vs. Concrete Syntax Trees - Eli Bendersky&#39;s website")
 
-JSCSでは[CST](https://github.com/mdevils/cst "CST")というConcrete Syntax Treeの実装を作り使うようになっています。この辺の実装がこなれてくれば、今あるツールももっと充実したものが出やすくなってくると思います。
+ESLint、JSCSどちらも、ESTreeのAST仕様では定義されていない"スペース"や";"(セミコロン)といった文字列などもチェックに利用しています。
+
+JSCSでは[CST](https://github.com/mdevils/cst "CST")というConcrete Syntax Treeの実装を作り使うようになっていて、ESLintもesprima由来のtokenを利用しています。
+
+長くなりましたが、何が書きたかったかというと土台となるesprimaなどのJavaScriptパーサはES6に対応し、それらを使うESLintやJSCSなどもES6へ対応したため、こういったツールがまとめて一段落したように見えます。
+
+そのため、次はCSTなどよりツールを便利するために一歩踏み出し始めた感じなので、この辺はまだまだ色々な進化がありそうな気がします。
+
+[#19 ES7 | mozaic.fm](http://mozaic.fm/post/125673651143/19-es7 "#19 ES7 | mozaic.fm")でもこういったASTツールチェインの話をしているので聞いてみるといいかもしれません。
+
+-----
+
+## お知らせ
+
+[Realtime JSer.info](http://realtime.jser.info/ "Realtime JSer.info") β始めました。
+JSer.infoは週一ですが、[realtime.jser.info](realtime.jser.info/)は名前の通りその場その場で更新されます。
+
+何かご意見あったら以下のIssueとかに下さい。
+(hugoで作り直すPRとかも募集してます)
+
+- [realtime.jser.info · Issue #47 · jser/jser.info](https://github.com/jser/jser.info/issues/47 "realtime.jser.info · Issue #47 · jser/jser.info")
 
 ----
 
