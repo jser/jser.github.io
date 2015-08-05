@@ -1,5 +1,5 @@
 ---
-title: "2015-08-03のJS: ESLint 1.0.0、JSCS 2.0.0、esprima 2.5.0"
+title: "2015-08-03のJS: ESLint 1.0.0、JSCS 2.0.0、Esprima 2.5.0"
 author: azu
 layout: post
 date : 2015-08-03T21:52
@@ -15,7 +15,7 @@ tags:
 
 JSer.info #239 - JavaScript Lintツールである[ESLint](http://eslint.org/) 1.0.0がリリースされました。
 
-`--reset`のオプションがデフォルトとなり[全てのルールがデフォルトOFF](http://eslint.org/docs/user-guide/migrating-to-1.0.0#all-rules-off-by-default "All Rules Off by Default")となりました。今までのデフォルトは `"eslint:recommended"` という設定を使うことでできるようです。
+`--reset`のオプションがデフォルトとなり[全てのルールがデフォルトOFF](http://eslint.org/docs/user-guide/migrating-to-1.0.0#all-rules-off-by-default "All Rules Off by Default")となりました。今までのデフォルトは`"eslint:recommended"`という設定を使うことでできるようです。
 
 ```
 {
@@ -41,29 +41,29 @@ if (x) y(); // jscs:ignore requireCurlyBraces
 
 ----
 
-JavaScriptのパーサライブラリである[esprima](http://esprima.org/ "Esprima") 2.5.0がリリースされました。
+JavaScriptのパーサライブラリである[Esprima](http://esprima.org/ "Esprima") 2.5.0がリリースされました。
 
 - [esprima/ChangeLog at 2.5.0 · jquery/esprima](https://github.com/jquery/esprima/blob/2.5.0/ChangeLog "esprima/ChangeLog at 2.5.0 · jquery/esprima")
 
 2.5.0で[ES6の機能をフルサポート](https://github.com/jquery/esprima/issues/1099)したため、ES6のコードを全てパースできるようになりました。
 
-先ほど出てきた[JSCS](https://github.com/jscs-dev/node-jscs)はesprimaを、[ESLint](http://eslint.org/)はesprimaをforkした[Espree](https://github.com/eslint/espree "Espree")をパーサとして利用しています。
+先ほど出てきた[JSCS](https://github.com/jscs-dev/node-jscs)はEsprimaを、[ESLint](http://eslint.org/)はEsprimaをforkした[Espree](https://github.com/eslint/espree "Espree")をパーサとして利用しています。
 
 また[@hzoo](https://github.com/hzoo)さんによりどちらも[babel-jscs](https://github.com/jscs-dev/babel-jscs "babel-jscs")と[babel-eslint](https://github.com/babel/babel-eslint "babel-eslint")という形で、BabelがサポートするexperimentalなES.nextのコードもサポートしています。
 
-このbabel-*の仕組みとしては、Babelが内蔵するacornベースのパーサを使いパースした結果を、esprima互換のAST/CSTに変換することで、ES.nextのコードもJSCSとESLintで使えるようにしています。
+このbabel-*の仕組みとしては、Babelが内蔵するacornベースのパーサを使いパースした結果を、Esprima互換のAST/CSTに変換することで、ES.nextのコードもJSCSとESLintで使えるようにしています。
 
 JavaScriptのASTについては[ESTree](https://github.com/estree/estree "ESTree")というデファクトスタンダードがありますが、CST(Concrete Syntax Tree)についてはまだ標準的なものはありません。
 
-- [Abstract vs. Concrete Syntax Trees - Eli Bendersky's website](http://eli.thegreenplace.net/2009/02/16/abstract-vs-concrete-syntax-trees/ "Abstract vs. Concrete Syntax Trees - Eli Bendersky&#39;s website")
+- [Abstract vs. Concrete Syntax Trees - Eli Bendersky's website](http://eli.thegreenplace.net/2009/02/16/abstract-vs-concrete-syntax-trees/ "Abstract vs. Concrete Syntax Trees - Eli Bendersky's website")
 
 ESLint、JSCSどちらも、ESTreeのAST仕様では定義されていない"スペース"や";"(セミコロン)といった文字列などもチェックに利用しています。
 
-JSCSでは[CST](https://github.com/mdevils/cst "CST")というConcrete Syntax Treeの実装を作り使うようになっていて、ESLintもesprima由来のtokenを利用しています。
+JSCSでは[CST](https://github.com/mdevils/cst "CST")というConcrete Syntax Treeの実装を作り使うようになっていて、ESLintもEsprima由来のtokenを利用しています。
 
-長くなりましたが、何が書きたかったかというと土台となるesprimaなどのJavaScriptパーサはES6に対応し、それらを使うESLintやJSCSなどもES6へ対応したため、こういったツールがまとめて一段落したように見えます。
+長くなりましたが、何が書きたかったかというと土台となるEsprimaなどのJavaScriptパーサがES6に対応し、それらを使うESLintやJSCSなどもES6へ対応したため、こういったツールがまとめて一段落したように見えます。
 
-そのため、次はCSTなどよりツールを便利するために一歩踏み出し始めた感じなので、この辺はまだまだ色々な進化がありそうな気がします。
+そのため、次はCSTなどでよりツールを便利にするために一歩踏み出し始めた感じなので、この辺はまだまだ色々な進化がありそうな気がします。
 
 [#19 ES7 | mozaic.fm](http://mozaic.fm/post/125673651143/19-es7 "#19 ES7 | mozaic.fm")でもこういったASTツールチェインの話をしているので聞いてみるといいかもしれません。
 
@@ -104,7 +104,7 @@ ES6の対応改善、`--reset`がデフォルトの挙動となり設定なし�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
-JavaScriptスタイルチェックツールjscs 2.0.0リリース。
+JavaScriptスタイルチェックツールJSCS 2.0.0リリース。
 ES.nextをサポートする`--esnext`フラグの追加、CSTを実装しAutofixingに利用するように、ES6に対応したルールの追加、コメントによるルールの無効化のサポートなど
 
 - [mdevils/cst](https://github.com/mdevils/cst "mdevils/cst")
@@ -117,7 +117,7 @@ ES.nextをサポートする`--esnext`フラグの追加、CSTを実装しAutofi
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
-esprima 2.5.0リリース。
+Esprima 2.5.0リリース。
 ES6の全ての機能をパースできるように
 
 - [esprima/ChangeLog at 2.5.0 · jquery/esprima](https://github.com/jquery/esprima/blob/2.5.0/ChangeLog "esprima/ChangeLog at 2.5.0 · jquery/esprima")
@@ -181,7 +181,7 @@ FluxをベースにStore->View、View->ActionをpostMessageでやりとりする
 ----
 
 ## Isomorphic Architecture を実装してるときの細かいアレコレ ::ハブろぐ
-[havelog.ayumusato.com/develop/javascript/e682-universal_architecture_tips.html](http://havelog.ayumusato.com/develop/javascript/e682-universal_architecture_tips.html "Isomorphic Architecture を実装してるときの細かいアレコレ ::ハブろぐ")
+[havelog.ayumusato.com/develop/javascript/e682-universal\_architecture\_tips.html](http://havelog.ayumusato.com/develop/javascript/e682-universal_architecture_tips.html "Isomorphic Architecture を実装してるときの細かいアレコレ ::ハブろぐ")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">isomorphic</span> <span class="jser-tag">JavaScript</span></p>
 
@@ -239,7 +239,7 @@ WebRTCがどういう仕組みで動いているのか、信頼性が何をベ�
 ----
 
 ## Front-End Architecture - O&#x27;Reilly Media
-[shop.oreilly.com/product/0636920040156.do](http://shop.oreilly.com/product/0636920040156.do "Front-End Architecture - O&#x27;Reilly Media")
+[shop.oreilly.com/product/0636920040156.do](http://shop.oreilly.com/product/0636920040156.do "Front-End Architecture - O'Reilly Media")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">book</span></p>
 
