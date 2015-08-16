@@ -9,7 +9,7 @@ export function render(component) {
         return (
             <div>
                 <dt><RelatedItem title={item.title} url={ item.url } content={item.content}></RelatedItem></dt>
-                <dd>via <a href={post.url}>{post.title}</a></dd>
+                <dd>via <a href={post.url}>{post.title.replace(/(\d{4}-\d{2}-\d{2}のJS).*$/, "$1")}</a></dd>
             </div>
         );
 
