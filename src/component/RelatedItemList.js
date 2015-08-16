@@ -15,7 +15,7 @@ export function render(component) {
 
     });
     return <div className="RelatedItemList">
-        <h1>関連する記事</h1>
+        <h3>関連する記事</h3>
         <dl>
             {items}
         </dl>

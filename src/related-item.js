@@ -34,28 +34,27 @@ function getStat() {
         var jSerStat = new JSerStat(items, posts);
         getStat._jSerStat = jSerStat;
         return jSerStat;
-    }).catch(function (error) {
-        console.error(error, error.stack);
     });
 }
 
 function showRelated(URL, placeholder) {
     getStat().then(function (stat) {
         var jSerItem = stat.findItemWithURL(URL);
-        console.log(jSerItem);
         var relatedItems = stat.findRelatedItems(jSerItem);
-        console.log(relatedItems);
-        var postWithItems = relatedItems.map(function (item) {
-            console.log(item);
+        return relatedItems.map(function (item) {
             var week = stat.findWeekWithItem(item);
-            console.log(week);
+            // 未来の記事候補の場合はまだ該当するweekはない
+            if (week == null) {
+                return null;
+            }
             return {
                 item: item,
                 post: week.post
-            }
-        });
+            };
+        }).filter(object => object != null);// 空はfilter
+    }).then(function (postWithItems) {
         var app = tree(
-            <div class="MyApp">
+            <div class="RelatedItemBox">
                 <RelatedItemList postWithItems={postWithItems}>Hello World!</RelatedItemList>
             </div>
         );
@@ -68,13 +67,20 @@ getStat().then(function () {
     siteList.forEach(function (item) {
         var URL = item.firstElementChild.href;
         var button = document.createElement("button");
-        button.textContent = "SHOW";
+        button.textContent = "関連記事を表示";
         button.addEventListener("click", function (event) {
+            var parentNode = event.target.parentNode;
+            var box = parentNode.getElementsByClassName("RelatedItemBox");
+            if(box.length > 0) {
+                return;
+            }
             var placeholder = document.createElement("div");
-            event.target.parentNode.appendChild(placeholder);
+            parentNode.appendChild(placeholder);
             event.preventDefault();
             showRelated(URL, placeholder);
         });
         item.appendChild(button);
     });
+}).catch(function (error) {
+    console.error(error, error.stack);
 });
