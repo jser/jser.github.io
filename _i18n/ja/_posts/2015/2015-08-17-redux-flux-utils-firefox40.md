@@ -38,7 +38,7 @@ Reduxのコンセプトについては作者が以前[The Evolution of Flux Fram
 
 - [Combining Stateless Stores](https://gist.github.com/gaearon/d77ca812015c0356654f "Combining Stateless Stores")
 
-<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Hate switch statements? Redux isn&#39;t opinionated as long as you give it (state, action) =&gt; state in the end. <a href="http://t.co/eMlpqsvnFZ">pic.twitter.com/eMlpqsvnFZ</a></p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/606075907808313344">June 3, 2015</a></blockquote>
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/fisherwebdev">@fisherwebdev</a> <a href="https://twitter.com/goatslacker">@goatslacker</a> <a href="https://twitter.com/alexeyraspopov">@alexeyraspopov</a> Also, with Store-is-function pattern, you can easily keep modularity by delegating to &quot;substores&quot;</p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/606155287024795648">June 3, 2015</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
