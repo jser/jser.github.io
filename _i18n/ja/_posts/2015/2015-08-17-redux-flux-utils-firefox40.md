@@ -1,17 +1,60 @@
 ---
-title: "2015-08-17のJS: redux 1.0.0、"
+title: "2015-08-17のJS: redux 1.0.0、flux-utils、Firefox 40"
 author: azu
 layout: post
 date : 2015-08-17T20:21
 category: JSer
 tags:
     - flux
+    - library
+    - firefox
 
 ---
 
-JSer.info #241
+JSer.info #241 - Fluxのように単方向データの流れを行うフレームワークである[Redux](https://github.com/rackt/redux "Redux") 1.0.0がリリースされました。
+
+- [Release v1.0.0 · rackt/redux](https://github.com/rackt/redux/releases/tag/v1.0.0 "Release v1.0.0 · rackt/redux")
+
+Reduxのコンセプトについては作者が以前[The Evolution of Flux Frameworks — Medium](https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31 "The Evolution of Flux Frameworks — Medium")という記事で書いています。
+
+ざっくり書くと、Stateを管理するコンテナ(reduxオブジェクト)を提供することでFluxのActionCreatorとStoreにあたるものをただの関数として書けるようにして、状態の変化が予測できるようにすることを目的としています。
+
+ドキュメントや[人気のFluxフレームワークReduxをさわってみた - マルシテイアは月の上](http://amagitakayosi.hatenablog.com/entry/2015/07/30/000000 "人気のFluxフレームワークReduxをさわってみた - マルシテイアは月の上")などを見てみると特徴や、どういう制約を元に作られているかのが分かるかもしれません。
+
+- [Read Me | Redux](http://rackt.github.io/redux/ "Read Me | Redux")
+- [Three Principles | Redux](http://rackt.github.io/redux/docs/introduction/ThreePrinciples.html "Three Principles | Redux")
+
+また同時期に、今まで他のFluxフレームワークのようにStoreやActionCreatorに関する機能を提供してなかった[facebook/flux](https://github.com/facebook/flux "facebook/flux")に[Flux Utils](https://github.com/facebook/flux/blob/master/docs/Flux-Utils.md "Flux Utils")という形でそれらの機能が提供されるようになりました。
+
+以下に簡単にどういう機能が提供されているかについてまとめてあります。
+
+- [flux-utilsについて](https://gist.github.com/azu/e0274b703ef97226b0db "flux-utilsについて")
+
+[Immutable.js](https://facebook.github.io/immutable-js/ "Immutable.js")を使っているなどの特徴もありますが、その中でも`ReduceStore`のstateを受け取り変更したstateを返す`reduce`メソッドが副作用のないただの関数であるべきと書かれているように、reduxと似た概念を提供していることがわかります。
+
+> This method should be pure and have no side-effects.
+
+これらは互いに影響受けているようなきがするので、[redux作者](https://twitter.com/dan_abramov)と[flux作者](https://twitter.com/fisherwebdev)の会話を見てみると面白いかもしれません。
+
+- [Combining Stateless Stores](https://gist.github.com/gaearon/d77ca812015c0356654f "Combining Stateless Stores")
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Hate switch statements? Redux isn&#39;t opinionated as long as you give it (state, action) =&gt; state in the end. <a href="http://t.co/eMlpqsvnFZ">pic.twitter.com/eMlpqsvnFZ</a></p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/606075907808313344">June 3, 2015</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 ----
+
+[Firefox 40](http://www.mozilla.jp/firefox/40.0/releasenotes/ "Firefox 40")がリリースされました。
+
+開発者ツールのPerformanceツールが改善され、[Waterfall](https://developer.mozilla.org/en-US/docs/Tools/Performance/Waterfall) view、[Call Tree](https://developer.mozilla.org/en-US/docs/Tools/Performance/Call_Tree) view、[Flame Chart](https://developer.mozilla.org/en-US/docs/Tools/Performance/Flame_Chart) viewなどに対応しています。
+
+- [New Performance Tools in Firefox Developer Edition 40 ✩ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2015/06/new-performance-tools-in-firefox-developer-edition-40/ "New Performance Tools in Firefox Developer Edition 40 ✩ Mozilla Hacks – the Web developer blog")
+- [Firefox 40 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/40 "Firefox 40 for developers - Mozilla | MDN")
+
+また同時に[延長サポート版 (ESR)](http://www.mozilla.jp/firefox/38.2.0/releasenotes/ "延長サポート版 (ESR)")としてFirefox 38.2.0がリリースされています
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
