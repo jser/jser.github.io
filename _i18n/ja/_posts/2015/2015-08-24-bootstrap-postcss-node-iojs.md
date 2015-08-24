@@ -22,7 +22,7 @@ JSer.info #242 - CSSフレームワークであるBootstrap 4 alphaがリリー�
 IE8のサポートを終了し、単位として`rem`を利用するようになり、flexboxをオプションで利用できるようになっています。
 wellsやthumbnails、panelsのコンポーネントは廃止してcardsに統合していくようです。
 
-またプラグインをES6で書きなおされUMDモジュールとして提供されるようになり、ノーマライズスタイルを[Reboot](http://v4-alpha.getbootstrap.com/content/reboot/ "Reboot")という名前でまとめるなど色々な変更が含まれています。
+またプラグインがES6で書きなおされUMDモジュールとして提供されるようになり、ノーマライズスタイルを[Reboot](http://v4-alpha.getbootstrap.com/content/reboot/ "Reboot")にまとめるなど色々な変更が含まれています。
 
 同時に[Bootstrap Themes](http://themes.getbootstrap.com/ "Bootstrap Themes")というBootstrapのテーマを扱う公式サイトも公開されています。
 
