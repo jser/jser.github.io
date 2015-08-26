@@ -49,7 +49,7 @@ Twitterの[@jser_info](https://twitter.com/jser_info/memberships "@jser_info")�
 
 そのため、一週間毎にじゃなくて逐一見て行きたい場合はこちらをフォローしてみると良いかもしれません。
 
-自動投稿のフォーマットなど何がご意見があれば #jserinfo などつけてTweetしてもらえると拾えると思います。
+自動投稿のフォーマットなど何がご意見があれば #jserinfo などつけてツイートしてもらえると拾えると思います。
 
 <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info" data-size="large" data-hashtags="jserinfo" data-dnt="true">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
