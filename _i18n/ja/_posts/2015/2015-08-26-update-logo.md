@@ -24,14 +24,14 @@ JSer.infoのロゴやTwitterのアイコンを更新しました。
 
 また、以下のURLから直接ロゴとアイコンを参照できます。
 
-```markdown
+```
 ![JSer.info](http://jser.info/media/icon.png)
 ```
 
 ![JSer.info](http://jser.info/media/icon.png)
 
 
-```markdown
+```
 ![JSer.info](http://jser.info/media/logo.png)
 ```
 
