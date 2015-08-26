@@ -40,7 +40,7 @@ PostCSSについては[PostCSS とは何か // Speaker Deck](https://speakerdeck
 
 - [YAPC::ASIA 2015で「どうしてこうなった？ Node.jsとio.jsの分裂と統合の行方。これからどう進化していくのか？」というタイトルで発表してきた。 - from scratch](http://yosuke-furukawa.hatenablog.com/entry/2015/08/24/152147 "YAPC::ASIA 2015で「どうしてこうなった？ Node.jsとio.jsの分裂と統合の行方。これからどう進化していくのか？」というタイトルで発表してきた。 - from scratch")
 
-また、[4.0 is the new 1.0 — Node & JavaScript — Medium](https://medium.com/node-js-javascript/4-0-is-the-new-1-0-386597a3436d "4.0 is the new 1.0 — Node &amp; JavaScript — Medium")という記事でNode.jsとio.js統合のスケジュールなどについて書かれているので見てみるといいと思います。
+また、[4.0 is the new 1.0 — Node & JavaScript — Medium](https://medium.com/node-js-javascript/4-0-is-the-new-1-0-386597a3436d "4.0 is the new 1.0 — Node & JavaScript — Medium")という記事でNode.jsとio.jsの統合のスケジュールなどについて書かれているので見てみるといいと思います。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -89,7 +89,7 @@ RxJS 3.1 リリース。
 core-js 1.1.0 リリース。
 string paddingのプロポーサルへの追従、trimLeft/trimRightの追加、Reflect.enumerateはキャッシュされたkeyをiterateするようになるなど
 
-- [Question about \[\[Enumerate\]\] and property decision timing](https://esdiscuss.org/topic/question-about-enumerate-and-property-decision-timing "Question about \[\[Enumerate\]\] and property decision timing")
+- [Question about \[\[Enumerate\]\] and property decision timing](https://esdiscuss.org/topic/question-about-enumerate-and-property-decision-timing "Question about [[Enumerate]] and property decision timing")
 
 ----
 
@@ -99,7 +99,7 @@ string paddingのプロポーサルへの追従、trimLeft/trimRightの追加、
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 ESLint 1.2.0リリース。
-文字列結合をTemplate Stringsを使うようにするルール、コールバックにArrow Functionを優先するルールなどの追加、`commonjs"のenvironment定義が追加された
+文字列結合にTemplate Stringsを使うようにするルール、コールバックにArrow Functionを優先するルールなどの追加、`commonjs`のenvironment定義が追加された
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -140,7 +140,7 @@ ES6 modulesとして読み込みテストできるようにするためには、
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">tutorial</span></p>
 
-ReactのチュートリアルをES6 classesなどを使って書いた場合にどうなるかについてをチュートリアル形式で書かれている。
+ReactのチュートリアルをES6 Classesなどを使って書いた場合にどうなるかについてをチュートリアル形式で書かれている。
 
 - [チュートリアル | React](http://facebook.github.io/react/docs/tutorial-ja-JP.html "チュートリアル | React")
 
@@ -161,7 +161,7 @@ Vue.jsについてのチュートリアル。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">MS</span> <span class="jser-tag">MSEdge</span> <span class="jser-tag">仮想化</span></p>
 
-MSEdgeが使えるWindows 10のVirtual machine(VM)が公開された
+MSEdgeが使えるWindows 10のVirtual Machine(VM)が公開された
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
@@ -277,7 +277,7 @@ JavaScriptでのDDDについての書籍
 
 Beautiful JavaScript リリース。
 
-- [Beautiful JavaScript - O&#x27;Reilly Media](http://shop.oreilly.com/product/0636920030706.do "Beautiful JavaScript - O&#x27;Reilly Media")
+- [Beautiful JavaScript - O&#x27;Reilly Media](http://shop.oreilly.com/product/0636920030706.do "Beautiful JavaScript - O'Reilly Media")
 
 ----
 
