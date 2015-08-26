@@ -44,8 +44,7 @@ JSer.infoのロゴやTwitterのアイコンを更新しました。
 Twitterの[@jser_info](https://twitter.com/jser_info/memberships "@jser_info")の方についてですが、
 [realtime.jser.info](http://realtime.jser.info/ "Realtime JSer.info")に投稿した記事も流れるようになっています。
 
-[realtime.jser.info](http://realtime.jser.info/ "Realtime JSer.info")はJSer.infoで紹介する記事情報のリポジトリである
-[jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")が更新されたタイミングで自動的に更新されます。
+[realtime.jser.info](http://realtime.jser.info/ "Realtime JSer.info")はJSer.infoで紹介する記事情報のリポジトリとなってる[jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")が更新されたタイミングで自動的に更新されます。
 
 そのため、一週間毎にじゃなくて逐一見て行きたい場合はこちらをフォローしてみると良いかもしれません。
 
