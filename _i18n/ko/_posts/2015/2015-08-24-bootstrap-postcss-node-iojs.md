@@ -54,7 +54,7 @@ PostCSS에 관해서는 [PostCSS는 무엇인가 // Speaker Deck 슬라이드](h
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Bootstrap 4α가 릴리드됐습니다.
-Less에서 Sass로 전환, IE8 지원 종료, `rem` 단위 이용, flexbox를 옵셔널하게 이요할 수 있도록 변경됐고, 플러그인을 ES6로 재작성 했으며 재정의 스타일을 Reboot로 정리하는 등 다양한 변경 사항이 있습니다.
+Less에서 Sass로 전환, IE8 지원 종료, `rem` 단위 이용, flexbox를 옵셔널하게 이용할 수 있도록 변경됐고, 플러그인을 ES6로 재작성 했으며 재정의 스타일을 Reboot로 정리하는 등 다양한 변경 사항이 있습니다.
 
 - [Bootstrap 4 alpha · Bootstrap Blog](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/ "Bootstrap 4 alpha · Bootstrap Blog")
 
@@ -100,7 +100,6 @@ string padding의 제안을  수용했으며 trimLeft/trimRight가 추가됐고 
 
 ESLint 1.2.0가 릴리즈됐습니다.
 문자열 결합에 Template String을 사용을 유도하는 규칙, 콜백에 Array Function을 사용을 우선하는 규칙 등이 추가됐습니다. `commonjs`의 environment 정의가 추가됐습니다.
-文字列結合にTemplate Stringsを使うようにするルール、コールバックにArrow Functionを優先するルールなどの追加、のenvironment定義が追加された
 
 ----
 <h1 class="site-genre">아티클</h1>
@@ -122,7 +121,7 @@ Store의 state가 Immutable인 것과 Container 등의 동작 방식을 이해�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
 
-Iterator, Iterable, Generator 각각이 무엇인지, 어떤시긍로 사용하는지 설명하고 있습니다.
+Iterator, Iterable, Generator 각각이 무엇인지, 어떤식으로 사용하는지 설명하고 있습니다.
 
 ----
 
@@ -185,7 +184,7 @@ csssnext, PreCSS, cssnano 등의 플러그인 팩과 Sass 대신 이용하는 �
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">역사</span></p>
 
-Node.js의 역사ㅡ io.js가 출범하게된 원인 그리고 Node.js와 io.js가 통합하게된 경위에 대해서 소개합니다.
+Node.js의 역사 io.js가 출범하게된 원인 그리고 Node.js와 io.js가 통합하게된 경위에 대해서 소개합니다.
 또, 커뮤니티의 오픈-거버넌스 모델에 관해서도 설명합니다.
 
 ----
