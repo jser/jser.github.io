@@ -15,7 +15,7 @@ tags:
 
 JSer.info #243 - Windows 10 [Build 10532](https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/ "Build 10532")が公開され付属するMSEdgeもアップデートされました。
 
-Pointer Lock、Canvasの[blend modes](http://blogs.adobe.com/webplatform/2014/02/24/using-blend-modes-in-html-canvas/ "blend modes")の追加、ES6 Classes、asm.jsがデフォルト有効となり、DestructuringやES.nextの[Async Functions](https://github.com/tc39/ecmascript-asyncawait "Async Functions")が実験フラグ付きでサポートされました。
+Pointer Lock、Canvasの[blend modes](http://blogs.adobe.com/webplatform/2014/02/24/using-blend-modes-in-html-canvas/ "blend modes")の追加、ES6 Classes、asm.jsがデフォルトで有効となり、DestructuringやES.nextの[Async Functions](https://github.com/tc39/ecmascript-asyncawait "Async Functions")が実験フラグ付きでサポートされました。
 
 - [Microsoft Edge 10532](http://dev.modern.ie/platform/changelog/10532-pc/ "Microsoft Edge 10532")
 - [Windows 10 Insider Preview Build 10532 for PC | Blogging Windows](https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/ "Windows 10 Insider Preview Build 10532 for PC | Blogging Windows")
