@@ -45,6 +45,16 @@ CSSの仕様書を参照するときに合わせて読むと良さそうです�
 
 ----
 
+## お知らせ
+
+[JSer.infoのロゴやアイコンを更新しました](http://jser.info/2015/08/26/update-logo/ "JSer.infoのロゴやアイコンを更新しました - JSer.info")
+
+![jser.info](https://monosnap.com/file/h3VuimNtmUkbaIr4FO2GhRiooVGetE.png)
+
+画像などは[jser/media](https://github.com/jser/media "jser/media")から自由に引用できます。
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
