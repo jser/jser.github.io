@@ -20,7 +20,7 @@ Pointer Lock、Canvasの[blend modes](http://blogs.adobe.com/webplatform/2014/02
 - [Microsoft Edge 10532](http://dev.modern.ie/platform/changelog/10532-pc/ "Microsoft Edge 10532")
 - [Windows 10 Insider Preview Build 10532 for PC | Blogging Windows](https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/ "Windows 10 Insider Preview Build 10532 for PC | Blogging Windows")
 
-また、オープンなメディアフォーマットのを開発する[Alliance for Open Media](http://aomedia.org/ "Alliance for Open Media")にもMicrosoftが参加しているのと関係がありそうですが、MSEdgeにWebM/Opus/VP9を実装を予定しているようです。
+また、オープンなメディアフォーマットを開発する[Alliance for Open Media](http://aomedia.org/ "Alliance for Open Media")にもMicrosoftが参加しているのと関係がありそうですが、MSEdgeにWebM/Opus/VP9を実装を予定しているようです。
 
 <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Oh, hai there open media formats! <a href="http://t.co/mdUgKyFvV0">http://t.co/mdUgKyFvV0</a> <a href="http://t.co/PT7srf6J4J">http://t.co/PT7srf6J4J</a> <a href="http://t.co/0tjhZipHaV">http://t.co/0tjhZipHaV</a></p>&mdash; Jacob Rossi (@jacobrossi) <a href="https://twitter.com/jacobrossi/status/638785221593288704">September 1, 2015</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -29,9 +29,9 @@ Pointer Lock、Canvasの[blend modes](http://blogs.adobe.com/webplatform/2014/02
 
 [André Staltz - Unidirectional User Interface Architectures](http://staltz.com/unidirectional-user-interface-architectures.html "André Staltz - Unidirectional User Interface Architectures")という記事では、Flux, Redux, Famous, Elm, Cycle.js それぞれのアーキテクチャについて簡潔にまとめられています。
 
-それぞれがどういう構成要素で単方向のデータフローを回しているかについて図と共に書かれているのでおすすめです。
+それぞれがどういう構成要素で、単方向のデータフローを回しているかについて図と共に書かれているのでおすすめです。
 
-Backbone.jsなどについて書かれた以下のも合わせてみると面白いかもしれません。
+Backbone.jsなどについて書かれた以下の記事も合わせてみると面白いかもしれません。
 
 - [サバクラ両方で動く JavaScript の大規模開発を行うために](https://gist.github.com/tily/1362110 "サバクラ両方で動く JavaScript の大規模開発を行うために")
 
