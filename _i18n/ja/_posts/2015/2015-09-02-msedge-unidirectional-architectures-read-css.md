@@ -1,5 +1,5 @@
 ---
-title: "2015-09-02のJS: "
+title: "2015-09-02のJS: MSEdgeとasm.js、単方向データフローのアーキテクチャ、CSS仕様書の読み方"
 author: azu
 layout: post
 date : 2015-09-02T21:38
@@ -7,12 +7,44 @@ category: JSer
 tags:
     - Flux
     - MVC
+    - MSEdge
+    - CSS
+    - Spec
 
 ---
 
-JSer.info #243
+JSer.info #243 - Windows 10 [Build 10532](https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/ "Build 10532")が公開され付属するMSEdgeもアップデートされました。
+
+Pointer Lock、Canvasの[blend modes](http://blogs.adobe.com/webplatform/2014/02/24/using-blend-modes-in-html-canvas/ "blend modes")の追加、ES6 Classes、asm.jsがデフォルト有効となり、DestructuringやES.nextの[Async Functions](https://github.com/tc39/ecmascript-asyncawait "Async Functions")が実験フラグ付きでサポートされました。
+
+- [Microsoft Edge 10532](http://dev.modern.ie/platform/changelog/10532-pc/ "Microsoft Edge 10532")
+- [Windows 10 Insider Preview Build 10532 for PC | Blogging Windows](https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/ "Windows 10 Insider Preview Build 10532 for PC | Blogging Windows")
+
+また、オープンなメディアフォーマットのを開発する[Alliance for Open Media](http://aomedia.org/ "Alliance for Open Media")にもMicrosoftが参加しているのと関係がありそうですが、MSEdgeにWebM/Opus/VP9を実装を予定しているようです。
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Oh, hai there open media formats! <a href="http://t.co/mdUgKyFvV0">http://t.co/mdUgKyFvV0</a> <a href="http://t.co/PT7srf6J4J">http://t.co/PT7srf6J4J</a> <a href="http://t.co/0tjhZipHaV">http://t.co/0tjhZipHaV</a></p>&mdash; Jacob Rossi (@jacobrossi) <a href="https://twitter.com/jacobrossi/status/638785221593288704">September 1, 2015</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ----
+
+[André Staltz - Unidirectional User Interface Architectures](http://staltz.com/unidirectional-user-interface-architectures.html "André Staltz - Unidirectional User Interface Architectures")という記事では、Flux, Redux, Famous, Elm, Cycle.js それぞれのアーキテクチャについて簡潔にまとめられています。
+
+それぞれがどういう構成要素で単方向のデータフローを回しているかについて図と共に書かれているのでおすすめです。
+
+Backbone.jsなどについて書かれた以下のも合わせてみると面白いかもしれません。
+
+- [サバクラ両方で動く JavaScript の大規模開発を行うために](https://gist.github.com/tily/1362110 "サバクラ両方で動く JavaScript の大規模開発を行うために")
+
+----
+
+[基本の前の基礎知識 - Back to Basics CSS 2015-08-30](http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/ "基本の前の基礎知識 - Back to Basics CSS 2015-08-30")というスライドでは、CSSの仕様の読み方について解説されています。
+
+仕様書はどこにあるのか、仕様書に出てくるCSSの基本構文の読み方、記号などの意味などについて詳しく書かれています。
+
+CSSの仕様書を参照するときに合わせて読むと良さそうです。
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
