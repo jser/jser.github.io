@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-09-02のJS: MSEdgeとasm.js、単方向データフローのアーキテクチャ、CSS仕様書の読み方 - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="Flux,MVC,MSEdge,CSS,Spec" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2015-09-02のJS: MSEdgeとasm.js、単方向データフローのアーキテクチャ、CSS仕様書の読み方" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #243 - Windows 10 Build 10532が公開され付属す..." />
+    
+    
+      <meta content="http://jser.info/2015/09/02/msedge-unidirectional-architectures-read-css/" property="og:url">
+    
+    
+      <meta content="2015-09-02T21:38:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Flux" property="article:tag">
+      
+      <meta content="MVC" property="article:tag">
+      
+      <meta content="MSEdge" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="Spec" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2015/09/02/msedge-unidirectional-architectures-read-css/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/09/02/msedge-unidirectional-architectures-read-css/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/09/02/msedge-unidirectional-architectures-read-css/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/09/02/msedge-unidirectional-architectures-read-css/">2015-09-02のJS: MSEdgeとasm.js、単方向データフローのアーキテクチャ、CSS仕様書の読み方</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年09月02日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-09-02-msedge-unidirectional-architectures-read-css.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2015/2015-09-02-msedge-unidirectional-architectures-read-css.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2015/09/02/msedge-unidirectional-architectures-read-css/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2015/09/02/msedge-unidirectional-architectures-read-css/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #243 - Windows 10 <a href="https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/" title="Build 10532">Build 10532</a>が公開され付属するMSEdgeもアップデートされました。</p>
+
+<p>Pointer Lock、Canvasの<a href="http://blogs.adobe.com/webplatform/2014/02/24/using-blend-modes-in-html-canvas/" title="blend modes">blend modes</a>の追加、ES6 Classes、asm.jsがデフォルトで有効となり、DestructuringやES.nextの<a href="https://github.com/tc39/ecmascript-asyncawait" title="Async Functions">Async Functions</a>が実験フラグ付きでサポートされました。</p>
+
+<ul>
+<li><a href="http://dev.modern.ie/platform/changelog/10532-pc/" title="Microsoft Edge 10532">Microsoft Edge 10532</a></li>
+<li><a href="https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/" title="Windows 10 Insider Preview Build 10532 for PC | Blogging Windows">Windows 10 Insider Preview Build 10532 for PC | Blogging Windows</a></li>
+</ul>
+
+<p>また、オープンなメディアフォーマットを開発する<a href="http://aomedia.org/" title="Alliance for Open Media">Alliance for Open Media</a>にもMicrosoftが参加しているのと関係がありそうですが、MSEdgeにWebM/Opus/VP9を実装を予定しているようです。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Oh, hai there open media formats! <a href="http://t.co/mdUgKyFvV0">http://t.co/mdUgKyFvV0</a> <a href="http://t.co/PT7srf6J4J">http://t.co/PT7srf6J4J</a> <a href="http://t.co/0tjhZipHaV">http://t.co/0tjhZipHaV</a></p>&mdash; Jacob Rossi (@jacobrossi) <a href="https://twitter.com/jacobrossi/status/638785221593288704">September 1, 2015</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<hr>
+
+<p><a href="http://staltz.com/unidirectional-user-interface-architectures.html" title="André Staltz - Unidirectional User Interface Architectures">André Staltz - Unidirectional User Interface Architectures</a>という記事では、Flux, Redux, Famous, Elm, Cycle.js それぞれのアーキテクチャについて簡潔にまとめられています。</p>
+
+<p>それぞれがどういう構成要素で、単方向のデータフローを回しているかについて図と共に書かれているのでおすすめです。</p>
+
+<p>Backbone.jsなどについて書かれた以下の記事も合わせてみると面白いかもしれません。</p>
+
+<ul>
+<li><a href="https://gist.github.com/tily/1362110" title="サバクラ両方で動く JavaScript の大規模開発を行うために">サバクラ両方で動く JavaScript の大規模開発を行うために</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/" title="基本の前の基礎知識 - Back to Basics CSS 2015-08-30">基本の前の基礎知識 - Back to Basics CSS 2015-08-30</a>というスライドでは、CSSの仕様の読み方について解説されています。</p>
+
+<p>仕様書はどこにあるのか、仕様書に出てくるCSSの基本構文の読み方、記号などの意味などについて詳しく書かれています。</p>
+
+<p>CSSの仕様書を参照するときに合わせて読むと良さそうです。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="eslint-v1.3.0-released---eslint---pluggable-javascript-linter">ESLint v1.3.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2015/08/eslint-v1.3.0-released" title="ESLint v1.3.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2015/08/eslint-v1.3.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint v1.3.0リリース。<br>
+<code>SourceCode</code>オブジェクトのAPIを追加、HTMLフォーマッターを追加、ルールの修正など</p>
+
+<hr>
+
+<h2 id="v8-javascript-engine:-v8-release-4.6">V8 JavaScript Engine: V8 Release 4.6</h2>
+
+<p><a href="http://v8project.blogspot.com/2015/08/v8-release-46.html" title="V8 JavaScript Engine: V8 Release 4.6">v8project.blogspot.com/2015/08/v8-release-46.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>V8 4.6 リリース。<br>
+ES6の Spread operator、<code>new.target</code>の対応、TypedArrayの改善など</p>
+
+<hr>
+
+<h2 id="release-v2.0.0-·-rackt/redux">Release v2.0.0 · rackt/redux</h2>
+
+<p><a href="https://github.com/rackt/redux/releases/tag/v2.0.0" title="Release v2.0.0 · rackt/redux">github.com/rackt/redux/releases/tag/v2.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Flux</span> <span class="jser-tag">library</span></p>
+
+<p>Redux 2.0.0リリース。<br>
+Hot Reloadingのためだけにあった<code>getReducer()</code>を削除、<code>compose()</code>の動作を修正するなど</p>
+
+<hr>
+
+<h2 id="mocha/history.md-at-master-·-mochajs/mocha">mocha/HISTORY.md at master · mochajs/mocha</h2>
+
+<p><a href="https://github.com/mochajs/mocha/blob/master/HISTORY.md#230--2015-08-30" title="mocha/HISTORY.md at master · mochajs/mocha">github.com/mochajs/mocha/blob/master/HISTORY.md#230--2015-08-30</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Mocha 2.3.0リリース。 テストのエラーが起きた時に自動的にキャッチしないでスルーできる<code>--allowUncaught</code>の追加、非同期のテストのみ許可する<code>--async-only</code>でのPromiseの動作を修正</p>
+
+<ul>
+<li><a href="https://github.com/mochajs/mocha/pull/1659" title="Added option to allow unhandled exceptions to propagate in the browser by amsul · Pull Request #1659 · mochajs/mocha">Added option to allow unhandled exceptions to propagate in the browser by amsul · Pull Request #1659 · mochajs/mocha</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-version-10532-[pc]-:-microsoft-edge-dev">Release version 10532 [PC] : Microsoft Edge Dev</h2>
+
+<p><a href="http://dev.modern.ie/platform/changelog/10532-pc/" title="Release version 10532 \[PC\] : Microsoft Edge Dev">dev.modern.ie/platform/changelog/10532-pc/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Microsoft Edge 10532リリース。<br>
+Pointer Lock、Canvas blending modesのサポート、asm.jsとES6 Classesがデフォルトで有効に。<br>
+またAsync Function、Destructuringがフラグ付きで導入された</p>
+
+<hr>
+
+<h2 id="jsdom/changelog.md-at-6.2.0-·-tmpvar/jsdom">jsdom/Changelog.md at 6.2.0 · tmpvar/jsdom</h2>
+
+<p><a href="https://github.com/tmpvar/jsdom/blob/6.2.0/Changelog.md" title="jsdom/Changelog.md at 6.2.0 · tmpvar/jsdom">github.com/tmpvar/jsdom/blob/6.2.0/Changelog.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jsdom 6.2.0リリース。<br>
+<code>Element.prototype.classList</code>のサポートやバグ修正</p>
+
+<hr>
+
+<h2 id="release-v1.0.0:-the-first-stable-release-(2015-08-26)-·-power-assert-js/power-assert">Release v1.0.0: The first stable release (2015-08-26) · power-assert-js/power-assert</h2>
+
+<p><a href="https://github.com/power-assert-js/power-assert/releases/tag/v1.0.0" title="Release v1.0.0: The first stable release (2015-08-26) · power-assert-js/power-assert">github.com/power-assert-js/power-assert/releases/tag/v1.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>assertが失敗した時に表示する情報量を増やすpower-assert 1.0.0リリース。</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="andré-staltz---unidirectional-user-interface-architectures">André Staltz - Unidirectional User Interface Architectures</h2>
+
+<p><a href="http://staltz.com/unidirectional-user-interface-architectures.html" title="André Staltz - Unidirectional User Interface Architectures">staltz.com/unidirectional-user-interface-architectures.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">設計</span></p>
+
+<p>Flux, Redux, Famous, Elm, Cycle.js それぞれのアーキテクチャについてまとめた記事。<br>
+構成要素、データーフロー、特徴について簡潔にまとめられている</p>
+
+<hr>
+
+<h2 id="using-requestidlecallback-—-google-web-updates">Using requestIdleCallback — Google Web Updates</h2>
+
+<p><a href="https://developers.google.com/web/updates/2015/08/27/using-requestidlecallback" title="Using requestIdleCallback — Google Web Updates">developers.google.com/web/updates/2015/08/27/using-requestidlecallback</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Chrome</span></p>
+
+<p>requestIdleCallbackについての解説。<br>
+Idleな期間に非同期でコールバックを呼び出す事ができ、第二引数で一定時間内には必ず呼び出す<code>timeout</code>を指定できる</p>
+
+<hr>
+
+<h2 id="fizzbuzz">fizzbuzz</h2>
+
+<p><a href="http://ditam.github.io/posts/fizzbuzz.html" title="fizzbuzz">ditam.github.io/posts/fizzbuzz.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">アルゴリズム</span></p>
+
+<p>JavaScriptで20種類のFizzBuzzの実装</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="基本の前の基礎知識---back-to-basics-css-2015-08-30">基本の前の基礎知識 - Back to Basics CSS 2015-08-30</h2>
+
+<p><a href="http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/" title="基本の前の基礎知識 - Back to Basics CSS 2015-08-30">unformedbuilding.com/slide/back-to-basics-2015-08-30/#/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">spec</span> <span class="jser-tag">スライド</span></p>
+
+<p>CSSの仕様の読み方についてのスライド。<br>
+仕様に出てくる構文の読み方や単位についてまとめられている</p>
+
+<hr>
+
+<h2 id="npm3-❓-//-speaker-deck">npm3 ❓ // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/watilde/npm3" title="npm3 ❓ // Speaker Deck">speakerdeck.com/watilde/npm3</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">スライド</span></p>
+
+<p>npm3で追加された機能や変更点などについてのスライド</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="thimble-by-mozilla---an-online-code-editor-for-learners-&amp;-educators.">Thimble by Mozilla - An online code editor for learners &amp; educators.</h2>
+
+<p><a href="https://thimble.mozilla.org/" title="Thimble by Mozilla - An online code editor for learners &amp; educators.">thimble.mozilla.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Mozilla</span> <span class="jser-tag">webservice</span> <span class="jser-tag">editor</span></p>
+
+<p>オンラインでウェブサイトを作れるサービス。<br>
+JSFiddle的なエディタ&amp;プレビューとファイルツリー。<br>
+また、任意のファイルをアップロードできるのでHTMLで公開するのに便利そう</p>
+
+<hr>
+
+<h2 id="mattdesl/promise-cookbook">mattdesl/promise-cookbook</h2>
+
+<p><a href="https://github.com/mattdesl/promise-cookbook" title="mattdesl/promise-cookbook">github.com/mattdesl/promise-cookbook</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">book</span></p>
+
+<p>Promiseの基本的な使い方、メソッドについて解説したCookbook</p>
+
+<hr>
+
+<h2 id="js.org-|-news">JS.ORG | NEWS</h2>
+
+<p><a href="http://news.js.org/" title="JS.ORG | NEWS">news.js.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">news</span></p>
+
+<p>ユーザー投稿のJavaScriptニュースを扱うサイト</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="izzimach/react-pixi">Izzimach/react-pixi</h2>
+
+<p><a href="https://github.com/Izzimach/react-pixi" title="Izzimach/react-pixi">github.com/Izzimach/react-pixi</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span></p>
+
+<p>Reactを使ってPixi.jsのCanvasを操作するライブラリ</p>
+
+<hr>
+
+<h2 id="mysticatea/npm-run-all">mysticatea/npm-run-all</h2>
+
+<p><a href="https://github.com/mysticatea/npm-run-all" title="mysticatea/npm-run-all">github.com/mysticatea/npm-run-all</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
+
+<p>npm run-scriptで定義したものの並列実行や逐次実行等の補助を行うコマンドラインツール。<br>
+Nodeモジュールとしても利用できる</p>
+
+<ul>
+<li><a href="http://akabeko.me/blog/2015/08/npm-run-all-and-concurrently/" title="npm-run-all と concurrently を試す | アカベコマイリ">npm-run-all と concurrently を試す | アカベコマイリ</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="amazon:-reactive-programming-with-rxjs:-untangle-your-asynchronous-javascript-code:-sergi-mansilla">Amazon: Reactive Programming with Rxjs: Untangle Your Asynchronous JavaScript Code: Sergi Mansilla</h2>
+
+<p><a href="http://www.amazon.com/dp/1680501291?tag=amazon0abac-22" title="Amazon: Reactive Programming with Rxjs: Untangle Your Asynchronous JavaScript Code: Sergi Mansilla">www.amazon.com/dp/1680501291?tag=amazon0abac-22</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Rx</span> <span class="jser-tag">library</span> <span class="jser-tag">book</span></p>
+
+<p>2016年3月25日発売<br>
+RxJSでのリアクティブプログラミングについての書籍</p>
+
+<hr>
+
+<h2 id="survivejs---webpack-and-react">SurviveJS - Webpack and React</h2>
+
+<p><a href="http://survivejs.com/" title="SurviveJS - Webpack and React">survivejs.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">React</span> <span class="jser-tag">book</span></p>
+
+<p>WebpackとReactについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-09-02-msedge-unidirectional-architectures-read-css.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Flux","MVC","MSEdge","CSS","Spec"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Flux</li>
+                
+                <li>MVC</li>
+                
+                <li>MSEdge</li>
+                
+                <li>CSS</li>
+                
+                <li>Spec</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2015/09/02/msedge-unidirectional-architectures-read-css/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2015/09/02/msedge-unidirectional-architectures-read-css/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/09/02/msedge-unidirectional-architectures-read-css/">2015-09-02のJS: MSEdgeとasm.js、単方向データフローのアーキテクチャ、CSS仕様書の読み方</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/08/26/update-logo/">JSer.infoのロゴやアイコンを更新しました</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/08/24/bootstrap-postcss-node-iojs/">2015-08-24のJS: Bootstrap 4α、PostCSS 5.0、Node.jsとio.js</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/08/17/redux-flux-utils-firefox40/">2015-08-17のJS: Redux 1.0.0、flux-utils、Firefox 40</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/08/10/io.js3.0-rxjs3.0-msedge/">2015-08-10のJS: io.js 3.0、RxJS 3.0、MSEdgeとは</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/08/03/eslint-jscs-esprima/">2015-08-03のJS: ESLint 1.0.0、JSCS 2.0.0、Esprima 2.5.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/07/28/chrome45-es6-devtools/">2015-07-28のJS: Chrome 45β、ES6チュートリアル、Chrome開発者ツール本</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/07/21/typescript1.5-webcomponents-browser/">2015-07-21のJS: TypeScript 1.5、Web Components概要、ブラウザの情報源</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+
+</body>
+</html>
