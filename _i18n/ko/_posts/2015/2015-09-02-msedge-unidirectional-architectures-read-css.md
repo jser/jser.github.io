@@ -38,9 +38,9 @@ Backbone.js 등에 대해 작성한 아래 기사도 함께 보면 재미있습�
 
 ----
 
-[기본 이전의 기초지식 - Back to Basics CSS 2015-08-30](http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/ "기본 이전의 기초지식 - Back to Basics CSS 2015-08-30")[한국어 문서](http://techhtml.github.io/TR/) 슬라이드에서, CSS 스펙을 어떻게 읽어야하는 지 설명하고 있습니다.
+[기본 이전의 기초지식 - Back to Basics CSS 2015-08-30](http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/ "기본 이전의 기초지식 - Back to Basics CSS 2015-08-30")([한국어문서](http://techhtml.github.io/TR/)) 슬라이드에서, CSS 스펙을 어떻게 읽어야 하는지 설명하고 있습니다.
 
-스펙문서는 어디에 있는 지, 스펙문서에 나오는 CSS 기본구문 읽는 법, 기호의 의미 등을 자세히 설명합니다.
+스펙문서는 어디에 있는지, 스펙문서에 나오는 CSS 기본구문 읽는 법, 기호의 의미 등을 자세히 설명합니다.
 
 CSS 스펙문서를 참조할 때 맞춰 읽으면 좋은 문서입니다.
 
@@ -76,7 +76,7 @@ ESLint v1.3.0 릴리즈
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p>
 
 V8 4.6 릴리즈
-ES6の Spread operator, `new.target` 대응, TypedArray 개선 등
+ES6의 Spread operator, `new.target` 대응, TypedArray 개선 등
 
 ----
 
