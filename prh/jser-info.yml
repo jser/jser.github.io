@@ -1,0 +1,33 @@
+version: 1
+rules:
+  - expected: jQuery
+    specs:
+      - from: jquery
+        to:   jQuery
+      - from: ＪＱＵＥＲＹ
+        to:   jQuery
+  - expected: ハードウェア
+    pattern:
+      - ハードウエアー
+      - ハードウエア   # 正規表現に変換する都合上短いものを後に書いたほうがよい
+      - ハードウェアー
+# patternには正規表現が利用可能 否定戻り先読みが欲しい…(JSにはない
+  - expected: $1ソフトウェア
+    pattern:  /([^経])ソフトウエア/
+    specs:
+      # 普通に変換
+      - from: 広義のソフトウエア
+        to:   広義のソフトウェア
+      # 日経ソフトウエア(書名)は変換しない
+      - from: 日経ソフトウエア
+        to:   日経ソフトウエア
+  - expected: $1発売
+    pattern: /(\d+年\d+月\d+日)\s発売/
+    specs:
+      - from: "2015年9月17日 発売"
+        to: 2015年9月17日発売
+  - expected: $1デフォルトで有効$2
+    pattern: /(が)デフォルト有効(に)/
+    specs:
+      - from: ある機能がデフォルト有効に
+        to:   ある機能がデフォルトで有効に
