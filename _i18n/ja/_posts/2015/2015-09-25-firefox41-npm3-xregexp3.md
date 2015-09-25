@@ -1,16 +1,56 @@
 ---
-title: "2015-09-25のJS: "
+title: "2015-09-25のJS: Firefox 41.0、npm 3.x stableリリース、XRegExp 3.0.0"
 author: azu
 layout: post
 date : 2015-09-25T15:18
 category: JSer
 tags:
-    - 
+    - Firefox
+    - npm
+    - node
+    - regexp
+    - library
 
 ---
 
 
-JSer.info #246
+JSer.info #246 - Firefox 41.0がリリースされました。
+
+- [Firefox 41.0 リリースノート](http://www.mozilla.jp/firefox/41.0/releasenotes/ "Firefox 41.0 リリースノート")
+- [Firefox 41 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/41 "Firefox 41 for developers - Mozilla | MDN")
+
+CSSの縦書き文章のレイアウト機能([writing-mode](https://developer.mozilla.org/ja/docs/Web/CSS/writing-mode "writing-mode"))がデフォルトで有効となりました。
+ES6の対応として`Symbol.species`、`new.target`のサポート、 destructuringやlet式の仕様追従が行われています。
+
+また、`Navigator.onLine`がWindowsとMacでまともな動作をするようになり、Notifications APIなどがWeb Worker内で利用できるようになっています。
+
+
+----
+npm v3.xがstableリリースされています。
+
+- [The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...](http://blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the "The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...")
+
+v3.3.2まではβとしてリリースされているため、`npm install npm`ではインストールされてませんでしたが、v3.3.3からβでなくなったためstableとしてインストールされます。
+
+Node.jsにバンドルされるのは次のメジャーアップデート時になると思いますが、npm v3.xの変更点については以下を読むといいと思います。
+
+- [npm3 ❓ // Speaker Deck](https://speakerdeck.com/watilde/npm3)
+- [NPM 3 Betaは、Windowsユーザーによいニュースをもたらす](http://www.infoq.com/jp/news/2015/07/npm)
+
+依存関係のディレクトリ構造がフラットになり、またpeerDependenciesがデフォルトでインストールされなくなる等が、より安全なインストールが出来るような変更が行わなわれています。
+
+動かなくなるケースは少ないと思いますが、`npm install`に時間がかかるというIssueが挙げられています。
+
+- [npm@3 wants to be faster · Issue #8826 · npm/npm](https://github.com/npm/npm/issues/8826 "npm@3 wants to be faster · Issue #8826 · npm/npm")
+
+-----
+
+拡張した正規表現を扱える[XRegExp](http://xregexp.com/ "XRegExp") 3.0.0がリリースされました。
+
+- [Flagrant Badassery » XRegExp 3.0.0!](http://blog.stevenlevithan.com/archives/xregexp-3-0-0 "Flagrant Badassery » XRegExp 3.0.0!")
+- [Version history :: XRegExp](http://xregexp.com/history/ "Version history :: XRegExp")
+
+3.0.0ではES6に追従するような変更、Unicodeのサポート、速度の改善などが行われています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -36,6 +76,18 @@ Firefox 41.0リリース。
 
 Node v4.1.0リリース。
 Buffer作成の改善、fs.WriteStreamの書き込み速度の改善など
+
+----
+
+## The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...
+[blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the](http://blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the "The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p>
+
+npm 3.xがlatestとしてリリースされた。
+`npm install -g npm` でnpm 3.xがインストールされるようになった
+
+- [Release v3.0.0 · npm/npm](https://github.com/npm/npm/releases/tag/v3.0.0 "Release v3.0.0 · npm/npm")
 
 ----
 
@@ -116,15 +168,6 @@ ES2016 Draft 1リリース。
 ----
 <h1 class="site-genre">アーティクル</h1>
 
-----
-
-## The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...
-[blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the](http://blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the "The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...")
-
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p>
-
-npm 3.xがlatestとしてリリースされた。
-`npm install -g npm` でnpm 3.xがインストールされるようになった
 
 ----
 
