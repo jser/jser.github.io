@@ -34,6 +34,7 @@ v3.3.2まではβとしてリリースされているため、`npm install npm`�
 
 Node.jsにバンドルされるのは次のメジャーアップデート時になると思いますが、npm v3.xの変更点については以下を読むといいと思います。
 
+- [npm/CHANGELOG.md at master · npm/npm](https://github.com/npm/npm/blob/master/CHANGELOG.md "npm/CHANGELOG.md at master · npm/npm")
 - [npm3 ❓ // Speaker Deck](https://speakerdeck.com/watilde/npm3)
 - [NPM 3 Betaは、Windowsユーザーによいニュースをもたらす](http://www.infoq.com/jp/news/2015/07/npm)
 
