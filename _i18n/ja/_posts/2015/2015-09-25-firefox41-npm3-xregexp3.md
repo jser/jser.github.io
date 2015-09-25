@@ -13,8 +13,9 @@ tags:
 
 ---
 
-
 JSer.info #246 - Firefox 41.0がリリースされました。
+
+browserifyでテスト。
 
 - [Firefox 41.0 リリースノート](http://www.mozilla.jp/firefox/41.0/releasenotes/ "Firefox 41.0 リリースノート")
 - [Firefox 41 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/41 "Firefox 41 for developers - Mozilla | MDN")
