@@ -2,7 +2,6 @@
 "use strict";
 var RuleHelper = require("textlint-rule-helper").RuleHelper;
 var spellCheck = require("spellcheck-technical-word").spellCheckText;
-var ContributingLink = '[Contributing Guide](https://github.com/jser/jser.github.io/blob/develop/CONTRIBUTING.md)';
 /**
  * @param {RuleContext} context
  */
@@ -35,7 +34,7 @@ module.exports = function (context) {
         var results = spellCheck(text);
         results.forEach(function (/*SpellCheckResult*/result) {
             // line, column
-            context.report(node, new context.RuleError(result.actual + " => " + result.expected + "\n" + ContributingLink, {
+            context.report(node, new context.RuleError(result.actual + " => " + result.expected, {
                 line: result.paddingLine,
                 column: result.paddingColumn
             }));
