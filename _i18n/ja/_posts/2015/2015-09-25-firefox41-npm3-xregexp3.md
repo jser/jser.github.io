@@ -38,7 +38,7 @@ Node.jsにバンドルされるのは次のメジャーアップデート時に�
 - [npm3 ❓ // Speaker Deck](https://speakerdeck.com/watilde/npm3)
 - [NPM 3 Betaは、Windowsユーザーによいニュースをもたらす](http://www.infoq.com/jp/news/2015/07/npm)
 
-依存関係のディレクトリ構造がフラットになり、またpeerDependenciesがデフォルトでインストールされなくなる等が、より安全なインストールが出来るような変更が行わなわれています。
+依存関係のディレクトリ構造がフラットになり、またpeerDependenciesがデフォルトでインストールされなくなる等、より安全なインストールが出来るような変更が行わなわれています。
 
 `npm link`に関する問題や`npm install`に時間がかかるというIssueが挙げられています。
 
