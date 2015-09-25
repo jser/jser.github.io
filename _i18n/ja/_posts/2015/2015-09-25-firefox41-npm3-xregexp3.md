@@ -40,7 +40,7 @@ Node.jsにバンドルされるのは次のメジャーアップデート時に�
 
 依存関係のディレクトリ構造がフラットになり、またpeerDependenciesがデフォルトでインストールされなくなる等、より安全なインストールが出来るような変更が行わなわれています。
 
-`npm link`に関する問題や`npm install`に時間がかかるというIssueが挙げられています。
+また、npm v3.xに関連だと`npm link`に関する問題や`npm install`に時間がかかるというIssueが挙げられています。
 
 - [EEXIST error: npm@3 link issues with .bin files · Issue #9702 · npm/npm](https://github.com/npm/npm/issues/9702 "EEXIST error: npm@3 link issues with .bin files · Issue #9702 · npm/npm")
 - [npm@3 wants to be faster · Issue #8826 · npm/npm](https://github.com/npm/npm/issues/8826 "npm@3 wants to be faster · Issue #8826 · npm/npm")
