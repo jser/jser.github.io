@@ -2,8 +2,10 @@
 if [ -n "${TRAVIS_PULL_REQUEST}" ] && [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
   gem install --no-document checkstyle_filter-git saddler saddler-reporter-github
 
-  echo "npm run textlint checkstyle"
+  echo "before: npm run textlint checkstyle"
+  npm run textlint
   npm run textlint --silent -- -f checkstyle
+  echo "after: npm run textlint checkstyle"
   # 変更行のみを対象にする
   npm run textlint --silent -- -f checkstyle \
   | checkstyle_filter-git diff origin/develop \
