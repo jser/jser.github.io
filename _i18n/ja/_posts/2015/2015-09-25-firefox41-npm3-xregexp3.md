@@ -20,7 +20,7 @@ JSer.info #246 - Firefox 41.0がリリースされました。
 - [Firefox 41 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/41 "Firefox 41 for developers - Mozilla | MDN")
 
 CSSの縦書き文章のレイアウト機能([writing-mode](https://developer.mozilla.org/ja/docs/Web/CSS/writing-mode "writing-mode"))がデフォルトで有効となりました。
-ES6の対応として`Symbol.species`、`new.target`のサポート、 destructuringやlet式の仕様追従が行われています。
+ES6の対応として`Symbol.species`、`new.target`のサポート、destructuringやlet式の仕様追従が行われています。
 
 また、`Navigator.onLine`がWindowsとMacでまともな動作をするようになり、Notifications APIなどがWeb Worker内で利用できるようになっています。
 
@@ -30,7 +30,7 @@ npm v3.xがstableリリースされています。
 
 - [The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...](http://blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the "The npm Blog — npm weekly #29: npm 3 out of beta, Nick out of the...")
 
-v3.3.2まではβとしてリリースされているため、`npm install npm`ではインストールされてませんでしたが、v3.3.3からβでなくなったためstableとしてインストールされます。
+v3.3.2まではβとしてリリースされているため、`npm install npm`ではインストールされませんでしたが、v3.3.3からβでなくなったためstableとしてインストールされます。
 
 Node.jsにバンドルされるのは次のメジャーアップデート時になると思いますが、npm v3.xの変更点については以下を読むといいと思います。
 
@@ -40,7 +40,7 @@ Node.jsにバンドルされるのは次のメジャーアップデート時に�
 
 依存関係のディレクトリ構造がフラットになり、またpeerDependenciesがデフォルトでインストールされなくなる等、より安全なインストールが出来るような変更が行われています。
 
-また、npm v3.xに関連だと`npm link`に関する問題や`npm install`に時間がかかるというIssueが挙げられています。
+また、npm v3.x関連だと`npm link`に関する問題や`npm install`に時間がかかるというIssueが挙げられています。
 
 - [EEXIST error: npm@3 link issues with .bin files · Issue #9702 · npm/npm](https://github.com/npm/npm/issues/9702 "EEXIST error: npm@3 link issues with .bin files · Issue #9702 · npm/npm")
 - [npm@3 wants to be faster · Issue #8826 · npm/npm](https://github.com/npm/npm/issues/8826 "npm@3 wants to be faster · Issue #8826 · npm/npm")
@@ -65,7 +65,7 @@ Node.jsにバンドルされるのは次のメジャーアップデート時に�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Firefox 41.0リリース。
-縦書きレイアウトの機能がデフォルトで有効に、`Symbol.species`、`new.target`のサポート、Web Workerの中でNotification APIなどが利用できるようになるなど
+縦書きレイアウトの機能がデフォルトで有効に、`Symbol.species`、`new.target`のサポート、Web Workerの中でNotifications APIなどが利用できるようになるなど
 
 - [Firefox 41 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/41 "Firefox 41 for developers - Mozilla | MDN")
 
@@ -76,7 +76,7 @@ Firefox 41.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Node v4.1.0リリース。
+Node.js v4.1.0リリース。
 Buffer作成の改善、fs.WriteStreamの書き込み速度の改善など
 
 ----
@@ -87,7 +87,7 @@ Buffer作成の改善、fs.WriteStreamの書き込み速度の改善など
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p>
 
 npm 3.xがlatestとしてリリースされた。
-`npm install -g npm` でnpm 3.xがインストールされるようになった
+`npm install -g npm`でnpm 3.xがインストールされるようになった
 
 - [Release v3.0.0 · npm/npm](https://github.com/npm/npm/releases/tag/v3.0.0 "Release v3.0.0 · npm/npm")
 
@@ -165,7 +165,7 @@ ESLint v1.5.0リリース。
 ES2016 Draft 1リリース。
 仕様書がWordからEcmarkupで書かれるようになり、GitHubでリリースされた。
 
-- [New in ECMAScript 2016, JavaScript&#x27;s First Yearly Release](http://www.infoq.com/presentations/ecmascript-2016 "New in ECMAScript 2016, JavaScript&#x27;s First Yearly Release")
+- [New in ECMAScript 2016, JavaScript&#x27;s First Yearly Release](http://www.infoq.com/presentations/ecmascript-2016 "New in ECMAScript 2016, JavaScript's First Yearly Release")
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -209,7 +209,7 @@ GitHubリポジトリのURLを登録するとESDocによるドキュメントが
 ----
 
 ## mantoni/eslint_d.js
-[github.com/mantoni/eslint\_d.js](https://github.com/mantoni/eslint_d.js "mantoni/eslint\_d.js")
+[github.com/mantoni/eslint\_d.js](https://github.com/mantoni/eslint_d.js "mantoni/eslint_d.js")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">サーバー</span></p>
 
@@ -251,7 +251,7 @@ ElectronとPolymerをベースとしたエディタ向けのフレームワー�
 ----
 
 ## Amazon: 速習ECMAScript6: 次世代の標準JavaScriptを今すぐマスター！ [Kindle版]: 山田祥寛
-[www.amazon.co.jp/dp/B014MS5XWK?tag=amazon0abac-22](http://www.amazon.co.jp/dp/B014MS5XWK?tag=amazon0abac-22 "Amazon: 速習ECMAScript6: 次世代の標準JavaScriptを今すぐマスター！ \[Kindle版\]: 山田祥寛")
+[www.amazon.co.jp/dp/B014MS5XWK?tag=amazon0abac-22](http://www.amazon.co.jp/dp/B014MS5XWK?tag=amazon0abac-22 "Amazon: 速習ECMAScript6: 次世代の標準JavaScriptを今すぐマスター！ [Kindle版]: 山田祥寛")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">book</span></p>
 
@@ -267,6 +267,6 @@ ES6についてのKindle本
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
 
 2016年4月30日発売
-IsomorphicについてのOreilly本
+IsomorphicについてのO'Reilly本
 
 ----
