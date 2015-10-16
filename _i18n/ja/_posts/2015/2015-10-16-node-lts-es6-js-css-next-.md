@@ -1,5 +1,5 @@
 ---
-title: "2015-10-16のJS: Node.js 4.2.0 LTS、ES6、CSS next"
+title: "2015-10-16のJS: Node.js 4.2.0 LTS、ES6、CSS.next"
 author: azu
 layout: post
 date : 2015-10-16T22:22
@@ -12,7 +12,31 @@ tags:
 
 ---
 
-JSer.info #249　- 
+JSer.info #249 - [Node v4.2.0](https://nodejs.org/en/blog/release/v4.2.0/ "Node v4.2.0")がリリースされました。
+
+このバージョンは"Argon"というコードネームが付いていますが、Node.jsの[LTS](https://github.com/nodejs/LTS "LTS")(Long-term Support)版としてリリースされています。
+
+- [Node.js、初のLong Term Support対象となる「Node.js 4.2」コード名“Argon”がリリース。リリースから2年半はメンテナンス － Publickey](http://www.publickey1.jp/blog/15/nodejs_long_term_support_argon.html "Node.js、初のLong Term Support対象となる「Node.js 4.2」コード名“Argon”がリリース。リリースから2年半はメンテナンス － Publickey")
+
+名前の通りリリースから 18ヶ月アクティブ + 12ヶ月メンテナンスモード で合計30ヶ月のサポートが行われる予定のバージョンです。
+
+加えてコードから実行されているNode.jsがLTSなのかどうかを返す`process.release.lts`などが追加されています。
+
+----
+
+[ES6 Overview in 350 Bullet Points](https://ponyfoo.com/articles/es6 "ES6 Overview in 350 Bullet Points")という記事では同作者が書いた[es6-in-depth](https://ponyfoo.com/articles/tagged/es6-in-depth "es6-in-depth")シリーズを元にES6の機能について箇条書きで紹介されています。
+
+機能別にリスト化されているので、気になったものを見つけたら詳細を見てみるという取っ掛かりとして読むと良いかもしれません。
+
+----
+
+[JavaScript/CSS 2015 Autumn](http://www.slideshare.net/t32k/javascriptcss-2015-autumn "JavaScript/CSS 2015 Autumn")というスライドでは、JavaScriptとCSSの現状について書かれています。
+
+- JavaScriptについてでは、 ES6とBabel
+- CSSについてでは、cssnext、PostCSS、Sass
+- ビルドツールについてでは、Grunt/gulpとnpm
+
+フロントエンド周りでのツールなどについて広くまとめられているので、導入として全体を見て、気になったものは詳細を調べてみると良さそうです。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
