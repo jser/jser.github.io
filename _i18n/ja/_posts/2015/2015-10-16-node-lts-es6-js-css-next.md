@@ -3,7 +3,7 @@ title: "2015-10-16のJS: Node.js 4.2.0 LTS、ES6、CSS.next"
 author: azu
 layout: post
 date : 2015-10-16T22:22
-category: 
+category: JSer
 tags:
     - Node.js
     - ES6
