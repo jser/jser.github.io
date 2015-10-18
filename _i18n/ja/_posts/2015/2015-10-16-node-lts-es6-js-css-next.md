@@ -12,7 +12,7 @@ tags:
 
 ---
 
-JSer.info #249 - [Node v4.2.0](https://nodejs.org/en/blog/release/v4.2.0/ "Node v4.2.0")がリリースされました。
+JSer.info #249 - [Node.js 4.2.0](https://nodejs.org/en/blog/release/v4.2.0/ "Node v4.2.0")がリリースされました。
 
 このバージョンは"Argon"というコードネームが付いていますが、Node.jsの[LTS](https://github.com/nodejs/LTS "LTS")(Long-term Support)版としてリリースされています。
 
@@ -117,12 +117,12 @@ ES6の機能やポイントについて箇条書きでまとめたもの
 
 ----
 
-## Surfin&Safari - Blog Archive » ES6 in WebKit
+## Surfin' Safari - Blog Archive » ES6 in WebKit
 [www.webkit.org/blog/4054/es6-in-webkit/](https://www.webkit.org/blog/4054/es6-in-webkit/ "Surfin' Safari - Blog Archive » ES6 in WebKit")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">webkit</span> <span class="jser-tag">safari</span> <span class="jser-tag">ECMAScript</span></p>
 
-Safari 9とWebkit nightlyに入ってるES6周りの機能について
+Safari 9とWebKit nightlyに入ってるES6周りの機能について
 
 ----
 
@@ -131,7 +131,7 @@ Safari 9とWebkit nightlyに入ってるES6周りの機能について
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p>
 
-FirebaseとEmberを使ってブログを作リながら、Emberについて学ぶチュートリアル
+FirebaseとEmber.jsを使ってブログを作りながら、Ember.jsについて学ぶチュートリアル
 
 ----
 
@@ -168,7 +168,7 @@ JavaScriptやCSS、ビルドツール周りについて幅広くまとめられ�
 ----
 
 ## AngularJSの$watch登録数が60,000だった - @yoshiko_pg
-[yoshiko-pg.github.io/slides/20151015-gp-meetup/](http://yoshiko-pg.github.io/slides/20151015-gp-meetup/ "AngularJSの$watch登録数が60,000だった - @yoshiko\_pg")
+[yoshiko-pg.github.io/slides/20151015-gp-meetup/](http://yoshiko-pg.github.io/slides/20151015-gp-meetup/ "AngularJSの$watch登録数が60,000だった - @yoshiko_pg")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">スライド</span></p>
 
