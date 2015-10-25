@@ -1,5 +1,5 @@
 ---
-title: "2015-10-25のJS: ESLint入門、ECMAScriptとは何か？、rollupとES6 modules"
+title: "2015-10-25のJS: ESLint入門、ECMAScriptとは何か?、rollupとES6 modules"
 author: azu
 layout: post
 date : 2015-10-25T20:20
@@ -23,7 +23,7 @@ JSer.info #250 - [ESLint v1.7.0](http://eslint.org/blog/2015/10/eslint-v1.7.0-re
 
 [ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch](http://efcl.info/2015/10/18/ecmascript-paper/ "ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch")という記事ではECMAScriptについてQ&A形式で紹介しています。
 
-ECMAScriptを策定してるTC39とは何か？というものから、ES6とES.nextの仕様策定プロセス、どのような仕様が提案されているかなどについて書かれています。
+ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.nextの仕様策定プロセス、どのような仕様が提案されているかなどについて書かれています。
 
 仕様策定に関して疑問が出やすい部分について一通り書かれているので、興味がある人は見てみると良いかもしれません。
 
@@ -55,6 +55,8 @@ Webpack 2でも[使用されていないモジュールの削除](https://github
 そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollupは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
 
 [rollup.js](http://rollupjs.org/ "rollup.js")で公開されたライブラリのパッケージにもES6のコードが含まれている事によるメリットが提示されてきたので、今後npmやビルドツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
+
+ちなみに、ブラウザがどのようにES6 modulesを読み込むかという仕様は[whatwg/loader](https://github.com/whatwg/loader "whatwg/loader")にて議論されています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
