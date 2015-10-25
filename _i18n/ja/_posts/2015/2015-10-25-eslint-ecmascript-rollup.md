@@ -81,7 +81,7 @@ ECMAScriptに出てくるTC39とは何か?という疑問から、ES6とES.next�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 ESLint v1.7.0リリース。
-eslintrcの`extends`にJavaScriptのファイルパスそのもを書いて設定を継承出来るようになった
+eslintrcの`extends`にJavaScriptのファイルパスそのものを書いて設定を継承出来るようになった
 
 ----
 
