@@ -49,13 +49,13 @@ ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.ne
 実際にbundleした結果を比較したものが[nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")で公開されています。
 (Webpack 2でも[ES6 modulesを元に使用されていないコードの削除](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)は予定されています。)
 
-このようにrollupはES6 modulesに最適化されたデザインですが、ES6で書いたコードをnpmなどで公開するルールなどはまだ整備されていないのが現状です。
+このようにrollup.jsはES6 modulesに最適化されたデザインですが、ES6で書いたコードをnpmなどで公開するルールなどはまだ整備されていないのが現状です。
 
 [The struggles of publishing a JavaScript library | Read the Tea Leaves](http://nolanlawson.com/2015/10/19/the-struggles-of-publishing-a-javascript-library/ "The struggles of publishing a JavaScript library | Read the Tea Leaves")では、npmやBower、jspmにライブラリをどのように公開するかという話が書かれています。
 
 その中でも、npmでは`"main"` フィールドに指定するエントリーポイントは基本的にES5環境向けにビルドしたものとなっていますが、公開されたライブラリにES6のコードをどう含めるかについては何も決まっていません。
 
-そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollupは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
+そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollup.jsは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
 
 [rollup.js](http://rollupjs.org/ "rollup.js")で公開されたライブラリのパッケージにもES6のコードが含まれている事によるメリットが提示されてきたので、今後npmやbundleツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
 
@@ -156,7 +156,7 @@ ES6でシンプルにEventEmitterやObserverを実装しながら、ES6の機能
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
 bower、npm、jspmに対応したライブラリの公開方法と設定について。
-Browserify、Webpack、rollupでのライブラリのビルドについてなど
+Browserify、Webpack、rollup.jsでのライブラリのビルドについてなど
 
 - [nolanlawson/hello-javascript](https://github.com/nolanlawson/hello-javascript "nolanlawson/hello-javascript")
 
