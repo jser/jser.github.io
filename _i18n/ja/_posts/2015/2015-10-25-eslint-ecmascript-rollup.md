@@ -42,9 +42,8 @@ ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.ne
 - [Bindings · rollup/rollup Wiki](https://github.com/rollup/rollup/wiki/Bindings "Bindings · rollup/rollup Wiki")
 - [JavaScript - ES6 Modules 間では export/import された変数（？）は同期される - Qiita](http://qiita.com/shuhei/items/f74e1f7478839e829b16 "JavaScript - ES6 Modules 間では export/import された変数（？）は同期される - Qiita")
 
-Webpack 2でも[使用されていないモジュールの削除](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)は予定されていますが、使用されていない関数の削除はCommonJSだとアドホックな形になるので難しいと思います。
-
 実際にビルドした結果を比較したものが[nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")で公開されています。
+(Webpack 2でも[ES6 modulesを元に使用されていないコードの削除](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)は予定されています。)
 
 このようにrollupはES6 modulesに最適化されたデザインですが、ES6で書いたコードをnpmなどで公開するルールなどはまだ整備されていないのが現状です。
 
