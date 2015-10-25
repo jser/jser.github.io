@@ -23,7 +23,7 @@ JSer.info #250 - [ESLint v1.7.0](http://eslint.org/blog/2015/10/eslint-v1.7.0-re
 
 [ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch](http://efcl.info/2015/10/18/ecmascript-paper/ "ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch")という記事ではECMAScriptについてQ&A形式で紹介しています。
 
-ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.nextの仕様策定プロセス、どのような仕様が提案されているかなどについて書かれています。
+ECMAScriptに出てくるTC39とは何か?という疑問から、ES6とES.nextの仕様策定プロセス、どのような仕様が提案されているかなどについて書かれています。
 
 仕様策定に関して疑問が出やすい部分について一通り書かれているので、興味がある人は見てみると良いかもしれません。
 
