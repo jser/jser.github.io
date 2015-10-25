@@ -1,5 +1,5 @@
 ---
-title: "2015-10-25のJS: ESLint入門、ECMAScriptとは何か？、rollup"
+title: "2015-10-25のJS: ESLint入門、ECMAScriptとは何か？、rollupとES6 modules"
 author: azu
 layout: post
 date : 2015-10-25T20:20
@@ -13,7 +13,48 @@ tags:
 
 ---
 
-JSer.info #250
+JSer.info #250 - [ESLint v1.7.0](http://eslint.org/blog/2015/10/eslint-v1.7.0-released/ "ESLint v1.7.0")がリリースされました。
+`.eslintrc`内に`"extends": "./foo.js"`と書くことでJavaScriptファイルを継承出来るようになっています。
+
+また、[JavaScript - ESLint 最初の一歩 - Qiita](http://qiita.com/mysticatea/items/f523dab04a25f617c87d "JavaScript - ESLint 最初の一歩 - Qiita")という記事では、ESLintの使い方、設定方法、エディタ、ES6関連のルールについてなどが紹介されています。
+初めてESLintを使う際に見てみるといいかもしれません。
+
+----
+
+[ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch](http://efcl.info/2015/10/18/ecmascript-paper/ "ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch")という記事ではECMAScriptについてQ&A形式で紹介しています。
+
+ECMAScriptを策定してるTC39とは何か？というものから、ES6とES.nextの仕様策定プロセス、どのような仕様が提案されているかなどについて書かれています。
+
+仕様策定に関して疑問が出やすい部分について一通り書かれているので、興味がある人は見てみると良いかもしれません。
+
+-----
+
+[rollup.js](http://rollupjs.org/ "rollup.js")はBrowserify、RequireJS、Webpackのようにモジュールの結合を行うビルドツールです。
+デフォルトではES6 modulesのみを結合しますが[plugin](https://github.com/rollup/rollup/pull/207 "plugin")によってCommonJSなども対応するようです。
+
+特徴として[サイト上](http://rollupjs.org)で試すことが出来ますが、他のビルドツールと違いそれぞれのモジュールをラップした関数などがなくキレイに結合されています。
+また、モジュールを読み込んでいても使用していない関数は除去されるなどの最適化が行われています。
+
+これはES6 modulesがCommonJSの`require`のように動的にモジュールを読み込めるものではなく、[静的に依存関係が決まる](https://hacks.mozilla.org/2015/08/es6-in-depth-modules/)こと等を上手く活用しています。
+
+- [Cycles · rollup/rollup Wiki](https://github.com/rollup/rollup/wiki/Cycles "Cycles · rollup/rollup Wiki")
+- [ES6 modules · rollup/rollup Wiki](https://github.com/rollup/rollup/wiki/ES6-modules "ES6 modules · rollup/rollup Wiki")
+- [Bindings · rollup/rollup Wiki](https://github.com/rollup/rollup/wiki/Bindings "Bindings · rollup/rollup Wiki")
+- [JavaScript - ES6 Modules 間では export/import された変数（？）は同期される - Qiita](http://qiita.com/shuhei/items/f74e1f7478839e829b16 "JavaScript - ES6 Modules 間では export/import された変数（？）は同期される - Qiita")
+
+Webpack 2でも[使用されていないモジュールの削除](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)は予定されていますが、使用されていない関数の削除はCommonJSだとアドホックな形になるので難しいと思います。
+
+実際にビルドした結果を比較したものが[nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")で公開されています。
+
+このようにrollupはES6 modulesに最適化されたデザインですが、ES6で書いたコードをnpmなどで公開するルールなどはまだ整備されていないのが現状です。
+
+[The struggles of publishing a JavaScript library | Read the Tea Leaves](http://nolanlawson.com/2015/10/19/the-struggles-of-publishing-a-javascript-library/ "The struggles of publishing a JavaScript library | Read the Tea Leaves")では、npmやBower、jspmにライブラリをどのように公開するかという話が書かれています。
+
+その中でも、npmでは`"main"` フィールドに指定するエントリーポイントは基本的にES5環境向けにビルドしたものとなっていますが、公開されたライブラリにES6のコードをどう含めるかについては何も決まっていません。
+
+そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollupは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
+
+[rollup.js](http://rollupjs.org/ "rollup.js")で公開されたライブラリのパッケージにもES6のコードが含まれている事によるメリットが提示されてきたので、今後npmやビルドツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
