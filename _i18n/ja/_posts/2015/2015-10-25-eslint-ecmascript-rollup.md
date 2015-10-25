@@ -29,10 +29,10 @@ ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.ne
 
 -----
 
-[rollup.js](http://rollupjs.org/ "rollup.js")はBrowserify、RequireJS、Webpackのようにモジュールの結合を行うビルドツールです。
+[rollup.js](http://rollupjs.org/ "rollup.js")はBrowserify、RequireJS、Webpackのようにモジュールの結合を行うbundleツールです。
 デフォルトではES6 modulesのみを結合しますが[plugin](https://github.com/rollup/rollup/pull/207 "plugin")によってCommonJSなども対応するようです。
 
-特徴として[サイト上](http://rollupjs.org)で試すことが出来ますが、他のビルドツールと違いそれぞれのモジュールをラップした関数などがなくキレイに結合されています。
+特徴として[サイト上](http://rollupjs.org)で試すことが出来ますが、他のbundleツールと違いそれぞれのモジュールをラップした関数などがなくキレイに結合されています。
 また、モジュールを読み込んでいても使用していない関数は除去されるなどの最適化が行われています。
 
 これはES6 modulesがCommonJSの`require`のように動的にモジュールを読み込めるものではなく、[静的に依存関係が決まる](https://hacks.mozilla.org/2015/08/es6-in-depth-modules/)こと等を上手く活用しています。
@@ -42,7 +42,11 @@ ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.ne
 - [Bindings · rollup/rollup Wiki](https://github.com/rollup/rollup/wiki/Bindings "Bindings · rollup/rollup Wiki")
 - [JavaScript - ES6 Modules 間では export/import された変数（？）は同期される - Qiita](http://qiita.com/shuhei/items/f74e1f7478839e829b16 "JavaScript - ES6 Modules 間では export/import された変数（？）は同期される - Qiita")
 
-実際にビルドした結果を比較したものが[nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")で公開されています。
+他のbundleツールとの違いについては以下を参照してみてください。
+
+- [Yet another module bundler · Issue #219 · rollup/rollup](https://github.com/rollup/rollup/issues/219 "Yet another module bundler · Issue #219 · rollup/rollup")
+
+実際にbundleした結果を比較したものが[nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")で公開されています。
 (Webpack 2でも[ES6 modulesを元に使用されていないコードの削除](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)は予定されています。)
 
 このようにrollupはES6 modulesに最適化されたデザインですが、ES6で書いたコードをnpmなどで公開するルールなどはまだ整備されていないのが現状です。
@@ -53,7 +57,7 @@ ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.ne
 
 そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollupは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
 
-[rollup.js](http://rollupjs.org/ "rollup.js")で公開されたライブラリのパッケージにもES6のコードが含まれている事によるメリットが提示されてきたので、今後npmやビルドツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
+[rollup.js](http://rollupjs.org/ "rollup.js")で公開されたライブラリのパッケージにもES6のコードが含まれている事によるメリットが提示されてきたので、今後npmやbundleツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
 
 ちなみに、ブラウザがどのようにES6 modulesを読み込むかという仕様は[whatwg/loader](https://github.com/whatwg/loader "whatwg/loader")にて議論されています。
 
