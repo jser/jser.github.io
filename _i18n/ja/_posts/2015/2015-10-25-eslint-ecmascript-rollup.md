@@ -57,7 +57,7 @@ ECMAScriptに出てくるTC39とは何か?という疑問から、ES6とES.next�
 
 そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollup.jsは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
 
-[rollup.js](http://rollupjs.org/ "rollup.js")で公開されたライブラリのパッケージにもES6のコードが含まれている事によるメリットが提示されてきたので、今後npmやbundleツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
+[rollup.js](http://rollupjs.org/ "rollup.js")によって、公開されたパッケージにもES6のコードが含まれている事のメリットが提示されてきたので、今後npmやbundleツールでES6のコードをどう扱うかという話に何らかの進展があるかもしれません。
 
 ちなみに、ブラウザがどのようにES6 modulesを読み込むかという仕様は[whatwg/loader](https://github.com/whatwg/loader "whatwg/loader")にて議論されています。
 
