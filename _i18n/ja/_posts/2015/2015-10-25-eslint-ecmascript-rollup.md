@@ -61,6 +61,15 @@ ECMAScriptを策定してるTC39とは何か?という疑問から、ES6とES.ne
 
 ちなみに、ブラウザがどのようにES6 modulesを読み込むかという仕様は[whatwg/loader](https://github.com/whatwg/loader "whatwg/loader")にて議論されています。
 
+## お知らせ
+
+今回で250回目ですが、来年の1月16日でJSer.infoを始めてから5年になります。
+2016年1月16日(土)か17日(日)あたりに[200回記念イベント](http://jser.info/2014/11/02/jser200/ "JSer.info 200回記念イベントを開催しました - JSer.info")と同じようなイベントをやろうと計画しています。
+
+以下にIssueを立ててあるのでご意見がある人は書き込むとよさそうです。
+
+- [JSer.info 5周年イベント · Issue #54 · jser/jser.info](https://github.com/jser/jser.info/issues/54 "JSer.info 5周年イベント · Issue #54 · jser/jser.info")
+
 ----
 <h1 class="site-genre">ヘッドライン</h1>
 
