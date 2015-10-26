@@ -53,7 +53,7 @@ ECMAScriptに出てくるTC39とは何か?という疑問から、ES6とES.next�
 
 [The struggles of publishing a JavaScript library | Read the Tea Leaves](http://nolanlawson.com/2015/10/19/the-struggles-of-publishing-a-javascript-library/ "The struggles of publishing a JavaScript library | Read the Tea Leaves")では、npmやBower、jspmにライブラリをどのように公開するかという話が書かれています。
 
-その中でも、npmでは`"main"` フィールドに指定するエントリーポイントは基本的にES5環境向けにビルドしたものとなっていますが、公開されたライブラリにES6のコードをどう含めるかについては何も決まっていません。
+その中でも、npmでは`"main"`フィールドに指定するエントリーポイントは基本的にES5環境向けにビルドしたものとなっていますが、公開されたライブラリにES6のコードをどう含めるかについては何も決まっていません。
 
 そのため、ES6 modulesのコード(ライブラリのコードも含む)を参照したいrollup.jsは`jsnext:main`というフィールドにES6のエントリーポイントを指定するような規約を設けています。
 
@@ -134,8 +134,8 @@ ECMAScriptとは何か?からES2016の策定プロセス、進捗の確認方法
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span></p>
 
-`let {} = {};` がES6でvalidであるというのは混乱を起こすのではという話。
-現在、EMCAScript仕様のIssueとして修正するべきかが議論されている。
+`let {} = {};`がES6でvalidであるというのは混乱を起こすのではという話。
+現在、ECMAScript仕様のIssueとして修正するべきかが議論されている。
 
 - [Destructuring declarations that bind nothing should probably be an early error · Issue #97 · tc39/ecma262](https://github.com/tc39/ecma262/issues/97 "Destructuring declarations that bind nothing should probably be an early error · Issue #97 · tc39/ecma262")
 
