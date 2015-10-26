@@ -1,5 +1,5 @@
 ---
-title: "2015-08-17의 JS: Redux 1.0.0、flux-utils、Firefox 40"
+title: "2015-08-17의 JS: Redux 1.0.0, flux-utils, Firefox 40"
 author: azu
 translator: U-Yeong Ju
 layout: post
@@ -35,7 +35,7 @@ Redux의 컨셉은 해당 개발자가 직접 작성한 [The Evolution of Flux F
 
 > This method should be pure and have no side-effects.
 
-FluxUtils와 Reflux는 서로 영향을 받은 듯한 느낌이 들 수 있습니다. [Redux의 개발자](https://twitter.com/dan_abramov)와 [Flux의 개발자](https://twitter.com/fisherwebdev)의 대화를 한번 읽어보면 재미있을거 같습니다.
+FluxUtils와 Redux는 서로 영향을 받은 듯한 느낌이 들 수 있습니다. [Redux의 개발자](https://twitter.com/dan_abramov)와 [Flux의 개발자](https://twitter.com/fisherwebdev)의 대화를 한번 읽어보면 재미있을거 같습니다.
 
 - [Combining Stateless Stores](https://gist.github.com/gaearon/d77ca812015c0356654f "Combining Stateless Stores")
 
