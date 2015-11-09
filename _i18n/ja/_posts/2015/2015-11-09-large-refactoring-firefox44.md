@@ -5,11 +5,28 @@ layout: post
 date : 2015-11-09T22:03
 category: JSer
 tags:
-    - 
+    - JavaScript
+    - Firefox
+    - debug
 
 ---
 
-JSer.info #252
+JSer.info #252 - [フロントエンドに秩序を取り戻す方法 // Speaker Deck](https://speakerdeck.com/fand/hurontoendonizhi-xu-woqu-rili-sufang-fa "フロントエンドに秩序を取り戻す方法 // Speaker Deck")というスライドでは、はてなブログの編集画面をどのようにリファクタリングしていっているかという話が書かれています。
+
+<script async class="speakerdeck-embed" data-id="8175ffced95e4d1699c0e5f73357e8fd" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+名前空間風のオブジェクトで管理されていたものを、CommonJSのモジュール管理に変えていくリファクタリングの流れ、Viewのライブラリ導入の議論、Lintやテストの方針などについて書かれています。
+
+JavaScriptにモジュール的な概念が根付いたのはここ数年なので、このように一つの巨大な名前空間オブジェクトで管理されているものを移行していくケーススタディとして見てみると面白いかもしれません。
+
+
+----
+
+[Developer Edition 44: New visual editing and memory management tools ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2015/11/developer-edition-44-creative-tools-and-more/ "Developer Edition 44: New visual editing and memory management tools ★ Mozilla Hacks – the Web developer blog") ([翻訳](http://www.mozilla.jp/blog/entry/10510/))という記事ではFirefox 44での開発者ツールの機能について紹介されています。
+
+アニメーションツール、 CSS フィルタツール、カラーインスペクタツールなどのビジュアル的なツールの追加がされており、これらの機能については[DevTools Challenger](http://devtoolschallenger.com/ "DevTools Challenger")というサイトで実際に使い方を試しながら学ぶ事ができるようになっています。
+
+また、メモリのスナップショットやWebsocketのframeを確認するデバッグ機能などが追加されています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -188,7 +205,7 @@ DropboxのSassフレームワーク
 
 ----
 
-## Selenium - O&#x27;Reilly Media
+## Selenium - O'Reilly Media
 [shop.oreilly.com/product/0636920042853.do](http://shop.oreilly.com/product/0636920042853.do "Selenium - O'Reilly Media")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Selenium</span> <span class="jser-tag">book</span></p>
