@@ -3,8 +3,8 @@
 import element from 'virtual-element'
 import { tree, render } from 'deku';
 import RelatedItemList from "./component/RelatedItemList"
-var JSerStat = require("jser-stat").JSerStat;
-function getURL(URL) {
+import { JSerStat }  from "jser-stat";
+function fetchURL(URL) {
     return new Promise(function (resolve, reject) {
         var req = new XMLHttpRequest();
         req.open('GET', URL);
@@ -26,8 +26,8 @@ function getStat() {
         return Promise.resolve(getStat._jSerStat);
     }
     return Promise.all([
-        getURL("https://jsonp.afeld.me/?url=http://jser.info/posts.json"),
-        getURL("https://jsonp.afeld.me/?url=http://jser.info/source-data/items.json")
+        fetchURL("http://jser.info/posts.json"),
+        fetchURL("http://jser.info/source-data/items.json")
     ]).then(function (results) {
         var posts = JSON.parse(results[0]).reverse();
         var items = JSON.parse(results[1]);
@@ -66,20 +66,24 @@ getStat().then(function () {
     var siteList = Array.prototype.slice.call(siteNodeList);
     siteList.forEach(function (item) {
         var URL = item.firstElementChild.href;
+        var div = document.createElement("div");
+        div.className = "RelatedItemAddition";
         var button = document.createElement("button");
-        button.textContent = "関連記事を表示";
+        button.className = "RelatedItemAddition--button";
+        button.textContent = "▼関連記事を表示";
         button.addEventListener("click", function (event) {
-            var parentNode = event.target.parentNode;
+            event.preventDefault();
+            var parentNode = item;
             var box = parentNode.getElementsByClassName("RelatedItemBox");
-            if(box.length > 0) {
+            if (box.length > 0) {
                 return;
             }
             var placeholder = document.createElement("div");
             parentNode.appendChild(placeholder);
-            event.preventDefault();
             showRelated(URL, placeholder);
         });
-        item.appendChild(button);
+        div.appendChild(button);
+        item.appendChild(div);
     });
 }).catch(function (error) {
     console.error(error, error.stack);
