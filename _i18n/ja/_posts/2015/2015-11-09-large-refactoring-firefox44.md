@@ -1,5 +1,5 @@
 ---
-title: "2015-11-09のJS: "
+title: "2015-11-09のJS: 巨大なJavaScriptのリファクタリング、Firefox 44の開発者ツール"
 author: azu
 layout: post
 date : 2015-11-09T22:03
