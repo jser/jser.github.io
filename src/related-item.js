@@ -22,6 +22,7 @@ function fetchURL(URL) {
     });
 }
 function getStat() {
+    return Promise.resolve(new JSerStat());
     if (getStat._jSerStat) {
         return Promise.resolve(getStat._jSerStat);
     }
