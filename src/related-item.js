@@ -23,6 +23,7 @@ function fetchURL(URL) {
 }
 function getStat() {
     return Promise.resolve(new JSerStat());
+    // APIで取ってくる方式
     if (getStat._jSerStat) {
         return Promise.resolve(getStat._jSerStat);
     }
