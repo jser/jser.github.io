@@ -22,11 +22,11 @@ JavaScriptにモジュール的な概念が根付いたのはここ数年なの�
 
 ----
 
-[Developer Edition 44: New visual editing and memory management tools ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2015/11/developer-edition-44-creative-tools-and-more/ "Developer Edition 44: New visual editing and memory management tools ★ Mozilla Hacks – the Web developer blog") ([翻訳](http://www.mozilla.jp/blog/entry/10510/))という記事ではFirefox 44での開発者ツールの機能について紹介されています。
+[Developer Edition 44: New visual editing and memory management tools ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2015/11/developer-edition-44-creative-tools-and-more/ "Developer Edition 44: New visual editing and memory management tools ★ Mozilla Hacks – the Web developer blog")([翻訳](http://www.mozilla.jp/blog/entry/10510/))という記事ではFirefox 44での開発者ツールの機能について紹介されています。
 
-アニメーションツール、 CSS フィルタツール、カラーインスペクタツールなどのビジュアル的なツールの追加がされており、これらの機能については[DevTools Challenger](http://devtoolschallenger.com/ "DevTools Challenger")というサイトで実際に使い方を試しながら学ぶ事ができます。
+アニメーションツール、 CSSフィルタツール、カラーインスペクタツールなどのビジュアル的なツールの追加がされており、これらの機能については[DevTools Challenger](http://devtoolschallenger.com/ "DevTools Challenger")というサイトで実際に使い方を試しながら学ぶ事ができます。
 
-また、メモリのスナップショットやWebsocketのframeを確認するデバッグ機能などが追加されています。
+また、メモリのスナップショットやWebSocketのframeを確認するデバッグ機能などが追加されています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
