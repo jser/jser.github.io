@@ -23,8 +23,11 @@ TC39とは何か?、今後は機能ごとのProposalとなってることやど�
 
 - [ECMAScript 2015はなぜ策定まで時間がかかったか？ 仕様策定のリーダー、アレン・ワーフスブラック氏に聞く：CodeZine（コードジン）](http://codezine.jp/article/detail/9071 "ECMAScript 2015はなぜ策定まで時間がかかったか？ 仕様策定のリーダー、アレン・ワーフスブラック氏に聞く：CodeZine（コードジン）")
 
-また上記の記事と同時期に[ES6 in Practice](http://www.slideshare.net/teppeis/es6-in-practice "ES6 in Practice")というスライドが公開されています。
+上記の記事と同時期に[ES6 in Practice](http://www.slideshare.net/teppeis/es6-in-practice "ES6 in Practice")というスライドが公開されています。
 こちらのスライドでも同様に仕様策定のプロセスや現状のES6 Modulesの問題点についてなどが書かれています。
+ES6 Modulesは構文とセマンティクスのみが仕様化されていて、どのようにパスの解決をするのかはまだ未定義となっています。
+そのため、BabelなどのTranspilerはある種の独自解釈をしてES6 Modulesを扱っているので、
+そこから生まれるCommonJSとの相互運用性の問題などについて問題提起がされています。
 
 どのスライドも[ES7 XXX言うな問題](http://www.slideshare.net/teppeis/es6-in-practice/22)について触れています。
 "ES7 Decorator"というようにProposal段階の機能が、まるでES7の機能であるような言い方は誤解を生むことがあります。
