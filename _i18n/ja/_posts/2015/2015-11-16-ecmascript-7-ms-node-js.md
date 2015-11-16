@@ -17,7 +17,7 @@ JSer.info #253 - [What’s in ECMAScript 2016 (ES7)?](http://www.2ality.com/2015
 
 TC39とは何か?、今後は機能ごとのProposalとなってることやどのように策定が進んでいくかといったことについて書かれています。
 
-自分が以前書いた[Introduction | ECMAScriptとは何か？](http://azu.github.io/slide-what-is-ecmascript/ "Introduction | ECMAScriptとは何か？")というスライドと[記事](http://efcl.info/2015/10/18/ecmascript-paper/)と扱ってる内容はかなり近いです。
+自分が以前書いた[Introduction | ECMAScriptとは何か？](http://azu.github.io/slide-what-is-ecmascript/ "Introduction | ECMAScriptとは何か？")や[記事](http://efcl.info/2015/10/18/ecmascript-paper/)と扱ってる内容はかなり近いです。
 
 合わせてES6のエディタであるAllenさんのインタビューも読むと、今後どのようになっていくかが分かりやすいです。
 
