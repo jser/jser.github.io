@@ -1,16 +1,62 @@
 ---
-title: "2015-11-16のJS: "
+title: "2015-11-16のJS: ECMAScript 2016(ES7)って何、WindowsでのNode.js入門"
 author: azu
 layout: post
 date : 2015-11-16T22:49
 category: JSer
 tags:
-    - 
-
+    - ECMAScript
+    - ES.next
+    - MS
+    - Node.js
+  
 ---
 
 
-JSer.info #253
+JSer.info #253 - [What’s in ECMAScript 2016 (ES7)?](http://www.2ality.com/2015/11/tc39-process.html "What’s in ECMAScript 2016 (ES7)?")という記事では、最近よく見るECMAScript 2016 (ES7)というのは実際には何の事を言ってるのかについて書かれています。
+
+TC39とは何か?、今後は機能ごとのProposalとなってることやどのように策定が進んでいくかといったことについて書かれています。
+
+自分が以前書いた[Introduction | ECMAScriptとは何か？](http://azu.github.io/slide-what-is-ecmascript/ "Introduction | ECMAScriptとは何か？")というスライドと[記事](http://efcl.info/2015/10/18/ecmascript-paper/)と扱ってる内容はかなり近いです。
+
+合わせてES6のエディタであるAllenさんのインタビューも読むと、今後どのようになっていくかが分かりやすいです。
+
+- [ECMAScript 2015はなぜ策定まで時間がかかったか？ 仕様策定のリーダー、アレン・ワーフスブラック氏に聞く：CodeZine（コードジン）](http://codezine.jp/article/detail/9071 "ECMAScript 2015はなぜ策定まで時間がかかったか？ 仕様策定のリーダー、アレン・ワーフスブラック氏に聞く：CodeZine（コードジン）")
+
+また上記の記事と同時期に[ES6 in Practice](http://www.slideshare.net/teppeis/es6-in-practice "ES6 in Practice")というスライドが公開されています。
+こちらのスライドでも同様に仕様策定のプロセスや現状のES6 Modulesの問題点についてなどが書かれています。
+
+どのスライドも[ES7 XXX言うな問題](http://www.slideshare.net/teppeis/es6-in-practice/22)について触れています。
+"ES7 Decorator"というようにProposal段階の機能が、まるでES7の機能であるような言い方は誤解を生むことがあります。
+そのため、仕様として提案中の機能であることやStage 1の機能であることなどもう少し正確な言い回しをしようという話となっています。
+
+----
+
+[Microsoft/nodejs-guidelines](https://github.com/Microsoft/nodejs-guidelines "Microsoft/nodejs-guidelines")というリポジトリでMicrosoftによるNode.js入門ガイドラインが公開されています。
+
+Windows上でのNode.jsの利用方法について、npmの使い方、開発ツールやエディタなどについて書かれています。
+
+
+-----
+
+## お知らせ
+
+ウェブ上で記事の方を見ると分かりますが、それぞれの記事に"▼関連記事の表示"というボタンが増えていると思います。
+
+これは、その記事に関連する記事一覧を[jser-stat](https://github.com/jser/stat-js "jser-stat")を使って出しています。
+
+![関連記事](https://monosnap.com/file/svl7DJLuVANCIuhLpd0Z54ioBIypK1.png)
+
+取得から探索まで全部ブラウザ上で処理してるので、そこまで正確というものではないですが、気になる記事の関連記事を探してみると面白いかもしれません。
+
+## お知らせ2
+
+以前お知らせしていた[JSer.info 5周年イベント](https://github.com/jser/jser.info/issues/54 "JSer.info 5周年イベント")ですが、2016年1月16日(土) 午後あたりに開催する予定となりました。
+
+まだ、何をするかが決まっていないので、興味がある人は以下のIssueにコメントを書いて頂けると参考にします。
+
+- [JSer.info 5周年イベント · Issue #54 · jser/jser.info](https://github.com/jser/jser.info/issues/54 "JSer.info 5周年イベント · Issue #54 · jser/jser.info")
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -122,7 +168,7 @@ BlinkOn 5のスライドと動画まとめ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">C言語</span> <span class="jser-tag">C++</span> <span class="jser-tag">スライド</span></p>
 
-今までのブラウザのプラグイン(ネイティブコード)とJavaScriptについてのスライド。
+ブラウザのプラグイン(ネイティブコード)とJavaScriptについてのスライド。
 C/C++をemscriptenで変換する方法やasm.js、wasmについての解説。
 またそれぞれの現段階での実行速度について
 
@@ -167,7 +213,7 @@ ReactとFlowTypeを使った開発についての動画
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p>
 
 依存がないNotification UIライブラリ。
-画面上に被さる通知UI
+画面上部に被さる形の通知UI
 
 ----
 
