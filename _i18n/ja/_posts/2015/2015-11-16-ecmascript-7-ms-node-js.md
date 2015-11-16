@@ -133,7 +133,7 @@ Node.jsでのテストとKarmaなどを使ったブラウザテストの違い�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
 
-KinomaのIoTデバイス向けのJavaScriptエンジンXS6がES6 Compat tableで96%の実装率を持っているという話
+KinomaのIoTデバイス向けのJavaScriptエンジンXS6がES6 Compat tableで96％の実装率を持っているという話
 
 - [ECMAScript 6 compatibility table](http://kangax.github.io/compat-table/es6/ "ECMAScript 6 compatibility table")
 
@@ -222,7 +222,7 @@ ReactとFlowTypeを使った開発についての動画
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">sourcemap</span> <span class="jser-tag">debug</span></p>
 
-SourceMapから利用情報を可視化してファイルサイズやサイズの割合などを調べるツール
+Source Mapから利用情報を可視化してファイルサイズやサイズの割合などを調べるツール
 
 ----
 
