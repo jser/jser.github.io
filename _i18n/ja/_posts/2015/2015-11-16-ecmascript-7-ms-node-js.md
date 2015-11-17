@@ -29,7 +29,7 @@ ES6 Modulesは構文とセマンティクスのみが仕様化されていて、
 そのため、BabelなどのTranspilerはある種の独自解釈をしてES6 Modulesを扱っています。
 そこから生まれるCommonJSとの相互運用性の問題などについて問題提起がされています。
 
-どのスライドも[ES7 XXX言うな問題](http://www.slideshare.net/teppeis/es6-in-practice/22)について触れています。
+どれも[ES7 XXX言うな問題](http://www.slideshare.net/teppeis/es6-in-practice/23)について触れています。
 "ES7 Decorator"というようにProposal段階の機能が、まるでES7の機能であるような言い方は誤解を生むことがあります。
 そのため、仕様として提案中の機能であることやStage 1の機能であることなどもう少し正確な言い回しをしようという話となっています。
 
