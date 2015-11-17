@@ -25,8 +25,8 @@ TC39とは何か?、今後(ES7から)は機能ごとのProposalとなってる�
 
 上記の記事と同時期に[ES6 in Practice](http://www.slideshare.net/teppeis/es6-in-practice "ES6 in Practice")というスライドが公開されています。
 こちらのスライドでも同様に仕様策定のプロセスや現状のES6 Modulesの問題点についてなどが書かれています。
-ES6 Modulesは構文とセマンティクスのみが仕様化されていて、どのようにパスの解決をするのかはまだ未定義となっています。
-そのため、BabelなどのTranspilerはある種の独自解釈をしてES6 Modulesを扱っているので、
+ES6 Modulesは構文とセマンティクスのみが仕様化されていて、どのようにパスを解決してどうやって読み込むのかはまだ安定した仕様はありません。
+そのため、BabelなどのTranspilerはある種の独自解釈をしてES6 Modulesを扱っています。
 そこから生まれるCommonJSとの相互運用性の問題などについて問題提起がされています。
 
 どのスライドも[ES7 XXX言うな問題](http://www.slideshare.net/teppeis/es6-in-practice/22)について触れています。
