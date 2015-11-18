@@ -13,7 +13,7 @@ tags:
 ---
 
 
-JSer.info #253 - [What’s in ECMAScript 2016 (ES7)?](http://www.2ality.com/2015/11/tc39-process.html "What’s in ECMAScript 2016 (ES7)?")という記事では、最近よく見るECMAScript 2016 (ES7)というのは実際には何の事を言ってるのかについて書かれています。
+JSer.info #253 - [What’s in ECMAScript 2016 (ES7)?](http://www.2ality.com/2015/11/tc39-process.html "What’s in ECMAScript 2016 (ES7)?")という記事では、最近よく見るECMAScript 2016(ES7)というのは実際には何の事を言ってるのかについて書かれています。
 
 TC39とは何か?、今後(ES7から)は機能ごとのProposalとなってること、どのように策定が進んでいくかといったことについて書かれています。
 
@@ -54,7 +54,7 @@ Windows上でのNode.jsの利用方法について、npmの使い方、開発ツ
 
 ## お知らせ2
 
-以前お知らせしていた[JSer.info 5周年イベント](https://github.com/jser/jser.info/issues/54 "JSer.info 5周年イベント")ですが、2016年1月16日(土) 午後あたりに開催する予定となりました。
+以前お知らせしていた[JSer.info 5周年イベント](https://github.com/jser/jser.info/issues/54 "JSer.info 5周年イベント")ですが、2016年1月16日(土)午後あたりに開催する予定となりました。
 
 まだ、何をするかが決まっていないので、興味がある人は以下のIssueにコメントを書いて頂けると参考にします。
 
