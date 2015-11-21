@@ -8,15 +8,20 @@
 
 ちょっとした誤字脱字でもご気軽に修正を送ってくださると助かります。
 
-## SpellCheck
+## 自動校正
 
-[azu/technical-word-rules](https://github.com/azu/technical-word-rules "azu/technical-word-rules")の辞書を使った、用語統一のLintによるチェックがPull Requestに対して自動的に行われます。
+[textlint](https://github.com/azu/textlint "textlint")を使った自動校正のチェックが入っています。
+
+- [azu/technical-word-rules](https://github.com/azu/technical-word-rules "azu/technical-word-rules")の辞書を使った用語統一
+- [textlint-rule-no-doubled-joshi](https://github.com/azu/textlint-rule-no-doubled-joshi "textlint-rule-no-doubled-joshi")を使った助詞のチェック
+
+などがCIで実行されています。
 
 ![lint-image](http://monosnap.com/image/vE9DQn1451rGrWGSCQJrmth5cYzzIj.png)
 
 ### チェック対象となった場合の対応
 
-Lint結果に対して以下のような対応を取ることが出来ます。
+Lintのチェック結果に対して次のような対応を取ることが出来ます。
 
 1. コメントに応じて修正する
 2. [azu/technical-word-rules](https://github.com/azu/technical-word-rules "azu/technical-word-rules")の辞書を修正する
@@ -28,7 +33,10 @@ Lint結果に対して以下のような対応を取ることが出来ます。
 
 ```
 npm install
-npm run lint:spell -- /path/to/file.md
+# 編集したファイルだけを対象にする場合
+npm run textlint
+# or ファイルを指定する場合
+npm run lint -- /path/to/file.md
 ```
 
 でLintをかけることが出来ます。
