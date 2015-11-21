@@ -56,6 +56,7 @@ npm test
 記事からGitHubで直接編集してpull requestを送ることが出来ます。
 
 ちょっとした誤字脱字でもご気軽に修正を送ってくださると助かります。
+詳しくは[CONTRIBUTING.md](./CONTRIBUTING.md)を読んでみるといいです。
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
