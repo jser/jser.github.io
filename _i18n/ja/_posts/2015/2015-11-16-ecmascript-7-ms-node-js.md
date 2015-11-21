@@ -9,7 +9,7 @@ tags:
     - ES.next
     - MS
     - Node.js
-  
+
 ---
 
 
@@ -25,7 +25,7 @@ TC39とは何か?、今後(ES7から)は機能ごとのProposalとなってる�
 
 上記の記事と同時期に[ES6 in Practice](http://www.slideshare.net/teppeis/es6-in-practice "ES6 in Practice")というスライドが公開されています。
 こちらのスライドでも同様に仕様策定のプロセスや現状のES6 Modulesの問題点についてなどが書かれています。
-ES6 Modulesは構文とセマンティクスのみが仕様化されていて、どのようにパスを解決してどうやって読み込むのかはまだ安定した仕様はありません。
+ES6 Modulesは構文とセマンティクスのみが仕様化されており、どのようにパスを解決してどう読み込むのかについて安定した仕様がありません。
 そのため、BabelなどのTranspilerはある種の独自解釈をしてES6 Modulesを扱っています。
 そこから生まれるCommonJSとの相互運用性の問題などについて問題提起がされています。
 
@@ -46,7 +46,7 @@ Windows上でのNode.jsの利用方法について、npmの使い方、開発ツ
 
 ウェブ上で記事の方を見ると分かりますが、それぞれの記事に"▼関連記事の表示"というボタンが増えていると思います。
 
-これは、その記事に関連する記事一覧を[jser-stat](https://github.com/jser/stat-js "jser-stat")を使って出しています。
+これは、その記事に関連する記事一覧を[jser-stat](https://github.com/jser/stat-js "jser-stat")を使い表示しています。
 
 ![関連記事](https://monosnap.com/file/svl7DJLuVANCIuhLpd0Z54ioBIypK1.png)
 
