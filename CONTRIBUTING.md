@@ -28,7 +28,10 @@ Lint結果に対して以下のような対応を取ることが出来ます。
 
 ```
 npm install
-npm run lint:spell -- /path/to/file.md
+# 編集したファイルだけを対象にする場合
+npm run textlint
+# or ファイルを指定する場合
+npm run lint -- /path/to/file.md
 ```
 
 でLintをかけることが出来ます。

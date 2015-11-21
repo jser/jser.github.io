@@ -27,10 +27,24 @@ Gitterは共通で使用していますので、気になったことは以下�
 ## Installation
 
 ``` sh
+# テストやJavaScript関係
 npm install
 # Jekyllのインストールとビルド
 bundle install
+```
+
+## Usage
+
+### Jekyllのビルド
+
+```
 bundle exec jekyll build
+```
+
+### Tests
+
+```
+npm test
 ```
 
 ## Contributing
