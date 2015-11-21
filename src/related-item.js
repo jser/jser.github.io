@@ -4,6 +4,8 @@ import element from 'virtual-element'
 import { tree, render } from 'deku';
 import RelatedItemList from "./component/RelatedItemList"
 import { JSerStat }  from "jser-stat";
+const ItemData = require("jser-stat/data/items");
+const PostData = require("jser-stat/data/posts");
 function fetchURL(URL) {
     return new Promise(function (resolve, reject) {
         var req = new XMLHttpRequest();
@@ -22,7 +24,7 @@ function fetchURL(URL) {
     });
 }
 function getStat() {
-    return Promise.resolve(new JSerStat());
+    return Promise.resolve(new JSerStat(ItemData, PostData));
     // APIで取ってくる方式
     if (getStat._jSerStat) {
         return Promise.resolve(getStat._jSerStat);
