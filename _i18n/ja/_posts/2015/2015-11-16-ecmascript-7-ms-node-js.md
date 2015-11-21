@@ -72,7 +72,7 @@ Windows上でのNode.jsの利用方法について、npmの使い方、開発ツ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Babel 6.1.4リリース。
-`babel/register`が`babel-register`というパッケージに分離、ブラウザ向けの`babel-browser`パッケージの追加、バグ修正など
+`babel/register`が`babel-register`にパッケージに分離、ブラウザ向けの`babel-browser`パッケージの追加、バグ修正など
 
 ----
 <h1 class="site-genre">アーティクル</h1>
