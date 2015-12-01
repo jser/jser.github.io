@@ -1,16 +1,30 @@
 ---
-title: ""
+title: "2015-12-01のJS: EdgeHTML 13、TypeScript 1.7、Progressive Webapp"
 author: azu
 layout: post
 date : 2015-12-01T21:05
 category: JSer
 tags:
-    - 
+    - TypeScript
+    - MSEdge
+    - Progressive
 
 ---
 
+JSer.info #255 - [Introducing EdgeHTML 13, our first platform update for Microsoft Edge | Microsoft Edge Dev Blog](http://blogs.windows.com/msedgedev/2015/11/16/introducing-edgehtml-13-our-first-platform-update-for-microsoft-edge/)ではMSEdgeのレンダリングエンジンであるEdgeHTML 13での変更点について書かれています。
 
-JSer.info #255
+HTMLとCSSについてはCSS `initial`と`unset`、`a[download]`、`input[type=time]`、`<picture>`、ORTC、`<template>`などのサポートが追加されています。
+
+また、MSEdgeのJavaScriptエンジンであるChakraもアップデートされています。
+ES6 Classesとasm.jsをデフォルトサポートし、
+フラグ付きでasync/await、Exponentiation operator、Destructuringのサポートが追加されています。
+
+
+-----
+
+- [Announcing TypeScript 1.7 - TypeScript - Site Home - MSDN Blogs](http://blogs.msdn.com/b/typescript/archive/2015/11/30/announcing-typescript-1-7.aspx)
+- [Introducing Pokedex.org: a progressive webapp for Pokémon fans — Pocket JavaScript](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org)
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -47,7 +61,7 @@ EdgeHTML 13の変更点について。
 HTMLやCSS関連では、
 CSS `initial`と`unset`、`a[download]`、`input[type=time]`、`<picture>`、ORTC、`<template>`のサポート。
 
-JavaScript関連では、ES6 Classes、asm.jsをデフォルトサポート。
+JavaScript関連では、ES6 Classesとasm.jsをデフォルトサポート。
 フラグ付きでasync/await、Exponentiation operator、Destructuringのサポート。
 
 - [Release version 10586 : Microsoft Edge Dev](https://dev.windows.com/en-us/microsoft-edge/platform/changelog/desktop/10586/?compareWith=10240 "Release version 10586 : Microsoft Edge Dev")
@@ -129,7 +143,7 @@ Sprocketsの独自ディレクティブもパースして、gulp上でビルド�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Chrome 47のWebRTC関連のアップデートについて。
-MediaStreamRecorderをフラグ付きで実装、`getUserMedia()`がHTTPSのみで利用になるなど
+MediaStreamRecorderをフラグ付きで実装、`getUserMedia()`がHTTPSのみで利用可能となるなど
 
 ----
 
