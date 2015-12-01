@@ -39,11 +39,10 @@ async/awaitが`--experimentalAsyncFunctions`のフラグなしで利用可能に
 [Introducing Pokedex.org: a progressive webapp for Pokémon fans — Pocket JavaScript](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org)では[Progressive Web Apps](https://infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul/ "Progressive Web Apps")という考え方においてウェブアプリを開発した話が書かれています。
 
 > アプリに「なっていく」とは何かなんだけど、Webアプリが「使ってるうちにネイティブアプリと同じような体験を備える」ってところなのかな。なので基本的にWebアプリというのは変わらない。
->
 > また、「Web」というのもポイント。「『Web技術』を使ったアプリ」ではなくて、サーバにホストされURLを持つ、「Web上にあるアプリ」というのが重要。
 > -- [Progressive Web Appsとは - fragmentary](http://myakura.hatenablog.com/entry/2015/11/18/053939 "Progressive Web Appsとは - fragmentary")
 
-Progressive Web Apps自体は新しい機能や仕組みというものではなくて、そういう概念に名前をつけたものでしかないです。
+Progressive Web App自体は新しい機能や仕組みというものではなくて、そういう概念に名前をつけたものでしかないです。
 
 細かい事は今後どこかで話題になると思うのでスルーして、[Introducing Pokedex.org: a progressive webapp for Pokémon fans](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org "Introducing Pokedex.org: a progressive webapp for Pokémon fans")の記事では、
 ウェブアプリでありながらオフラインでも動作したり、60FPSのスクロールや滑らかなアニメーションを実現するための工夫について詳細に書かれています。
