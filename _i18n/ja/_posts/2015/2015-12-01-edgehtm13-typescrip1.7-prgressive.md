@@ -1,5 +1,5 @@
 ---
-title: "2015-12-01のJS: EdgeHTML 13、TypeScript 1.7、Progressive Webapp"
+title: "2015-12-01のJS: EdgeHTML 13、TypeScript 1.7、Progressive Web Apps"
 author: azu
 layout: post
 date : 2015-12-01T21:05
@@ -42,7 +42,7 @@ async/awaitが`--experimentalAsyncFunctions`のフラグなしで利用可能に
 > また、「Web」というのもポイント。「『Web技術』を使ったアプリ」ではなくて、サーバにホストされURLを持つ、「Web上にあるアプリ」というのが重要。
 > -- [Progressive Web Appsとは - fragmentary](http://myakura.hatenablog.com/entry/2015/11/18/053939 "Progressive Web Appsとは - fragmentary")
 
-Progressive Web App自体は新しい機能や仕組みというものではなくて、そういう概念に名前をつけたものでしかないです。
+Progressive Web Apps自体は新しい機能や仕組みというものではなくて、そういう概念に名前をつけたものでしかないです。
 
 細かい事は今後どこかで話題になると思うのでスルーして、[Introducing Pokedex.org: a progressive webapp for Pokémon fans](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org "Introducing Pokedex.org: a progressive webapp for Pokémon fans")の記事では、
 ウェブアプリでありながらオフラインでも動作したり、60FPSのスクロールや滑らかなアニメーションを実現するための工夫について詳細に書かれています。
