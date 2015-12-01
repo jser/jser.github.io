@@ -39,16 +39,16 @@ async/awaitが`--experimentalAsyncFunctions`のフラグなしで利用可能に
 [Introducing Pokedex.org: a progressive webapp for Pokémon fans — Pocket JavaScript](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org)では[Progressive Web Apps](https://infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul/ "Progressive Web Apps")という考え方においてウェブアプリを開発した話が書かれています。
 
 > アプリに「なっていく」とは何かなんだけど、Webアプリが「使ってるうちにネイティブアプリと同じような体験を備える」ってところなのかな。なので基本的にWebアプリというのは変わらない。
-> 
+>
 > また、「Web」というのもポイント。「『Web技術』を使ったアプリ」ではなくて、サーバにホストされURLを持つ、「Web上にあるアプリ」というのが重要。
 > -- [Progressive Web Appsとは - fragmentary](http://myakura.hatenablog.com/entry/2015/11/18/053939 "Progressive Web Appsとは - fragmentary")
 
 Progressive Web Apps自体は新しい機能や仕組みというものではなくて、そういう概念に名前をつけたものでしかないです。
 
-細かい事は今後どこかで話題になるので置いておいて、[Introducing Pokedex.org: a progressive webapp for Pokémon fans](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org "Introducing Pokedex.org: a progressive webapp for Pokémon fans")の記事では、
+細かい事は今後どこかで話題になると思うのでスルーして、[Introducing Pokedex.org: a progressive webapp for Pokémon fans](http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org "Introducing Pokedex.org: a progressive webapp for Pokémon fans")の記事では、
 ウェブアプリでありながらオフラインでも動作したり、60FPSのスクロールや滑らかなアニメーションを実現するための工夫について詳細に書かれています。
 
-また[nolanlawson/pokedex.org](https://github.com/nolanlawson/pokedex.org/ "nolanlawson/pokedex.org")にソースコードが公開されているので興味がある人は読んでみると面白いと思います。
+また[nolanlawson/pokedex.org](https://github.com/nolanlawson/pokedex.org/ "nolanlawson/pokedex.org")にソースコードが公開されているので興味がある人は読んでみるといいです。
 
 上記の記事で参照されている[Chrome Dev Summit](https://developer.chrome.com/devsummit "Chrome Dev Summit")の発表は以下から見ることが出来ます。
 
@@ -58,13 +58,13 @@ Progressive Web Apps自体は新しい機能や仕組みというものではな
 
 ## お知らせ
 
-JSer.infoのサイト右下を見ると[![Gitter chat](https://badges.gitter.im/jser/jser.info.png)](https://gitter.im/jser/jser.info)がありますが、直接Gitterのチャットを開けるようになっています。
+JSer.infoのサイト右下を見るとGitterのボタンから直接チャット画面を開けるようになっています。
 
 Issueを立てるようなことでもないちょっとしたことやオススメ記事とかそういうの書く場所として適当にご利用下さい。
 
 また、[リアルタイム版](http://realtime.jser.info/)、[Pull Requestツール](http://jser.info/contributing/ "JSer.info Pull Request Form")、[統計処理ライブラリ](https://github.com/jser/stat-js "jser/stat-js")、[トレンドビューア](http://jser.info/trends/ "JSer.info トレンド")、[画像素材](https://github.com/jser/media "jser/media")など、JSer.info関連のサイトやリポジトリが増えてきたのでREADMEで整理していあります。
 
-記事を修正したい場合や記事を紹介しもらいたい場合など、目的別にまとめてあるので迷ったら以下を見てみてください。
+記事を修正したい場合や記事を紹介しもらいたい場合など、目的別にまとめてあるので迷ったら以下を見てください。
 
 - [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")
 
