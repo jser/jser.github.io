@@ -27,7 +27,7 @@ TypeScript 1.7がリリースされています。
 
 -  [Announcing TypeScript 1.7 - TypeScript - Site Home - MSDN Blogs](http://blogs.msdn.com/b/typescript/archive/2015/11/30/announcing-typescript-1-7.aspx)
 
-async/awaitが`--experimentalAsyncFunctions`のフラグなしで利用可能になりました(現状では`--target es6`のみ対応)
+async/awaitが`--experimentalAsyncFunctions`のフラグなしで利用可能になりました(現状では`--target es6`のみ対応)。
 型として[`this`が利用できる](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#this-typing)ようになり、`--target es6 --module`という組み合わせが利用できるようになっています。
 
 詳しくは以下の記事を読んでみるといいです。
@@ -61,9 +61,9 @@ JSer.infoのサイト右下を見るとGitterのボタンがありますが、�
 
 Issueを立てるようなことでもないちょっとしたことやオススメ記事とかそういうの書く場所として適当にご利用下さい。
 
-また、[リアルタイム版](http://realtime.jser.info/)、[Pull Requestツール](http://jser.info/contributing/ "JSer.info Pull Request Form")、[統計処理ライブラリ](https://github.com/jser/stat-js "jser/stat-js")、[トレンドビューア](http://jser.info/trends/ "JSer.info トレンド")、[画像素材](https://github.com/jser/media "jser/media")など、JSer.info関連のサイトやリポジトリが増えてきたのでREADMEで整理していあります。
+また、[リアルタイム版](http://realtime.jser.info/)、[Pull Requestツール](http://jser.info/contributing/ "JSer.info Pull Request Form")、[統計処理ライブラリ](https://github.com/jser/stat-js "jser/stat-js")、[トレンドビューア](http://jser.info/trends/ "JSer.info トレンド")、[画像素材](https://github.com/jser/media "jser/media")など、JSer.info関連のサイトやリポジトリが増えてきたのでREADMEで整理してあります。
 
-記事を修正したい場合や記事を紹介しもらいたい場合など、目的別にまとめてあるので迷ったら以下を見てください。
+記事を修正したい場合や記事を紹介してもらいたい場合など、目的別にまとめてあるので迷ったら以下を見てください。
 
 - [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")
 
@@ -120,7 +120,7 @@ TypeScript 1.7リリース。
 async/awaitはフラグなしで利用できるように、Exponentiation operatorをサポート、`--target ES6`と`--module`が併用可能になるなど
 
 - [Roadmap · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Roadmap#17 "Roadmap · Microsoft/TypeScript Wiki")
-- [What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-17 "What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki")
+- [What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-17 "What's new in TypeScript · Microsoft/TypeScript Wiki")
 - [TypeScript 1.7.3 変更点 - Qiita](http://qiita.com/vvakame/items/0441f248b349eba9e267 "TypeScript 1.7.3 変更点 - Qiita")
 
 ----
@@ -158,7 +158,7 @@ pagehideやvisibilityChangeなどの画面表示関連のイベント対応表�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
 
 KarmaからMocha+jsdomへテストを移行した話。
-Isolationの仕組み、全テストの実行時間、単独のテストケース実行、監視などそれぞの項目における比較が書かれている
+Isolationの仕組み、全テストの実行時間、単独のテストケース実行、監視などそれぞれの項目における比較が書かれている
 
 ----
 
@@ -172,7 +172,7 @@ Babel 6で細分化されたパッケージと基本的な使い方について
 ----
 
 ## RailsのAsset PipelineとPrecompileをNode.jsのみで処理できるgulp-sprocketsを作った - yo_waka&#x27;s blog
-[waka.github.io/2015/11/25/gulp\_sprockets.html](http://waka.github.io/2015/11/25/gulp_sprockets.html "RailsのAsset PipelineとPrecompileをNode.jsのみで処理できるgulp-sprocketsを作った - yo\_waka's blog")
+[waka.github.io/2015/11/25/gulp\_sprockets.html](http://waka.github.io/2015/11/25/gulp_sprockets.html "RailsのAsset PipelineとPrecompileをNode.jsのみで処理できるgulp-sprocketsを作った - yo_waka's blog")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span> <span class="jser-tag">rails</span></p>
 
@@ -271,7 +271,7 @@ TypeScriptで書かれたモジュールを公開するときに`package.json`�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">game</span> <span class="jser-tag">library</span></p>
 
 tmlib.jsの後継となるゲームライブラリ。
-Cnavasを使った描画、サウンド、入力系などゲーム作成に必要なものをサポートしてる
+Canvasを使った描画、サウンド、入力系などゲーム作成に必要なものをサポートしてる
 
 - [本日 JavaScript ゲームライブラリ『phina.js』をリリースしました! | phiary](http://phiary.me/phinajs-release/ "本日 JavaScript ゲームライブラリ『phina.js』をリリースしました! | phiary")
 
