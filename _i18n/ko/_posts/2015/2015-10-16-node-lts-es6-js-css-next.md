@@ -1,5 +1,5 @@
 ---
-title: "2015-10-16のJS: Node.js 4.2.0 LTS、ES6、CSS.next"
+title: "2015-10-16 JS: Node.js 4.2.0 LTS, ES6, CSS.next"
 author: azu
 translator: U-Yeong Ju
 layout: post
