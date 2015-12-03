@@ -14,10 +14,10 @@ tags:
 ---
 
 JSer.info #250 - [ESLint v1.7.0](http://eslint.org/blog/2015/10/eslint-v1.7.0-released/ "ESLint v1.7.0")가 릴리즈됐습니다.
-`.eslintrc`내에 `"extends": "./foo.js"`를 작성하여 자바스크립트 파일을 상속할 수 있도록 됐습니다.
+`.eslintrc`내에 `"extends": "./foo.js"`를 작성하여 자바스크립트 파일을 상속하여 옵션을 확장할 수 있도록 됐습니다.
 
 또, [JavaScript - ESLint 첫걸음 - Qiita](http://qiita.com/mysticatea/items/f523dab04a25f617c87d "JavaScript - ESLint 첫걸음 - Qiita")(일본어)라는 글에서 ESLint의 사용 방법, 설정 방법, 에디터, ES6 관련 규칙 등 다양한 기능을 소개하고 있습니다.
-ESlint를 처음 사용할 때 도움이 될 것 같습니다.
+ESLint를 처음 사용할 때 도움이 될 것 같습니다.
 
 ----
 
@@ -32,7 +32,7 @@ ECMAScript에서 자주 언급되는 TC39 부터 시작해 ES6와 ES.next의 사
 [rollup.js](http://rollupjs.org/ "rollup.js")는 Browserify, RequireJS, Webpack과 같이 모듈을 하나로 결합하는 번들 도구 입니다.
 기본적으로 ES6 modules로 작성한 파일을 결합하지만 [플러그인](https://github.com/rollup/rollup/pull/207 "plugin")으로 CommonJS 등도 대응하고 있는 것 같습니다.
 
-[공식 사이트](http://rollupjs.org)에서 결합을 실제로 시헙해볼 수 있습니다. 다른 번들 도구와 다르게 각각의 모듈을 랩핑한 함수 등이 없이 깨끗하게 결합됩니다.
+[공식 사이트](http://rollupjs.org)에서 결합을 실제로 시험해볼 수 있습니다. 다른 번들 도구와 다르게 각각의 모듈을 랩핑한 함수 등이 없이 깨끗하게 결합됩니다.
 또, 모듈 자체를 로드하고 있어도 사용하고 있지 않은 함수는 자동으로 제거하는 등 결과물의 최적화도 행하고 있습니다.
 
 이 도구는 ES6 modules가 CommonJS의 'require' 처럼 동적으로 모듈을 로드되지 않고, [정적으로 의존 관계가 결정된다는 점](https://hacks.mozilla.org/2015/08/es6-in-depth-modules/)을 잘 활용하고 있습니다.
@@ -46,7 +46,7 @@ ECMAScript에서 자주 언급되는 TC39 부터 시작해 ES6와 ES.next의 사
 
 - [Yet another module bundler · Issue #219 · rollup/rollup](https://github.com/rollup/rollup/issues/219 "Yet another module bundler · Issue #219 · rollup/rollup")
 
-웹팩과 롤업을 사용해 번들한 소스를 [nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")에서 공개하고 있습니다(Webpack2에서도 [ES6 Modules를 기초로 하고 있지 않은 코드 삭제](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)를 예정하고 있습니다)
+웹팩과 롤업을 사용해 번들한 소스를 [nolanlawson/rollup-comparison](https://github.com/nolanlawson/rollup-comparison "nolanlawson/rollup-comparison")에서 공개하고 있습니다(Webpack2에서도 [ES6 Modules를 기반으로 하고, 사용하고 있지 않은 함수 코드 삭제](https://github.com/webpack/webpack/pull/861#issuecomment-149997270)를 예정하고 있습니다)
 
 이처럼 rollup.js는 ES6Modules에 최적화된 디자인입니다. ES6로 작성한 코드를 npm 등에 공개하는 규칙 등은 아직 다듬어지지 않은 상태입니다.
 
@@ -133,7 +133,7 @@ ECMAScript란 무엇인지 부터 ES2016의 사양 책정 프로세스, 진척�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span></p>
 
-`let {} = {};`가 ES6에서 유효한 것은 혼란을 일으킨다는 이야기, 현재 ECMAScript 사양의 이슈로써 수정할 것인지 의논되고 있다.
+`let {} = {};`가 ES6에서 유효한 것은 혼란을 일으킨다는 이야기, 현재 ECMAScript 사양의 이슈로써 수정할 것인지 의논되고 있습니다.
 
 - [Destructuring declarations that bind nothing should probably be an early error · Issue #97 · tc39/ecma262](https://github.com/tc39/ecma262/issues/97 "Destructuring declarations that bind nothing should probably be an early error · Issue #97 · tc39/ecma262")
 
@@ -153,8 +153,8 @@ ES6에서 간단하게 EvantEmitter나 Observer를 구현하면서 ES6의 기능
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-에 대응한 라이브러리의 공개 방법과 설정에 관해서 이야기합니다.
-Browserify、Webpack、rollup.js에서의 라이브러리 빌드에 관해서도 작성돼 있습니다.
+bower, npm, jspm에 대응하여 라이브러리를 공개하는 방법과 설정에 관해서 이야기합니다.
+Browserify, Webpack, rollup.js에서의 라이브러리 빌드에 관해서도 작성돼 있습니다.
 
 - [nolanlawson/hello-javascript](https://github.com/nolanlawson/hello-javascript "nolanlawson/hello-javascript")
 
@@ -194,7 +194,7 @@ npm 패키지와 TypeScript d.ts의 관리 방법에 관해 이야기합니다.
 ## The Accessibility Project
 [a11yproject.com/](http://a11yproject.com/ "The Accessibility Project")
 
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">アクセシビリティ</span> <span class="jser-tag">정리</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">접근성</span> <span class="jser-tag">정리</span></p>
 
 웹 개발자를 위한 접근성에 관한 정보가 정리돼 있는 사이트입니다.
 
@@ -209,7 +209,7 @@ npm 패키지와 TypeScript d.ts의 관리 방법에 관해 이야기합니다.
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">Tools</span></p>
 
 ES6 modules를 Browserify 같은 도구 처럼 bundle하는 도구입니다. 
-사용하지 않는 함수는 무시하며, 쓸대없는 랩핑 함수 없이 코드를 결합합니다. 
+사용하지 않는 함수는 무시하며, 부차적인 랩핑 함수 없이 코드를 결합합니다. 
 기본적으로 ES6만 지원하지만 플러그인으로 CommonJS도 대응할 수 있습니다.
 
 ----
