@@ -8,6 +8,7 @@ tags:
     - ECMAScript
     - アンケート
     - JSer
+    - イベント
 
 ---
 
@@ -69,7 +70,17 @@ ECMAScriptのプロポーザルに[あった](https://github.com/mindeavor/es-pi
 
 ## お知らせ
 
-- [ ] JSer.info 5周年記念イベント
+[2011年01月16日](http://jser.info/post/2774561807/ "2011年01月16日")にJSer.infoを開始してから[開始](http://www.slideshare.net/efcl/javascript-6580879)してから、後ちょっとで丸5年になります。
+
+その辺を記念してピッタリ五年となる2016年01月16日(土)に[JSer.info 5周年記念イベント](http://jser.connpass.com/event/24202/ "JSer.info 5周年記念イベント - connpass")をやろうと思います!
+
+詳細は以下に書いてありますので、興味がある方はどうぞ。
+
+- [JSer.info 5周年記念イベントを1/16(土)に開催します - JSer.info](http://jser.info/2015/12/14/jser-info-announce-5-years/ "JSer.info 5周年記念イベントを1/16(土)に開催します - JSer.info")
+
+受付開始は**2015年12月16日(水) 21:00**からなります。
+
+- [JSer.info 5周年記念イベント - connpass](http://jser.connpass.com/event/24202/ "JSer.info 5周年記念イベント - connpass")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
