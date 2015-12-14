@@ -33,13 +33,12 @@ tags:
 IE8枠はIE8が[2016年1月12日](https://www.microsoft.com/japan/msbc/Express/ie_support/)でサポート対象外となるので、その辺に関連するお話がしたい方どうぞ!
 
 発表者はタイトルと希望する時間(5分から20分程度)が決まったら、以下に書き込んでください。
-(前回は大体10分から20分程度の発表が中心でした)
 
 - [JSer.info 5周年イベント · Issue #54](https://github.com/jser/jser.info/issues/54 "JSer.info 5周年イベント · Issue #54 · jser/jser.info")
 - [Gitter - jser.info](https://gitter.im/jser/jser.info) - GitHubアカウントを使ったチャット
 
 また、万が一のためのLTを持ち込んでも問題ありません。
-(突然LTが始まっても大丈夫なように余裕のある時間構成にしてあります)
+突然LTが始まっても大丈夫なように余裕のある時間構成にしてあります。
 
 それでは2016年01月16日(土)に会いましょう。
 (受付開始は**2015年12月16日(水) 21:00** です)
