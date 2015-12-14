@@ -70,9 +70,9 @@ ECMAScriptのプロポーザルに[あった](https://github.com/mindeavor/es-pi
 
 ## お知らせ
 
-[2011年01月16日](http://jser.info/post/2774561807/ "2011年01月16日")にJSer.infoを開始してから[開始](http://www.slideshare.net/efcl/javascript-6580879)してから、後ちょっとで丸5年になります。
+[2011年01月16日](http://jser.info/post/2774561807/ "2011年01月16日")にJSer.infoを[開始](http://www.slideshare.net/efcl/javascript-6580879)してから、後ちょっとで丸5年になります。
 
-その辺を記念してピッタリ五年となる2016年01月16日(土)に[JSer.info 5周年記念イベント](http://jser.connpass.com/event/24202/ "JSer.info 5周年記念イベント - connpass")をやろうと思います!
+それを記念してピッタリ五年となる2016年01月16日(土)に[JSer.info 5周年記念イベント](http://jser.connpass.com/event/24202/ "JSer.info 5周年記念イベント - connpass")をやろうと思います!
 
 詳細は以下に書いてありますので、興味がある方はどうぞ。
 
