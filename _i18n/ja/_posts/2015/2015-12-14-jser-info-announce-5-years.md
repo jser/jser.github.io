@@ -20,7 +20,7 @@ tags:
 
 ## 内容
 
-前回[JSer.info 200回記念イベント](http://jser.info/2014/11/02/jser200/ "JSer.info 200回記念イベントを開催しました - JSer.info")でやったことと基本的に同じです。
+前回、[JSer.info 200回記念イベント](http://jser.info/2014/11/02/jser200/ "JSer.info 200回記念イベントを開催しました - JSer.info")でやった事と基本的に同じです。
 
 ### 発表者募集
 
