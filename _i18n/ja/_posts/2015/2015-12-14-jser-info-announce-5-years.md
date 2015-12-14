@@ -9,7 +9,7 @@ tags:
 
 ---
 
-[2011年01月16日](http://jser.info/post/2774561807/ "2011年01月16日")にJSer.infoを開始してから[開始](http://www.slideshare.net/efcl/javascript-6580879)してから、後ちょっとで丸5年になります。
+[2011年01月16日](http://jser.info/post/2774561807/ "2011年01月16日")にJSer.infoを[開始](http://www.slideshare.net/efcl/javascript-6580879)してから、後ちょっとで丸5年になります。
 
 その辺を記念してピッタリ五年となる2016年01月16日(土)に記念イベントをやろうと思います!
 (という口実で集まってJavaScriptの話をしましょう!)
