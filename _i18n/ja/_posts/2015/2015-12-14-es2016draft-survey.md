@@ -61,7 +61,7 @@ ES6を使ったことがあるかについてでは8割の人が何らかの形�
 ![ES2016](https://i.imgur.com/DxxOnco.png)
 
 まだ何が入るかは最終決定してないので誰も知らないが解だと思います。
-ECMAScriptのプロポーザルに[あった](https://github.com/mindeavor/es-pipeline-operator)からといってその仕様が[入るとは限らない](https://esdiscuss.org/topic/an-update-on-object-observe)ので、策定プロセスについてはプロポーザルを読む前に把握しておくべきだと思います。
+ECMAScriptのプロポーザルに[あった](https://github.com/mindeavor/es-pipeline-operator)からといってその仕様が[入るとは限らない](https://esdiscuss.org/topic/an-update-on-object-observe)ので、策定プロセスについてはプロポーザルを読む前に把握しておくといいかもしれません。
 
 - [What’s in ECMAScript 2016 (ES7)?](http://www.2ality.com/2015/11/tc39-process.html "What’s in ECMAScript 2016 (ES7)?")
 
