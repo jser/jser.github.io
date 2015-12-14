@@ -16,7 +16,7 @@ JSer.info #257 - 次期ECMAScriptの仕様のドラフト版となる[ES2016 Dra
 このドラフト版では新しい機能として`Array.prototype.includes`と`TypedArray.prototype.includes`が追加されています。
 この機能は新しく採用されている[TC39 Process](https://tc39.github.io/process-document/ "TC39 Process")に則った方式で追加された初めての機能となります。
 
-`Array#includes`は`Array#contains`として元々ES6で入る予定でしたが、メソッド名がBreak the Webだったため延期されていました。
+`Array#includes`は`Array#contains`として元々ES6で入る予定でしたが、Break the Webだったため延期されていました。
 
 - [Having a non-enumerable Array.prototype.contains may not be web-compatible](https://esdiscuss.org/topic/having-a-non-enumerable-array-prototype-contains-may-not-be-web-compatible)
 - [Introducing Break the Web: Array extra methods case // Speaker Deck](https://speakerdeck.com/constellation/introducing-break-the-web-array-extra-methods-case)
@@ -35,7 +35,7 @@ ES2016では機能ごとにプロポーザルを公開し、機能ごとに進�
 
 - [JavaScript Developer Survey 2014: Results](http://dailyjs.com/2014/12/16/1333-javascript-survey-results/ "JavaScript Developer Survey 2014: Results")
 
-アンケート結果を見ていくと、ついに、テストを書くと回答した人の割合が50%を超えています。
+アンケート結果を見ていくと、ついに、テストを書くと回答した人の割合が50％を超えています。
 
 ![testing](https://i.imgur.com/0C944YL.png)
 
@@ -51,7 +51,7 @@ ES6を使ったことがあるかについてでは8割の人が何らかの形�
 
 ![ES6](https://i.imgur.com/hAnbtfN.png)
 
-これは7月にJSer.info上でやったデータで"ES6でコードを書いたことがありますか?"という質問に対して74%がYESと答えていたので、数値的にも結構近いところがあります。
+これは7月にJSer.info上のアンケートデータでは"ES6でコードを書いたことがありますか?"という質問に対して74％がYESと答えていたので、数値的にも結構近いところがあります。
 
 - [2015-07-06のJS: React v0.14 Beta 1、Firefox 39、ES6アンケート結果 - JSer.info](http://jser.info/2015/07/06/react-0.14-firefox39-es6/ "2015-07-06のJS: React v0.14 Beta 1、Firefox 39、ES6アンケート結果 - JSer.info")
 
@@ -59,7 +59,7 @@ ES6を使ったことがあるかについてでは8割の人が何らかの形�
 
 ![ES2016](https://i.imgur.com/DxxOnco.png)
 
-まだ何か入るかは最終決定してないので誰も知らないが解だと思います。
+まだ何が入るかは最終決定してないので誰も知らないが解だと思います。
 ECMAScriptのプロポーザルに[あった](https://github.com/mindeavor/es-pipeline-operator)からといってその仕様が[入るとは限らない](https://esdiscuss.org/topic/an-update-on-object-observe)ので、策定プロセスについてはプロポーザルを読む前に把握しておくべきだと思います。
 
 - [What’s in ECMAScript 2016 (ES7)?](http://www.2ality.com/2015/11/tc39-process.html "What’s in ECMAScript 2016 (ES7)?")
