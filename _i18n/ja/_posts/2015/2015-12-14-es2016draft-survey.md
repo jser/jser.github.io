@@ -52,7 +52,7 @@ ES6を使ったことがあるかについてでは8割の人が何らかの形�
 
 ![ES6](https://i.imgur.com/hAnbtfN.png)
 
-これは7月にJSer.info上のアンケートデータでは"ES6でコードを書いたことがありますか?"という質問に対して74％がYESと答えていたので、数値的にも結構近いところがあります。
+これは7月にJSer.info上のアンケートデータで、"ES6でコードを書いたことがありますか?"という質問に対して74％がYESと答えていたので、数値的にも結構近いところがあります。
 
 - [2015-07-06のJS: React v0.14 Beta 1、Firefox 39、ES6アンケート結果 - JSer.info](http://jser.info/2015/07/06/react-0.14-firefox39-es6/ "2015-07-06のJS: React v0.14 Beta 1、Firefox 39、ES6アンケート結果 - JSer.info")
 
