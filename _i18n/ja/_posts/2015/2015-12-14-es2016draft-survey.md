@@ -78,7 +78,7 @@ ECMAScriptのプロポーザルに[あった](https://github.com/mindeavor/es-pi
 
 - [JSer.info 5周年記念イベントを1/16(土)に開催します - JSer.info](http://jser.info/2015/12/14/jser-info-announce-5-years/ "JSer.info 5周年記念イベントを1/16(土)に開催します - JSer.info")
 
-受付開始は**2015年12月16日(水) 21:00**からなります。
+受付開始は**2015年12月16日(水) 21:00**からになります。
 
 - [JSer.info 5周年記念イベント - connpass](http://jser.connpass.com/event/24202/ "JSer.info 5周年記念イベント - connpass")
 
@@ -101,7 +101,7 @@ Node v5.2.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Opera</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Opera 34 (based on Chromium 47)リリース。
+Opera 34(based on Chromium 47)リリース。
 `Array.prototype.includes`、rest parameters、`requestIdleCallback`の追加など
 
 ----
@@ -128,8 +128,8 @@ ES2016から採用された仕様策定プロセスに則った形のものと�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">まとめ</span></p>
 
-JavaScript開発者アンケート結果が公開された。毎年DialyJSがやっていたものと同様のもの。
-テストを書く人が半数上回り、フレームワークではReactがもっとも使われてるようになり、ES6を全く使ったことない人は20％以下となるなど
+JavaScript開発者アンケート結果が公開された。毎年DailyJSがやっていたものと同様のもの。
+テストを書く人が半数を上回り、フレームワークではReactがもっとも使われるようになり、ES6を全く使ったことのない人は20％以下となるなど
 
 - [JavaScript Developer Survey 2014: Results](http://dailyjs.com/2014/12/16/1333-javascript-survey-results/ "JavaScript Developer Survey 2014: Results")
 
@@ -177,7 +177,7 @@ Webpackの設定、jsdomを使ったユニットテストについて
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span></p>
 
-Promiseの小さな実装書きながらPromiseについて学ぶ話
+Promiseの小さな実装を書きながらPromiseについて学ぶ話
 
 ----
 
@@ -255,7 +255,7 @@ jQuery使わなくてもDOM APIを使って大体同じ事が出来るという�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">Tools</span></p>
 
-`npm outdated` ベースで、それぞれのモジュールをupdateしてnpm testを行うことで、テストが通ったモジュールのみをアップデート出来るツール
+`npm outdated`ベースで、それぞれのモジュールをupdateしてnpm testを行うことで、テストが通ったモジュールのみをアップデート出来るツール
 
 ----
 
