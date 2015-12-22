@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-12-22のJS: Angular 2β、ServiceWorker Cookbook、非標準CSSの修正 - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScriptの最新情報を紹介する週刊ブログ">
+    
+    <meta name="keywords" content="Angular,ServiceWorker,CSS,webkit" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2015-12-22のJS: Angular 2β、ServiceWorker Cookbook、非標準CSSの修正" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #258 - Angular 2 Betaがリリースされました。まだbet..." />
+    
+    
+      <meta content="http://jser.info/2015/12/22/angular2beta-ServiceWorker-css/" property="og:url">
+    
+    
+      <meta content="2015-12-22T21:06:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Angular" property="article:tag">
+      
+      <meta content="ServiceWorker" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="webkit" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2015/12/22/angular2beta-ServiceWorker-css/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/12/22/angular2beta-ServiceWorker-css/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/12/22/angular2beta-ServiceWorker-css/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/12/22/angular2beta-ServiceWorker-css/">2015-12-22のJS: Angular 2β、ServiceWorker Cookbook、非標準CSSの修正</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年12月22日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-12-22-angular2beta-ServiceWorker-css.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2015/2015-12-22-angular2beta-ServiceWorker-css.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2015/12/22/angular2beta-ServiceWorker-css/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2015/12/22/angular2beta-ServiceWorker-css/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #258 - <a href="http://angularjs.blogspot.jp/2015/12/angular-2-beta.html" title="Angular 2 Beta">Angular 2 Beta</a>がリリースされました。</p>
+
+<p>まだbetaではありますが、1.xからのアップグレード方法として以下の2つのアプローチが紹介されています。</p>
+
+<ul>
+<li>ngUpgrade
+
+<ul>
+<li>1.xと2.xを共存させながらアップグレードしていく手法</li>
+<li><a href="http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html" title="Upgrading apps to Angular 2 using ngUpgrade">Upgrading apps to Angular 2 using ngUpgrade</a></li>
+<li><a href="https://angular.io/docs/ts/latest/guide/upgrade.html" title="Upgrading from 1.x - ts">Upgrading from 1.x - ts</a></li>
+</ul></li>
+<li>ngForward
+
+<ul>
+<li>Angular 2.xのスタイルで1.xのコードを書く手法</li>
+<li><a href="https://github.com/ngUpgraders/ng-forward" title="ngUpgraders/ng-forward">ngUpgraders/ng-forward</a></li>
+</ul></li>
+</ul>
+
+<p>今後はファイルサイズの削減、CLIの改善、i18nのサポートなどをやっていくそうです。<br>
+以下でマイルストーンのチケット消化率を見ることが出来ます。</p>
+
+<ul>
+<li><a href="http://juristr.com/apps/ng2beta/" title="Angular 2 Beta Burndown">Angular 2 Beta Burndown</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://hacks.mozilla.org/2015/12/beyond-offline/" title="Beyond Offline ★ Mozilla Hacks">Beyond Offline ★ Mozilla Hacks</a>という記事では、ServiceWorkerのオフライン対応以外の使い道について書かれています。</p>
+
+<p>具体的なパターンやコード例については以下のサイトにまとめられています。</p>
+
+<ul>
+<li><a href="https://serviceworke.rs/" title="ServiceWorker Cookbook">ServiceWorker Cookbook</a></li>
+</ul>
+
+<p>ServiceWorkerの典型的なユースケースとして紹介されるオフライン対応については以下にまとめられています。</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2015/11/offline-service-workers/" title="Offline Recipes for Service Workers ★ Mozilla Hacks – the Web developer blog">Offline Recipes for Service Workers ★ Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://jakearchibald.com/2014/offline-cookbook/" title="The offline cookbook - JakeArchibald.com">The offline cookbook - JakeArchibald.com</a> (<a href="https://github.com/kuu/the-offline-cookbook-ja/blob/master/ja.md">翻訳</a>)</li>
+</ul>
+
+<hr>
+
+<p><a href="http://alpha.mixi.co.jp/entry/2015/12/20/000000" title="総行数57,000の巨大CSS群をLessに書き換えた軌跡">総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#39; Blog</a>という記事ではモバイルのWebKitブラウザのみの対応を目的としたCSSをどうやって修正したかについて書かれています。</p>
+
+<p><code>-webkit-</code> prefixや標準でない書き方のCSSを<br>
+<a href="https://github.com/Kuniwak/css-fixme" title="css-fixme">css-fixme</a>などで標準的なCSSへと修正し、それを<a href="https://github.com/postcss/autoprefixer" title="Autoprefixer">Autoprefixer</a>で変換するという手法について解説されています。</p>
+
+<p>vendor prefixに対する取り組みなどは下記を参照するといいかもしれません。</p>
+
+<ul>
+<li><a href="http://www.quirksmode.org/blog/archives/2010/03/css_vendor_pref.html">CSS vendor prefixes considered harmful - QuirksBlog</a></li>
+<li><a href="http://wontfix.blogspot.jp/2015/08/webcompat.html">WebCompat</a></li>
+<li><a href="https://blogs.windows.com/msedgedev/2015/05/06/a-break-from-the-past-part-2-saying-goodbye-to-activex-vbscript-attachevent/">A break from the past, part 2: Saying goodbye to ActiveX, VBScript, attachEvent… | Microsoft Edge Dev Blog</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="angular-2-beta">Angular 2 Beta</h2>
+
+<p><a href="http://angularjs.blogspot.jp/2015/12/angular-2-beta.html" title="Angular 2 Beta">angularjs.blogspot.jp/2015/12/angular-2-beta.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>AngularJS 2βリリース。<br>
+Angular 1からのアップグレードガイドも公開されている</p>
+
+<ul>
+<li><a href="https://angular.io/docs/ts/latest/guide/upgrade.html" title="Upgrading from 1.x - ts">Upgrading from 1.x - ts</a></li>
+</ul>
+
+<hr>
+
+<h2 id="rxjs/changelog.md-at-5.0.0-beta.0-·-reactivex/rxjs">RxJS/CHANGELOG.md at 5.0.0-beta.0 · ReactiveX/RxJS</h2>
+
+<p><a href="https://github.com/ReactiveX/RxJS/blob/5.0.0-beta.0/CHANGELOG.md" title="RxJS/CHANGELOG.md at 5.0.0-beta.0 · ReactiveX/RxJS">github.com/ReactiveX/RxJS/blob/5.0.0-beta.0/CHANGELOG.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Rx</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>RxJS 5.0.0-beta.0リリース</p>
+
+<hr>
+
+<h2 id="firefox-43.0-リリースノート">Firefox 43.0 リリースノート</h2>
+
+<p><a href="http://www.mozilla.jp/firefox/43.0/releasenotes/" title="Firefox 43.0 リリースノート">www.mozilla.jp/firefox/43.0/releasenotes/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firefox 43リリース。<br>
+ES2016の<code>Array.prototype.includes</code>がデフォルトで有効、Subresource integrityの対応など</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/43" title="Firefox 43 for developers - Mozilla | MDN">Firefox 43 for developers - Mozilla | MDN</a></li>
+<li><a href="https://www.fxsitecompat.com/ja/versions/43/" title="Firefox 43 サイト互換性情報 | Firefox サイト互換性情報">Firefox 43 サイト互換性情報 | Firefox サイト互換性情報</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v5.3.0-(stable)-|-node.js">Node v5.3.0 (Stable) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v5.3.0/" title="Node v5.3.0 (Stable) | Node.js">nodejs.org/en/blog/release/v5.3.0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node v5.3.0リリース。<br>
+<code>Buffer.prototype.includes()</code>の追加、REPLで外部モジュールを<code>require</code>できないバグを修正など</p>
+
+<hr>
+
+<h2 id="flow/changelog.md-at-master-·-facebook/flow">flow/Changelog.md at master · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/blob/master/Changelog.md#v0200" title="flow/Changelog.md at master · facebook/flow">github.com/facebook/flow/blob/master/Changelog.md#v0200</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Flow 0.20.0リリース。<br>
+<code>this</code>型のサポート、<code>.json</code>ファイルロードの解釈に対応、エラーメッセージの改善など</p>
+
+<hr>
+
+<h2 id="release-es2016-draft-2015-12-20-·-tc39/ecma262">Release ES2016 Draft 2015-12-20 · tc39/ecma262</h2>
+
+<p><a href="https://github.com/tc39/ecma262/releases/tag/es2016-draft-20151220" title="Release ES2016 Draft 2015-12-20 · tc39/ecma262">github.com/tc39/ecma262/releases/tag/es2016-draft-20151220</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ES2016 Draft 2015-12-20 リリース</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="総行数57,000の巨大css群をlessに書き換えた軌跡---mixi-engineers&#x27;-blog">総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#x27; Blog</h2>
+
+<p><a href="http://alpha.mixi.co.jp/entry/2015/12/20/000000" title="総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#39; Blog">alpha.mixi.co.jp/entry/2015/12/20/000000</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">LESS</span> <span class="jser-tag">webkit</span></p>
+
+<p>-webkit- prefixから標準への書き換えを行った話。<br>
+CSS:fixmeで標準記法へ直し、Autoprefixerでプレフィックス対応し、Lessを使い構造的に管理しやすくしていく</p>
+
+<ul>
+<li><a href="http://www.slideshare.net/sugibigmuff/dmmstudy-night" title="マルチブラウザやりました (DMM.Study Night)">マルチブラウザやりました (DMM.Study Night)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="an-intro-to-using-npm-and-es6-modules-for-front-end-development-|-wes-bos">An Intro To Using npm and ES6 Modules for Front End Development | Wes Bos</h2>
+
+<p><a href="http://wesbos.com/javascript-modules/" title="An Intro To Using npm and ES6 Modules for Front End Development | Wes Bos">wesbos.com/javascript-modules/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6 modulesの使い方についてまとまっている。<br>
+どのようにパスを解決したりするかはECMAScriptで定義されていないため、今のところbundlerの機能でしかないという点についても触れている。</p>
+
+<hr>
+
+<h2 id="http/2のnode.js実装node-http2を読む---qiita">HTTP/2のNode.js実装node-http2を読む - Qiita</h2>
+
+<p><a href="http://qiita.com/takaaki7/items/70898443050ca260e94c" title="HTTP/2のNode.js実装node-http2を読む - Qiita">qiita.com/takaaki7/items/70898443050ca260e94c</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">HTTP2</span> <span class="jser-tag">stream</span></p>
+
+<p>node-http2の実装について。<br>
+Node Streamを使い、それをフロー制御している</p>
+
+<hr>
+
+<h2 id="beyond-offline-★-mozilla-hacks-–-the-web-developer-blog">Beyond Offline ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2015/12/beyond-offline/" title="Beyond Offline ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2015/12/beyond-offline/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span></p>
+
+<p>ServiceWorkerをオフライン対応以外の用途で使う方法について。<br>
+クックブック形式で色々なパターンを紹介している</p>
+
+<ul>
+<li><a href="https://serviceworke.rs/" title="ServiceWorker Cookbook">ServiceWorker Cookbook</a></li>
+<li><a href="https://github.com/kuu/the-offline-cookbook-ja/blob/master/ja.md" title="the-offline-cookbook-ja/ja.md at master · kuu/the-offline-cookbook-ja">the-offline-cookbook-ja/ja.md at master · kuu/the-offline-cookbook-ja</a></li>
+</ul>
+
+<hr>
+
+<h2 id="fluxのactionとstoreをちゃんと分ける話---pixiv-inside">FluxのActionとStoreをちゃんと分ける話 - pixiv inside</h2>
+
+<p><a href="http://inside.pixiv.net/entry/2015/12/19/113746" title="FluxのActionとStoreをちゃんと分ける話 - pixiv inside">inside.pixiv.net/entry/2015/12/19/113746</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Actionでデータを構築し、StoreへDispatchする。<br>
+またDispatchするデータは<code>Entity</code>にすることで、役割を分けるという話</p>
+
+<hr>
+
+<h2 id="deku-で-virtual-dom-を使う-|-スマホ神-–-javascript-受託開発-–">deku で Virtual DOM を使う | スマホ神 – JavaScript 受託開発 –</h2>
+
+<p><a href="http://smart.ataglance.jp/2015-12-17-use-virtual-dom-with-deku/" title="deku で Virtual DOM を使う | スマホ神 – JavaScript 受託開発 –">smart.ataglance.jp/2015-12-17-use-virtual-dom-with-deku/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">VirtualDOM</span> <span class="jser-tag">library</span></p>
+
+<p>dekuの使い方について。<br>
+JSXで書いてBabelで変換する方法</p>
+
+<hr>
+
+<h2 id="more-responsive-tapping-on-ios-|-webkit">More Responsive Tapping on iOS | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/" title="More Responsive Tapping on iOS | WebKit">webkit.org/blog/5610/more-responsive-tapping-on-ios/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ios</span></p>
+
+<p>iOSのWebKitでもタップの350ms遅延が解消される。<br>
+viewportのwidthなど特定の条件では遅延がなくなる。</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2013/12/300ms-tap-delay-gone-away" title="300ms tap delay, gone away | Web Updates - Google Developers">300ms tap delay, gone away | Web Updates - Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="serviceworker-cookbook">ServiceWorker Cookbook</h2>
+
+<p><a href="https://serviceworke.rs/" title="ServiceWorker Cookbook">serviceworke.rs/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">document</span></p>
+
+<p>ServiceWorkerのパターンを集めたクックブック。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="a-frame-–-building-blocks-for-the-vr-web">A-Frame – Building Blocks for the VR Web</h2>
+
+<p><a href="https://aframe.io/" title="A-Frame – Building Blocks for the VR Web">aframe.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">VR</span> <span class="jser-tag">HTML</span> <span class="jser-tag">WebComponents</span></p>
+
+<p>WebVRをCustom Elementのタグを書くだけで出来るライブラリ</p>
+
+<hr>
+
+<h2 id="jaredly/treed">jaredly/treed</h2>
+
+<p><a href="https://github.com/jaredly/treed" title="jaredly/treed">github.com/jaredly/treed</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span></p>
+
+<p>ツリーエディタライブラリ</p>
+
+<hr>
+
+<h2 id="pzavolinsky/react-unit">pzavolinsky/react-unit</h2>
+
+<p><a href="https://github.com/pzavolinsky/react-unit" title="pzavolinsky/react-unit">github.com/pzavolinsky/react-unit</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>React Componentをテストするためのライブラリ</p>
+
+<hr>
+
+<h2 id="paldepind/snabbdom">paldepind/snabbdom</h2>
+
+<p><a href="https://github.com/paldepind/snabbdom" title="paldepind/snabbdom">github.com/paldepind/snabbdom</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">VirtualDOM</span> <span class="jser-tag">library</span></p>
+
+<p>Virtual DOMライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="amazon:-ゲームで学ぶjavascript入門-html5&amp;cssも身に付く!:-田中-賢一郎">Amazon: ゲームで学ぶJavaScript入門 HTML5&amp;CSSも身に付く!: 田中 賢一郎</h2>
+
+<p><a href="http://www.amazon.co.jp/dp/4844339788" title="Amazon: ゲームで学ぶJavaScript入門 HTML5&amp;CSSも身に付く!: 田中 賢一郎">www.amazon.co.jp/dp/4844339788</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">game</span> <span class="jser-tag">book</span></p>
+
+<p>ゲームを作りながらJavaScriptについて学ぶ書籍</p>
+
+<hr>
+
+<h2 id="learning-react-native---o&#x27;reilly-media">Learning React Native - O&#x27;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/0636920041511.do" title="Learning React Native - O&#39;Reilly Media">shop.oreilly.com/product/0636920041511.do</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">book</span></p>
+
+<p>React Nativeについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-12-22-angular2beta-ServiceWorker-css.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Angular","ServiceWorker","CSS","webkit"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Angular</li>
+                
+                <li>ServiceWorker</li>
+                
+                <li>CSS</li>
+                
+                <li>webkit</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2015/12/22/angular2beta-ServiceWorker-css/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2015/12/22/angular2beta-ServiceWorker-css/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2015/12/22/angular2beta-ServiceWorker-css/">2015-12-22のJS: Angular 2β、ServiceWorker Cookbook、非標準CSSの修正</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/12/14/jser-info-announce-5-years/">JSer.info 5周年記念イベントを1/16(土)に開催します</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/12/14/es2016draft-survey/">2015-12-14のJS: ES2016 Draft、JavaScript開発者アンケート、JSer.infoイベント開催予定</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/12/07/jasmine2.4-redux-firefox/">2015-12-07のJS: Jasmine 2.4.0、Redux入門、Firefox Platform Status</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/12/01/edgehtml13-typescript1.7-prgressive-webapps/">2015-12-01のJS: EdgeHTML 13、TypeScript 1.7、Progressive Web Apps</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/11/23/jsdoc3.4.0-grunt-bower-js-trends/">2015-11-23のJS: JSDoc 3.4.0、Grunt/Bowerの今後、JavaScriptトレンド</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/11/16/ecmascript-7-ms-node-js/">2015-11-16のJS: ECMAScript 2016(ES7)って何、WindowsでのNode.js入門</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2015/11/09/large-refactoring-firefox44/">2015-11-09のJS: 巨大なJavaScriptのリファクタリング、Firefox 44の開発者ツール</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
