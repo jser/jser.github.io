@@ -1,5 +1,5 @@
 ---
-title: "2015-12-22のJS: Angular 2β、ServiceWorker Cookbook、非標準CSSの修正"
+title: "2015-12-22のJS: AngularJS 2β、ServiceWorker Cookbook、非標準CSSの修正"
 author: azu
 layout: post
 date : 2015-12-22T21:06
@@ -12,7 +12,7 @@ tags:
 
 ---
 
-JSer.info #258 - [Angular 2 Beta](http://angularjs.blogspot.jp/2015/12/angular-2-beta.html "Angular 2 Beta")がリリースされました。
+JSer.info #258 - [AngularJS 2 Beta](http://angularjs.blogspot.jp/2015/12/angular-2-beta.html "Angular 2 Beta")がリリースされました。
 
 まだbetaではありますが、1.xからのアップグレード方法として以下の2つのアプローチが紹介されています。
 
@@ -21,7 +21,7 @@ JSer.info #258 - [Angular 2 Beta](http://angularjs.blogspot.jp/2015/12/angular-2
   - [Upgrading apps to Angular 2 using ngUpgrade](http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html "Upgrading apps to Angular 2 using ngUpgrade")
   - [Upgrading from 1.x - ts](https://angular.io/docs/ts/latest/guide/upgrade.html "Upgrading from 1.x - ts")
 - ngForward
-  - Angular 2.xのスタイルで1.xのコードを書く手法
+  - AngularJS 2.xのスタイルで1.xのコードを書く手法
   - [ngUpgraders/ng-forward](https://github.com/ngUpgraders/ng-forward "ngUpgraders/ng-forward")
 
 今後はファイルサイズの削減、CLIの改善、i18nのサポートなどをやっていくそうです。
@@ -31,13 +31,13 @@ JSer.info #258 - [Angular 2 Beta](http://angularjs.blogspot.jp/2015/12/angular-2
 
 ----
 
-[Beyond Offline ★ Mozilla Hacks](https://hacks.mozilla.org/2015/12/beyond-offline/ "Beyond Offline ★ Mozilla Hacks")という記事では、ServiceWorkerのオフライン対応以外の使い道について書かれています。
+[Beyond Offline ★ Mozilla Hacks](https://hacks.mozilla.org/2015/12/beyond-offline/ "Beyond Offline ★ Mozilla Hacks")という記事では、Service Workerのオフライン対応以外の使い道について書かれています。
 
 具体的なパターンやコード例については以下のサイトにまとめられています。
 
 - [ServiceWorker Cookbook](https://serviceworke.rs/ "ServiceWorker Cookbook")
 
-ServiceWorkerの典型的なユースケースとして紹介されるオフライン対応については以下にまとめられています。
+Service Workerの典型的なユースケースとして紹介されるオフライン対応については以下にまとめられています。
 
 - [Offline Recipes for Service Workers ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2015/11/offline-service-workers/ "Offline Recipes for Service Workers ★ Mozilla Hacks – the Web developer blog")
 - [The offline cookbook - JakeArchibald.com](https://jakearchibald.com/2014/offline-cookbook/ "The offline cookbook - JakeArchibald.com") ([翻訳](https://github.com/kuu/the-offline-cookbook-ja/blob/master/ja.md))
@@ -46,8 +46,7 @@ ServiceWorkerの典型的なユースケースとして紹介されるオフラ�
 
 [総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers' Blog](http://alpha.mixi.co.jp/entry/2015/12/20/000000 "総行数57,000の巨大CSS群をLessに書き換えた軌跡")という記事ではモバイルのWebKitブラウザのみの対応を目的としたCSSをどうやって修正したかについて書かれています。
 
-`-webkit-` prefixや標準でない書き方のCSSを
-[css-fixme](https://github.com/Kuniwak/css-fixme "css-fixme")などで標準的なCSSへと修正し、それを[Autoprefixer](https://github.com/postcss/autoprefixer "Autoprefixer")で変換するという手法について解説されています。
+`-webkit-` prefixや標準でない書き方のCSSを[css-fixme](https://github.com/Kuniwak/css-fixme "css-fixme")などで標準的なCSSへと修正し、それを[Autoprefixer](https://github.com/postcss/autoprefixer "Autoprefixer")で変換するという手法について解説されています。
 
 vendor prefixに対する取り組みなどは下記を参照するといいかもしれません。
 
@@ -68,7 +67,7 @@ vendor prefixに対する取り組みなどは下記を参照するといいか�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p>
 
 AngularJS 2βリリース。
-Angular 1からのアップグレードガイドも公開されている
+AngularJS 1からのアップグレードガイドも公開されている
 
 - [Upgrading from 1.x - ts](https://angular.io/docs/ts/latest/guide/upgrade.html "Upgrading from 1.x - ts")
 
@@ -101,7 +100,7 @@ ES2016の`Array.prototype.includes`がデフォルトで有効、Subresource int
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Node v5.3.0リリース。
+Node.js v5.3.0リリース。
 `Buffer.prototype.includes()`の追加、REPLで外部モジュールを`require`できないバグを修正など
 
 ----
@@ -121,7 +120,7 @@ Flow 0.20.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
 
-ES2016 Draft 2015-12-20 リリース
+ES2016 Draft 2015-12-20リリース
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -165,7 +164,7 @@ Node Streamを使い、それをフロー制御している
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span></p>
 
-ServiceWorkerをオフライン対応以外の用途で使う方法について。
+Service Workerをオフライン対応以外の用途で使う方法について。
 クックブック形式で色々なパターンを紹介している
 
 - [ServiceWorker Cookbook](https://serviceworke.rs/ "ServiceWorker Cookbook")
@@ -213,7 +212,7 @@ viewportのwidthなど特定の条件では遅延がなくなる。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">document</span></p>
 
-ServiceWorkerのパターンを集めたクックブック。
+Service Workerのパターンを集めたクックブック。
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
