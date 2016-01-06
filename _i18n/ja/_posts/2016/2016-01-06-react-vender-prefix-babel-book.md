@@ -13,7 +13,38 @@ tags:
 
 ---
 
-JSer.info #260
+JSer.info #260 - [petehunt/react-howto](https://github.com/petehunt/react-howto "petehunt/react-howto")ではReact周りのエコシステムの入門について書かれています。
+
+[npm](https://www.npmjs.com/ "npm")、[Browserify](http://browserify.org/ "Browserify")や[webpack](https://webpack.github.io/ "webpack")、Fluxライブラリなどについてどう学んでいくべきかについてなどが書かれています。
+
+----
+
+[Webkit! RESOLVED FIXED - otsukare](http://www.otsukare.info/2016/01/04/webkit-resolved-fixed "Webkit! RESOLVED FIXED - otsukare")ではFirefox 46から`layout.css.prefixes.webkit`のオプションがデフォルトで`true`となった経緯が書かれています。
+
+オプション名の通り、CSSの`-webkit-` prefixをデフォルトで認識するものとなっています。
+`-webkit-box`(現在のFlexbox)などをWebKitブラウザのみを想定したコードしか書かれてないサイトでも描画出来るようにする目的で導入されています。
+
+アジア(特に[日本](http://www.otsukare.info/2015/04/17/web-compatibility-japan))のモバイルサイトでは、WebKitブラウザのみを想定したもの多いため、特定の`-webkit` prefixについては認識するようになっています。
+
+MSEdgeでも同様の対処が取られています。
+
+- [A break from the past, part 2: Saying goodbye to ActiveX, VBScript, attachEvent… | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2015/05/06/a-break-from-the-past-part-2-saying-goodbye-to-activex-vbscript-attachevent/ "A break from the past, part 2: Saying goodbye to ActiveX, VBScript, attachEvent… | Microsoft Edge Dev Blog")
+
+以下の記事も合わせて読んでみるといいかもしれません。
+
+- [総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers' Blog](http://alpha.mixi.co.jp/entry/2015/12/20/000000 "総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#39; Blog")
+- [Well, I'm Back: innerText: Cleaning A Dark Corner Of the Web](http://robert.ocallahan.org/2016/01/innertext.html "Well, I&#39;m Back: innerText: Cleaning A Dark Corner Of the Web")
+
+----
+
+[Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]](https://leanpub.com/setting-up-es6 "Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]")という電子書籍ではBabelを使ったES6のコードを扱う方法などについて書かれています。
+
+- [My new book: “Setting up ES6”](http://www.2ality.com/2016/01/book-setting-up-es6.html "My new book: “Setting up ES6”")
+
+また、ES6ではModuleの構文のみを定義し、[読み込みの解釈](https://github.com/whatwg/loader/issues)については議論中となっています。
+そのため、CommonJSとの相互運用性についてはツールの解釈次第となっている点についても詳しく書かれています。
+
+- [ES6 in Practice](http://www.slideshare.net/teppeis/es6-in-practice "ES6 in Practice")
 
 ----
 <h1 class="site-genre">アーティクル</h1>
