@@ -1,5 +1,5 @@
 ---
-title: "2016-01-06のJS: Reactエコシステム入門、ベンダープリフィックスとウェブ標準、Babelセットアップ本"
+title: "2016-01-06のJS: Reactエコシステム入門、ベンダープレフィックスとウェブ標準、Babelセットアップ本"
 author: azu
 layout: post
 date : 2016-01-06T18:22
@@ -24,7 +24,7 @@ JSer.info #260 - [petehunt/react-howto](https://github.com/petehunt/react-howto 
 オプション名の通り、CSSの`-webkit-` prefixをデフォルトで認識するものとなっています。
 `-webkit-box`(現在のFlexbox)などをWebKitブラウザのみを想定したコードしか書かれてないサイトでも描画出来るようにする目的で導入されています。
 
-アジア(特に[日本](http://www.otsukare.info/2015/04/17/web-compatibility-japan))のモバイルサイトでは、WebKitブラウザのみを想定したもの多いため、特定の`-webkit` prefixについては認識するようになっています。
+アジア(特に[日本](http://www.otsukare.info/2015/04/17/web-compatibility-japan))のモバイルサイトでは、WebKitブラウザのみを想定したものが多いため、特定の`-webkit-` prefixについては認識するようになっています。
 
 MSEdgeでも同様の対処が取られています。
 
@@ -32,8 +32,8 @@ MSEdgeでも同様の対処が取られています。
 
 以下の記事も合わせて読んでみるといいかもしれません。
 
-- [総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers' Blog](http://alpha.mixi.co.jp/entry/2015/12/20/000000 "総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#39; Blog")
-- [Well, I'm Back: innerText: Cleaning A Dark Corner Of the Web](http://robert.ocallahan.org/2016/01/innertext.html "Well, I&#39;m Back: innerText: Cleaning A Dark Corner Of the Web")
+- [総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers' Blog](http://alpha.mixi.co.jp/entry/2015/12/20/000000 "総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers' Blog")
+- [Well, I'm Back: innerText: Cleaning A Dark Corner Of the Web](http://robert.ocallahan.org/2016/01/innertext.html "Well, I'm Back: innerText: Cleaning A Dark Corner Of the Web")
 
 ----
 
@@ -101,10 +101,10 @@ WebKitを前提とするモバイルサイトで多く使われているため�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">webkit</span></p>
 
 FirefoxでCSSの`-webkit-` prefixを解釈するオプションがデフォルトで有効となった。
--webkit- prefixしか書かれてないサイトも表示できるようにするのが目的
+`-webkit-` prefixしか書かれてないサイトも表示できるようにするのが目的
 
 - [1213126 – Enable layout.css.prefixes.webkit by default](https://bugzilla.mozilla.org/show_bug.cgi?id=1213126 "1213126 – Enable layout.css.prefixes.webkit by default")
-- [総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#x27; Blog](http://alpha.mixi.co.jp/entry/2015/12/20/000000 "総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#x27; Blog")
+- [総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers&#x27; Blog](http://alpha.mixi.co.jp/entry/2015/12/20/000000 "総行数57,000の巨大CSS群をLessに書き換えた軌跡 - mixi Engineers' Blog")
 
 ----
 
@@ -191,13 +191,13 @@ HTML5 Videoを背景に使う方法や注意点について
 ----
 
 ## Getting Started with Redux - Course by @dan_abramov @eggheadio
-[egghead.io/series/getting-started-with-redux](https://egghead.io/series/getting-started-with-redux "Getting Started with Redux - Course by @dan\_abramov @eggheadio")
+[egghead.io/series/getting-started-with-redux](https://egghead.io/series/getting-started-with-redux "Getting Started with Redux - Course by @dan_abramov @eggheadio")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span></p>
 
 Redux作者によるRedux入門のスクリーンキャスト
 
-- [tayiorbeii/egghead.io\_redux\_course\_notes](https://github.com/tayiorbeii/egghead.io_redux_course_notes "tayiorbeii/egghead.io\_redux\_course\_notes")
+- [tayiorbeii/egghead.io\_redux\_course\_notes](https://github.com/tayiorbeii/egghead.io_redux_course_notes "tayiorbeii/egghead.io_redux_course_notes")
 
 ----
 
@@ -270,7 +270,7 @@ virtual-dom、React、hyperscriptに対応したTemplate Stringsを使ったビ�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">文字コード</span> <span class="jser-tag">library</span></p>
 
-Pure JavaScriptで書かれたShift_JIS(CP932)、ISO-2022-JP(-1)、EUC-JP、UTF-8、UNICODE の相互変換を行うライブラリ
+Pure JavaScriptで書かれたShift_JIS(CP932)、ISO-2022-JP(-1)、EUC-JP、UTF-8、UNICODEの相互変換を行うライブラリ
 
 ----
 
@@ -291,7 +291,7 @@ JSCSなどで利用されている
 ----
 
 ## Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]
-[leanpub.com/setting-up-es6](https://leanpub.com/setting-up-es6 "Setting up ES6 by Axel Rauschmayer \[Leanpub PDF/iPad/Kindle\]")
+[leanpub.com/setting-up-es6](https://leanpub.com/setting-up-es6 "Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">ebook</span></p>
 
