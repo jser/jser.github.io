@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-01-06 JS: React 에코시스템 입문, 벤더 프리픽스와 웹 표준, Setting up ES6 - JSer.info</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="JavaScript의 최신 소식을 소개하는 주간 블로그">
+    
+    <meta name="keywords" content="React,WebKit,CSS,Babel,Book" />
+    
+    <meta name="author" content="azu">
+
+    <meta content="JSer.info" property="og:site_name">
+    
+      <meta content="2016-01-06 JS: React 에코시스템 입문, 벤더 프리픽스와 웹 표준, Setting up ES6" property="og:title">
+    
+    
+      <meta content="article" property="og:type">
+    
+    
+      <meta property="og:description" content="JSer.info #260 - petehunt/react-howto에는 React와 ..." />
+    
+    
+      <meta content="http://jser.info/2016/01/06/react-vender-prefix-babel-book/" property="og:url">
+    
+    
+      <meta content="2016-01-06T18:22:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="WebKit" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="Babel" property="article:tag">
+      
+      <meta content="Book" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/ko/2016/01/06/react-vender-prefix-babel-book/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/01/06/react-vender-prefix-babel-book/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/01/06/react-vender-prefix-babel-book/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/01/06/react-vender-prefix-babel-book/">2016-01-06 JS: React 에코시스템 입문, 벤더 프리픽스와 웹 표준, Setting up ES6</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年01月06日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2016/2016-01-06-react-vender-prefix-babel-book.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2016/2016-01-06-react-vender-prefix-babel-book.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/ko/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/ko/2016/01/06/react-vender-prefix-babel-book/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/ko/2016/01/06/react-vender-prefix-babel-book/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #260 - <a href="https://github.com/petehunt/react-howto" title="petehunt/react-howto">petehunt/react-howto</a>에는 React와 관련된 에코시스템의 입문에 관해 작성돼 있습니다.</p>
+
+<p><a href="https://www.npmjs.com/" title="npm">npm</a>과 <a href="http://browserify.org/" title="Browserify">Browserify</a>이나 <a href="https://webpack.github.io/" title="webpack">webpack</a> 그리고 Flux 라이브러리 등을 학습하는 방법에 대해서도 소개합니다.</p>
+
+<hr>
+
+<p><a href="http://www.otsukare.info/2016/01/04/webkit-resolved-fixed" title="Webkit! RESOLVED FIXED - otsukare">Webkit! RESOLVED FIXED - otsukare</a>에는 Firefox 46부터 <code>layout.css.prefixes.webkit</code>의 옵션이 기본으로 활성화된 이유에 대해 작성돼 있습니다.</p>
+
+<p>이름 그대로 파이어폭스에서 CSS의 <code>-webkit-</code> prefix를 기본으로 인식하도록 하는 옵션입니다.<br>
+WebKit 브라우저만 고려해 <code>-webkit-box</code>(현재의 Flexbox)등을 사용하여 코드를 작성한 사이트도 렌더링 가능하도록 하는데 목적을 두고 있습니다.</p>
+
+<p>아시아(특히 <a href="http://www.otsukare.info/2015/04/17/web-compatibility-japan">일본</a>)의 모바일 사이트에서는 WebKit 브라우저만을 고려한 것이 많은데 이번부터 -webkit- prefix도 인식 가능하도록 됐습니다.</p>
+
+<p>MSEdge에서도 이와 같이 대응하고 있습니다.</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/msedgedev/2015/05/06/a-break-from-the-past-part-2-saying-goodbye-to-activex-vbscript-attachevent/" title="A break from the past, part 2: Saying goodbye to ActiveX, VBScript, attachEvent… | Microsoft Edge Dev Blog">A break from the past, part 2: Saying goodbye to ActiveX, VBScript, attachEvent… | Microsoft Edge Dev Blog</a></li>
+</ul>
+
+<p>아래의 글도 함께 읽어보면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="http://alpha.mixi.co.jp/entry/2015/12/20/000000" title="총 57,000 행이나 되는 거대한 CSS 코드 집합을 Less로 재작성한 기록 - mixi Engineers&#39; Blog">총 57,000 행이나 되는 거대한 CSS 코드 집합을 Less로 재작성한 기록 - mixi Engineers&#39; Blog</a>(일본어)</li>
+<li><a href="http://robert.ocallahan.org/2016/01/innertext.html" title="Well, I&#39;m Back: innerText: Cleaning A Dark Corner Of the Web">Well, I&#39;m Back: innerText: Cleaning A Dark Corner Of the Web</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://leanpub.com/setting-up-es6" title="Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]">Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]</a>라는 전자 서적에는 Babel을 사용해 ES6의 코드를 다루는 방법 등에 관해서 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="http://www.2ality.com/2016/01/book-setting-up-es6.html" title="My new book: “Setting up ES6”">My new book: “Setting up ES6”</a></li>
+</ul>
+
+<p>또 ES6에서 Module의 구문을 정의하고 있으나, <a href="ttps://github.com/whatwg/loader/issues">불러오는 방법</a>에 관해서는 아직 의논 중입니다. <br>
+따라서, CommonJS와의 상호운용성은 도구의 해석에 따라 다르다는 점에 관해서도 자세히 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="http://www.slideshare.net/teppeis/es6-in-practice" title="ES6 in Practice">ES6 in Practice</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="petehunt/react-howto">petehunt/react-howto</h2>
+
+<p><a href="https://github.com/petehunt/react-howto" title="petehunt/react-howto">github.com/petehunt/react-howto</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Tools</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p>
+
+<p>React 개발자가 작성한 React의 에코시스템 입문을 위한 가이드라인</p>
+
+<hr>
+
+<h2 id="revisiting-firefox’s-devtools-–-smashing-magazine">Revisiting Firefox’s DevTools – Smashing Magazine</h2>
+
+<p><a href="http://www.smashingmagazine.com/2015/12/revisiting-firefox-devtools/" title="Revisiting Firefox’s DevTools – Smashing Magazine">www.smashingmagazine.com/2015/12/revisiting-firefox-devtools/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span></p>
+
+<p>파이어폭스 개발자 도구를 새롭게 소개하는 글입니다.<br>
+최근 다양한 기능이 추가 됐습니다.</p>
+
+<hr>
+
+<h2 id="angular-2-versus-react:-there-will-be-blood-—-medium">Angular 2 versus React: There Will Be Blood — Medium</h2>
+
+<p><a href="https://medium.com/@housecor/angular-2-versus-react-there-will-be-blood-66595faafd51" title="Angular 2 versus React: There Will Be Blood — Medium">medium.com/@housecor/angular-2-versus-react-there-will-be-blood-66595faafd51</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">React</span></p>
+
+<p>AngularJS와 React를 비교한 글 입니다.</p>
+
+<blockquote>
+<p>Angular 2 continues to put “JS” into HTML. React puts “HTML” into JS.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="well,-i&#x27;m-back:-innertext:-cleaning-a-dark-corner-of-the-web">Well, I&#x27;m Back: innerText: Cleaning A Dark Corner Of the Web</h2>
+
+<p><a href="http://robert.ocallahan.org/2016/01/innertext.html" title="Well, I&#39;m Back: innerText: Cleaning A Dark Corner Of the Web">robert.ocallahan.org/2016/01/innertext.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">DOM</span></p>
+
+<p>IE나 WebKit에도 존재하는 <code>innerText</code>는 사양과 상호운용성이 없었는데, WebKit만 고려한 모바일 사이트에서 자주 사용하는 기능이기 때문에 파이어폭스에서도 해당 기능을 구현하기로 했고 또, 동시에 사양과 테스트 케이스도 작성했다고 소개하는 글입니다.</p>
+
+<ul>
+<li><a href="http://perfectionkills.com/the-poor-misunderstood-innerText/" title="The poor, misunderstood innerText — Perfection Kills">The poor, misunderstood innerText — Perfection Kills</a></li>
+<li><a href="http://www.otsukare.info/2016/01/04/webkit-resolved-fixed" title="Webkit! RESOLVED FIXED - otsukare">Webkit! RESOLVED FIXED - otsukare</a></li>
+</ul>
+
+<hr>
+
+<h2 id="webkit!-resolved-fixed---otsukare">Webkit! RESOLVED FIXED - otsukare</h2>
+
+<p><a href="http://www.otsukare.info/2016/01/04/webkit-resolved-fixed" title="Webkit! RESOLVED FIXED - otsukare">www.otsukare.info/2016/01/04/webkit-resolved-fixed</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">webkit</span></p>
+
+<p>Firefox 46에서 CSS의 <code>-webkit-</code> prefix를 인식하도록 하는 옵션이 기본적으로 활성화 됐습니다. <br>
+<code>-webkit-</code> prefix 밖에 쓰지 않는 경우에도 렌더링할 수 있도록 하는 것에 목적이 있습니다.</p>
+
+<ul>
+<li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1213126" title="1213126 – Enable layout.css.prefixes.webkit by default">1213126 – Enable layout.css.prefixes.webkit by default</a></li>
+<li><a href="http://alpha.mixi.co.jp/entry/2015/12/20/000000" title="총 57,000 행이나 되는 거대한 CSS 코드 집합을 Less로 재작성한 기록 - mixi Engineers&#39; Blog">총 57,000 행이나 되는 거대한 CSS 코드 집합을 Less로 재작성한 기록 - mixi Engineers&#x27; Blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="chromedevtool---chrome-developer-tools로-성능-측정하고-개선하기---qiita(일본어)">ChromeDevTool - Chrome Developer Tools로 성능 측정하고 개선하기 - Qiita(일본어)</h2>
+
+<p><a href="http://qiita.com/y_fujieda/items/a0a69151cf7307039f74" title="ChromeDevTool - Chrome Developer Tools로 성능 측정하고 개선하기 - Qiita">qiita.com/y_fujieda/items/a0a69151cf7307039f74</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span></p>
+
+<p>크롬 개발자 도구의 각각 패널을 해부합니다.<br>
+조작 방법이나 각 항목의 의미 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="javascript---audioworker를-시험해보다---qiita(일본어)">JavaScript - AudioWorker를 시험해보다 - Qiita(일본어)</h2>
+
+<p><a href="http://qiita.com/mohayonao/items/ce357230946cfa2303c2" title="JavaScript - AudioWorker를 시험해보다 - Qiita">qiita.com/mohayonao/items/ce357230946cfa2303c2</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">audo</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Web Audio API의 AudioWorker에 관해서 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/mohayonao/audio-worker-shim" title="mohayonao/audio-worker-shim">mohayonao/audio-worker-shim</a></li>
+</ul>
+
+<hr>
+
+<h2 id="managing-the-private-data-of-es6-classes">Managing the private data of ES6 classes</h2>
+
+<p><a href="http://www.2ality.com/2016/01/private-data-classes.html" title="Managing the private data of ES6 classes">www.2ality.com/2016/01/private-data-classes.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>ES6 Classes에서 private 적으로 데이터를 보유하는 패턴에 관해 소개합니다.</p>
+
+<hr>
+
+<h2 id="lerna를-사용하여-babel이나-react가-채택하고-있는-monorepo를-시험해봤다---qiita">Lerna를 사용하여 Babel이나 React가 채택하고 있는 monorepo를 시험해봤다 - Qiita</h2>
+
+<p><a href="http://qiita.com/kimamula/items/0b4dff363933bfe74506" title="Lerna를 사용하여 Babel이나 React가 채택하고 있는 monorepo를 시험해봤다 - Qiita">qiita.com/kimamula/items/0b4dff363933bfe74506</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Babel 처럼 monorepo를 lerna를 사용하여 관리하는 방법에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="flux-explained-for-newbies-–-part-1-|-devbutze">Flux explained for newbies – Part 1 | DevButze</h2>
+
+<p><a href="https://devbutze.com/p/216" title="Flux explained for newbies – Part 1 | DevButze">devbutze.com/p/216</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">tutorial</span></p>
+
+<p>컴포넌트 관점으로 UI를 바라 볼 때, 왜 Flux 같은 아키텍처가 필요하게 되는지에 관해 연재하고 있습니다.</p>
+
+<hr>
+
+<h2 id="day-2:-testing-react-applications-–-12-devs-of-xmas">Day 2: Testing React Applications – 12 Devs of Xmas</h2>
+
+<p><a href="http://12devsofxmas.co.uk/2015/12/day-2-testing-react-applications/" title="Day 2: Testing React Applications – 12 Devs of Xmas">12devsofxmas.co.uk/2015/12/day-2-testing-react-applications/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>React Component의 테스트에 관해 작성돼 있습니다.<br>
+jsdom, Enzyme를 사용한 테스트 방법 등을 소개합니다.</p>
+
+<hr>
+
+<h2 id="addyosmani.com---offline-installation-of-npm-packages">AddyOsmani.com - Offline installation of npm packages</h2>
+
+<p><a href="https://addyosmani.com/blog/using-npm-offline/" title="AddyOsmani.com - Offline installation of npm packages">addyosmani.com/blog/using-npm-offline/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span></p>
+
+<p>npm install을 오프라인에서도 사용할 수 있도록 하기 위한 팁을 소개합니다.<br>
+<code>--cache-min</code>, local-npm, npm_lazy 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="the-new-code-–-create-fullscreen-html5-page-background-video">the new code – Create Fullscreen HTML5 Page Background Video</h2>
+
+<p><a href="http://thenewcode.com/777/Create-Fullscreen-HTML5-Page-Background-Video" title="the new code – Create Fullscreen HTML5 Page Background Video">thenewcode.com/777/Create-Fullscreen-HTML5-Page-Background-Video</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">영상</span></p>
+
+<p>HTML5 Video를 배경으로 사용하는 방법과 주의할 점에 관해 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://css-tricks.com/should-i-use-a-video-as-a-background/" title="Should I use a video as a background? | CSS-Tricks">Should I use a video as a background? | CSS-Tricks</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="getting-started-with-redux---course-by-@dan_abramov-@eggheadio">Getting Started with Redux - Course by @dan_abramov @eggheadio</h2>
+
+<p><a href="https://egghead.io/series/getting-started-with-redux" title="Getting Started with Redux - Course by @dan_abramov @eggheadio">egghead.io/series/getting-started-with-redux</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span></p>
+
+<p>Redux 개발자가 발행한 Redux 입문 스크린 캐스트 입니다.</p>
+
+<ul>
+<li><a href="https://github.com/tayiorbeii/egghead.io_redux_course_notes" title="tayiorbeii/egghead.io_redux_course_notes">tayiorbeii/egghead.io_redux_course_notes</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node.js-interactive-2015---youtube">Node.js Interactive 2015 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLfMzBWSH11xYjL8oFumSfzOf6-kr8_t-o" title="Node.js Interactive 2015 - YouTube">www.youtube.com/playlist?list=PLfMzBWSH11xYjL8oFumSfzOf6-kr8_t-o</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">영상</span> <span class="jser-tag">정리</span></p>
+
+<p>Node.js Interactive 2015 발표 영상 목록입니다.</p>
+
+<ul>
+<li><a href="http://events.linuxfoundation.org/events/node-interactive" title="Node.js Interactive 2015 | Linux Conferences and Linux Events | The Linux Foundation">Node.js Interactive 2015 | Linux Conferences and Linux Events | The Linux Foundation</a></li>
+<li><a href="https://github.com/duffn/nodeinteractive-2015" title="duffn/nodeinteractive-2015">duffn/nodeinteractive-2015</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="orizens/angular-es2015-styleguide">orizens/angular-es2015-styleguide</h2>
+
+<p><a href="https://github.com/orizens/angular-es2015-styleguide" title="orizens/angular-es2015-styleguide">github.com/orizens/angular-es2015-styleguide</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span></p>
+
+<p>AngularJS 1.x과 ES2015를 함께 고려한 스타일 가이드입니다.</p>
+
+<hr>
+
+<h2 id="html-5-canvas-cheat-sheet---websitesetup.org">HTML 5 Canvas Cheat Sheet - WebsiteSetup.org</h2>
+
+<p><a href="http://websitesetup.org/html-5-canvas-cheat-sheet/" title="HTML 5 Canvas Cheat Sheet - WebsiteSetup.org">websitesetup.org/html-5-canvas-cheat-sheet/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span> <span class="jser-tag">canvas</span> <span class="jser-tag">치트시트</span></p>
+
+<p>Canvas 치트시트 입니다.</p>
+
+<hr>
+
+<h2 id="wpo-stats">WPO Stats</h2>
+
+<p><a href="https://wpostats.com/" title="WPO Stats">wpostats.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">정리</span></p>
+
+<p>웹 성능 최적화를 주제로 작성된 글이 수집돼 있는 사이트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="lucifier129/react-lite">Lucifier129/react-lite</h2>
+
+<p><a href="https://github.com/Lucifier129/react-lite" title="Lucifier129/react-lite">github.com/Lucifier129/react-lite</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span></p>
+
+<p>React의 Core API와 호환성 있는 구현 라이브러리입니다.<br>
+서버 사이드 렌더링, <code>React.PropTypes</code>, addons 등을 제거하여 더 작은 파일 사이즈를 목표로 구현돼 있습니다.</p>
+
+<hr>
+
+<h2 id="substack/hyperx">substack/hyperx</h2>
+
+<p><a href="https://github.com/substack/hyperx" title="substack/hyperx">github.com/substack/hyperx</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">VirtualDOM</span> <span class="jser-tag">library</span></p>
+
+<p>Template Strings를 사용하여 디자인하고 virtual-dom, React, hyperscript에 대응한 빌더 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="narirou/jconv">narirou/jconv</h2>
+
+<p><a href="https://github.com/narirou/jconv" title="narirou/jconv">github.com/narirou/jconv</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">문자코드</span> <span class="jser-tag">library</span></p>
+
+<p>순수 자바스크립트로만 작성된 Shift_JIS(CP932), ISO-2022-JP(-1), EUC-JP, UTF-8, UNICODE를 상호 변환할 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="unit-coverage/unit-coverage">unit-coverage/unit-coverage</h2>
+
+<p><a href="https://github.com/unit-coverage/unit-coverage" title="unit-coverage/unit-coverage">github.com/unit-coverage/unit-coverage</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>코드 커버리지 도구입니다.<br>
+코드 간의 관계도 커버리지 리포트에 포함시킬 수 있습니다. <br>
+이 도구는 JSCS 에서 사용하고 있습니다.</p>
+
+<ul>
+<li><a href="http://jscs.info/jscs/coverage.html" title="Coverage report">Coverage report</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="setting-up-es6-by-axel-rauschmayer-[leanpub-pdf/ipad/kindle]">Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]</h2>
+
+<p><a href="https://leanpub.com/setting-up-es6" title="Setting up ES6 by Axel Rauschmayer [Leanpub PDF/iPad/Kindle]">leanpub.com/setting-up-es6</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">ebook</span></p>
+
+<p>Dr.Axel의 Babel을 사용한 ES6의 도입에 관한 전자 서적입니다. <br>
+loader의 방식이 transpiler나 CommonJS에 의존 하고 있는 가운데, 모듈 동작에 관련한 오해를 풀 수 있는 내용이 작성돼 있습니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2016/2016-01-06-react-vender-prefix-babel-book.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["React","WebKit","CSS","Babel","Book"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>Tags:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>WebKit</li>
+                
+                <li>CSS</li>
+                
+                <li>Babel</li>
+                
+                <li>Book</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/ko/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/ko/2016/01/06/react-vender-prefix-babel-book/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/ko/2016/01/06/react-vender-prefix-babel-book/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="http://twitter.com/azu_re" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.info 소개</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2016/01/06/react-vender-prefix-babel-book/">2016-01-06 JS: React 에코시스템 입문, 벤더 프리픽스와 웹 표준, Setting up ES6</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/11/03/vue1.0-babel6.0-node5.0/">2015-11-03 JS: Vue.js 1.0.0, Babel 6.0, Node.js 5.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/10/25/eslint-ecmascript-rollup/">2015-10-25 JS: ESLint입문, ECMAScript은 무엇인가?, rollup와 ES6 modules</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/10/16/node-lts-es6-js-css-next/">2015-10-16 JS: Node.js 4.2.0 LTS, ES6, CSS.next</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/10/08/react0.14-eslint-tail-call/">2015-10-08 JS: React 0.14, ESLint의 사용법, ES6의 꼬리 호출 최적화</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/09/29/redux3.0-js-library/">2015-09-29 JS: Redux 3.0 릴리즈, JavaScript의 라이브러리를 배포하는 방법</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/09/25/firefox41-npm3-xregexp3/">2015-09-25의 JS: Firefox 41.0, npm 3.x stable 릴리즈, XRegExp 3.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2015/09/16/react-0.14-eslint-1.4-es5/">2015-09-16 JS 소식: React 0.14 RC、ESLint 1.4.0、다시 한번 ECMAScript 5</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
