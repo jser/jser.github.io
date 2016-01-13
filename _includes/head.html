@@ -3,7 +3,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% if page.title == nil or page.title == "" %}{{ site.title }}{% else %}{{ page.title }} - {{ site.title }}{% endif %}</title>
     <meta name="viewport" content="width=device-width">
-    <meta name="description" content="{% t description %}">
+
+    {% if page.description %}
+    <meta name="twitter:description" content="{{ page.description }}" />
+    {% else %}
+    <meta name="twitter:description" content="{{ site.description }}" />
+    {% endif %}
     {% if page.tags %}
     <meta name="keywords" content="{{page.tags | join: ','}}" />
     {% else %}
@@ -22,23 +27,22 @@
     {% else %}
       <meta content="website" property="og:type">
     {% endif %}
-    {% if page.content %}
-      <meta property="og:description" content="{{ page.content | markdownify | strip_html | strip_newlines | truncate: 50}}" />
+    {% if page.description %}
+      <meta property="og:description" content="{{ page.description }}" />
     {% else %}
-      <meta content="{{ site.description }}" property="og:description">
+      <meta content="{% t description %}" property="og:description">
     {% endif %}
     {% if page.url %}
-      <meta content="{{ site.url }}{{ page.url }}" property="og:url">
+      <meta content="{{ site.url }}{{ page.url | replace:'index.html','' }}" property="og:url">
     {% endif %}
     {% if page.date %}
       <meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
       <meta content="{{ site.url }}/about/" property="article:author">
     {% endif %}
-    {% if page.image %}
-      <meta content="/img/posts/{{ page.image }}" property="og:image">
-    {% else %}
-      <meta content="/img/logo-high-resolution.png" property="og:image">
-    {% endif %}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@{{ site.twitter_username }}" />
+    <meta content="/media/logo.png" property="og:image">
     {% if page.categories %}
       {% for category in page.categories limit:1 %}
       <meta content="{{ category }}" property="article:section">
