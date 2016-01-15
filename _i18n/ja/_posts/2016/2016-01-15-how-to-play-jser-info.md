@@ -65,7 +65,7 @@ JSer.infoに載せて欲しい記事は[jser.info](https://github.com/jser/jser.
 
 ## データを分析したい
 
-JSer.infoのデータを分析したいはJSON APIとライブラリが用意されています。
+JSer.infoのデータを分析したい場合はJSON APIとライブラリが用意されています。
 
 - [http://jser.info/source-data/items.json](http://jser.info/source-data/items.json) 掲載サイトデータ
 - [http://jser.info/posts.json](http://jser.info/posts.json) 記事データ
@@ -96,7 +96,7 @@ JSer.infoの記事やデータはCC-BY [![CC-BY](https://i.creativecommons.org/l
 
 どんな感じで掲載サイトデータなどが更新されているかの仕組みの話です。
 
-サイトデータのマスター[jser/jser.info](https://github.com/jser/jser.info/ "jser/jser.info")で管理されています。
+サイトデータのマスターは[jser/jser.info](https://github.com/jser/jser.info/ "jser/jser.info")で管理されています。
 (月ごとにJSONでまとめられています)
 
 [jser/jser.info](https://github.com/jser/jser.info/ "jser/jser.info")のデータが更新されると、CIが自動的に以下のリポジトリも更新します。
@@ -108,7 +108,7 @@ JSer.infoの記事やデータはCC-BY [![CC-BY](https://i.creativecommons.org/l
 	- 掲載サイトデータを[jser/stat-js](https://github.com/jser/stat-js "jser/stat-js")向けにまとめています。
 	- 全てのJSONを一つのファイルにマージしたものを作成。
 
-JSer.infoのマスターはJSONデータで管理されていますが、最近はてMarkdown + Yaml Headerで管理しているサイトも増えています。
+JSer.infoのマスターはJSONデータで管理されていますが、最近はMarkdown + Yaml Headerで管理しているサイトも増えています。
 
 - [WASM.NEWS | HowTo](https://wasm.news/contributing.html "WASM.NEWS | HowTo")
 	- Jekyllを利用
