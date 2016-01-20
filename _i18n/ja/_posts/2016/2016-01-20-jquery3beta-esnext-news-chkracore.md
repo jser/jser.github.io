@@ -24,7 +24,7 @@ JSer.info #262 - jQuery3.0βがリリースされました。
 
 [ES.next News](http://esnextnews.com/ "ES.next News")は、週5つほどのES.next関連のリンクを紹介していくメルマガサイトです。
 
-[JavaScript Weekly](http://javascriptweekly.com/ "JavaScript Weekly")の補完的な感じな情報を扱うようです。
+[JavaScript Weekly](http://javascriptweekly.com/ "JavaScript Weekly")の補完的な情報を扱うようです。
 
 > We see ES.next News as complementary to JavaScript Weekly
 
