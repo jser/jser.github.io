@@ -56,7 +56,7 @@ MSEdgeのJavaScriptエンジンである[ChakraCore](https://github.com/Microsof
 
 - [Submitting a Pull Request to Node.js with ChakraCore | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/01/19/nodejs-chakracore-mainline/ "Submitting a Pull Request to Node.js with ChakraCore | Microsoft Edge Dev Blog")
 
-ChakraCoreのロードマップも公開されていて、LinuxサポートやES2015 Modulesの実装などが予定されています。
+ChakraCoreのロードマップでは、LinuxサポートやES2015 Modulesの実装などが予定されています。
 
 - [Roadmap · Microsoft/ChakraCore Wiki](https://github.com/Microsoft/ChakraCore/wiki/Roadmap "Roadmap · Microsoft/ChakraCore Wiki")
 
