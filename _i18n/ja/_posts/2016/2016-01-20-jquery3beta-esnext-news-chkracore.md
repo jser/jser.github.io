@@ -3,13 +3,62 @@ title: "2016-01-20のJS: jQuery 3.0β、ES.next News、ChakraCore OSS"
 author: azu
 layout: post
 date : 2016-01-20T22:57
-category: 
+category: JSer
 tags:
-    - 
+    - jQuery
+    - ECMAScript
+    - MSEdge
+    - CHakraCore
 
 ---
 
-JSer.info #262
+JSer.info #262 - jQuery3.0βがリリースされました。
+
+- [jQuery 3.0 Beta Released | Official jQuery Blog](http://blog.jquery.com/2016/01/14/jquery-3-0-beta-released/ "jQuery 3.0 Beta Released | Official jQuery Blog")
+
+[jQuery 10周年](http://blog.jquery.com/2016/01/14/ten-years-of-jquery-and-beyond/)に合わせてリリースされました。
+3.0に向けての変更点がまとめられているので利用している場合は見ておくといいかもしれません。
+
+
+----
+
+[ES.next News](http://esnextnews.com/ "ES.next News")は、週5つほどのES.next関連のリンクを紹介していくメルマガサイトです。
+
+[JavaScript Weekly](http://javascriptweekly.com/ "JavaScript Weekly")の補完的な感じな情報を扱うようです。
+
+> We see ES.next News as complementary to JavaScript Weekly
+
+- [ES.next News: a weekly email newsletter](http://www.2ality.com/2016/01/esnext-news.html "ES.next News: a weekly email newsletter")
+
+関連:
+
+先週の[JSer.info 5周年記念イベント](http://jser.info/2016/01/16/jser-5years/ "JSer.info 5周年記念イベント")でも[発表](http://azu.github.io/slide/2016/jser5years/jser.info.html)していましたが、
+[ECMAScript Daily](http://ecmascript-daily.github.io/ "ECMAScript Daily")というECMAScriptについて扱うサイトを作りました。
+
+[ECMAScript Daily News](http://ecmascript-daily.github.io/ "ECMAScript Daily News")はJSer.infoの補完的な感じです。
+自分のECMAScriptに関するメモを兼ねているので、ECMAScriptの仕様やProposal周りについてが中心です。
+(新しいProposalが公開されたとか、V8である仕様が実装されたとか、TC39でこういう議論があったなど)
+
+ライブラリやツールの話などの話は少ないですが、興味ある人は見てみるといいかもしれません。
+
+- [RSS](http://ecmascript-daily.github.io/atom.xml "ECMAScript Daily") で購読できます
+- [ECMAScript Daily (@EcmascriptDaily)](https://twitter.com/ecmascriptdaily "ECMAScript Daily (@EcmascriptDaily) | Twitter") Twitterでも見ることができます
+- [メールマガジン](http://jser.us11.list-manage.com/subscribe/post?u=3d2f10a0ac6ad6b41153b027c&id=b591184502 "ECMAScript Daily") 週刊でまとめて更新が購読できます
+
+
+----
+
+MSEdgeのJavaScriptエンジンである[ChakraCore](https://github.com/Microsoft/ChakraCore "ChakraCore")がOSSとして公開されました。
+
+- [ChakraCore GitHub repository is now open | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/01/13/chakracore-now-open/ "ChakraCore GitHub repository is now open | Microsoft Edge Dev Blog")
+
+加えて、[Node.jsへChakraCoreも利用できるようにするPull Request](https://github.com/nodejs/node/pull/4765 "Enable Node.js to run with Microsoft&#39;s ChakraCore engine by kunalspathak · Pull Request #4765 · nodejs/node")が行われています。
+
+- [Submitting a Pull Request to Node.js with ChakraCore | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/01/19/nodejs-chakracore-mainline/ "Submitting a Pull Request to Node.js with ChakraCore | Microsoft Edge Dev Blog")
+
+ChakraCoreのロードマップも公開されていて、LinuxサポートやES2015 Modulesの実装などが予定されています。
+
+- [Roadmap · Microsoft/ChakraCore Wiki](https://github.com/Microsoft/ChakraCore/wiki/Roadmap "Roadmap · Microsoft/ChakraCore Wiki")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -233,4 +282,3 @@ TemplateStringを使ってJSXライクな書き方ができるテンプレート
 JSBinとかJSFiddleのような形式でHTML/CSS/JSを埋め込み表示出来るライブラリ
 
 ----
-
