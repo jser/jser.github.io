@@ -126,7 +126,7 @@ ES.nextについての週刊メルマガ。
 JavaScriptの補完的な感じ。
 by Dr.Axel Rauschmayer and Johannes Weber.
 
-- [ES.next News: The 5 best ECMAScript links of the week](http://esnextnews.com/ "ES.next News: The 5 best ECMAScript links of the week")
+- [ES.next News: a weekly email newsletter](http://www.2ality.com/2016/01/esnext-news.html "ES.next News: a weekly email newsletter")
 
 ----
 
