@@ -12,7 +12,7 @@ tags:
 
 ---
 
-JSer.info #262 - jQuery3.0βがリリースされました。
+JSer.info #262 - jQuery 3.0βがリリースされました。
 
 - [jQuery 3.0 Beta Released | Official jQuery Blog](http://blog.jquery.com/2016/01/14/jquery-3-0-beta-released/ "jQuery 3.0 Beta Released | Official jQuery Blog")
 
@@ -39,7 +39,7 @@ JSer.info #262 - jQuery3.0βがリリースされました。
 自分のECMAScriptに関するメモを兼ねているので、ECMAScriptの仕様やProposal周りについてが中心です。
 (新しいProposalが公開されたとか、V8である仕様が実装されたとか、TC39でこういう議論があったなど)
 
-ライブラリやツールの話などの話は少ないですが、興味ある人は見てみるといいかもしれません。
+ライブラリやツールなどの話は少ないですが、興味ある人は見てみるといいかもしれません。
 
 - [RSS](http://ecmascript-daily.github.io/atom.xml "ECMAScript Daily") で購読できます
 - [ECMAScript Daily (@EcmascriptDaily)](https://twitter.com/ecmascriptdaily "ECMAScript Daily (@EcmascriptDaily) | Twitter") Twitterでも見ることができます
@@ -52,7 +52,7 @@ MSEdgeのJavaScriptエンジンである[ChakraCore](https://github.com/Microsof
 
 - [ChakraCore GitHub repository is now open | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/01/13/chakracore-now-open/ "ChakraCore GitHub repository is now open | Microsoft Edge Dev Blog")
 
-加えて、[Node.jsへChakraCoreも利用できるようにするPull Request](https://github.com/nodejs/node/pull/4765 "Enable Node.js to run with Microsoft&#39;s ChakraCore engine by kunalspathak · Pull Request #4765 · nodejs/node")が行われています。
+加えて、[Node.jsへChakraCoreも利用できるようにするPull Request](https://github.com/nodejs/node/pull/4765 "Enable Node.js to run with Microsoft's ChakraCore engine by kunalspathak · Pull Request #4765 · nodejs/node")が行われています。
 
 - [Submitting a Pull Request to Node.js with ChakraCore | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/01/19/nodejs-chakracore-mainline/ "Submitting a Pull Request to Node.js with ChakraCore | Microsoft Edge Dev Blog")
 
@@ -270,7 +270,7 @@ Babelのセットアップ方法やプラグイン開発について書かれた
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span></p>
 
-TemplateStringを使ってJSXライクな書き方ができるテンプレートエンジン。
+Template Stringsを使ってJSXライクな書き方ができるテンプレートエンジン。
 
 ----
 
@@ -279,6 +279,6 @@ TemplateStringを使ってJSXライクな書き方ができるテンプレート
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-JSBinとかJSFiddleのような形式でHTML/CSS/JSを埋め込み表示出来るライブラリ
+JS BinとかJSFiddleのような形式でHTML/CSS/JSを埋め込み表示出来るライブラリ
 
 ----
