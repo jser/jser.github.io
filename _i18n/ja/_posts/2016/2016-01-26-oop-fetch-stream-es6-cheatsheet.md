@@ -1,17 +1,46 @@
 ---
-title: "2016-01-26のJS: "
+title: "2016-01-26のJS: JavaScriptとOOP、Fetch with Stream、ES6チートシート"
 author: azu
 layout: post
 date : 2016-01-26T18:18
 category: JSer
 tags:
-    - 
+    - OOP
+    - Fetch
+    - JavaScript
+    - ES6
 
 ---
 
-JSer.info #263
+JSer.info #263 - [OO Relationships — Medium](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162 "OO Relationships — Medium")ではJavaScriptとオブジェクト指向プログラミングについて書かれています。
+
+[Allen Wirfs-Brock](https://twitter.com/awbjs "Allen Wirfs-Brock")さんの以下の発言が発端です(今も続いてる)
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">JS devs: do you use abstraction? What word do you use for “an open set of objects that share a common interface and implementation”?</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/689506114807857152">January 19, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">JS Devs: What  do you call “an open set of objects that share a common interface and implementation”?</p>&mdash; Allen Wirfs-Brock (@awbjs) <a href="https://twitter.com/awbjs/status/689513929546928128">January 19, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+ES6で追加された`class`を踏まえprototype-basedであるJavaScriptにおけるオブジェクト同士の関係性について書かれています。
+実践的な話というよりは概念的な話ですが興味深い内容になっています。
 
 ----
+
+[2016 - the year of web streams - JakeArchibald.com](https://jakearchibald.com/2016/streams-ftw/ "2016 - the year of web streams - JakeArchibald.com")ではChromeでフラグ付きの[WHATWG Stream](https://streams.spec.whatwg.org/ "Streams")について紹介されています。
+
+また[Fetch API](https://fetch.spec.whatwg.org/ "Fetch")とStream APIを組み合わせて使うことで、
+データを取得しながら処理をすることで、表示までの動作がどのように変わるのかについて紹介されています。
+
+----
+
+[ECMAScript 2015 by David Leonard](http://slides.com/drksephy/ecmascript-2015#/ "ECMAScript 2015 by David Leonard")では[DrkSephy/es6-cheatsheet](https://github.com/DrkSephy/es6-cheatsheet "DrkSephy/es6-cheatsheet")のチートシートを元にしたES6について紹介されています。
+
+ES6とES5を[比較](http://es6-features.org/)した内容になっています。
+具体的にどの部分が異なるのかが細かく紹介されています。
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
@@ -23,6 +52,26 @@ JSer.info #263
 
 JSCS v2.9.0リリース。
 `requireCapitalizedConstructors`ルールの追加、ルールの更新、バグ修正など
+
+
+----
+
+## Node v5.5.0 (Stable) | Node.js
+[nodejs.org/en/blog/release/v5.5.0/](https://nodejs.org/en/blog/release/v5.5.0/ "Node v5.5.0 (Stable) | Node.js")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node v5.5.0リリース。
+REPLでも`--require`が動作するように、`fs.createWriteStream`で`autoClose`オプションをサポートするなど
+
+----
+
+## Release ES2016 Draft 2016-01-20 · tc39/ecma262
+[github.com/tc39/ecma262/releases/tag/es2016-draft-20160120](https://github.com/tc39/ecma262/releases/tag/es2016-draft-20160120 "Release ES2016 Draft 2016-01-20 · tc39/ecma262")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+ES2016 Draft 2016-01-20リリース
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -64,7 +113,7 @@ class、mixin、traits、ダックタイピング、compositionなどについ�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
 
 Fetch with Streamについて。
-readable stream、transform streamを使ったMPEG to GIFの礼
+readable stream、transform streamを使ったMPEG to GIFの例
 
 ----
 
@@ -84,25 +133,6 @@ readable stream、transform streamを使ったMPEG to GIFの礼
 
 Bundlerであるrollup.jsについて。
 x to ES6をしてから変換する話、Tree Shaking、基本的な使い方や設定について
-
-----
-
-## Node v5.5.0 (Stable) | Node.js
-[nodejs.org/en/blog/release/v5.5.0/](https://nodejs.org/en/blog/release/v5.5.0/ "Node v5.5.0 (Stable) | Node.js")
-
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
-
-Node v5.5.0リリース。
-REPLでも`--require`が動作するように、`fs.createWriteStream`で`autoClose`オプションをサポートするなど
-
-----
-
-## Release ES2016 Draft 2016-01-20 · tc39/ecma262
-[github.com/tc39/ecma262/releases/tag/es2016-draft-20160120](https://github.com/tc39/ecma262/releases/tag/es2016-draft-20160120 "Release ES2016 Draft 2016-01-20 · tc39/ecma262")
-
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
-
-ES2016 Draft 2016-01-20リリース
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
