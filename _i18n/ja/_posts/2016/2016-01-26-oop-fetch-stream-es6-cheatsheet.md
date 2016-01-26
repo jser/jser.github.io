@@ -41,6 +41,18 @@ ES6とES5を[比較](http://es6-features.org/)した内容になっています�
 
 ----
 
+:information_source:
+
+Podcastやサイト紹介などをやっている[The Changelog](https://changelog.com/ "The Changelog - Open source moves fast. Keep up.")に[Ping](https://github.com/thechangelog/ping "Ping")というリポジトリがあり、
+これと同じものをJSer.infoにもあったら利用したいかの意見を募集中です。
+
+[Ping](https://github.com/thechangelog/ping "Ping")は紹介して欲しい記事を書いたり、意見を書いたり、Changelogだとこの人をpodcastに読んでほしいなどの要望を書くGitHub Issueです。
+これに関する意見などありましたらGitterなどに書いて見てください。
+
+[![Gitter chat](https://badges.gitter.im/jser/jser.info.png)](https://gitter.im/jser/jser.info)
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
