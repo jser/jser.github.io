@@ -36,8 +36,7 @@ ES6で追加された`class`を踏まえprototype-basedであるJavaScriptにお
 
 [ECMAScript 2015 by David Leonard](http://slides.com/drksephy/ecmascript-2015#/ "ECMAScript 2015 by David Leonard")では[DrkSephy/es6-cheatsheet](https://github.com/DrkSephy/es6-cheatsheet "DrkSephy/es6-cheatsheet")のチートシートを元にしたES6について紹介されています。
 
-ES6とES5を[比較](http://es6-features.org/)した内容になっています。
-具体的にどの部分が異なるのかが細かく紹介されています。
+ES6とES5を[比較](http://es6-features.org/)した内容で、具体的にどの部分が異なるのかが紹介されています。
 
 ----
 
