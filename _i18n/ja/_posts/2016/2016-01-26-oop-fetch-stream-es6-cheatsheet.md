@@ -72,7 +72,7 @@ JSCS v2.9.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Node v5.5.0リリース。
+Node.js v5.5.0リリース。
 REPLでも`--require`が動作するように、`fs.createWriteStream`で`autoClose`オプションをサポートするなど
 
 ----
