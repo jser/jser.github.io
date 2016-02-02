@@ -11,16 +11,46 @@ tags:
 
 ---
 
-JSer.info #264 - Firefox 44.0がリリースされました。
+JSer.info #264 - [Firefox 44.0](https://www.mozilla.jp/firefox/44.0/releasenotes/ "Firefox 44.0")がリリースされました。
+
+`let`と`const`は[Spidermonkey独自の動作](https://www.fxsitecompat.com/ja/docs/2015/variables-defined-with-const-and-let-are-no-longer-properties-on-window-redeclaration-with-let-will-throw/)が含まれていましたが、今回ES6準拠となるように変更されました。
+
+HTTP通信において[Brotli](https://en.wikipedia.org/wiki/Brotli "Brotli")の圧縮アルゴリズムがサポートされています。
+
+- [Content negotiation - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation#The_Accept-Encoding_header "Content negotiation - HTTP | MDN")
+
+Chromeでも49で実装されています。(HTTPSのみ有効)
+
+- [Intent to Ship: Brotli (Accept-encoding: br on HTTPS connection) - Google グループ](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/JufzX024oy0/WEOGbN43AwAJ "Intent to Ship: Brotli (Accept-encoding: br on HTTPS connection) - Google グループ")
 
 ----
 
 ECMAScript 2016(ES2016)で追加される機能が確定しました。
 
-ES2016からはProposal(≒機能ごと)に仕様の検討を行い、最終的に合意が得られたProposalがECMAScriptとして仕様へマージされます。
+ES2016からはProposal(≒機能ごと)に仕様の検討を行い、最終的に合意を得られたProposalがECMAScriptの仕様へマージされます。
+この新しい策定プロセスを通り、以下の2つのProposalがES2016の仕様に入ります。
+
+- [Array.prototype.includes](https://github.com/tc39/Array.prototype.includes/ "Array.prototype.includes")
+- [Exponentiation Operator](https://github.com/rwaldron/exponentiation-operator "Exponentiation Operator")
+
+Proposalから仕様となったものがこの2つという意味なので、ES2016における変更点は他にも色々あります。
+
+詳しくは別途記事を書いたので以下を参照してください。
+
+- [ECMAScript 2016 features & changes - JSer.info](http://jser.info/2016/02/01/es2016/ "ECMAScript 2016 features &amp; changes - JSer.info")
 
 ----
 
+[What's new in webpack 2](https://gist.github.com/sokra/27b24881210b56bbaff7 "What&#39;s new in webpack 2")ではwebpack 2での追加機能や変更点について書かれています。
+
+[Rollup](https://github.com/rollup/rollup "Rollup")ようにES6 Modulesを解析し、使われているもの以外を削除することが出来るようになっています。
+
+また、`System.import`をモジュールの分割ポイントとして扱うことができるようになるようです。
+
+その他の変更はIssueを見るのがいいと思います。
+
+- [Scheduled small breaking changes for 2.0 · Issue #729 · webpack/webpack](https://github.com/webpack/webpack/issues/729 "Scheduled small breaking changes for 2.0 · Issue #729 · webpack/webpack")
+- [Issues · webpack/webpack](https://github.com/webpack/webpack/labels/webpack-2 "Issues · webpack/webpack")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -113,8 +143,7 @@ Redux 3.1.0リリース。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">issue</span></p>
 
-TypeScriptの型定義ファイルを管理するツールであるtsdが非推奨となった。
-代わりにtypingsを利用することが推奨されている。
+TypeScriptの型定義ファイルを管理するツールであるtsdが非推奨となり、代わりにtypingsを利用することが推奨されている。
 
 - [typings/typings - TypeScript](https://github.com/typings/typings "typings/typings - TypeScript")
 - [vvakame/dtsm - TypeScript](https://github.com/vvakame/dtsm "vvakame/dtsm - TypeScript")
