@@ -28,7 +28,7 @@ Chromeでも49で実装されています。(HTTPSのみ有効)
 ECMAScript 2016(ES2016)で追加される機能が確定しました。
 
 ES2016からはProposal(≒機能ごと)に仕様の検討を行い、最終的に合意を得られたProposalがECMAScriptの仕様へマージされます。
-この新しい策定プロセスを通り、以下の2つのProposalがES2016の仕様に入ります。
+この新しい策定プロセスで以下の2つのProposalがES2016の仕様に入ります。
 
 - [Array.prototype.includes](https://github.com/tc39/Array.prototype.includes/ "Array.prototype.includes")
 - [Exponentiation Operator](https://github.com/rwaldron/exponentiation-operator "Exponentiation Operator")
@@ -43,7 +43,7 @@ Proposalから仕様となったものがこの2つという意味なので、ES
 
 [What's new in webpack 2](https://gist.github.com/sokra/27b24881210b56bbaff7 "What&#39;s new in webpack 2")ではwebpack 2での追加機能や変更点について書かれています。
 
-[Rollup](https://github.com/rollup/rollup "Rollup")ようにES6 Modulesを解析し、使われているもの以外を削除することが出来るようになっています。
+[Rollup](https://github.com/rollup/rollup "Rollup")のようにES6 Modulesを解析し、使われているもの以外を削除することが出来るようになっています。
 
 また、`System.import`をモジュールの分割ポイントとして扱うことができるようになるようです。
 
