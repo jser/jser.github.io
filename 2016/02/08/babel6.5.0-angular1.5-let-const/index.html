@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-02-08のJS: Babel 6.5.0、Angular 1.5、letとconst - JSer.info</title>
+    <meta name="description" content="JSer.info #265 - Babel 6.5.0がリリースされました。">
+    
+    <meta name="keywords" content="ES6,Babel,AngularJS" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-02-08T20:19:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="ES6" property="article:tag">
+      
+      <meta content="Babel" property="article:tag">
+      
+      <meta content="AngularJS" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/02/08/babel6.5.0-angular1.5-let-const/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #265 - Babel 6.5.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-02-08のJS: Babel 6.5.0、Angular 1.5、letとconst">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/02/08/babel6.5.0-angular1.5-let-const/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #265 - Babel 6.5.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-02-08T20:19:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/02/02/firefox44-es2016-new-feature-webpack2beta/">
+
+<meta property="og:see_also" content="http://jser.info/2016/02/01/es2016/">
+
+<meta property="og:see_also" content="http://jser.info/2016/01/27/math.random-xsfhit/">
+
+
+
+
+
+<meta property="article:tag" content="ES6">
+
+<meta property="article:tag" content="Babel">
+
+<meta property="article:tag" content="AngularJS">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/02/08/babel6.5.0-angular1.5-let-const/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/02/08/babel6.5.0-angular1.5-let-const/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/02/08/babel6.5.0-angular1.5-let-const/">2016-02-08のJS: Babel 6.5.0、Angular 1.5、letとconst</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年02月08日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-02-08-babel6.5.0-angular1.5-let-const.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-02-08-babel6.5.0-angular1.5-let-const.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/02/08/babel6.5.0-angular1.5-let-const/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/02/08/babel6.5.0-angular1.5-let-const/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #265 - Babel 6.5.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/babel/babel/releases/tag/v6.5.0" title="Release v6.5.0 · babel/babel">Release v6.5.0 · babel/babel</a></li>
+</ul>
+
+<p>Babel 6.0.0から一度の走査で全ての変換処理(プラグイン)を一度に適当することで高速化しています。</p>
+
+<blockquote>
+<p>Babel 6 implements a new optimization which merges all plugins together into a single traversal.<br><br>
+-- <a href="https://babeljs.io/blog/2015/10/29/6.0.0" title="6.0.0 Released · Babel">6.0.0 Released · Babel</a></p>
+</blockquote>
+
+<p>逆に全ての処理が一度に行われるのでプラグイン間で競合を起こしやすかったり、特定のプラグインの前後で処理したい場合などに問題が発生していました。</p>
+
+<p>Babel 6.5.0では<code>passPerPreset</code>というオプションが追加され、preset毎にtraversalが作られて処理出来るようになりました。<br>
+これにより、プラグイン毎の衝突といったものを制御しやすくなっています。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">{</span>
+  <span class="nx">passPerPreset</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">presets</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;plugin-1&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;preset-2&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+      <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;plugin-2&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>また、コード生成の処理を最適化し、最大2倍程度早くなっています。<br>
+以下にて解説されていますが、V8の文字列処理の特性を利用した最適化なので特殊なやり方です。</p>
+
+<ul>
+<li><a href="https://github.com/babel/babel/pull/3283#discussion-diff-50198857" title="Improve generator performance by gzzhanghao · Pull Request #3283 · babel/babel">Improve generator performance by gzzhanghao · Pull Request #3283 · babel/babel</a></li>
+</ul>
+
+<p>V8では文字列結合した文字列を<a href="https://github.com/v8/v8/blob/b23d5389e024a85cdc5c7d343fe5cc68a14f4d49/src/objects.h#L9141-L9187" title="ConsString">ConsString</a>として保持しています。<br>
+そして、その文字列の添字アクセスした時に初めて<a href="https://github.com/v8/v8/blob/b23d5389e024a85cdc5c7d343fe5cc68a14f4d49/src/objects.cc#L1717-L1743" title="String::SlowFlatten">String::SlowFlatten</a>を行います。</p>
+
+<p>この<a href="https://github.com/v8/v8/blob/b23d5389e024a85cdc5c7d343fe5cc68a14f4d49/src/objects.cc#L1717-L1743" title="String::SlowFlatten">String::SlowFlatten</a>の処理が重たいため、Babelのコード生成のような文字列を結合していく処理に、これをできるだけ避けるような変更が入っています。</p>
+
+<p><a class="jsbin-embed" href="https://jsbin.com/kekaweheda/embed?js,console">JS Bin on jsbin.com</a><script src="https://static.jsbin.com/js/embed.min.js?3.35.9"></script></p>
+
+<p>(JavaScriptエンジンの実装次第ではあります)</p>
+
+<hr>
+
+<p><a href="http://angularjs.blogspot.jp/2016/02/angular-150-ennoblement-facilitation.html" title="Angular 1.5.0 - ennoblement-facilitation has been released!">Angular 1.5.0</a>がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/angular/angular.js/blob/master/CHANGELOG.md#150-ennoblement-facilitation-2016-02-05" title="angular.js/CHANGELOG.md at master · angular/angular.js">angular.js/CHANGELOG.md at master · angular/angular.js</a></li>
+</ul>
+
+<p>1.5.0ではAngularJS 2へのマイグレーションがしやすなるような機能の追加などが行われています。<br>
+<code>module.component()</code>の追加、one-wayバインディングの対応、ES6 Classesの対応改善、また<code>ngSanitize</code>のセキュリティ改善が行われています。</p>
+
+<p>コンポーネントを定義する<code>module.component()</code>については以下の記事を参照するといいかもしれません。</p>
+
+<ul>
+<li><a href="http://qiita.com/laco0416/items/edfa917583af4593ad6c" title="その使い方はもう古いかも？AngularJS老化チェック（ディレクティブ篇） - Qiita">その使い方はもう古いかも？AngularJS老化チェック（ディレクティブ篇） - Qiita</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://mathiasbynens.be/notes/es6-const" title="ES6 const is not about immutability · Mathias Bynens">ES6 const is not about immutability · Mathias Bynens</a>という記事では、<code>const</code>に関するよくある誤解を解いています。</p>
+
+<p><code>const</code>は値を不変にするのではなく、値へのバインディングを不変するという意味でJavaの<code>final</code>などと同じです。<br>
+ そのためオブジェクトのプロパティへの代入は可能のままとなりますが、オブジェクトの不変については<code>Object.freeze()</code>を利用できる点などについて書かれています。<br>
+ またそれをふまえて<code>let</code>と<code>const</code>の使い分けについても書かれています。</p>
+
+<p>合わせて、<code>let</code>(<code>const</code>も同様)のスコープについて解説されている以下の記事も参照してみるといいかもしれません。</p>
+
+<ul>
+<li><a href="https://davidwalsh.name/for-and-against-let" title="For and against &amp;#39;let&amp;#39;">For and against &#39;let&#39;</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v6.5.0-·-babel/babel">Release v6.5.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/releases/tag/v6.5.0" title="Release v6.5.0 · babel/babel">github.com/babel/babel/releases/tag/v6.5.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Babel 6.5.0リリース。<br>
+Babel 6から一度のコード変換で全てされていたが、それを複数に分けられる<code>passPerPreset</code>オプションの追加。<br>
+V8のString実装への最適化を行いコード生成を高速化するなど</p>
+
+<hr>
+
+<h2 id="dev.opera-—-opera-35-released">Dev.Opera — Opera 35 released</h2>
+
+<p><a href="https://dev.opera.com/blog/opera-35/" title="Dev.Opera — Opera 35 released">dev.opera.com/blog/opera-35/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Opera</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Opera 35(based on Chromium 48)リリース。<br>
+<code>document.fonts</code>がSetらいくなオブジェクトとなり<code>entries()</code>などが利用できるように、<code>TouchEvent</code>イベントコンストラクタの追加など</p>
+
+<hr>
+
+<h2 id="angular-1.5.0---ennoblement-facilitation-has-been-released!">Angular 1.5.0 - ennoblement-facilitation has been released!</h2>
+
+<p><a href="http://angularjs.blogspot.com/2016/02/angular-150-ennoblement-facilitation.html" title="Angular 1.5.0 - ennoblement-facilitation has been released!">angularjs.blogspot.com/2016/02/angular-150-ennoblement-facilitation.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>AngularJS 1.5.0リリース。<br>
+AngularJS 2へのアップグレードパスの改善。<br>
+<code>module.component()</code>の追加、one-wayバインディングの対応、ES6 Classesの対応改善など</p>
+
+<hr>
+
+<h2 id="chromium-blog:-chrome-49-beta:-css-custom-properties,-background-sync-with-service-workers,-and-new-es2015-features">Chromium Blog: Chrome 49 Beta: CSS custom properties, background sync with service workers, and new ES2015 features</h2>
+
+<p><a href="http://blog.chromium.org/2016/02/chrome-49-beta-css-custom-properties.html" title="Chromium Blog: Chrome 49 Beta: CSS custom properties, background sync with service workers, and new ES2015 features">blog.chromium.org/2016/02/chrome-49-beta-css-custom-properties.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Chrome 49 Betaリリース。<br>
+CSS custom propetires(CSS Variable)、ES6の対応改善、<code>Object.observe()</code>が非推奨となるなど</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="looking-ahead:-microsoft-edge-for-developers-in-2016-|-microsoft-edge-dev-blog">Looking ahead: Microsoft Edge for developers in 2016 | Microsoft Edge Dev Blog</h2>
+
+<p><a href="https://blogs.windows.com/msedgedev/2016/02/03/2016-platform-priorities/" title="Looking ahead: Microsoft Edge for developers in 2016 | Microsoft Edge Dev Blog">blogs.windows.com/msedgedev/2016/02/03/2016-platform-priorities/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>MSEdgeのロードマップ。<br>
+アクセシビリティの改善、ES6 modules、Fetch API、Web Notifications、Beacon APIなどの対応を予定している</p>
+
+<hr>
+
+<h2 id="typings-で-d.ts-の管理をする-|-スマホ神-–-javascript-受託開発-–">typings で d.ts の管理をする | スマホ神 – JavaScript 受託開発 –</h2>
+
+<p><a href="http://smart.ataglance.jp/2016-02-04-manage-dts-by-typings/" title="typings で d.ts の管理をする | スマホ神 – JavaScript 受託開発 –">smart.ataglance.jp/2016-02-04-manage-dts-by-typings/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span></p>
+
+<p><code>typings</code>を遣ったd.tsの管理について</p>
+
+<hr>
+
+<h2 id="handling-props-and-class-names-in-react-–-simonsmith.io-–-portfolio-and-blog-of-a-london-based-front-end-web-developer">Handling props and class names in React – simonsmith.io – Portfolio and blog of a London based front-end web developer</h2>
+
+<p><a href="http://simonsmith.io/handling-props-and-classnames-in-react/" title="Handling props and class names in React – simonsmith.io – Portfolio and blog of a London based front-end web developer">simonsmith.io/handling-props-and-classnames-in-react/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span></p>
+
+<p>React ComponentとclassNameの管理パターン。<br>
+classnamesモジュールを使う方法とテストについて</p>
+
+<hr>
+
+<h2 id="for-and-against-&#x27;let&#x27;">For and against &#x27;let&#x27;</h2>
+
+<p><a href="https://davidwalsh.name/for-and-against-let" title="For and against &#39;let&#39;">davidwalsh.name/for-and-against-let</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p>
+
+<p><code>let</code>とスコープについての詳しい解説</p>
+
+<hr>
+
+<h2 id="es6-const-is-not-about-immutability-·-mathias-bynens">ES6 const is not about immutability · Mathias Bynens</h2>
+
+<p><a href="https://mathiasbynens.be/notes/es6-const" title="ES6 const is not about immutability · Mathias Bynens">mathiasbynens.be/notes/es6-const</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p>
+
+<p><code>const</code>は値を不変(immutable)にするのではなく、値へのバインディングを不変にするという意味。<br>
+そのためオブジェクトのプロパティへの代入は可能のままだが、オブジェクトの不変については<code>Object.freeze()</code>が扱う。また<code>let</code>と<code>const</code>の使い分けについて</p>
+
+<hr>
+
+<h2 id="developer-edition-46-–-more-memory-tooling,-improved-@media-sidebar-and-more-★-mozilla-hacks-–-the-web-developer-blog">Developer Edition 46 – More memory tooling, improved @media sidebar and more ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/02/developer-edition-46-more-memory-tooling-improved-media-sidebar-and-more/" title="Developer Edition 46 – More memory tooling, improved @media sidebar and more ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/02/developer-edition-46-more-memory-tooling-improved-media-sidebar-and-more/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span></p>
+
+<p>Firefox 46の開発者ツール変更点について。<br>
+Dominator viewの追加、開発者ツールが閉じてても<code>debugger</code>ステートメントでブレークするようになるなど</p>
+
+<hr>
+
+<h2 id="introducing-es2015-proxies-|-web-updates---google-developers">Introducing ES2015 Proxies | Web Updates - Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2016/02/es2015-proxies" title="Introducing ES2015 Proxies | Web Updates - Google Developers">developers.google.com/web/updates/2016/02/es2015-proxies</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES2015 Proxiesの使い方について。<br>
+Reflect APIとの組み合わた使い方などについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="다함께,-fluxutils-한바퀴!">다함께, FluxUtils 한바퀴!</h2>
+
+<p><a href="http://www.slideshare.net/UyeongJu/fluxutils" title="다함께, FluxUtils 한바퀴!">www.slideshare.net/UyeongJu/fluxutils</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">スライド</span></p>
+
+<p>flux utilsについてのスライド。<br>
+flux utilsのソースコードを見ながらどのようなシーケンスでやり取りしてるのか、fluxアーキテクチャでの非同期処理についてなどがわかりやすく解説されてる。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="top-|-diff-of-htmls">Top | Diff of HTMLs</h2>
+
+<p><a href="http://diffofhtmls.herokuapp.com/" title="Top | Diff of HTMLs">diffofhtmls.herokuapp.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">W3C</span> <span class="jser-tag">WHATWG</span> <span class="jser-tag">spec</span></p>
+
+<p>W3CとWHATWGのHTML仕様書のdiffを見ることが出来るサイト</p>
+
+<hr>
+
+<h2 id="vasanthk/css-refresher-notes:-css-refresher!">vasanthk/css-refresher-notes: CSS Refresher!</h2>
+
+<p><a href="https://github.com/vasanthk/css-refresher-notes" title="vasanthk/css-refresher-notes: CSS Refresher!">github.com/vasanthk/css-refresher-notes</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">tutorial</span></p>
+
+<p>CSS再入門。<br>
+よく使う機能や指定の仕方について詳しく解説されてる</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="start-runner/start:-dead-simple-tasks-runner">start-runner/start: Dead simple tasks runner</h2>
+
+<p><a href="https://github.com/start-runner/start" title="start-runner/start: Dead simple tasks runner">github.com/start-runner/start</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">Tools</span></p>
+
+<p>Promiseベースのタスク自動化ツール</p>
+
+<hr>
+
+<h2 id="teamweek/instadate:-a-minimal-high-performance-date-library-for-node.js-and-browser">Teamweek/instadate: A minimal high performance date library for Node.js and Browser</h2>
+
+<p><a href="https://github.com/Teamweek/instadate" title="Teamweek/instadate: A minimal high performance date library for Node.js and Browser">github.com/Teamweek/instadate</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>日付、時間処理を扱うライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="thinking-in-react">Thinking In React</h2>
+
+<p><a href="https://www.thinkinginreact.xyz/" title="Thinking In React">www.thinkinginreact.xyz/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">Flux</span> <span class="jser-tag">book</span></p>
+
+<p>Reactを扱う場合においての現実問題に対する解を考えていく電子書籍。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-02-08-babel6.5.0-angular1.5-let-const.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["ES6","Babel","AngularJS"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>ES6</li>
+                
+                <li>Babel</li>
+                
+                <li>AngularJS</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/02/08/babel6.5.0-angular1.5-let-const/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/02/08/babel6.5.0-angular1.5-let-const/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/02/08/babel6.5.0-angular1.5-let-const/">2016-02-08のJS: Babel 6.5.0、Angular 1.5、letとconst</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/02/firefox44-es2016-new-feature-webpack2beta/">2016-02-02のJS: Firefox 44.0、ES2016の追加機能、webpack2β</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/01/es2016/">ECMAScript 2016 features & changes</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/01/27/math.random-xsfhit/">メジャーブラウザのMath.random()のアルゴリズムがXorShift128+になった</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/01/26/oop-fetch-stream-es6-cheatsheet/">2016-01-26のJS: JavaScriptとOOP、Fetch with Stream、ES6チートシート</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/01/20/jquery3beta-esnext-news-chkracore/">2016-01-20のJS: jQuery 3.0β、ES.next News、ChakraCore OSS</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/01/16/jser-5years/">JSer.info 5周年記念イベントを開催しました</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/01/15/how-to-play-jser-info/">JSer.infoの遊び方</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
