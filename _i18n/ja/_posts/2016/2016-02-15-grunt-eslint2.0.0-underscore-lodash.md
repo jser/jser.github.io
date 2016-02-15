@@ -1,5 +1,5 @@
 ---
-title: "2016-02-15のJS; Grunt 1.0.0 RC1、ESLint 2.0.0、Underscore/Lodash"
+title: "2016-02-15のJS: Grunt 1.0.0 RC1、ESLint 2.0.0、Underscore/Lodash"
 author: azu
 layout: post
 date : 2016-02-15T20:07
