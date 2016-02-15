@@ -14,8 +14,65 @@ tags:
 
 ---
 
+JSer.info #266 - Grunt 1.0.0 RC1がリリースされました。
 
-JSer.info #266
+- [Grunt 1.0.0 rc1 released - Grunt: The JavaScript Task Runner](http://gruntjs.com/blog/2016-02-11-grunt-1.0.0-rc1-released)
+
+Gruntはコミットが止まっていましたが、jQuery Foundation協力のもと再出発しました。
+
+- [Grunt, Rebooted](http://blog.jquery.com/2015/11/19/grunt-rebooted/ "Grunt, Rebooted")
+
+1.0.0 RC1では、[npm 3で挙動が変更](blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the)された`peerDependencies`への対応、依存モジュールのアップデートなどが行われています。
+
+今までは`grunt`というコマンドを利用する際には別途`grunt-cli`をインストールする必要がありました。
+1.0.0からは`grunt`のdependenciesに`grunt-cli`が含まれれるため、`npm install grunt`するだけで`grunt`コマンドを利用できます。
+
+これは、npm run-scriptでの利用を想定した作りとなっています。
+
+```
+$ npm info grunt@1.0.0-rc1 | grep grunt-cli -B 10
+  engines: { node: '>=0.10.0' },
+  scripts: { test: 'grunt test', 'test-tap': 'grunt test:tap' },
+  main: 'lib/grunt',
+  dependencies:
+   { 'coffee-script': '~1.10.0',
+     dateformat: '~1.0.12',
+     eventemitter2: '~0.4.13',
+     exit: '~0.1.1',
+     'findup-sync': '~0.3.0',
+     glob: '~6.0.4',
+     'grunt-cli': '1.0.0-rc1',
+```
+
+グローバルに`grunt`コマンドをインストールしたい場合は、今まで通り`npm install grunt-cli -g`とすることで利用できます。
+
+また、[gruntjs/rfcs](https://github.com/gruntjs/rfcs "gruntjs/rfcs: RFCs for changes to Grunt")というリポジトリが公開され、RFC(Request for Comments)を受け付ける仕組みづくりなどが進められています。
+
+----
+
+JavaScript Lintツールの[ESLint](http://eslint.org/ "ESLint") 2.0.0がリリースされました。
+
+- [ESLint v2.0.0 released - ESLint - Pluggable JavaScript linter](http://eslint.org/blog/2016/02/eslint-v2.0.0-released)
+- [ESLint v2.0.0 の変更点まとめ - Qiita](http://qiita.com/mysticatea/items/8bcecd821cca9e849078 "ESLint v2.0.0 の変更点まとめ - Qiita")
+
+ルールの設定やプラグイン作成に関連するAPIの変更などが行われているため、以下のページでマイグレーションガイドが公開されています。
+
+- [Migrating to v2.0.0](http://eslint.org/docs/user-guide/migrating-to-2.0.0 "Documentation - ESLint - Pluggable JavaScript linter")
+
+----
+
+[cht8687/You-Dont-Need-Lodash-Underscore: Lists of Javascript methods which you can use natively](https://github.com/cht8687/You-Dont-Need-Lodash-Underscore)ではLodash/Underscoreの中で、ECMAScriptにも同様の機能があるものをまとめています。
+
+また、それに対するレスポンスとして[stevemao/You-Dont-Know-About-Lodash-Underscore: In response to You-Dont-Need-Lodash-Underscore](https://github.com/stevemao/You-Dont-Know-About-Lodash-Underscore)というまとめも公開されています。
+Lodash/Underscoreのメソッドは単純に置き換え出来るもの以外の機能も持っているということについて書かれています。
+
+こちらとは関係ないですが、UnderscoreとLodashのマージを考える[Underdash](https://github.com/underdash/underdash "Underdash")のステータスがアップデートされています。
+
+- [Merge update. · Issue #14 · underdash/underdash](https://github.com/underdash/underdash/issues/14 "Merge update. · Issue #14 · underdash/underdash")
+
+> So as to the merge I think it's already happened as Lodash v4.
+
+とLodash側の人が書いています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
