@@ -22,7 +22,7 @@ Gruntはコミットが止まっていましたが、jQuery Foundation協力の�
 
 - [Grunt, Rebooted](http://blog.jquery.com/2015/11/19/grunt-rebooted/ "Grunt, Rebooted")
 
-1.0.0 RC1では、[npm 3で挙動が変更](blog.npmjs.org/post/129378362260/npm-weekly-29-npm-3-out-of-beta-nick-out-of-the)された`peerDependencies`への対応、依存モジュールのアップデートなどが行われています。
+1.0.0 RC1では、[npm 3で挙動が変更](https://github.com/npm/npm/releases/tag/v3.0.0)された`peerDependencies`への対応、依存モジュールのアップデートなどが行われています。
 
 今までは`grunt`というコマンドを利用する際には別途`grunt-cli`をインストールする必要がありました。
 1.0.0からは`grunt`のdependenciesに`grunt-cli`が含まれれるため、`npm install grunt`するだけで`grunt`コマンドを利用できます。
