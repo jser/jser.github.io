@@ -1,15 +1,43 @@
 ---
-title: "2016-02-24のJS: "
+title: "2016-02-24のJS: TypeScript 1.8、Reactのバージョニング、Draft.js"
 author: azu
 layout: post
 date : 2016-02-24T10:11
 category: JSer
 tags:
-    - 
+    - TypeScript
+    - React
 
 ---
 
-JSer.info #267
+JSer.info #267 - [TypeScript 1.8](https://blogs.msdn.microsoft.com/typescript/2016/02/22/announcing-typescript-1-8-2/ "TypeScript 1.8")が正式リリースされました。
+
+- [Release v1.8.2 · Microsoft/TypeScript](https://github.com/Microsoft/TypeScript/releases/tag/v1.8.2 "Release v1.8.2 · Microsoft/TypeScript")
+- [What's new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-18 "What&#39;s new in TypeScript · Microsoft/TypeScript Wiki")
+
+JavaScriptファイルをTypeScriptプロジェクトに含めやすくする[--allowJs](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#including-js-files-with---allowjs "--allowJs")オプションやTypeScriptファイルをそのまま1つのJavaScriptにbundleする機能が追加されています。
+
+また、String Literal Typesの対応やフローコントロールを解析して到達できていないコードの検知などの機能も追加されています。
+
+----
+
+[New Versioning Scheme | React](http://facebook.github.io/react/blog/2016/02/19/new-versioning-scheme.html "New Versioning Scheme | React")ではReactの次期バージョンはv15.0.0となることについて書かれています。
+
+いわゆる[Semantic Versioning](http://semver.org/ "Semantic Versioning")の1.0.0以降の方式でアップデートしていくという方針について書かれています。
+
+また、Reactに依存したライブラリにおけるReactバージョンに指定方法についても書かれているので、
+React Componentのライブラリを作っている人は参照するといいかもしれません。
+
+![react versioning](http://facebook.github.io/react/img/blog/versioning-6.png)
+
+----
+
+FacebookのNoteやMessengerで使われているReactベースのリッチテキストエディタフレームワークである[Draft.js](https://facebook.github.io/draft-js/ "Draft.js")が公開されています。
+
+Reactでコンポーネントを作る際に、テキストエディタのような仕組みは色々悩みどころが出てくるので、
+その辺の仕組みを見てみると面白いかもしれません。
+
+- [Issues and Pitfalls](https://facebook.github.io/draft-js/docs/advanced-topics-issues-and-pitfalls.html#content "Issues and Pitfalls")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
