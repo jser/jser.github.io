@@ -17,7 +17,7 @@ JSer.info #267 - [TypeScript 1.8](https://blogs.msdn.microsoft.com/typescript/20
 
 JavaScriptファイルをTypeScriptプロジェクトに含めやすくする[--allowJs](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#including-js-files-with---allowjs "--allowJs")オプションやTypeScriptファイルをそのまま1つのJavaScriptにbundleする機能が追加されています。
 
-また、String Literal Typesの対応やフローコントロールを解析して到達できていないコードの検知などの機能も追加されています。
+また、String Literal Typesの対応やフローコントロールを解析し到達できていないコードの検知などの機能も追加されています。
 
 ----
 
