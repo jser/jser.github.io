@@ -23,7 +23,7 @@ LTSでは36週の間バグ修正のリリースが行われ、60週間はセキ�
 
 ----
 
-ecma402ことECMAScript i18n APIの3rd EditionがRCリリースされました。
+ECMA-402ことECMAScript i18n APIの3rd EditionがRCリリースされました。
 
 - [ECMAScript® 2016 Internationalization API Specification (3rd Edition)](http://tc39.github.io/ecma402/ "ECMAScript® 2016 Internationalization API Specification (3rd Edition)")
 - [Release 3rd Edition - Release Candidate · tc39/ecma402](https://github.com/tc39/ecma402/releases/tag/3.0-rc-1 "Release 3rd Edition - Release Candidate · tc39/ecma402")
@@ -35,7 +35,7 @@ ecma402ことECMAScript i18n APIの3rd EditionがRCリリースされました�
 - [tc39-notes/nov-19.md at master · rwaldron/tc39-notes](https://github.com/rwaldron/tc39-notes/blob/master/es7/2015-11/nov-19.md#abstract-locale-operations)
 - [Exposing `CanonicalizeLocaleList()` abstract operation via `Intl.getCanonicalLocales()` by caridy · Pull Request #78 · tc39/ecma402](https://github.com/tc39/ecma402/pull/78)
 
-ecma402もECMAScript(ecma 262)と同じく[The TC39 Process](https://tc39.github.io/process-document/ "The TC39 Process")を採用しています。
+ECMA-402もECMAScript(ECMA-262)と同じく[The TC39 Process](https://tc39.github.io/process-document/ "The TC39 Process")を採用しています。
 そのため毎年リリース + StageでのProposal管理が[tc39/ecma402: Status, process, and documents for ECMA 402](https://github.com/tc39/ecma402 "tc39/ecma402: Status, process, and documents for ECMA 402")で行われています。
 
 - [Introduction | ECMAScriptとは何か？](http://azu.github.io/slide-what-is-ecmascript/ "Introduction | ECMAScriptとは何か？")
