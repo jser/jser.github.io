@@ -99,7 +99,7 @@ ECMAScript Internationalization API 3rd Edition RCリリース。 i18n APIにつ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span></p>
 
 jQuery 3についての解説。
-for...ofでの列挙、`$.get`/`$.post`のシグネチャ追加、requestAnimationFrameの対応、`data()`の動作変更、DeferredがPromise/A+互換に、SVGのサポートなど
+for/ofでの列挙、`$.get`/`$.post`のシグネチャ追加、requestAnimationFrameの対応、`data()`の動作変更、DeferredがPromise/A+互換に、SVGのサポートなど
 
 ----
 
@@ -177,7 +177,7 @@ async/awaitのメリット/デメリットについて。
 
 Reactの学ぶ手順やエコシステムについてのアドバイス的な図
 
-- [React疲れに陥る前に (react-makes-you-sad の日本語訳) - Qiita](http://qiita.com/kuy/items/bfe5975205c9237ebd26 "React疲れに陥る前に (react-makes-you-sad の日本語訳) - Qiita")
+- [日本語訳](http://qiita.com/kuy/items/bfe5975205c9237ebd26)
 
 ----
 
