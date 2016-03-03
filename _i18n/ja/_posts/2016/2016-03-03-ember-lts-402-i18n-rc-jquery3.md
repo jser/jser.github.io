@@ -12,7 +12,39 @@ tags:
 
 ---
 
-JSer.info #268 - 
+JSer.info #268 - [Ember.js - Announcing Ember's First LTS Release](http://emberjs.com/blog/2016/02/25/announcing-embers-first-lts.html "Ember.js - Announcing Ember&#39;s First LTS Release")ではEmber.jsのLTS(Long Term Support)について書かれています。
+
+[Ember.js 2.4](http://emberjs.com/blog/2016/02/29/ember-2-4-released.html "Ember.js 2.4")が最初のLTSリリースとなります。
+
+![LTS](http://emberjs.com/images/blog/2016-02/Releases@3x.svg)
+
+LTSでは36週の間バグ修正のリリースが行われ、60週間はセキュリティパッチのリリースが行われるリリースサイクルになります。
+つまりEmber.js 2.4は2016年11月までバグ修正が行われ、2017年4月までセキュリティリリースが継続される形になります。
+
+----
+
+ecma402ことECMAScript i18n APIの3rd EditionがRCリリースされました。
+
+- [ECMAScript® 2016 Internationalization API Specification (3rd Edition)](http://tc39.github.io/ecma402/ "ECMAScript® 2016 Internationalization API Specification (3rd Edition)")
+- [Release 3rd Edition - Release Candidate · tc39/ecma402](https://github.com/tc39/ecma402/releases/tag/3.0-rc-1 "Release 3rd Edition - Release Candidate · tc39/ecma402")
+
+[Intl オブジェクト](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl "Intl オブジェクト")と呼ばれる国際化関連のAPIを定めている仕様です。
+
+2nd Editionからのユーザーにとっての違いは[`Intl.getCanonicalLocales (locales)`](http://tc39.github.io/ecma402/#sec-intl.getcanonicallocales "Intl.getCanonicalLocales (locales)")のAPIが増えただけぐらいになっています。
+
+- [tc39-notes/nov-19.md at master · rwaldron/tc39-notes](https://github.com/rwaldron/tc39-notes/blob/master/es7/2015-11/nov-19.md#abstract-locale-operations)
+- [Exposing `CanonicalizeLocaleList()` abstract operation via `Intl.getCanonicalLocales()` by caridy · Pull Request #78 · tc39/ecma402](https://github.com/tc39/ecma402/pull/78)
+
+ecma402もECMAScript(ecma 262)と同じく[The TC39 Process](https://tc39.github.io/process-document/ "The TC39 Process")を採用しています。
+そのため毎年リリース + StageでのProposal管理が[tc39/ecma402: Status, process, and documents for ECMA 402](https://github.com/tc39/ecma402 "tc39/ecma402: Status, process, and documents for ECMA 402")で行われています。
+
+- [Introduction | ECMAScriptとは何か？](http://azu.github.io/slide-what-is-ecmascript/ "Introduction | ECMAScriptとは何か？")
+
+----
+
+[What's New in jQuery 3 - Telerik Developer Network](http://developer.telerik.com/featured/whats-new-in-jquery-3/ "What&#39;s New in jQuery 3 - Telerik Developer Network")という記事では、現在[Beta](https://blog.jquery.com/2016/01/14/jquery-3-0-beta-released/ "Beta")リリースされているjQuery 3について詳しく解説されています。
+
+細かな変更点について書かれているので、jQueryに興味がある人は見てみるといいです。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
