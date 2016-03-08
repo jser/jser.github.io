@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-03-08のJS: React v15.0 RC、Reactパフォーマンス調査、DDD - JSer.info</title>
+    <meta name="description" content="JSer.info #269 - React v15.0 RC1がリリースされました。">
+    
+    <meta name="keywords" content="JavaScript,DDD,React,Perf" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-03-08T23:49:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="DDD" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="Perf" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/03/08/react15.0rc-perf-ddd/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #269 - React v15.0 RC1がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-03-08のJS: React v15.0 RC、Reactパフォーマンス調査、DDD">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/03/08/react15.0rc-perf-ddd/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #269 - React v15.0 RC1がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-03-08T23:49:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/03/03/ember-lts-402-i18n-rc-jquery3/">
+
+<meta property="og:see_also" content="http://jser.info/2016/02/24/typescript1.8-react-semver-draft/">
+
+<meta property="og:see_also" content="http://jser.info/2016/02/15/grunt-eslint2.0.0-underscore-lodash/">
+
+
+
+
+
+<meta property="article:tag" content="JavaScript">
+
+<meta property="article:tag" content="DDD">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="Perf">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/03/08/react15.0rc-perf-ddd/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/03/08/react15.0rc-perf-ddd/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/03/08/react15.0rc-perf-ddd/">2016-03-08のJS: React v15.0 RC、Reactパフォーマンス調査、DDD</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年03月08日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-03-08-react15.0rc-perf-ddd.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-03-08-react15.0rc-perf-ddd.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/03/08/react15.0rc-perf-ddd/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/03/08/react15.0rc-perf-ddd/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #269 - React v15.0 RC1がリリースされました。</p>
+
+<ul>
+<li><a href="https://facebook.github.io/react/blog/2016/03/07/react-v15-rc1.html" title="React v15.0 Release Candidate | React">React v15.0 Release Candidate | React</a></li>
+</ul>
+
+<p><a href="https://facebook.github.io/react/blog/2016/02/19/new-versioning-scheme.html" title="New Versioning Scheme">New Versioning Scheme</a>で書かれているように、Reactの次のメジャーバージョンはv0.14 -&gt; v15.0となります。</p>
+
+<p>v15.0 RC1では<code>data-reactid</code>がクライアントサイドのレンダリングではなくなる、<code>null</code>をコメントとしてレンダリングするようになるなどレンダリングに関する変更がおこなわれています。<br>
+<a href="http://facebook.github.io/react/blog/2015/10/07/react-v0.14.html" title="React v0.14">React v0.14</a>で<code>react</code>と<code>react-dom</code>にパッケージが分けられ、それぞれでメソッドも分離されたため非推奨となっていたメソッドがありました。</p>
+
+<p>v15.0ではこれらの非推奨メソッドの削除や警告メッセージの改善などが行われています。</p>
+
+<hr>
+
+<p><a href="http://benchling.engineering/performance-engineering-with-react/" title="Performance Engineering with React">Performance Engineering with React</a>という記事ではReactを使ったアプリのボトルネック調査方法について書かれています。</p>
+
+<ul>
+<li><a href="https://facebook.github.io/react/docs/perf.html" title="Performance Tools | React">Performance Tools | React</a></li>
+</ul>
+
+<p><code>react-addons-perf</code>を使った計測方法や、どのように改善するかなどについて書かれています。</p>
+
+<hr>
+
+<p><a href="https://speakerdeck.com/armorik83/da-xing-hurontoendokai-fa-niokerutypescripttoddd" title="大型フロントエンド開発におけるTypeScriptとDDD // Speaker Deck">大型フロントエンド開発におけるTypeScriptとDDD // Speaker Deck</a>というスライドでは、大規模なアプリケーションにおける設計や考え方、悩みどころについて書かれています。</p>
+
+<p>Viewとドメインロジックを切り離すための考え方やTypeScriptとDDDについて書かれています。</p>
+
+<p><a href="http://labs.gree.jp/blog/2013/12/9330/" title="SNSチームでのドメイン駆動設計の実践 | GREE Engineers&amp;#39; Blog">SNSチームでのドメイン駆動設計の実践 | GREE Engineers&#39; Blog</a>なども合わせてみるといいかもしれませんが、フロントエンドと呼ばれる分野でもこういう話が増えてきているようです。</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/yukieen/hurontoendohadddfalsemeng-wojian-ruka" title="フロントエンドはDDDの夢を見るか // Speaker Deck">フロントエンドはDDDの夢を見るか // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="react-v15.0-release-candidate-|-react">React v15.0 Release Candidate | React</h2>
+
+<p><a href="https://facebook.github.io/react/blog/2016/03/07/react-v15-rc1.html" title="React v15.0 Release Candidate | React">facebook.github.io/react/blog/2016/03/07/react-v15-rc1.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React v15.0 RC1リリース。<br>
+<code>data-reactid</code>がクライアントサイドのレンダリングではなくなる、<code>null</code>をコメントとしてレンダリングするようになる。<br>
+また非推奨となっていたメソッドが<code>react</code>と<code>react-dom</code>それぞれから削除された。<br>
+また、警告メッセージの改善などが行われている。</p>
+
+<hr>
+
+<h2 id="eslint-v2.3.0-released---eslint---pluggable-javascript-linter">ESLint v2.3.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2016/03/eslint-v2.3.0-released" title="ESLint v2.3.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2016/03/eslint-v2.3.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint v2.3.0リリース。<br>
+ルールのoff/wan/errorを0,1,2という数字ではなく文字列で指定出来るように、ES2016で追加される<code>**</code>の対応など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="performance-engineering-with-react">Performance Engineering with React</h2>
+
+<p><a href="http://benchling.engineering/performance-engineering-with-react/" title="Performance Engineering with React">benchling.engineering/performance-engineering-with-react/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span></p>
+
+<p>Reactにおけるパフォーマンス調査の手法やどのようにボトルネックを見つけるかについて</p>
+
+<hr>
+
+<h2 id="僕がネイティブな-css-変数にわくわくする理由">僕がネイティブな CSS 変数にわくわくする理由</h2>
+
+<p><a href="http://terkel.github.io/why-im-excited-about-native-css-variables/" title="僕がネイティブな CSS 変数にわくわくする理由">terkel.github.io/why-im-excited-about-native-css-variables/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">翻訳</span></p>
+
+<p>CSS Custom Propertyについて書かれた&quot;Why I&#39;m Excited About Native CSS Variables&quot;の翻訳。<br>
+コンポーネント名接頭辞にした変数名を使うという命名規則についてなど</p>
+
+<ul>
+<li><a href="http://terkel.github.io/why-im-excited-about-native-css-variables/" title="僕がネイティブな CSS 変数にわくわくする理由">僕がネイティブな CSS 変数にわくわくする理由</a></li>
+</ul>
+
+<hr>
+
+<h2 id="high-performance-web-worker-messages-|-read-the-tea-leaves">High-performance Web Worker messages | Read the Tea Leaves</h2>
+
+<p><a href="http://nolanlawson.com/2016/02/29/high-performance-web-worker-messages/" title="High-performance Web Worker messages | Read the Tea Leaves">nolanlawson.com/2016/02/29/high-performance-web-worker-messages/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webworker</span> <span class="jser-tag">performance</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>単純なデータ転送についてのWeb Workerのパフォーマンステスト。<br>
+- <code>JSON.stringify()</code>/<code>JSON.parse()</code>の利用<br>
+- 一部のみ適応<br>
+- 生オブジェクトのまま<br>
+をそれぞれ比較したもの</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2015/07/how-fast-are-web-workers/" title="How fast are web workers? ★ Mozilla Hacks – the Web developer blog">How fast are web workers? ★ Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://glebbahmutov.com/blog/fast-legoization/" title="Fast legoization | Better world by better software">Fast legoization | Better world by better software</a></li>
+</ul>
+
+<hr>
+
+<h2 id="fast-legoization-|-better-world-by-better-software">Fast legoization | Better world by better software</h2>
+
+<p><a href="https://glebbahmutov.com/blog/fast-legoization/" title="Fast legoization | Better world by better software">glebbahmutov.com/blog/fast-legoization/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">performance</span></p>
+
+<p>Web Workerを使って画像データを効率よく処理するテクニックについて</p>
+
+<hr>
+
+<h2 id="なぜ絵文字を含む文字を1文字ずつに分けるのにarray.fromだけで十分なのか？---qiita">なぜ絵文字を含む文字を1文字ずつに分けるのにArray.fromだけで十分なのか？ - Qiita</h2>
+
+<p><a href="http://qiita.com/alucky0707/items/697598e49ff56191c139" title="なぜ絵文字を含む文字を1文字ずつに分けるのにArray.fromだけで十分なのか？ - Qiita">qiita.com/alucky0707/items/697598e49ff56191c139</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p><code>split(&quot;&quot;)</code>だと絵文字などでサロゲートペアの問題が起きるため、ES6で追加された<code>Array.from</code>などを使うことで正しく扱えるという話</p>
+
+<hr>
+
+<h2 id="javascript-astを始める最初の一歩-|-web-scratch">JavaScript ASTを始める最初の一歩 | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2016/03/06/ast-first-step/" title="JavaScript ASTを始める最初の一歩 | Web Scratch">efcl.info/2016/03/06/ast-first-step/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">tutorial</span></p>
+
+<p>JavaScriptのASTを扱ったツールを書きたい人が最初に把握しておくといい部分についてのまとめ</p>
+
+<hr>
+
+<h2 id="data-structures-in-javascript---ben&#x27;s-blog">Data structures in JavaScript - Ben&#x27;s Blog</h2>
+
+<p><a href="http://blog.benoitvallon.com/data-structures-in-javascript/data-structures-in-javascript/" title="Data structures in JavaScript - Ben&#39;s Blog">blog.benoitvallon.com/data-structures-in-javascript/data-structures-in-javascript/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">アルゴリズム</span></p>
+
+<p>JavaScriptでデータ構造やアルゴリズムについて学ぶシリーズ記事</p>
+
+<hr>
+
+<h2 id="introducing-the-webvr-1.0-api-proposal-★-mozilla-hacks-–-the-web-developer-blog">Introducing the WebVR 1.0 API Proposal ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/03/introducing-the-webvr-1-0-api-proposal/" title="Introducing the WebVR 1.0 API Proposal ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/03/introducing-the-webvr-1-0-api-proposal/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">VR</span></p>
+
+<p>WebVR 1.0 APIについての解説記事</p>
+
+<hr>
+
+<h2 id="ecma262のiteration-protocolsで遅延評価するiteratorを作る---snyk_s-log">ECMA262のIteration protocolsで遅延評価するIteratorを作る - snyk_s log</h2>
+
+<p><a href="http://saneyukis.hatenablog.com/entry/2016/03/04/030337" title="ECMA262のIteration protocolsで遅延評価するIteratorを作る - snyk\_s log">saneyukis.hatenablog.com/entry/2016/03/04/030337</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>ECMAScriptの<code>Symbol.iterator</code>を使い遅延評価出来るコレクション処理を行うという話</p>
+
+<hr>
+
+<h2 id="understanding-transducers-in-javascript-—-medium">Understanding Transducers in JavaScript — Medium</h2>
+
+<p><a href="https://medium.com/@roman01la/understanding-transducers-in-javascript-3500d3bd9624" title="Understanding Transducers in JavaScript — Medium">medium.com/@roman01la/understanding-transducers-in-javascript-3500d3bd9624</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span></p>
+
+<p>Transformer protocolを実装したコレクション処理を実装することで、一度の処理で同時に複数の変換を行うことが出来るようにする仕組みであるTransducersについて</p>
+
+<ul>
+<li><a href="https://github.com/cognitect-labs/transducers-js" title="cognitect-labs/transducers-js: Transducers for JavaScript">cognitect-labs/transducers-js: Transducers for JavaScript</a></li>
+</ul>
+
+<hr>
+
+<h2 id="matthewmueller/28kb-react-redux-routing:-react-+-redux-+-routing-stack-for-just-28kb">matthewmueller/28kb-react-redux-routing: React + Redux + Routing Stack for just 28kb</h2>
+
+<p><a href="https://github.com/matthewmueller/28kb-react-redux-routing" title="matthewmueller/28kb-react-redux-routing: React + Redux + Routing Stack for just 28kb">github.com/matthewmueller/28kb-react-redux-routing</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">redux</span></p>
+
+<p>React + Redux + ルーティングというよくある構成を28kbで実現するというコンセプトリポジトリ。<br>
+Reactの代わりにPreact、Reduxの代わりにラップしたSocrates、ルーティングはenroute + Reduxミドルウェアを使っている</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="大型フロントエンド開発におけるtypescriptとddd-//-speaker-deck">大型フロントエンド開発におけるTypeScriptとDDD // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/armorik83/da-xing-hurontoendokai-fa-niokerutypescripttoddd" title="大型フロントエンド開発におけるTypeScriptとDDD // Speaker Deck">speakerdeck.com/armorik83/da-xing-hurontoendokai-fa-niokerutypescripttoddd</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">DDD</span> <span class="jser-tag">AngularJS</span> <span class="jser-tag">スライド</span></p>
+
+<p>大規模なクライアントサイドを書く場合の構造やテスト、環境についてのスライド。<br>
+TypeScriptでちゃんとしたドメインモデルを構築し、Viewのレイヤーとの分離を図る仕組みの作り方について</p>
+
+<hr>
+
+<h2 id="react.js-conf-2016---steve-mcguire---performance-without-compromise---youtube">React.js Conf 2016 - Steve McGuire - Performance Without Compromise - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=kDARP5QZ6nU&amp;amp;list=PLb0IAmt7-GS0M8Q95RIc2lOM6nc77q1IY&amp;amp;index=28" title="React.js Conf 2016 - Steve McGuire - Performance Without Compromise - YouTube">www.youtube.com/watch?v=kDARP5QZ6nU&amp;list=PLb0IAmt7-GS0M8Q95RIc2lOM6nc77q1IY&amp;index=28</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">動画 </span> <span class="jser-tag">React</span></p>
+
+<p>Netflixのクライアントサイドのアーキテクチャについて。<br>
+mixinじゃなくて高階関数でレイヤーを表現、宣言的にするためのルールとしての&quot;No refs&quot;。<br>
+またパフォーマンス面では、Transducersの話、静的なpropと動的なpropは分けることでの最適化についてなど。</p>
+
+<hr>
+
+<h2 id="designing-in-react:-why-and-how-//-speaker-deck">Designing in React: Why and How // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/fand/designing-in-react-why-and-how" title="Designing in React: Why and How // Speaker Deck">speakerdeck.com/fand/designing-in-react-why-and-how</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">CSS</span> <span class="jser-tag">DOM</span> <span class="jser-tag">スライド</span></p>
+
+<p>React語圏でどういう試みがあって何を解決しようとしてたかという話<br>
+CSS、アニメーションについて</p>
+
+<hr>
+
+<h2 id="gulp:-the-good-parts-//-speaker-deck">gulp: The Good Parts // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/jmblog/gulp-the-good-parts" title="gulp: The Good Parts // Speaker Deck">speakerdeck.com/jmblog/gulp-the-good-parts</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span> <span class="jser-tag">スライド</span></p>
+
+<p>gulpのプラクティスについて。<br>
+タスクの分割、設定の外部ファイル化、v4を見据えたタスクの書き方、v4の変更点について</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="code-cartoons-—-medium">Code Cartoons — Medium</h2>
+
+<p><a href="https://code-cartoons.com/" title="Code Cartoons — Medium">code-cartoons.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">redux</span></p>
+
+<p>Cartoonsで学ぶFlux、Redux、Relayなどのデータコントロールフロー</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="rebass">Rebass</h2>
+
+<p><a href="http://jxnblk.com/rebass/" title="Rebass">jxnblk.com/rebass/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p>
+
+<p>Reactを使ったUIライブラリ。<br>
+ステートレスコンポーネントとして実装されている。<br>
+コンポーネントづくりの参考になりそう</p>
+
+<hr>
+
+<h2 id="tryolabs/fetch-it:-an-enhanced-http-client-based-on-fetch.">tryolabs/fetch-it: An enhanced HTTP client based on fetch.</h2>
+
+<p><a href="https://github.com/tryolabs/fetch-it" title="tryolabs/fetch-it: An enhanced HTTP client based on fetch.">github.com/tryolabs/fetch-it</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Fetch APIをベースにしたHTTPクライアントライブラリ。<br>
+middlewareで処理を追加できる仕組みを持っている</p>
+
+<ul>
+<li><a href="http://blog.tryolabs.com/2016/03/02/fetch-it-enhanced-http-client-based-on-fetch/" title="fetch-it: enhanced HTTP client based on fetch | Tryolabs | Blog">fetch-it: enhanced HTTP client based on fetch | Tryolabs | Blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="cognitect-labs/transducers-js:-transducers-for-javascript">cognitect-labs/transducers-js: Transducers for JavaScript</h2>
+
+<p><a href="https://github.com/cognitect-labs/transducers-js" title="cognitect-labs/transducers-js: Transducers for JavaScript">github.com/cognitect-labs/transducers-js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">library</span></p>
+
+<p>Transformer protocolを実装したコレクション処理を実装することで、一度の処理で同時に複数の変換を行うことが出来るようにする仕組みとライブラリ</p>
+
+<hr>
+
+<h2 id="uber-common/react-vis">uber-common/react-vis</h2>
+
+<p><a href="https://github.com/uber-common/react-vis" title="uber-common/react-vis">github.com/uber-common/react-vis</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">グラフ</span> <span class="jser-tag">library</span></p>
+
+<p>Uberのグラフやビジュアライズ系のReact Componentライブラリ。<br>
+棒グラフ、折れ線グラフ、円グラフ、テーブル、ツリーマップなど色々な表現が用意されてる</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="quick-browserify-by-sandeep-kumar-patel-[leanpub-pdf/ipad/kindle]">Quick Browserify by Sandeep Kumar Patel [Leanpub PDF/iPad/Kindle]</h2>
+
+<p><a href="https://leanpub.com/browserify" title="Quick Browserify by Sandeep Kumar Patel \[Leanpub PDF/iPad/Kindle\]">leanpub.com/browserify</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">book</span></p>
+
+<p>Browserifyについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-03-08-react15.0rc-perf-ddd.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["JavaScript","DDD","React","Perf"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>JavaScript</li>
+                
+                <li>DDD</li>
+                
+                <li>React</li>
+                
+                <li>Perf</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/03/08/react15.0rc-perf-ddd/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/03/08/react15.0rc-perf-ddd/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/03/08/react15.0rc-perf-ddd/">2016-03-08のJS: React v15.0 RC、Reactパフォーマンス調査、DDD</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/03/ember-lts-402-i18n-rc-jquery3/">2016-03-03のJS: Ember.js LTS、ECMA i18n API 3rd Edition RC、jQuery 3での変更点</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/24/typescript1.8-react-semver-draft/">2016-02-24のJS: TypeScript 1.8、Reactのバージョニング、Draft.js</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/15/grunt-eslint2.0.0-underscore-lodash/">2016-02-15のJS: Grunt 1.0.0 RC1、ESLint 2.0.0、Underscore/Lodash</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/08/babel6.5.0-angular1.5-let-const/">2016-02-08のJS: Babel 6.5.0、Angular 1.5、letとconst</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/02/firefox44-es2016-new-feature-webpack2beta/">2016-02-02のJS: Firefox 44.0、ES2016の追加機能、webpack2β</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/01/es2016/">ECMAScript 2016 features & changes</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/01/27/math.random-xsfhit/">メジャーブラウザのMath.random()のアルゴリズムがXorShift128+になった</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
