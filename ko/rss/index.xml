@@ -5,9 +5,318 @@
     <description>JavaScriptの最新情報を紹介する週刊ブログ</description>
     <link>http://jser.info/ko/</link>
     <atom:link href="http://jser.info/ko/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 09 Mar 2016 00:19:37 +0900</pubDate>
-    <lastBuildDate>Wed, 09 Mar 2016 00:19:37 +0900</lastBuildDate>
+    <pubDate>Fri, 11 Mar 2016 07:53:14 +0900</pubDate>
+    <lastBuildDate>Fri, 11 Mar 2016 07:53:14 +0900</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>2016-02-08 JS: Babel 6.5.0, Angular 1.5, let과 const</title>
+        <description>&lt;p&gt;JSer.info #265 - Babel 6.5.0이 릴리즈됐습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/babel/babel/releases/tag/v6.5.0&quot; title=&quot;Release v6.5.0 · babel/babel&quot;&gt;Release v6.5.0 · babel/babel&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;탐색 과정(Traversal process)은 바벨 파이프라인에서 가장 큰 시간을 잡아먹는 부분(chunks) 중 하나 였지만,&lt;br&gt;
+한번의 탐색으로 모든 변환 처리(플러그인)를 적용하는 것으로 속도를 최적화 했습니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Babel 6 implements a new optimization which merges all plugins together into a single traversal.&lt;br&gt;&lt;br&gt;
+-- &lt;a href=&quot;https://babeljs.io/blog/2015/10/29/6.0.0&quot; title=&quot;6.0.0 Released · Babel&quot;&gt;6.0.0 Released · Babel&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;반대로 모든 처리를 한번에 진행하기 때문에 플러그인 간 경쟁이 일어나기 쉽고, 특정 플러그인 전후로 처리 하고자 하는 경우 등에 문제가 발생하게 됩니다.&lt;/p&gt;
+
+&lt;p&gt;그래서 Babel 6.5.0에서는 &lt;code&gt;passPerPreset&lt;/code&gt; 라는 옵션을 추가 해, preset 마다 traversal를 만들어 처리 가능하도록 했습니다.&lt;br&gt;
+이것으로, 플러그인 간 충돌하는 등의 문제를 제어하기 쉬워졌습니다.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;passPerPreset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;presets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;plugin-1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;s1&quot;&gt;&amp;#39;preset-2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;plugin-2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;또, 코드 생성 처리를 최적화하여 최대 2배 정도 빨라졌습니다.&lt;br&gt;
+아래 문서에서도 설명하고 있지만, V8의 문자열 처리 특성을 이용한 최적화 이므로 특수한 방법입니다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/babel/babel/pull/3283#discussion-diff-50198857&quot; title=&quot;Improve generator performance by gzzhanghao · Pull Request #3283 · babel/babel&quot;&gt;Improve generator performance by gzzhanghao · Pull Request #3283 · babel/babel&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;V8에서는 문자열을 결합한 문자열을 &lt;a href=&quot;https://github.com/v8/v8/blob/b23d5389e024a85cdc5c7d343fe5cc68a14f4d49/src/objects.h#L9141-L9187&quot; title=&quot;ConsString&quot;&gt;ConsString&lt;/a&gt;로 보관하고 있습니다.&lt;br&gt;
+그리고 그 문자열의 첨자에 접근할 때에 처음 &lt;a href=&quot;https://github.com/v8/v8/blob/b23d5389e024a85cdc5c7d343fe5cc68a14f4d49/src/objects.cc#L1717-L1743&quot; title=&quot;String::SlowFlatten&quot;&gt;String::SlowFlatten&lt;/a&gt;을 합니다.&lt;/p&gt;
+
+&lt;p&gt;하지만 이 String::SlowFlattern의 처리가 무겁기 때문에 Babel의 코드 생성 같은 문자열을 결합하는 처리에 이것을 가능한한 피하도록 변경됐습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://jsbin.com/kekaweheda/edit?js,console&quot;&gt;https://jsbin.com/kekaweheda/edit?js,console&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;(JavaScript 엔진의 구현 방식에 영향을 받습니다.)&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://angularjs.blogspot.jp/2016/02/angular-150-ennoblement-facilitation.html&quot; title=&quot;Angular 1.5.0 - ennoblement-facilitation has been released!&quot;&gt;Angular 1.5.0&lt;/a&gt;이 릴리즈됐습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/angular/angular.js/blob/master/CHANGELOG.md#150-ennoblement-facilitation-2016-02-05&quot; title=&quot;angular.js/CHANGELOG.md at master · angular/angular.js&quot;&gt;angular.js/CHANGELOG.md at master · angular/angular.js&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;1.5.0에서는 Angular2로 마이그레이션 하는데 편리한 몇몇 기능이 추가 됐습니다. &lt;br&gt;
+&lt;code&gt;module.component()&lt;/code&gt; 추가, one-way 데이터 바인딩 대응, ES6 Classes 지원 개선 등이 이뤄졌으며 또, &lt;code&gt;ngSanitize&lt;/code&gt;의 보안 문제가 개선됐습니다. &lt;/p&gt;
+
+&lt;p&gt;컴포넌트를 정의하는 &lt;code&gt;module.component()&lt;/code&gt; 관해서는 아래 문서를 참고하면 좋을 것 같습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://qiita.com/laco0416/items/edfa917583af4593ad6c&quot; title=&quot;그 방법은 이제 오래된 방식일지도? AngularJS 낡은 사용법 체크(디렉티브 편) - Qiita&quot;&gt;그 방법은 이제 오래된 방식일지도? AngularJS 낡은 사용법 체크(디렉티브 편) - Qiita&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://mathiasbynens.be/notes/es6-const&quot; title=&quot;ES6 const is not about immutability · Mathias Bynens&quot;&gt;ES6 const is not about immutability · Mathias Bynens&lt;/a&gt;에서는 &lt;code&gt;const&lt;/code&gt;에 관해 자주 갖게되는 오해에 관해 작성돼 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;const&lt;/code&gt;는 값 자체를 불변으로 선언하는 것이 아니라 대입을 불변으로 하는 의미로 Java의 &lt;code&gt;final&lt;/code&gt; 등과 같습니다.&lt;br&gt;
+때문에 객체의 속성 값은 변경할 수 있는 상태가 됩니다. 객체까지 불변으로 하고자 할때는 &lt;code&gt;Object.freeze()&lt;/code&gt;를 이용해야 한다는 점에 관해서도 작성돼 있습니다.&lt;br&gt;
+또, 이 사실을 근거로한 &lt;code&gt;let&lt;/code&gt;과 &lt;code&gt;const&lt;/code&gt;의 용도에 관해서도 작성돼 있습니다.&lt;/p&gt;
+
+&lt;p&gt;이에 맞춰, &lt;code&gt;let&lt;/code&gt;(&lt;code&gt;const&lt;/code&gt; 포함)의 스코프(범위)에 관해 설명돼 있는 아래의 아티클도 함께 읽으면 좋을 것 같습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://davidwalsh.name/for-and-against-let&quot; title=&quot;For and against &amp;amp;#39;let&amp;amp;#39;&quot;&gt;For and against &amp;#39;let&amp;#39;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;헤드라인&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;release-v6.5.0-·-babel/babel&quot;&gt;Release v6.5.0 · babel/babel&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/babel/babel/releases/tag/v6.5.0&quot; title=&quot;Release v6.5.0 · babel/babel&quot;&gt;github.com/babel/babel/releases/tag/v6.5.0&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;babel&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Babel 6.5.0이 릴리즈됐습니다.&lt;br&gt;
+Babel 6부터는 한번의 탐색으로 모든 코드를 변환하는 것으로 알려져 있었으나, 탐색을 복수(프리셋 단위)로 나눌 수 있는 &amp;#39;passPerPreset&amp;#39; 옵션이 추가됐습니다.&lt;br&gt;
+V8의 문자열 처리 특성에 맞춰 코드를 수정하여 코드 제너레이터 성능을 개선(&lt;a href=&quot;https://github.com/babel/babel/pull/3283#discussion-diff-50198857&quot;&gt;참고&lt;/a&gt;)하는 등 여러가지 변경 사항이 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;dev.opera-—-opera-35-released&quot;&gt;Dev.Opera — Opera 35 released&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://dev.opera.com/blog/opera-35/&quot; title=&quot;Dev.Opera — Opera 35 released&quot;&gt;dev.opera.com/blog/opera-35/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;Opera&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Chrome&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Opera 35(based on Chromium 48)가 릴리즈됐습니다.&lt;br&gt;
+&lt;code&gt;document.fonts&lt;/code&gt;가 Set과 같은 객체(FontFaceSet 인터페이스)로 변경됐고 &lt;code&gt;entries()&lt;/code&gt; 등을 사용할 수 있으며 &lt;code&gt;TouchEvent&lt;/code&gt; 이벤트 생성자가 추가됐습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;angular-1.5.0---ennoblement-facilitation-has-been-released!&quot;&gt;Angular 1.5.0 - ennoblement-facilitation has been released!&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://angularjs.blogspot.com/2016/02/angular-150-ennoblement-facilitation.html&quot; title=&quot;Angular 1.5.0 - ennoblement-facilitation has been released!&quot;&gt;angularjs.blogspot.com/2016/02/angular-150-ennoblement-facilitation.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;AngularJS&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;AngularJS 1.5.0가 릴리즈됐습니다.&lt;br&gt;
+AngularJS 2로 업그레이드하는데 편리한 몇가지 개선이 이뤄졌습니다.&lt;br&gt;
+&lt;code&gt;module.component()&lt;/code&gt;가 추가됐고 one-way 바인딩을 대응하며 ES6 Classes 지원 등의 개선이 이뤄졌습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;chromium-blog:-chrome-49-beta:-css-custom-properties,-background-sync-with-service-workers,-and-new-es2015-features&quot;&gt;Chromium Blog: Chrome 49 Beta: CSS custom properties, background sync with service workers, and new ES2015 features&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.chromium.org/2016/02/chrome-49-beta-css-custom-properties.html&quot; title=&quot;Chromium Blog: Chrome 49 Beta: CSS custom properties, background sync with service workers, and new ES2015 features&quot;&gt;blog.chromium.org/2016/02/chrome-49-beta-css-custom-properties.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;Chrome&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Chrome 49 Beta가 릴리즈됐습니다.&lt;br&gt;
+CSS custom properties(CSS Variable)와 ES6의 지원이 개선됐습니다. &lt;code&gt;Object.observe()&lt;/code&gt;가 비권장(deprecated)되는 등 다양한 변경 사항이 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;아티클&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;looking-ahead:-microsoft-edge-for-developers-in-2016-|-microsoft-edge-dev-blog&quot;&gt;Looking ahead: Microsoft Edge for developers in 2016 | Microsoft Edge Dev Blog&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/msedgedev/2016/02/03/2016-platform-priorities/&quot; title=&quot;Looking ahead: Microsoft Edge for developers in 2016 | Microsoft Edge Dev Blog&quot;&gt;blogs.windows.com/msedgedev/2016/02/03/2016-platform-priorities/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;MSEdge&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;MSEdge의 로드맵을 알 수 있는 글입니다.&lt;br&gt;
+접근성 개선 및 ES6 modules, Fetch API, Web Notifications 그리고 Beacon API 등의 지원을 예정하고 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;typings로-d.ts의-관리를-한다-|-스마오-–-javascript-외주-개발-–(일본어)&quot;&gt;typings로 d.ts의 관리를 한다 | 스마오  – JavaScript 외주 개발 –(일본어)&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://smart.ataglance.jp/2016-02-04-manage-dts-by-typings/&quot; title=&quot;typings で d.ts の管理をする | スマホ神 – JavaScript 受託開発 –&quot;&gt;smart.ataglance.jp/2016-02-04-manage-dts-by-typings/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;TypeScript&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;typings&lt;/code&gt;를 사용한 d.ts의 관리 방법에 관해 작성돼 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;handling-props-and-class-names-in-react-–-simonsmith.io-–-portfolio-and-blog-of-a-london-based-front-end-web-developer&quot;&gt;Handling props and class names in React – simonsmith.io – Portfolio and blog of a London based front-end web developer&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://simonsmith.io/handling-props-and-classnames-in-react/&quot; title=&quot;Handling props and class names in React – simonsmith.io – Portfolio and blog of a London based front-end web developer&quot;&gt;simonsmith.io/handling-props-and-classnames-in-react/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;React&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;React Component와 className의 관리 패턴을 소개합니다.&lt;br&gt;
+classnames 모듈을 사용하는 방법과 테스트에 관해 작성돼 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;for-and-against-&amp;#x27;let&amp;#x27;&quot;&gt;For and against &amp;#x27;let&amp;#x27;&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://davidwalsh.name/for-and-against-let&quot; title=&quot;For and against &amp;#39;let&amp;#39;&quot;&gt;davidwalsh.name/for-and-against-let&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;let&lt;/code&gt;과 범위(scope)에 관해 자세히 설명돼 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;es6-const-is-not-about-immutability-·-mathias-bynens&quot;&gt;ES6 const is not about immutability · Mathias Bynens&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://mathiasbynens.be/notes/es6-const&quot; title=&quot;ES6 const is not about immutability · Mathias Bynens&quot;&gt;mathiasbynens.be/notes/es6-const&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;const&lt;/code&gt;는 값 자체를 불변(immutable)으로 선언하는 것이 아니라 대입을 불변으로 한다는 의미로,&lt;br&gt;
+객체의 속성 값은 변경할 수 있는 상태가 되니, 객체를 불변으로 하고자 할때는 &lt;code&gt;Object.freeze()&lt;/code&gt;를 이용해야 한다는 점에 관해 소개합니다. 또 &lt;code&gt;let&lt;/code&gt;과 &lt;code&gt;const&lt;/code&gt;의 용도 구분에 관해서도 작성돼 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;developer-edition-46-–-more-memory-tooling,-improved-@media-sidebar-and-more-★-mozilla-hacks-–-the-web-developer-blog&quot;&gt;Developer Edition 46 – More memory tooling, improved @media sidebar and more ★ Mozilla Hacks – the Web developer blog&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://hacks.mozilla.org/2016/02/developer-edition-46-more-memory-tooling-improved-media-sidebar-and-more/&quot; title=&quot;Developer Edition 46 – More memory tooling, improved @media sidebar and more ★ Mozilla Hacks – the Web developer blog&quot;&gt;hacks.mozilla.org/2016/02/developer-edition-46-more-memory-tooling-improved-media-sidebar-and-more/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;firefox&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;debug&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Firefox 46에서 변경된 몇 가지 개발자 도구의 기능에 관해 작성돼 있습니다.&lt;br&gt;
+Dominator view 추가, 개발자 도구가 닫혀도 &lt;code&gt;debugger&lt;/code&gt; 구문에서 중단되도록 하는 등 다양한 변경 사항이 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;introducing-es2015-proxies-|-web-updates---google-developers&quot;&gt;Introducing ES2015 Proxies | Web Updates - Google Developers&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developers.google.com/web/updates/2016/02/es2015-proxies&quot; title=&quot;Introducing ES2015 Proxies | Web Updates - Google Developers&quot;&gt;developers.google.com/web/updates/2016/02/es2015-proxies&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;ES2015 Proxies의 사용 방법과 Reflect API와 조합해 사용하는 방법에 관해 작성돼 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;슬라이드, 영상&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;다함께,-fluxutils-한바퀴!&quot;&gt;다함께, FluxUtils 한바퀴!&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.slideshare.net/UyeongJu/fluxutils&quot; title=&quot;다함께, FluxUtils 한바퀴!&quot;&gt;www.slideshare.net/UyeongJu/fluxutils&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;Flux&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;슬라이드&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;flux utils를 소개하는 슬라이드 입니다.&lt;br&gt;
+flux utils의 소스 코드를 살펴 보면서 어떤 흐름으로 동작하는지 소개하고 flux 아키텍처에서의 비동기 처리 방법에 관해서 알기 쉽게 소개하고 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;사이트, 서비스, 문서&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;top-|-diff-of-htmls&quot;&gt;Top | Diff of HTMLs&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://diffofhtmls.herokuapp.com/&quot; title=&quot;Top | Diff of HTMLs&quot;&gt;diffofhtmls.herokuapp.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;HTML&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;W3C&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;WHATWG&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;spec&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;W3C와 WHATWG의 HTML 명세(specifications)를 diff를 볼 수 있는 사이트입니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;vasanthk/css-refresher-notes:-css-refresher!&quot;&gt;vasanthk/css-refresher-notes: CSS Refresher!&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/vasanthk/css-refresher-notes&quot; title=&quot;vasanthk/css-refresher-notes: CSS Refresher!&quot;&gt;github.com/vasanthk/css-refresher-notes&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;CSS&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;tutorial&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;CSS를 다시 살펴볼 수 있는 저장소 입니다.&lt;br&gt;
+자주 사용하는 기능이나 스타일 선언 방식에 관해 자세히 설명돼 있습니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;소프트웨어, 도구, 라이브러리&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;start-runner/start:-dead-simple-tasks-runner&quot;&gt;start-runner/start: Dead simple tasks runner&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/start-runner/start&quot; title=&quot;start-runner/start: Dead simple tasks runner&quot;&gt;github.com/start-runner/start&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Promises&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Tools&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Promise 기반의 태스크 자동화 도구입니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;teamweek/instadate:-a-minimal-high-performance-date-library-for-node.js-and-browser&quot;&gt;Teamweek/instadate: A minimal high performance date library for Node.js and Browser&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Teamweek/instadate&quot; title=&quot;Teamweek/instadate: A minimal high performance date library for Node.js and Browser&quot;&gt;github.com/Teamweek/instadate&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;library&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;날짜 및 시간 처리에 사용할 수 있는 라이브러리 입니다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;도서&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;thinking-in-react&quot;&gt;Thinking In React&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.thinkinginreact.xyz/&quot; title=&quot;Thinking In React&quot;&gt;www.thinkinginreact.xyz/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;redux&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Flux&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;book&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;React를 사용하는 경우에 마주하는 현실적인 문제에 대응한 해결책을 제시하는 전자 서적입니다.&lt;/p&gt;
+
+&lt;hr&gt;
+</description>
+        <pubDate>Mon, 08 Feb 2016 20:19:00 +0900</pubDate>
+        <link>http://jser.info/ko/2016/02/08/babel6.5.0-angular1.5-let-const/</link>
+        <guid isPermaLink="true">http://jser.info/ko/2016/02/08/babel6.5.0-angular1.5-let-const/</guid>
+        
+        <category>ES6</category>
+        
+        <category>Babel</category>
+        
+        <category>AngularJS</category>
+        
+        
+        <category>_i18n</category>
+        
+        <category>ko</category>
+        
+        <category>jser</category>
+        
+      </item>
     
       <item>
         <title>2016-02-02 JS: Firefox 44.0, ES2016의 추가 기능, webpack2β</title>
@@ -2695,276 +3004,6 @@ Browserify, Webpack, rollup.js에서의 라이브러리 빌드에 관해서도 �
         <category>Browserify</category>
         
         <category>rollup</category>
-        
-        
-        <category>_i18n</category>
-        
-        <category>ko</category>
-        
-        <category>jser</category>
-        
-      </item>
-    
-      <item>
-        <title>2015-10-16 JS: Node.js 4.2.0 LTS, ES6, CSS.next</title>
-        <description>&lt;p&gt;JSer.info #249 - &lt;a href=&quot;https://nodejs.org/en/blog/release/v4.2.0/&quot; title=&quot;Node v4.2.0&quot;&gt;Node.js 4.2.0&lt;/a&gt;가 릴리즈됐습니다.&lt;/p&gt;
-
-&lt;p&gt;이 버전은 &amp;quot;Argon&amp;quot; 이라고 코드 명을 붙였으며 Node.js의 &lt;a href=&quot;https://github.com/nodejs/LTS&quot; title=&quot;LTS&quot;&gt;LTS&lt;/a&gt;(Long-term Support) 버전으로써 릴리즈됐습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.publickey1.jp/blog/15/nodejs_long_term_support_argon.html&quot; title=&quot;Node.js 최초의 Long Term Support 대상이 된 「Node.js 4.2」, 코드명 &amp;quot;Argon&amp;quot;이 릴리즈됐다. 릴리즈 시점부터 2년 반은 메인터넌스 Publickey&quot;&gt;Node.js 최초의 Long Term Support 대상이 된 「Node.js 4.2」, 코드명 &amp;quot;Argon&amp;quot;이 릴리즈됐다. 릴리즈 시점부터 2년 반은 메인터넌스 Publickey&lt;/a&gt;(일본어)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;이름에서 알 수 있듯이 릴리즈 시점부터 액티브 18개월 + 메인터넌스 모드로 12개월, 총 30개월 동안 서포트가 이뤄질 예정의 버전입니다.&lt;/p&gt;
-
-&lt;p&gt;덧붙여, 현재 실행되고 있는 Node.js가 LTS 인지 여부를 반환하는 &lt;code&gt;process.release.lts&lt;/code&gt; 등도 추가 됐습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://ponyfoo.com/articles/es6&quot; title=&quot;ES6 Overview in 350 Bullet Points&quot;&gt;ES6 Overview in 350 Bullet Points&lt;/a&gt;에서는 동일한 저자가 작성한 &lt;a href=&quot;https://ponyfoo.com/articles/tagged/es6-in-depth&quot; title=&quot;es6-in-depth&quot;&gt;es6-in-depth&lt;/a&gt;시리즈를 바탕으로 ES6의 기능을 조목 별로 정리해 소개하고 있습니다.&lt;/p&gt;
-
-&lt;p&gt;기능 별로 리스트화 돼 있으므로 평소 관심있었던 기능을 알기 위한 시작 점으로써 읽으면 좋을 것 같습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.slideshare.net/t32k/javascriptcss-2015-autumn&quot; title=&quot;JavaScript/CSS 2015 Autumn&quot;&gt;JavaScript/CSS 2015 Autumn&lt;/a&gt;슬라이드 에서는 자바스크립트와 CSS의 현 시점의 현황에 관해 작성돼 있습니다.&lt;/p&gt;
-
-&lt;p&gt;JavaScript 관해서는 ES6와 Babel을, CSS 관해서는 cssnext와 PostCSS 그리고 Sass를, 빌드 도구에 관해서는 Grunt/gulp와 npm을 소개합니다.&lt;/p&gt;
-
-&lt;p&gt;프론트엔드 개발 도구에 관해 폭넓게 정리돼 있으므로 전체적으로 살펴 본 다음, 관심있는 것 부터 하나씩 자세히 알아보면 좋을 것 같습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;헤드라인&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;node-v4.2.0-(stable)-|-node.js&quot;&gt;Node v4.2.0 (Stable) | Node.js&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://nodejs.org/en/blog/release/v4.2.0/&quot; title=&quot;Node v4.2.0 (Stable) | Node.js&quot;&gt;nodejs.org/en/blog/release/v4.2.0/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;node.js&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Node.js 4.2.0가 릴리즈됐습니다.&lt;br&gt;
-&amp;quot;Argon&amp;quot;이라는 코드 명으로 LTS 버전(장기간 지원 버전)을 처음으로 릴리즈했습니다. 커멘드 라인 옵션에 신텍스만 체크하는 &lt;code&gt;--check&lt;/code&gt; 인자를 추가했습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/nodejs/node/pull/2411&quot; title=&quot;add CLI option to syntax check script by bahamas10 · Pull Request #2411 · nodejs/node&quot;&gt;add CLI option to syntax check script by bahamas10 · Pull Request #2411 · nodejs/node&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;release-3.4.0-release-candidate-·-knockout/knockout&quot;&gt;Release 3.4.0 Release Candidate · knockout/knockout&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/knockout/knockout/releases/tag/v3.4.0-rc&quot; title=&quot;Release 3.4.0 Release Candidate · knockout/knockout&quot;&gt;github.com/knockout/knockout/releases/tag/v3.4.0-rc&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;library&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Knockout 3.4.0RC 버전이 릴리즈됐습니다.&lt;br&gt;
-&lt;code&gt;ko.isPureComputed&lt;/code&gt;, &lt;code&gt;ko.onError&lt;/code&gt;가 추가 됐으며 Observable의 성능을 개선했습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;v8-javascript-engine:-v8-release-4.7&quot;&gt;V8 JavaScript Engine: V8 Release 4.7&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://v8project.blogspot.jp/2015/10/v8-release-47.html&quot; title=&quot;V8 JavaScript Engine: V8 Release 4.7&quot;&gt;v8project.blogspot.jp/2015/10/v8-release-47.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;V8&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;V8 4.7이 릴리즈 됐습니다.&lt;br&gt;
-Rest operator、Array#includes가 추가됐습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/1g8JFi8T_oAE_7uAri7Njtig7fKaPDfotU6huOa1alds/edit&quot; title=&quot;V8 API changes - Google 문서&quot;&gt;V8 API changes - Google 문서&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;release-fetch-0.10.0-·-github/fetch&quot;&gt;Release Fetch 0.10.0 · github/fetch&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/github/fetch/releases/tag/v0.10.0&quot; title=&quot;Release Fetch 0.10.0 · github/fetch&quot;&gt;github.com/github/fetch/releases/tag/v0.10.0&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;library&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Fetch API의 polyfill인 Fetch 0.10.0이 릴리즈됐습니다.&lt;br&gt;
-&lt;code&gt;Requst&lt;/code&gt;/&lt;code&gt;Response&lt;/code&gt; 객체에 몇 가지 메서드가 추가됐습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;아티클&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;난독화된-자바스크립트-코드를-읽다-:-document(일본어)&quot;&gt;난독화된 자바스크립트 코드를 읽다 : document(일본어)&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://imaya.blog.jp/archives/8183160.html&quot; title=&quot;난독화된 자바스크립트 코드를 읽다 : document&quot;&gt;imaya.blog.jp/archives/8183160.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;난독화된 코드를 읽기 위한 도구나 리팩터링 방법에 관해 소개합니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;es2015-—-web-fundamentals&quot;&gt;ES2015 — Web Fundamentals&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developers.google.com/web/shows/ttt/series-2/es2015&quot; title=&quot;ES2015 — Web Fundamentals&quot;&gt;developers.google.com/web/shows/ttt/series-2/es2015&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Tools&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;ES6를 학습하기 위한 리소스나 도구에 관해 소개합니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;es6-overview-in-350-bullet-points&quot;&gt;ES6 Overview in 350 Bullet Points&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://ponyfoo.com/articles/es6&quot; title=&quot;ES6 Overview in 350 Bullet Points&quot;&gt;ponyfoo.com/articles/es6&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;정리&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;eES6의 기능이나 포인트 에 관해 조목 별로 정리한 문서입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;surfin&amp;#39;-safari---blog-archive-»-es6-in-webkit&quot;&gt;Surfin&amp;#39; Safari - Blog Archive » ES6 in WebKit&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.webkit.org/blog/4054/es6-in-webkit/&quot; title=&quot;Surfin&amp;#39; Safari - Blog Archive » ES6 in WebKit&quot;&gt;www.webkit.org/blog/4054/es6-in-webkit/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;webkit&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;safari&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Safari 9과 WebKit nightly에 들어가는 ES6 기능에 대해 정리돼 있습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;a-gentle-introduction-to-ember-2.0-—-medium&quot;&gt;A Gentle Introduction to Ember 2.0 — Medium&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://medium.com/@jamesfuthey/a-gentle-introduction-to-ember-2-0-8ef1f378ee4&quot; title=&quot;A Gentle Introduction to Ember 2.0 — Medium&quot;&gt;medium.com/@jamesfuthey/a-gentle-introduction-to-ember-2-0-8ef1f378ee4&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;tutorial&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Firebase와 Ember.js를 사용해 블로그를 만들어 가면서 Ember.js에 관해 학습할 수 있는 튜터리얼입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;lazy,-composable,-and-modular-javascript&quot;&gt;Lazy, composable, and modular JavaScript&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://codewords.recurse.com/issues/four/lazy-composable-and-modular-javascript&quot; title=&quot;Lazy, composable, and modular JavaScript&quot;&gt;codewords.recurse.com/issues/four/lazy-composable-and-modular-javascript&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;자바스크립트에서의 고차원 함수, 함수 합성, 지연 평가에 관해 설명합니다. 또 Generator와 iterator를 사용한 함수의 조합 방법에 관해서도 이야기합니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;not-angular한-환경에서-protractor를-사용해-es2015(es6),-es7으로-e2e-테스트-코드를-작성해-봤다---qiita(일본어)&quot;&gt;Not Angular한 환경에서 Protractor를 사용해 ES2015(ES6), ES7으로 E2E 테스트 코드를 작성해 봤다 - Qiita(일본어)&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://qiita.com/nana4gonta/items/fabf1ab30ef16050c1e8&quot; title=&quot;Not Angular한 환경에서 Protractor를 사용해 ES2015(ES6), ES7으로 E2E 테스트 코드를 작성해 봤다 - Qiita&quot;&gt;qiita.com/nana4gonta/items/fabf1ab30ef16050c1e8&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;testing&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;protractor&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Selenium&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;async/await를 사용한 Protractor의 E2E테스트에 관해 소개합니다.&lt;br&gt;
-비동기 처리 부분을 async/await를 사용하여 직렬로 작성하는 방법을 이야기합니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;슬라이드, 영상&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;javascript/css-2015-autumn&quot;&gt;JavaScript/CSS 2015 Autumn&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.slideshare.net/t32k/javascriptcss-2015-autumn&quot; title=&quot;JavaScript/CSS 2015 Autumn&quot;&gt;www.slideshare.net/t32k/javascriptcss-2015-autumn&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;CSS&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;슬라이드&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;자바스크립트나 CSS, 빌드 도구 등에 관해 폭 넓게 정리돼 있는 슬라이드 입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;angularjs의-$watch-등록-수가-60,000이었다---@yoshiko_pg(일본어)&quot;&gt;AngularJS의 $watch 등록 수가 60,000이었다 - @yoshiko_pg(일본어)&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://yoshiko-pg.github.io/slides/20151015-gp-meetup/&quot; title=&quot;AngularJS의 $watch 등록 수가 60,000이었다 - @yoshiko_pg&quot;&gt;yoshiko-pg.github.io/slides/20151015-gp-meetup/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;AngularJS&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;슬라이드&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;AngularJS의 성능 개선에 관한 슬라이드 입니다.&lt;br&gt;
-$watch의 수를 알아내는 방법과 개선 방법에 관해 작성돼 있습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;사이트, 서비스, 문서&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;all-of-the-javascript-features.&quot;&gt;All of the javascript features.&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://jsfeatures.in/&quot; title=&quot;All of the javascript features.&quot;&gt;jsfeatures.in/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;정리&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;ES5, ES6나 ES.next의 기능별 샘플 코드가 정리돼 있는 사이트입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;소프트웨어, 도구, 라이브러리&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;gabrielbull/react-desktop&quot;&gt;gabrielbull/react-desktop&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/gabrielbull/react-desktop&quot; title=&quot;gabrielbull/react-desktop&quot;&gt;github.com/gabrielbull/react-desktop&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;mac&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;windows&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;OS X(혹은 Windows) 같은 느낌의 UI를 만들 수 있는 React Component 입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;ryanbahniuk/sassaby&quot;&gt;ryanbahniuk/sassaby&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/ryanbahniuk/sassaby&quot; title=&quot;ryanbahniuk/sassaby&quot;&gt;github.com/ryanbahniuk/sassaby&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;Sass&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;testing&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;node.js&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Mocha나 Jasmine 등과 함께 Sass 코드를 테스트할 수 있도록 하는 Sass의 테스트 라이브러리입니다.&lt;br&gt;
-Sass의 함수나 mixin 등을 테스트 할 수 있습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;mancy-nodejs-repl&quot;&gt;Mancy NodeJs Repl&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.mancy-re.pl/&quot; title=&quot;Mancy NodeJs Repl&quot;&gt;www.mancy-re.pl/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;node.js&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;software&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Electron&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Electron을 사용해 개발한 JavaScript REPL 애플리케이션 입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;도서&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;front-end-handbook---gitbook&quot;&gt;Front-end Handbook - GitBook&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.gitbook.com/book/frontendmasters/front-end-handbook/details&quot; title=&quot;Front-end Handbook - GitBook&quot;&gt;www.gitbook.com/book/frontendmasters/front-end-handbook/details&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;CSS&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;book&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;프론트엔드 개발에 관한 전자 서적입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-</description>
-        <pubDate>Fri, 16 Oct 2015 22:22:00 +0900</pubDate>
-        <link>http://jser.info/ko/2015/10/16/node-lts-es6-js-css-next/</link>
-        <guid isPermaLink="true">http://jser.info/ko/2015/10/16/node-lts-es6-js-css-next/</guid>
-        
-        <category>Node.js</category>
-        
-        <category>ES6</category>
-        
-        <category>CSS</category>
-        
-        <category>JavaScript</category>
         
         
         <category>_i18n</category>
