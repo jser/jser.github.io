@@ -12,7 +12,38 @@ tags:
 
 ---
 
-JSer.info #270 - 
+JSer.info #270 - [React v15.0 RC2](https://facebook.github.io/react/blog/2016/03/16/react-v15-rc2.html "React v15.0 Release Candidate 2")がリリースされています。
+RC2は[RC1で見つかったバグ](https://github.com/facebook/react/issues/6246)やSVGに関する変更がrevertされています。
+
+RC1を含め変更点については下記の記事にまとまっているので、Reactを使っている人は見ておくといいかと思います。
+
+- [React.js v15.0 changes - blog.koba04.com](http://blog.koba04.com/post/2016/03/09/react-js-v15-changes/ "React.js v15.0 changes - blog.koba04.com")
+
+----
+
+MSEdge([ChakraCore](https://github.com/microsoft/chakracore "ChakraCore"))、Firefox、Chrome(V8)からそれぞれ[WebAssembly](http://webassembly.github.io/ "WebAssembly")を試験的にサポートしたというアナウンスがされています。
+
+- [V8 JavaScript Engine: Experimental support for WebAssembly in V8](http://v8project.blogspot.jp/2016/03/experimental-support-for-webassembly.html)
+- [A WebAssembly Milestone: Experimental Support in Multiple Browsers ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/03/a-webassembly-milestone/) ([翻訳](https://www.mozilla.jp/blog/entry/10539/))
+- [Previewing WebAssembly experiments in Microsoft Edge | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments/)
+
+WebKitは、特にアナウンスはありませんが[ステータスは開発中](https://webkit.org/status/#specification-webassembly "WebKit Feature Status | WebKit")で[テスト実装](http://trac.webkit.org/browser/trunk/Source/JavaScriptCore/wasm)をしています。
+
+----
+
+[State of the Art JavaScript in 2016 — JavaScript and Opinions — Medium](https://medium.com/javascript-and-opinions/state-of-the-art-javascript-in-2016-ab67fc68eb0b "State of the Art JavaScript in 2016 — JavaScript and Opinions — Medium")という記事では最近のライブラリやツールの定番的なものについてまとめられています。
+
+> If you don’t need it, don’t use it
+
+という一言が表しているように、全ての人がこれらを必要になるわけでもないということも書かれています。
+
+最近は、このようなツールを使う流れから[JavaScript fatigue fatigue ](http://www.2ality.com/2016/02/js-fatigue-fatigue.html "JavaScript fatigue")が話題となったりしていました。
+
+> Don’t try to know everything
+
+全てを試す必要はなかったり、[ツールを使わないでReactを始める方法](https://medium.com/javascript-inside/learn-the-concepts-part-1-418952d968cb)など色々なやり方や意見もあったりします。
+
+自分なりに疲れないやり方で行うのがいいと思います。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
