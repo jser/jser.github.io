@@ -1,5 +1,5 @@
 ---
-title: "2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近JavaScript"
+title: "2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近のJavaScriptツール/ライブラリ"
 author: azu
 layout: post
 date : 2016-03-17T22:03
