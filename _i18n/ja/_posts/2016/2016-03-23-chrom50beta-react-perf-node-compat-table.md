@@ -12,7 +12,38 @@ tags:
 
 ---
 
-JSer.info #271 - 
+JSer.info #271 - [Chrome 50 Beta](http://blog.chromium.org/2016/03/chrome-50-beta-push-notification.html "Chrome 50 Beta")がリリースされました。
+
+ページを完全に表示するために必要なリソースを先に読み込める[link rel="preload"](https://w3c.github.io/preload/ "link rel=&#34;preload&#34;")がサポートされています。
+
+`<link rel="preload">`について詳しくは以下の記事にまとまっています。
+
+- [Preload: What Is It Good For? – Smashing Magazine](https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/ "Preload: What Is It Good For? – Smashing Magazine")
+
+また、FirefoxやIEには実装されていましたがChromeでも[`HTMLCanvasElement.toBlob()](http://blog.chromium.org/2016/03/chrome-50-beta-push-notification.html "HTMLCanvasElement.toBlob()")がサポートされています。
+
+- [Chromium で Canvas.toBlob が試験的に利用可能になっています - Qiita](http://qiita.com/uupaa/items/8bc48e904141be9224c4 "Chromium で Canvas.toBlob が試験的に利用可能になっています - Qiita")
+
+----
+
+[Reactを使ったプロダクトのパフォーマンスを改善した話 | GMOメディア エンジニアブログ](http://tech.gmo-media.jp/post/141458071484/react-perf-tuning)という記事ではReactを使ったウェブアプリのパフォーマンス改善方法につえ書かれています。
+
+`react-addons-perf`を使い計測し、どこに問題があって、どうやって解決したのかという話が書かれています。
+合わせて以下の記事や[公式のドキュメント](https://facebook.github.io/react/docs/perf.html)を見るといいかと思います。
+
+- [A Deep Dive into React Perf Debugging](http://benchling.engineering/deep-dive-react-perf-debugging/ "A Deep Dive into React Perf Debugging")
+- [Animating with React, Redux, and d3 | A geek with a hat](http://swizec.com/blog/animating-with-react-redux-and-d3/swizec/6775)
+
+----
+
+[Node.js ES2015/ES6 support](http://node.green/ "Node.js ES2015/ES6 support")というサイトではNode.jsのバージョン別ECMAScriptサポート状況がまとめられています。
+
+Node.js版[ECMAScript 6 compatibility table](http://kangax.github.io/compat-table/es6/ "ECMAScript 6 compatibility table")というのが分かりやすいかもしれません。
+
+Node.js v6ではES6の大分部がサポートされる予定ですが、v6は[V8 5.0](http://v8project.blogspot.jp/2016/03/v8-release-50.html "V8 5.0")のリリースを待ってから公開される予定となっています。
+そのため、Node.js v6は4月後半にリリース予定となるようです。
+
+- [Planning for v6 · Issue #5766 · nodejs/node](https://github.com/nodejs/node/issues/5766 "Planning for v6 · Issue #5766 · nodejs/node")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -72,7 +103,7 @@ GAEでNode.jsがβサポートされた
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span></p>
 
 Firefox 47の開発者ツールの新しい機能について。
-どういう流れでオブジェクトが保持されているのかを可視化、コンソールへ複数行入力出来るように、Storage Insperatorでcacheをサポートなど
+どういう流れでオブジェクトが保持されているのかを可視化、コンソールへ複数行入力出来るように、Storage InspectorでCache APIをサポートなど
 
 ----
 
