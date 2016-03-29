@@ -16,7 +16,7 @@ JSer.info #272 - Backbone.js [1.3.2](http://backbonejs.org/#changelog "1.3.2")�
 
 Backbone.js本体のPulseや[Marionette.js](https://github.com/marionettejs/backbone.marionette/ "Marionette.js")、他の関連ライブラリの状況について書かれています。
 
-[JavaScript情報ってなんだっけ?](http://azu.github.io/slide/2016/jser5years/javascript-information.html "JavaScript情報ってなんだっけ?")でもGitHubリポジトリのPulseを見ることで、状況はある程度分かります。
+[JavaScript情報ってなんだっけ?](http://azu.github.io/slide/2016/jser5years/javascript-information.html "JavaScript情報ってなんだっけ?")でもGitHubリポジトリのPulseを見ることで、状況はある程度分かるという話をしました。
 Backbone.jsの場合は枯れているというのもありますが、これ以上大きな進化をするのが難しい状況にも見えます。
 
 Backbone.jsを使っている人は状況を把握するのに読んでみると面白いかもしれません。
