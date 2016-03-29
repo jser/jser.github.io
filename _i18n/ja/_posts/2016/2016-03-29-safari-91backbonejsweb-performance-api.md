@@ -11,8 +11,44 @@ tags:
 
 ---
 
+JSer.info #272 - Backbone.js [1.3.2](http://backbonejs.org/#changelog "1.3.2")がリリースされていますが、
+[The Sad State of the Backbone Ecosystem](http://benmccormick.org/2016/03/07/the-sad-state-of-the-backbone-ecosystem/ "The Sad State of the Backbone Ecosystem")という記事では近年のBackbone.js周りのエコシステムについて書かれています。
 
-JSer.info #272
+Backbone.js本体のPulseや[Marionette.js](https://github.com/marionettejs/backbone.marionette/ "Marionette.js")、他の関連ライブラリの状況について書かれています。
+
+[JavaScript情報ってなんだっけ?](http://azu.github.io/slide/2016/jser5years/javascript-information.html "JavaScript情報ってなんだっけ?")でもGitHubリポジトリのPulseを見ることで、状況はある程度分かります。
+Backbone.jsの場合は枯れているというのもありますが、これ以上大きな進化をするのが難しい状況にも見えます。
+
+Backbone.jsを使っている人は状況を把握するのに読んでみると面白いかもしれません。
+
+----
+
+[Safari 9.1](https://developer.apple.com/library/mac/releasenotes/General/WhatsNewInSafari/Articles/Safari_9_1.html "Safari 9.1")がリリースされました。
+
+- [Safari 9.1](https://developer.apple.com/library/mac/releasenotes/General/WhatsNewInSafari/Articles/Safari_9_1.html "Safari 9.1")
+- [CSS Variables in WebKit | WebKit](https://webkit.org/blog/5989/css-variables-in-webkit/)
+- [Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web](http://www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se)
+
+Safari 9.1で使えるようになった機能について上記の記事では解説されています。
+CSS Custom Properties、CSS Will-Change、`<picture>`要素、Fast Tapの対応など新しい機能も色々増えています。
+
+----
+
+[ブラウザのPerformance APIの話](http://www.slideshare.net/kawada_hiroshi/performance-api "ブラウザのPerformance APIの話")というスライドでは、ブラウザで利用できるパフォーマンス計測のAPIについて書かれています。
+
+またTiming APIについては[A Primer for Web Performance Timing APIs](https://w3c.github.io/perf-timing-primer/ "A Primer for Web Performance Timing APIs")というドキュメントによくまとめられています。
+
+またパフォーマンス関連して、最近Google主導の[Accelerated Mobile Pages (AMP)](https://www.ampproject.org/ "Accelerated Mobile Pages (AMP)")に対抗して、[Content Performance Policy (CPP)](https://discourse.wicg.io/t/content-performance-policy/1380/1 "Content Performance Policy")の提案などがありました。
+
+CPPはまだアイデアに近い話ですが、この話に加えてSandbox Policyという提案が@[igrigorik](https://github.com/igrigorik "igrigorik")から出されています。
+
+- [Proposal: Sandbox Policy - HTML - WICG](https://discourse.wicg.io/t/proposal-sandbox-policy/1414 "Proposal: Sandbox Policy - HTML - WICG")
+
+これは既存の`<iframe sandbox>`を拡張した概念で、`document.write`を禁止するディレクティブの追加などが含まれています。
+
+どの話も、開発側がある種サブセットのような制限を受け入れてより高速な表示などが出来るようにするためのルールを決めている形です。
+
+パフォーマンスに興味がある人はこの辺も見てみると面白いかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -78,6 +114,16 @@ JavaScriptからも`getPropertyValue/setProperty`で読み書きができる
 
 ----
 
+## Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web
+[www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se](http://www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se "Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
+
+iOS 9.3のSafariについて。
+`<picture>`、Fast Tap、CSS Custom Properties、ダイアログの変更、`shrink-to-fit`、Remote Inspectorなど
+
+----
+
 ## JSDocをランタイムassertに変換するBabelプラグインを書いた | Web Scratch
 [efcl.info/2016/03/25/jsdoc-to-assert/](http://efcl.info/2016/03/25/jsdoc-to-assert/ "JSDocをランタイムassertに変換するBabelプラグインを書いた | Web Scratch")
 
@@ -102,17 +148,7 @@ Shadown DOMのCSS(`:host`など)、CSS Custom Properties(`--var`)についての
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">まとめ</span></p>
 
-ECMAScriptにおける型関連Proposalのステータスまとめ。
-
-----
-
-## Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web
-[www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se](http://www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se "Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web")
-
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
-
-iOS 9.3のSafariについて。
-`<picture>`、Fast Tap、CSS Custom Properties、ダイアログの変更、`shrink-to-fit`、Remote Inspectorなど
+ECMAScriptにおける静的型関連Proposalのステータスまとめ。
 
 ----
 
@@ -127,7 +163,7 @@ EventにはCustom Eventを使ってPub/Subを行っている
 ----
 
 ## The Sad State of the Backbone Ecosystem
-[benmccormick.org/](http://benmccormick.org/ "The Sad State of the Backbone Ecosystem")
+[benmccormick.org/2016/03/07/the-sad-state-of-the-backbone-ecosystem/](http://benmccormick.org/2016/03/07/the-sad-state-of-the-backbone-ecosystem/ "The Sad State of the Backbone Ecosystem")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span></p>
 
