@@ -36,7 +36,7 @@ CSS Custom Properties、CSS Will-Change、`<picture>`要素、Fast Tapの対応�
 
 [ブラウザのPerformance APIの話](http://www.slideshare.net/kawada_hiroshi/performance-api "ブラウザのPerformance APIの話")というスライドでは、ブラウザで利用できるパフォーマンス計測のAPIについて書かれています。
 
-またTiming APIについては[A Primer for Web Performance Timing APIs](https://w3c.github.io/perf-timing-primer/ "A Primer for Web Performance Timing APIs")というドキュメントによくまとめられています。
+スライド内でも紹介されていますが、Timing APIについては[A Primer for Web Performance Timing APIs](https://w3c.github.io/perf-timing-primer/ "A Primer for Web Performance Timing APIs")というドキュメントによくまとめられています。
 
 またパフォーマンス関連して、Google等が主導の[Accelerated Mobile Pages (AMP)](https://www.ampproject.org/ "Accelerated Mobile Pages (AMP)")に対抗して、[Content Performance Policy (CPP)](https://discourse.wicg.io/t/content-performance-policy/1380/1 "Content Performance Policy")の提案などがありました。
 
