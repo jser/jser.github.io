@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API - JSer.info</title>
+    <meta name="description" content="JSer.info #272 - Backbone.js 1.3.2がリリースされていますが、The Sad State of the Backbone Ecosystemという記事では近年のBackbone.js周りのエコシステムについて書かれています。">
+    
+    <meta name="keywords" content="Safari,perf,backbone.js" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-03-29T09:46:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Safari" property="article:tag">
+      
+      <meta content="perf" property="article:tag">
+      
+      <meta content="backbone.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/03/29/safari-91backbonejsweb-performance-api/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #272 - Backbone.js 1.3.2がリリースされていますが、The Sad State of the Backbone Ecosystemという記事では近年のBackbone.js周りのエコシステムについて書かれています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/03/29/safari-91backbonejsweb-performance-api/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #272 - Backbone.js 1.3.2がリリースされていますが、The Sad State of the Backbone Ecosystemという記事では近年のBackbone.js周りのエコシステムについて書かれています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-03-29T09:46:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/03/23/chrom50beta-react-perf-node-compat-table/">
+
+<meta property="og:see_also" content="http://jser.info/2016/03/17/react-webassembly-art-of-javascript/">
+
+<meta property="og:see_also" content="http://jser.info/2016/03/08/react15.0rc-perf-ddd/">
+
+
+
+
+
+<meta property="article:tag" content="Safari">
+
+<meta property="article:tag" content="perf">
+
+<meta property="article:tag" content="backbone.js">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/03/29/safari-91backbonejsweb-performance-api/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/03/29/safari-91backbonejsweb-performance-api/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/03/29/safari-91backbonejsweb-performance-api/">2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年03月29日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-03-29-safari-91backbonejsweb-performance-api.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-03-29-safari-91backbonejsweb-performance-api.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/03/29/safari-91backbonejsweb-performance-api/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/03/29/safari-91backbonejsweb-performance-api/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #272 - Backbone.js <a href="http://backbonejs.org/#changelog" title="1.3.2">1.3.2</a>がリリースされていますが、<br>
+<a href="http://benmccormick.org/2016/03/07/the-sad-state-of-the-backbone-ecosystem/" title="The Sad State of the Backbone Ecosystem">The Sad State of the Backbone Ecosystem</a>という記事では近年のBackbone.js周りのエコシステムについて書かれています。</p>
+
+<p>Backbone.js本体のPulseや<a href="https://github.com/marionettejs/backbone.marionette/" title="Marionette.js">Marionette.js</a>、他の関連ライブラリの状況について書かれています。</p>
+
+<p><a href="http://azu.github.io/slide/2016/jser5years/javascript-information.html" title="JavaScript情報ってなんだっけ?">JavaScript情報ってなんだっけ?</a>でもGitHubリポジトリのPulseを見ることで、状況はある程度分かります。<br>
+Backbone.jsの場合は枯れているというのもありますが、これ以上大きな進化をするのが難しい状況にも見えます。</p>
+
+<p>Backbone.jsを使っている人は状況を把握するのに読んでみると面白いかもしれません。</p>
+
+<hr>
+
+<p><a href="https://developer.apple.com/library/mac/releasenotes/General/WhatsNewInSafari/Articles/Safari_9_1.html" title="Safari 9.1">Safari 9.1</a>がリリースされました。</p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/releasenotes/General/WhatsNewInSafari/Articles/Safari_9_1.html" title="Safari 9.1">Safari 9.1</a></li>
+<li><a href="https://webkit.org/blog/5989/css-variables-in-webkit/">CSS Variables in WebKit | WebKit</a></li>
+<li><a href="http://www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se">Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web</a></li>
+</ul>
+
+<p>Safari 9.1で使えるようになった機能について上記の記事では解説されています。<br>
+CSS Custom Properties、CSS Will-Change、<code>&lt;picture&gt;</code>要素、Fast Tapの対応など新しい機能も色々増えています。</p>
+
+<hr>
+
+<p><a href="http://www.slideshare.net/kawada_hiroshi/performance-api" title="ブラウザのPerformance APIの話">ブラウザのPerformance APIの話</a>というスライドでは、ブラウザで利用できるパフォーマンス計測のAPIについて書かれています。</p>
+
+<p>またTiming APIについては<a href="https://w3c.github.io/perf-timing-primer/" title="A Primer for Web Performance Timing APIs">A Primer for Web Performance Timing APIs</a>というドキュメントによくまとめられています。</p>
+
+<p>またパフォーマンス関連して、最近Google主導の<a href="https://www.ampproject.org/" title="Accelerated Mobile Pages (AMP)">Accelerated Mobile Pages (AMP)</a>に対抗して、<a href="https://discourse.wicg.io/t/content-performance-policy/1380/1" title="Content Performance Policy">Content Performance Policy (CPP)</a>の提案などがありました。</p>
+
+<p>CPPはまだアイデアに近い話ですが、この話に加えてSandbox Policyという提案が@<a href="https://github.com/igrigorik" title="igrigorik">igrigorik</a>から出されています。</p>
+
+<ul>
+<li><a href="https://discourse.wicg.io/t/proposal-sandbox-policy/1414" title="Proposal: Sandbox Policy - HTML - WICG">Proposal: Sandbox Policy - HTML - WICG</a></li>
+</ul>
+
+<p>これは既存の<code>&lt;iframe sandbox&gt;</code>を拡張した概念で、<code>document.write</code>を禁止するディレクティブの追加などが含まれています。</p>
+
+<p>どの話も、開発側がある種サブセットのような制限を受け入れてより高速な表示などが出来るようにするためのルールを決めている形です。</p>
+
+<p>パフォーマンスに興味がある人はこの辺も見てみると面白いかもしれません。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="backbone.js">Backbone.js</h2>
+
+<p><a href="http://backbonejs.org/" title="Backbone.js">backbonejs.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Backbone. 1.3.2リリース。<br>
+<code>findIndex</code>、<code>findLastIndex</code>の追加、<code>component.json</code>のサポートを終了</p>
+
+<ul>
+<li><a href="https://github.com/marionettejs/backbone.marionette/issues/2601" title="Remove component.json support? · Issue #2601 · marionettejs/backbone.marionette">Remove component.json support? · Issue #2601 · marionettejs/backbone.marionette</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v1.0.0-·-mozilla/sweet.js">Release v1.0.0 · mozilla/sweet.js</h2>
+
+<p><a href="https://github.com/mozilla/sweet.js/releases/tag/v1.0.0" title="Release v1.0.0 · mozilla/sweet.js">github.com/mozilla/sweet.js/releases/tag/v1.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>JavaScriptにhygienic macrosを導入するsweet.js 1.0.0リリース。</p>
+
+<ul>
+<li><a href="https://github.com/mozilla/sweet.js/pull/485" title="Redesign by disnet · Pull Request #485 · mozilla/sweet.js">Redesign by disnet · Pull Request #485 · mozilla/sweet.js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="eslint-v2.5.0-released---eslint---pluggable-javascript-linter">ESLint v2.5.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2016/03/eslint-v2.5.0-released" title="ESLint v2.5.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2016/03/eslint-v2.5.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint 2.5.0リリース。<br>
+依存してるライブラリもESLintのパッケージに含めて配布できる<code>bundledDependencies</code>を利用するように、ルールの追加/修正など。</p>
+
+<ul>
+<li><a href="http://qiita.com/mysticatea/items/7018ca26abfa7701debc" title="ESLint v2.5.0 - Qiita">ESLint v2.5.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="safari-9.1">Safari 9.1</h2>
+
+<p><a href="https://developer.apple.com/library/mac/releasenotes/General/WhatsNewInSafari/Articles/Safari_9_1.html" title="Safari 9.1">developer.apple.com/library/mac/releasenotes/General/WhatsNewInSafari/Articles/Safari_9_1.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Safari 9.1の変更点について。<br>
+<code>&lt;picture&gt;</code>要素のサポート、Web Inspectorの改善、Fast Tap、Canvasが<code>imageSmoothingQuality</code>プロパティ、CSS Custom Propertiesのサポートなど</p>
+
+<hr>
+
+<h2 id="css-variables-in-webkit-|-webkit">CSS Variables in WebKit | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/5989/css-variables-in-webkit/" title="CSS Variables in WebKit | WebKit">webkit.org/blog/5989/css-variables-in-webkit/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p>
+
+<p>Safari 9.1でサポートされたCSS Custom Propertiesについての解説<br>
+<code>--name</code>で変数を定義し、CSS内から<code>var(--name)</code>で参照できる。<br>
+JavaScriptからも<code>getPropertyValue/setProperty</code>で読み書きができる</p>
+
+<hr>
+
+<h2 id="safari-on-ios-9.3,-responsive-images,-iphone-se,-shrink-to-fit-and-other-new-apis-|-breaking-the-mobile-web">Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web</h2>
+
+<p><a href="http://www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se" title="Safari on iOS 9.3, Responsive Images, iPhone SE, shrink-to-fit and other new APIs | Breaking the Mobile Web">www.mobilexweb.com/blog/safari-on-ios-9-3-picture-shrink-fit-iphone-se</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>iOS 9.3のSafariについて。<br>
+<code>&lt;picture&gt;</code>、Fast Tap、CSS Custom Properties、ダイアログの変更、<code>shrink-to-fit</code>、Remote Inspectorなど</p>
+
+<hr>
+
+<h2 id="jsdocをランタイムassertに変換するbabelプラグインを書いた-|-web-scratch">JSDocをランタイムassertに変換するBabelプラグインを書いた | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2016/03/25/jsdoc-to-assert/" title="JSDocをランタイムassertに変換するBabelプラグインを書いた | Web Scratch">efcl.info/2016/03/25/jsdoc-to-assert/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">Tools</span> <span class="jser-tag">babel</span></p>
+
+<p>JSDocをassertに変換するBabelプラグインについて。<br>
+JSDocの型をランタイムassertにすることで、定義されてる型と実際の値が一致しているかを検証できる</p>
+
+<hr>
+
+<h2 id="shadow-dom-css-cheat-sheet">Shadow DOM CSS Cheat Sheet</h2>
+
+<p><a href="http://robdodson.me/shadow-dom-css-cheat-sheet/" title="Shadow DOM CSS Cheat Sheet">robdodson.me/shadow-dom-css-cheat-sheet/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p>
+
+<p>Shadown DOMのCSS(<code>:host</code>など)、CSS Custom Properties(<code>--var</code>)についてのチートシート</p>
+
+<hr>
+
+<h2 id="status-of-static-typing-in-ecmascript-|-ecmascript-daily">Status of Static Typing in ECMAScript | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/pages/status-of-static-typing-in-ecmascript/" title="Status of Static Typing in ECMAScript | ECMAScript Daily">ecmascript-daily.github.io/pages/status-of-static-typing-in-ecmascript/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">まとめ</span></p>
+
+<p>ECMAScriptにおける静的型関連Proposalのステータスまとめ。</p>
+
+<hr>
+
+<h2 id="gordux.js---the-redux-pattern-in-vanilla.js">Gordux.js - The redux pattern in vanilla.js</h2>
+
+<p><a href="https://k94n.com/gordux-js-the-redux-pattern-in-vanilla-js" title="Gordux.js - The redux pattern in vanilla.js">k94n.com/gordux-js-the-redux-pattern-in-vanilla-js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">redux</span></p>
+
+<p>Reduxのようなデータフローを素のJavaScriptで実装してみるという話。<br>
+EventにはCustom Eventを使ってPub/Subを行っている</p>
+
+<hr>
+
+<h2 id="the-sad-state-of-the-backbone-ecosystem">The Sad State of the Backbone Ecosystem</h2>
+
+<p><a href="http://benmccormick.org/2016/03/07/the-sad-state-of-the-backbone-ecosystem/" title="The Sad State of the Backbone Ecosystem">benmccormick.org/2016/03/07/the-sad-state-of-the-backbone-ecosystem/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span></p>
+
+<p>Backbone.jsのエコシステムのアクティビティについて。<br>
+Backbone.js本体やMarionette、関連するライブラリの状況についてまとめてる</p>
+
+<hr>
+
+<h2 id="github---benoitvallon/computer-science-in-javascript:-computer-science-reimplemented-in-javascript">GitHub - benoitvallon/computer-science-in-javascript: Computer science reimplemented in JavaScript</h2>
+
+<p><a href="https://github.com/benoitvallon/computer-science-in-javascript" title="GitHub - benoitvallon/computer-science-in-javascript: Computer science reimplemented in JavaScript">github.com/benoitvallon/computer-science-in-javascript</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">algorithm</span></p>
+
+<p>JavaScriptでデータ構造やソートアルゴリズムの実装例</p>
+
+<ul>
+<li><a href="http://blog.benoitvallon.com/category/data-structures-in-javascript/" title="Data Structures in JavaScript posts - Ben&amp;#x27;s Blog">Data Structures in JavaScript posts - Ben&#x27;s Blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="sinon-tutorial:-javascript-testing-with-mocks,-spies-&amp;-stubs">Sinon Tutorial: JavaScript Testing with Mocks, Spies &amp; Stubs</h2>
+
+<p><a href="http://www.sitepoint.com/sinon-tutorial-javascript-testing-mocks-spies-stubs/" title="Sinon Tutorial: JavaScript Testing with Mocks, Spies &amp; Stubs">www.sitepoint.com/sinon-tutorial-javascript-testing-mocks-spies-stubs/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>Sinon.jsを使ったテストについて。<br>
+Sinon.jsのmock, stub, spyについて</p>
+
+<hr>
+
+<h2 id="promise-based-functions-should-not-throw-exceptions">Promise-based functions should not throw exceptions</h2>
+
+<p><a href="http://www.2ality.com/2016/03/promise-rejections-vs-exceptions.html" title="Promise-based functions should not throw exceptions">www.2ality.com/2016/03/promise-rejections-vs-exceptions.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">Promises</span></p>
+
+<p>Promiseをベースとしてるasync/awaitを見据えながら、Promiseを返す関数は例外を投げないで<code>reject</code>したPromiseオブジェクトを返すべきという話</p>
+
+<ul>
+<li><a href="http://azu.github.io/promises-book/#not-throw-use-reject" title="JavaScript Promiseの本">JavaScript Promiseの本</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="ng-japan-2016-セッション資料まとめ---qiita">ng-japan 2016 セッション資料まとめ - Qiita</h2>
+
+<p><a href="http://qiita.com/nyamogera/items/b83833d1e15a55d0bb66" title="ng-japan 2016 セッション資料まとめ - Qiita">qiita.com/nyamogera/items/b83833d1e15a55d0bb66</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">イベント</span></p>
+
+<p>ng-japan 2016の動画とスライドまとめ</p>
+
+<ul>
+<li><a href="http://ngjapan.org/" title="ng-japan - The Angular conference in Tokyo, Japan (2016/3/21)">ng-japan - The Angular conference in Tokyo, Japan (2016/3/21)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-case-for-css-modules">The Case for CSS Modules</h2>
+
+<p><a href="http://markdalgleish.github.io/presentation-the-case-for-css-modules/" title="The Case for CSS Modules">markdalgleish.github.io/presentation-the-case-for-css-modules/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">スライド</span></p>
+
+<p>CSS Modulesについてのスライド</p>
+
+<ul>
+<li><a href="https://github.com/css-modules/css-modules" title="css-modules/css-modules: Documentation about css-modules">css-modules/css-modules: Documentation about css-modules</a></li>
+</ul>
+
+<hr>
+
+<h2 id="fluent-conf-2016:-jeremy-fairbank---the-rise-of-async-javascript---youtube">Fluent Conf 2016: Jeremy Fairbank - The rise of async JavaScript - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=QtgR94Q2pt4" title="Fluent Conf 2016: Jeremy Fairbank - The rise of async JavaScript - YouTube">www.youtube.com/watch?v=QtgR94Q2pt4</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">動画 </span></p>
+
+<p>async/awaitがどのように動くのかをPromiseをベースとして解説してる。<br>
+エラーハンドリングの動作やasync functionがどのように動くのかを見ていく話</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/jfairbank/fluent-conf-rise-of-async-javascript" title="Fluent Conf: Rise of Async JavaScript // Speaker Deck">Fluent Conf: Rise of Async JavaScript // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="a-primer-for-web-performance-timing-apis">A Primer for Web Performance Timing APIs</h2>
+
+<p><a href="https://w3c.github.io/perf-timing-primer/" title="A Primer for Web Performance Timing APIs">w3c.github.io/perf-timing-primer/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">performance</span> <span class="jser-tag">document</span></p>
+
+<p>Web Performance Timing APIの概要をまとめたドキュメント</p>
+
+<ul>
+<li><a href="http://www.slideshare.net/kawada_hiroshi/performance-api" title="ブラウザのPerformance APIの話">ブラウザのPerformance APIの話</a></li>
+</ul>
+
+<hr>
+
+<h2 id="webpackbin">WebpackBin</h2>
+
+<p><a href="http://www.webpackbin.com/" title="WebpackBin">www.webpackbin.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webpack</span> <span class="jser-tag">webservice</span></p>
+
+<p>http://requirebin.com/ のwebpack版。<br>
+HTML/CSS/JavaScriptを書いて公開出来るサービス</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="github---ozkxr/match:-an-javascript-library-to-test-json-with-some-nice-features.">GitHub - ozkxr/match: An JavaScript library to test JSON with some nice features.</h2>
+
+<p><a href="https://github.com/ozkxr/match" title="GitHub - ozkxr/match: An JavaScript library to test JSON with some nice features.">github.com/ozkxr/match</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">JSON</span></p>
+
+<p>JSONなどのオブジェクトに対してpredicate関数の結果を使ったmatchライブラリ</p>
+
+<hr>
+
+<h2 id="tusharmath/funjector:-dependency-injection-for-functional-paradigm">tusharmath/funjector: Dependency injection for functional paradigm</h2>
+
+<p><a href="https://github.com/tusharmath/funjector" title="tusharmath/funjector: Dependency injection for functional paradigm">github.com/tusharmath/funjector</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p>
+
+<p>関数に対するDIライブラリ。<br>
+部分適応した関数を作り、それに対してinjectできる仕組みを提供する</p>
+
+<hr>
+
+<h2 id="pmdartus/snapline:-unleash-your-screenshots-stored-in-chrome-devtool-timeline-files">pmdartus/snapline: Unleash your screenshots stored in Chrome Devtool timeline files</h2>
+
+<p><a href="https://github.com/pmdartus/snapline" title="pmdartus/snapline: Unleash your screenshots stored in Chrome Devtool timeline files">github.com/pmdartus/snapline</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">画像</span></p>
+
+<p>Chrome開発者ツールのタイムラインをGIFアニメーション画像に変換出来るツール</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="majesty-of…-by-alex-kyriakidis-et-al.-[leanpub-pdf/ipad/kindle]">Majesty Of… by Alex Kyriakidis et al. [Leanpub PDF/iPad/Kindle]</h2>
+
+<p><a href="https://leanpub.com/vuejs/" title="Majesty Of… by Alex Kyriakidis et al. \[Leanpub PDF/iPad/Kindle\]">leanpub.com/vuejs/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+
+<p>Vue.jsについての書籍</p>
+
+<ul>
+<li><a href="https://github.com/hootlex/the-majesty-of-vuejs" title="hootlex/the-majesty-of-vuejs: educational">hootlex/the-majesty-of-vuejs: educational</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-03-29-safari-91backbonejsweb-performance-api.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Safari","perf","backbone.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Safari</li>
+                
+                <li>perf</li>
+                
+                <li>backbone.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/03/29/safari-91backbonejsweb-performance-api/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/03/29/safari-91backbonejsweb-performance-api/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/03/29/safari-91backbonejsweb-performance-api/">2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/23/chrom50beta-react-perf-node-compat-table/">2016-03-23のJS: Chrome 50β、Reactのパフォーマンス調査改善、Node.js compat table</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/17/react-webassembly-art-of-javascript/">2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近のJavaScriptツール/ライブラリ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/08/react15.0rc-perf-ddd/">2016-03-08のJS: React v15.0 RC、Reactパフォーマンス調査、DDD</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/03/ember-lts-402-i18n-rc-jquery3/">2016-03-03のJS: Ember.js LTS、ECMA i18n API 3rd Edition RC、jQuery 3での変更点</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/24/typescript1.8-react-semver-draft/">2016-02-24のJS: TypeScript 1.8、Reactのバージョニング、Draft.js</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/15/grunt-eslint2.0.0-underscore-lodash/">2016-02-15のJS: Grunt 1.0.0 RC1、ESLint 2.0.0、Underscore/Lodash</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/02/08/babel6.5.0-angular1.5-let-const/">2016-02-08のJS: Babel 6.5.0、Angular 1.5、letとconst</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
