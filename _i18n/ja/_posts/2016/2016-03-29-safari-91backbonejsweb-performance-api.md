@@ -38,13 +38,13 @@ CSS Custom Properties、CSS Will-Change、`<picture>`要素、Fast Tapの対応�
 
 またTiming APIについては[A Primer for Web Performance Timing APIs](https://w3c.github.io/perf-timing-primer/ "A Primer for Web Performance Timing APIs")というドキュメントによくまとめられています。
 
-またパフォーマンス関連して、最近Google主導の[Accelerated Mobile Pages (AMP)](https://www.ampproject.org/ "Accelerated Mobile Pages (AMP)")に対抗して、[Content Performance Policy (CPP)](https://discourse.wicg.io/t/content-performance-policy/1380/1 "Content Performance Policy")の提案などがありました。
+またパフォーマンス関連して、Google等が主導の[Accelerated Mobile Pages (AMP)](https://www.ampproject.org/ "Accelerated Mobile Pages (AMP)")に対抗して、[Content Performance Policy (CPP)](https://discourse.wicg.io/t/content-performance-policy/1380/1 "Content Performance Policy")の提案などがありました。
 
-CPPはまだアイデアに近い話ですが、この話に加えてSandbox Policyという提案が@[igrigorik](https://github.com/igrigorik "igrigorik")から出されています。
+CPPはまだアイデアに近い話ですが、この話に加えてSandbox Policyという提案が[@igrigorik](https://github.com/igrigorik "igrigorik")から出されています。
 
 - [Proposal: Sandbox Policy - HTML - WICG](https://discourse.wicg.io/t/proposal-sandbox-policy/1414 "Proposal: Sandbox Policy - HTML - WICG")
 
-これは既存の`<iframe sandbox>`と類似している概念(オプトイン、オプトアウトな違いはある)で、`document.write`を禁止するディレクティブの追加などが含まれています。
+これは既存の`<iframe sandbox>`を拡張した概念(オプトイン、オプトアウトな違いはある)で、`document.write`を禁止するディレクティブの追加などが含まれています。
 
 どの話も、開発側がある種サブセットのような制限を受け入れてより高速な表示などが出来るようにするためのルールを決めている形です。
 
