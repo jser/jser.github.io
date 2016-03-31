@@ -220,7 +220,7 @@ XHR의 hook, MutationObserver, FetchObserver에 관해 이야기합니다.
 ## React.js Conf 2016 - YouTube
 [www.youtube.com/playlist?list=PLb0IAmt7-GS0M8Q95RIc2lOM6nc77q1IY](https://www.youtube.com/playlist?list=PLb0IAmt7-GS0M8Q95RIc2lOM6nc77q1IY "React.js Conf 2016 - YouTube")
 
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">イベント</span> <span class="jser-tag">영상 </span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">영상 </span></p>
 
 React.js Conf 2016의 영상이 공개돼 있습니다.
 
