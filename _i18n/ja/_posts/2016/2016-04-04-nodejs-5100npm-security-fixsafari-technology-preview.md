@@ -46,15 +46,15 @@ npmは[AzerのKik問題](http://blog.npmjs.org/post/141577284765/kik-left-pad-an
 
 簡単にまとめると
 
-- [The npm Blog — npm registry is now fully HTTPS!](http://blog.npmjs.org/post/142077474335/npm-registry-is-now-fully-https "The npm Blog — npm registry is now fully HTTPS!")
+- [npm registry is now fully HTTPS!](http://blog.npmjs.org/post/142077474335/npm-registry-is-now-fully-https "The npm Blog — npm registry is now fully HTTPS!")
   - registryの完全HTTPS化
-- [The npm Blog — changes to npm’s unpublish policy](http://blog.npmjs.org/post/141905368000/changes-to-npms-unpublish-policy "The npm Blog — changes to npm’s unpublish policy")
+- [changes to npm’s unpublish policy](http://blog.npmjs.org/post/141905368000/changes-to-npms-unpublish-policy "The npm Blog — changes to npm’s unpublish policy")
   - `npm unpublish`ポリシーの変更
   - publishして24時間以内なら、今まで通り`npm unpublish`できる。
-  -　それ以降は`support@npmjs.com`へ連絡が必要
+  - それ以降は`support@npmjs.com`へ連絡が必要
 - 完全にunpublish(remove)されたモジュールは[Security holding package](https://github.com/npm/security-holder "Security holding package")に置き換えるように変更
   - パッケージの名前空間の乗っとり防止の対策
-- [The npm Blog — Package install scripts vulnerability](http://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability "The npm Blog — Package install scripts vulnerability")
+- [Package install scripts vulnerability](http://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability "The npm Blog — Package install scripts vulnerability")
   - `npm install <module>`した際に`postinstall`で任意のスクリプトが実行できる問題と対策
   - [npm install scriptの脆弱性とオープンソースと信頼 - teppeis blog](http://teppeis.hatenablog.com/entry/2016/03/npm-vulnerability-and-open-source-trust "npm install scriptの脆弱性とオープンソースと信頼 - teppeis blog")
 
