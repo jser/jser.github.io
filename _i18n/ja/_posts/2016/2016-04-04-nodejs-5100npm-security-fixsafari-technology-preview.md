@@ -60,8 +60,8 @@ npmは[AzerのKik問題](http://blog.npmjs.org/post/141577284765/kik-left-pad-an
 
 ----
 
-Safari Technology Previewが公開されています。
-2週間ごとに更新される開発者向けのバージョンで、[Firefox Developer Edition](https://www.mozilla.org/ja/firefox/developer/ "Firefox Developer Edition — Mozilla")やChromeのDev Channelのような感じです。
+[Safari Technology Preview](https://developer.apple.com/safari/technology-preview/ "Safari Technology Preview")が公開されています。
+2週間ごとに更新される開発者向けのバージョンで、[Firefox Developer Edition](https://www.mozilla.org/ja/firefox/developer/ "Firefox Developer Edition — Mozilla")やChrome Dev Channelのような感じです。
 
 - [Introducing Safari Technology Preview | WebKit](https://webkit.org/blog/6017/introducing-safari-technology-preview/ "Introducing Safari Technology Preview | WebKit")
 
