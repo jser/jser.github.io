@@ -3,7 +3,7 @@ title: "2016-04-04のJS: Node.js 5.10.0、npm security fix、Safari Technology P
 author: azu
 layout: post
 date : 2016-04-04T19:46
-category: JSer 
+category: JSer
 tags:
     - Node.js
     - npm
@@ -12,7 +12,63 @@ tags:
 
 ---
 
-JSer.info #273
+JSer.info #273 - [Node v5.10.0 (Stable)](https://nodejs.org/en/blog/release/v5.10.0/ "Node v5.10.0 (Stable)")がリリースされました。
+
+後述する[npm](https://www.npmjs.com/ "npm")のセキュリティ的な問題の修正がされたバージョンも含まれています。
+
+[2016-03-17のJS](http://jser.info/2016/03/17/react-webassembly-art-of-javascript/ "2016-03-17のJS")でも紹介していましたが、Node.js v6ではBuffer APIの変更が予定されています。
+
+- [Node.js Buffer API Changes — Medium](https://medium.com/@jasnell/node-js-buffer-api-changes-3c21f1048f97#.qk7fmic6y "Node.js Buffer API Changes — Medium")
+
+このAPIの変更と`--zero-fill-buffers`コマンドラインオプションが、Node.js 5.10.0にもバックポートされています。
+
+また、主にNW.jsやElectron環境向けだと思いますが、`--no-browser-globals`フラグで、
+以下のようなブラウザにグローバルとの互換APIを露出させないオプションが追加されいます。
+
+    setTimeout, clearTimeout, setInterval, clearInterval, setImmediate, clearImmediate
+    console
+
+----
+
+[The npm Blog — fixing a bearer token vulnerability](http://blog.npmjs.org/post/142036323955/fixing-a-bearer-token-vulnerability "The npm Blog — fixing a bearer token vulnerability")では`npm < 2.15.1` or `npm < 3.8.3`にあった脆弱性について解説されています。
+
+npmのCLIで発生したリクエストにて、registry以外にもtoken情報を送信していたという問題で、[既存のtokenはこちらから取り消せます](https://www.npmjs.com/settings/tokens)。
+
+- [npm security updates v2.15.1 and v3.8.3 | Node.js](http://nodejs.org/en/blog/vulnerability/npm-tokens-leak-march-2016/ "npm security updates v2.15.1 and v3.8.3 | Node.js")
+- 該当コミット: [config: only send token to registry hosts · npm/npm@f67ecad](https://github.com/npm/npm/commit/f67ecad59e99a03e5aad8e93cd1a086ae087cb29 "config: only send token to registry hosts · npm/npm@f67ecad")
+
+npm 2.xと3.x それぞれアップデートされています。
+Node.js自体のアップデート または `npm i -g npm`でアップデートする必要があります。
+
+Windowsの場合は[npm-windows-upgrade](https://github.com/felixrieseberg/npm-windows-upgrade "npm-windows-upgrade")を使うことで`npm i -g npm`と同様のことが行えます。
+
+npmは[AzerのKik問題](http://blog.npmjs.org/post/141577284765/kik-left-pad-and-npm "Azer")を受けて、色々な変更や改善を最近行っているので合わせてチェックするとよいかと思います。
+
+簡単にまとめると
+
+- [The npm Blog — npm registry is now fully HTTPS!](http://blog.npmjs.org/post/142077474335/npm-registry-is-now-fully-https "The npm Blog — npm registry is now fully HTTPS!")
+  - registryの完全HTTPS化
+- [The npm Blog — changes to npm’s unpublish policy](http://blog.npmjs.org/post/141905368000/changes-to-npms-unpublish-policy "The npm Blog — changes to npm’s unpublish policy")
+  - `npm unpublish`ポリシーの変更
+  - publishして24時間以内なら、今まで通り`npm unpublish`できる。
+  -　それ以降は`support@npmjs.com`へ連絡が必要
+- 完全にunpublish(remove)されたモジュールは[Security holding package](https://github.com/npm/security-holder "Security holding package")に置き換えるように変更
+  - パッケージの名前空間の乗っとり防止の対策
+- [The npm Blog — Package install scripts vulnerability](http://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability "The npm Blog — Package install scripts vulnerability")
+  - `npm install <module>`した際に`postinstall`で任意のスクリプトが実行できる問題と対策
+  - [npm install scriptの脆弱性とオープンソースと信頼 - teppeis blog](http://teppeis.hatenablog.com/entry/2016/03/npm-vulnerability-and-open-source-trust "npm install scriptの脆弱性とオープンソースと信頼 - teppeis blog")
+
+----
+
+Safari Technology Previewが公開されています。
+2週間ごとに更新される開発者向けのバージョンで、[Firefox Developer Edition](https://www.mozilla.org/ja/firefox/developer/ "Firefox Developer Edition — Mozilla")やChromeのDev Channelのような感じです。
+
+- [Introducing Safari Technology Preview | WebKit](https://webkit.org/blog/6017/introducing-safari-technology-preview/ "Introducing Safari Technology Preview | WebKit")
+
+Safari Technology Previewで問題を見つけたら、BugzillaやBug Reporterを使ってバグ報告することができます。
+
+- [Fetch polyfill not working with Safari Technology Preview · Issue #303 · github/fetch](https://github.com/github/fetch/issues/303 "Fetch polyfill not working with Safari Technology Preview · Issue #303 · github/fetch")
+- [azu/browser-javascript-resource: Browser JavaScript Resource.](https://github.com/azu/browser-javascript-resource "azu/browser-javascript-resource: Browser JavaScript Resource.")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
