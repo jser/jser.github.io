@@ -1,15 +1,53 @@
 ---
-title: "2016-04-11のJS: "
+title: "2016-04-11のJS: Grunt 1.0.0、React 15.0、ツールで学ぶJavaScript"
 author: azu
 layout: post
 date : 2016-04-11T20:00
-category: 
+category: JSer
 tags:
-    - 
+    - Grunt
+    - React
+    - Tutorial
 
 ---
 
-JSer.info #274 - 
+JSer.info #274 - Grunt 1.0.0が正式リリースされました。
+
+- [Grunt 1.0.0 released - Grunt: The JavaScript Task Runner](http://gruntjs.com/blog/2016-04-04-grunt-1.0.0-released "Grunt 1.0.0 released - Grunt: The JavaScript Task Runner")
+- [JavaScript作業自動化ツール「Grunt 1.0.0」が登場。約2年もの開発停滞から復活 － Publickey](http://www.publickey1.jp/blog/16/javascriptgrunt_1002.html "JavaScript作業自動化ツール「Grunt 1.0.0」が登場。約2年もの開発停滞から復活 － Publickey")
+
+1.0.0 RC1からは依存パッケージのアップデートがされていますが、`grunt.util._`で参照できるlodashが4.3.0に更新されています。
+`grunt.util._`自体が非推奨であるため、以下のように自分でlodashをインストールして使うことが推奨されています。
+
+
+```js
+var _ = require('lodash');
+```
+
+----
+
+[React v15.0](https://facebook.github.io/react/blog/2016/04/07/react-v15.html "React v15.0 | React")がリリースされました。
+
+幾つか問題があったため、既に[React v15.0.1](https://facebook.github.io/react/blog/2016/04/08/react-v15.0.1.html "React v15.0.1")がリリースされていますが、基本的には0.14.xからは非推奨の警告メッセージがなければそのままアップグレードできるようです。
+
+0.14.xからの変更点は以下にまとめられています。
+
+- [React v15.0 | React](https://facebook.github.io/react/blog/2016/04/07/react-v15.html "React v15.0 | React")
+- [React.js v15.0 changes - blog.koba04.com](http://blog.koba04.com/post/2016/03/09/react-js-v15-changes/ "React.js v15.0 changes - blog.koba04.com")
+
+また、Reactのコアチームのミーティングノートが公開されるようになっているので、今後どのような方針でやっていくのかなどが書かれているので気になる人は見るといいかもしれません。
+
+- [reactjs/core-notes: Weekly meeting notes from the React core team](https://github.com/reactjs/core-notes "reactjs/core-notes: Weekly meeting notes from the React core team")
+
+----
+
+[Tools to Learn JavaScript By Doing -Telerik Developer Network](http://developer.telerik.com/featured/tools-learn-javascript/ "Tools to Learn JavaScript By Doing -Telerik Developer Network")という記事ではツールで学ぶJavaScriptについて書かれています。
+
+[NodeSchool](http://nodeschool.io/ja/ "NodeSchool")や[js-assessment](https://github.com/rmurphey/js-assessment "js-assessment")、[Advent of Code](http://adventofcode.com/ "Advent of Code")などの問題を解きながら学べるサイトやツールについて書かれています。
+
+ものすごく前に[テストで学ぶJavaScriptについて](http://efcl.info/2012/0414/res3059/ "テストで学ぶJavaScriptについて | Web Scratch")というのを書いてましたが、実際に解きながら学ぶと結構色々発見があり面白いと思います。
+
+この中だと[NodeSchool](http://nodeschool.io/ja/ "NodeSchool")の[workshopper](http://nodeschool.io/ja/#workshopper-list)は、ただのJavaScript文法だけではなく色々なライブラリやツールごとにあるので、見てみるとおもしろいかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -63,7 +101,8 @@ AWS LambdaでNode.js 4.3をサポート
 
 jsdom 8.3.0リリース。
 Node Canvasを使った外部リソースを使った`img`の処理を追加(optional)。
-`img.naturalWidth`などの実データに基づく値を取れるようになった。
+`img.naturalWidth`などの実データに基づく値を取れるようになっています。
+
 また、Page Visibility APIの基本的な実装を追加するなど
 
 ----
@@ -79,6 +118,16 @@ IE8のサポート終了、semverに準拠してアップデートするよう�
 
 ----
 <h1 class="site-genre">アーティクル</h1>
+
+
+----
+
+## Tools to Learn JavaScript By Doing -Telerik Developer Network
+[developer.telerik.com/featured/tools-learn-javascript/](http://developer.telerik.com/featured/tools-learn-javascript/ "Tools to Learn JavaScript By Doing -Telerik Developer Network")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">tutorial</span></p>
+
+js-assessment、NodeSchool、Advent of CodeなどJavaScriptを学べるインタラクティブ性のあるツールについて
 
 ----
 
