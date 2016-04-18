@@ -12,9 +12,38 @@ tags:
 
 ---
 
-JSer.info #275 - 
+JSer.info #275 - JavaScriptのコードスタイルチェッカーであるJSCS 3.0がリリースされました。
+
+- [Release 3.0.0 · jscs-dev/node-jscs](https://github.com/jscs-dev/node-jscs/releases/tag/v3.0.0 "Release 3.0.0 · jscs-dev/node-jscs")
+
+プラグイン開発者向けの非互換性がありますが、他は`yandex` presetの削除、ルールの追加となっています。
+
+また、JSCSは3.xで新規開発が終了し、JSCSチームはESLintチームに入るようです。
+
+- [JSCS — end of the line — Medium](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2)
+- [Welcoming JSCS To ESLint - ESLint - Pluggable JavaScript linter](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint "Welcoming JSCS To ESLint - ESLint - Pluggable JavaScript linter")
+
+今後三ヶ月を目処にJSCSのバグ修正なども終了し、その間に、[ESLintにはJSCS互換/移行のサポート](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility)を用意していく予定となっています。
+(そのため、JSCSからESLintに移行する場合は少し待ったほうがいいかもしれません)
+
+JSCSチームがESLintに入った理由として、コミュニティ/Issueの管理コストや[CST](https://github.com/cst/cst "CST")の開発に注力したかったなどが挙げられています。
+
+- [JSCS, CST и новое начало / Хабрахабр](https://habrahabr.ru/post/281635/ "JSCS, CST и новое начало / Хабрахабр")
+
+また、同じ問題を解決するツールであったり、ESLintが今後AutoFix機能を改善していきたいというのも一つの理由なのかもしれません。
+
+- [Fixing autofix · Issue #5329 · eslint/eslint](https://github.com/eslint/eslint/issues/5329 "Fixing autofix · Issue #5329 · eslint/eslint")
+
+
+-----
+
+[How to work with SVG icons](http://fvsch.com/code/svg-icons/how-to/ "How to work with SVG icons")という記事ではSVGアイコンについてかなり詳しく解説されています。
+
+SVG spriteの仕組みや作り方、ブラウザ間の動作の違い、CSSからSVGのスタイルを変更する方法など実践的な内容が書かれていて面白いです。
+また、インラインSVGと外部リソースのSVGの動作の違いやブラウザの挙動など、実際に使うとハマるであろう部分も補完されています。
 
 ----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
