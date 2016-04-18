@@ -265,6 +265,6 @@ React(JSX)の最適化をするBabelプラグイン
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">UI</span></p>
 
-Flickerの画像を敷きつけるUIライブラリ
+Flickerの画像をタイル的に敷き詰めるUIライブラリ
 
 ----
