@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-03-23 JS: Chrome 50β, React의 성능 측정 및 개선, Node.js compat table - JSer.info</title>
+    <meta name="description" content="JSer.info #271 - Chrome 50 Beta가 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="Chrome,React,perf,Node.js" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-03-23T23:26:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="perf" property="article:tag">
+      
+      <meta content="Node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #271 - Chrome 50 Beta가 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-03-23 JS: Chrome 50β, React의 성능 측정 및 개선, Node.js compat table">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #271 - Chrome 50 Beta가 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-03-23T23:26:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/ko/2016/03/17/react-webassembly-art-of-javascript/">
+
+<meta property="og:see_also" content="http://jser.info/ko/2016/03/08/react15.0rc-perf-ddd/">
+
+<meta property="og:see_also" content="http://jser.info/ko/2016/03/03/ember-lts-402-i18n-rc-jquery3/">
+
+
+
+
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="perf">
+
+<meta property="article:tag" content="Node.js">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/03/23/chrom50beta-react-perf-node-compat-table/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/03/23/chrom50beta-react-perf-node-compat-table/">2016-03-23 JS: Chrome 50β, React의 성능 측정 및 개선, Node.js compat table</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年03月23日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2016/2016-03-23-chrom50beta-react-perf-node-compat-table.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2016/2016-03-23-chrom50beta-react-perf-node-compat-table.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/ko/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #271 - <a href="http://blog.chromium.org/2016/03/chrome-50-beta-push-notification.html" title="Chrome 50 Beta">Chrome 50 Beta</a>가 릴리즈됐습니다.</p>
+
+<p>페이지를 완전하게 출력하기 위한 필요한 리소스를 먼저 불러오는 <a href="https://w3c.github.io/preload/" title="link rel=&amp;#34;preload&amp;#34;">link rel=&quot;preload&quot;</a>를 지원합니다.</p>
+
+<p><code>&lt;link rel=&quot;preload&quot;&gt;</code>관한 자세한 내용은 아래에 잘 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/" title="Preload: What Is It Good For? – Smashing Magazine">Preload: What Is It Good For? – Smashing Magazine</a></li>
+</ul>
+
+<p>또, Firefox나 IE에는 구현돼 있는 <a href="http://blog.chromium.org/2016/03/chrome-50-beta-push-notification.html" title="HTMLCanvasElement.toBlob()">`HTMLCanvasElement.toBlob()</a>을 Chrome에서도 지원합니다.</p>
+
+<ul>
+<li><a href="http://qiita.com/uupaa/items/8bc48e904141be9224c4" title="Chromium에서 Canvas.toBlob을 시험적으로 이용할 수 있습니다 - Qiita">Chromium에서 Canvas.toBlob을 시험적으로 이용할 수 있습니다 - Qiita</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<p><a href="http://tech.gmo-media.jp/post/141458071484/react-perf-tuning">React를 사용한 제품의 성능을 개선한 이야기 | GMO 미디어 엔지니어 블로그</a>(일본어)에는 React를 사용한 웹 앱의 성능을 개선한 방법이 작성돼 있습니다.</p>
+
+<p><code>react-addons-perf</code>를 사용한 성능 측정, 어디에 문제가 있었고, 어떻게 해결했는지 이야기합니다.<br>
+이어서 아래의 문서나 공식 문서의 <a href="https://facebook.github.io/react/docs/perf.html">Performance Tools</a> 문서를 함께 보면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="http://benchling.engineering/deep-dive-react-perf-debugging/" title="A Deep Dive into React Perf Debugging">A Deep Dive into React Perf Debugging</a></li>
+<li><a href="http://swizec.com/blog/animating-with-react-redux-and-d3/swizec/6775">Animating with React, Redux, and d3 | A geek with a hat</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://node.green/" title="Node.js ES2015/ES6 support">Node.js ES2015/ES6 support</a>라는 사이트에는 Node.js의 버전에 따른 ECMAScript 지원 현황이 정리돼 있습니다.</p>
+
+<p>Node.js 버전의 <a href="http://kangax.github.io/compat-table/es6/" title="ECMAScript 6 compatibility table">ECMAScript 6 compatibility table</a>라고 말하면 이야기 쉬울 것 같습니다.</p>
+
+<p>Node.js v6에서는 ES6의 대부분 지원될 예정이지만, v6는 <a href="http://v8project.blogspot.jp/2016/03/v8-release-50.html" title="V8 5.0">V8 5.0</a>의 릴리즈를 기다렸다가 공개될 예정입니다.<br>
+때문에, Node.js v6는 4월 후반에 릴리즈될 것 같습니다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/5766" title="Planning for v6 · Issue #5766 · nodejs/node">Planning for v6 · Issue #5766 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="announcing-marko-v3:-from-html-to-html-js-|-marko">Announcing Marko v3: From HTML to HTML-JS | Marko</h2>
+
+<p><a href="http://markojs.com/blog/announcing-marko-v3/" title="Announcing Marko v3: From HTML to HTML-JS | Marko">markojs.com/blog/announcing-marko-v3/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">template</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>템플릿 엔진인 Marko v3가 릴리즈됐습니다.<br>
+HTML-JS syntax라는 JavaScript 처럼 작성한 템플릿 표현을 지원하고 컴파일 시의 최적화를 진행하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="chromium-blog:-chrome-50-beta:-push-notification-improvements-and-declarative-preload">Chromium Blog: Chrome 50 Beta: Push notification improvements and declarative preload</h2>
+
+<p><a href="http://blog.chromium.org/2016/03/chrome-50-beta-push-notification.html" title="Chromium Blog: Chrome 50 Beta: Push notification improvements and declarative preload">blog.chromium.org/2016/03/chrome-50-beta-push-notification.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Chrome 50 Beta가 릴리즈됐습니다.<br>
+<code>&lt;link rel=&#39;preload&#39;&gt;</code>, <code>HTMLCanvasElement.toBlob()</code>의 지원, iframe의 sandbox 속성을 지원하고 있는지 판정할 수 있는 기능 추가, <code>Document.defaultCharset</code>을 삭제하는 등 다양한 변경 사항이 있습니다.</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2016/03/domtokenlist-validation-added-in-chrome-50?hl=en" title="DOMTokenList Validation Added in Chrome 50 | Web Updates - Google Developers">DOMTokenList Validation Added in Chrome 50 | Web Updates - Google Developers</a></li>
+<li><a href="https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/" title="Preload: What Is It Good For? – Smashing Magazine">Preload: What Is It Good For? – Smashing Magazine</a></li>
+</ul>
+
+<hr>
+
+<h2 id="protractor/changelog.md-at-3.2.0-·-angular/protractor">protractor/CHANGELOG.md at 3.2.0 · angular/protractor</h2>
+
+<p><a href="https://github.com/angular/protractor/blob/3.2.0/CHANGELOG.md" title="protractor/CHANGELOG.md at 3.2.0 · angular/protractor">github.com/angular/protractor/blob/3.2.0/CHANGELOG.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">E2E</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Protractor 3.2.0이 릴리즈됐습니다.<br>
+TypeScript 지원을 위한 기능이 추가됐고 임의의 버전의 WebDriver를 지정할 수 있도록 변경 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/angular/protractor/issues/1203#issuecomment-168777170" title="Typescript support · Issue #1203 · angular/protractor">Typescript support · Issue #1203 · angular/protractor</a></li>
+</ul>
+
+<hr>
+
+<h2 id="google-cloud-platform-blog:-node.js-on-google-app-engine-goes-beta">Google Cloud Platform Blog: Node.js on Google App Engine goes beta</h2>
+
+<p><a href="https://cloudplatform.googleblog.com/2016/03/Node.js-on-Google-App-Engine-goes-beta.html" title="Google Cloud Platform Blog: Node.js on Google App Engine goes beta">cloudplatform.googleblog.com/2016/03/Node.js-on-Google-App-Engine-goes-beta.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">google</span></p>
+
+<p>GAE에서 Node.js를 지원합니다(베타).</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="developer-edition-47-–-user-agent-emulation,-popup-debugging-and-more-★-mozilla-hacks-–-the-web-developer-blog">Developer Edition 47 – User agent emulation, popup debugging and more ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/03/developer-edition-47-user-agent-emulation-popup-debugging-and-more/" title="Developer Edition 47 – User agent emulation, popup debugging and more ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/03/developer-edition-47-user-agent-emulation-popup-debugging-and-more/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span></p>
+
+<p>Firefox 47 개발자 도구의 새로운 기능에 관해 작성돼 있습니다.<br>
+어떤 관계로 객체가 유지되고 있는지 쉽게 알아볼 수 있도록 그래프를 제공하고, 콘솔에서 여러 줄을 입력할 수 있도록 변경됐습니다. 또, Storage Inspector에서 Cache API를 지원하는 등 여러가지 기능에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="debugging-with-node">Debugging with Node</h2>
+
+<p><a href="http://krasimirtsonev.com/blog/article/debugging-with-node" title="Debugging with Node">krasimirtsonev.com/blog/article/debugging-with-node</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">debug</span> <span class="jser-tag">tutorial</span></p>
+
+<p>Node.js에서 예전부터 지원하는 <code>node debug</code> 명령어의 사용 방법에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="rebem:-react-♥-bem-—-medium">reBEM: React ♥ BEM — Medium</h2>
+
+<p><a href="https://medium.com/@mistadikay/rebem-react-bem-20d875157017" title="reBEM: React ♥ BEM — Medium">medium.com/@mistadikay/rebem-react-bem-20d875157017</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">CSS</span></p>
+
+<p>React와 BEM의 조합에 관해 이야기합니다.<br>
+reBEM layers라는 관점에 관해서도 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="an-introduction-to-jquery&#x27;s-deferred-objects">An Introduction to jQuery&#x27;s Deferred Objects</h2>
+
+<p><a href="http://www.sitepoint.com/introduction-jquery-deferred-objects/" title="An Introduction to jQuery&#39;s Deferred Objects">www.sitepoint.com/introduction-jquery-deferred-objects/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span></p>
+
+<p>jQuery Deferred의 역사와 사용방법에 관해 작성돼 있습니다.<br>
+각 1.x, 2.x, 3.x 에서의 차이점에 관해서도 이야기합니다.</p>
+
+<hr>
+
+<h2 id="animating-with-react,-redux,-and-d3-|-a-geek-with-a-hat">Animating with React, Redux, and d3 | A geek with a hat</h2>
+
+<p><a href="http://swizec.com/blog/animating-with-react-redux-and-d3/swizec/6775" title="Animating with React, Redux, and d3 | A geek with a hat">swizec.com/blog/animating-with-react-redux-and-d3/swizec/6775</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">d3.js</span> <span class="jser-tag">SVG</span></p>
+
+<p>React와 D3.js를 조합하여 애니메이션 효과를 지원하는 컴포넌트를 만드는 방법에 관해 이야기합니다.<br>
+컨테이너 컴포넌트에서 State가 출발하는 구조이기 때문에 Redux에서 관리하는 점이 특이합니다.<br>
+대량의 파티클(particles)를 출력할 때 발생하는 병목 현상에 관해서도 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="react를-사용한-제품의-성능을-개선한-이야기-|-gmo-미디어-엔지니어-블로그(일본어)">React를 사용한 제품의 성능을 개선한 이야기 | GMO 미디어 엔지니어 블로그(일본어)</h2>
+
+<p><a href="http://tech.gmo-media.jp/post/141458071484/react-perf-tuning" title="React를 사용한 제품의 성능을 개선한 이야기 | GMO 미디어 엔지니어 블로그">tech.gmo-media.jp/post/141458071484/react-perf-tuning</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span> <span class="jser-tag">debug</span></p>
+
+<p>React Component로 개발한 앱의 성능을 측정하는 방법과 개선하는 방법에 관해 작성돼 있습니다.<br>
+react-addons-perf를 사용해 프로파일링을 출력하고 분석해 나가는 과정을 자세히 이야기합니다.</p>
+
+<hr>
+
+<h2 id="redux-middleware-in-depth---qiita(일본어)">Redux Middleware in Depth - Qiita(일본어)</h2>
+
+<p><a href="http://qiita.com/kuy/items/c6784fe443f1d5c7bbdc" title="Redux Middleware in Depth - Qiita">qiita.com/kuy/items/c6784fe443f1d5c7bbdc</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span></p>
+
+<p>Redux의 middleware에 관해 작성돼 있습니다.<br>
+middleware를 적용하는 순서나 실행되는 순서에 의해 일어나는 문제와 해결 방법에 관해 자세히 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="why-i-write-plain-javascript-modules">Why I Write Plain JavaScript Modules</h2>
+
+<p><a href="https://ponyfoo.com/articles/why-i-write-plain-javascript-modules" title="Why I Write Plain JavaScript Modules">ponyfoo.com/articles/why-i-write-plain-javascript-modules</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+
+<p>왜 DOM 라이브러리를 React/AngularJS 등 특정 프레임워크에 의존하지 않고 Pure한 DOM 라이브러리로써 개발하는지 이야기합니다.</p>
+
+<hr>
+
+<h2 id="the-state-of-browser-apis---1">The State of Browser APIs - 1</h2>
+
+<p><a href="http://hwclass.in/2016/03/09/the-next-generation-of-browser-apis/" title="The State of Browser APIs - 1">hwclass.in/2016/03/09/the-next-generation-of-browser-apis/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span></p>
+
+<p>현재 브라우저에서 사용할 수 있는 여러가지 새로운 API를 소개합니다.</p>
+
+<ul>
+<li><a href="https://github.com/AurelioDeRosa/HTML5-API-demos" title="AurelioDeRosa/HTML5-API-demos: A repository where you can find information about many JavaScript and HTML5 APIs.">AurelioDeRosa/HTML5-API-demos: A repository where you can find information about many JavaScript and HTML5 APIs.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="javascript의-promise-객체에-관해-리서치한-결과-|-quartetcom-tech-blog(일본어)">JavaScript의 Promise 객체에 관해 리서치한 결과 | QUARTETCOM TECH BLOG(일본어)</h2>
+
+<p><a href="http://tech.quartetcom.co.jp/2016/03/22/javascript-promise/" title="JavaScriptのPromiseオブジェクトについて調べた事 | QUARTETCOM TECH BLOG">tech.quartetcom.co.jp/2016/03/22/javascript-promise/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Promise를 간결하게 정리한 글입니다.<br>
+AngularJS의 <code>$q</code> 관해서도 다루고있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="node.js-es2015/es6-support">Node.js ES2015/ES6 support</h2>
+
+<p><a href="http://node.green/" title="Node.js ES2015/ES6 support">node.green/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">まとめ</span></p>
+
+<p>Node.js 버전의 ECMAScript compat-table 입니다.</p>
+
+<hr>
+
+<h2 id="your-first-progressive-web-app">Your first Progressive Web App</h2>
+
+<p><a href="https://codelabs.developers.google.com/codelabs/your-first-pwapp/" title="Your first Progressive Web App">codelabs.developers.google.com/codelabs/your-first-pwapp/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ProgressiveWebApp</span> <span class="jser-tag">tutorial</span></p>
+
+<p>Progressive Web App에 관해 배우는 워크숍 자료입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="gravmatt/force-js:-the-easy-way-to-scroll-and-animate-your-page">gravmatt/force-js: The easy way to scroll and animate your page</h2>
+
+<p><a href="https://github.com/gravmatt/force-js" title="gravmatt/force-js: The easy way to scroll and animate your page">github.com/gravmatt/force-js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">animation</span> <span class="jser-tag">library</span></p>
+
+<p>별도 의존하는 라이브러리 없이 개발한 특정 요소를 애니메이션 처리하는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="danigb/tonal:-music-tonal-elements-—pitches,-chords,-scales,-keys—-in-javascript">danigb/tonal: Music tonal elements —pitches, chords, scales, keys— in Javascript</h2>
+
+<p><a href="https://github.com/danigb/tonal" title="danigb/tonal: Music tonal elements —pitches, chords, scales, keys— in Javascript">github.com/danigb/tonal</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">audio</span> <span class="jser-tag">library</span></p>
+
+<p>Web MIDI, Web Audio API를 다루는 작은 사이즈의 라이브러리를 모아놓은 mono 저장소입니다.</p>
+
+<hr>
+
+<h2 id="googlechrome/proxy-polyfill:-proxy-object-polyfill">GoogleChrome/proxy-polyfill: Proxy object polyfill</h2>
+
+<p><a href="https://github.com/GoogleChrome/proxy-polyfill" title="GoogleChrome/proxy-polyfill: Proxy object polyfill">github.com/GoogleChrome/proxy-polyfill</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">library</span></p>
+
+<p>ES6 Proxy의 polyfill 라이브러리입니다.<br>
+get/set/apply/construct 등 일부 trap 만을 지원하고 있습니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2016/2016-03-23-chrom50beta-react-perf-node-compat-table.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Chrome","React","perf","Node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>Tags:</span>
+            <ul>
+                
+                <li>Chrome</li>
+                
+                <li>React</li>
+                
+                <li>perf</li>
+                
+                <li>Node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/ko/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2016/03/23/chrom50beta-react-perf-node-compat-table/">2016-03-23 JS: Chrome 50β, React의 성능 측정 및 개선, Node.js compat table</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/03/17/react-webassembly-art-of-javascript/">2016-03-17 JS: React.js v15.0 RC, WebAssembly, 근래의 JavaScript 도구/라이브러리</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/03/08/react15.0rc-perf-ddd/">2016-03-08 JS: React v15.0 RC, React 성능 측정, DDD</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/03/03/ember-lts-402-i18n-rc-jquery3/">2016-03-03 JS: Ember.js LTS, ECMA i18n API 3rd Edition RC, jQuery 3의 변경사항</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/02/24/typescript1.8-react-semver-draft/">2016-02-24 JS: TypeScript 1.8, React의 버저닝(Versioning), Draft.js</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/02/15/grunt-eslint2.0.0-underscore-lodash/">2016-02-15 JS: Grunt 1.0.0 RC1, ESLint 2.0.0, Underscore/Lodash</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/02/08/babel6.5.0-angular1.5-let-const/">2016-02-08 JS: Babel 6.5.0, Angular 1.5, let과 const</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2016/02/02/firefox44-es2016-new-feature-webpack2beta/">2016-02-02 JS: Firefox 44.0, ES2016의 추가 기능, webpack2β</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
