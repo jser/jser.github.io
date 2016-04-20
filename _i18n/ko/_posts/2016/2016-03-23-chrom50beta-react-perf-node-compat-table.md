@@ -15,7 +15,7 @@ tags:
 
 JSer.info #271 - [Chrome 50 Beta](http://blog.chromium.org/2016/03/chrome-50-beta-push-notification.html "Chrome 50 Beta")가 릴리즈됐습니다.
 
-페이지를 완전하게 출력하기 위한 필요한 리소스를 먼저 불러오는 [link rel="preload"](https://w3c.github.io/preload/ "link rel=&#34;preload&#34;")를 지원합니다.
+페이지를 출력하기 위해 필요한 리소스를 먼저 불러오는 [link rel="preload"](https://w3c.github.io/preload/ "link rel=&#34;preload&#34;")를 지원합니다.
 
 `<link rel="preload">`관한 자세한 내용은 아래에 잘 정리돼 있습니다.
 
@@ -57,7 +57,7 @@ Node.js v6에서는 ES6의 대부분 지원될 예정이지만, v6는 [V8 5.0](h
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">template</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
 템플릿 엔진인 Marko v3가 릴리즈됐습니다.
-HTML-JS syntax라는 JavaScript 처럼 작성한 템플릿 표현을 지원하고 컴파일 시의 최적화를 진행하는 등 다양한 변경 사항이 있습니다.
+HTML-JS syntax라는 JavaScript 스러운 표현을 지원하고 컴파일 시의 최적화를 진행하는 등 다양한 변경 사항이 있습니다.
 
 ----
 
@@ -113,7 +113,7 @@ Firefox 47 개발자 도구의 새로운 기능에 관해 작성돼 있습니다
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">debug</span> <span class="jser-tag">tutorial</span></p>
 
-Node.js에서 예전부터 지원하는 `node debug` 명령어의 사용 방법에 관해 작성돼 있습니다.
+Node.js에서 예전부터 지원하던 `node debug` 명령어의 사용 방법에 관해 작성돼 있습니다.
 
 ----
 
@@ -173,7 +173,7 @@ middleware를 적용하는 순서나 실행되는 순서에 의해 일어나는 
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
 
-왜 DOM 라이브러리를 React/AngularJS 등 특정 프레임워크에 의존하지 않고 Pure한 DOM 라이브러리로써 개발하는지 이야기합니다.
+왜 React/AngularJS 등 특정 프레임워크에 의존하지 않고 Pure하게 DOM 라이브러리로 개발하는지 이야기합니다.
 
 ----
 
@@ -204,7 +204,7 @@ AngularJS의 `$q` 관해서도 다루고있습니다.
 ## Node.js ES2015/ES6 support
 [node.green/](http://node.green/ "Node.js ES2015/ES6 support")
 
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">まとめ</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">정리</span></p>
 
 Node.js 버전의 ECMAScript compat-table 입니다.
 
@@ -227,7 +227,7 @@ Progressive Web App에 관해 배우는 워크숍 자료입니다.
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">animation</span> <span class="jser-tag">library</span></p>
 
-별도 의존하는 라이브러리 없이 개발한 특정 요소를 애니메이션 처리하는 라이브러리입니다.
+별도 의존하는 라이브러리 없이 개발된 특정 요소를 애니메이션 처리하는 라이브러리입니다.
 
 ----
 
