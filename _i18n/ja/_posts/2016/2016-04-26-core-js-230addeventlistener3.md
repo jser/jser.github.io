@@ -14,8 +14,48 @@ tags:
 
 ---
 
+JSer.info #276 - [Babelのruntime](https://babeljs.io/docs/plugins/transform-runtime/)でも利用されているcore-js 2.3.0がリリースされました。
 
-JSer.info #276 - 
+- [Release 2.3.0 - 2016.04.24 · zloirock/core-js](https://github.com/zloirock/core-js/releases/tag/v2.3.0 "Release 2.3.0 - 2016.04.24 · zloirock/core-js")
+
+3月にあったTC39のミーティング内容を反映した変更が多く、ProposalのStageの移動などが中心です。
+
+- [tc39-notes/es7/2016-03 at master · rwaldron/tc39-notes](https://github.com/rwaldron/tc39-notes/tree/master/es7/2016-03 "tc39-notes/es7/2016-03 at master · rwaldron/tc39-notes")
+
+----
+
+[DOM Listener: capture, passive, and once](https://www.webreflection.co.uk/blog/2016/04/17/new-dom4-standards "DOM Listener: capture, passive, and once")という記事では、最近WHATWG HTMLに追加された `node.addEventListener(type, handler, {capture: true}` などの第三引数である`EventListenerOptions`について解説されています。
+
+仕様や実装状況については以下を参照するのが良いと思います。
+
+- [addEventListener/removeEventListener EventListenerOptions API - Chrome Platform Status](https://www.chromestatus.com/feature/5718574840676352 "addEventListener/removeEventListener EventListenerOptions API - Chrome Platform Status")
+- [WICG/EventListenerOptions: An extension to the DOM event pattern to allow authors to disable support for preventDefault](https://github.com/WICG/EventListenerOptions "WICG/EventListenerOptions: An extension to the DOM event pattern to allow authors to disable support for preventDefault")
+
+まだ、仕様も議論中ではあるようでですが、Chromeには一部実装されています。
+
+- [Issue 543685 - chromium - Implement addEventListener(type, listener, EventListenerOptions); - Monorail](https://bugs.chromium.org/p/chromium/issues/detail?id=543685 "Issue 543685 - chromium - Implement addEventListener(type, listener, EventListenerOptions); - Monorail")
+
+----
+
+上記のような `addEventListener` といった既存のDOM APIに対する変更はWHATWGの方に大抵追加されています。
+
+- [WHATWG版とW3C版がある仕様たち - Unreviewed](http://takenspc.hatenablog.com/entry/2015/12/03/235927 "WHATWG版とW3C版がある仕様たち - Unreviewed")
+- 今もHTMLの仕様に関して[ゴタゴタ](http://momdo.hatenablog.jp/entry/20160415/1460722489)がありますが…
+
+そうした[WHATWG](https://github.com/whatwg/ "WHATWG")にあるLiving Standardな仕様を多く翻訳している[www.hcn.zaq.ne.jp/___/WEB/](http://www.hcn.zaq.ne.jp/___/WEB/)がGitHubに移行しています。
+
+- [ウェブ関連仕様 日本語訳](https://triple-underscore.github.io/ "ウェブ関連仕様 日本語訳")
+
+また、WHATWGの一部仕様では本家から翻訳へのリンクが追加されるようです。
+
+- [WHATWG translations · Issue #1 · triple-underscore/triple-underscore.github.io](https://github.com/triple-underscore/triple-underscore.github.io/issues/1 "WHATWG translations · Issue #1 · triple-underscore/triple-underscore.github.io")
+
+同様のLiving Standardの仕様書の翻訳としては、[@momdo_](https://twitter.com/momdo_ "@momdo_")さんがやっている[HTML Standard 日本語訳](https://momdo.github.io/html/ "HTML Standard 日本語訳")があります。
+
+- [HTML Standard 日本語訳](https://momdo.github.io/html/ "HTML Standard 日本語訳")
+- [html · momdo/momdo.github.io Wiki](https://github.com/momdo/momdo.github.io/wiki/html "html · momdo/momdo.github.io Wiki")
+
+WHATWG Living Standardというだけあって[常に更新されている](https://github.com/whatwg/html/commits/master)ので、本当に最新を参照したい場合は本家を見るべきですが、まとめて読みたい場合などは翻訳も参照してみるといいかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
