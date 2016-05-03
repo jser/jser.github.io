@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー - JSer.info</title>
+    <meta name="description" content="JSer.info #277 - Node v6.0.0がリリースされました。">
+    
+    <meta name="keywords" content="Node.js,Fetch,WebKit,polyfill" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-05-03T22:50:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="Fetch" property="article:tag">
+      
+      <meta content="WebKit" property="article:tag">
+      
+      <meta content="polyfill" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #277 - Node v6.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #277 - Node v6.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-05-03T22:50:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/04/26/core-js-230addeventlistener3/">
+
+<meta property="og:see_also" content="http://jser.info/2016/04/18/jscs-30eslintsvg/">
+
+<meta property="og:see_also" content="http://jser.info/2016/04/11/grunt-100react-150javascript/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="Fetch">
+
+<meta property="article:tag" content="WebKit">
+
+<meta property="article:tag" content="polyfill">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年05月03日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-05-03-nodejs-600github-fetch-100-webkit-prefix.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-05-03-nodejs-600github-fetch-100-webkit-prefix.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #277 - <a href="https://nodejs.org/en/blog/release/v6.0.0/">Node v6.0.0</a>がリリースされました。</p>
+
+<ul>
+<li><a href="http://yosuke-furukawa.hatenablog.com/entry/2016/04/27/110027" title="Node.js v6.0 (Current) がリリースされました。 - from scratch">Node.js v6.0 (Current) がリリースされました。 - from scratch</a></li>
+</ul>
+
+<p>6.xは<a href="https://medium.com/@nodesource/essential-steps-long-term-support-for-node-js-8ecf7514dbd" title="long term support (LTS)">long term support (LTS)</a>となるバージョンなので、LTSではない5.xを使っている人はアップデートが推奨されています。<br>
+4.xはLTSなので、2017年4月までサポートされます。</p>
+
+<p>6.0.0では<a href="https://nodejs.org/en/blog/release/v5.10.0/" title="Node v5.10.0">Node v5.10.0</a>にもバックポートされたBuffer APIの変更や、<br>
+<a href="http://v8project.blogspot.jp/2016/03/v8-release-50.html">V8 5.0</a>へのアップデートにより、ES6の93％(Moduleを除く)が利用できるようになっています。</p>
+
+<hr>
+
+<p><a href="https://fetch.spec.whatwg.org/" title="Fetch API">Fetch API</a>のpolyfillである<a href="https://github.com/github/fetch" title="github/fetch">github/fetch</a> 1.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/github/fetch/releases/tag/v1.0.0">Release Fetch 1.0.0 · github/fetch</a></li>
+</ul>
+
+<p>IE9のサポートが終了され、<code>URLSearchParams</code>のサポートの追加などがされています。</p>
+
+<hr>
+
+<p><a href="https://webkit.org/blog/6131/updating-our-prefixing-policy/">Updating Our Prefixing Policy | WebKit</a>という記事では、WebKit/Safariの実験的prefixに関するポリシーの変更が書かれています。</p>
+
+<p>詳細は以下に書かれていますが、今後は新しい機能を導入する際はChromeやFirefoxのようにランタイムフラグ制に変更されます。</p>
+
+<ul>
+<li><a href="https://webkit.org/feature-policy/" title="Feature Policy | WebKit">Feature Policy | WebKit</a></li>
+</ul>
+
+<p>今まで、<code>-webkit-</code> prefixで新機能を導入し、それがあまりにもウェブサイトで使われた結果、ブラウザの実装から<code>-webkit-</code>を無くすとBreak the webとなる問題が多く発生していました。<br>
+<code>-webkit-transform-3d</code>のように<a href="https://miketaylr.com/posts/2016/01/at-media-webkit-transform-three-dee.html">互換仕様としてウェブ標準に<code>-webkit</code> prefix</a>が存在します。</p>
+
+<ul>
+<li><a href="http://www.otsukare.info/2016/01/04/webkit-resolved-fixed" title="Webkit! RESOLVED FIXED - otsukare">Webkit! RESOLVED FIXED - otsukare</a></li>
+</ul>
+
+<p>そのため、ブラウザの設定から有効にしないと新しい機能が利用できない<strong>runtime flags</strong>へと変更されました。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v6.0.0-(current)-|-node.js">Node v6.0.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v6.0.0/" title="Node v6.0.0 (Current) | Node.js">nodejs.org/en/blog/release/v6.0.0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node.js 6.0.0(LTS)リリース。<br>
+v8のアップデートを含むため、Native addonは<code>npm rebuid</code>での再ビルドが必要。<br>
+Buffer APIが新しくなり、古いAPIは非推奨へ、<code>worker.suicide</code>は<code>worker.exitedAfterDisconnect</code>に変更、<code>querystring.parse()</code>が返すオブジェクトは<code>Object.prototype</code>を継承しないようになるなど</p>
+
+<ul>
+<li><a href="http://yosuke-furukawa.hatenablog.com/entry/2016/04/27/110027" title="Node.js v6.0 (Current) がリリースされました。 - from scratch">Node.js v6.0 (Current) がリリースされました。 - from scratch</a></li>
+</ul>
+
+<hr>
+
+<h2 id="chromium-blog:-chrome-51-beta:-credential-management-api-and-reducing-the-overhead-of-offscreen-rendering">Chromium Blog: Chrome 51 Beta: Credential Management API and reducing the overhead of offscreen rendering</h2>
+
+<p><a href="http://blog.chromium.org/2016/04/chrome-51-beta-credential-management.html" title="Chromium Blog: Chrome 51 Beta: Credential Management API and reducing the overhead of offscreen rendering">blog.chromium.org/2016/04/chrome-51-beta-credential-management.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Chrome 51 Betaリリース。<br>
+Credential Management APIのサポート。<br>
+offscreenの場合、crosss originのframeにおいては<code>requestAnimationFrame()</code>が呼ばれないように、Intersection Observer 、<code>passive</code>イベントオプション、V8 5.1へのアップデートなど。</p>
+
+<ul>
+<li><a href="http://v8project.blogspot.jp/2016/04/v8-release-51.html" title="V8 JavaScript Engine: V8 Release 5.1">V8 JavaScript Engine: V8 Release 5.1</a></li>
+<li><a href="https://github.com/WICG/IntersectionObserver/blob/gh-pages/explainer.md" title="IntersectionObserver/explainer.md at gh-pages · WICG/IntersectionObserver">IntersectionObserver/explainer.md at gh-pages · WICG/IntersectionObserver</a></li>
+<li><a href="https://docs.google.com/document/d/1Dd4qi1b_iX-OCZpelvXxizjq6dDJ76XNtk37SZEoTYQ/pub" title="Throttling Blink&amp;#x27;s rendering pipeline for hidden content">Throttling Blink&#x27;s rendering pipeline for hidden content</a></li>
+<li><a href="https://docs.google.com/document/d/1jMuvRYWptZfP5zpvWmPJPRL-iowtgBVX45rSvew0VH4/edit" title="Power usage impact of render pipeline throttling - Google ドキュメント">Power usage impact of render pipeline throttling - Google ドキュメント</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v6.8.0-·-babel/babel">Release v6.8.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/releases/tag/v6.8.0" title="Release v6.8.0 · babel/babel">github.com/babel/babel/releases/tag/v6.8.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Babel v6.8.0リリース。<br>
+Babel自体がBabel 6でTranspileするようになり、runtimeが5に依存していた問題が修正された</p>
+
+<hr>
+
+<h2 id="release-fetch-1.0.0-·-github/fetch">Release Fetch 1.0.0 · github/fetch</h2>
+
+<p><a href="https://github.com/github/fetch/releases/tag/v1.0.0" title="Release Fetch 1.0.0 · github/fetch">github.com/github/fetch/releases/tag/v1.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">htto</span> <span class="jser-tag">library</span></p>
+
+<p>Fetch APIのpolyfillであるGitHub Fetch 1.0.0リリース。<br>
+IE9のサポートを終了、<code>timeout</code>イベントをハンドルするように、<code>URLSearchParams</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="eslint-v2.9.0-released---eslint---pluggable-javascript-linter">ESLint v2.9.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2016/04/eslint-v2.9.0-released" title="ESLint v2.9.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2016/04/eslint-v2.9.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint v2.9.0リリース。<br>
+Autofix <code>--fix</code> オプションの改善。<br>
+今までは一度のパスで適応できないものは諦めていたが、複数回のパスで修正を適応を試みるようになった。</p>
+
+<ul>
+<li><a href="http://qiita.com/mysticatea/items/1d377b67465664009ad5" title="ESLint v2.9.0 - Qiita">ESLint v2.9.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-slimerjs-0.10.0-·-laurentj/slimerjs">Release SlimerJS 0.10.0 · laurentj/slimerjs</h2>
+
+<p><a href="https://github.com/laurentj/slimerjs/releases/tag/0.10.0" title="Release SlimerJS 0.10.0 · laurentj/slimerjs">github.com/laurentj/slimerjs/releases/tag/0.10.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firefox版のPhantomJS APIの互換実装であるSlimerJS 0.10.0リリース。</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-3-|-webkit">Release Notes for Safari Technology Preview 3 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/6143/release-notes-for-safari-technology-preview-3/" title="Release Notes for Safari Technology Preview 3 | WebKit">webkit.org/blog/6143/release-notes-for-safari-technology-preview-3/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Safari Technology Preview 3リリース。<br>
+<code>Symbol.isConcatSpreadable</code>などのwell-known Symbol実装の追加、<br>
+<code>:host()</code>擬似クラス、IndexedDBが<code>Blob</code>をサポート、<code>Crypto</code>、CSP周りの仕様準拠度の向上など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="scroll-linked-effects---mozilla-|-mdn">Scroll-linked effects - Mozilla | MDN</h2>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Scroll-linked_effects" title="Scroll-linked effects - Mozilla | MDN">developer.mozilla.org/en-US/docs/Mozilla/Performance/Scroll-linked_effects</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">document</span></p>
+
+<p><code>onscroll</code>にhookして同期的に位置を変更する処理に対しては警告メッセージが出るようになった。<br>
+その場合の対処法についてのドキュメント</p>
+
+<ul>
+<li><a href="https://www.fxsitecompat.com/ja/docs/2016/scroll-linked-positioning-effects-may-not-work-well-with-async-scrolling-console-warns/" title="スクロール連動位置合わせは非同期スクロールと相性が悪い場合があり、コンソールに警告が表示されます | Firefox サイト互換性情報">スクロール連動位置合わせは非同期スクロールと相性が悪い場合があり、コンソールに警告が表示されます | Firefox サイト互換性情報</a></li>
+</ul>
+
+<hr>
+
+<h2 id="announcing-vue.js-2.0-—-the-vue-point-—-medium">Announcing Vue.js 2.0 — The Vue Point — Medium</h2>
+
+<p><a href="https://medium.com/the-vue-point/announcing-vue-js-2-0-8af1bde7ab9" title="Announcing Vue.js 2.0 — The Vue Point — Medium">medium.com/the-vue-point/announcing-vue-js-2-0-8af1bde7ab9</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+
+<p>Vue.js 2.0のパブリックプレビュー版リリース。<br>
+SnabbdomベースのVirtua lDOM実装の追加など</p>
+
+<ul>
+<li><a href="https://github.com/paldepind/snabbdom" title="paldepind/snabbdom: A virtual DOM library with focus on simplicity, modularity, powerful features and performance.">paldepind/snabbdom: A virtual DOM library with focus on simplicity, modularity, powerful features and performance.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="updating-our-prefixing-policy-|-webkit">Updating Our Prefixing Policy | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/6131/updating-our-prefixing-policy/" title="Updating Our Prefixing Policy | WebKit">webkit.org/blog/6131/updating-our-prefixing-policy/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webkit</span> <span class="jser-tag">safari</span></p>
+
+<p>Safari/WebKitは新しい機能などは今後Vendor prefixではなく、フラグのON/OFFを追加していくようにするポリシーの変更について。<br>
+<code>-webkit-</code> prefixがあまりに使われてしまい、後方互換性のためにprefixが標準仕様となってしまった歴史などもあるため</p>
+
+<ul>
+<li><a href="https://webkit.org/feature-policy/" title="Feature Policy | WebKit">Feature Policy | WebKit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="how-to-make-your-react-apps-15x-faster-–-reactjs-news">How to Make Your React Apps 15x Faster – ReactJS News</h2>
+
+<p><a href="https://reactjsnews.com/how-to-make-your-react-apps-10x-faster" title="How to Make Your React Apps 15x Faster – ReactJS News">reactjsnews.com/how-to-make-your-react-apps-10x-faster</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">設定</span></p>
+
+<p>Reactはデバッグ向けのコードが大量に入っているため、production(<code>NODE_ENV=production</code>)ビルドや機械的に最適化できるBabelプラグインを導入するだけでも速度が大分変わるという話</p>
+
+<ul>
+<li><a href="https://github.com/thejameskyle/babel-react-optimize" title="thejameskyle/babel-react-optimize: A Babel preset and plugins for optimizing React code.">thejameskyle/babel-react-optimize: A Babel preset and plugins for optimizing React code.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-javascript-engine:-es6,-es7,-and-beyond">V8 JavaScript Engine: ES6, ES7, and beyond</h2>
+
+<p><a href="http://v8project.blogspot.com/2016/04/es6-es7-and-beyond.html" title="V8 JavaScript Engine: ES6, ES7, and beyond">v8project.blogspot.com/2016/04/es6-es7-and-beyond.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">V8</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>V8が既存のウェブとの互換性を持ちつつ次期ECMAScriptの仕様を実装しているかのプロセスについて。<br>
+ES6の実装が完了する前にドラフトバージョンを実装することで見つけられる後方互換性の問題がある話。<br>
+またECMAScriptという複雑な言語仕様のtest suiteであるtest262について。</p>
+
+<hr>
+
+<h2 id="npmで同じライブラリの複数バージョンをインストールして使う方法-|-web-scratch">npmで同じライブラリの複数バージョンをインストールして使う方法 | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2016/05/02/npm-package-mixed-multiple-versions-demo/" title="npmで同じライブラリの複数バージョンをインストールして使う方法 | Web Scratch">efcl.info/2016/05/02/npm-package-mixed-multiple-versions-demo/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">Tips</span> <span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>一つのプロジェクト内に同名ライブラリの複数バージョンをインストールして扱う方法について</p>
+
+<hr>
+
+<h2 id="a-look-at-es6-maps---barbarian-meets-coding">A look at ES6 Maps - Barbarian Meets Coding</h2>
+
+<p><a href="http://www.barbarianmeetscoding.com/blog/2016/04/27/a-look-at-es6-maps" title="A look at ES6 Maps - Barbarian Meets Coding">www.barbarianmeetscoding.com/blog/2016/04/27/a-look-at-es6-maps</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6 Mapについての解説。<br>
+データ構造としてのMap、Iterableについて</p>
+
+<hr>
+
+<h2 id="turbocharged-javascript-refactoring-with-codemods-—-airbnb-engineering-&amp;-data-science-—-medium">Turbocharged JavaScript refactoring with codemods — Airbnb Engineering &amp; Data Science — Medium</h2>
+
+<p><a href="https://medium.com/airbnb-engineering/turbocharged-javascript-refactoring-with-codemods-b0cae8b326b9" title="Turbocharged JavaScript refactoring with codemods — Airbnb Engineering &amp; Data Science — Medium">medium.com/airbnb-engineering/turbocharged-javascript-refactoring-with-codemods-b0cae8b326b9</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>codemodを使ったリファクタリングについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="almin.js-|-javascriptアーキテクチャ">Almin.js | JavaScriptアーキテクチャ</h2>
+
+<p><a href="http://azu.github.io/slide/2016/child_process_sushi/almin-javascript-architecture.html" title="Almin.js | JavaScriptアーキテクチャ">azu.github.io/slide/2016/child_process_sushi/almin-javascript-architecture.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
+
+<p><a href="https://github.com/almin/almin" title="Almin.js">Almin.js</a>の設計の概念的な話やパターンについて。<br>
+FluxやCQRSといったパターンにおいて、ドメインモデルをどうやったら考えて実装できるようになるかという話。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="diffee-checker">Diffee Checker</h2>
+
+<p><a href="http://una.im/diffee/" title="Diffee Checker">una.im/diffee/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS </span></p>
+
+<p>CSS blend modesを使いiframe同士の描画結果の差分を表示するデモ</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="galooshi/import-js:-a-tool-to-simplify-importing-js-modules">Galooshi/import-js: A tool to simplify importing JS modules</h2>
+
+<p><a href="https://github.com/Galooshi/import-js" title="Galooshi/import-js: A tool to simplify importing JS modules">github.com/Galooshi/import-js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">editor</span></p>
+
+<p>指定した関数名から、該当するモジュールのimport文を自動的に探索して追加できるツール。<br>
+各種エディタ連携などもある</p>
+
+<hr>
+
+<h2 id="ericholiveira/studio:-a-nodejs-framework-to-create-decoupled-and-scalable-applications">ericholiveira/studio: A nodejs framework to create decoupled and scalable applications</h2>
+
+<p><a href="https://github.com/ericholiveira/studio" title="ericholiveira/studio: A nodejs framework to create decoupled and scalable applications">github.com/ericholiveira/studio</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span></p>
+
+<p>ActorモデルインスパイアなNode.jsのフレームワーク</p>
+
+<hr>
+
+<h2 id="flickr/yakbak:-record-and-playback-http-responses">flickr/yakbak: Record and playback HTTP responses</h2>
+
+<p><a href="https://github.com/flickr/yakbak" title="flickr/yakbak: Record and playback HTTP responses">github.com/flickr/yakbak</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>ProxyとしてHTTPリクエストとレスポンスを記録し、リプレイしたレスポンスを返すことができるNode.jsライブラリ</p>
+
+<ul>
+<li><a href="http://code.flickr.net/2016/04/25/introducing-yakbak-record-and-playback-http-interactions-in-nodejs/" title="Introducing yakbak: Record and playback HTTP interactions in NodeJS | code.flickr.com">Introducing yakbak: Record and playback HTTP interactions in NodeJS | code.flickr.com</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jeromeetienne/babel-plugin-jsdoced:-babel-plugin-which-use-jsdoc-to-implement-strong-typing-in-javascript">jeromeetienne/babel-plugin-jsdoced: babel plugin which use jsdoc to implement strong typing in javascript</h2>
+
+<p><a href="https://github.com/jeromeetienne/babel-plugin-jsdoced" title="jeromeetienne/babel-plugin-jsdoced: babel plugin which use jsdoc to implement strong typing in javascript">github.com/jeromeetienne/babel-plugin-jsdoced</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">JSDoc</span> <span class="jser-tag">plugin</span></p>
+
+<p>jsdoced.jsを使いJSDocからランタイムassertを追加するBabelプラグイン。<br>
+jsdoc-to-assertと似てるが、返り値のチェックやProxy APIを使ってプロパティの代入もチェックしている</p>
+
+<ul>
+<li><a href="http://jsdocedjs.org/" title="jsdoced.js - test your code with jsdoc">jsdoced.js - test your code with jsdoc</a></li>
+<li><a href="http://efcl.info/2016/03/25/jsdoc-to-assert/" title="JSDocをランタイムassertに変換するBabelプラグインを書いた | Web Scratch">JSDocをランタイムassertに変換するBabelプラグインを書いた | Web Scratch</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-05-03-nodejs-600github-fetch-100-webkit-prefix.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Node.js","Fetch","WebKit","polyfill"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>Fetch</li>
+                
+                <li>WebKit</li>
+                
+                <li>polyfill</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/26/core-js-230addeventlistener3/">2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/18/jscs-30eslintsvg/">2016-04-18のJS: JSCS 3.0とESLintへのマージ、SVG アイコン</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/11/grunt-100react-150javascript/">2016-04-11のJS: Grunt 1.0.0、React 15.0、ツールで学ぶJavaScript</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/04/nodejs-5100npm-security-fixsafari-technology-preview/">2016-04-04のJS: Node.js 5.10.0、npm security fix、Safari Technology Preview</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/29/safari-91backbonejsweb-performance-api/">2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/23/chrom50beta-react-perf-node-compat-table/">2016-03-23のJS: Chrome 50β、Reactのパフォーマンス調査改善、Node.js compat table</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/17/react-webassembly-art-of-javascript/">2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近のJavaScriptツール/ライブラリ</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
