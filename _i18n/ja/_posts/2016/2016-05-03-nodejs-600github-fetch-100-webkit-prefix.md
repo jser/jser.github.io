@@ -3,21 +3,47 @@ title: "2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixの
 author: azu
 layout: post
 date : 2016-05-03T22:50
-category: 
+category:
 tags:
     - Node.js
     - Fetch
-    - webkit 
+    - WebKit
+    - polyfill
 
 ---
 
+JSer.info #277 - [Node v6.0.0](https://nodejs.org/en/blog/release/v6.0.0/)がリリースされました。
 
-JSer.info #277 - 
+- [Node.js v6.0 (Current) がリリースされました。 - from scratch](http://yosuke-furukawa.hatenablog.com/entry/2016/04/27/110027 "Node.js v6.0 (Current) がリリースされました。 - from scratch")
 
-- [Node v6.0.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v6.0.0/)
+6.xは[long term support (LTS)](https://medium.com/@nodesource/essential-steps-long-term-support-for-node-js-8ecf7514dbd "long term support (LTS)")となるバージョンなので、LTSではない5.xを使っている人はアップデートが推奨されています。
+4.xはLTSなので、2017年4月までサポートされます。
+
+6.0.0では[Node v5.10.0](https://nodejs.org/en/blog/release/v5.10.0/ "Node v5.10.0")にもバックポートされたBuffer APIの変更や、
+[V8 5.0](http://v8project.blogspot.jp/2016/03/v8-release-50.html)へのアップデートにより、ES6の93％(Moduleを除く)が利用できるようになっています。
+
+------
+
+[Fetch API](https://fetch.spec.whatwg.org/ "Fetch API")のpolyfillである[github/fetch](https://github.com/github/fetch "github/fetch") 1.0.0がリリースされました。
+
 - [Release Fetch 1.0.0 · github/fetch](https://github.com/github/fetch/releases/tag/v1.0.0)
-- [Updating Our Prefixing Policy | WebKit](https://webkit.org/blog/6131/updating-our-prefixing-policy/)
 
+IE9のサポートが終了され、`URLSearchParams`のサポートの追加などがされています。
+
+----
+
+[Updating Our Prefixing Policy | WebKit](https://webkit.org/blog/6131/updating-our-prefixing-policy/)という記事では、WebKit/Safariの実験的prefixに関するポリシーの変更が書かれています。
+
+詳細は以下に書かれていますが、今後は新しい機能を導入する際はChromeやFirefoxのようにランタイムフラグ制に変更されます。
+
+- [Feature Policy | WebKit](https://webkit.org/feature-policy/ "Feature Policy | WebKit")
+
+今まで、`-webkit-` prefixで新機能を導入し、それがあまりにもウェブサイトで使われた結果、ブラウザの実装から`-webkit-`を無くすとBreak the webとなる問題が多く発生していました。
+`-webkit-transform-3d`のように[互換仕様としてウェブ標準に`-webkit` prefix](https://miketaylr.com/posts/2016/01/at-media-webkit-transform-three-dee.html)が存在します。
+
+- [Webkit! RESOLVED FIXED - otsukare](http://www.otsukare.info/2016/01/04/webkit-resolved-fixed "Webkit! RESOLVED FIXED - otsukare")
+
+そのため、ブラウザの設定から有効にしないと新しい機能が利用できない**runtime flags**へと変更されました。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
