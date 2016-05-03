@@ -3,7 +3,7 @@ title: "2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixの
 author: azu
 layout: post
 date : 2016-05-03T22:50
-category:
+category: JSer
 tags:
     - Node.js
     - Fetch
