@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-05-10のJS: Angular 2 RC、Firefox開発者ツールの新機能、クロージャーの解説 - JSer.info</title>
+    <meta name="description" content="JSer.info #278 - Angular2 RC1がリリースされました。">
+    
+    <meta name="keywords" content="Angular,Firefox,debug,JavaScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-05-10T22:16:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Angular" property="article:tag">
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="debug" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/05/10/angular2-firefox48-dev/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #278 - Angular2 RC1がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-05-10のJS: Angular 2 RC、Firefox開発者ツールの新機能、クロージャーの解説">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/05/10/angular2-firefox48-dev/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #278 - Angular2 RC1がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-05-10T22:16:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">
+
+<meta property="og:see_also" content="http://jser.info/2016/04/26/core-js-230addeventlistener3/">
+
+<meta property="og:see_also" content="http://jser.info/2016/04/18/jscs-30eslintsvg/">
+
+
+
+
+
+<meta property="article:tag" content="Angular">
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="debug">
+
+<meta property="article:tag" content="JavaScript">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/05/10/angular2-firefox48-dev/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/05/10/angular2-firefox48-dev/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/05/10/angular2-firefox48-dev/">2016-05-10のJS: Angular 2 RC、Firefox開発者ツールの新機能、クロージャーの解説</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年05月10日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-05-10-angular2-firefox48-dev.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-05-10-angular2-firefox48-dev.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/05/10/angular2-firefox48-dev/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/05/10/angular2-firefox48-dev/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #278 - Angular2 RC1がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/angular/angular/blob/2.0.0-rc.1/CHANGELOG.md">angular/CHANGELOG.md at 2.0.0-rc.1 · angular/angular</a></li>
+</ul>
+
+<p>長い間betaでしたが、RCでは一つの大きな<a href="https://www.npmjs.com/package/angular2" title="angular2">angular2</a>というパッケージではなく、<code>@angular/core</code>のようなscoped packagesに分割されています。</p>
+
+<p>以下の記事にどのような名前空間の変更があったのかわかりやすくまとまっています。</p>
+
+<ul>
+<li><a href="http://ng2-info.github.io/2016/05/09/angular-2-rc-1/" title="Angular 2 RCリリースについて | Angular2 Info">Angular 2 RCリリースについて | Angular2 Info</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://hacks.mozilla.org/2016/04/developer-edition-48-firebug-features-editable-storage-inspector-improvements-and-more/" title="Developer Edition 48 – Firebug features, editable storage, inspector improvements and more… ★ Mozilla Hacks – the Web developer blog">Developer Edition 48 – Firebug features, editable storage, inspector improvements and more… ★ Mozilla Hacks – the Web developer blog</a>という記事では<a href="https://www.mozilla.org/ja/firefox/developer/" title="Firefox Developer Edition">Firefox Developer Edition</a> 48に入った新しい開発者ツールの機能について書かれています。</p>
+
+<ul>
+<li><a href="https://dev.mozilla.jp/2016/05/developer-edition-48-firebug-features-editable-storage-inspector-improvements-and-more/" title="Developer Edition 48 – Firebug 由来の機能、ストレージの編集、インスペクタの改良、etc | Mozilla Developer Street (modest)">Developer Edition 48 – Firebug 由来の機能、ストレージの編集、インスペクタの改良、etc | Mozilla Developer Street (modest)</a></li>
+</ul>
+
+<p>Firebug由来のDOMパネルが追加されたり、メモリパネルにツリーマップ表示が表示されたりデバッグに便利な機能が増えています。</p>
+
+<hr>
+
+<p><a href="https://medium.freecodecamp.com/lets-learn-javascript-closures-66feb44f6a44" title="Let’s Learn JavaScript Closures — Free Code Camp">Let’s Learn JavaScript Closures — Free Code Camp</a>という記事では&quot;JavaScriptのクロージャー&quot;について詳細に解説されています。</p>
+
+<p>ECMAScriptの仕様ではLexical EnvironmentやRealmという用語がクロージャーの仕組みに関係していますが、これらの用語にも触れながらどういう仕組みで成り立っているのかが解説されています。</p>
+
+<p>記事ではクロージャーのみについてですが、この仕組みがわかっているとArrow Functionが宣言しているスコープの<code>this</code>を引き継ぐように見えるのかが、理解しやすくなるかもしれません。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-2.4.0---2016.05.08-·-zloirock/core-js">Release 2.4.0 - 2016.05.08 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v2.4.0" title="Release 2.4.0 - 2016.05.08 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v2.4.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>core-js 2.4.0リリース。<br>
+Stage 1 Proposalの<code>Observable</code>を追加など</p>
+
+<hr>
+
+<h2 id="jsdom/changelog.md-at-9.0.0-·-tmpvar/jsdom">jsdom/Changelog.md at 9.0.0 · tmpvar/jsdom</h2>
+
+<p><a href="https://github.com/tmpvar/jsdom/blob/9.0.0/Changelog.md" title="jsdom/Changelog.md at 9.0.0 · tmpvar/jsdom">github.com/tmpvar/jsdom/blob/9.0.0/Changelog.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">libre</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jsdom 9.0.0リリース。<br>
+mutation eventsの削除し今後MutationObserverを追加する予定。<br>
+<code>DOMTokenList#replace</code>、<code>DOMTokenList#contains</code>、XHRの改善など</p>
+
+<hr>
+
+<h2 id="node-v6.1.0-(current)-|-node.js">Node v6.1.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v6.1.0/" title="Node v6.1.0 (Current) | Node.js">nodejs.org/en/blog/release/v6.1.0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node v6.1.0リリース。<br>
+<code>deepEqual()/deepStrictEqual()</code>が循環参照してるオブジェクトを扱えるように、<code>process.cpuUsage()</code>の追加、<code>util.inspect()</code>にオプションを追加するなど</p>
+
+<hr>
+
+<h2 id="dev.opera-—-what’s-new-in-chromium-50-and-opera-37">Dev.Opera — What’s new in Chromium 50 and Opera 37</h2>
+
+<p><a href="https://dev.opera.com/blog/opera-37/" title="Dev.Opera — What’s new in Chromium 50 and Opera 37">dev.opera.com/blog/opera-37/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Opera</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Opera 37 (based on Chromium 50)リリース。<br>
+<code>/regexp/u</code>、well-known symbols、preload link、<code>DomTokenList#supports</code>、非推奨or削除するメソッドの更新など</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2016/03/domtokenlist-validation-added-in-chrome-50" title="DOMTokenList Validation Added in Chrome 50 | Web Updates - Google Developers">DOMTokenList Validation Added in Chrome 50 | Web Updates - Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h2 id="angular/changelog.md-at-2.0.0-rc.1-·-angular/angular">angular/CHANGELOG.md at 2.0.0-rc.1 · angular/angular</h2>
+
+<p><a href="https://github.com/angular/angular/blob/2.0.0-rc.1/CHANGELOG.md" title="angular/CHANGELOG.md at 2.0.0-rc.1 · angular/angular">github.com/angular/angular/blob/2.0.0-rc.1/CHANGELOG.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Angular2 RCリリース。<br>
+Scoped Packagesを使うように変更、Offline Compilerを使ったstaticな方式とbootstrap時に処理する方式の両方をサポート、名前空間の変更など</p>
+
+<ul>
+<li><a href="http://ng2-info.github.io/2016/05/09/angular-2-rc-1/" title="Angular 2 RCリリースについて | Angular2 Info">Angular 2 RCリリースについて | Angular2 Info</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="a-taste-of-javascript’s-new-parallel-primitives-★-mozilla-hacks-–-the-web-developer-blog">A Taste of JavaScript’s New Parallel Primitives ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/05/a-taste-of-javascripts-new-parallel-primitives/" title="A Taste of JavaScript’s New Parallel Primitives ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/05/a-taste-of-javascripts-new-parallel-primitives/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>SharedArrayBufferについて。<br>
+WebWorkerでのメモリを共有した並列処理について</p>
+
+<ul>
+<li><a href="https://github.com/tc39/ecmascript_sharedmem" title="tc39/ecmascript\_sharedmem: Shared memory and atomics for ECMAscript">tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript</a></li>
+</ul>
+
+<hr>
+
+<h2 id="introducing-global-css-property-usage-on-microsoft-edge-dev-|-microsoft-edge-dev-blog">Introducing Global CSS Property Usage on Microsoft Edge Dev | Microsoft Edge Dev Blog</h2>
+
+<p><a href="https://blogs.windows.com/msedgedev/2016/04/11/css-usage-platform-data/" title="Introducing Global CSS Property Usage on Microsoft Edge Dev | Microsoft Edge Dev Blog">blogs.windows.com/msedgedev/2016/04/11/css-usage-platform-data/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">MSEdge</span> <span class="jser-tag">browser</span> <span class="jser-tag">CSS</span></p>
+
+<p>MSEdgeとChromeでクロールしたCSSプロパティの使用率の統計情報が見れるGlobal CSS Property Usageについて</p>
+
+<ul>
+<li><a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/usage/" title="View usage statistics and common patterns for APIs on the web platform.">View usage statistics and common patterns for APIs on the web platform.</a></li>
+<li><a href="https://github.com/MicrosoftEdge/css-usage" title="MicrosoftEdge/css-usage: This script is used within our Bing and Interop crawlers to determine the properties used on a page and generalized values that could have been used.">MicrosoftEdge/css-usage: This script is used within our Bing and Interop crawlers to determine the properties used on a page and generalized values that could have been used.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="developer-edition-48-–-firebug-features,-editable-storage,-inspector-improvements-and-more…-★-mozilla-hacks-–-the-web-developer-blog">Developer Edition 48 – Firebug features, editable storage, inspector improvements and more… ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/04/developer-edition-48-firebug-features-editable-storage-inspector-improvements-and-more/" title="Developer Edition 48 – Firebug features, editable storage, inspector improvements and more… ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/04/developer-edition-48-firebug-features-editable-storage-inspector-improvements-and-more/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span></p>
+
+<p>Firefox 48の開発者ツールについて。<br>
+Firebug由来のDOMパネル、コンソール機能の追加、localStorageなどの編集機能、メモリ使用量の表示改善しGCされてないオブジェクトを見つけやすくなるなど</p>
+
+<ul>
+<li><a href="https://dev.mozilla.jp/2016/05/developer-edition-48-firebug-features-editable-storage-inspector-improvements-and-more/" title="Developer Edition 48 – Firebug 由来の機能、ストレージの編集、インスペクタの改良、etc | Mozilla Developer Street (modest)">Developer Edition 48 – Firebug 由来の機能、ストレージの編集、インスペクタの改良、etc | Mozilla Developer Street (modest)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="custom-elementsはes6のclass記法で定義可能になりそうです---qiita">Custom elementsはES6のclass記法で定義可能になりそうです - Qiita</h2>
+
+<p><a href="http://qiita.com/yoichiro@github/items/fdb8372bd8a68c754dc3" title="Custom elementsはES6のclass記法で定義可能になりそうです - Qiita">qiita.com/yoichiro@github/items/fdb8372bd8a68c754dc3</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p>
+
+<p>Custom Elementsの仕様が大幅にアップデートされて、classを継承した形で新しい要素を定義できるようになる仕様について</p>
+
+<ul>
+<li><a href="https://github.com/w3c/webcomponents/pull/405" title="Large custom element spec rewrite to implement some F2F decisions by domenic · Pull Request #405 · w3c/webcomponents">Large custom element spec rewrite to implement some F2F decisions by domenic · Pull Request #405 · w3c/webcomponents</a></li>
+</ul>
+
+<hr>
+
+<h2 id="let’s-learn-javascript-closures-—-free-code-camp">Let’s Learn JavaScript Closures — Free Code Camp</h2>
+
+<p><a href="https://medium.freecodecamp.com/lets-learn-javascript-closures-66feb44f6a44" title="Let’s Learn JavaScript Closures — Free Code Camp">medium.freecodecamp.com/lets-learn-javascript-closures-66feb44f6a44</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>JavaScriptのクロージャーについて詳しい解説。<br>
+Enviroment、RealmなどのECMAScriptの言語仕様に触れながら、どのような仕組みになっているかを解説してる</p>
+
+<hr>
+
+<h2 id="intersectionobserver’s-coming-into-view-|-web-updates---google-developers">IntersectionObserver’s Coming into View | Web Updates - Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2016/04/intersectionobserver" title="IntersectionObserver’s Coming into View | Web Updates - Google Developers">developers.google.com/web/updates/2016/04/intersectionobserver</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">performance</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Chrome 51で入るIntersectionObserverについての解説記事。<br>
+要素がviewport内に表示されたら発火するイベントを設定できる。(発火するしきい値も指定できる)<br>
+また、rootに対する<code>ClientRect</code>の情報なども取得でき、lazyloadや無限リストなどの実装に利用できる</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="forward-4-web-summit---youtube">Forward 4 Web Summit - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=57MmZtd03ks&amp;amp;list=PLndbWGuLoHebKI8krCzJU88Rf3TwhNZvH&amp;amp;index=17" title="Forward 4 Web Summit - YouTube">www.youtube.com/watch?v=57MmZtd03ks&amp;list=PLndbWGuLoHebKI8krCzJU88Rf3TwhNZvH&amp;index=17</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">動画 </span></p>
+
+<p>Forward 4 Web Summitの動画一覧</p>
+
+<ul>
+<li><a href="http://forwardjs.com/" title="Forward - Web Technology Summits, Workshops and Online Content">Forward - Web Technology Summits, Workshops and Online Content</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="maintainablecss---an-approach-to-writing-modular,-scalable-and-maintainable-css-|-by-adam-silver">MaintainableCSS - an approach to writing modular, scalable and maintainable CSS | By Adam Silver</h2>
+
+<p><a href="http://maintainablecss.com/" title="MaintainableCSS - an approach to writing modular, scalable and maintainable CSS | By Adam Silver">maintainablecss.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">設計</span></p>
+
+<p>メンテナンスしやすいCSSについて書かれたサイト。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="outbrain/postit:-an-elegant-wrapper-for-postmessage">outbrain/postit: An elegant wrapper for postMessage</h2>
+
+<p><a href="https://github.com/outbrain/postit" title="outbrain/postit: An elegant wrapper for postMessage">github.com/outbrain/postit</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>postMessageのラッパーライブラリ</p>
+
+<hr>
+
+<h2 id="twada/universal-deep-strict-equal:-a-port-of-node-v6&#x27;s-internal-_deepequal-function-in-a-universal-style">twada/universal-deep-strict-equal: A port of Node v6&#x27;s internal _deepEqual function in a universal style</h2>
+
+<p><a href="https://github.com/twada/universal-deep-strict-equal" title="twada/universal-deep-strict-equal: A port of Node v6&#39;s internal \_deepEqual function in a universal style">github.com/twada/universal-deep-strict-equal</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p>
+
+<p>ブラウザでも動作する<code>deepStrictEqual</code>の実装ライブラリ</p>
+
+<hr>
+
+<h2 id="bbc/videocontext:-an-experimental-html5-&amp;-webgl-video-composition-and-rendering-api.">bbc/VideoContext: An experimental HTML5 &amp; WebGL video composition and rendering API.</h2>
+
+<p><a href="https://github.com/bbc/VideoContext" title="bbc/VideoContext: An experimental HTML5 &amp; WebGL video composition and rendering API.">github.com/bbc/VideoContext</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">動画 </span> <span class="jser-tag">audio</span> <span class="jser-tag">API</span></p>
+
+<p>Web Audio APIのような形でVideoを処理できるライブラリ</p>
+
+<hr>
+
+<h2 id="edenspiekermann/iframify:-replace-a-node-with-an-iframe-version-of-itself">edenspiekermann/iframify: Replace a node with an iframe version of itself</h2>
+
+<p><a href="https://github.com/edenspiekermann/iframify" title="edenspiekermann/iframify: Replace a node with an iframe version of itself">github.com/edenspiekermann/iframify</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>DOM要素をiframe内に同じものを作って入れ替えるライブラリ</p>
+
+<hr>
+
+<h2 id="perflint/perflint:-perflint-is-a-tool-to-identify-unexpected-performance-levels-of-a-website">perflint/perflint: Perflint is a tool to identify unexpected performance levels of a Website</h2>
+
+<p><a href="https://github.com/perflint/perflint" title="perflint/perflint: Perflint is a tool to identify unexpected performance levels of a Website">github.com/perflint/perflint</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
+
+<p>WebPageTestのCLIフロントエンド。<br>
+よくみるLint風の結果表示をしてくれる。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="service-worker-development-cookbook,-sean-amarasinghe,-ebook---amazon.com">Service Worker Development Cookbook, Sean Amarasinghe, eBook - Amazon.com</h2>
+
+<p><a href="http://www.amazon.com/Service-Worker-Development-Cookbook-Amarasinghe-ebook/dp/B01F3LATMY" title="Service Worker Development Cookbook, Sean Amarasinghe, eBook - Amazon.com">www.amazon.com/Service-Worker-Development-Cookbook-Amarasinghe-ebook/dp/B01F3LATMY</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">book</span></p>
+
+<p>2016年11月4日発売<br>
+Service Workerについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-05-10-angular2-firefox48-dev.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Angular","Firefox","debug","JavaScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Angular</li>
+                
+                <li>Firefox</li>
+                
+                <li>debug</li>
+                
+                <li>JavaScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/05/10/angular2-firefox48-dev/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/05/10/angular2-firefox48-dev/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/05/10/angular2-firefox48-dev/">2016-05-10のJS: Angular 2 RC、Firefox開発者ツールの新機能、クロージャーの解説</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/26/core-js-230addeventlistener3/">2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/18/jscs-30eslintsvg/">2016-04-18のJS: JSCS 3.0とESLintへのマージ、SVG アイコン</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/11/grunt-100react-150javascript/">2016-04-11のJS: Grunt 1.0.0、React 15.0、ツールで学ぶJavaScript</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/04/nodejs-5100npm-security-fixsafari-technology-preview/">2016-04-04のJS: Node.js 5.10.0、npm security fix、Safari Technology Preview</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/29/safari-91backbonejsweb-performance-api/">2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/23/chrom50beta-react-perf-node-compat-table/">2016-03-23のJS: Chrome 50β、Reactのパフォーマンス調査改善、Node.js compat table</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
