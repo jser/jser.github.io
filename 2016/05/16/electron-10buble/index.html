@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-05-16のJS: Electron 1.0、ブレークポイントの使い方、Bublé - JSer.info</title>
+    <meta name="description" content="JSer.info #279 - ChromiumとNode.jsをベースとしたデスクトップアプリ開発環境であるElectron 1.0がリリースされました。">
+    
+    <meta name="keywords" content="Electron,Chrome,debug,Babel,ES2015" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-05-16T19:36:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="Electron" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="debug" property="article:tag">
+      
+      <meta content="Babel" property="article:tag">
+      
+      <meta content="ES2015" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/05/16/electron-10buble/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #279 - ChromiumとNode.jsをベースとしたデスクトップアプリ開発環境であるElectron 1.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-05-16のJS: Electron 1.0、ブレークポイントの使い方、Bublé">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/05/16/electron-10buble/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #279 - ChromiumとNode.jsをベースとしたデスクトップアプリ開発環境であるElectron 1.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-05-16T19:36:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/05/10/angular2-firefox48-dev/">
+
+<meta property="og:see_also" content="http://jser.info/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">
+
+<meta property="og:see_also" content="http://jser.info/2016/04/26/core-js-230addeventlistener3/">
+
+
+
+
+
+<meta property="article:tag" content="Electron">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="debug">
+
+<meta property="article:tag" content="Babel">
+
+<meta property="article:tag" content="ES2015">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/05/16/electron-10buble/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/05/16/electron-10buble/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/05/16/electron-10buble/">2016-05-16のJS: Electron 1.0、ブレークポイントの使い方、Bublé</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年05月16日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-05-16-electron-10buble.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-05-16-electron-10buble.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/05/16/electron-10buble/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/05/16/electron-10buble/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #279 - ChromiumとNode.jsをベースとしたデスクトップアプリ開発環境である<a href="http://electron.atom.io/blog/2016/05/11/electron-1-0" title="Electron 1.0">Electron 1.0</a>がリリースされました。</p>
+
+<p>本体は非推奨なメソッドの削除が中心となっています。<br>
+合わせて開発者ツールの強化やデモ、テストツールが公開されています。</p>
+
+<ul>
+<li><a href="http://electron.atom.io/devtron/">Devtron</a></li>
+<li><a href="https://github.com/electron/electron-api-demos">electron/electron-api-demos: Explore the Electron APIs</a></li>
+<li><a href="http://electron.atom.io/spectron/">Spectron</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://qiita.com/nekoneko-wanwan/items/02aed17773833c3ad3b2" title="ブレークポイントを使ったJavaScriptデバッグを整理してみた【再入門】 - Qiita">ブレークポイントを使ったJavaScriptデバッグを整理してみた【再入門】 - Qiita</a>という記事ではChrome開発者ツールでのブレークポイントの使い方について解説されています。</p>
+
+<p>コードに対するブレークポイントからDOM、XHRなど色々なブレーク方法をスクリーンショット共に解説されているので分かりやすいです。</p>
+
+<p>公式サイトも合わせて見るといいかもしれません</p>
+
+<ul>
+<li><a href="https://developer.chrome.com/devtools" title="Chrome DevTools Overview - Google Chrome">Chrome DevTools Overview - Google Chrome</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://buble.surge.sh/guide/" title="Bublé – the blazing fast, batteries-included ES2015 compiler">Bublé – the blazing fast, batteries-included ES2015 compiler</a>は、ES2015のコードをES5へ変換することを目的としたTranspilerツールです。</p>
+
+<p><a href="https://babeljs.io/" title="Babel">Babel</a>とは異なる点としては以下のような点があります。</p>
+
+<ul>
+<li><a href="http://efcl.info/2016/03/06/ast-first-step/" title="AST">AST</a>を変換してASTを生成するわけではなく、ASTから<a href="https://github.com/Rich-Harris/magic-string" title="magic-string">magic-string</a>を使い直接コードを生成しています
+
+<ul>
+<li>ASTから直接コードを吐き出すので高速な変換ができます</li>
+<li>一方、中間フォーマットがないためプラグインのような拡張は難しいです</li>
+</ul></li>
+<li>Babel 6.xのようにプラグイン式ではなく、ビルトインで変換するパターンが入っています</li>
+<li>ECMAScriptの仕様準拠が目的ではない点
+
+<ul>
+<li><a href="https://babeljs.io/" title="Babel">Babel</a>はECMAScriptへのできるだけ準拠した挙動になるように変換します</li>
+<li><code>loose</code>オプションを指定することで、ラフな変換をするようにできますがBubléはこちらがデフォルトとなります</li>
+</ul></li>
+<li>変換できる機能が意図的に限定されています
+
+<ul>
+<li><code>import/export</code>やComputed propertiesなどの変換はできません</li>
+<li>恐らく同作者の<a href="https://github.com/rollup/rollup" title="rollup">rollup</a>と合わせ使うようなデザインになっています</li>
+</ul></li>
+</ul>
+
+<p>Babelとは構造や目的も異なるので、興味がある人はためしてみるといいかもしれません。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="electron-1.0">Electron 1.0</h2>
+
+<p><a href="http://electron.atom.io/blog/2016/05/11/electron-1-0" title="Electron 1.0">electron.atom.io/blog/2016/05/11/electron-1-0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Electron 1.0リリース。</p>
+
+<hr>
+
+<h2 id="eslint-v2.10.0-released---eslint---pluggable-javascript-linter">ESLint v2.10.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2016/05/eslint-v2.10.0-released" title="ESLint v2.10.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2016/05/eslint-v2.10.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint v2.10.0リリース。</p>
+
+<ul>
+<li><a href="http://qiita.com/mysticatea/items/5df2d679283d0a84b296" title="ESLint v2.10.0 - Qiita">ESLint v2.10.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-4-|-webkit">Release Notes for Safari Technology Preview 4 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/6210/release-notes-for-safari-technology-preview-4/" title="Release Notes for Safari Technology Preview 4 | WebKit">webkit.org/blog/6210/release-notes-for-safari-technology-preview-4/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Safari Technology Preview 4リリース。<br>
+<code>String.prototype.localeCompare</code>の実装、object literarlでも<code>super()</code>が呼べるように、<code>var log = console.log</code>が可能になるなど</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="ブレークポイントを使ったjavascriptデバッグを整理してみた【再入門】---qiita">ブレークポイントを使ったJavaScriptデバッグを整理してみた【再入門】 - Qiita</h2>
+
+<p><a href="http://qiita.com/nekoneko-wanwan/items/02aed17773833c3ad3b2" title="ブレークポイントを使ったJavaScriptデバッグを整理してみた【再入門】 - Qiita">qiita.com/nekoneko-wanwan/items/02aed17773833c3ad3b2</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span></p>
+
+<p>Chrome開発者ツールのブレークポイントの使い方や各種ブレークポイントについて。<br>
+画像と共に項目が解説されているので分かりやすい。</p>
+
+<hr>
+
+<h2 id="するするさせたい：サイボウズ採用情報のアニメーション（その1）---fragmentary">するするさせたい：サイボウズ採用情報のアニメーション（その1） - fragmentary</h2>
+
+<p><a href="http://myakura.hatenablog.com/entry/2016/05/12/083000" title="するするさせたい：サイボウズ採用情報のアニメーション（その1） - fragmentary">myakura.hatenablog.com/entry/2016/05/12/083000</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span></p>
+
+<p>CSSアニメーションのパフォーマンス問題を見つけ方と解決方法について</p>
+
+<hr>
+
+<h2 id="an-ultimate-guide-to-css-pseudo-classes-and-pseudo-elements-–-smashing-magazine">An Ultimate Guide To CSS Pseudo-Classes And Pseudo-Elements – Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2016/05/an-ultimate-guide-to-css-pseudo-classes-and-pseudo-elements/" title="An Ultimate Guide To CSS Pseudo-Classes And Pseudo-Elements – Smashing Magazine">www.smashingmagazine.com/2016/05/an-ultimate-guide-to-css-pseudo-classes-and-pseudo-elements/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p>
+
+<p>CSSの擬似要素と擬似クラスの網羅的な解説</p>
+
+<hr>
+
+<h2 id="get-to-know-the-page-visibility-api-|-scotch">Get to Know the Page Visibility API | Scotch</h2>
+
+<p><a href="https://scotch.io/tutorials/get-to-know-the-page-visibility-api" title="Get to Know the Page Visibility API | Scotch">scotch.io/tutorials/get-to-know-the-page-visibility-api</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span></p>
+
+<p>Page Visibility APIの使い所や使い方について</p>
+
+<hr>
+
+<h2 id="ちゃんと使い分けてる?-dependenciesいろいろ。---qiita">ちゃんと使い分けてる? dependenciesいろいろ。 - Qiita</h2>
+
+<p><a href="http://qiita.com/cognitom/items/acc3ffcbca4c56cf2b95" title="ちゃんと使い分けてる? dependenciesいろいろ。 - Qiita">qiita.com/cognitom/items/acc3ffcbca4c56cf2b95</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span></p>
+
+<p>npmのdependenciesの種類についての解説。<br>
+- dependencies<br>
+- devDependencies<br>
+- peerDependencies<br>
+- optionalDependencies<br>
+- bundledDependencies</p>
+
+<hr>
+
+<h2 id="runtastic/flow-guide:-our-definitive-guide-for-using-flow-static-javascript-type-checker-(https://flowtype.org)">runtastic/flow-guide: Our definitive guide for using Flow static JavaScript type checker (https://flowtype.org)</h2>
+
+<p><a href="https://github.com/runtastic/flow-guide" title="runtastic/flow-guide: Our definitive guide for using Flow static JavaScript type checker (https://flowtype.org)">github.com/runtastic/flow-guide</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">tutorial</span></p>
+
+<p>Flowの導入チュートリアル</p>
+
+<hr>
+
+<h2 id="redux-observable-—-medium">redux-observable — Medium</h2>
+
+<p><a href="https://medium.com/@benlesh/redux-observable-ec0b00d2eb52" title="redux-observable — Medium">medium.com/@benlesh/redux-observable-ec0b00d2eb52</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">redux</span> <span class="jser-tag">Rx</span></p>
+
+<p>Netflixで使ってる<code>redux-observable</code>について。<br>
+なぜ<code>redux-</code>なのか? - ReduxはReact周りでよく知られているパターンであり、既に様々なRedux関連ツールが存在するからであるという話</p>
+
+<ul>
+<li><a href="https://github.com/blesh/redux-observable" title="blesh/redux-observable: RxJS middleware for Redux">blesh/redux-observable: RxJS middleware for Redux</a></li>
+</ul>
+
+<hr>
+
+<h2 id="streamlining-the-sign-in-flow-using-credential-management-api-|-web-updates---google-developers">Streamlining the Sign-in Flow Using Credential Management API | Web Updates - Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2016/04/credential-management-api" title="Streamlining the Sign-in Flow Using Credential Management API | Web Updates - Google Developers">developers.google.com/web/updates/2016/04/credential-management-api</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">Chrome</span></p>
+
+<p>Credential Management APIについて。<br>
+自動サイトインを実装しながら使い方について学ぶチュートリアル</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2016/04/credential-management-api?hl=ja" title="Credential Management API を使ったサインインフローの効率化 | Web Updates - Google Developers">Credential Management API を使ったサインインフローの効率化 | Web Updates - Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h2 id="about-document.ready">About document.ready</h2>
+
+<p><a href="https://www.webreflection.co.uk/blog/2016/05/10/document.ready" title="About document.ready">www.webreflection.co.uk/blog/2016/05/10/document.ready</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span></p>
+
+<p>Promiseを返す<code>document.ready</code>をどう実装するかという話。<br>
+<code>document.readyState</code>と<code>DOMContentLoaded</code>について</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="ng-conf-2016---youtube">ng-conf 2016 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLOETEcp3DkCq788xapkP_OU-78jhTf68j" title="ng-conf 2016 - YouTube">www.youtube.com/playlist?list=PLOETEcp3DkCq788xapkP_OU-78jhTf68j</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">動画 </span></p>
+
+<p>ng-conf 2016の動画一覧</p>
+
+<ul>
+<li><a href="https://www.ng-conf.org/#/" title="ng-conf May 4th - 6th 2016 - The World&amp;#x27;s Original Angular Conference">ng-conf May 4th - 6th 2016 - The World&#x27;s Original Angular Conference</a></li>
+</ul>
+
+<hr>
+
+<h2 id="how-to-make-your-webpack-builds-10x-faster">How to make your Webpack builds 10x faster</h2>
+
+<p><a href="http://www.slideshare.net/trueter/how-to-make-your-webpack-builds-10x-faster" title="How to make your Webpack builds 10x faster">www.slideshare.net/trueter/how-to-make-your-webpack-builds-10x-faster</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">スライド</span> <span class="jser-tag">performance</span></p>
+
+<p>webpacのビルド速度改善についてのスライド</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="tc39/proposals:-tracking-ecmascript-proposals">tc39/proposals: Tracking ECMAScript Proposals</h2>
+
+<p><a href="https://github.com/tc39/proposals" title="tc39/proposals: Tracking ECMAScript Proposals">github.com/tc39/proposals</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span></p>
+
+<p>ECMAScriptのProposalまとめリポジトリ。<br>
+Active/InActive/Finished/Stage 0のProposalが一覧できる。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="bublé-–-the-blazing-fast,-batteries-included-es2015-compiler">Bublé – the blazing fast, batteries-included ES2015 compiler</h2>
+
+<p><a href="https://buble.surge.sh/guide/" title="Bublé – the blazing fast, batteries-included ES2015 compiler">buble.surge.sh/guide/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">babel</span></p>
+
+<p>BabelのようにES2015のコードをES5に変換するツール。<br>
+設定なしで動作し、サポートしたいブラウザバージョンを指定することで変換内容を選択できる。</p>
+
+<hr>
+
+<h2 id="garbles/why-did-you-update:-puts-your-console-on-blast-when-react-is-making-unnecessary-updates.">garbles/why-did-you-update: Puts your console on blast when React is making unnecessary updates.</h2>
+
+<p><a href="https://github.com/garbles/why-did-you-update" title="garbles/why-did-you-update: Puts your console on blast when React is making unnecessary updates.">github.com/garbles/why-did-you-update</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span> <span class="jser-tag">library</span></p>
+
+<p>Reactで<code>props</code>の中身が一致する場合にも、renderが呼ばれている事を検知してコンソールに表示するライブラリ</p>
+
+<hr>
+
+<h2 id="leo/args:-minimal-toolkit-for-building-clis">leo/args: Minimal toolkit for building CLIs</h2>
+
+<p><a href="https://github.com/leo/args" title="leo/args: Minimal toolkit for building CLIs">github.com/leo/args</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>minimistを使った引数処理、ヘルプ表示、サブコマンドなどに対応したライブラリ</p>
+
+<hr>
+
+<h2 id="florian/x18n:-a-sane-javascript-internationalisation-library">florian/x18n: A sane JavaScript internationalisation library</h2>
+
+<p><a href="https://github.com/florian/x18n" title="florian/x18n: A sane JavaScript internationalisation library">github.com/florian/x18n</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">i18n</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>r18n gem互換記法が使えるi18nライブラリ</p>
+
+<hr>
+
+<h2 id="documentationjs/globals-docs:-documentation-uris-for-javascript-globals.">documentationjs/globals-docs: Documentation URIs for JavaScript globals.</h2>
+
+<p><a href="https://github.com/documentationjs/globals-docs" title="documentationjs/globals-docs: Documentation URIs for JavaScript globals.">github.com/documentationjs/globals-docs</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Mozilla</span></p>
+
+<p>JavaScriptの型やオブジェクトを渡すと、対応するMDNのドキュメントURLを返してくれるライブラリ</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-05-16-electron-10buble.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["Electron","Chrome","debug","Babel","ES2015"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>Electron</li>
+                
+                <li>Chrome</li>
+                
+                <li>debug</li>
+                
+                <li>Babel</li>
+                
+                <li>ES2015</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/05/16/electron-10buble/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/05/16/electron-10buble/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/05/16/electron-10buble/">2016-05-16のJS: Electron 1.0、ブレークポイントの使い方、Bublé</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/10/angular2-firefox48-dev/">2016-05-10のJS: Angular 2 RC、Firefox開発者ツールの新機能、クロージャーの解説</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/26/core-js-230addeventlistener3/">2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/18/jscs-30eslintsvg/">2016-04-18のJS: JSCS 3.0とESLintへのマージ、SVG アイコン</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/11/grunt-100react-150javascript/">2016-04-11のJS: Grunt 1.0.0、React 15.0、ツールで学ぶJavaScript</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/04/nodejs-5100npm-security-fixsafari-technology-preview/">2016-04-04のJS: Node.js 5.10.0、npm security fix、Safari Technology Preview</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/03/29/safari-91backbonejsweb-performance-api/">2016-03-29のJS: Safari 9.1、Backbone.jsの近況、Web Performance API</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
