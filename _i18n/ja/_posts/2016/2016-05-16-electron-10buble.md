@@ -13,9 +13,46 @@ tags:
 
 ---
 
-JSer.info #279
+JSer.info #279 - ChromiumとNode.jsをベースとしたデスクトップアプリ開発環境である[Electron 1.0](http://electron.atom.io/blog/2016/05/11/electron-1-0 "Electron 1.0")がリリースされました。
+
+本体は非推奨なメソッドの削除が中心となっています。
+合わせて開発者ツールの強化やデモ、テストツールが公開されています。
+
+- [Devtron](http://electron.atom.io/devtron/)
+- [electron/electron-api-demos: Explore the Electron APIs](https://github.com/electron/electron-api-demos)
+- [Spectron](http://electron.atom.io/spectron/)
 
 ----
+
+[ブレークポイントを使ったJavaScriptデバッグを整理してみた【再入門】 - Qiita](http://qiita.com/nekoneko-wanwan/items/02aed17773833c3ad3b2 "ブレークポイントを使ったJavaScriptデバッグを整理してみた【再入門】 - Qiita")という記事ではChrome開発者ツールでのブレークポイントの使い方について解説されています。
+
+コードに対するブレークポイントからDOM、XHRなど色々なブレーク方法をスクリーンショット共に解説されているので分かりやすいです。
+
+公式サイトも合わせて見るといいかもしれません
+
+- [Chrome DevTools Overview - Google Chrome](https://developer.chrome.com/devtools "Chrome DevTools Overview - Google Chrome")
+
+----
+
+[Bublé – the blazing fast, batteries-included ES2015 compiler](https://buble.surge.sh/guide/ "Bublé – the blazing fast, batteries-included ES2015 compiler")は、ES2015のコードをES5へ変換することを目的としたTranspilerツールです。
+
+[Babel](https://babeljs.io/ "Babel")とは異なる点としては以下のような点があります。
+
+- [AST](http://efcl.info/2016/03/06/ast-first-step/ "AST")を変換してASTを生成するわけではなく、ASTから[magic-string](https://github.com/Rich-Harris/magic-string "magic-string")を使い直接コードを生成しています
+  - ASTから直接コードを吐き出すので高速な変換ができます
+  - 一方、中間フォーマットがないためプラグインのような拡張は難しいです
+- Babel 6.xのようにプラグイン式ではなく、ビルトインで変換するパターンが入っています
+- ECMAScriptの仕様準拠が目的ではない点
+  - [Babel](https://babeljs.io/ "Babel")はECMAScriptへのできるだけ準拠した挙動になるように変換します
+  - `loose`オプションを指定することで、ラフな変換をするようにできますがBubléはこちらがデフォルトとなります
+- 変換できる機能が意図的に限定されています
+  - `import/export`やComputed propertiesなどの変換はできません
+  - 恐らく同作者の[rollup](https://github.com/rollup/rollup "rollup")と合わせ使うようなデザインになっています
+
+Babelとは構造や目的も異なるので、興味がある人はためしてみるといいかもしれません。
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
