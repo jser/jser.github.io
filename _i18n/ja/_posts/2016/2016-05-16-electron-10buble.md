@@ -168,7 +168,7 @@ Netflixで使ってる`redux-observable`について。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">Chrome</span></p>
 
 Credential Management APIについて。
-自動サイトインを実装しながら使い方について学ぶチュートリアル
+自動サインインを実装しながら使い方について学ぶチュートリアル
 
 - [Credential Management API を使ったサインインフローの効率化 | Web Updates - Google Developers](https://developers.google.com/web/updates/2016/04/credential-management-api?hl=ja "Credential Management API を使ったサインインフローの効率化 | Web Updates - Google Developers")
 
@@ -203,7 +203,7 @@ ng-conf 2016の動画一覧
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">スライド</span> <span class="jser-tag">performance</span></p>
 
-webpacのビルド速度改善についてのスライド
+webpackのビルド速度改善についてのスライド
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
