@@ -83,7 +83,7 @@ ESLint v2.10.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Safari Technology Preview 4リリース。
-`String.prototype.localeCompare`の実装、object literarlでも`super()`が呼べるように、`var log = console.log`が可能になるなど
+`String.prototype.localeCompare`の実装、object literalでも`super()`が呼べるように、`var log = console.log`が可能になるなど
 
 ----
 <h1 class="site-genre">アーティクル</h1>
