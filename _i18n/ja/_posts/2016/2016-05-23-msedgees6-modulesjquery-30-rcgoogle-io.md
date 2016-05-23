@@ -24,7 +24,11 @@ JSer.info #280 - MSEdgeの新しいビルドが公開され、`<script type="mod
 
 - [Modules (ES6) - Chrome Platform Status](https://www.chromestatus.com/feature/5365692190687232 "Modules (ES6) - Chrome Platform Status")
 
-また、MSEdgeはES2016で入る `**` と `Array.prototype.includes`の実装、ES2017で入る予定のものも実装を開始しています。
+また、MSEdgeはES2016で入る `**` と `Array.prototype.includes`のサポート、ES2017で入る予定の`Object.values`や`Object.entries`などの実装を開始しています。
+
+ECMAScriptの部分に関してはオープンソースのChakraCoreリポジトリの方で実装されるので、以下のリポジトリを見ておくと実装状況がわかると思います。
+
+- [Microsoft/ChakraCore: ChakraCore is the core part of the Chakra Javascript engine that powers Microsoft Edge](https://github.com/Microsoft/ChakraCore "Microsoft/ChakraCore: ChakraCore is the core part of the Chakra Javascript engine that powers Microsoft Edge")
 
 ECMAScriptのProposalの場所は以下に変更されたので合わせて参照するといいかもしれません。
 
