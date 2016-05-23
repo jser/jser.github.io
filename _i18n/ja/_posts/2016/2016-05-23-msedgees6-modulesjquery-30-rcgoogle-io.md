@@ -34,6 +34,14 @@ ECMAScriptのProposalの場所は以下に変更されたので合わせて参�
 
 - [tc39/proposals: Tracking ECMAScript Proposals](https://github.com/tc39/proposals "tc39/proposals: Tracking ECMAScript Proposals")
 
+> TC39, the standards body that works on the ECMAScript language, has a new GitHub-driven process and yearly release cadence.
+
+記事中でGitHub-drivenとありますが、ChakraCoreのIssueに[WebKitの人](https://github.com/Microsoft/ChakraCore/issues/796)がいたり、[Proposal仕様を書いた人](https://github.com/Microsoft/ChakraCore/pull/475)がいたり、それらに対して[ECMAScriptのリポジトリからリンク](https://github.com/tc39/proposal-ptc-syntax/issues/7)があってリファレンスリンクが見えたりするので面白いです。
+
+V8チームが書いた記事も合わせてみると、仕様策定から実装プロセスへの変化が見られるかもしれません。
+
+- [V8 JavaScript Engine: ES6, ES7, and beyond](http://v8project.blogspot.jp/2016/04/es6-es7-and-beyond.html "V8 JavaScript Engine: ES6, ES7, and beyond")
+
 -----
 
 
