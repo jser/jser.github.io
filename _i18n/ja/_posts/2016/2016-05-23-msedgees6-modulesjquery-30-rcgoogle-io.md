@@ -1,5 +1,5 @@
 ---
-title: "2016-05-23: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RC、Google I/O"
+title: "2016-05-23: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース"
 author: azu
 layout: post
 date : 2016-05-23T19:45
@@ -14,11 +14,31 @@ tags:
 ---
 
 
-JSer.info #280 - 
+JSer.info #280 - MSEdgeの新しいビルドが公開され、`<script type="module">`でのES6 modulesをフラグ付きでサポートしています。
 
 - [Previewing ES6 Modules and more from ES2015, ES2016 and beyond | Microsoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2016/05/17/es6-modules-and-beyond/)
-- [Google I/O 2016](https://events.google.com/io2016/)
-- [jQuery 3.0 Release Candidate…Released! | Official jQuery Blog](http://blog.jquery.com/2016/05/20/jquery-3-0-release-candidate-released/)
+
+[Microsoft Edge で Modules を使ってみる - Browser](http://browser.hatenablog.com/entry/2016/05/22/220131 "Microsoft Edge で Modules を使ってみる - Browser")でも書かれていますが、まだサポートは限定的です。
+
+他のブラウザも実装中で、[仕様もまだ議論中](https://github.com/whatwg/loader)なところは多いですが、Moduleが一歩進んだ感じです。
+
+- [Modules (ES6) - Chrome Platform Status](https://www.chromestatus.com/feature/5365692190687232 "Modules (ES6) - Chrome Platform Status")
+
+また、MSEdgeはES2016で入る `**` と `Array.prototype.includes`の実装、ES2017で入る予定のものも実装を開始しています。
+
+ECMAScriptのProposalの場所は以下に変更されたので合わせて参照するといいかもしれません。
+
+- [tc39/proposals: Tracking ECMAScript Proposals](https://github.com/tc39/proposals "tc39/proposals: Tracking ECMAScript Proposals")
+
+-----
+
+
+[jQuery 3.0 RC](http://blog.jquery.com/2016/05/20/jquery-3-0-release-candidate-released/)がリリースされました。
+
+jQuery 3.xはIE9+サポートとなり、1.xと2.xから3.xに一本化されます。
+過去のバージョンからのアップグレード方法については以下のドキュメントにまとめられています。
+
+- [jQuery Core 3.0 Upgrade Guide | jQuery](https://jquery.com/upgrade-guide/3.0/ "jQuery Core 3.0 Upgrade Guide | jQuery")
 
 
 ----
