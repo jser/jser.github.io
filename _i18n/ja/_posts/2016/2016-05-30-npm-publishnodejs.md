@@ -1,16 +1,44 @@
 ---
-title: "2016-05-30のJS: "
+title: "2016-05-30のJS: 初めてのnpm publish、Node.jsでのメモリリークデバッグ"
 author: azu
 layout: post
 date : 2016-05-30T20:41
 category: JSer
 tags:
-    - 
+    - npm
+    - V8
+    - Node.js
+    - memory
+    - debug
 
 ---
 
+JSer.info #281　[Publishing Your First Package to npm](https://eladnava.com/publishing-your-first-package-to-npm/)という記事では、npmにパッケージを公開する流れが紹介されています。
 
-JSer.info #281
+まだ`npm publish`したことがない人はチュートリアルを見ながらやってみるといいかもしれません。
+グローバルな名前空間を使うのに気が引ける場合はScoped Modulesとして公開してみるといいかもしれません。
+(`package.json`の`name`を`@<npmユーザ名>/<パッケージ名`とするだけです)
+
+- [npmで名前空間を持ったモジュールを公開する方法(scoped modules) | Web Scratch](http://efcl.info/2015/04/30/npm-namespace/)
+
+-----
+
+[Node.jsでのJavaScriptメモリリークを発見するための簡単ガイド | プログラミング | POSTD](http://postd.cc/simple-guide-to-finding-a-javascript-memory-leak-in-node-js/)は[Simple Guide to Finding a JavaScript Memory Leak in Node.js](http://www.alexkras.com/simple-guide-to-finding-a-javascript-memory-leak-in-node-js/ "Simple Guide to Finding a JavaScript Memory Leak in Node.js")の翻訳記事ですが、Node.jsでのメモリリークの見つけ方や確認方法についてです。
+
+JavaScriptライブラリはブラウザ向けでもNode.jsで動くように書くことが多い(テスト楽)ので、
+Node.js向けの方法ですが適応できる範囲は結構広いので知っておくといいことが多いです。
+
+- 最近まさに`global.gc()`と`process.memoryUsage()`を使ってメモリリークのテストをブラウザ向けのライブラリでやりました
+- [perf(test): add memory leak testing by azu · Pull Request #33 · almin/almin](https://github.com/almin/almin/pull/33 "perf(test): add memory leak testing by azu · Pull Request #33 · almin/almin")
+
+GCとHeapダンプの取り方はブラウザの開発者ツールでも同様の事ができます。
+また、Node.jsをChromeの開発者ツールでリモートデバッグする機能がPull Requestされています。
+
+- [Add v8_inspector support by ofrobots · Pull Request #6792 · nodejs/node](https://github.com/nodejs/node/pull/6792)
+- [V8, modern JavaScript, and beyond - Google I/O 2016 - YouTube](https://www.youtube.com/watch?v=N1swY14jiKc)
+
+----
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
