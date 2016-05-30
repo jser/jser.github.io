@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #281　[Publishing Your First Package to npm](https://eladnava.com/publishing-your-first-package-to-npm/)という記事では、npmにパッケージを公開する流れが紹介されています。
+JSer.info #281 - [Publishing Your First Package to npm](https://eladnava.com/publishing-your-first-package-to-npm/)という記事では、npmにパッケージを公開する流れが紹介されています。
 
 まだ`npm publish`したことがない人はチュートリアルを見ながらやってみるといいかもしれません。
 グローバルな名前空間を使うのに気が引ける場合はScoped Modulesとして公開してみるといいかもしれません。
