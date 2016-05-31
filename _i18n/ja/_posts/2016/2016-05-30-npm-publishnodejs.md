@@ -37,8 +37,6 @@ GCとHeapダンプの取り方はブラウザの開発者ツールでも同様�
 - [Add v8_inspector support by ofrobots · Pull Request #6792 · nodejs/node](https://github.com/nodejs/node/pull/6792)
 - [V8, modern JavaScript, and beyond - Google I/O 2016 - YouTube](https://www.youtube.com/watch?v=N1swY14jiKc)
 
-----
-
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
