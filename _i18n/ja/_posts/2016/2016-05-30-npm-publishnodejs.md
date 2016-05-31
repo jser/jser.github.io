@@ -164,7 +164,7 @@ ESLintをMochaのテストとして動かす話
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p>
 
-`packge.json`の`config` fieldに環境変数を定義して、それをクロスプラットフォームで利用できるようにするツール
+`package.json`の`config` fieldに環境変数を定義して、それをクロスプラットフォームで利用できるようにするツール
 
 ----
 
