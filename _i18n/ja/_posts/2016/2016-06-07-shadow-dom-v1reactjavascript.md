@@ -40,7 +40,7 @@ Reactの動向はReact Coreチームのミーティングノートが公開さ�
 
 - [JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch](http://efcl.info/2016/06/06/JavaScript-Plugin-Architecture/ "JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch")
 
-現時点では、[jQuery](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/jQuery/README.md)、[ESLint](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/ESLint/README.md)、[Connect](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/connect/README.md)、[gulp](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/gulp/README.md)、[Redux](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/Redux/README.md)のプラグインについてそれぞれプラグインの仕組み自体を実装しつつ解説した内容が書かれています。
+現時点では、[jQuery](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/jQuery/)、[ESLint](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/ESLint/)、[Connect](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/connect/)、[gulp](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/gulp/)、[Redux](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/Redux/)のプラグインについてそれぞれプラグインの仕組み自体を実装しつつ解説した内容が書かれています。
 
 全部まとめて読むというよりは気になったものをパッと見るリファレンス的な感じになっています。
 
