@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-06-07のJS: Shadow DOM v1、React近況、JavaScriptのプラグイン設計本 - JSer.info</title>
+    <meta name="description" content="JSer.info #282 - What&#39;s New in Shadow DOM v1 (by examples) — hayato.ioという記事では、Shadow DOM仕様の策定者でもある@shadow_hayatoさんよるShadow DOM v0とv1の違いについて解説されています。">
+    
+    <meta name="keywords" content="WebComponent,React,JavaScript,plguin,book" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-06-07T09:40:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="WebComponent" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="plguin" property="article:tag">
+      
+      <meta content="book" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/06/07/shadow-dom-v1reactjavascript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #282 - What&#39;s New in Shadow DOM v1 (by examples) — hayato.ioという記事では、Shadow DOM仕様の策定者でもある@shadow_hayatoさんよるShadow DOM v0とv1の違いについて解説されています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-06-07のJS: Shadow DOM v1、React近況、JavaScriptのプラグイン設計本">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/06/07/shadow-dom-v1reactjavascript/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #282 - What&#39;s New in Shadow DOM v1 (by examples) — hayato.ioという記事では、Shadow DOM仕様の策定者でもある@shadow_hayatoさんよるShadow DOM v0とv1の違いについて解説されています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-06-07T09:40:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/05/30/npm-publishnodejs/">
+
+<meta property="og:see_also" content="http://jser.info/2016/05/23/msedgees6-modulesjquery-30-rcgoogle-io/">
+
+<meta property="og:see_also" content="http://jser.info/2016/05/16/electron-10buble/">
+
+
+
+
+
+<meta property="article:tag" content="WebComponent">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="JavaScript">
+
+<meta property="article:tag" content="plguin">
+
+<meta property="article:tag" content="book">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/06/07/shadow-dom-v1reactjavascript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/06/07/shadow-dom-v1reactjavascript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/06/07/shadow-dom-v1reactjavascript/">2016-06-07のJS: Shadow DOM v1、React近況、JavaScriptのプラグイン設計本</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年06月07日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-06-07-shadow-dom-v1reactjavascript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-06-07-shadow-dom-v1reactjavascript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/06/07/shadow-dom-v1reactjavascript/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/06/07/shadow-dom-v1reactjavascript/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #282 - <a href="http://hayato.io/2016/shadowdomv1/" title="What&amp;#39;s New in Shadow DOM v1 (by examples) — hayato.io">What&#39;s New in Shadow DOM v1 (by examples) — hayato.io</a>という記事では、Shadow DOM仕様の策定者でもある<a href="https://twitter.com/shadow_hayato" title="@shadow_hayato">@shadow_hayato</a>さんよるShadow DOM v0とv1の違いについて解説されています。</p>
+
+<p>closed shadow rootという概念の追加や、v1では<code>/deep/</code>や<code>::shadow</code>は利用できなくなり、<br>
+slot(<code>::slotted</code>)を利用する点など色々な違いがあります。</p>
+
+<ul>
+<li><a href="https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Shadow-DOM-Cascade-Order-in-v1.md" title="webcomponents/Shadow-DOM-Cascade-Order-in-v1.md at gh-pages · w3c/webcomponents">webcomponents/Shadow-DOM-Cascade-Order-in-v1.md at gh-pages · w3c/webcomponents</a></li>
+</ul>
+
+<p>コード例を中心に解説されているので、Shadow DOMに興味がある人は見ておくといいです。</p>
+
+<hr>
+
+<p><a href="https://www.react-europe.org/" title="ReactEurope">ReactEurope</a>が開催され、その動画が公開されています。</p>
+
+<ul>
+<li><a href="https://www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A/feed" title="ReactEurope - YouTube">ReactEurope - YouTube</a></li>
+</ul>
+
+<p>また、<a href="https://speakerdeck.com/koba04/the-state-of-react-dot-js-2016" title="The state of React.js 2016 // Speaker Deck">The state of React.js 2016 // Speaker Deck</a>というスライドではここ半年ぐらいのReactの変化などについてまとめられています。</p>
+
+<p>Reactの動向はReact Coreチームのミーティングノートが公開されているので、こちらも合わせて参照するといいです。</p>
+
+<ul>
+<li><a href="https://github.com/reactjs/core-notes" title="reactjs/core-notes: Weekly meeting notes from the React core team">reactjs/core-notes: Weekly meeting notes from the React core team</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://github.com/azu/JavaScript-Plugin-Architecture" title="JavaScript Plugin Architecture">JavaScript Plugin Architecture</a>という電子書籍では、JavaScriptのライブラリやツールにおけるプラグイン設計について書かれています。</p>
+
+<ul>
+<li><a href="http://efcl.info/2016/06/06/JavaScript-Plugin-Architecture/" title="JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch">JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch</a></li>
+</ul>
+
+<p>現時点では、<a href="https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/jQuery/README.md">jQuery</a>、<a href="https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/ESLint/README.md">ESLint</a>、<a href="https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/connect/README.md">Connect</a>、<a href="https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/gulp/README.md">gulp</a>、<a href="https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/Redux/README.md">Redux</a>のプラグインについてそれぞれプラグインの仕組み自体を実装しつつ解説した内容が書かれています。</p>
+
+<p>全部まとめて読むというよりは気になったものをパッと見るリファレンス的な感じになっています。</p>
+
+<hr>
+
+<h1 class="site-genre">ECMAScript便り〆</h1>
+
+<p>5月に行われた<a href="https://github.com/rwaldron/tc39-notes" title="TC39 Meeting">TC39 Meeting</a>の記録が公開されたので、主要なできごとを簡単に書いておきます。<br>
+詳しくは<a href="https://github.com/rwaldron/tc39-notes/tree/master/es7/2016-05" title="tc39-notes/es7/2016-05 at master · rwaldron/tc39-notes">ミーティングノート</a>を読んでください</p>
+
+<ul>
+<li><a href="https://ecmascript-daily.github.io/2016/05/13/tc39-proposals-tracking-ecmascript-proposals">tc39/proposals: Tracking ECMAScript Proposals | ECMAScript Daily</a>
+
+<ul>
+<li>今までProposalは<a href="https://github.com/tc39/ecma262" title="tc39/ecma262">tc39/ecma262</a>にまとめがありましたが、単独のリポジトリに移動しました</li>
+</ul></li>
+<li><a href="https://ecmascript-daily.github.io/2016/06/07/arrive-tc39-meeting-notes-for-2016-05">Arrive TC39 meeting notes for 2016-05 | ECMAScript Daily</a>
+
+<ul>
+<li>2016年5月のミーティングノートが公開されました</li>
+<li>6月中旬にはECMAScript 2016の正式リリースが控えています。</li>
+</ul></li>
+<li><a href="https://ecmascript-daily.github.io/2016/05/25/stage-0-ljharb-proposal-promise-finally-ecmascript-proposal-specs-and-reference-implementation-for-promise-prototype-finally">[Stage 0] ljharb/proposal-promise-finally: ECMAScript Proposal, specs, and reference implementation for Promise.prototype.finally | ECMAScript Daily</a>
+
+<ul>
+<li><code>Promise#finally</code> のProposalがStage 0になりました</li>
+</ul></li>
+<li><a href="https://ecmascript-daily.github.io/2016/05/25/stage-4-per-may-2016-tc39-consensus-string-padstart-padend-is-now-stage-4-by-ljharb-pull-request-581-tc39-ecma262">[Stage 4] Per May 2016 TC39 consensus, String#{padStart,padEnd} is now stage 4! by ljharb · Pull Request #581 · tc39/ecma262 | ECMAScript Daily</a></li>
+<li><a href="https://ecmascript-daily.github.io/2016/05/25/stage-4-per-may-2016-tc39-consensus-object-getownpropertydescriptors-is-now-stage-4-by-ljharb-pull-request-582-tc39-ecma262">[Stage 4] Per May 2016 TC39 consensus, Object.getOwnPropertyDescriptors is now stage 4! by ljharb · Pull Request #582 · tc39/ecma262 | ECMAScript Daily</a>
+
+<ul>
+<li><code>String#{padStart,padEnd}</code>と<code>Object.getOwnPropertyDescriptors</code>がStage 4となりES2017に入る</li>
+</ul></li>
+<li><a href="https://ecmascript-daily.github.io/2016/05/26/cancelable-promises">Cancelable promises | ECMAScript Daily</a>
+
+<ul>
+<li>Promiseのキャンセル方法としてCancelTokenと<code>Promise#cancel</code>の2種類が提案され、議論が開始された</li>
+<li><a href="https://github.com/zenparsing/es-cancel-token">zenparsing/es-cancel-token: Cancel Tokens for ECMAScript</a></li>
+<li>ES Observableにも関わってくるので、<a href="https://github.com/zenparsing/es-observable/pull/97" title="Remove forEach and add &amp;#34;subscribe&amp;#34; overload by zenparsing · Pull Request #97 · zenparsing/es-observable">Remove forEach and add &quot;subscribe&quot; overload by zenparsing · Pull Request #97 · zenparsing/es-observable</a>も参照。</li>
+<li><a href="https://github.com/domenic/cancelable-promise">domenic/cancelable-promise: Cancelable promises proposal for JavaScript</a></li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="v8-javascript-engine:-release-5.2">V8 JavaScript Engine: Release 5.2</h2>
+
+<p><a href="http://v8project.blogspot.com/2016/06/release-52.html" title="V8 JavaScript Engine: Release 5.2">v8project.blogspot.com/2016/06/release-52.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>V8 5.2リリース。<br>
+ Exponentiation operator <code>**</code>のサポート、<code>Array.isArray</code>、<code>in</code> operator、<code>Function#bind</code>のパフォーマンス改善など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="getting-started-with-tdd-in-react---semaphore">Getting Started with TDD in React - Semaphore</h2>
+
+<p><a href="https://semaphoreci.com/community/tutorials/getting-started-with-tdd-in-react" title="Getting Started with TDD in React - Semaphore">semaphoreci.com/community/tutorials/getting-started-with-tdd-in-react</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>Enzymeを使ったReact Componentのテストについて</p>
+
+<hr>
+
+<h2 id="what&#x27;s-new-in-shadow-dom-v1-(by-examples)-—-hayato.io">What&#x27;s New in Shadow DOM v1 (by examples) — hayato.io</h2>
+
+<p><a href="http://hayato.io/2016/shadowdomv1/" title="What&#39;s New in Shadow DOM v1 (by examples) — hayato.io">hayato.io/2016/shadowdomv1/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p>
+
+<p>Shadow DOM v0とv1の違いについて。<br>
+<a href="https://twitter.com/shadow_hayato" title="@shadow_hayato">@shadow_hayato</a>さん(仕様作庭者)によるコード例を元にした解説。</p>
+
+<ul>
+<li><a href="https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/BUGxw_Yx5Lo" title="Shadow DOM v1: Status updates - Google グループ">Shadow DOM v1: Status updates - Google グループ</a></li>
+<li><a href="https://github.com/w3c/webcomponents/issues?utf8=%E2%9C%93&amp;q=is%3Aissue+is%3Aopen+label%3Av1+label%3Ashadow-dom" title="Issues · w3c/webcomponents">Issues · w3c/webcomponents</a></li>
+</ul>
+
+<hr>
+
+<h2 id="chromeのヘッドレスブラウザがやってくる。というわけで試してみた。---qiita">Chromeのヘッドレスブラウザがやってくる。というわけで試してみた。 - Qiita</h2>
+
+<p><a href="http://qiita.com/devneko/items/51f2e114a7e0b3389435" title="Chromeのヘッドレスブラウザがやってくる。というわけで試してみた。 - Qiita">qiita.com/devneko/items/51f2e114a7e0b3389435</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span></p>
+
+<p>Chromeのヘッドレスブラウザについて</p>
+
+<ul>
+<li><a href="https://bugs.chromium.org/p/chromium/issues/list?q=label:Proj-Headless" title="Issues - chromium - An open-source project to help move the web forward. - Monorail">Issues - chromium - An open-source project to help move the web forward. - Monorail</a></li>
+</ul>
+
+<hr>
+
+<h2 id="infinite-collections-with-es6-generators---advanced-web-machinery">Infinite collections with ES6 generators - Advanced Web Machinery</h2>
+
+<p><a href="https://advancedweb.hu/2016/05/31/infinite-collections-with-es6-generators/" title="Infinite collections with ES6 generators - Advanced Web Machinery">advancedweb.hu/2016/05/31/infinite-collections-with-es6-generators/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>Iteratorを使った無限リストについて</p>
+
+<ul>
+<li><a href="https://github.com/sashee/gentoo" title="sashee/gentoo: Tools for ES6 generators">sashee/gentoo: Tools for ES6 generators</a></li>
+</ul>
+
+<hr>
+
+<h2 id="why-we-chose-mobx-over-redux-for-spectacle-editor">Why we chose MobX over Redux for Spectacle Editor</h2>
+
+<p><a href="http://formidable.com/blog/2016/06/02/why-we-chose-mobx-over-redux-for-spectacle-editor/" title="Why we chose MobX over Redux for Spectacle Editor">formidable.com/blog/2016/06/02/why-we-chose-mobx-over-redux-for-spectacle-editor/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">redux</span></p>
+
+<p>Reduxとかと同じくアプリケーションのStateを管理するMobXの特徴についての紹介</p>
+
+<ul>
+<li><a href="https://github.com/mobxjs/mobx" title="mobxjs/mobx: Simple, scalable state management.">mobxjs/mobx: Simple, scalable state management.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="creating-a-living-style-guide:-a-case-study-–-smashing-magazine">Creating A Living Style Guide: A Case Study – Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2016/05/creating-a-living-style-guide-case-study/" title="Creating A Living Style Guide: A Case Study – Smashing Magazine">www.smashingmagazine.com/2016/05/creating-a-living-style-guide-case-study/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p>
+
+<p>スタイルガイドのケーススタディ</p>
+
+<hr>
+
+<h2 id="improving-your-css-with-parker-–-css-wizardry-–-css,-oocss,-front-end-architecture,-performance-and-more,-by-harry-roberts">Improving Your CSS with Parker – CSS Wizardry – CSS, OOCSS, front-end architecture, performance and more, by Harry Roberts</h2>
+
+<p><a href="http://csswizardry.com/2016/06/improving-your-css-with-parker/" title="Improving Your CSS with Parker – CSS Wizardry – CSS, OOCSS, front-end architecture, performance and more, by Harry Roberts">csswizardry.com/2016/06/improving-your-css-with-parker/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span></p>
+
+<p>CSSの解析ツールであるParkerについて</p>
+
+<ul>
+<li><a href="https://github.com/katiefenn/parker/" title="katiefenn/parker: Stylesheet analysis tool.">katiefenn/parker: Stylesheet analysis tool.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="webpackのdllバンドルを使ってビルドを速くする---qiita">webpackのDLLバンドルを使ってビルドを速くする - Qiita</h2>
+
+<p><a href="http://qiita.com/pirosikick/items/c77db84dbed4c447a6fe" title="webpackのDLLバンドルを使ってビルドを速くする - Qiita">qiita.com/pirosikick/items/c77db84dbed4c447a6fe</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">performance</span></p>
+
+<p>webpackのビルド速度の改善について。<br>
+vendarライブラリだけ別にビルドし読み込んで使うDLLバンドル、<code>cacheDirectory</code>、<code>externals</code>との違いについてなど</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="the-state-of-react.js-2016-//-speaker-deck">The state of React.js 2016 // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/koba04/the-state-of-react-dot-js-2016" title="The state of React.js 2016 // Speaker Deck">speakerdeck.com/koba04/the-state-of-react-dot-js-2016</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">スライド</span></p>
+
+<p>Reactの最近の変更や今後の変更、非推奨になる予定の機能についてなど</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=C8bMahvTkHA" title="第65回 HTML5とか勉強会 ー React最新情報 - YouTube">第65回 HTML5とか勉強会 ー React最新情報 - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h2 id="reacteurope-2016---day-1---youtube">ReactEurope 2016 - Day 1 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A" title="ReactEurope 2016 - Day 1 - YouTube">www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">動画</span></p>
+
+<p>ReactEurope 2016の動画まとめ</p>
+
+<hr>
+
+<h2 id="building-react-applications-with-idiomatic-redux---course-by-@dan_abramov-@eggheadio">Building React Applications with Idiomatic Redux - Course by @dan_abramov @eggheadio</h2>
+
+<p><a href="https://egghead.io/courses/building-react-applications-with-idiomatic-redux" title="Building React Applications with Idiomatic Redux - Course by @dan\_abramov @eggheadio">egghead.io/courses/building-react-applications-with-idiomatic-redux</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">動画</span> <span class="jser-tag">tutorial</span></p>
+
+<p>Redux作者によるReduxでアプリケーションを作るスクリーンキャスト</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=uvAXVMwHJXU" title="Dan Abramov - The Redux Journey at react-europe 2016 - YouTube">Dan Abramov - The Redux Journey at react-europe 2016 - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h2 id="next-vue.js-2.0-//-speaker-deck">Next Vue.js 2.0 // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/kazupon/next-vue-dot-js-2-dot-0" title="Next Vue.js 2.0 // Speaker Deck">speakerdeck.com/kazupon/next-vue-dot-js-2-dot-0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
+
+<p>Vue.js 2.0のレンダリングフローについて</p>
+
+<hr>
+
+<h2 id="flow-vs-typescript">Flow vs TypeScript</h2>
+
+<p><a href="http://djcordhose.github.io/flow-vs-typescript/2016_hhjs.html#/" title="Flow vs TypeScript">djcordhose.github.io/flow-vs-typescript/2016_hhjs.html#/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">flowtype</span></p>
+
+<p>TypeScriptとFlowTypeの型指定の比較についてのスライド</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="hyperdev">HyperDev</h2>
+
+<p><a href="https://hyperdev.com/" title="HyperDev">hyperdev.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webservice</span> <span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>サーバも書けるJSFiddle的なサービス。<br>
+Node.jsでサーバ側、HTML/CSS/JSなフロントも一緒に書けるエディタサービス</p>
+
+<hr>
+
+<h2 id="front-end-hyperpolyglot">Front-end Hyperpolyglot</h2>
+
+<p><a href="http://jeffcarp.github.io/frontend-hyperpolyglot/" title="Front-end Hyperpolyglot">jeffcarp.github.io/frontend-hyperpolyglot/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+
+<p>React/Angular1,2/Ember/Polymer/Vueのテンプレートの書き方比較</p>
+
+<ul>
+<li><a href="http://hyperpolyglot.org/" title="Programming Languages - Hyperpolyglot">Programming Languages - Hyperpolyglot</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="epoberezkin/ajv:-the-fastest-json-schema-validator.-supports-v5-proposals">epoberezkin/ajv: The fastest JSON schema Validator. Supports v5 proposals</h2>
+
+<p><a href="https://github.com/epoberezkin/ajv" title="epoberezkin/ajv: The fastest JSON schema Validator. Supports v5 proposals">github.com/epoberezkin/ajv</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">JSON</span> <span class="jser-tag">library</span></p>
+
+<p>JSON Schema validatorライブラリ</p>
+
+<hr>
+
+<h2 id="mjb-code6/skyport:-add-offline-functionality-to-your-web-app">MJB-code6/SkyPort: Add offline functionality to your web app</h2>
+
+<p><a href="https://github.com/MJB-code6/SkyPort" title="MJB-code6/SkyPort: Add offline functionality to your web app">github.com/MJB-code6/SkyPort</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">library</span></p>
+
+<p>Service Workerを使ったオフラインモードを実現するライブラリ。</p>
+
+<hr>
+
+<h2 id="frend-—-a-collection-of-accessible,-modern-front-end-components.">Frend — A collection of accessible, modern front-end components.</h2>
+
+<p><a href="http://frend.co/" title="Frend — A collection of accessible, modern front-end components.">frend.co/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">WAI-ARIA</span></p>
+
+<p>AccessibleなDOM UIを実現するためのJavaScriptライブラリ。CSSフレームワークのように特定のクラスを付けた要素にWAI-ARIAの属性を付加していく。</p>
+
+<hr>
+
+<h2 id="googlechrome/lighthouse:-auditing-and-performance-metrics-for-progressive-web-apps">GoogleChrome/lighthouse: auditing and performance metrics for Progressive Web Apps</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse" title="GoogleChrome/lighthouse: auditing and performance metrics for Progressive Web Apps">github.com/GoogleChrome/lighthouse</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">Tools</span></p>
+
+<p>Service Workerを使ってのオフライン対応の有無、Speed IndexなどのロードパフォーマンスなどProgressive Web Appsに関する計測ツール</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript-plugin-architectureというプラグイン設計について学ぶ無料の電子書籍を書いた-|-web-scratch">JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2016/06/06/JavaScript-Plugin-Architecture/" title="JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch">efcl.info/2016/06/06/JavaScript-Plugin-Architecture/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ebook</span></p>
+
+<p>JavaScriptのプラグイン設計のケーススタディ本。<br>
+jQuery、ESLint、Connect、gulp、Reduxなどのプラグインの仕組みを実装しながら学ぶ電子書籍</p>
+
+<ul>
+<li><a href="https://github.com/azu/JavaScript-Plugin-Architecture" title="azu/JavaScript-Plugin-Architecture: JavaScriptプラグインアーキテクチャの本">azu/JavaScript-Plugin-Architecture: JavaScriptプラグインアーキテクチャの本</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-06-07-shadow-dom-v1reactjavascript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["WebComponent","React","JavaScript","plguin","book"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>WebComponent</li>
+                
+                <li>React</li>
+                
+                <li>JavaScript</li>
+                
+                <li>plguin</li>
+                
+                <li>book</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/06/07/shadow-dom-v1reactjavascript/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/06/07/shadow-dom-v1reactjavascript/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/06/07/shadow-dom-v1reactjavascript/">2016-06-07のJS: Shadow DOM v1、React近況、JavaScriptのプラグイン設計本</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/30/npm-publishnodejs/">2016-05-30のJS: 初めてのnpm publish、Node.jsでのメモリリークデバッグ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/23/msedgees6-modulesjquery-30-rcgoogle-io/">2016-05-23: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/16/electron-10buble/">2016-05-16のJS: Electron 1.0、ブレークポイントの使い方、Bublé</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/10/angular2-firefox48-dev/">2016-05-10のJS: Angular 2 RC、Firefox開発者ツールの新機能、クロージャーの解説</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/03/nodejs-600github-fetch-100-webkit-prefix/">2016-05-03のJS: Node.js 6.0.0、GitHub Fetch 1.0.0、-webkit- prefixのポリシー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/26/core-js-230addeventlistener3/">2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/04/18/jscs-30eslintsvg/">2016-04-18のJS: JSCS 3.0とESLintへのマージ、SVG アイコン</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
