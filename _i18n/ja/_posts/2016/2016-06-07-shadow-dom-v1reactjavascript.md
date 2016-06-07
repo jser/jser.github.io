@@ -99,7 +99,7 @@ Enzymeを使ったReact Componentのテストについて
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p>
 
 Shadow DOM v0とv1の違いについて。
-[@shadow_hayato](https://twitter.com/shadow_hayato "@shadow_hayato")さん(仕様作庭者)によるコード例を元にした解説。
+[@shadow_hayato](https://twitter.com/shadow_hayato "@shadow_hayato")さん(仕様策定者)によるコード例を元にした解説。
 
 - [Shadow DOM v1: Status updates - Google グループ](https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/BUGxw_Yx5Lo "Shadow DOM v1: Status updates - Google グループ")
 - [Issues · w3c/webcomponents](https://github.com/w3c/webcomponents/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Av1+label%3Ashadow-dom "Issues · w3c/webcomponents")
