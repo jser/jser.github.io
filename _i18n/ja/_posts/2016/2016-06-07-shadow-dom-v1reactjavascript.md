@@ -13,9 +13,58 @@ tags:
 
 ---
 
+JSer.info #282 - [What's New in Shadow DOM v1 (by examples) — hayato.io](http://hayato.io/2016/shadowdomv1/ "What&#39;s New in Shadow DOM v1 (by examples) — hayato.io")という記事では、Shadow DOM仕様の策定者でもある[@shadow_hayato](https://twitter.com/shadow_hayato "@shadow_hayato")さんよるShadow DOM v0とv1の違いについて解説されています。
 
+closed shadow rootという概念の追加や、v1では`/deep/`や`::shadow`は利用できなくなり、
+slot(`::slotted`)を利用する点など色々な違いがあります。
 
-JSer.info #282 - 
+- [webcomponents/Shadow-DOM-Cascade-Order-in-v1.md at gh-pages · w3c/webcomponents](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Shadow-DOM-Cascade-Order-in-v1.md "webcomponents/Shadow-DOM-Cascade-Order-in-v1.md at gh-pages · w3c/webcomponents")
+
+コード例を中心に解説されているので、Shadow DOMに興味がある人は見ておくといいです。
+
+-----
+
+[ReactEurope](https://www.react-europe.org/ "ReactEurope")が開催され、その動画が公開されています。
+
+- [ReactEurope - YouTube](https://www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A/feed "ReactEurope - YouTube")
+
+また、[The state of React.js 2016 // Speaker Deck](https://speakerdeck.com/koba04/the-state-of-react-dot-js-2016 "The state of React.js 2016 // Speaker Deck")というスライドではここ半年ぐらいのReactの変化などについてまとめられています。
+
+Reactの動向はReact Coreチームのミーティングノートが公開されているので、こちらも合わせて参照するといいです。
+
+- [reactjs/core-notes: Weekly meeting notes from the React core team](https://github.com/reactjs/core-notes "reactjs/core-notes: Weekly meeting notes from the React core team")
+
+----
+
+[JavaScript Plugin Architecture](https://github.com/azu/JavaScript-Plugin-Architecture "JavaScript Plugin Architecture")という電子書籍では、JavaScriptのライブラリやツールにおけるプラグイン設計について書かれています。
+
+- [JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch](http://efcl.info/2016/06/06/JavaScript-Plugin-Architecture/ "JavaScript Plugin Architectureというプラグイン設計について学ぶ無料の電子書籍を書いた | Web Scratch")
+
+現時点では、[jQuery](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/jQuery/README.md)、[ESLint](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/ESLint/README.md)、[Connect](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/connect/README.md)、[gulp](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/gulp/README.md)、[Redux](https://azu.gitbooks.io/javascript-plugin-architecture/content/ja/Redux/README.md)のプラグインについてそれぞれプラグインの仕組み自体を実装しつつ解説した内容が書かれています。
+
+全部まとめて読むというよりは気になったものをパッと見るリファレンス的な感じになっています。
+
+----
+<h1 class="site-genre">ECMAScript便り〆</h1>
+
+5月に行われた[TC39 Meeting](https://github.com/rwaldron/tc39-notes "TC39 Meeting")の記録が公開されたので、主要なできごとを簡単に書いておきます。
+詳しくは[ミーティングノート](https://github.com/rwaldron/tc39-notes/tree/master/es7/2016-05 "tc39-notes/es7/2016-05 at master · rwaldron/tc39-notes")を読んでください
+
+- [tc39/proposals: Tracking ECMAScript Proposals | ECMAScript Daily](https://ecmascript-daily.github.io/2016/05/13/tc39-proposals-tracking-ecmascript-proposals)
+  - 今までProposalは[tc39/ecma262](https://github.com/tc39/ecma262 "tc39/ecma262")にまとめがありましたが、単独のリポジトリに移動しました
+- [Arrive TC39 meeting notes for 2016-05 | ECMAScript Daily](https://ecmascript-daily.github.io/2016/06/07/arrive-tc39-meeting-notes-for-2016-05)
+  - 2016年5月のミーティングノートが公開されました
+  - 6月中旬にはECMAScript 2016の正式リリースが控えています。
+- [[Stage 0] ljharb/proposal-promise-finally: ECMAScript Proposal, specs, and reference implementation for Promise.prototype.finally | ECMAScript Daily](https://ecmascript-daily.github.io/2016/05/25/stage-0-ljharb-proposal-promise-finally-ecmascript-proposal-specs-and-reference-implementation-for-promise-prototype-finally)
+  - `Promise#finally` のProposalがStage 0になりました
+- [[Stage 4] Per May 2016 TC39 consensus, String#{padStart,padEnd} is now stage 4! by ljharb · Pull Request #581 · tc39/ecma262 | ECMAScript Daily](https://ecmascript-daily.github.io/2016/05/25/stage-4-per-may-2016-tc39-consensus-string-padstart-padend-is-now-stage-4-by-ljharb-pull-request-581-tc39-ecma262)
+- [[Stage 4] Per May 2016 TC39 consensus, Object.getOwnPropertyDescriptors is now stage 4! by ljharb · Pull Request #582 · tc39/ecma262 | ECMAScript Daily](https://ecmascript-daily.github.io/2016/05/25/stage-4-per-may-2016-tc39-consensus-object-getownpropertydescriptors-is-now-stage-4-by-ljharb-pull-request-582-tc39-ecma262)
+  - `String#{padStart,padEnd}`と`Object.getOwnPropertyDescriptors`がStage 4となりES2017に入る
+- [Cancelable promises | ECMAScript Daily](https://ecmascript-daily.github.io/2016/05/26/cancelable-promises)
+  - Promiseのキャンセル方法としてCancelTokenと`Promise#cancel`の2種類が提案され、議論が開始された
+  - [zenparsing/es-cancel-token: Cancel Tokens for ECMAScript](https://github.com/zenparsing/es-cancel-token)
+    - ES Observableにも関わってくるので、[Remove forEach and add "subscribe" overload by zenparsing · Pull Request #97 · zenparsing/es-observable](https://github.com/zenparsing/es-observable/pull/97 "Remove forEach and add &#34;subscribe&#34; overload by zenparsing · Pull Request #97 · zenparsing/es-observable")も参照。
+  - [domenic/cancelable-promise: Cancelable promises proposal for JavaScript](https://github.com/domenic/cancelable-promise)
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -53,6 +102,8 @@ Shadow DOM v0とv1の違いについて。
 [@shadow_hayato](https://twitter.com/shadow_hayato "@shadow_hayato")さん(仕様作庭者)によるコード例を元にした解説。
 
 - [Shadow DOM v1: Status updates - Google グループ](https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/BUGxw_Yx5Lo "Shadow DOM v1: Status updates - Google グループ")
+- [Issues · w3c/webcomponents](https://github.com/w3c/webcomponents/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Av1+label%3Ashadow-dom "Issues · w3c/webcomponents")
+
 
 ----
 
