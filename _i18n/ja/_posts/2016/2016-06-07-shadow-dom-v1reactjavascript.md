@@ -166,7 +166,7 @@ CSSの解析ツールであるParkerについて
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">performance</span></p>
 
 webpackのビルド速度の改善について。
-vendarライブラリだけ別にビルドし読み込んで使うDLLバンドル、`cacheDirectory`、`externals`との違いについてなど
+vendorライブラリだけ別にビルドし読み込んで使うDLLバンドル、`cacheDirectory`、`externals`との違いについてなど
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
