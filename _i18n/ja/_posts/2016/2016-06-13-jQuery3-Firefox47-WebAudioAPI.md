@@ -11,7 +11,25 @@ tags:
 
 ---
 
-JSer.info #283 - 
+JSer.info #283 - [jQuery 3.0](http://blog.jquery.com/2016/06/09/jquery-3-0-final-released/ "jQuery 3.0")が正式にリリースされました。
+
+幾つかの非互換性が含まれていますが、jQuery 1.xや2.xからアップグレードする場合のドキュメントも公開されています。
+基本的には[jQuery Migrate](https://github.com/jquery/jquery-migrate "jQuery Migrate")という移行用のプラグインを入れて、警告を修正したら本体をアップグレードする流れになっています。
+
+- [jQuery Core 3.0 Upgrade Guide | jQuery](http://jquery.com/upgrade-guide/3.0/ "jQuery Core 3.0 Upgrade Guide | jQuery")
+- [【翻訳まとめ】jQuery 3.0 アップグレードガイド - Qiita](http://qiita.com/fmy/items/345a264a1cf2e2a73f62)
+
+また、今回のjQuery 3リリースと同時に、`ajax`と`effect`を取り除いたslimビルドが公開されています。
+
+----
+
+[Firefox 47](https://www.mozilla.jp/firefox/47.0/releasenotes/ "Firefox 47")がリリースされました。
+
+Widevine CDM(DMRなストリーミング)のサポート、Service Worker/Push APIのデバッグ機能の改善、 `about:debugging`の追加、ES2017の` Object.values()`と`Object.entries()`の実装など
+
+開発者ツール周りは次の記事で解説されています。
+
+- [Developer Edition 47 – User agent emulation, popup debugging and more ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/03/developer-edition-47-user-agent-emulation-popup-debugging-and-more/ "Developer Edition 47 – User agent emulation, popup debugging and more ★ Mozilla Hacks – the Web developer blog")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -44,6 +62,16 @@ Widevine CDM(DMRなストリーミング)のサポート、Service Worker/Push A
 - [Mozilla To Test Widevine CDM in Firefox Nightly | Future Releases](https://blog.mozilla.org/futurereleases/2016/04/08/mozilla-to-test-widevine-cdm-in-firefox-nightly/ "Mozilla To Test Widevine CDM in Firefox Nightly | Future Releases")
 - [Firefox 47 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/47 "Firefox 47 for developers - Mozilla | MDN")
 - [Firefox 47 サイト互換性情報 | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/versions/47/ "Firefox 47 サイト互換性情報 | Firefox サイト互換性情報")
+- [Firefox 47 がリリース、CSS Mask Image プロパティへの対応やVP9サポートの有効化など | WWW WATCH](https://hyper-text.org/archives/2016/06/firefox_47_release.shtml "Firefox 47 がリリース、CSS Mask Image プロパティへの対応やVP9サポートの有効化など | WWW WATCH")
+
+----
+
+[web audio lesson](http://mohayonao.github.io/web-audio-lesson/ "web audio lesson")では、Web Audio APIについて基本的な話から応用な話までをレッスン方式で解説されています。
+
+- [web-audio-lesson : Web Audio API初学者向けのテキストを書きました - 音の鳴るブログ](http://mohayonao.hatenablog.com/entry/2016/06/12/154735 "web-audio-lesson : Web Audio API初学者向けのテキストを書きました - 音の鳴るブログ")
+
+オンライン上でコードをそのまま実行できるようになっていて、それぞれのレッスンごとに課題が設定されています。
+Web Audio APIに興味がある人は見てみるといいかもしれません。
 
 ----
 
