@@ -32,6 +32,15 @@ Widevine CDM(DMRなストリーミング)のサポート、Service Worker/Push A
 - [Developer Edition 47 – User agent emulation, popup debugging and more ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/03/developer-edition-47-user-agent-emulation-popup-debugging-and-more/ "Developer Edition 47 – User agent emulation, popup debugging and more ★ Mozilla Hacks – the Web developer blog")
 
 ----
+
+[web audio lesson](http://mohayonao.github.io/web-audio-lesson/ "web audio lesson")では、Web Audio APIについて基本的な話から応用な話までをレッスン方式で解説されています。
+
+- [web-audio-lesson : Web Audio API初学者向けのテキストを書きました - 音の鳴るブログ](http://mohayonao.hatenablog.com/entry/2016/06/12/154735 "web-audio-lesson : Web Audio API初学者向けのテキストを書きました - 音の鳴るブログ")
+
+オンライン上でコードをそのまま実行できるようになっていて、それぞれのレッスンごとに課題が設定されています。
+Web Audio APIに興味がある人は見てみるといいかもしれません。
+
+----
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
@@ -63,15 +72,6 @@ Widevine CDM(DMRなストリーミング)のサポート、Service Worker/Push A
 - [Firefox 47 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/47 "Firefox 47 for developers - Mozilla | MDN")
 - [Firefox 47 サイト互換性情報 | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/versions/47/ "Firefox 47 サイト互換性情報 | Firefox サイト互換性情報")
 - [Firefox 47 がリリース、CSS Mask Image プロパティへの対応やVP9サポートの有効化など | WWW WATCH](https://hyper-text.org/archives/2016/06/firefox_47_release.shtml "Firefox 47 がリリース、CSS Mask Image プロパティへの対応やVP9サポートの有効化など | WWW WATCH")
-
-----
-
-[web audio lesson](http://mohayonao.github.io/web-audio-lesson/ "web audio lesson")では、Web Audio APIについて基本的な話から応用な話までをレッスン方式で解説されています。
-
-- [web-audio-lesson : Web Audio API初学者向けのテキストを書きました - 音の鳴るブログ](http://mohayonao.hatenablog.com/entry/2016/06/12/154735 "web-audio-lesson : Web Audio API初学者向けのテキストを書きました - 音の鳴るブログ")
-
-オンライン上でコードをそのまま実行できるようになっていて、それぞれのレッスンごとに課題が設定されています。
-Web Audio APIに興味がある人は見てみるといいかもしれません。
 
 ----
 
