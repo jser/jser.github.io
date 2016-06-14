@@ -25,7 +25,7 @@ JSer.info #283 - [jQuery 3.0](http://blog.jquery.com/2016/06/09/jquery-3-0-final
 
 [Firefox 47](https://www.mozilla.jp/firefox/47.0/releasenotes/ "Firefox 47")がリリースされました。
 
-Widevine CDM(DMRなストリーミング)のサポート、Service Worker/Push APIのデバッグ機能の改善、 `about:debugging`の追加、ES2017の` Object.values()`と`Object.entries()`の実装など
+Widevine CDM(DRMなストリーミング)のサポート、Service Worker/Push APIのデバッグ機能の改善、 `about:debugging`の追加、ES2017の` Object.values()`と`Object.entries()`の実装など
 
 開発者ツール周りは次の記事で解説されています。
 
