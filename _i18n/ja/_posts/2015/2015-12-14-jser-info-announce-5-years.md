@@ -18,6 +18,8 @@ tags:
 
 - [JSer.info 5周年記念イベント - connpass](http://jser.connpass.com/event/24202/ "JSer.info 5周年記念イベント - connpass")
 
+追記: [JSer.info 5周年記念イベントを開催しました - JSer.info](http://jser.info/2016/01/16/jser-5years/ "JSer.info 5周年記念イベントを開催しました - JSer.info")
+
 ## 内容
 
 前回、[JSer.info 200回記念イベント](http://jser.info/2014/11/02/jser200/ "JSer.info 200回記念イベントを開催しました - JSer.info")でやった事と基本的に同じです。
