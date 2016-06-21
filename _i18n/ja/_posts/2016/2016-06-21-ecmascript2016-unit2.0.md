@@ -49,17 +49,17 @@ JavaScriptのテストフレームワークQunit 2.0がリリースされてい�
 
 - [Release 2.0.0 · jquery/qunit](https://github.com/jquery/qunit/releases/tag/2.0.0 "Release 2.0.0 · jquery/qunit")
 
-基本的に非推奨となっていたグローバル関数を削除、メソッドのリネームなど破壊的な変更が中心です
+非推奨となっていたグローバル関数を削除、メソッドのリネームなど破壊的な変更が中心です
 
 - `module()`、`test()`はそれぞれ`QUnit.*`以下に移動
 - `start()`、`stop()`の代わりに`assert.async()`を利用
 - `setup`/`teardown`は`beforeEach`/`afterEach`にリネーム
 - `QUnit.init`と`QUnit.reset`の削除
 
-アップグレードガイドも公開されているので合わせて参照してください
+アップグレードガイドとマイグレーションツールが公開されているので合わせて参照してください
 
 - [QUnit 2.x Upgrade Guide | QUnit](http://qunitjs.com/upgrade-guide-2.x/ "QUnit 2.x Upgrade Guide | QUnit")
-
+- [apsdehal/qunit-migrate: Migrate old QUnit tests to 2.x](https://github.com/apsdehal/qunit-migrate "apsdehal/qunit-migrate: Migrate old QUnit tests to 2.x")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
