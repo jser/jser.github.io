@@ -6,7 +6,8 @@ date : 2016-06-21T09:26
 category: JSer
 tags:
     - ECMAScript
-    - spec
+    - Spec
+    - i18n
     - QUnit
 
 ---
@@ -37,6 +38,10 @@ HTMLの仕様と同じく仕様を読むという意味で参照する場合は�
 こちらも毎年リリースの策定プロセスへ変更されています。
 
 - [Release 3rd Edition - Release Candidate · tc39/ecma402](https://github.com/tc39/ecma402/releases/tag/3.0-rc-1 "Release 3rd Edition - Release Candidate · tc39/ecma402")
+
+ECMAScriptの最新情報については[ECMAScript Daily](https://ecmascript-daily.github.io/ "ECMAScript Daily")の方に書いているので、興味がある人は見てみるといいかもしれません。
+
+- [ecmascript-daily.github.io](https://ecmascript-daily.github.io/ "ECMAScript Daily")
 
 ----
 
