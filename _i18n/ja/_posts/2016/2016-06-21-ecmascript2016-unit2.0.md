@@ -29,11 +29,11 @@ JSer.info #284 - ECMAScript 2016が正式にリリースされました :tada:
 
 - [ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch](http://efcl.info/2015/10/18/ecmascript-paper/ "ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch")
 
-HTMLの仕様と同じく仕様を読むという意味で参照する場合は、[スナップショット](http://www.ecma-international.org/publications/standards/Ecma-262.htm)よりもGitHubにあるLiving Standardな仕様を参照した方が良いと思います。
+HTMLの仕様と同じで仕様を読むという意味で参照する場合は、[スナップショット](http://www.ecma-international.org/publications/standards/Ecma-262.htm)よりもGitHubにあるLiving Standardな仕様を参照した方が良いと思います。
 
 - [ECMAScript® 2017 Language Specification](https://tc39.github.io/ecma262/ "ECMAScript® 2017 Language Specification")
 
-また、ECMAScript 2016と同じく[ECMAScript® 2016 Internationalization API Specification](http://www.ecma-international.org/ecma-402/3.0/ "ECMAScript® 2016 Internationalization API Specification")もリリースされています。
+また、ECMAScript 2016と同時に[ECMAScript® 2016 Internationalization API Specification](http://www.ecma-international.org/ecma-402/3.0/ "ECMAScript® 2016 Internationalization API Specification")もリリースされています。
 `Intl`オブジェクトなどを決めている[ECMAScriptの国際化API](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl "ECMAScriptの国際化API")の仕様です。
 こちらも毎年リリースの策定プロセスへ変更されています。
 
