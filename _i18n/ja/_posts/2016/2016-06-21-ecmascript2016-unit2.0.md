@@ -1,15 +1,60 @@
 ---
-title: "2016-06-21のJS: "
+title: "2016-06-21のJS: ECMAScript 2016リリース、QUnit 2.0"
 author: azu
 layout: post
 date : 2016-06-21T09:26
 category: JSer
 tags:
-    - 
+    - ECMAScript
+    - spec
+    - QUnit
 
 ---
 
-JSer.info #284
+JSer.info #284 - ECMAScript 2016が正式にリリースされました :tada:
+
+- [ECMAScript® 2016 Language Specification](http://www.ecma-international.org/ecma-262/7.0/ "ECMAScript® 2016 Language Specification")
+
+どのような変更があったのかは以前簡単にまとめています。
+
+- [ECMAScript 2016 features & changes - JSer.info](http://jser.info/2016/02/01/es2016/ "ECMAScript 2016 features &amp; changes - JSer.info")
+- [ECMAScript 2015 - 2016 diff points](https://gist.github.com/azu/3dc9295e97aee9a2706068caf65f0348 "ECMAScript 2015 - 2016 diff points")
+
+機能的に追加されたのは、`Array.prototype.includes`と[`**`演算子](https://github.com/rwaldron/exponentiation-operator)ぐらいなので大きな変化ありません。
+(Proxyの`[[enumerate]]` trapと`Reflect.enumerate`が削除されたりもしています)
+
+一番大きな変化として仕様策定プロセスの変更で、毎年スナップショット的にリリースする形になっています。
+ちょっと古いですが次の記事で解説しています。
+
+- [ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch](http://efcl.info/2015/10/18/ecmascript-paper/ "ECMAScriptの仕様策定に関するカンニングペーパー | Web Scratch")
+
+HTMLの仕様と同じく仕様を読むという意味で参照する場合は、[スナップショット](http://www.ecma-international.org/publications/standards/Ecma-262.htm)よりもGitHubにあるLiving Standardな仕様を参照した方が良いと思います。
+
+- [ECMAScript® 2017 Language Specification](https://tc39.github.io/ecma262/ "ECMAScript® 2017 Language Specification")
+
+また、ECMAScript 2016と同じく[ECMAScript® 2016 Internationalization API Specification](http://www.ecma-international.org/ecma-402/3.0/ "ECMAScript® 2016 Internationalization API Specification")もリリースされています。
+`Intl`オブジェクトなどを決めている[ECMAScriptの国際化API](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl "ECMAScriptの国際化API")の仕様です。
+こちらも毎年リリースの策定プロセスへ変更されています。
+
+- [Release 3rd Edition - Release Candidate · tc39/ecma402](https://github.com/tc39/ecma402/releases/tag/3.0-rc-1 "Release 3rd Edition - Release Candidate · tc39/ecma402")
+
+----
+
+JavaScriptのテストフレームワークQunit 2.0がリリースされています。
+
+- [Release 2.0.0 · jquery/qunit](https://github.com/jquery/qunit/releases/tag/2.0.0 "Release 2.0.0 · jquery/qunit")
+
+基本的に非推奨となっていたグローバル関数を削除、メソッドのリネームなど破壊的な変更が中心です
+
+- `module()`、`test()`はそれぞれ`QUnit.*`以下に移動
+- `start()`、`stop()`の代わりに`assert.async()`を利用
+- `setup`/`teardown`は`beforeEach`/`afterEach`にリネーム
+- `QUnit.init`と`QUnit.reset`の削除
+
+アップグレードガイドも公開されているので合わせて参照してください
+
+- [QUnit 2.x Upgrade Guide | QUnit](http://qunitjs.com/upgrade-guide-2.x/ "QUnit 2.x Upgrade Guide | QUnit")
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -62,6 +107,8 @@ QUnit 2.0.0リリース。
 - `start()`、`stop()`の代わりに`assert.async()`
 - `setup`/`teardown`は`beforeEach`/`afterEach`に
 - `QUnit.init`と`QUnit.reset`の削除
+
+アップグレードガイドは以下を参照
 
 - [QUnit 2.x Upgrade Guide | QUnit](http://qunitjs.com/upgrade-guide-2.x/ "QUnit 2.x Upgrade Guide | QUnit")
 
@@ -193,7 +240,7 @@ prefetch、resource loading、feature detectionについて
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">spec</span></p>
 
-`navigator.share`のAPIについてのドキュメント。 
+`navigator.share`のAPIについてのドキュメント。
 Androidのintents、iOSのUIActivityViewControllerのような共有するためのAPI。
 Chromeで実装検討中
 
