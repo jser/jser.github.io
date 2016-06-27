@@ -175,7 +175,7 @@ RxJS 5のObservableをマーブル記法というDSLで書いてテストする�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span></p>
 
-TypeScriptの型定義でのハマりどころや、方定義ファイルを読み書きに必要な知識について
+TypeScriptの型定義でのハマりどころや、型定義ファイルの読み書きに必要な知識について
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
