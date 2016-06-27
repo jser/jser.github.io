@@ -16,8 +16,39 @@ JSer.info #285 - Babel 6.11.0がリリースされました。
 
 - [Release v6.11.0 · babel/babel](https://github.com/babel/babel/releases/tag/v6.11.0 "Release v6.11.0 · babel/babel")
 
-[ES2016がリリース](http://jser.info/2016/06/21/ecmascript2016-unit2.0/)されたため、
+[ES2016がリリース](http://jser.info/2016/06/21/ecmascript2016-unit2.0/)されたため、BabelのpresetもES2016に対応したアップデートが公開されています。
 
+`babel-preset-es2016`の追加や`babel-preset-stage-2`, `babel-preset-stage-3`に[2016-05のミーティング](https://github.com/rwaldron/tc39-notes/tree/master/es7/2016-05)の結果を反映したものが公開されています。
+
+----
+
+Safariのプレビュー版である[Safari Technology Preview Release 7](https://webkit.org/blog/6640/release-notes-for-safari-technology-preview-release-7/ "Safari Technology Preview Release 7")が公開されています。
+
+addEventListenerの第三引数である`EventListenerOptions`のサポートを開始。
+
+> 'capture': fully supported.
+> 'once': fully supported.
+> 'passive': supported in the sense that preventDefault() will be ignored
+> -- https://trac.webkit.org/changeset/201735/trunk/Source
+
+`window.onerror`の[第5引数](https://developer.mozilla.org/ja/docs/Web/API/GlobalEventHandlers/onerror)で`error`オブジェクトを受け取れるように
+
+```js
+window.onerror = function(msg, url, line, column, error){}
+```
+
+現在Stage 3のProposalである[Trailing Commas in Function Param Lists](http://jeffmo.github.io/es-trailing-function-commas/ "Trailing Commas in Function Param Lists")をサポートなど幅広い部分への変更が入っています。
+
+----
+
+[Developer Edition 49: Network Request Stack Traces and more ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/06/developer-edition-49-network-request-stack-traces-and-more/ "Developer Edition 49: Network Request Stack Traces and more ★ Mozilla Hacks – the Web developer blog")([翻訳](https://dev.mozilla.jp/2016/06/developer-edition-49-network-request-stack-traces-and-more/ "Developer Edition 49：ネットワークモニタでのスタックトレース表示、など | Mozilla Developer Street (modest)"))という記事ではFirefox49で入る予定の開発者ツールの機能について紹介されています。
+
+ネットワークパネルでどこから通信が発生したのかスタックトレースが表示されるようになり、エラーメッセージからMDNで詳細を見られるようになるなど面白い改善が含まれています。
+
+コンソールで起きたエラーメッセージから貼られるドキュメントは以下にまとめられています。
+構文エラーのようなエラーメッセージから問題にたどり手間があるため、このような機能は便利だと思います。
+
+- [JavaScript error reference - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors "JavaScript error reference - JavaScript | MDN")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
