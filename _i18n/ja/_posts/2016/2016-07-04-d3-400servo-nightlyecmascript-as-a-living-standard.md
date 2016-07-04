@@ -13,7 +13,35 @@ tags:
 
 ---
 
-JSer.info #286
+JSer.info #286 - D3.js 4.0.0がリリースされました。
+
+- [Release v4.0.0 · d3/d3](https://github.com/d3/d3/releases/tag/v4.0.0 "Release v4.0.0 · d3/d3")
+- [d3/CHANGES.md at master · d3/d3](https://github.com/d3/d3/blob/master/CHANGES.md "d3/CHANGES.md at master · d3/d3")
+
+大幅に書き直され、それぞれの機能が個別のモジュールとして分けられています。
+詳細は[CHANGES.md](https://github.com/d3/d3/blob/master/CHANGES.md)にかかれています。
+
+----
+
+Mozillaが開発しているレンダリングエンジンの[Servo](https://servo.org/ "Servo")のNightlyビルドが公開されるようになりました。
+
+- [Servo Nightly Builds Available](https://blog.servo.org/2016/06/30/servo-nightlies/ "Servo Nightly Builds Available")
+
+ブラウザのUIとしてはHTMLベースの[browserhtml](https://github.com/browserhtml/browserhtml "browserhtml")が使われていて、
+ブラウザアプリとして試すことができます。
+
+----
+
+[ECMAScript as a Living Standard](http://azu.github.io/slide/2016/node-es/ecmascript.html "ECMAScript as a Living Standard")というスライドでは、ECMAScriptの策定プロセスがソフトウェア一般のプロセスと大きく変わらないものであるという話が書かれています。
+ES2015からは多くの議論やコミットがGitHub上で行われているため、OSSを見ていくのとあまり変わらないフローを取る事ができます。
+
+なぜ毎年リリースするというプロセスの変更を取り入れたのかなどについて書かれています。
+
+- [Node学園 21時限目でECMAScript as a Living Standardという発表をした | Web Scratch](http://efcl.info/2016/06/29/node-ecmascript/ "Node学園 21時限目でECMAScript as a Living Standardという発表をした | Web Scratch")
+
+後、このような早いプロセスへの変更に対応できるようなJavaScript入門書があると良さそうなので今書いています。
+
+- [asciidwango/js-primer: JavaScriptの入門書](https://github.com/asciidwango/js-primer "asciidwango/js-primer: JavaScriptの入門書")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
