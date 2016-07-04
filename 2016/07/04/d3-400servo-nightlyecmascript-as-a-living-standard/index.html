@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-07-04のJS: D3 4.0.0、Servo Nightly、ECMAScript as a Living Standard - JSer.info</title>
+    <meta name="description" content="JSer.info #286 - D3.js 4.0.0がリリースされました。">
+    
+    <meta name="keywords" content="D3,SVG,Servo,browser,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-07-04T22:32:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="D3" property="article:tag">
+      
+      <meta content="SVG" property="article:tag">
+      
+      <meta content="Servo" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #286 - D3.js 4.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-07-04のJS: D3 4.0.0、Servo Nightly、ECMAScript as a Living Standard">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #286 - D3.js 4.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-07-04T22:32:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/06/27/babel-6110safari-tp7firefox-49/">
+
+<meta property="og:see_also" content="http://jser.info/2016/06/21/ecmascript2016-unit2.0/">
+
+<meta property="og:see_also" content="http://jser.info/2016/06/13/jQuery3-Firefox47-WebAudioAPI/">
+
+
+
+
+
+<meta property="article:tag" content="D3">
+
+<meta property="article:tag" content="SVG">
+
+<meta property="article:tag" content="Servo">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">2016-07-04のJS: D3 4.0.0、Servo Nightly、ECMAScript as a Living Standard</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年07月04日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-07-04-d3-400servo-nightlyecmascript-as-a-living-standard.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-07-04-d3-400servo-nightlyecmascript-as-a-living-standard.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #286 - D3.js 4.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/d3/d3/releases/tag/v4.0.0" title="Release v4.0.0 · d3/d3">Release v4.0.0 · d3/d3</a></li>
+<li><a href="https://github.com/d3/d3/blob/master/CHANGES.md" title="d3/CHANGES.md at master · d3/d3">d3/CHANGES.md at master · d3/d3</a></li>
+</ul>
+
+<p>大幅に書き直され、それぞれの機能が個別のモジュールとして分けられています。<br>
+詳細は<a href="https://github.com/d3/d3/blob/master/CHANGES.md">CHANGES.md</a>にかかれています。</p>
+
+<hr>
+
+<p>Mozillaが開発しているレンダリングエンジンの<a href="https://servo.org/" title="Servo">Servo</a>のNightlyビルドが公開されるようになりました。</p>
+
+<ul>
+<li><a href="https://blog.servo.org/2016/06/30/servo-nightlies/" title="Servo Nightly Builds Available">Servo Nightly Builds Available</a></li>
+</ul>
+
+<p>ブラウザのUIとしてはHTMLベースの<a href="https://github.com/browserhtml/browserhtml" title="browserhtml">browserhtml</a>が使われていて、<br>
+ブラウザアプリとして試すことができます。</p>
+
+<hr>
+
+<p><a href="http://azu.github.io/slide/2016/node-es/ecmascript.html" title="ECMAScript as a Living Standard">ECMAScript as a Living Standard</a>というスライドでは、ECMAScriptの策定プロセスがソフトウェア一般のプロセスと大きく変わらないものであるという話が書かれています。<br>
+ES2015からは多くの議論やコミットがGitHub上で行われているため、OSSを見ていくのとあまり変わらないフローを取る事ができます。</p>
+
+<p>なぜ毎年リリースするというプロセスの変更を取り入れたのかなどについて書かれています。</p>
+
+<ul>
+<li><a href="http://efcl.info/2016/06/29/node-ecmascript/" title="Node学園 21時限目でECMAScript as a Living Standardという発表をした | Web Scratch">Node学園 21時限目でECMAScript as a Living Standardという発表をした | Web Scratch</a></li>
+</ul>
+
+<p>後、このような早いプロセスへの変更に対応できるようなJavaScript入門書があると良さそうなので今書いています。</p>
+
+<ul>
+<li><a href="https://github.com/asciidwango/js-primer" title="asciidwango/js-primer: JavaScriptの入門書">asciidwango/js-primer: JavaScriptの入門書</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-cycle-diversity-·-cyclejs/core">Release Cycle Diversity · cyclejs/core</h2>
+
+<p><a href="https://github.com/cyclejs/core/releases/tag/v7.0.0" title="Release Cycle Diversity · cyclejs/core">github.com/cyclejs/core/releases/tag/v7.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Cycle.js 7.0.0リリース。<br>
+RxJS、most.js、xstreamを選んで使えるように、TypeScriptで書き直し、vDOMとしてsnabbdomを使うようになるなど</p>
+
+<ul>
+<li><a href="https://github.com/paldepind/snabbdom/" title="snabbdom">snabbdom</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v15.2.0-·-facebook/react">Release v15.2.0 · facebook/react</h2>
+
+<p><a href="https://github.com/facebook/react/releases/tag/v15.2.0" title="Release v15.2.0 · facebook/react">github.com/facebook/react/releases/tag/v15.2.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React 15.2.0リリース。<br>
+エラーコードが追加されURLから詳細が見られるように、warningメッセージにコンポーネントスタック情報を追加、<code>React.PropTypes.symbol</code>の追加など</p>
+
+<hr>
+
+<h2 id="release-2.0.0-·-sweet-js/sweet.js">Release 2.0.0 · sweet-js/sweet.js</h2>
+
+<p><a href="https://github.com/sweet-js/sweet.js/releases/tag/v2.0.0" title="Release 2.0.0 · sweet-js/sweet.js">github.com/sweet-js/sweet.js/releases/tag/v2.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>JavaScriptでマクロを扱うsweet.js 2.0.0リリース。<br>
+context APIが変更された</p>
+
+<hr>
+
+<h2 id="release-v4.0.0-·-d3/d3">Release v4.0.0 · d3/d3</h2>
+
+<p><a href="https://github.com/d3/d3/releases/tag/v4.0.0" title="Release v4.0.0 · d3/d3">github.com/d3/d3/releases/tag/v4.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">SVG</span> <span class="jser-tag">library</span></p>
+
+<p>D3.js 4.0.0リリース。<br>
+<code>d3-scale</code>や<code>d3-time</code>のようにそれぞれの機能がモジュールに分割され、npmパッケージとして個別にインストールできる。<br>
+合わせて機能追加や修正が行われている</p>
+
+<ul>
+<li><a href="https://github.com/d3/d3/blob/master/CHANGES.md" title="d3/CHANGES.md at master · d3/d3">d3/CHANGES.md at master · d3/d3</a></li>
+</ul>
+
+<hr>
+
+<h2 id="eslint-v3.0.0-released---eslint---pluggable-javascript-linter">ESLint v3.0.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2016/07/eslint-v3.0.0-released" title="ESLint v3.0.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2016/07/eslint-v3.0.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint 3.0.0リリース。<br>
+<code>eslint:recommended</code>のアップデート、設定ファイル/設定が指定されてない場合は警告がでるように、Node.js 0.12のサポート終了など</p>
+
+<ul>
+<li><a href="http://qiita.com/mysticatea/items/9c8a8b1219d5f94441e8" title="ESLint v3.0.0 - Qiita">ESLint v3.0.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="servo-nightly-builds-available">Servo Nightly Builds Available</h2>
+
+<p><a href="https://blog.servo.org/2016/06/30/servo-nightlies/" title="Servo Nightly Builds Available">blog.servo.org/2016/06/30/servo-nightlies/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Mozilla</span></p>
+
+<p>Mozillaの開発するレンダリングエンジンのServoのDeveloper Preview版が公開された</p>
+
+<hr>
+
+<h2 id="how-to-upgrade-a-node-module-the-right-way---jama-software">How to Upgrade a Node Module The Right Way - Jama Software</h2>
+
+<p><a href="http://www.jamasoftware.com/blog/upgrade-node-module-right-way/" title="How to Upgrade a Node Module The Right Way - Jama Software">www.jamasoftware.com/blog/upgrade-node-module-right-way/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">webpack</span></p>
+
+<p>依存モジュールの非互換性なアップデートをどうやってアップグレードしていくかについて。react-routerを例に紹介してる。<br>
+webpackのaliasを使ってFeature Flagを作り、フラグ切り替えで新旧の実装を並べて書いていく。</p>
+
+<hr>
+
+<h2 id="intersection-observer-を用いた要素出現検出の最適化-|-blog.jxck.io">Intersection Observer を用いた要素出現検出の最適化 | blog.jxck.io</h2>
+
+<p><a href="https://blog.jxck.io/entries/2016-06-25/intersection-observer.html" title="Intersection Observer を用いた要素出現検出の最適化 | blog.jxck.io">blog.jxck.io/entries/2016-06-25/intersection-observer.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span></p>
+
+<p>Intersection Observerの使い方や従来の方法との違いについて。<br>
+スクロール量や要素の表示に応じた処理</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="ecmascript-as-a-living-standard">ECMAScript as a Living Standard</h2>
+
+<p><a href="http://azu.github.io/slide/2016/node-es/ecmascript.html" title="ECMAScript as a Living Standard">azu.github.io/slide/2016/node-es/ecmascript.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">スライド</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span></p>
+
+<p>ECMAScript仕様策定のプロセスを理解することで、ECMAScriptに関する情報を見る方法がわかるという話。<br>
+ES2015は毎年リリースに向けてのベースとなるような仕様であるため、これから足りない部分については議論が進んで行く</p>
+
+<ul>
+<li><a href="http://efcl.info/2016/06/29/node-ecmascript/" title="Node学園 21時限目でECMAScript as a Living Standardという発表をした | Web Scratch">Node学園 21時限目でECMAScript as a Living Standardという発表をした | Web Scratch</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="holyjs/holyjs:-holyjs---nodejs-server-project-starter">holyjs/holyjs: HolyJS - NodeJS Server Project Starter</h2>
+
+<p><a href="https://github.com/holyjs/holyjs" title="holyjs/holyjs: HolyJS - NodeJS Server Project Starter">github.com/holyjs/holyjs</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">サーバー</span> <span class="jser-tag">template</span></p>
+
+<p>Node.jsでサーバサイドのプロジェクトテンプレート</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="juliangarnier/anime:-javascript-animation-engine">juliangarnier/anime: Javascript Animation Engine</h2>
+
+<p><a href="https://github.com/juliangarnier/anime" title="juliangarnier/anime: Javascript Animation Engine">github.com/juliangarnier/anime</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">animation</span> <span class="jser-tag">library</span></p>
+
+<p>CSSアニメーション管理ライブラリ</p>
+
+<hr>
+
+<h2 id="planttheidea/vidz:-a-zero-dependency,-framework-agnostic-video-implementation">planttheidea/vidz: A zero-dependency, framework-agnostic video implementation</h2>
+
+<p><a href="https://github.com/planttheidea/vidz" title="planttheidea/vidz: A zero-dependency, framework-agnostic video implementation">github.com/planttheidea/vidz</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">動画</span> <span class="jser-tag">library</span></p>
+
+<p>Video要素でのロードやイベントハンドリングなどを扱うライブラリ</p>
+
+<hr>
+
+<h2 id="planttheidea/crio:-immutable-objects-and-arrays-in-a-natural-way">planttheidea/crio: Immutable objects and arrays in a natural way</h2>
+
+<p><a href="https://github.com/planttheidea/crio" title="planttheidea/crio: Immutable objects and arrays in a natural way">github.com/planttheidea/crio</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>ArrayとObjectのImmutable版を提供するライブラリ。<br>
+Mutableとして操作したい場合は、ネイティブのもので操作してラップするか、<code>.mutable(array =&gt; {})</code>を利用できる。</p>
+
+<hr>
+
+<h2 id="leebyron/iterall:-minimal-zero-dependency-utilities-for-using-iterables-in-all-javascript-environments.">leebyron/iterall: Minimal zero-dependency utilities for using Iterables in all JavaScript environments.</h2>
+
+<p><a href="https://github.com/leebyron/iterall" title="leebyron/iterall: Minimal zero-dependency utilities for using Iterables in all JavaScript environments.">github.com/leebyron/iterall</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>ArrayやArray-likeなどをiterableとして扱う<code>forEach</code>の処理を書くためのライブラリ</p>
+
+<hr>
+
+<h2 id="ejs---readable-javascript-errors">ejs - Readable JavaScript Errors</h2>
+
+<p><a href="https://i-break-codes.github.io/ejs/" title="ejs - Readable JavaScript Errors">i-break-codes.github.io/ejs/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">debug</span></p>
+
+<p><code>window.onerror</code>でJavaScriptのエラーを整形してコンソールに表示してくれるライブラリ</p>
+
+<hr>
+
+<h2 id="caiogondim/fast-memoize.js:-fastest-possible-memoization-library">caiogondim/fast-memoize.js: Fastest possible memoization library</h2>
+
+<p><a href="https://github.com/caiogondim/fast-memoize.js" title="caiogondim/fast-memoize.js: Fastest possible memoization library">github.com/caiogondim/fast-memoize.js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>メモ化ライブラリ</p>
+
+<hr>
+
+<h2 id="gcanti/babel-plugin-tcomb:-babel-plugin-for-static-and-runtime-type-checking-using-flow-and-tcomb">gcanti/babel-plugin-tcomb: Babel plugin for static and runtime type checking using Flow and tcomb</h2>
+
+<p><a href="https://github.com/gcanti/babel-plugin-tcomb" title="gcanti/babel-plugin-tcomb: Babel plugin for static and runtime type checking using Flow and tcomb">github.com/gcanti/babel-plugin-tcomb</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">babel</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>FlowTypeの型をtcombを使いランタイムassertに変換するBabelプラグイン</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="modular-js:-practical-es6---o&#x27;reilly-media">Modular JS: Practical ES6 - O&#x27;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/0636920047124.do" title="Modular JS: Practical ES6 - O&#39;Reilly Media">shop.oreilly.com/product/0636920047124.do</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">book</span></p>
+
+<p>2016年8月発売<br>
+ES6についての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-07-04-d3-400servo-nightlyecmascript-as-a-living-standard.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["D3","SVG","Servo","browser","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>D3</li>
+                
+                <li>SVG</li>
+                
+                <li>Servo</li>
+                
+                <li>browser</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">2016-07-04のJS: D3 4.0.0、Servo Nightly、ECMAScript as a Living Standard</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/27/babel-6110safari-tp7firefox-49/">2016-06-27のJS: Babel 6.11.0、Safari TP7、Firefox 49の開発者ツール</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/21/ecmascript2016-unit2.0/">2016-06-21のJS: ECMAScript 2016リリース、QUnit 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/13/jQuery3-Firefox47-WebAudioAPI/">2016-06-13のJS: jQuery 3.0、Firefox 47.0、Web Audio API入門</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/07/shadow-dom-v1reactjavascript/">2016-06-07のJS: Shadow DOM v1、React近況、JavaScriptのプラグイン設計本</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/30/npm-publishnodejs/">2016-05-30のJS: 初めてのnpm publish、Node.jsでのメモリリークデバッグ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/23/msedgees6-modulesjquery-30-rcgoogle-io/">2016-05-23: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/05/16/electron-10buble/">2016-05-16のJS: Electron 1.0、ブレークポイントの使い方、Bublé</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
