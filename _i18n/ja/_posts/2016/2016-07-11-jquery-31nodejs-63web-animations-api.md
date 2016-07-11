@@ -3,7 +3,7 @@ title: "2016-07-11のJS: jQuery 3.1、Node.js 6.3、Web Animations API入門"
 author: azu
 layout: post
 date : 2016-07-11T20:19
-category:
+category: JSer
 tags:
     - jQuery
     - Node.js
