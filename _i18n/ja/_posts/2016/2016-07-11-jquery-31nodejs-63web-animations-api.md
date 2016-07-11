@@ -15,7 +15,7 @@ JSer.info #287 - jQuery 3.1.0がリリースされました。
 
 - [jQuery 3.1.0 Released – No More Silent Errors | Official jQuery Blog](http://blog.jquery.com/2016/07/07/jquery-3-1-0-released-no-more-silent-errors/)
 
-jQuery 3.0では`jQuery.ready`がPromiseを返すようになっています。
+jQuery 3.0では`jQuery.ready`の内部でPromiseを使うようになっています。
 そのため、次のようなコードは何もコンソールにエラーが表示されない状態になっていました。
 
 ```js
@@ -27,7 +27,7 @@ $(function() {
 いわゆる[unhandled rejection](http://azu.github.io/promises-book/#_%E6%B2%88%E9%BB%99%E3%81%97%E3%81%9F%E3%82%A8%E3%83%A9%E3%83%BC)となってしまうため、次のように`.catch`でエラーハンドリングを行う必要がありました。
 
 ```js
-$(function() {
+jQuery.ready.then(function() {
   throw new Error("This is Error");
 }).catch(error => {
   console.error(error);
