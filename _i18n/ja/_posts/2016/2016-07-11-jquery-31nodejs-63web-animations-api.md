@@ -41,8 +41,6 @@ jQuery 3.1では今までと同じように`jQuery.ready`内で起きたエラ�
 
 また、[jQuery.readyException()](http://api.jquery.com/jquery.readyexception/ "jQuery.readyException()")という専用のエラーを受け取るメソッドを定義できるようになっています。
 
-<a class="jsbin-embed" href="https://jsbin.com/xemasusevu/embed?js,console,output">JS Bin on jsbin.com</a><script src="https://static.jsbin.com/js/embed.min.js?3.36.17"></script>
-
 - [Core: Re-throw errors that happened in callbacks wrapped in jQuery ready by mgol · Pull Request #3210 · jquery/jquery](https://github.com/jquery/jquery/pull/3210 "Core: Re-throw errors that happened in callbacks wrapped in jQuery ready by mgol · Pull Request #3210 · jquery/jquery")
 
 -----
