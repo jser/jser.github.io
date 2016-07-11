@@ -15,7 +15,8 @@ JSer.info #287 - jQuery 3.1.0がリリースされました。
 
 - [jQuery 3.1.0 Released – No More Silent Errors | Official jQuery Blog](http://blog.jquery.com/2016/07/07/jquery-3-1-0-released-no-more-silent-errors/)
 
-jQuery 3.0では`jQuery.ready`がPromiseを返すようになっているため、次のようなコードは何もコンソールにエラーが表示されない状態になっていました。
+jQuery 3.0では`jQuery.ready`がPromiseを返すようになっています。
+そのため、次のようなコードは何もコンソールにエラーが表示されない状態になっていました。
 
 ```js
 $(function() {
@@ -33,7 +34,7 @@ $(function() {
 });
 ```
 
-詳細は [Bugsnag Blog - A Warning About jQuery 3](http://blog.bugsnag.com/a-warning-about-jquery-3 "Bugsnag Blog - A Warning About jQuery 3") で解説されています。
+この問題についての詳細は [Bugsnag Blog - A Warning About jQuery 3](http://blog.bugsnag.com/a-warning-about-jquery-3 "Bugsnag Blog - A Warning About jQuery 3") で解説されています。
 
 jQuery 3.1では今までと同じように`jQuery.ready`内で起きたエラーをコンソールに表示します。
 (自動的に`.catch`してre-throwしています)
