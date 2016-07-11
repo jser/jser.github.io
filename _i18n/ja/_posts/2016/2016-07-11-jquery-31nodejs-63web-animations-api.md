@@ -1,15 +1,72 @@
 ---
-title: "2016-07-11のJS: "
+title: "2016-07-11のJS: jQuery 3.1、Node.js 6.3、Web Animations API入門"
 author: azu
 layout: post
 date : 2016-07-11T20:19
-category: 
+category:
 tags:
-    - 
+    - jQuery
+    - Node.js
+    - animation
 
 ---
 
-JSer.info #287
+JSer.info #287 - jQuery 3.1.0がリリースされました。
+
+- [jQuery 3.1.0 Released – No More Silent Errors | Official jQuery Blog](http://blog.jquery.com/2016/07/07/jquery-3-1-0-released-no-more-silent-errors/)
+
+jQuery 3.0では`jQuery.ready`がPromiseを返すようになっているため、次のようなコードは何もコンソールにエラーが表示されない状態になっていました。
+
+```js
+$(function() {
+  throw new Error("This is Error");
+});
+```
+
+いわゆる[unhandled rejection](http://azu.github.io/promises-book/#_%E6%B2%88%E9%BB%99%E3%81%97%E3%81%9F%E3%82%A8%E3%83%A9%E3%83%BC)となってしまうため、次のように`.catch`でエラーハンドリングを行う必要がありました。
+
+```js
+$(function() {
+  throw new Error("This is Error");
+}).catch(error => {
+  console.error(error);
+});
+```
+
+詳細は [Bugsnag Blog - A Warning About jQuery 3](http://blog.bugsnag.com/a-warning-about-jquery-3 "Bugsnag Blog - A Warning About jQuery 3") で解説されています。
+
+jQuery 3.1では今までと同じように`jQuery.ready`内で起きたエラーをコンソールに表示します。
+(自動的に`.catch`してre-throwしています)
+
+また、[jQuery.readyException()](http://api.jquery.com/jquery.readyexception/ "jQuery.readyException()")という専用のエラーを受け取るメソッドを定義できるようになっています。
+
+<a class="jsbin-embed" href="https://jsbin.com/xemasusevu/embed?js,console,output">JS Bin on jsbin.com</a><script src="https://static.jsbin.com/js/embed.min.js?3.36.17"></script>
+
+- [Core: Re-throw errors that happened in callbacks wrapped in jQuery ready by mgol · Pull Request #3210 · jquery/jquery](https://github.com/jquery/jquery/pull/3210 "Core: Re-throw errors that happened in callbacks wrapped in jQuery ready by mgol · Pull Request #3210 · jquery/jquery")
+
+-----
+[Node v6.3.0](https://nodejs.org/en/blog/release/v6.3.0/)がリリースされました。
+
+`--inspect`のコマンドライン引数をつけてNode.jsを起動することで、Node.jsアプリに対してChromeの開発者ツールでリモートデバッグできるようになります。
+CLIなどは一瞬で終わってしまうので、`--debug-brk`オプションを付けるとブレークした状態で開始できます。
+
+```
+node --inspect --debug-brk
+```
+
+以下の記事も参考になります。
+
+- [Debugging Node.js Nightlies with Chrome DevTools — Medium](https://medium.com/@paul_irish/debugging-node-js-nightlies-with-chrome-devtools-7c4a1b95ae27#.6hsm7r89v "Debugging Node.js Nightlies with Chrome DevTools — Medium")
+
+----
+
+[Web Animations APIの基本的な使い方・まとめ](http://www.h2.dion.ne.jp/%7Edefghi/webanim/webanim.htm)というサイトでは、[Web Animations](https://w3c.github.io/web-animations/ "Web Animations") APIについて機能や挙動について学ぶ事ができます。
+
+大量のサンプルと共に見ることができるので、興味がある人は見てみると良いです。
+
+既にCSSアニメーションなどがあるのに、Web Animationsという仕様がでてきたのは以下のスライドを見てみるのが分かりやすいかもしれません。
+
+- [真面目なアニメーション (html5j 2013, Web Animations)](http://www.slideshare.net/brianskold/html5j-2013 "真面目なアニメーション (html5j 2013, Web Animations)")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
