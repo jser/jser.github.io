@@ -15,11 +15,15 @@ JSer.info #287 - jQuery 3.1.0がリリースされました。
 
 - [jQuery 3.1.0 Released – No More Silent Errors | Official jQuery Blog](http://blog.jquery.com/2016/07/07/jquery-3-1-0-released-no-more-silent-errors/)
 
-jQuery 3.0では`jQuery.ready`の内部でPromiseを使うようになっています。
+jQuery 3.0では`jQuery.ready`はPromiseを使うようになっています。
 そのため、次のようなコードは何もコンソールにエラーが表示されない状態になっていました。
 
 ```js
 $(function() {
+  throw new Error("This is Error");
+});
+// ≒
+jQuery.ready.then(function() {
   throw new Error("This is Error");
 });
 ```
@@ -42,6 +46,10 @@ jQuery 3.1では今までと同じように`jQuery.ready`内で起きたエラ�
 また、[jQuery.readyException()](http://api.jquery.com/jquery.readyexception/ "jQuery.readyException()")という専用のエラーを受け取るメソッドを定義できるようになっています。
 
 - [Core: Re-throw errors that happened in callbacks wrapped in jQuery ready by mgol · Pull Request #3210 · jquery/jquery](https://github.com/jquery/jquery/pull/3210 "Core: Re-throw errors that happened in callbacks wrapped in jQuery ready by mgol · Pull Request #3210 · jquery/jquery")
+
+ついでにJavaScript Promiseの本もjQuery 3.xに対応した更新をしています。
+
+- [Release 1.6.0 · azu/promises-book](https://github.com/azu/promises-book/releases/tag/1.6.0 "Release 1.6.0 · azu/promises-book")
 
 -----
 [Node v6.3.0](https://nodejs.org/en/blog/release/v6.3.0/)がリリースされました。
