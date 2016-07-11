@@ -15,7 +15,7 @@ JSer.info #287 - jQuery 3.1.0がリリースされました。
 
 - [jQuery 3.1.0 Released – No More Silent Errors | Official jQuery Blog](http://blog.jquery.com/2016/07/07/jquery-3-1-0-released-no-more-silent-errors/)
 
-jQuery 3.0では`jQuery.ready`はPromiseを使うようになっています。
+jQuery 3.0では`jQuery.ready`はPromise A/+互換の[Deferred Object](https://api.jquery.com/category/deferred-object/ "Deferred Object")を使うようになっています。
 そのため、次のようなコードは何もコンソールにエラーが表示されない状態になっていました。
 
 ```js
