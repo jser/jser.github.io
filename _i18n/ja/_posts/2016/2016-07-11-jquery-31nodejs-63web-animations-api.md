@@ -38,6 +38,8 @@ jQuery.ready.then(function() {
 });
 ```
 
+しかし、 `$()`はjQueryオブジェクトを返すため、書き方によってはエラーハンドリングを書くことができないという問題があります。
+
 この問題についての詳細は [Bugsnag Blog - A Warning About jQuery 3](http://blog.bugsnag.com/a-warning-about-jquery-3 "Bugsnag Blog - A Warning About jQuery 3") で解説されています。
 
 jQuery 3.1では今までと同じように`jQuery.ready`内で起きたエラーをコンソールに表示します。
