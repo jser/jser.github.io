@@ -12,10 +12,37 @@ tags:
 
 ---
 
+JSer.info #288 - 非同期処理ライブラリ[Async](https://github.com/caolan/async "Async")の2.0がリリースされました。
+2.0ではライブラリ内部が整理され、`require("async/series")`のように直接参照でそれぞれの機能が利用できるようになっています。また、内部的にES2015 modulesでimport/exportしている[async-es](https://www.npmjs.com/package/async-es "async-es")も合わせて公開されています。
 
-JSer.info #288
+機能的な変更点についてはCHANGELOGを参照してください。
+
+- [async/CHANGELOG.md at v2.0.0 · caolan/async](https://github.com/caolan/async/blob/v2.0.0/CHANGELOG.md "async/CHANGELOG.md at v2.0.0 · caolan/async")
 
 ----
+
+HTMLのアクセシビリティテストライブラリである[aXe](https://github.com/dequelabs/axe-core "aXe") 2.0がリリースされました。
+
+aXeはHTMLにスクリプトとして読み込ませて実行し、[定義したルール](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md)にもとづきアクセシビリティのチェックをするライブラリ/ツールです。
+
+- [Deque Launches aXe 2.0](http://www.deque.com/blog/introducing-axe-2-0/ "Deque Launches aXe 2.0")
+
+2.0では[Plugins](https://github.com/dequelabs/axe-core/blob/master/doc/plugins.md "Plugins")の仕組みが追加されています。
+
+----
+
+[TypeScript 2.0 Beta](https://blogs.msdn.microsoft.com/typescript/2016/07/11/announcing-typescript-2-0-beta/ "TypeScript 2.0 Beta")が公開されました。
+
+Non-nullable type、module定義でワイルドカード(`*`)のサポート、`never` typeなどの機能が追加されています。
+また、tsconfigの`include`でglobサポート、built-inの型定義ファイルを`--lib`で指定できるように、`--skipLibCheck`の追加など
+
+詳しくは以下を参照してください。
+
+- [What's new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&amp;#39;s new in TypeScript · Microsoft/TypeScript Wiki")
+- [TypeScript 2.0 Beta 変更点 - Qiita](http://qiita.com/vvakame/items/ae239f3d6f6f08f7c719 "TypeScript 2.0 Beta 変更点 - Qiita")
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
@@ -87,7 +114,7 @@ TypeScript 2.0βリリース。
 Non-nullable Type、module定義に`*`などが使えるように。
 `never` typeの追加、tsconfigでglobサポート、built-inの型定義ファイルを`--lib`で指定できるように、`--skipLibCheck`の追加など
 
-- [What&amp;#39;s new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&amp;#39;s new in TypeScript · Microsoft/TypeScript Wiki")
+- [What's new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&amp;#39;s new in TypeScript · Microsoft/TypeScript Wiki")
 - [TypeScript 2.0 Beta 変更点 - Qiita](http://qiita.com/vvakame/items/ae239f3d6f6f08f7c719 "TypeScript 2.0 Beta 変更点 - Qiita")
 
 ----
