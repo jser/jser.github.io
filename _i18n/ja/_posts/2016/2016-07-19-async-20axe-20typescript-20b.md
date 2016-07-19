@@ -65,7 +65,7 @@ ESLint 3.1.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">jQuery</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Zepto.js 1.2.0リリース。
-`__proto__`をコードベースから削除、`$.noop`や`$.isNumeric()`の追加ｎado
+`__proto__`をコードベースから削除、`$.noop`や`$.isNumeric()`の追加など
 
 ----
 
