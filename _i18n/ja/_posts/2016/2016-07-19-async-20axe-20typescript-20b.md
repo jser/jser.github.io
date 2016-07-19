@@ -1,5 +1,5 @@
 ---
-title: "2016-07-19のJS: async 2.0、aXe 2.0、TypeScript 2.0β"
+title: "2016-07-19のJS: Async 2.0、aXe 2.0、TypeScript 2.0β"
 author: azu
 layout: post
 date : 2016-07-19T09:50
