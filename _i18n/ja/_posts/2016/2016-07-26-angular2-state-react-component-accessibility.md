@@ -24,7 +24,7 @@ JSer.info #289 - [Tackling State — angular2](https://vsavkin.com/managing-stat
 
 [React.js in patterns](http://krasimirtsonev.com/blog/article/react-js-in-design-patterns)という記事ではReact Component + JSXの色々なパターンについて書かれています。
 
-コンポーネント同士を組み合わせて使う方法や、`this.props.childred`を使ったやり方、高階関数を使う方法など色々なパターンについて書かれています。
+コンポーネント同士を組み合わせて使う方法や、`this.props.children`を使ったやり方、高階関数を使う方法など色々なパターンについて書かれています。
 
 高階関数を使ったコンポーネントについては以下の記事も見てみると良いです。
 
