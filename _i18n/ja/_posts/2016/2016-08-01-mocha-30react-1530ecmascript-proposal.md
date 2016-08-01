@@ -11,8 +11,36 @@ tags:
 
 ---
 
+JSer.info #290 - Mocha 3.0がリリースされました。
+メジャーアップデートであるため、いくつかの非互換性が含まれています。
 
-JSer.info #290
+Promiseを返すパターンと`done`の両方が同時に使われているケースをエラーとするように、
+`--grep`に正規表現的な文字列を指定できるようになるなど
+
+- [mocha/CHANGELOG.md at master · mochajs/mocha](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#300--2016-07-31)
+
+----
+
+React 15.3.0がリリースされました。
+`React.PureComponent`の追加、[Jest](http://facebook.github.io/jest/blog/2016/07/27/jest-14.html)と共に使う[react-test-renderer](https://www.npmjs.com/package/react-test-renderer "react-test-renderer")のパッケージを公開、propTypesの警告の改善などが含まれています。
+
+- [Release v15.3.0 · facebook/react](https://github.com/facebook/react/releases/tag/v15.3.0)
+
+React 15.2.0では騒がしい警告が色々追加されているので、アップデートする際は以下の記事を参考にすると良さそうです。
+
+- [React v0.14.x から v15.2.x へのアップデート録 ::ハブろぐ](https://havelog.ayumusato.com/develop/javascript/e717-react_v15_upgrade.html "React v0.14.x から v15.2.x へのアップデート録 ::ハブろぐ")
+- [React v15.0 | React](https://facebook.github.io/react/blog/2016/04/07/react-v15.html "React v15.0 | React")
+
+----
+
+[ECMAScript proposal updates @ 2016-07 | ECMAScript Daily](https://ecmascript-daily.github.io/2016/07/30/last-minutes-proposals-changes)では、[7月に行われたTC39のミーティング](https://github.com/tc39/agendas/blob/master/2016/07.md)の結果、Statusが変わったProposalについてまとめられています。
+
+[Async Functions](https://github.com/tc39/ecmascript-asyncawait "Async Functions")と[trailing commas in function parameter](https://github.com/jeffmo/es-trailing-function-commas "trailing commas in function parameter")がStage 4となっています。
+
+ES2017に入る予定(Stage 4)のものは以下にまとめられています。
+
+- [proposals/finished-proposals.md at master · tc39/proposals](https://github.com/tc39/proposals/blob/master/finished-proposals.md "proposals/finished-proposals.md at master · tc39/proposals")
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -39,7 +67,7 @@ Ember 2.8では`Ember.Engine`、`Array#includes`のpolyfill、`Ember.String.isHT
 ----
 
 ## mocha/CHANGELOG.md at master · mochajs/mocha
-[github.com/mochajs/mocha/blob/master/CHANGELOG.md](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md "mocha/CHANGELOG.md at master · mochajs/mocha")
+[github.com/mochajs/mocha/blob/master/CHANGELOG.md](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#300--2016-07-31 "mocha/CHANGELOG.md at master · mochajs/mocha")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
 
