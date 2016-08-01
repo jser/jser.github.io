@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-08-02のJS: Mocha 3.0、React 15.3.0、ECMAScript Proposalの進捗 - JSer.info</title>
+    <meta name="description" content="JSer.info #290 - Mocha 3.0がリリースされました。メジャーアップデートであるため、いくつかの非互換性が含まれています。">
+    
+    <meta name="keywords" content="testing,React,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-08-01T23:28:00+09:00" property="article:published_time">
+      <meta content="http://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="_i18n" property="article:section">
+      
+    
+    
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="http://jser.info/2016/08/01/mocha-30react-1530ecmascript-proposal/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js"></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #290 - Mocha 3.0がリリースされました。メジャーアップデートであるため、いくつかの非互換性が含まれています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-08-02のJS: Mocha 3.0、React 15.3.0、ECMAScript Proposalの進捗">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://jser.info/2016/08/01/mocha-30react-1530ecmascript-proposal/">
+<meta property="og:image" content="http://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #290 - Mocha 3.0がリリースされました。メジャーアップデートであるため、いくつかの非互換性が含まれています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-08-01T23:28:00+09:00">
+
+<meta property="og:see_also" content="http://jser.info/2016/07/26/angular2-state-react-component-accessibility/">
+
+<meta property="og:see_also" content="http://jser.info/2016/07/19/async-20axe-20typescript-20b/">
+
+<meta property="og:see_also" content="http://jser.info/2016/07/11/jquery-31nodejs-63web-animations-api/">
+
+
+
+
+
+<meta property="article:tag" content="testing">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <script async src='//www.google-analytics.com/analytics.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+                (ga.q = ga.q || []).push(arguments)
+            };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+            link.addEventListener("click", function (event) {
+                var elementTarget = event.target;
+                var url = elementTarget.href;
+                ga('send', 'event', 'outbound', 'click', url);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/"><img alt="JSer.info" src="/public/img/logo.png" /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/08/01/mocha-30react-1530ecmascript-proposal/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/08/01/mocha-30react-1530ecmascript-proposal/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版 => <a href="http://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/08/01/mocha-30react-1530ecmascript-proposal/">2016-08-02のJS: Mocha 3.0、React 15.3.0、ECMAScript Proposalの進捗</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年08月01日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-08-01-mocha-30react-1530ecmascript-proposal.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-08-01-mocha-30react-1530ecmascript-proposal.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/08/01/mocha-30react-1530ecmascript-proposal/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/08/01/mocha-30react-1530ecmascript-proposal/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #290 - Mocha 3.0がリリースされました。<br>
+メジャーアップデートであるため、いくつかの非互換性が含まれています。</p>
+
+<p>Promiseを返すパターンと<code>done</code>の両方が同時に使われているケースをエラーとするように、<br>
+<code>--grep</code>に正規表現的な文字列を指定できるようになるなど</p>
+
+<ul>
+<li><a href="https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#300--2016-07-31">mocha/CHANGELOG.md at master · mochajs/mocha</a></li>
+</ul>
+
+<hr>
+
+<p>React 15.3.0がリリースされました。<br>
+<code>React.PureComponent</code>の追加、<a href="http://facebook.github.io/jest/blog/2016/07/27/jest-14.html">Jest</a>と共に使う<a href="https://www.npmjs.com/package/react-test-renderer" title="react-test-renderer">react-test-renderer</a>のパッケージを公開、propTypesの警告の改善などが含まれています。</p>
+
+<ul>
+<li><a href="https://github.com/facebook/react/releases/tag/v15.3.0">Release v15.3.0 · facebook/react</a></li>
+</ul>
+
+<p>React 15.2.0では騒がしい警告が色々追加されているので、アップデートする際は以下の記事を参考にすると良さそうです。</p>
+
+<ul>
+<li><a href="https://havelog.ayumusato.com/develop/javascript/e717-react_v15_upgrade.html" title="React v0.14.x から v15.2.x へのアップデート録 ::ハブろぐ">React v0.14.x から v15.2.x へのアップデート録 ::ハブろぐ</a></li>
+<li><a href="https://facebook.github.io/react/blog/2016/04/07/react-v15.html" title="React v15.0 | React">React v15.0 | React</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://ecmascript-daily.github.io/2016/07/30/last-minutes-proposals-changes">ECMAScript proposal updates @ 2016-07 | ECMAScript Daily</a>では、<a href="https://github.com/tc39/agendas/blob/master/2016/07.md">7月に行われたTC39のミーティング</a>の結果、Statusが変わったProposalについてまとめられています。</p>
+
+<p><a href="https://github.com/tc39/ecmascript-asyncawait" title="Async Functions">Async Functions</a>と<a href="https://github.com/jeffmo/es-trailing-function-commas" title="trailing commas in function parameter">trailing commas in function parameter</a>がStage 4となっています。</p>
+
+<p>ES2017に入る予定(Stage 4)のものは以下にまとめられています。</p>
+
+<ul>
+<li><a href="https://github.com/tc39/proposals/blob/master/finished-proposals.md" title="proposals/finished-proposals.md at master · tc39/proposals">proposals/finished-proposals.md at master · tc39/proposals</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="aurelia-1.0-is-here!!!">Aurelia 1.0 is Here!!!</h2>
+
+<p><a href="http://blog.durandal.io/2016/07/27/aurelia-1-0-is-here/" title="Aurelia 1.0 is Here!!!">blog.durandal.io/2016/07/27/aurelia-1-0-is-here/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Aurelia 1.0リリース</p>
+
+<hr>
+
+<h2 id="ember.js---ember.js-2.7-and-2.8-beta-released">Ember.js - Ember.js 2.7 and 2.8 Beta Released</h2>
+
+<p><a href="http://emberjs.com/blog/2016/07/25/ember-2-7-and-2-8-beta-released.html" title="Ember.js - Ember.js 2.7 and 2.8 Beta Released">emberjs.com/blog/2016/07/25/ember-2-7-and-2-8-beta-released.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p>
+
+<p>Ember.js 2.7と2.8 Betaリリース。<br>
+Ember 2.8では<code>Ember.Engine</code>、<code>Array#includes</code>のpolyfill、<code>Ember.String.isHTMLSafe</code>などが追加される</p>
+
+<hr>
+
+<h2 id="mocha/changelog.md-at-master-·-mochajs/mocha">mocha/CHANGELOG.md at master · mochajs/mocha</h2>
+
+<p><a href="https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#300--2016-07-31" title="mocha/CHANGELOG.md at master · mochajs/mocha">github.com/mochajs/mocha/blob/master/CHANGELOG.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Mocha 3.0.0リリース。 非同期テスト時に<code>done()</code>の実装とPromiseを返すとエラーになる、<code>--grep</code>で正規表現リテラル的な文字列が指定可能に、<code>describe.only</code>の動作を改善など</p>
+
+<hr>
+
+<h2 id="jest-14.0:-react-tree-snapshot-testing-·-jest">Jest 14.0: React Tree Snapshot Testing · Jest</h2>
+
+<p><a href="http://facebook.github.io/jest/blog/2016/07/27/jest-14.html" title="Jest 14.0: React Tree Snapshot Testing · Jest">facebook.github.io/jest/blog/2016/07/27/jest-14.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>Jest 14.0リリース。<br>
+React Componentのsnapshot testing、React Nativeサポートなど</p>
+
+<hr>
+
+<h2 id="release-v15.3.0-·-facebook/react">Release v15.3.0 · facebook/react</h2>
+
+<p><a href="https://github.com/facebook/react/releases/tag/v15.3.0" title="Release v15.3.0 · facebook/react">github.com/facebook/react/releases/tag/v15.3.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React 15.3.0リリース。<br>
+<code>React.PureComponent</code>の追加、propTypesのバリデーション改善、テスト向けの<code>react-test-renderer</code>を公開など</p>
+
+<hr>
+
+<h2 id="eslint-v3.2.0-released---eslint---pluggable-javascript-linter">ESLint v3.2.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2016/07/eslint-v3.2.0-released" title="ESLint v3.2.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2016/07/eslint-v3.2.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint v3.2.0リリース。<br>
+<code>no-tab</code>ルールの追加など</p>
+
+<ul>
+<li><a href="http://qiita.com/mysticatea/items/706f4bb024d7ceb78f1d" title="ESLint v3.2.0 - Qiita">ESLint v3.2.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v6.12.0-·-babel/babel">Release v6.12.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/releases/tag/v6.12.0" title="Release v6.12.0 · babel/babel">github.com/babel/babel/releases/tag/v6.12.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Babel v6.12.0リリース。<br>
+<code>babel-plugin-transform-runtime</code>に<code>helpers: false</code>を追加。<br>
+<code>babel-plugin-transform-es2015-modules-umd</code>に<code>exactGlobals</code>オプションを追加など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-@-2016-07-|-ecmascript-daily">ECMAScript proposal updates @ 2016-07 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/2016/07/30/last-minutes-proposals-changes" title="ECMAScript proposal updates @ 2016-07 | ECMAScript Daily">ecmascript-daily.github.io/2016/07/30/last-minutes-proposals-changes</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span></p>
+
+<p>2016年7月のミーティングのProposal statusの変化まとめ。<br>
+Async/Awaitとtrailing function commasがstage 4になった</p>
+
+<hr>
+
+<h2 id="a-comprehensive-guide-to-font-loading-strategies—zachleat.com">A Comprehensive Guide to Font Loading Strategies—zachleat.com</h2>
+
+<p><a href="https://www.zachleat.com/web/comprehensive-webfonts/" title="A Comprehensive Guide to Font Loading Strategies—zachleat.com">www.zachleat.com/web/comprehensive-webfonts/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">fonts</span></p>
+
+<p>Font Loadingの手法やそれぞれの良いところ、良くないところについてのまとめ</p>
+
+<hr>
+
+<h2 id="a-step-by-step-tdd-approach-on-testing-react-components-using-enzyme">A step-by-step TDD approach on testing React components using Enzyme</h2>
+
+<p><a href="http://thereignn.ghost.io/a-step-by-step-tdd-approach-on-testing-react-components-using-enzyme/" title="A step-by-step TDD approach on testing React components using Enzyme">thereignn.ghost.io/a-step-by-step-tdd-approach-on-testing-react-components-using-enzyme/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">jsx</span> <span class="jser-tag">testing</span></p>
+
+<p>Enzymeを使ったReact ComponentのTDDについて。<br>
+React Componentをテスト駆動で開発するチュートリアル</p>
+
+<hr>
+
+<h2 id="taming-requestanimationframe-and-requestidlecallback">Taming requestAnimationFrame and requestIdleCallback</h2>
+
+<p><a href="https://www.webreflection.co.uk/blog/2016/07/31/taming-raf-and-rick" title="Taming requestAnimationFrame and requestIdleCallback">www.webreflection.co.uk/blog/2016/07/31/taming-raf-and-rick</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>requestAnimationFrame/requestIdleCallbackなどのスケジューリングを行うライブラリについて</p>
+
+<ul>
+<li><a href="https://github.com/WebReflection/sob" title="WebReflection/sob: Schedule on Browser">WebReflection/sob: Schedule on Browser</a></li>
+</ul>
+
+<hr>
+
+<h2 id="css:-will-change指定時の挙動,-パフォーマンスへの影響と考察---qiita">CSS: will-change指定時の挙動, パフォーマンスへの影響と考察 - Qiita</h2>
+
+<p><a href="http://qiita.com/damele0n/items/71352757d0e6fdf5b184" title="CSS: will-change指定時の挙動, パフォーマンスへの影響と考察 - Qiita">qiita.com/damele0n/items/71352757d0e6fdf5b184</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p>
+
+<p>CSSの<code>will-change</code>の効果の検証とブラウザの実装(ソースコード)について。<br>
+指定した値毎の挙動についてなど</p>
+
+<hr>
+
+<h2 id="react-v0.14.x-から-v15.2.x-へのアップデート録-::ハブろぐ">React v0.14.x から v15.2.x へのアップデート録 ::ハブろぐ</h2>
+
+<p><a href="https://havelog.ayumusato.com/develop/javascript/e717-react_v15_upgrade.html" title="React v0.14.x から v15.2.x へのアップデート録 ::ハブろぐ">havelog.ayumusato.com/develop/javascript/e717-react_v15_upgrade.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span></p>
+
+<p>React 0.14.xから15.2へのアップデートした際に出る警告と対処法について</p>
+
+<hr>
+
+<h2 id="javascript-systems-music">JavaScript Systems Music</h2>
+
+<p><a href="http://teropa.info/blog/2016/07/28/javascript-systems-music.html" title="JavaScript Systems Music">teropa.info/blog/2016/07/28/javascript-systems-music.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">music</span></p>
+
+<p>JavaScriptでSystems Music</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Systems_music" title="Systems music - Wikipedia, the free encyclopedia">Systems music - Wikipedia, the free encyclopedia</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="vue.js-@-laracon---google-スライド">Vue.js @ Laracon - Google スライド</h2>
+
+<p><a href="https://docs.google.com/presentation/d/16MpK3I2LZz47QdLg3uMNkCC3PqmM0znXF3-FdCEpics/mobilepresent#slide=id.p" title="Vue.js @ Laracon - Google スライド">docs.google.com/presentation/d/16MpK3I2LZz47QdLg3uMNkCC3PqmM0znXF3-FdCEpics/mobilepresent#slide=id.p</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">スライド</span></p>
+
+<p>Vue.js 2.0のコンセプトについてのスライド</p>
+
+<hr>
+
+<h2 id="async-redux-module-1-//-speaker-deck">Async Redux Module 1 // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/freddyrangel/async-redux-module-1" title="Async Redux Module 1 // Speaker Deck">speakerdeck.com/freddyrangel/async-redux-module-1</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">スライド</span></p>
+
+<p>Reduxでの非同期についてのスライド集。<br>
+そもそも動きから、middleware、thunk、sagaについて</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/freddyrangel/async-redux-module-2" title="Async Redux Module 2 // Speaker Deck">Async Redux Module 2 // Speaker Deck</a></li>
+<li><a href="https://speakerdeck.com/freddyrangel/async-redux-module-3" title="Async Redux Module 3 // Speaker Deck">Async Redux Module 3 // Speaker Deck</a></li>
+<li><a href="https://speakerdeck.com/freddyrangel/async-redux-module-4" title="Async Redux Module 4 // Speaker Deck">Async Redux Module 4 // Speaker Deck</a></li>
+<li><a href="https://speakerdeck.com/freddyrangel/async-redux-module-5" title="Async Redux Module 5 // Speaker Deck">Async Redux Module 5 // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h2 id="modern-javascript-|-angularclass">Modern Javascript | AngularClass</h2>
+
+<p><a href="http://courses.angularclass.com/courses/modern-javascript" title="Modern Javascript | AngularClass">courses.angularclass.com/courses/modern-javascript</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">動画</span></p>
+
+<p>JavaScriptについての動画講座。<br>
+ES5の復習からES6の新しい機能、TypeScript、npm、webpackについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="はじめに-|-目次">はじめに | 目次</h2>
+
+<p><a href="http://vuex.vuejs.org/ja/" title="はじめに | 目次">vuex.vuejs.org/ja/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">document</span> <span class="jser-tag">翻訳</span></p>
+
+<p>Vuexについてのドキュメント訳</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="codeceptjs">CodeceptJS</h2>
+
+<p><a href="http://codecept.io/" title="CodeceptJS">codecept.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">php</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>PHPのCodeceptionインスパイアなJavaScriptテストフレームワーク。<br>
+シナリオテストのハイレベルAPIで、Protractorなど他のtest runnerの中でも動かせる。</p>
+
+<ul>
+<li><a href="http://codeception.com/" title="Codeception">Codeception</a></li>
+</ul>
+
+<hr>
+
+<h2 id="rkendall/reffix:-the-reference-fixer-for-analyzing-and-fixing-broken-path-references-in-files.">rkendall/reffix: The Reference Fixer for analyzing and fixing broken path references in files.</h2>
+
+<p><a href="https://github.com/rkendall/reffix" title="rkendall/reffix: The Reference Fixer for analyzing and fixing broken path references in files.">github.com/rkendall/reffix</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>JavaScriptのrequireやimportのパス、HTMLのimgやscriptのパスのチェックと修正ができるツール</p>
+
+<hr>
+
+<h2 id="mgol/check-dependencies:-checks-if-currently-installed-npm-dependencies-are-installed-in-the-exact-same-versions-that-are-specified-in-package.json">mgol/check-dependencies: Checks if currently installed npm dependencies are installed in the exact same versions that are specified in package.json</h2>
+
+<p><a href="https://github.com/mgol/check-dependencies" title="mgol/check-dependencies: Checks if currently installed npm dependencies are installed in the exact same versions that are specified in package.json">github.com/mgol/check-dependencies</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">library</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
+
+<p>npmでインストールしているバージョンとpacakge.jsonのバージョンが同一なのかをチェックできるライブラリとCLI</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="front-end-web-development:-the-big-nerd-ranch-guide:-chris-aquino,-todd-gandee:-9780134433943:-amazon.com:-books">Front-End Web Development: The Big Nerd Ranch Guide: Chris Aquino, Todd Gandee: 9780134433943: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Front-End-Web-Development-Ranch-Guide/dp/0134433947" title="Front-End Web Development: The Big Nerd Ranch Guide: Chris Aquino, Todd Gandee: 9780134433943: Amazon.com: Books">www.amazon.com/Front-End-Web-Development-Ranch-Guide/dp/0134433947</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">book</span></p>
+
+<p>2016年8月11日発売<br>
+Ember.jsを使ったウェブアプリについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-08-01-mocha-30react-1530ecmascript-proposal.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="http://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["testing","React","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>testing</li>
+                
+                <li>React</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <li>
+      <a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+    </li>
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+           data-hatena-bookmark-layout="standard-balloon"
+           data-hatena-bookmark-url="http://jser.info/2016/08/01/mocha-30react-1530ecmascript-proposal/">
+            <img src="http://b.st-hatena.com/images/entry-button/button-only.gif"
+                 alt="はてなブックマークに追加" width="20" height="20"
+                 style="border: none">
+        </a>
+    </li>
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja"
+           data-save-url="http://jser.info/2016/08/01/mocha-30react-1530ecmascript-proposal/"
+           data-pocket-count="horizontal"
+           data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+
+<script async type="text/javascript" src="/public/build/related-item.js"></script>
+
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+                a = function (u, f) {
+                    if (!d.getElementById(f)) {
+                        s = d.createElement("script");
+                        s.async = true;
+                        s.src = u;
+                        e.parentNode.insertBefore(s, e);
+                    }
+                };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="http://twitter.com/azu_re"><img src="/public/img/azu.png" alt="Profile"></a>
+
+        <h2><a href="http://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="twitter">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="GitHub">
+        </a>
+        <a class="social-icon__rss" href="http://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="RSS">
+        </a>
+        <a class="social-icon__feedly" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt='follow us in feedly' width='28' height='28'></a>
+    </div>
+
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="http://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="http://jser.info/support/">Support</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2016/08/01/mocha-30react-1530ecmascript-proposal/">2016-08-02のJS: Mocha 3.0、React 15.3.0、ECMAScript Proposalの進捗</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/07/26/angular2-state-react-component-accessibility/">2016-07-26のJS: AngularJS 2でのState管理、React Componentパターン、アクセシビリティガイドライン</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/07/19/async-20axe-20typescript-20b/">2016-07-19のJS: Async 2.0、aXe 2.0、TypeScript 2.0β</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/07/11/jquery-31nodejs-63web-animations-api/">2016-07-11のJS: jQuery 3.1、Node.js 6.3、Web Animations API入門</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/07/04/d3-400servo-nightlyecmascript-as-a-living-standard/">2016-07-04のJS: D3 4.0.0、Servo Nightly、ECMAScript as a Living Standard</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/27/babel-6110safari-tp7firefox-49/">2016-06-27のJS: Babel 6.11.0、Safari TP7、Firefox 49の開発者ツール</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/21/ecmascript2016-unit2.0/">2016-06-21のJS: ECMAScript 2016リリース、QUnit 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2016/06/13/jQuery3-Firefox47-WebAudioAPI/">2016-06-13のJS: jQuery 3.0、Firefox 47.0、Web Audio API入門</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative commons LISENCE"
+                                                                                     style="border-width:0"
+                                                                                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+    ((window.gitter = {}).chat = {}).options = {
+        room: 'jser/jser.info'
+    };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+</body>
+</html>
