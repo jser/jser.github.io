@@ -12,7 +12,31 @@ tags:
 
 ---
 
-JSer.info #291
+JSer.info #291 - Firefox 48.0がリリースされました。
+
+- [Firefox — Notes (48.0) — Mozilla](https://www.mozilla.org/en-US/firefox/48.0/releasenotes/ "Firefox — Notes (48.0) — Mozilla")
+- [Firefox 48 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/48 "Firefox 48 for developers - Mozilla | MDN")
+- [Firefox 48 サイト互換性情報 | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/versions/48/ "Firefox 48 サイト互換性情報 | Firefox サイト互換性情報")
+
+`Element#animate`がデフォルト有効となり、Web Animation APIが使えるようになっています。
+詳しくは以下の記事で解説されています。
+
+- [Animating like you just don’t care with Element.animate ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/ "Animating like you just don’t care with Element.animate ★ Mozilla Hacks – the Web developer blog")
+
+
+----
+
+[step by stepで始めるwebpack - Qiita](http://qiita.com/howdy39/items/48d85c430f90a21075cd "step by stepで始めるwebpack - Qiita")という記事ではwebpackの設定についてステップバイステップで、なぜその設定をするのかというチュートリアル形式でかかれています。
+
+webpackはBrowserifyなどに比べてビルトインの機能としてできることが豊富ですが、その分設定も必要になります。
+よく分からずにwebpackの設定をコピペして使ってる人も多いと思うので、一度見てみるといいかもしれません。
+
+----
+
+[stream between nodejs and whatwg // Speaker Deck](https://speakerdeck.com/jxck/stream-between-nodejs-and-whatwg "stream between nodejs and whatwg // Speaker Deck")というスライドでは、[Node.js Stream](https://nodejs.org/api/stream.html)と[WHATWG Steram](https://streams.spec.whatwg.org/)の違いについて書かれています。
+
+Streamという言葉は同じですが、目的が異なるためそもそもの互換性などがないこと、
+実装方法も異なる点について書かれています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
