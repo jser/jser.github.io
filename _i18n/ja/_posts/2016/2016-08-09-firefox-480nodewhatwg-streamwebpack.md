@@ -35,7 +35,7 @@ webpackはBrowserifyなどに比べてビルトインの機能としてできる
 
 [stream between nodejs and whatwg // Speaker Deck](https://speakerdeck.com/jxck/stream-between-nodejs-and-whatwg "stream between nodejs and whatwg // Speaker Deck")というスライドでは、[Node.js Stream](https://nodejs.org/api/stream.html)と[WHATWG Steram](https://streams.spec.whatwg.org/)の違いについて書かれています。
 
-Streamという言葉は同じですが、目的が異なるためそもそもの互換性などがないこと、
+Streamという言葉は同じですが、目的が<del>異なるため</del>同じだが、そもそもの互換性などがないこと、
 実装方法も異なる点について書かれています。
 
 ----
