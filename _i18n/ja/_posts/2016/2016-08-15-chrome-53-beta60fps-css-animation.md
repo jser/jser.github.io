@@ -12,7 +12,36 @@ tags:
 
 ---
 
-JSer.info #292
+JSer.info #292 - Chrome 53βがリリースされました。
+
+- [Chromium Blog: Chrome 53 Beta: Shadow DOM, PaymentRequest, and Android autoplay](http://blog.chromium.org/2016/08/chrome-53-beta-shadow-dom.html)
+
+Shadow DOM v1のサポートをしています。
+v1については次の記事を読むと良いです。
+
+- [Shadow DOM v1: self-contained web components | Web Fundamentals - Google Developers](https://developers.google.com/web/fundamentals/primers/shadowdom/ "Shadow DOM v1: self-contained web components | Web Fundamentals - Google Developers")
+- [What's New in Shadow DOM v1 (by examples) — hayato.io](http://hayato.io/2016/shadowdomv1/ "What&#39;s New in Shadow DOM v1 (by examples) — hayato.io")
+
+PaymentRequest APIのサポート、[Safariと同様](https://webkit.org/blog/6784/new-video-policies-for-ios/)に[Video要素は`muted`なら`autoplay`で自動再生](https://developers.google.com/web/updates/2016/07/autoplay)をサポートしています。
+
+また、[DHE-based ciphers](https://www.chromestatus.com/feature/5128908798164992 "DHE-based ciphers")のサポートが削除されています。
+非推奨/削除されたAPIなどについては次の記事を読むと良いです。
+
+- [API Deprecations and Removals in Chrome 53 | Web Updates - Google Developers](https://developers.google.com/web/updates/2016/08/chrome-53-deprecations "API Deprecations and Removals in Chrome 53 | Web Updates - Google Developers")
+
+----
+
+[Make your JavaScript code shine: knockout old ES5 hacks](https://rainsoft.io/make-your-javascript-code-shide-knockout-old-es5-hack/)という記事では、既に代替表現があるES5以下のコードについて書かれています。
+ES2015以降では`indexOf !== -1`ではなく`includes`が利用できるなど、ES2015ではこれまでのイディオムをより明示的に表現する[方法が多く](https://github.com/asciidwango/js-primer/issues/108)あります。
+
+この記事では、それらについてどういうイディオムなのかと代わりにどう書けるのかが分かりやすく書かれています。
+
+----
+
+[Smooth as Butter: Achieving 60 FPS Animations with CSS3 — OutSystems Experts — Medium](https://medium.com/outsystems-experts/how-to-achieve-60-fps-animations-with-css3-db7b98610108)という記事では、スライドメニューバーのCSSアニメーションを60FPSで処理出来るようするまでをステップバイステップで紹介しています。
+
+開発者ツールでのFPSの読み方や変更による変化を分かりやすくまとめています。
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
