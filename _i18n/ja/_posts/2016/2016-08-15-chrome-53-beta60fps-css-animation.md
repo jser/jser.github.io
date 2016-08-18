@@ -32,7 +32,7 @@ PaymentRequest APIのサポート、[Safariと同様](https://webkit.org/blog/67
 ----
 
 [Make your JavaScript code shine: knockout old ES5 hacks](https://rainsoft.io/make-your-javascript-code-shide-knockout-old-es5-hack/)という記事では、既に代替表現があるES5以下のコードについて書かれています。
-ES2015以降では`indexOf !== -1`ではなく`includes`が利用できるなど、ES2015ではこれまでのイディオムをより明示的に表現する[方法が多く](https://github.com/asciidwango/js-primer/issues/108)あります。
+ES2016以降では`indexOf !== -1`ではなく`includes`が利用できるなど、ES2015以降ではこれまでのイディオムをより明示的に表現する[方法が多く](https://github.com/asciidwango/js-primer/issues/108)あります。
 
 この記事では、それらについてどういうイディオムなのかと代わりにどう書けるのかが分かりやすく書かれています。
 
