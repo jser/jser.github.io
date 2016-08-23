@@ -3,7 +3,7 @@ title: "2016-08-23のJS: Web Audio APIの変更点、AngularJS 2 RC5のNgModule�
 author: azu
 layout: post
 date : 2016-08-23T09:38
-category: 
+category: JSer
 tags:
     - WebAudioAPI
     - Angular2
@@ -11,7 +11,23 @@ tags:
 
 ---
 
-JSer.info #293
+JSer.info #293 - [What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/08/whats-new-in-web-audio-2/)（[翻訳](https://dev.mozilla.jp/2016/08/whats-new-in-web-audio-2/)）という記事では、ここ1年でのWeb Audio APIの変更点について書かれています。
+
+`DynamicsCompressorNode`の仕様変更やライフサイクルメソッド(`suspend()`,`resume()`,`close()`)の追加、`disconnect()`の多重定義の追加など仕様的な変更についてまとめられています。
+
+----
+
+[Angular2 RC5への更新とステート管理の変更、power-assertによるテストまで試す - undefined](http://blog.bokuweb.me/entry/angular2_rc5 "Angular2 RC5への更新とステート管理の変更、power-assertによるテストまで試す - undefined")という記事では、[Angular 2 RC5](https://ng2-info.github.io/2016/08/angular-2-rc-5/ "Angular 2 RC5")で追加された[NgModule](http://ng2-info.github.io/2016/07/preparing-for-ngmodule/ "NgModule")を使った開発やテストについて書かれています。
+
+また[Tackling State — Angular 2](https://vsavkin.com/managing-state-in-angular-2-applications-caf78d123d02 "Tackling State — Angular 2")で紹介されているようなステート管理をどうやるかについても書かれています。
+
+-----
+
+[Generative Testing in JavaScript — JavaScript Inside — Medium](https://medium.com/javascript-inside/generative-testing-in-javascript-f91432247c27 "Generative Testing in JavaScript — JavaScript Inside — Medium")という記事ではJavaScriptでのProperty-based testingについて書かれています。
+
+Haskellの[QuickCheck](https://wiki.haskell.org/Introduction_to_QuickCheck1 "QuickCheck")などが有名で、JavaScriptにも[jsverify](https://github.com/jsverify/jsverify "jsverify")や[testcheck-js](https://github.com/leebyron/testcheck-js "testcheck-js")などの類似するライブラリがあったりします。
+
+この記事ではProperty-based testingというどういうテスト手法なのかやよく見るユニットテストとはどう違うのかなどについて書かれています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
