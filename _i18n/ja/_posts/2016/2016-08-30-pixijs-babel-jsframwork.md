@@ -14,7 +14,52 @@ tags:
 
 ---
 
-JSer.info #294
+JSer.info #294 - WebGLやCanvasを使った2Dレンダリングエンジンのpixi.js 4.0.0がリリースされました。
+
+- [Release v4.0.0 · pixijs/pixi.js](https://github.com/pixijs/pixi.js/releases/tag/v4.0.0 "Release v4.0.0 · pixijs/pixi.js")
+
+[RCリリース時の記事](http://www.goodboydigital.com/pixi-js-v4/)でも紹介されていますが、
+Multi texture rendereringのサポート、GPU GC管理、WebGLレンダーの改善などが行われています。
+また、コア部分が[pixi-gl-core](https://github.com/pixijs/pixi-gl-core "pixi-gl-core")として公開されたり、
+npm周りの整備がされています。
+
+バグ修正も行われていますが4.0になって増えたバグもあるので、それらの修正を含めた4.1のリリースが予定されています。
+
+- [Issues · pixijs/pixi.js](https://github.com/pixijs/pixi.js/issues?q=is%3Aopen+is%3Aissue+milestone%3Av4.1 "Issues · pixijs/pixi.js")
+
+----
+
+Babel [6.14.0](https://github.com/babel/babel/releases/tag/v6.14.0 "6.14.0")がリリースされました。
+
+- [6.14.0 Released · Babel](http://babeljs.io/blog/2016/08/24/6.14.0 "6.14.0 Released · Babel")
+
+新しく `latest` と `es2017` のpresetが追加されています。
+`latest` presetはES2015+ (ES2015, ES2016, ES2017)のものが含まれていて、ECMAScriptの新しいバージョンが追加されている方式となっています。
+
+----
+
+[The State Of JavaScript: Front-End Frameworks – Medium](https://medium.com/@sachagreif/the-state-of-javascript-front-end-frameworks-1a2d8a61510 "The State Of JavaScript: Front-End Frameworks – Medium")という記事ではJavaScriptのフレームワークについてのアンケート結果が公開されています。
+[The State Of JavaScript](http://stateofjs.com/ "The State Of JavaScript")にて行われたもので、著名なフレームワーク/ライブラリごとに興味や満足度について調べたものです。
+
+対象となっていたフレームワーク/ライブラリは次の6つとなっています。
+
+- React
+- Angular
+- Angular 2
+- Ember
+- Vue
+- Backbone
+
+この記事ではそのアンケート結果が公開されています。
+
+候補となったものでVue以外は殆どの人が知っていて、
+
+- 学びたいもの: React -> Vue -> Angular2
+- 満足度: React -> Vue -> Angular2
+
+という結果になっています。
+
+詳しくは、[The State Of JavaScript: Front-End Frameworks – Medium](https://medium.com/@sachagreif/the-state-of-javascript-front-end-frameworks-1a2d8a61510 "The State Of JavaScript: Front-End Frameworks – Medium")を参照してください。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
