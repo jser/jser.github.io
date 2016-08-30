@@ -23,6 +23,10 @@ Multi texture rendereringのサポート、GPU GC管理、WebGLレンダーの�
 また、コア部分が[pixi-gl-core](https://github.com/pixijs/pixi-gl-core "pixi-gl-core")として公開されたり、
 npm周りの整備がされています。
 
+移行ガイドラインについてはまだありませんが、ドキュメントが予定されています。
+
+- [Migration guide v3->v4 · Issue #2867 · pixijs/pixi.js](https://github.com/pixijs/pixi.js/issues/2867 "Migration guide v3-&gt;v4 · Issue #2867 · pixijs/pixi.js")
+
 バグ修正も行われていますが4.0になって増えたバグもあるので、それらの修正を含めた4.1のリリースが予定されています。
 
 - [Issues · pixijs/pixi.js](https://github.com/pixijs/pixi.js/issues?q=is%3Aopen+is%3Aissue+milestone%3Av4.1 "Issues · pixijs/pixi.js")
