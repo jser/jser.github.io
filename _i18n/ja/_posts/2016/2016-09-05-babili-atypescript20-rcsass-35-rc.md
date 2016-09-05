@@ -33,7 +33,7 @@ CSSメタ言語のSass 3.5RCがリリースされました。
 
 - [Sass 3.5 Release Candidate « Sass Blog](http://blog.sass-lang.com/posts/809572-sass-35-release-candidate "Sass 3.5 Release Candidate « Sass Blog")
 
-C++で実装しなおした[LibSass](http://sass-lang.com/libsass "LibSass")がRuby版と殆ど100%の互換性となったようです。
+C++で実装しなおした[LibSass](http://sass-lang.com/libsass "LibSass")がRuby版と殆ど100％の互換性となったようです。
 3.5ではCSS Custom Property、First-Class Functions、Bracketed Listsなどのサポートが追加されています。
 
 ----
