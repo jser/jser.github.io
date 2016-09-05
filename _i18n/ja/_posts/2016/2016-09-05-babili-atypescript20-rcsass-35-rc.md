@@ -1,5 +1,5 @@
 ---
-title: "2016-09-05のJS: Babili、TypeScript2.0RC、Sass 3.5"
+title: "2016-09-05のJS: Babili α、TypeScript2.0 RC、Sass 3.5 RC"
 author: azu
 layout: post
 date : 2016-09-05T19:41
@@ -11,9 +11,33 @@ tags:
 
 ---
 
-JSer.info #295
+JSer.info #295 - TypeScript 2.0RCがリリースされました。
+
+- [Announcing TypeScript 2.0 RC | TypeScript](https://blogs.msdn.microsoft.com/typescript/2016/08/30/announcing-typescript-2-0-rc/ "Announcing TypeScript 2.0 RC | TypeScript")
+- [What's new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&#39;s new in TypeScript · Microsoft/TypeScript Wiki")
+
+`--strictNullChecks`でのnullチェックや[Tagged union types](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#tagged-union-types "Tagged union types")の、[tsconfig.jsonがglobをサポート](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#glob-support-in-tsconfigjson)など色々強化されています。
+
 
 ----
+
+Babelのプラグインとしてminifyを行う[babili](https://github.com/babel/babili "babili")がαリリースされました。
+
+- [Babili (babel-minify) · Babel](https://babeljs.io/blog/2016/08/30/babili "Babili (babel-minify) · Babel")
+
+[Rollup](https://github.com/rollup/rollup "Rollup")やwebpack 2の[tree shaking](https://blog.engineyard.com/2016/tree-shaking)などと同様にES2015+のコードに対して圧縮や未使用コードの削除などを行うBabelプラグインとなっています。
+Rollupやwebpackはbundleツールなので少し用途が異なりますが、[UglifyJS2](https://github.com/mishoo/UglifyJS2)のようなツールに対抗できるポジションを目指しているようです。
+
+----
+CSSメタ言語のSass 3.5RCがリリースされました。
+
+- [Sass 3.5 Release Candidate « Sass Blog](http://blog.sass-lang.com/posts/809572-sass-35-release-candidate "Sass 3.5 Release Candidate « Sass Blog")
+
+C++で実装しなおした[LibSass](http://sass-lang.com/libsass "LibSass")がRuby版と殆ど100%の互換性となったようです。
+3.5ではCSS Custom Property、First-Class Functions、Bracketed Listsなどのサポートが追加されています。
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
@@ -33,7 +57,7 @@ ES2016 `**` をサポート、JSXのサポートなど
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Sass 3.5リリース。
+Sass 3.5 RCリリース。
 libsassがRuby版とほぼ100％の互換性を持つように。
 CSS Custom Propertyのサポートなど
 
