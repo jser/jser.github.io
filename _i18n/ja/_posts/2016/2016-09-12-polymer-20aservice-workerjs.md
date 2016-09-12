@@ -26,11 +26,11 @@ Flow 0.32.0がリリースされました。
 
 - [Release v0.32.0 · facebook/flow](https://github.com/facebook/flow/releases/tag/v0.32.0 "Release v0.32.0 · facebook/flow")
 
-0.32.0では、JavaScriptファイルからFlowの型定義ファイルを生成する`gen-flow-files`コマンドが追加されています。
+0.32.0では、アノテーション付きのJavaScriptファイルからFlowの型定義ファイルを生成する`gen-flow-files`コマンドが追加されています。
 
 - [flowtype v0.32.0 changes - Please Drive Faster](http://joe-re.hatenablog.com/entry/2016/09/06/101529 "flowtype v0.32.0 changes - Please Drive Faster")
 
-また、TypeScriptの方でもJavaScriptファイルからTypeScriptの型定義ファイルを生成する[dts-gen](https://github.com/Microsoft/dts-gen "dts-gen")というツールが公開されています。
+また、TypeScriptの方では素のJavaScriptファイルからTypeScriptの型定義ファイルを生成する[dts-gen](https://github.com/Microsoft/dts-gen "dts-gen")というツールが公開されています。
 
 - [Microsoft/dts-gen: dts-gen creates starter TypeScript definition files for any module or library.](https://github.com/Microsoft/dts-gen "Microsoft/dts-gen: dts-gen creates starter TypeScript definition files for any module or library.")
 
