@@ -36,6 +36,8 @@ Flow 0.32.0がリリースされました。
 
 どちらもα版といった感じですが、気になる方はためしてみると良いかもしれません。
 
+追記: [dts-gen(1) でJavaScripファイルからdtsを生成する - Islands in the byte stream](http://gfx.hatenablog.com/entry/2016/09/12/232554 "dts-gen(1) でJavaScripファイルからdtsを生成する - Islands in the byte stream")
+
 ----
 
 [Service Workerの基本とそれを使ってできること - Qiita](http://qiita.com/y_fujieda/items/f9e765ac9d89ba241154)という記事では、Service Workerの基本的なライフサイクルやキャッシュ、Pushの実現について紹介されています。
