@@ -42,6 +42,9 @@ Flow 0.32.0がリリースされました。
 
 また、Googleの[Introduction to Service Worker | Web Fundamentals - Google Developers](https://developers.google.com/web/fundamentals/primers/service-worker/?hl=en "Introduction to Service Worker | Web Fundamentals - Google Developers")の[翻訳](https://developers.google.com/web/fundamentals/primers/service-worker/)も公開されているので、合わせて読んでみるといいかもしれません。
 
+> Promise を多用する
+
+とあるようにService WorkerはPromiseがネストするので、それに対するアプローチを紹介している[Untangling Deeply-Nested Promise Chains — Philip Walton](https://philipwalton.com/articles/untangling-deeply-nested-promise-chains/ "Untangling Deeply-Nested Promise Chains — Philip Walton")も読んでみると面白いかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
