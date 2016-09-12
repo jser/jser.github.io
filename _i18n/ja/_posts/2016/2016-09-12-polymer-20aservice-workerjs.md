@@ -1,5 +1,5 @@
 ---
-title: "2016-09-12のJS: Polymer 2.0α、Service Worker入門、JSから型定義ファイルの生成"
+title: "2016-09-12のJS: Polymer 2.0 Preview、Service Worker入門、JSから型定義ファイルの生成"
 author: azu
 layout: post
 date : 2016-09-12T20:19
@@ -13,7 +13,35 @@ tags:
 
 ---
 
-JSer.info #296
+JSer.info #296 - [Polymer 2.0 Preview](https://www.polymer-project.org/1.0/blog/2016-09-09-polymer-2.0 "Polymer 2.0 Preview")がリリースされました。
+
+Polymer 2.0ではWebComponent v1([Shadow DOM v1](http://hayato.io/2016/shadowdomv1/ "Shadow DOM v1")や[Custom Elements v1](https://developers.google.com/web/fundamentals/primers/customelements/ "Custom Elements v1"))の上に形成されています。
+そのため、v1の仕様に準拠した変更やクラスベースのコンポーネントが作成できるようになっています。
+
+- [Polymer/polymer at 2.0-preview](https://github.com/Polymer/polymer/tree/2.0-preview "Polymer/polymer at 2.0-preview")
+
+----
+
+Flow 0.32.0がリリースされました。
+
+- [Release v0.32.0 · facebook/flow](https://github.com/facebook/flow/releases/tag/v0.32.0 "Release v0.32.0 · facebook/flow")
+
+0.32.0では、JavaScriptファイルからFlowの型定義ファイルを生成する`gen-flow-files`コマンドが追加されています。
+
+- [flowtype v0.32.0 changes - Please Drive Faster](http://joe-re.hatenablog.com/entry/2016/09/06/101529 "flowtype v0.32.0 changes - Please Drive Faster")
+
+また、TypeScriptの方でもJavaScriptファイルからTypeScriptの型定義ファイルを生成する[dts-gen](https://github.com/Microsoft/dts-gen "dts-gen")というツールが公開されています。
+
+- [Microsoft/dts-gen: dts-gen creates starter TypeScript definition files for any module or library.](https://github.com/Microsoft/dts-gen "Microsoft/dts-gen: dts-gen creates starter TypeScript definition files for any module or library.")
+
+どちらもα版といった感じですが、気になる方はためしてみると良いかもしれません。
+
+----
+
+[Service Workerの基本とそれを使ってできること - Qiita](http://qiita.com/y_fujieda/items/f9e765ac9d89ba241154)という記事では、Service Workerの基本的なライフサイクルやキャッシュ、Pushの実現について紹介されています。
+
+また、Googleの[Introduction to Service Worker | Web Fundamentals - Google Developers](https://developers.google.com/web/fundamentals/primers/service-worker/?hl=en "Introduction to Service Worker | Web Fundamentals - Google Developers")の[翻訳](https://developers.google.com/web/fundamentals/primers/service-worker/)も公開されているので、合わせて読んでみるといいかもしれません。
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
