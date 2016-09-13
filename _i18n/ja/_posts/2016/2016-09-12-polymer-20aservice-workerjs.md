@@ -186,8 +186,8 @@ Promiseでネストが深くなったものを、関数へ分割やasync/await�
 
 ----
 
-## Remark
-[iros.github.io/d3-v4-whats-new/#1](https://iros.github.io/d3-v4-whats-new/#1 "Remark")
+## D3 V4 - What's new?
+[iros.github.io/d3-v4-whats-new/#1](https://iros.github.io/d3-v4-whats-new/#1 "D3 V4 - What's new?")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span> <span class="jser-tag">スライド</span></p>
 
