@@ -12,7 +12,59 @@ tags:
 
 ---
 
-JSer.info #297
+JSer.info #297 - Angular [2.0.0](https://github.com/angular/angular/blob/master/CHANGELOG.md#200-2016-09-14 "2.0.0")がリリースされました。
+
+- [Angular, version 2: proprioception-reinforcement](http://angularjs.blogspot.jp/2016/09/angular2-final.html)
+- [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#200-2016-09-14)
+- [🎉✨ Angular 2.0.0がリリースされました 🎉✨ · Angular2 Info](https://ng2-info.github.io/2016/09/angular-2-final/)
+ 
+----
+
+Node.js 6.6.0がリリースされました
+
+- [Node v6.6.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v6.6.0/)
+
+
+6.6.0ではEventEmitterのmemory leak警告と
+PromiseのUnhandled rejectionの警告を次のように書くことで受け取れるようになっています。
+
+```js
+process.on('warning', (warning) => {
+	console.log(warning); // 
+})
+```
+
+- [process | Node.js v6.6.0 Documentation](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_event_warning)
+- [node/test-promises-warning-on-unhandled-rejection.js at 995d504d396d9a7137b11a4c1abebaafd97c3061 · jasnell/node](https://github.com/jasnell/node/blob/995d504d396d9a7137b11a4c1abebaafd97c3061/test/parallel/test-promises-warning-on-unhandled-rejection.js)
+- [events: make memory leak warning more programatically accessible by addaleax · Pull Request #8298 · nodejs/node](https://github.com/nodejs/node/pull/8298/files)
+
+ブラウザでは自動でコンソールにUnhandle Rejectionの警告が出ますが、Node.jsでは次のように書くことでコンソールに出力できます。
+
+```js
+"use strict";
+process.on('warning', (warning) => {
+    console.log(warning);
+    // UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): This was rejected
+});
+const p = Promise.reject('This was rejected');
+```
+
+EventEmitterのメモリリーク警告も今までは`stderr`にログを出すだけでテストも難しいものでしたが、同じように`warning`イベントで取得できるようになりました。
+
+```js
+const events = require("events");
+const event = new events.EventEmitter();
+event.setMaxListeners(1);
+process.on('warning', (warning) => {
+    console.warn(warning.message);
+    // Warning: Possible EventEmitter memory leak detected. 2 test listeners added. Use emitter.setMaxListeners() to increase limit
+});
+
+event.on("test", () => {});
+event.on("test", () => {});
+```
+
+- [azu/node6.6-warning-demo](https://github.com/azu/node6.6-warning-demo "azu/node6.6-warning-demo")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
