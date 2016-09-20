@@ -17,6 +17,7 @@ JSer.info #297 - Angular [2.0.0](https://github.com/angular/angular/blob/master/
 - [Angular, version 2: proprioception-reinforcement](http://angularjs.blogspot.jp/2016/09/angular2-final.html)
 - [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#200-2016-09-14)
 - [🎉✨ Angular 2.0.0がリリースされました 🎉✨ · Angular2 Info](https://ng2-info.github.io/2016/09/angular-2-final/)
+- [Angular 2 released!!](http://juristr.com/blog/2016/09/ng2-released/ "Angular 2 released!!")
 
 AngularJS 2.0.0以降では、Semverに従ってバージョンを上げていくようです。
 
