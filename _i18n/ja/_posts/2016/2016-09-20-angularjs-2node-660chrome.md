@@ -18,6 +18,8 @@ JSer.info #297 - Angular [2.0.0](https://github.com/angular/angular/blob/master/
 - [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#200-2016-09-14)
 - [🎉✨ Angular 2.0.0がリリースされました 🎉✨ · Angular2 Info](https://ng2-info.github.io/2016/09/angular-2-final/)
 
+AngularJS 2.0.0以降では、Semverに従ってバージョンを上げていくようです。
+
 ----
 
 Node.js 6.6.0がリリースされました
@@ -30,16 +32,16 @@ PromiseのUnhandled rejectionの警告を次のように書くことで受け取
 
 ```js
 process.on('warning', (warning) => {
-	console.log(warning); //
-})
+	console.log(warning);
+});
 ```
 
 - [process | Node.js v6.6.0 Documentation](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_event_warning)
 - [node/test-promises-warning-on-unhandled-rejection.js at 995d504d396d9a7137b11a4c1abebaafd97c3061 · jasnell/node](https://github.com/jasnell/node/blob/995d504d396d9a7137b11a4c1abebaafd97c3061/test/parallel/test-promises-warning-on-unhandled-rejection.js)
 - [events: make memory leak warning more programatically accessible by addaleax · Pull Request #8298 · nodejs/node](https://github.com/nodejs/node/pull/8298/files)
 
-ブラウザでは自動でコンソールに[Unhandled Rejection](http://azu.github.io/slide/error-handling/promise-error-handling.html)の警告ができます。
-Node.js 6.6.0でも同様にデフォルトで警告がでるようになりました。
+ブラウザでは自動でコンソールにPromiseの[Unhandled Rejection](http://azu.github.io/slide/error-handling/promise-error-handling.html)の警告が表示されます。
+Node.js 6.6.0でも同様にデフォルトで`stderr`へ警告が出力されるようになりました。
 
 ```js
 const p = Promise.reject('This was rejected');
