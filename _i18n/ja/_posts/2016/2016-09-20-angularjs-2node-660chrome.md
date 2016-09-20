@@ -1,5 +1,5 @@
 ---
-title: "2016-09-20のJS: AngularJS 2、Node 6.6.0、Chromeの開発者ツール"
+title: "2016-09-20のJS: AngularJS 2、Node 6.6.0、Chrome 54の開発者ツール"
 author: azu
 layout: post
 date : 2016-09-20T09:48
@@ -17,7 +17,7 @@ JSer.info #297 - Angular [2.0.0](https://github.com/angular/angular/blob/master/
 - [Angular, version 2: proprioception-reinforcement](http://angularjs.blogspot.jp/2016/09/angular2-final.html)
 - [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#200-2016-09-14)
 - [🎉✨ Angular 2.0.0がリリースされました 🎉✨ · Angular2 Info](https://ng2-info.github.io/2016/09/angular-2-final/)
- 
+
 ----
 
 Node.js 6.6.0がリリースされました
@@ -30,7 +30,7 @@ PromiseのUnhandled rejectionの警告を次のように書くことで受け取
 
 ```js
 process.on('warning', (warning) => {
-	console.log(warning); // 
+	console.log(warning); //
 })
 ```
 
@@ -38,18 +38,17 @@ process.on('warning', (warning) => {
 - [node/test-promises-warning-on-unhandled-rejection.js at 995d504d396d9a7137b11a4c1abebaafd97c3061 · jasnell/node](https://github.com/jasnell/node/blob/995d504d396d9a7137b11a4c1abebaafd97c3061/test/parallel/test-promises-warning-on-unhandled-rejection.js)
 - [events: make memory leak warning more programatically accessible by addaleax · Pull Request #8298 · nodejs/node](https://github.com/nodejs/node/pull/8298/files)
 
-ブラウザでは自動でコンソールにUnhandle Rejectionの警告が出ますが、Node.jsでは次のように書くことでコンソールに出力できます。
+ブラウザでは自動でコンソールに[Unhandled Rejection](http://azu.github.io/slide/error-handling/promise-error-handling.html)の警告ができます。
+Node.js 6.6.0でも同様にデフォルトで警告がでるようになりました。
 
 ```js
-"use strict";
-process.on('warning', (warning) => {
-    console.log(warning);
-    // UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): This was rejected
-});
 const p = Promise.reject('This was rejected');
+// UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): This was rejected
 ```
 
-EventEmitterのメモリリーク警告も今までは`stderr`にログを出すだけでテストも難しいものでしたが、同じように`warning`イベントで取得できるようになりました。
+また、これらの警告は`"warning"`イベントとしてキャッチすることができるようになっています。
+
+今まで、EventEmitterのメモリリーク警告は`stderr`にログを出すだけでテストも難しいものでしたが、同じように`warning`イベントで取得できるようになりました。
 
 ```js
 const events = require("events");
@@ -65,6 +64,14 @@ event.on("test", () => {});
 ```
 
 - [azu/node6.6-warning-demo](https://github.com/azu/node6.6-warning-demo "azu/node6.6-warning-demo")
+
+----
+
+[Chrome 54 Beta](http://blog.chromium.org/2016/09/chrome-54-beta-custom-elements-v1.html "Chrome 54 Beta")がリリースされましたが、開発者ツールも同様に更新されています。
+
+- [DevTools Digest, September 2016: Perf Roundup | Web Updates - Google Developers](https://developers.google.com/web/updates/2016/09/devtools-digest "DevTools Digest, September 2016: Perf Roundup | Web Updates - Google Developers")
+
+CPU Throttling、TimelineにNetwork viewの表示、スクロールパフォーマンスのProfile、SourceパネルにTimelineのデータ表示などのボトルネックを見つける機能が追加されています。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -146,7 +153,7 @@ Firefoxの開発者ツールに統合される予定
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">debug</span> <span class="jser-tag">Chrome</span></p>
 
 Chrome 54での開発者ツールについて。
-CPU Throttling、TimelineにNetwork viewの表示、スクロールパフォーマンスのProfile、SouceパネルにTimelineのデータ表示など
+CPU Throttling、TimelineにNetwork viewの表示、スクロールパフォーマンスのProfile、SourceパネルにTimelineのデータ表示など
 
 ----
 
