@@ -240,7 +240,7 @@ ReactとReduxの入門講座
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">スライド</span></p>
 
 デフォルトの`<a>`はどういうサポートがあるからaccessibleであるかについてを独自のリンク実装で見ていく話。
-またデフォルトではaccessibleでないツールチップ、タブパネルなどをどうじっそうするか。
+またデフォルトではaccessibleでないツールチップ、タブパネルなどをどう実装するか。
 実際にスクリーンリーダーの音を聞きながら確認できる
 
 ----
