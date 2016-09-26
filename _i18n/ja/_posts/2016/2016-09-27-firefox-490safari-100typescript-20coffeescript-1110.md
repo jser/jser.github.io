@@ -1,15 +1,18 @@
 ---
-title: ""
+title: "2016-09-27のJS: Firefox 49.0、Safari 10.0、TypeScript 2.0、CoffeeScript 1.11.0"
 author: azu
 layout: post
 date : 2016-09-27T08:34
-category: 
+category: JSer
 tags:
-    - 
+    - Firefox
+    - Safari
+    - TypeScript
+    - CoffeeScript
 
 ---
 
-JSer.info #298 
+JSer.info #298 - 
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -73,6 +76,20 @@ DefinitelyTypedの型定義ファイルをnpmモジュールとしてインス�
 
 ----
 
+## CoffeeScript
+[coffeescript.org/#1.11.0](http://coffeescript.org/#1.11.0 "CoffeeScript")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CoffeeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+CoffeeScript 1.11.0リリース。
+`import`/`export`の構文をサポート、`--inline-map`コマンドラインオプションのサポートなど
+
+- [treat Infinity and NaN as reserved words · Issue #4218 · jashkenas/coffeescript](https://github.com/jashkenas/coffeescript/issues/4218 "treat Infinity and NaN as reserved words · Issue #4218 · jashkenas/coffeescript")
+- [Support import and export of ES2015 modules by GeoffreyBooth · Pull Request #4300 · jashkenas/coffeescript](https://github.com/jashkenas/coffeescript/pull/4300 "Support import and export of ES2015 modules by GeoffreyBooth · Pull Request #4300 · jashkenas/coffeescript")
+- [Opt-in ESNext features in 1.x · Issue #40 · coffeescript6/discuss](https://github.com/coffeescript6/discuss/issues/40 "Opt-in ESNext features in 1.x · Issue #40 · coffeescript6/discuss")
+
+----
+
 ## ESLint v3.6.0 released - ESLint - Pluggable JavaScript linter
 [eslint.org/blog/2016/09/eslint-v3.6.0-released](http://eslint.org/blog/2016/09/eslint-v3.6.0-released "ESLint v3.6.0 released - ESLint - Pluggable JavaScript linter")
 
@@ -129,6 +146,15 @@ React Storybookを使ったスナップショットテストについて
 
 ----
 
+## Testing Components in Angular 2 with Jasmine - Semaphore
+[semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine](https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine "Testing Components in Angular 2 with Jasmine - Semaphore")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">testing</span></p>
+
+AngularJS 2のコンポーネントをjasmineでテストする話
+
+----
+
 ## Use Easy-Fix to Run Integration Tests Like Unit Tests – WalmartLabs – Medium
 [medium.com/walmartlabs/use-easy-fix-to-run-integration-tests-like-unit-tests-834288ec446d](https://medium.com/walmartlabs/use-easy-fix-to-run-integration-tests-like-unit-tests-834288ec446d "Use Easy-Fix to Run Integration Tests Like Unit Tests – WalmartLabs – Medium")
 
@@ -168,6 +194,16 @@ MSEdge、Firefox、Chrome、Opera、WebKitのIssue Trackerをまとめて検索�
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## CSP Evaluator
+[csp-evaluator.withgoogle.com/](https://csp-evaluator.withgoogle.com/ "CSP Evaluator")
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSP</span> <span class="jser-tag">Tools</span></p>
+
+CSPのポリシーディレクティブのチェックツール。
+ポリシーの設定の構文エラー、設定の問題などを見つけてくれるツール
 
 ----
 
