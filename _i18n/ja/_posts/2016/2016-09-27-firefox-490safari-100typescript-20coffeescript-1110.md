@@ -12,7 +12,46 @@ tags:
 
 ---
 
-JSer.info #298 - 
+JSer.info #298 - [Firefox 49](https://www.mozilla.jp/firefox/49.0/releasenotes/ "Firefox 49")がリリースされました。
+
+- [Firefox 49 for developers](https://developer.mozilla.org/ja/Firefox/Releases/49 "Firefox 49 for developers")
+- [Firefox 49 サイト互換性情報 | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/versions/49/ "Firefox 49 サイト互換性情報 | Firefox サイト互換性情報")
+- [Firefox 49 fixes sites designed with WebKit in mind, and more ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/09/firefox-49-fixes-sites-designed-with-webkit-in-mind-and-more/ "Firefox 49 fixes sites designed with WebKit in mind, and more ★ Mozilla Hacks – the Web developer blog")
+
+Web Speech APIの音声合成をサポートや[Window.isSecureContext](https://developer.mozilla.org/ja/docs/Web/API/Window/isSecureContext "Window.isSecureContext")のサポート、
+既存のサイトとの互換性のために`-webkit` prefixのサポートが追加されています。
+
+- [Webkit! RESOLVED FIXED - otsukare](http://www.otsukare.info/2016/01/04/webkit-resolved-fixed "Webkit! RESOLVED FIXED - otsukare")
+
+----
+
+[Safari 10.0](https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html "Safari 10.0")がリリースされました。
+
+IndexedDB、CSP 2.0、Shadow DOM v1、ES2015、Font Loading、ECMAScript i18n APIのサポートなどが行われています。
+また、WebDriverや開発者ツールの改善なども行われています。
+
+----
+
+[TypeScript 2.0](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/ "TypeScript 2.0")がリリースされました。
+
+DefinitelyTypedの型定義ファイルをnpmモジュール(`@type`)としてインストールできるように、non-nullable、read only modifierのサポートなどが追加されています。
+
+破壊的な変更や具体的な変更はWikiにまとまっているので下記を参照してください。
+
+- [Breaking Changes · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#typescript-20 "Breaking Changes · Microsoft/TypeScript Wiki")
+- [What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki")
+
+----
+
+CoffeeScript [1.11.0](http://coffeescript.org/#1.11.0 "1.11.0")がリリースされました。
+
+- [http://coffeescript.org/#1.11.0](http://coffeescript.org/#1.11.0)
+
+`import`/`export`の構文をサポート、`--inline-map`コマンドラインオプションのサポートなどが行われています。
+
+最近になって[coffeescript6/discuss: A place to discuss the future of CoffeeScript](https://github.com/coffeescript6/discuss "coffeescript6/discuss: A place to discuss the future of CoffeeScript")というリポジトリで、今後のCoffeeScriptをどうするかという議論が活発化しています。
+
+今回のリリースは、[アクティブなメンテナー](https://github.com/lydell)と[アクティブなコミッター](https://github.com/GeoffreyBooth)により行われました。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -72,7 +111,7 @@ DefinitelyTypedの型定義ファイルをnpmモジュールとしてインス�
 
 - [| TypeScript 2.0 Awesomeness | Blog | SitePen](https://www.sitepen.com/blog/2016/09/01/typescript-2-0-awesomeness/ "| TypeScript 2.0 Awesomeness | Blog | SitePen")
 - [Breaking Changes · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#typescript-20 "Breaking Changes · Microsoft/TypeScript Wiki")
-- [What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki")
+- [What's new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-20 "What&#x27;s new in TypeScript · Microsoft/TypeScript Wiki")
 
 ----
 
