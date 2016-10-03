@@ -30,8 +30,8 @@ function getStat() {
         return Promise.resolve(getStat._jSerStat);
     }
     return Promise.all([
-        fetchURL("http://jser.info/posts.json"),
-        fetchURL("http://jser.info/source-data/items.json")
+        fetchURL("//jser.info/posts.json"),
+        fetchURL("//jser.info/source-data/items.json")
     ]).then(function (results) {
         var posts = JSON.parse(results[0]).reverse();
         var items = JSON.parse(results[1]);
