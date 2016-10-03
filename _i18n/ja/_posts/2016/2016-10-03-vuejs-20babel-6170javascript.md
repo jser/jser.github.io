@@ -16,7 +16,7 @@ JSer.info #299 Vue.js 2.0がリリースされました。
 
 - [Vue 2.0 is Here! – The Vue Point – Medium](https://medium.com/the-vue-point/vue-2-0-is-here-ef1f26acf4b8)
 
-2.0では[snabbdom](https://github.com/snabbdom/snabbdom "snabbdom")をforkしたVirtual DOMを導入しているため、要素の更新ややライフサイクル周りが変更されています。
+2.0では[snabbdom](https://github.com/snabbdom/snabbdom "snabbdom")をforkしたVirtual DOMを導入しているため、要素の更新やライフサイクル周りが変更されています。
 (一方、[snabbdom](https://github.com/snabbdom/snabbdom "snabbdom")自体は[cycle.jsの人達がcollaborator](https://github.com/snabbdom/snabbdom/issues/164#issuecomment-248549455)になりました)
 
 - [2.0 Changes · Issue #2873 · vuejs/vue](https://github.com/vuejs/vue/issues/2873)
