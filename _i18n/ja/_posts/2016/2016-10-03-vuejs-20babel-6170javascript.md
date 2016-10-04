@@ -235,7 +235,7 @@ Reactのライフサイクルのまとめ。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">webservice</span> <span class="jser-tag">browser</span></p>
 
-CanIUseとStarCounterを使いある機能がどれぐらいのプラットフォームで利用できるかを一覧できるサイト
+CanIUseとStatCounterを使いある機能がどれぐらいのプラットフォームで利用できるかを一覧できるサイト
 
 ----
 
