@@ -179,7 +179,7 @@ CSS 작성 시 흔히하는 실수와 수정하는 방법에 관해 작성돼 �
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span></p>
 
 `requestAnimationFrame`과 `setTimeout`의 비교글 입니다.
-`setTimeout`는 새심한 처리에도 영향을 받기 쉽다는 이야기가 작성돼 있습니다.
+`setTimeout`는 세심한 처리에도 영향을 받기 쉽다는 이야기가 작성돼 있습니다.
 
 ----
 
@@ -208,7 +208,7 @@ polyfill을 필요할 때 동적으로 불러들이는 방법과 고민에 관�
 ## 복잡한 자바스크립트 애플리케이션을 염두하여 만들기(일본어)
 [azu.github.io/slide/2016/react-meetup/large-scale-javascript.html](http://azu.github.io/slide/2016/react-meetup/large-scale-javascript.html "複雑なJavaScriptアプリケーションを考えながら作る話")
 
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span> <span class="jser-tag">CQRS</span> <span class="jser-tag">DDD</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">슬라이드</span> <span class="jser-tag">CQRS</span> <span class="jser-tag">DDD</span></p>
 
 자바스크립트 환경에서 복잡한 애플리케이션을 만드는 경우에 어떻게 설계하는게 좋을지 고민한 내용이 작성돼 있습니다.
 도메인 모델을 어떻게 염두해 만들어 나갈지, Babel, React, Almin, PostCSS 등을 베이스로 이야기를 풀어갑니다.
