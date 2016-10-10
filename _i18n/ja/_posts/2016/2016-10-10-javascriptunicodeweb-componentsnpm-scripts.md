@@ -19,7 +19,7 @@ Unicodeにおける用語、Character、Code point、Plane、BMP、Code unit、�
 ----
 
 [Web Components 2016 & Polymer v2](https://1000ch.github.io/slide/webcomponents-2016/ "Web Components 2016 &amp; Polymer v2")というスライドでは、ChromeやSafariなどに実装されているShadow DOM v1、Custom Elements v1について書かれています。
-また、Web Componentsのライブラリとして有名なPolymer v2のロードマップや`is`属性についてなど最近のWeb Components周りの事情についてまとまっています。
+Web Componentsのライブラリとして有名なPolymer v2のロードマップや`is`属性についてなど最近のWeb Components周りの事情についてまとまっています。
 
 
 ----
