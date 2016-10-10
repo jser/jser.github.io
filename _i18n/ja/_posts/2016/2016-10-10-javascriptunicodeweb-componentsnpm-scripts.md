@@ -1,5 +1,5 @@
 ---
-title: "2016-10-10: JavaScriptとUnicode、Web Components、npm-scripts"
+title: "2016-10-10のJS: JavaScriptとUnicode、Web Components、npm-scripts"
 author: azu
 layout: post
 date : 2016-10-10T23:11
