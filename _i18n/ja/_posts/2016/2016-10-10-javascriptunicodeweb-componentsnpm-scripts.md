@@ -11,7 +11,14 @@ tags:
 
 ---
 
-JSer.info #300 - [What every JavaScript developer should know about Unicode](https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/ "What every JavaScript developer should know about Unicode")という記事では、JavaScriptとUnicodeに関する網羅的な解説がされています。
+JSer.info #300 - JSer.info 300回目です。
+次の記事で、JSer.infoに最近追加した機能や変更点などをまとめてあります。
+
+- [JSer.info 300回目 && https化 && ユーザー投稿機能](https://jser.info/2016/10/10/300posts/)
+
+----
+
+[What every JavaScript developer should know about Unicode](https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/ "What every JavaScript developer should know about Unicode")という記事では、JavaScriptとUnicodeに関する網羅的な解説がされています。
 
 Unicodeにおける用語、Character、Code point、Plane、BMP、Code unit、サロゲートペア、Combing marks、エスケープシーケンス、文字列比較、Normalize、lengthの返す値、正規表現についてなど幅広い内容を扱っています。
 また、ES2015から`String#normalize`メソッドや`String.fromCodePoint`と`String#codePointAt`の追加、IterableなどAPI的にも色々増えているので一度見てみるといいかもしれません。
