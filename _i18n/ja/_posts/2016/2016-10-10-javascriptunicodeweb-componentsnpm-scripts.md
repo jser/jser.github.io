@@ -11,7 +11,24 @@ tags:
 
 ---
 
-JSer.info #300 - 
+JSer.info #300 - [What every JavaScript developer should know about Unicode](https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/ "What every JavaScript developer should know about Unicode")という記事では、JavaScriptとUnicodeに関する網羅的な解説がされています。
+
+Unicodeにおける用語、Character、Code point、Plane、BMP、Code unit、サロゲートペア、Combing marks、エスケープシーケンス、文字列比較、Normalize、lengthの返す値、正規表現についてなど幅広い内容を扱っています。
+また、ES2015から`String#normalize`メソッドや`String.fromCodePoint`と`String#codePointAt`の追加、IterableなどAPI的にも色々増えているので一度見てみるといいかもしれません。
+
+----
+
+[Web Components 2016 & Polymer v2](https://1000ch.github.io/slide/webcomponents-2016/ "Web Components 2016 &amp; Polymer v2")というスライドでは、ChromeやSafariなどに実装されているShadow DOM v1、Custom Elements v1について書かれています。
+また、Web Componentsのライブラリとして有名なPolymer v2のロードマップや`is`属性についてなど最近のWeb Components周りの事情についてまとまっています。
+
+
+----
+
+[npm-scripts で Web フロントエンド開発を管理する – アカベコマイリ](http://akabeko.me/blog/2016/10/npm-scripts-web-front-end-development/ "npm-scripts で Web フロントエンド開発を管理する – アカベコマイリ")という記事では、npm scripts(npm run-scripts)を使ったタスク処理について書かれています。
+gulpなどのTask Runnerで行う処理をnpm run-scriptsで行う方法や利用するCLI、クロスプラットフォームに対応したタスクの書き方など幅広く書かれています。
+
+また、npm run-scriptsで問題となる変数の扱いについても[cross-conf-env](http://akabeko.me/blog/2016/05/cross-conf-env-1-0-release/ "cross-conf-env")を使った方法などについても書かれています。
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -120,7 +137,7 @@ ReactのStarterKit的な`create-react-app`についての紹介
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span> <span class="jser-tag">スライド</span></p>
 
 Web Componentsについてのスライド。
-Shadow DOM v1、Custom Elements v1それぞの変更点。
+Shadow DOM v1、Custom Elements v1それぞれの変更点。
 Polymer v2や`is`属性についてなど
 
 ----
