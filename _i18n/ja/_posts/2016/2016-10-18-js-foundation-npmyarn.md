@@ -186,7 +186,7 @@ Vue.jsについての連載
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">fonts</span></p>
 
 CSSのfont-familyについてのスライド。
-OSやブラウザでfontの情報が異なるため、@font-faceを使い定義するという話
+OSやブラウザでfontの情報が異なるため、`@font-face`を使い定義するという話
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
