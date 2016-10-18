@@ -1,5 +1,5 @@
 ---
-title: "2016-10-18のJS: JS Foundation、Yarn"
+title: "2016-10-18のJS: JS Foundation、npmクライアントのyarn"
 author: azu
 layout: post
 date : 2016-10-18T09:39
@@ -12,7 +12,31 @@ tags:
 
 ---
 
-JSer.info #301
+JSer.info #301 - Linux Foundationの一つとして[JS Foundation](https://js.foundation/ "JS Foundation")ができたそうです。
+
+- [The Linux Foundation Unites JavaScript Community for Open Web Development | The JS Foundation](https://js.foundation/announcements/2016/10/17/Linux-Foundation-Unites-JavaScript-Community-Open-Web-Development/ "The Linux Foundation Unites JavaScript Community for Open Web Development | The JS Foundation")
+
+元は[jQuery Foundation](https://jquery.org/ "jQuery Foundation")なので、JavaScriptのオープンソースプロジェクトの開発支援などが目的で設立されたようです。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">The jQuery Foundation is now the JS Foundation, you can follow the Foundation on <a href="https://twitter.com/the_jsf">@the_jsf</a> and the jQuery project here on <a href="https://twitter.com/jquery">@jquery</a>!</p>&mdash; jquery (@jquery) <a href="https://twitter.com/jquery/status/788012682494423040">October 17, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+----
+
+[Yarn](https://yarnpkg.com/ "Yarn")というnpmクライアントがリリースされました。
+
+- [Yarn: A new package manager for JavaScript | Engineering Blog | Facebook Code](https://code.facebook.com/posts/1840075619545360 "Yarn: A new package manager for JavaScript | Engineering Blog | Facebook Code")
+
+[npm](https://www.npmjs.com/ "npm")のモジュールを管理するコマンドラインツールとして同名の[npm](https://www.npmjs.com/package/npm "npm")がありますが、yarnは後者のコマンドラインツールの実装です。
+
+`package.json`の扱いは既存のnpmと[互換性](https://github.com/yarnpkg/yarn/labels/compatibility "compatibility discussion")を持つためJavaScriptのエコシステム自体は同様です。(Bowerはこれを分割してしまった)
+特徴としてキャッシュや並列処理を行い高速なインストール、また`yarn.lock`を使った依存バージョン固定をデフォルトで行います。
+
+コマンドラインのインタフェースの互換性は目的ではないですが、以下にコマンドの比較がまとめられています。
+
+- [NPM vs Yarn Cheat Sheet](https://shift.infinite.red/npm-vs-yarn-cheat-sheet-8755b092e5cc "NPM vs Yarn Cheat Sheet")
+- [Migrating from npm | Yarn](https://yarnpkg.com/en/docs/migrating-from-npm "Migrating from npm | Yarn")
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
