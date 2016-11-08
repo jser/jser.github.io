@@ -12,11 +12,46 @@ tags:
 
 ---
 
-JSer.info #304 - 
+JSer.info #304 - ウェブサイトのパフォーマンス計測ツールである[sitespeed.io](https://www.sitespeed.io/ "sitespeed.io") v4.0がリリースされました。
 
 - [Welcome sitespeed.io 4.0](https://www.sitespeed.io/sitespeed.io-4.0-is-released/)
-- [Getting Started with Webpack 2](https://blog.madewithenvy.com/getting-started-with-webpack-2-ed2b86c68783#.2396djdk8)
-- [takahashim/js-stack-from-scratch: Step-by-step tutorial to build a modern JavaScript stack from scratch](https://github.com/takahashim/js-stack-from-scratch)
+
+4.0ではGraphite/Grafanaと組み合わせた[Performance Dashboard](https://www.sitespeed.io/documentation/sitespeed.io/performance-dasboard/ "Performance Dashboard")がセットアップできるDockerの設定も公開されています。
+
+```
+curl -O https://raw.githubusercontent.com/sitespeedio/sitespeed.io/master/docker/docker-compose.yml
+docker-compose up
+```
+
+関連(v4より前の設定)
+
+- [graphite, grafana, sitespeed.io, diamond で継続 Web パフォーマンスモニタリング - Qiita](http://qiita.com/Jxck_/items/abfa9f3dd15c5572cbfd)
+- [続・パフォーマンス計測実験で Graphite も Docker に置き換えた ::ハブろぐ](https://havelog.ayumusato.com/develop/performance/e670-use_docker_instead_of_hosted_graphite.html)
+
+またv4.0では、Pre/Postスクリプトでログインに対応、プラグインの仕組み、HTTP/2、HARファイルの対応改善、モバイル対応などの改善が含まれています。
+
+単純に[sitespeed.io](https://www.sitespeed.io/ "sitespeed.io")でチェックするだけなら、npmで簡単に入るので試してみると面白いかもしれません。
+
+```
+npm install -g sitespeed.io
+sitespeed.io https://jser.info
+```
+
+----
+
+[Getting Started with Webpack 2](https://blog.madewithenvy.com/getting-started-with-webpack-2-ed2b86c68783)という記事では、webpack 2(beta)を元にしたチュートリアルが紹介されています。
+
+[webpack#1545](https://github.com/webpack/webpack/issues/1545#issuecomment-255614222)に作者である@[sokra](https://github.com/sokra "sokra")によるwebpack 2のステータスについて書かれています。
+
+「今年中にはリリースしたいが、まだドキュメント周りにまだ問題があるためContributionを歓迎しています」とのことです。
+
+------
+
+[JavaScript Stack from Scratch](https://github.com/verekia/js-stack-from-scratch "JavaScript Stack from Scratch")([翻訳: ゼロから始めるJavaScript生活](https://github.com/takahashim/js-stack-from-scratch))では、JavaScriptのエコシステムを活用するチュートリアルが公開されています。
+
+> これら全てのツールを一緒につなぎ合わせることにフォーカスしており、各ツールについて可能な限りシンプルな例を提供します。
+
+とあるようにツールを組み合わせて利用することを主軸としているので、一度見てみると面白いかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -29,7 +64,7 @@ JSer.info #304 -
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span></p>
 
 Sitespeed.io 4.0リリース。
-Dockerでgrafanaのダッシュボードを含んだセットアップが用意された、Pre/Postスクリプトでログインに対応、プラグイン、HTTP/2、HARファイルの生成、モバイル対応など
+Dockerでgrafanaのダッシュボードを含んだセットアップが用意された、Pre/Postスクリプトでログインに対応、プラグイン、HTTP/2、HARファイルの対応改善、モバイル対応など
 
 ----
 
