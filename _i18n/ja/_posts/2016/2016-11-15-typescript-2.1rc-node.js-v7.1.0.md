@@ -45,7 +45,7 @@ String(global);// "[object global]"
 
 - [lib: make `String(global) === '[object global]'` by addaleax · Pull Request #9279 · nodejs/node](https://github.com/nodejs/node/pull/9279 "lib: make `String(global) === &#39;[object global]&#39;` by addaleax · Pull Request #9279 · nodejs/node")
 
-この[パターン](https://github.com/nodejs/node/issues/9274#issuecomment-256149041)はNode.jsで実行されているかを判定するために使ってるモジュールがあったため、一度元の挙動(Node.js v6)に戻すことになりました。
+この[パターン](https://github.com/nodejs/node/issues/9274#issuecomment-256149041)はNode.jsで実行されているかを判定するために使ってるモジュールがあったため、一度元の挙動(Node.js v6)に戻すようです。
 
 - [npm grep for 'object global' on Oct 26 2016](https://gist.github.com/addaleax/01e287d8a1674eaeaaa3af725f7653ef "npm grep for &#39;object global&#39; on Oct 26 2016")
 - [lib: make `String(global) === '[object global]'` by addaleax · Pull Request #9279 · nodejs/node](https://github.com/nodejs/node/pull/9279#issuecomment-257724083 "lib: make `String(global) === &#39;[object global]&#39;` by addaleax · Pull Request #9279 · nodejs/node")
