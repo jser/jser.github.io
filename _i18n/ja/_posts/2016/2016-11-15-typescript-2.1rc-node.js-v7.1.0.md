@@ -1,15 +1,52 @@
 ---
-title: "2016-11-15のJS: "
+title: "2016-11-15のJS: TypeScript 2.1RC、Node.js v7.1.0"
 author: azu
 layout: post
 date : 2016-11-15T10:22
 category: JSer
 tags:
-    - 
+    - TypeScript
+    - Node.js
 
 ---
 
-JSer.info #305
+JSer.info #305 - TypeScript 2.1 RCがリリースされました。
+
+- [TypeScript 2.1 RC: Better Inference, Async Functions, and More | TypeScript](https://blogs.msdn.microsoft.com/typescript/2016/11/08/typescript-2-1-rc-better-inference-async-functions-and-more/ "TypeScript 2.1 RC: Better Inference, Async Functions, and More | TypeScript")
+- [Roadmap · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/Roadmap#21-november-2016 "Roadmap · Microsoft/TypeScript Wiki")
+- [TypeScript 2.1.1 変更点 - Qiita](http://qiita.com/vvakame/items/305749d3d6dc6bf877c6 "TypeScript 2.1.1 変更点 - Qiita")
+
+2.1ではasync/awaitがES3とES5への出力ができるようになりました。
+また、tsconfig.jsonに`extends`の追加、`--target ESNext`のサポート、JSXをReact以外でも利用できるように[--jsxFactory](https://github.com/Microsoft/TypeScript/pull/12135 "--jsxFactory")の追加などが行われています。
+
+RC時点(2.1.1)ではまだ入っていませんが、正式リリース時には[Mapped types](https://github.com/Microsoft/TypeScript/pull/12114 "Mapped types")などの追加も予定されています。
+
+----
+
+Node.js v7.1.0リリースされました。
+
+- [Node v7.1.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v7.1.0/ "Node v7.1.0 (Current) | Node.js")
+
+Node.js v7.0.0で`String(global)`に[意図しない破壊的な変更](https://github.com/nodejs/node/issues/9274 "Native class of `global` changed in Node v7 · Issue #9274 · nodejs/node")が入っていたのが修正されました。
+
+V8の[ECMAScript仕様追従](https://tc39.github.io/ecma262/#sec-object.prototype.tostring)により、Node.js v7.0.0で`String(global)`が`"[object Object]"`を返すようになっていました。
+
+```js
+String(global);// "[object Object]"
+```
+
+そのため`global[Symbol.toStringTag]`が定義されました。これにより、今までと同じ `"[object global]"`が返されるようになっています。
+
+```js
+String(global);// "[object global]"
+```
+
+- [lib: make `String(global) === '[object global]'` by addaleax · Pull Request #9279 · nodejs/node](https://github.com/nodejs/node/pull/9279 "lib: make `String(global) === &#39;[object global]&#39;` by addaleax · Pull Request #9279 · nodejs/node")
+
+この[パターン](https://github.com/nodejs/node/issues/9274#issuecomment-256149041)はNode.jsで実行されているかを判定するために使ってるモジュールがあったため、一度元の挙動(Node.js v6)に戻す事なりました。
+
+- [npm grep for 'object global' on Oct 26 2016](https://gist.github.com/addaleax/01e287d8a1674eaeaaa3af725f7653ef "npm grep for &#39;object global&#39; on Oct 26 2016")
+- [lib: make `String(global) === '[object global]'` by addaleax · Pull Request #9279 · nodejs/node](https://github.com/nodejs/node/pull/9279#issuecomment-257724083 "lib: make `String(global) === &#39;[object global]&#39;` by addaleax · Pull Request #9279 · nodejs/node")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -44,9 +81,19 @@ TypeScript 2.1 RCリリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Node.js v7.1.0リリース。
-V8の仕様追従により`Object.prototype.toString.call(global); // "[object global]"`となっていたのを修正するため、`global[Symbol.toStringTag]`が定義された。
+V8の仕様追従により意図しない破壊的な変更が起きていた。
 
-- [lib: make \&#x60;String(global) === &amp;#39;\[object global\]&amp;#39;\&#x60; by addaleax · Pull Request #9279 · nodejs/node](https://github.com/nodejs/node/pull/9279 "lib: make \&#x60;String(global) === &amp;#39;\[object global\]&amp;#39;\&#x60; by addaleax · Pull Request #9279 · nodejs/node")
+```js
+String(global);// "[object Object]"
+```
+
+そのため`global[Symbol.toStringTag]`が定義された。これにより、今までと同じ `"[object global]"`が返されるようになった。
+
+```js
+String(global);// "[object global]"
+```
+
+- [lib: make `String(global) === '[object global]'` by addaleax · Pull Request #9279 · nodejs/node](https://github.com/nodejs/node/pull/9279 "lib: make `String(global) === &#39;[object global]&#39;` by addaleax · Pull Request #9279 · nodejs/node")
 
 ----
 
