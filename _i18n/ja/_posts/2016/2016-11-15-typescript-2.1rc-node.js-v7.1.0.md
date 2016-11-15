@@ -1,5 +1,5 @@
 ---
-title: "2016-11-15のJS: TypeScript 2.1RC、Node.js v7.1.0"
+title: "2016-11-15のJS: TypeScript 2.1RC、Node.js v7.1.0リリース"
 author: azu
 layout: post
 date : 2016-11-15T10:22
