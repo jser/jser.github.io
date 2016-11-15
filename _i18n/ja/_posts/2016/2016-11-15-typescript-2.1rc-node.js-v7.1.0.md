@@ -32,12 +32,14 @@ Node.js v7.0.0で`String(global)`に[意図しない破壊的な変更](https://
 V8の[ECMAScript仕様追従](https://tc39.github.io/ecma262/#sec-object.prototype.tostring)により、Node.js v7.0.0で`String(global)`が`"[object Object]"`を返すようになっていました。
 
 ```js
+// Node.js v7.0.0
 String(global);// "[object Object]"
 ```
 
 そのため`global[Symbol.toStringTag]`が定義されました。これにより、今までと同じ `"[object global]"`が返されるようになっています。
 
 ```js
+// Node.js v7.1.0
 String(global);// "[object global]"
 ```
 
