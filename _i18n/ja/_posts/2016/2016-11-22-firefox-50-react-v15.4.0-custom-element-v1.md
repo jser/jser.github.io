@@ -45,6 +45,11 @@ document.querySelectorAll("button").forEach(node => console.log(node));
 - [Rename react/lib/* to react/private/* · Issue #6460 · facebook/react](https://github.com/facebook/react/issues/6460 "Rename react/lib/* to react/private/* · Issue #6460 · facebook/react")
 
 
+また、React v15.4.0では`?react_perf`をURLにつけることにより、User Timing APIでのパフォーマンス計測ができるようになっています。
+`performance.mark`や`performance.measure`を使い実現しているので、次の記事を見てみると面白いかもしれません。
+
+- [performance.markでパフォーマンス計測する | Web Scratch](http://efcl.info/2016/08/15/performance.mark/ "performance.markでパフォーマンス計測する | Web Scratch")
+
 ----
 
 [Introducing Custom Elements | WebKit](https://webkit.org/blog/7027/introducing-custom-elements/ "Introducing Custom Elements | WebKit")では、WebKitのCustom Elements実装者によるCustom Elements(v1)の解説が書かれています。
