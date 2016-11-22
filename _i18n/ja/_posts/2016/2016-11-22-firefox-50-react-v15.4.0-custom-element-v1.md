@@ -42,6 +42,8 @@ document.querySelectorAll("button").forEach(node => console.log(node));
 - [Dont use require('react/lib/*') in examples & docs · Issue #77 · facebook/flux](https://github.com/facebook/flux/issues/77)
 - [Allow internal components to be used in the browser version · Issue #2251 · facebook/react](https://github.com/facebook/react/issues/2251)
 - [Ship merge, mergeInto, copyProperties to npm by zpao · Pull Request #2317 · facebook/react](https://github.com/facebook/react/pull/2317)
+- [Rename react/lib/* to react/private/* · Issue #6460 · facebook/react](https://github.com/facebook/react/issues/6460 "Rename react/lib/* to react/private/* · Issue #6460 · facebook/react")
+
 
 ----
 
