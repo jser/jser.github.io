@@ -12,7 +12,43 @@ tags:
 
 ---
 
-JSer.info #306
+JSer.info #306 - [Firefox 50](https://www.mozilla.jp/firefox/50.0/releasenotes/ "Firefox 50")がリリースされました。
+
+- [Firefox 50.0 リリースノート](https://www.mozilla.jp/firefox/50.0/releasenotes/)
+- [Firefox 50 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/50)
+- [Firefox 50 サイト互換性情報 | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/versions/50/)
+
+Firefox 50では、`Symbol.hasInstance`の実装、コンソールがSource Mapを解釈するようになり、`addEventListener`が`{ once }`オプションをサポートしました。
+DOMにおいては、[NodeList](https://developer.mozilla.org/ja/docs/Web/API/NodeList "NodeList")や[DOMTokenList](https://developer.mozilla.org/ja/docs/Web/API/DOMTokenList "DOMTokenList")がIterableとなったため、次のように`NodeList#querySelectorAll`の結果に対して`forEach`メソッドなどがりようできます。
+
+```js
+document.querySelectorAll("button").forEach(node => console.log(node));
+```
+
+また、セキュリティ面では`__Secure-`などの[Cookie prefixes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie "Cookie prefixes")、`X-Content-Type-Options: nosniff`に対応しています。
+
+- [【翻訳】Firefox における MIME Confusion Attack の防止 - Mozilla Security Blog 日本語版](http://mozsec-jp.hatenablog.jp/entry/2016/08/29/222740)
+- [Mitigating MIME Confusion Attacks in Firefox | Mozilla Security Blog](https://blog.mozilla.org/security/2016/08/26/mitigating-mime-confusion-attacks-in-firefox/)
+
+----
+
+[React v15.4.0](https://facebook.github.io/react/blog/2016/11/16/react-v15.4.0.html "React v15.4.0")がリリースされました。
+[React v0.14](https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html#two-packages-react-and-react-dom "React v0.14")で`react`と`react-dom`にパッケージが分割されていましたが、内部的にはReact DOMの実装が`react`パッケージにも含まれていました。
+これに起因する[問題](https://github.com/facebook/react/issues/7386)があったため、React v15.4.0では内部的に残っていたReact DOMの実装を`react`パッケージから削除されました。
+
+この変更に影響を受けるのは、`require("react/lib/merge")`のように直接ReactのPrivate APIを利用していた場合のみです。
+この[require()](https://nodejs.org/api/modules.html#modules_addenda_package_manager_tips "require()")を使った直接参照は、React 0.12頃から非推奨となっています。
+
+- [Dont use require('react/lib/*') in examples & docs · Issue #77 · facebook/flux](https://github.com/facebook/flux/issues/77)
+- [Allow internal components to be used in the browser version · Issue #2251 · facebook/react](https://github.com/facebook/react/issues/2251)
+- [Ship merge, mergeInto, copyProperties to npm by zpao · Pull Request #2317 · facebook/react](https://github.com/facebook/react/pull/2317)
+
+----
+
+[Introducing Custom Elements | WebKit](https://webkit.org/blog/7027/introducing-custom-elements/ "Introducing Custom Elements | WebKit")では、WebKitのCustom Elements実装者によるCustom Elements(v1)の解説が書かれています。
+
+Custom Elementsのライフサイクルの話などが詳しく書かれているので、興味がある人は読んでみるといいです。
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
