@@ -19,7 +19,7 @@ JSer.info #306 - [Firefox 50](https://www.mozilla.jp/firefox/50.0/releasenotes/ 
 - [Firefox 50 サイト互換性情報 | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/versions/50/)
 
 Firefox 50では、`Symbol.hasInstance`の実装、コンソールがSource Mapを解釈するようになり、`addEventListener`が`{ once }`オプションをサポートしました。
-DOMにおいては、[NodeList](https://developer.mozilla.org/ja/docs/Web/API/NodeList "NodeList")や[DOMTokenList](https://developer.mozilla.org/ja/docs/Web/API/DOMTokenList "DOMTokenList")がIterableとなったため、次のように`NodeList#querySelectorAll`の結果に対して`forEach`メソッドなどがりようできます。
+DOMにおいては、[NodeList](https://developer.mozilla.org/ja/docs/Web/API/NodeList "NodeList")や[DOMTokenList](https://developer.mozilla.org/ja/docs/Web/API/DOMTokenList "DOMTokenList")がIterableとなったため、次のように`NodeList#querySelectorAll`の結果に対して`forEach`メソッドなどが利用できます。
 
 ```js
 document.querySelectorAll("button").forEach(node => console.log(node));
@@ -33,6 +33,9 @@ document.querySelectorAll("button").forEach(node => console.log(node));
 ----
 
 [React v15.4.0](https://facebook.github.io/react/blog/2016/11/16/react-v15.4.0.html "React v15.4.0")がリリースされました。
+
+- [React v15.4.0 - React Blog](https://facebook.github.io/react/blog/2016/11/16/react-v15.4.0.html "React v15.4.0 - React Blog")
+
 [React v0.14](https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html#two-packages-react-and-react-dom "React v0.14")で`react`と`react-dom`にパッケージが分割されていましたが、内部的にはReact DOMの実装が`react`パッケージにも含まれていました。
 これに起因する[問題](https://github.com/facebook/react/issues/7386)があったため、React v15.4.0では内部的に残っていたReact DOMの実装を`react`パッケージから削除されました。
 
@@ -46,7 +49,7 @@ document.querySelectorAll("button").forEach(node => console.log(node));
 
 
 また、React v15.4.0では`?react_perf`をURLにつけることにより、User Timing APIでのパフォーマンス計測ができるようになっています。
-`performance.mark`や`performance.measure`を使い実現しているので、次の記事を見てみると面白いかもしれません。
+`performance.mark`や`performance.measure`を利用し実現しているので、次の記事を見てみると面白いかもしれません。
 
 - [performance.markでパフォーマンス計測する | Web Scratch](http://efcl.info/2016/08/15/performance.mark/ "performance.markでパフォーマンス計測する | Web Scratch")
 
