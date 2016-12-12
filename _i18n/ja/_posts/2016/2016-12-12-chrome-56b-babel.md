@@ -31,9 +31,10 @@ HTML5 by default(いわゆるFlashのClick to playのデフォルト化)はChrom
 - [公的認証局によって発行された SHA-1 証明書は受け入れられなくなります (影響あり) | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/docs/2016/sha-1-certificates-issued-by-public-ca-will-no-longer-be-accepted/)
 - [FAQ: SHA-1 廃止/SHA-2 移行に関するマイクロソフトのポリシー – 日本のセキュリティチーム](https://blogs.technet.microsoft.com/jpsecurity/2015/11/02/faq-sha-1-sha-2/)
 - [Windows Enforcement of SHA1 Certificates - TechNet Articles - United States (English) - TechNet Wiki](http://social.technet.microsoft.com/wiki/contents/articles/32288.windows-enforcement-of-sha1-certificates.aspx)
+- [Google Developers Japan: Chrome の SHA-1 証明書](https://googledevjp.blogspot.jp/2016/11/sha-1-certificates-in-chrome.html?m=1 "Google Developers Japan: Chrome の SHA-1 証明書")
 - [MacOS & Safari SHA-1 deprecation policy ? | Apple Developer Forums](https://forums.developer.apple.com/thread/65399 "MacOS &amp; Safari SHA-1 deprecation policy ? | Apple Developer Forums")
 
-SHA-1証明書の終了するとどうなるのかは、次のサイトがよくまとまっています。
+SHA-1証明書のサポートが終了するとどうなるのかは、次のサイトがよくまとまっています。
 
 - [SSLサーバー証明書 : SHA-1 証明書の受付終了と SHA-2 証明書への移行について｜Cybertrust.ne.jp](https://www.cybertrust.ne.jp/sureserver/productinfo/sha1ms.html "SSLサーバー証明書 : SHA-1 証明書の受付終了と SHA-2 証明書への移行について｜Cybertrust.ne.jp")
 
@@ -44,13 +45,26 @@ SHA-1証明書の終了するとどうなるのかは、次のサイトがよく
 Babel版Autoprefixerである[babel-preset-env](https://github.com/babel/babel-preset-env "babel-preset-env")や、[babili](https://github.com/babel/babili "babili")のリリース。
 プラグインエコシステムやドキュメントの整備や課題などについて書かれています。
 
-@[hzoo](https://github.com/hzoo "hzoo")さんを中心に、今後のロードマップやBabelのコミュニティについて書かれています。
+また、今後のロードマップやBabelのコミュニティについて書かれています。
 
 ----
 
 ## お知らせ
 
-- [ ] JSer.infoのイベント
+JSer.infoの6周年イベントのイベントページを公開しました。
+募集開始は2016/12/15(木) 21:00 〜 からとなっています(抽選)。
+
+- [JSer.info 6周年と300回記念イベント - connpass](https://jser.connpass.com/event/46997/ "JSer.info 6周年と300回記念イベント - connpass")
+
+また、5-20分の発表枠を設けています。
+JavaScriptについて発表したいことがある人は「発表枠」で申し込んでください。
+発表枠以外でも自由に発表できる時間はあるので、スライドを隠し持っていると良いです。
+
+書記枠という変な枠もあります。
+自分がいつもやっているような[アウトラインメモ](http://efcl.info/tags/?q=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88)を[Etherpad](http://etherpad.org/ "Etherpad")などを使って、当日リアルタイムに見る目的です。
+(司会業やってないときは自分もやります)
+
+募集開始は2016/12/15(木)からですが、気になる人は申し込んでみてください。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
