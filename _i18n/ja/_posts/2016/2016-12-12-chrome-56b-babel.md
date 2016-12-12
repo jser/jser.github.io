@@ -11,8 +11,46 @@ tags:
 
 ---
 
+JSer.info #309 - Chrome 56βがリリースされました。
 
-JSer.info #309
+- [Chromium Blog: Chrome 56 Beta: “Not Secure” warning, Web Bluetooth, and CSS position: sticky](https://blog.chromium.org/2016/12/chrome-56-beta-not-secure-warning-web.html "Chromium Blog: Chrome 56 Beta: “Not Secure” warning, Web Bluetooth, and CSS position: sticky")
+
+CSS `position: sticky`の有効化、WebGL 2.0のサポート、FlashのClick to Playがデフォルト化、CSS Fontsの`system-ui`をサポート、SHA-1の対応終了などが含まれています。
+
+HTML5 by default(いわゆるFlashのClick to playのデフォルト化)はChrome55で予定されていましたが、56からに変更されました。
+
+- [Chromium Blog: Roll-out plan for HTML5 by Default](https://blog.chromium.org/2016/12/roll-out-plan-for-html5-by-default.html "Chromium Blog: Roll-out plan for HTML5 by Default")
+- [Flash Roadmap - The Chromium Projects](https://sites.google.com/a/chromium.org/dev/flash-roadmap#TOC-HTML5-By-Default-Target:-Chrome-55---Dec-2016- "Flash Roadmap - The Chromium Projects")
+
+同様の変更がFirefoxでも2017年中に行われる予定です。
+
+- [Flash コンテンツは 2017 年中に「クリックして有効化」となります | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/docs/2016/flash-content-will-be-click-to-activate-in-2017/ "Flash コンテンツは 2017 年中に「クリックして有効化」となります | Firefox サイト互換性情報")
+
+また、SHA-1証明書についてChromeは56で、Firefox 51(2017年1月リリース)、IE11とMSEdgeは2017年2月のリリースでそれぞれ無効化されます。
+
+- [公的認証局によって発行された SHA-1 証明書は受け入れられなくなります (影響あり) | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/docs/2016/sha-1-certificates-issued-by-public-ca-will-no-longer-be-accepted/)
+- [FAQ: SHA-1 廃止/SHA-2 移行に関するマイクロソフトのポリシー – 日本のセキュリティチーム](https://blogs.technet.microsoft.com/jpsecurity/2015/11/02/faq-sha-1-sha-2/)
+- [Windows Enforcement of SHA1 Certificates - TechNet Articles - United States (English) - TechNet Wiki](http://social.technet.microsoft.com/wiki/contents/articles/32288.windows-enforcement-of-sha1-certificates.aspx)
+- [MacOS & Safari SHA-1 deprecation policy ? | Apple Developer Forums](https://forums.developer.apple.com/thread/65399 "MacOS &amp; Safari SHA-1 deprecation policy ? | Apple Developer Forums")
+
+SHA-1証明書の終了するとどうなるのかは、次のサイトがよくまとまっています。
+
+- [SSLサーバー証明書 : SHA-1 証明書の受付終了と SHA-2 証明書への移行について｜Cybertrust.ne.jp](https://www.cybertrust.ne.jp/sureserver/productinfo/sha1ms.html "SSLサーバー証明書 : SHA-1 証明書の受付終了と SHA-2 証明書への移行について｜Cybertrust.ne.jp")
+
+----
+
+[The State of Babel · Babel](https://babeljs.io/blog/2016/12/07/the-state-of-babel "The State of Babel · Babel")では、Babelの歴史や現在、また今後のロードマップについて書かれています。
+
+Babel版Autoprefixerである[babel-preset-env](https://github.com/babel/babel-preset-env "babel-preset-env")や、[babili](https://github.com/babel/babili "babili")のリリース。
+プラグインエコシステムやドキュメントの整備や課題などについて書かれています。
+
+@[hzoo](https://github.com/hzoo "hzoo")さんを中心に、今後のロードマップやBabelのコミュニティについて書かれています。
+
+----
+
+## お知らせ
+
+- [ ] JSer.infoのイベント
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -27,7 +65,6 @@ JSer.info #309
 Chrome 56βリリース。
 Web Bluetooth APIがデフォルトで有効化、CSS `position: sticky`の有効化、WebGL 2.0、FlashのClick to Playがデフォルト化、CSS Fontsの`system-ui`をサポート、SHA-1の対応終了など
 
-- [New In Chrome 55  |  Web  |  Google Developers](https://developers.google.com/web/updates/2016/11/nic55 "New In Chrome 55  |  Web  |  Google Developers")
 - [Chromium Blog: Roll-out plan for HTML5 by Default](https://blog.chromium.org/2016/12/roll-out-plan-for-html5-by-default.html "Chromium Blog: Roll-out plan for HTML5 by Default")
 - [Flash Roadmap - The Chromium Projects](https://sites.google.com/a/chromium.org/dev/flash-roadmap#TOC-HTML5-By-Default-Target:-Chrome-55---Dec-2016- "Flash Roadmap - The Chromium Projects")
 - [Intent to Implement and Ship: The “system-ui” generic font family - Google グループ](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/hvN9YVvIb5c/5DrcunKSCAAJ "Intent to Implement and Ship: The “system-ui” generic font family - Google グループ")
