@@ -67,6 +67,7 @@ JavaScriptについて発表したいことがある人は「発表枠」で申�
 
 募集開始は2016/12/15(木)からですが、気になる人は申し込んでみてください。
 
+詳細は[2017年1月15日(日)に JSer.info 6周年 && 300回目記念イベント を開催します - JSer.info](https://jser.info/2016/12/13/announcement-jser-info-6years-event/ "2017年1月15日(日)に JSer.info 6周年 &amp;&amp; 300回目記念イベント を開催します - JSer.info")を見てください。
 ----
 <h1 class="site-genre">ヘッドライン</h1>
 
