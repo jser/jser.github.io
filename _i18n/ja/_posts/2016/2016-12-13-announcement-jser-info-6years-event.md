@@ -77,3 +77,6 @@ JavaScript Discussion後に懇談会を行う予定です。
 [![JavaScript Discussion(JavaScriptの良い所/悪い所/気になる事)](https://monosnap.com/file/z2VC0MmCQKox5DjQXlvOpNaYQjVhum.png)](https://app.sli.do/event/0egbwyxz/ask)
 
 他にも、この人と話しあいたいとかあったらお知らせください。
+
+- [JSer.info 6周年と300回記念イベント - connpass](https://jser.connpass.com/event/46997/ "JSer.info 6周年と300回記念イベント - connpass")
+- [JSer.info 6周年 && 300回目記念イベント @ 1月15日(日) · Issue #89 · jser/jser.info](https://github.com/jser/jser.info/issues/89 "JSer.info 6周年 &amp;&amp; 300回目記念イベント @ 1月15日(日) · Issue #89 · jser/jser.info")
