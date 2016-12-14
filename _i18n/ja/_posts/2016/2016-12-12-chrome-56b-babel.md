@@ -245,7 +245,7 @@ Jestを使ったReactコンポーネントのsnapshotテスト、enzymeを使っ
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span></p>
 
-`Promise.all`と`Promise.race`を使った待ちわせのパターンについて
+`Promise.all`と`Promise.race`を使った待ち合わせのパターンについて
 
 ----
 
