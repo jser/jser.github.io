@@ -137,7 +137,7 @@ IDEなどと連携する向けにAngular Language Serviceをリリース、zone.
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
 
 TestCafe v0.11.0リリース。
-Seletorの仕組みを変更、built-in assertionの追加、ブラウザに起動引数をわたせるように
+Selectorの仕組みを変更、built-in assertionの追加、ブラウザに起動引数をわたせるように
 
 ----
 
