@@ -46,7 +46,7 @@ JavaScriptであればいい気がします。
 - [JSer.info 5周年記念イベントを開催しました - JSer.info](https://jser.info/2016/01/16/jser-5years/)
 - [JSer.info 200回記念イベントを開催しました - JSer.info](https://jser.info/2014/11/02/jser200/)
 
-JSer.infoに載っていそうなテーマ(JavaScriptやウェブ)からかけ離れてなければ良いです
+JSer.infoに載っていそうなテーマ(JavaScriptやウェブ)からかけ離れてなければ良いです。
 
 > Q. 初心者向けの内容でもいいの?
 
