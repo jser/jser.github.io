@@ -12,7 +12,29 @@ tags:
 
 ---
 
-JSer.info #310 - 
+JSer.info #310 - [RxJS 5](https://github.com/ReactiveX/rxjs "RxJS 5")がリリースされました。
+Microsoftがメンテナンスしていた[Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS "Reactive-Extensions/RxJS")(RxJS 4)を書き直したバージョンで、互換性がある部分はありますがAPIも色々変更されています。
+
+- [rxjs/CHANGELOG.md at master · ReactiveX/rxjs](https://github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md#500-2016-12-13 "rxjs/CHANGELOG.md at master · ReactiveX/rxjs")
+
+v4からv5へのマイグレーションは次のドキュメントにまとめられています。
+
+- [Migrating from RxJS 4 to 5](https://github.com/ReactiveX/rxjs/blob/master/MIGRATION.md "Migrating from RxJS 4 to 5")
+
+RxJS v5は現在Stage 1の[ECMAScript Observable](https://github.com/tc39/proposal-observable "ECMAScript Observable") Proposalに準拠した実装です。
+([Stage 1](https://thefeedbackloop.xyz/tc39-a-process-sketch-stages-0-and-1/ "Stage 1")なので仕様自体が変わる可能性はあります)
+
+また、デバッグのしやすさやパフォーマンスなどが改善され、Rxの特徴と言えるOperatorが整理されています。
+
+----
+
+AngularJS 1.xの最新版である[AngularJS 1.6.0](http://angularjs.blogspot.jp/2016/12/angular-160-released.html "AngularJS 1.6.0")がリリース。
+
+
+またAngular v2~以降のバージョンについての発表
+
+両者のメンテンス期間については〜を見る
+
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -104,7 +126,7 @@ AngularJSの次のメジャーバージョンは4を予定している話。
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p>
 
-deferとasync属性について。 どちらもHTMLパースのブロックはしないが、レンダリングのブロックは発生する。 
+deferとasync属性について。 どちらもHTMLパースのブロックはしないが、レンダリングのブロックは発生する。
 deferは常にdomInteractiveが起きてから実行するため一定、しかしasyncはダウンロード速度によってはメインと被ることもある。
 メインコンテンツに関係ないレンダリングを行うスクリプトはdefer属性を試すことで、メインのレンダリングが邪魔されずに進むかを確認した方が良いという話。
 
