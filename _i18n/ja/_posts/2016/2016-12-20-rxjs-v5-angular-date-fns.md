@@ -28,13 +28,60 @@ RxJS v5は現在Stage 1の[ECMAScript Observable](https://github.com/tc39/propos
 
 ----
 
-AngularJS 1.xの最新版である[AngularJS 1.6.0](http://angularjs.blogspot.jp/2016/12/angular-160-released.html "AngularJS 1.6.0")がリリース。
+AngularJS 1.xの最新版である[AngularJS 1.6.0](http://angularjs.blogspot.jp/2016/12/angular-160-released.html "AngularJS 1.6.0")がリリースされました。
+
+- [Angular: Angular 1.6.0 released](http://angularjs.blogspot.jp/2016/12/angular-160-released.html "Angular: Angular 1.6.0 released")
+- [1.6.0 rainbow-tsunami (2016-12-08)](https://github.com/angular/angular.js/blob/master/CHANGELOG.md#160-rainbow-tsunami-2016-12-08 "1.6.0 rainbow-tsunami (2016-12-08)")
+
+詳しい変更点は[CHANGELOG](https://github.com/angular/angular.js/blob/master/CHANGELOG.md#160-rainbow-tsunami-2016-12-08)にかかれています。
+jqLiteをjQuery 3の挙動に合わせるように変更、[Expression Sandboxを削除](http://angularjs.blogspot.jp/2016/09/angular-16-expression-sandbox-removal.html)。
+また、JSONPリクエストはホワイトリストがデフォルトになるなど多數のBreaking Changeが含まれています。
+
+AngularJS 1.xはsemverではありませんが、2.0からはsemverに沿う方針へ変更されています。
+加えて2.0はタイムラインベースのアップデートも行うため、Angaular 2からは半年ごとのmajorアップデートを行います。
+また、3.xは`@angular/router`がすでにv3を使っていて、バージョンがずれてしまうため、次のメジャーバージョンはv4となるそうです。
+
+詳しくは、次の記事で解説されています。
+
+- [Angular: Ok... let me explain: it's going to be Angular 4.0, or just Angular](http://angularjs.blogspot.jp/2016/12/ok-let-me-explain-its-going-to-be.html "Angular: Ok... let me explain: it&#39;s going to be Angular 4.0, or just Angular")
+- [Angularの次バージョンは「Angular 4」に、2017年3月リリース。今後は単に「Angular」と呼んでほしいと － Publickey](http://www.publickey1.jp/blog/16/angularangular_420173angular.html "Angularの次バージョンは「Angular 4」に、2017年3月リリース。今後は単に「Angular」と呼んでほしいと － Publickey")
+
+AngularのLTSについては特に決まっていないようです。
+
+- [Angular LTS version · Issue #12331 · angular/angular](https://github.com/angular/angular/issues/12331 "Angular LTS version · Issue #12331 · angular/angular")
+
+----
+
+[date-fns - modern JavaScript date utility library](https://date-fns.org/ "date-fns - modern JavaScript date utility library")というライブラリは[Moment.js](http://momentjs.com/ "Moment.js")のように日付周りを扱うutilityライブラリです。
+[Lodash](https://lodash.com/ "Lodash")のように、それぞれの操作を独立した関数として扱えるようにすることが目的の一つとなっています。
+そのため、必要なものだけを読み込んで使うことができます。
+
+また、Moment.jsは基本的にMutableなAPIとなっていますが、date-fnsはImmutableなAPIとなっています。
+
+- Moment.jsでもImmutableに扱うAPIの提案がでています
+- [Support a pseudo-immutable API (first-party Frozen Moment) by butterflyhug · Pull Request #2 · moment/moment-rfcs](https://github.com/moment/moment-rfcs/pull/2 "Support a pseudo-immutable API (first-party Frozen Moment) by butterflyhug · Pull Request #2 · moment/moment-rfcs")
+
+また、開発中の部分もありますが現在のステータスは次にまとめられています。
+
+- [Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns](https://github.com/date-fns/date-fns/issues/275#issuecomment-264934189 "Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns")
 
 
-またAngular v2~以降のバージョンについての発表
+----
 
-両者のメンテンス期間については〜を見る
+## お知らせ
 
+[JSer.info 6周年と300回記念イベント - connpass](https://jser.connpass.com/event/46997/ "JSer.info 6周年と300回記念イベント - connpass")の抽選結果が発表されています。
+まだ、発表枠があるので何か話したい事がある人は申し込んで見てください。
+
+- [2017年1月15日(日)に JSer.info 6周年 && 300回目記念イベント を開催します - JSer.info](https://jser.info/2016/12/13/announcement-jser-info-6years-event/ "2017年1月15日(日)に JSer.info 6周年 &amp;&amp; 300回目記念イベント を開催します - JSer.info")
+
+また、当日JavaScript Discussionというコーナーで次の質問ボードを元に議論する時間が設けています。
+質問、聞きたいこと、話したいこと、主張を書き込むことができます。
+当日も時間を取りますが、事前に書いてもらっても問題ありません。
+
+- [JSer.info 6周年 - JavaScript Discussion](https://app.sli.do/event/bkry5ojl/ask "JSer.info 6周年 - JavaScript Discussion")
+
+気になる質問は :+1: で投票すると上に来るのでテーマとして取り上げやすくなります。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
