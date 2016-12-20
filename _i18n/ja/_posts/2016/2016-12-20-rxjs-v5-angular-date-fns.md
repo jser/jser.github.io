@@ -52,8 +52,8 @@ AngularのLTSについては特に決まっていないようです。
 
 ----
 
-[date-fns - modern JavaScript date utility library](https://date-fns.org/ "date-fns - modern JavaScript date utility library")というライブラリは[Moment.js](http://momentjs.com/ "Moment.js")のように日付周りを扱うutilityライブラリです。
-[Lodash](https://lodash.com/ "Lodash")のように、それぞれの操作を独立した関数として扱えるようにすることが目的の一つとなっています。
+[date-fns - modern JavaScript date utility library](https://date-fns.org/ "date-fns - modern JavaScript date utility library")というライブラリは[Moment.js](http://momentjs.com/ "Moment.js")のように日付周りを扱うutility集ライブラリです。
+[Lodash](https://lodash.com/ "Lodash")のように、それぞれの操作を独立した関数として扱うことが目的の一つとなっています。
 そのため、必要なものだけを読み込んで使うことができます。
 
 また、Moment.jsは基本的にMutableなAPIとなっていますが、date-fnsはImmutableなAPIとなっています。
@@ -61,7 +61,7 @@ AngularのLTSについては特に決まっていないようです。
 - Moment.jsでもImmutableに扱うAPIの提案がでています
 - [Support a pseudo-immutable API (first-party Frozen Moment) by butterflyhug · Pull Request #2 · moment/moment-rfcs](https://github.com/moment/moment-rfcs/pull/2 "Support a pseudo-immutable API (first-party Frozen Moment) by butterflyhug · Pull Request #2 · moment/moment-rfcs")
 
-また、開発中の部分もありますが現在のステータスは次にまとめられています。
+まだ開発中の部分もありますが、現在の状況は次にまとめられています。
 
 - [Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns](https://github.com/date-fns/date-fns/issues/275#issuecomment-264934189 "Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns")
 
