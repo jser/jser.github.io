@@ -35,7 +35,7 @@ AngularJS 1.xの最新版である[AngularJS 1.6.0](http://angularjs.blogspot.jp
 
 詳しい変更点は[CHANGELOG](https://github.com/angular/angular.js/blob/master/CHANGELOG.md#160-rainbow-tsunami-2016-12-08)にかかれています。
 jqLiteをjQuery 3の挙動に合わせるように変更、[Expression Sandboxを削除](http://angularjs.blogspot.jp/2016/09/angular-16-expression-sandbox-removal.html)。
-また、JSONPリクエストはホワイトリストがデフォルトになるなど多數のBreaking Changeが含まれています。
+また、JSONPリクエストはホワイトリストがデフォルトになるなど多数のBreaking Changeが含まれています。
 
 AngularJS 1.xはsemverではありませんが、2.0からはsemverに沿う方針へ変更されています。
 加えて2.0はタイムラインベースのアップデートも行うため、Angaular 2からは半年ごとのmajorアップデートを行います。
