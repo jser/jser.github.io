@@ -1,4 +1,47 @@
-JSer.info #311
+---
+title: "2016-12-27のJS: SharedArrayBuffer、JavaScript obfuscator、Node.js Stream"
+author: azu
+layout: post
+date : 2016-12-27T09:58
+category: JSer
+tags:
+    - browser
+    - ECMAScript
+    - Node.js
+    - Tools
+
+---
+
+JSer.info #311 - Safari Technology Preview Release 20とMSEdgeのJavaScriptエンジンである[ChakraCore 1.4.0](https://github.com/Microsoft/ChakraCore/wiki/Release-Notes#v140 "ChakraCore 1.4.0")が公開されています。
+
+- [Release Notes · Microsoft/ChakraCore Wiki](https://github.com/Microsoft/ChakraCore/wiki/Release-Notes#v140)
+- [Release Notes for Safari Technology Preview 20 | WebKit](https://webkit.org/blog/7120/release-notes-for-safari-technology-preview-20/)
+
+どちらも[SharedArrayBuffer](http://tc39.github.io/ecmascript_sharedmem/shmem.html#GlobalObject.ConstructorProps.SharedArrayBuffer "SharedArrayBuffer")が実装されています。
+SharedArrayBufferは、WebWorkerとの間でもデータを共有できる[Stage 3のProposal](https://github.com/tc39/proposals)仕様です。
+
+データをコピーでもなく、[Transfer](https://developer.mozilla.org/ja/docs/Web/API/Transferable)するのでもなく、メモリで共有する仕様です。(いわゆる共有メモリ)
+そのため、スレッドセーフでデータを読み書きできるAPIが必要になるため、[tc39/ecmascript_sharedmem](https://github.com/tc39/ecmascript_sharedmem "tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript")の仕様では`Atomics` APIが合わせて定義されています。
+
+SharedArrayBufferとAtomics APIについて、詳しくは次のURLを見るのが良いと思います。
+
+- [tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript](https://github.com/tc39/ecmascript_sharedmem "tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript")
+- [A Taste of JavaScript’s New Parallel Primitives ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/05/a-taste-of-javascripts-new-parallel-primitives/)([翻訳](https://dev.mozilla.jp/2016/05/a-taste-of-javascripts-new-parallel-primitives/))
+- [JavaScriptでの並列プログラミング: 共有メモリーと不可分操作、ロック // Speaker Deck](https://speakerdeck.com/chikoski/20161113-nodefest)
+- [SharedArrayBufferとAtomics APIについて - JS.next](http://js-next.hatenablog.com/entry/2015/09/30/225251 "SharedArrayBufferとAtomics APIについて - JS.next")
+
+Stage 3の仕様ですが、既に2つ以上の実装があるため、次のTC39 Meeting(2017年1月)でStage 4となる予定です。
+そのため、ES2017として公開される可能性があります。
+
+- [tc39-notes/nov-30.md at master · rwaldron/tc39-notes](https://github.com/rwaldron/tc39-notes/blob/master/es7/2016-11/nov-30.md#13iia-sharedarraybuffer "tc39-notes/nov-30.md at master · rwaldron/tc39-notes")
+
+この仕様に先んじて、ECMAScriptに"Agent"という概念が既に追加されています。
+
+- [Add language to define Agents by lars-t-hansen · Pull Request #522 · tc39/ecma262](https://github.com/tc39/ecma262/pull/522 "Add language to define Agents by lars-t-hansen · Pull Request #522 · tc39/ecma262")
+
+また、2016年11月のTC39 MeetingでStageが変わったProposalは次の記事にまとめてあります。
+
+- [ECMAScript proposal updates @ 2016-11 | ECMAScript Daily](https://ecmascript-daily.github.io/ecmascript/2016/12/22/ecmascript-proposals "ECMAScript proposal updates @ 2016-11 | ECMAScript Daily")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
@@ -33,7 +76,7 @@ JITがLinuxやmacOSでも有効化、async/awaitをデフォルトで有効化�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Safari Technology Preview Release 20リリース。
-Visual Viewport、Shared Array Bufferを有効化、`block-all-mixed-content`の追加、BlinkからportしたCSSパーサを使うようになるなど
+Visual Viewport、SharedArrayBufferを有効化、`block-all-mixed-content`の追加、BlinkからportしたCSSパーサを使うようになるなど
 
 - [What the Virtual Viewport?  |  Web  |  Google Developers](https://developers.google.com/web/updates/2015/01/What-the-Viewport "What the Virtual Viewport?  |  Web  |  Google Developers")
 - [lars-t-hansen/ecmascript\_sharedmem: Placeholder for old shared memory spec](https://github.com/lars-t-hansen/ecmascript_sharedmem "lars-t-hansen/ecmascript\_sharedmem: Placeholder for old shared memory spec")
