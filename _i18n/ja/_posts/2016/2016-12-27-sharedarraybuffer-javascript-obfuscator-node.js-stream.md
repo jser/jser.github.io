@@ -1,5 +1,5 @@
 ---
-title: "2016-12-27のJS: SharedArrayBuffer、JavaScript obfuscator、Node.js Stream"
+title: "2016-12-27のJS: SharedArrayBufferとAtomics API、Node.js Stream、JavaScript obfuscator"
 author: azu
 layout: post
 date : 2016-12-27T09:58
@@ -20,8 +20,9 @@ JSer.info #311 - Safari Technology Preview Release 20とMSEdgeのJavaScriptエ�
 どちらも[SharedArrayBuffer](http://tc39.github.io/ecmascript_sharedmem/shmem.html#GlobalObject.ConstructorProps.SharedArrayBuffer "SharedArrayBuffer")が実装されています。
 SharedArrayBufferは、WebWorkerとの間でもデータを共有できる[Stage 3のProposal](https://github.com/tc39/proposals)仕様です。
 
-データをコピーでもなく、[Transfer](https://developer.mozilla.org/ja/docs/Web/API/Transferable)するのでもなく、メモリで共有する仕様です。(いわゆる共有メモリ)
-そのため、スレッドセーフでデータを読み書きできるAPIが必要になるため、[tc39/ecmascript_sharedmem](https://github.com/tc39/ecmascript_sharedmem "tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript")の仕様では`Atomics` APIが合わせて定義されています。
+データをコピーや[Transfer](https://developer.mozilla.org/ja/docs/Web/API/Transferable)ではなく、メモリで共有する仕様です。(いわゆる共有メモリ)
+複数のスレッドがメモリ内の同じデータを読み書きするため、スレッドセーフなAPIが必要になります。
+そのため、[tc39/ecmascript_sharedmem](https://github.com/tc39/ecmascript_sharedmem "tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript")の仕様では不可分操作を提供する`Atomics` APIが合わせて定義されています。
 
 SharedArrayBufferとAtomics APIについて、詳しくは次のURLを見るのが良いと思います。
 
@@ -42,6 +43,22 @@ Stage 3の仕様ですが、既に2つ以上の実装があるため、次のTC3
 また、2016年11月のTC39 MeetingでStageが変わったProposalは次の記事にまとめてあります。
 
 - [ECMAScript proposal updates @ 2016-11 | ECMAScript Daily](https://ecmascript-daily.github.io/ecmascript/2016/12/22/ecmascript-proposals "ECMAScript proposal updates @ 2016-11 | ECMAScript Daily")
+
+----
+
+[Stream API入門 - Qiita](http://qiita.com/Mizunashi_Mana/items/872354cd7bf25090932f "Stream API入門 - Qiita")では、Node.jsのStream APIについて解説されています。他のコールバックやPromise、Generator、async/awaitなどの非同期処理についても触れています。
+
+Node.js Streamの特徴の一つでもあるバッファリングとバックプレッシャーについては合わせて次の記事を見てみるといいかもしれません。
+
+- [highWaterMarkから探るNode.jsのStreamの仕組み - Yahoo! JAPAN Tech Blog](https://techblog.yahoo.co.jp/advent-calendar-2016/node-stream-highwatermark/ "highWaterMarkから探るNode.jsのStreamの仕組み - Yahoo! JAPAN Tech Blog")
+
+これとは別で、WHATWGが提案している[Streams Standard](https://streams.spec.whatwg.org/ "Streams Standard")(Fetch APIなどと連携する)も合わせて見ると面白いかもしれません。
+
+- [streams/FAQ.md at master · whatwg/streams](https://github.com/whatwg/streams/blob/master/FAQ.md "streams/FAQ.md at master · whatwg/streams")
+
+また、データのストリーム処理はJavaScriptという言語にかぎらずあるものなので、次の記事も見てみるとストリーム処理の特徴が分かりやすいかもしれません。
+
+- [ストリーム処理とは何か？＋2016年の出来事 - Qiita](http://qiita.com/kimutansk/items/60e48ec15e954fa95e1c "ストリーム処理とは何か？＋2016年の出来事 - Qiita")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
