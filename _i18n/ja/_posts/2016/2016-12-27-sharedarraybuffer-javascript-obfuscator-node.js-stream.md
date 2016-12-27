@@ -31,7 +31,7 @@ SharedArrayBufferとAtomics APIについて、詳しくは次のURLを見るの�
 - [JavaScriptでの並列プログラミング: 共有メモリーと不可分操作、ロック // Speaker Deck](https://speakerdeck.com/chikoski/20161113-nodefest)
 - [SharedArrayBufferとAtomics APIについて - JS.next](http://js-next.hatenablog.com/entry/2015/09/30/225251 "SharedArrayBufferとAtomics APIについて - JS.next")
 
-Stage 3の仕様ですが、既に2つ以上の実装があるため、次のTC39 Meeting(2017年1月)でStage 4となる予定です。
+Stage 3の仕様ですが、既に2つ以上の実装があるため、[次のTC39 Meeting(2017年1月)](https://github.com/tc39/agendas/blob/master/2017/01.md)でStage 4となる予定です。
 そのため、ES2017として公開される可能性があります。
 
 - [tc39-notes/nov-30.md at master · rwaldron/tc39-notes](https://github.com/rwaldron/tc39-notes/blob/master/es7/2016-11/nov-30.md#13iia-sharedarraybuffer "tc39-notes/nov-30.md at master · rwaldron/tc39-notes")
