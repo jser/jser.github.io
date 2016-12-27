@@ -8,6 +8,7 @@ tags:
     - browser
     - ECMAScript
     - Node.js
+    - Stream
     - Tools
 
 ---
@@ -46,7 +47,7 @@ Stage 3の仕様ですが、既に2つ以上の実装があるため、[次のTC
 
 ----
 
-[Stream API入門 - Qiita](http://qiita.com/Mizunashi_Mana/items/872354cd7bf25090932f "Stream API入門 - Qiita")では、Node.jsのStream APIについて解説されています。他のコールバックやPromise、Generator、async/awaitなどの非同期処理についても触れています。
+[Stream API入門 - Qiita](http://qiita.com/Mizunashi_Mana/items/872354cd7bf25090932f "Stream API入門 - Qiita")では、Node.jsのStream APIについて解説されています。コールバックやPromise、Generator、async/awaitなどの非同期処理についても触れています。
 
 Node.js Streamの特徴の一つでもあるバッファリングとバックプレッシャーについては合わせて次の記事を見てみるといいかもしれません。
 
