@@ -191,7 +191,7 @@ CSS Components層、Web Components層、フレームワークバインディン�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">node.js</span></p>
 
-express-serviceがどのようにして実際のNode.jsで動くExpressのコードをServideWorkerの中でも擬似的に動かしているのかについての解説
+express-serviceがどのようにして実際のNode.jsで動くExpressのコードをServiceWorkerの中でも擬似的に動かしているのかについての解説
 
 - [express-service](https://www.npmjs.com/package/express-service "express-service")
 
