@@ -12,8 +12,37 @@ tags:
 
 ---
 
+JSer.info #312 - [PostCSS まとめ - Qiita](http://qiita.com/morishitter/items/4a04eb144abf49f41d7d "PostCSS まとめ - Qiita")という記事では、[PostCSS](https://github.com/postcss/postcss "PostCSS")とはどのようなものなのかについて書かれています。
 
-JSer.info #312
+PostCSSはCSSのツール基盤となるフレームワークで、CSSパーサやジェネレータなどを含んでいるもので、プラグインとしてCSSに対する様々な処理を扱えるようになっています(パーサ自体もプラグインで拡張できるのでSassなども一部扱えます。)
+
+この記事では、PostCSSを使って動くプリプロセッサやLinterといったツールなどについて紹介されています。
+
+----
+
+[Optimise your web development workflow 2016](https://umaar.github.io/devtools-optimise-your-web-development-workflow-2016/#/ "Optimise your web development workflow 2016")というスライドでは、Chromeの開発者ツールの機能について紹介されています。
+開発者ツールには大量の機能がありますが、GIF画像とともにそれらの機能を紹介しています。
+
+Elements、Timeline、Networks、Auditsパネルにある機能やそれに関連する仕様やツールなども紹介しているので、
+一度見てみると面白いかもしれません。
+
+また、1Tips/1ページ形式で開発者ツールのTipsを紹介しているので合わせてみると良いかもしれません。
+
+- [Dev Tips - Developer Tips by Umar Hansa](https://umaar.com/dev-tips/ "Dev Tips - Developer Tips by Umar Hansa")
+
+----
+
+[Fusebox](http://fuse-box.org/ "Fusebox")というbundler/module loaderツールが公開されています。
+webpackなどが近いツールで、プラグインで変換レイヤーを追加でき、その結果を一つのファイルにまとめるbundlerです。
+また、`FuseBox.import`というLoader APIも合わせて利用でき、webpackやSystemJSなどに近い機能を持っています。
+
+高速な変換がウリの一つで、モジュールの依存関係と変換済みファイルをキャッシュすることで、再変換時の処理時間が短くできるようになっています。
+
+<blockquote class="twitter-tweet" data-partner="tweetdeck"><p lang="en" dir="ltr">FuseBox cache and deps.json <a href="https://t.co/4EjS62HY28">pic.twitter.com/4EjS62HY28</a></p>&mdash; azu (@azu_re) <a href="https://twitter.com/azu_re/status/816568272736788480">January 4, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+[fuse-box/fuse-box](https://github.com/fuse-box/fuse-box "fuse-box/fuse-box")のソースコードはTypeScriptで書かれていて、
+まだでたばかりなのでソースコードを見てみるのも面白いかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
