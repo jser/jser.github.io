@@ -45,6 +45,15 @@ webpackなどが近いツールで、プラグインで変換レイヤーを追�
 まだでたばかりなのでソースコードを見てみるのも面白いかもしれません。
 
 ----
+
+## お知らせ
+
+- [jser/ping](https://github.com/jser/ping "jser/ping")にPingのIssueを立てると[@jser_info](https://twitter.com/jser_info "@jser_info")のTwitterに流れるようになりました
+- データ分析用に[JSer.info Data Dashboard](https://jser.info/data-dashboard/ "JSer.info Data Dashboard")を作りました
+    - JSer.infoの記事や紹介URLに関するデータを色々な形でみることを目的にしたページです
+    - 面白そうなデータの読み方があるなら[jser/data-dashboard: JSer.info Data Dashboard.](https://github.com/jser/data-dashboard "jser/data-dashboard: JSer.info Data Dashboard.")にIssue/PRを立てると良さそうです。
+    
+----
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
