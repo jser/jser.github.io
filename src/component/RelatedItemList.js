@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import element from 'virtual-element'
+import {h} from 'preact';
 import RelatedItem from "./RelatedItem"
 import removeMarkdown from "remove-markdown";
 function ellipsis(text) {
@@ -9,9 +9,8 @@ function ellipsis(text) {
     }
     return text;
 }
-export function render(component) {
-    let {props, state, id} = component;
-    var items = props.postWithItems.map((postWithItem, index) => {
+export default function RelatedItemList({postWithItems}) {
+    var items = postWithItems.map((postWithItem, index) => {
         let {item, post} = postWithItem;
         // strip markdown
         var plainText = removeMarkdown(item.content, {stripListLeaders: false});
@@ -31,4 +30,3 @@ export function render(component) {
         </dl>
     </div>;
 }
-export default {render}
