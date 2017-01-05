@@ -2,7 +2,9 @@
 "use strict";
 import preact, {h, render} from 'preact';
 import RelatedItemList from "./component/RelatedItemList"
+import FeedbackToTwitter from "./container/FeedbackToTwitter"
 import {getStat} from "./utils/get-stats";
+import {getCurrentURL} from "./utils/get-current-url";
 
 function showRelated(URL, placeholder) {
     getStat().then(function(stat) {
@@ -29,7 +31,7 @@ function showRelated(URL, placeholder) {
 function removeRelated(box) {
     box.parentNode.removeChild(box);
 }
-getStat().then(function() {
+function addRelatedItemPlaceholder() {
     var siteNodeList = document.querySelectorAll(".site-genre ~ hr + h2 + p");
     var siteList = Array.prototype.slice.call(siteNodeList);
     siteList.forEach(function(item) {
@@ -56,6 +58,28 @@ getStat().then(function() {
         div.appendChild(button);
         item.appendChild(div);
     });
+}
+/**
+ * 気になる記事をTwitterに投稿するボタン
+ * @param {JSerStat} stat
+ */
+function addFeedbackForm(stat) {
+    const currentURL = getCurrentURL();
+    const week = stat.findJSerWeekWithURL(currentURL);
+    if (!week) {
+        return;
+    }
+    const articleBody = document.querySelector(".post-content");
+    const placeholder = document.createElement("div");
+    placeholder.className = "FeedbackForm";
+    articleBody.appendChild(placeholder);
+    const app = <FeedbackToTwitter week={week}/>;
+    render(app, placeholder);
+}
+
+getStat().then(function(stat) {
+    addRelatedItemPlaceholder();
+    addFeedbackForm(stat);
 }).catch(function(error) {
     console.error(error, error.stack);
 });
