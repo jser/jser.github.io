@@ -14,13 +14,7 @@ module.exports = {
         fs: "empty"
     },
     module: {
-        // to avoid warning by power-assert-formatter
-        exprContextCritical: false,
         loaders: [
-            {
-                test: /\.json$/,
-                loader: "json-loader"
-            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -30,5 +24,6 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    performance: {hints: false}
 };
