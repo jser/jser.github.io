@@ -267,8 +267,8 @@ with Many LT
     - 日本語の年号を表示する、などもできる
 - Editors for ECMA-402
   - 1st, 2nd, 3rd で全て Editor が違う
-    - https://github.com/rwaldron (TC39)
-    - https://github.com/caridy (TC39)
+    - [https://github.com/rwaldron](https://github.com/rwaldron) (TC39)
+    - [https://github.com/caridy](https://github.com/caridy) (TC39)
   - ブラウザベンダの人たちではない
     - 実はブラウザベンダのサポートが弱い
 - Intl.DateTimeFormat
@@ -292,7 +292,7 @@ with Many LT
     - ファイルサイズが増える
     - 強硬に反対されている
   - ICUライブラリ
-    - http://site.icu-project.org/
+    - [http://site.icu-project.org/](http://site.icu-project.org/)
     - IBMが作成
       - 去年に unicord.org 配下になった
     - 通貨、など全て各言語に対応
@@ -303,14 +303,14 @@ with Many LT
     - V8
       - ICU
 - ECMA-402 NEXT
-  - https://github.com/tc39/ecma402 にまとまっている
+  - [https://github.com/tc39/ecma402](https://github.com/tc39/ecma402) にまとまっている
   - 次のバージョンに入れようというもの
     - Zibi Braniecki
       - I20N の owner
     - Rafael Xavier
   - Stage 4
     - Intl.DateTimeFormat.prototype.formatToParts
-    - https://github.com/tc39/ecma402/issues/30
+    - [https://github.com/tc39/ecma402/issues/30](https://github.com/tc39/ecma402/issues/30)
       - JSON 配列で返る
       - V8とSpidermoneky
         - ブラウザに入っている
@@ -324,11 +324,10 @@ with Many LT
         - `"one"`  
       - `IntelPluralRules("en-US").select(2)` 
         - `"other"` 
-      - 
-  - デモ中
+        - デモ中
   - ICUで提供されている機能をJSに持ってこようという話がある
     - 多数の Issue が上がっている
-  - https://github.com/tc39/ecma402/issues
+  - [https://github.com/tc39/ecma402/issues](https://github.com/tc39/ecma402/issues)
 
 #### Q&A
 - Q. ICU がファイルがでかくて入れるのに躊躇するとは、ブラウザ？OS？
@@ -373,7 +372,7 @@ with Many LT
 - バックエンドとしてのJS
   - Express + Serverless
   - Serverless Framework
-    - https://serverless.com/
+    - [https://serverless.com/](https://serverless.com/)
     - いい感じにサーバレスなバックエンドを構成できるフレームワーク
       - AWS Lambdaをよしなに使ってくれる
     - Serverless への期待
@@ -409,7 +408,7 @@ with Many LT
       - ex. サーバレス、Python を Go に
     - レイヤーの越境を楽しむのが良いのではないか？
   - フロントエンドカンファレンス（3/18開催）
-    - http://kfug.jp/frontconf2017/
+    - [http://kfug.jp/frontconf2017/](http://kfug.jp/frontconf2017/)
     - 関西
     - 興味あれば是非！
 
@@ -426,8 +425,8 @@ with Many LT
   - なんて事のないただの人w
   - Angular Japan UG のスタッフ
 - GitHub repo
-  - https://github.com/ovrmrw/angular-realtime-translation-presentation
-  - https://github.com/ovrmrw/cognitive-server-starter
+  - [https://github.com/ovrmrw/angular-realtime-translation-presentation](https://github.com/ovrmrw/angular-realtime-translation-presentation)
+  - [https://github.com/ovrmrw/cognitive-server-starter](https://github.com/ovrmrw/cognitive-server-starter)
 - 今日はアプリの紹介をしていく
   - デモ
     - 英語で話すとニコ動的なコメントが英語＋日本語で流れる
@@ -438,9 +437,8 @@ with Many LT
 - Hapi (server-side)
   - Cognitive Serversとコネクションする
 - Watson
-  - 
-  - Speech to Text API
-    - http://www.ibm.com/smarterplanet/jp/ja/ibmwatson/developercloud/speech-to-text.html
+    - Speech to Text API
+    - [http://www.ibm.com/smarterplanet/jp/ja/ibmwatson/developercloud/speech-to-text.html](http://www.ibm.com/smarterplanet/jp/ja/ibmwatson/developercloud/speech-to-text.html)
   - 音声データをテキストデータとしてリアルタイムで返ってくる
   - スタート・ストップボタンを押してない
     - リアルタイムレコーディング
@@ -460,7 +458,7 @@ with Many LT
   - Google Cloud Translator
     - 100万文字毎に $20（無料枠はない）
   - Microsoft Cognitive Serivices
-    - https://www.microsoft.com/cognitive-services/en-us/
+    - [https://www.microsoft.com/cognitive-services/en-us/](https://www.microsoft.com/cognitive-services/en-us/)
     - 200万文字/月は無料
       - それ以上行くと打ち止め
 - なぜこれを作ったのか？
@@ -492,8 +490,8 @@ with Many LT
 - A. Watson / Google翻訳は韓国語に対応しているので
 - Q. アプリケーションは公開されている？
 - A. GitHub にある（スライド中にURLがある・スライドは後ほど公開）
-  - https://github.com/ovrmrw/angular-realtime-translation-presentation
-  - https://github.com/ovrmrw/cognitive-server-starter
+  - [https://github.com/ovrmrw/angular-realtime-translation-presentation](https://github.com/ovrmrw/angular-realtime-translation-presentation)
+  - [https://github.com/ovrmrw/cognitive-server-starter](https://github.com/ovrmrw/cognitive-server-starter)
 - Q. Hapi を使った理由は？
 - A. Express がよくわからないから。Hapi に慣れているから。デモはサーバに上げずにローカルで動かしている。
 
@@ -507,7 +505,7 @@ with Many LT
 
 - 自己紹介
   - OpalのVirtualDOMなど作っている
-  - https://github.com/youchan/hyalite
+  - [https://github.com/youchan/hyalite](https://github.com/youchan/hyalite)
 - Ruby方面から来ました
   - Q. サーバサイドを書いている・Rubyで書いている人
   - A. そこそこいますね
@@ -554,9 +552,9 @@ with Many LT
   - 動的なメソッド名で動かしたい時
 - Opalを活かしたフレームワーク
   - Hyalite
-    - https://github.com/youchan/hyalite
+    - [https://github.com/youchan/hyalite](https://github.com/youchan/hyalite)
   - Menilite
-    - https://github.com/youchan/menilite
+    - [https://github.com/youchan/menilite](https://github.com/youchan/menilite)
 - Hyalite
   - 発表スライドもこれで
   - React を書いている人はわかりやすいのでは、とのこと
@@ -571,7 +569,7 @@ with Many LT
   - Rubyの強力な機能について説明
   - Opalの日本語コミュニティ
     - Slackにあるので参加してくれると嬉しい
-      - https://opalrb-jp-slack.herokuapp.com/
+      - [https://opalrb-jp-slack.herokuapp.com/](https://opalrb-jp-slack.herokuapp.com/)
 
 
 ----------
@@ -652,7 +650,7 @@ with Many LT
     - `registerElement()` 
   - AMP Component = HTML Custom Elements
   - 新しいHTMLタイプを定義してライフサイクルを制御
-    - https://www.w3.org/TR/custom-elements/
+    - [https://www.w3.org/TR/custom-elements/](https://www.w3.org/TR/custom-elements/)
     - W3C標準の機能
     - AMPライフサイクルはこれを拡張
       - ダウンロード、レンダリング視点の制御が可能になる
@@ -682,9 +680,10 @@ with Many LT
     - `measure()` 
     - `runScheduledTasks()` 
   - egjs
-    - https://github.com/naver/egjs
+    - [https://github.com/naver/egjs](https://github.com/naver/egjs)
     - Navar で公開しているUIコンポーネントライブラリ
     - パフォーマンス重視
+
 ----------
 
 
@@ -711,8 +710,7 @@ with Many LT
         - Angularと呼んでほしい
         - 3 はスキップ、次は 4 になる
         - 「Angularのバージョン4を使っている」という表現にしてほしい
-  - 
-- テーマ: jQueryは辞めようみたいにいう声よく聞きますけど、ぶっちゃけまだまだ使ってますよね？
+  - テーマ: jQueryは辞めようみたいにいう声よく聞きますけど、ぶっちゃけまだまだ使ってますよね？
   - まだ使っている人は？
     - 会場の半分くらいはいる
   - クライアントに指定されている
@@ -735,8 +733,7 @@ with Many LT
     - 全ブラウザで進んでいる
     - CORS のスペックが厳しい
     - Node はまだ
-    - 
-- テーマ: SSRのアプローチって率直に言って「正解」だと思いますか？
+    - テーマ: SSRのアプローチって率直に言って「正解」だと思いますか？
   - SSRをやっている人は？
     - 会場では数人？
   - 正解かはわからないが速い
@@ -915,8 +912,7 @@ with Many LT
   - 書いている人？
     - 5人くらい
 - テーマ: 次のフレームワークプロレスはいつ起こると思いますか？
-  - 
-- テーマ: react native や native script をガッツリ触ってる人はいますか？
+  - テーマ: react native や native script をガッツリ触ってる人はいますか？
   - 使っている人？
     - React Native をプロダクション投入
     - React Native ミートアップあるよ
