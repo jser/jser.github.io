@@ -1,0 +1,953 @@
+---
+title: "JSer.info 6周年記念イベントを開催しました"
+author: azu
+layout: post
+date : 2017-01-15T20:36
+category: 雑記
+tags:
+    - イベント
+
+---
+
+
+[JSer.info 6周年と300回記念イベント](https://jser.connpass.com/event/46997/ "JSer.info 6周年と300回記念イベント")を開催しました。
+
+参加して頂いた皆さん、発表して頂いた皆さんありがとうございます。
+
+### 発表内容
+
+- [JSer.info 6周年イベント](http://azu.github.io/slide/2017/jser_info/jser_info_6years.html) - [@azu](https://twitter.com/azu_re)
+- [JSer.infoの作り方](http://azu.github.io/slide/2017/jser_info/how_to_make_jser_info.html) - [@azu](https://twitter.com/azu_re)
+- [ECMA-402を知ってますか？](https://docs.google.com/presentation/d/1N0waGxmspbLyRf6a6hG5oXk77z69YirgW21_Cegxnq0/edit#slide=id.p) - [@makoto_kato](https://twitter.com/makoto_kato)
+- [2017年のJavaScriptと フロントエンドの楽しみかた #jserinfo // Speaker Deck](https://speakerdeck.com/potato4d/2017nian-falsejavascriptto-hurontoendofalsele-simikata-number-jserinfo) - [@potato4d](https://twitter.com/potato4d)
+- [A piece of potential of Cognitive Services](https://docs.google.com/presentation/d/1rwmyRW99N4ZAPM5gyDGjgv0yvJXVATUom6rNxAZrYvQ/pub?start=false&loop=false&delayms=3000#slide=id.g1aed898fe2_0_156) - [@ovrmrw](https://twitter.com/ovrmrw)
+- [Opalのすすめ](http://slides.youchan.org/JSerInfo6th) - [@youchan](https://twitter.com/youchan)
+- HOW AMP WORKS - [@kishu](https://github.com/kishu "kishu") 翻訳: [@purewish](https://twitter.com/purewish "@purewish")
+
+with Many LT
+
+以下、[JSer.info 6周年記念イベント - Paper](https://paper.dropbox.com/doc/JSer.info-6-4ko0NvdzqpYj5Rt6TvdJi "JSer.info 6周年記念イベント - Paper")に書かれた議事録です。
+
+議事録を取って頂いた[@suzuki](https://twitter.com/suzuki "@suzuki")さんありがとうございます。
+
+----------
+### JSer.infoについて - azu
+> スライド: [JSer.info 6周年イベント](http://azu.github.io/slide/2017/jser_info/jser_info_6years.html)
+
+
+- JSer.info、明日で6周年
+  - 1000記事/年くらい紹介
+- 紹介記事の傾向
+  - JSONファイルで管理
+  - jser/stat-js に入れている
+    - MIT ライセンス
+    - このスライド用にダッシュボード作った
+- Dashboard のデータ
+  - ドメイン別
+    - GitHub が多い
+    - リリースノートが書かれる
+    - ブログ系ドメインが変わってきた
+      - はてなダイアリー
+        - 下がってきた
+      - はてなブログ
+      - 最近は Medium / Qiita が増えてきた
+    - Qiita / Medium
+      - Qiita: 日本語圏
+      - Medium: それ以外の言語圏
+    - 自ドメインに書いている人が減りつつある
+      - プラットフォームのほうがコメントなど貰いやすい
+      - 人だけでなくタグでも追えるのがプラットフォーム
+    - プラットフォーム以外
+      - SNS、SBM、Echo JS
+- 情報を投げる場所
+  - jser/ping
+    - URL、説明文などをPOSTできる
+    - 投げると勝手に GitHub Issue が立つ
+    - pull request を投げるものも作ったが誰も使ってくれなかったので、よりカジュアルなものに
+    - 自分用でも使っている
+    - lambda でサーバレス（かっこいいな）
+  - 投稿フロー
+    - 投稿タイミング、ある程度数が貯まったらボットが通知
+- 韓国語版
+  - 今日は韓国からゲスト参加
+- ECMAScript Diary
+  - 個人の日記
+  - ECMAScript のみを扱っている
+  - おそらく唯一の専門サイト
+- 今後
+  - 週一の記事以外にトピックベースの記事を書いてみたい
+  - 時間コストはかけたくない
+    - 仕組み化が課題
+#### Q&A
+- Q. pull request少ないのは本当に少ないのか？
+- A. 修正はそこそこ。記事の投稿はほとんどなかった。ちょっと面倒臭いフローだった
+
+----------
+
+
+### JSer.infoの作り方 - azu
+> スライド: [JSer.infoの作り方](http://azu.github.io/slide/2017/jser_info/how_to_make_jser_info.html)
+
+
+- 去年のまとめ
+  - JavaScript 情報ってなんだっけ？
+  - コミュニティの問題
+- JSer.infoの目的
+  - 整理して発信
+  - 紹介でなく知ってもらう
+  - 継続的
+- ゴール
+  - 興味ある人に知ってもらう
+  - 現状を正確に伝える
+  - 更新コストを低く
+- ワークフロー
+- 目的を満たすために
+  - 誤った情報を知らせるのは嫌だ
+  - 文字は人によって感じ方が違う
+    - 誤解を生まないように
+- みる、調べる
+  - JS 以外でも同じやり方が可能
+  - 見る
+    - 見る、気づく
+      - いろいろなところを見る
+      - 自分が見るところを集約
+      - 情報不足、情報過多はうまくいかない
+    - GitHub
+      - 開発基盤、重要
+      - ECMAScript の仕様策定も GitHub 
+      - GitHub Notification が崩壊w
+      - リポジトリを Watch
+        - Star はもっと気軽にやっている
+          - starWatcher
+      - GitHub を Twitter で見る
+        - AWS Lamda で Activity を bot で Twitter へ流す
+      - 見逃したくない情報は何度も流れるようにしている
+        - Twitter + RSS + Pocket とか
+    - RSS
+      - LDRを使っている
+        - 3213 feeds
+    - まとめ
+      - 見る
+        - 自分が見るところへ集約
+        - 多すぎる情報を整理する
+      - 調べる
+        - ググる
+          - えいごで検索
+          - 日付で絞る
+          - URL で検索
+        - GitHub検索
+          - 検索演算子を活用
+          - 
+        - 関連検索
+          - その情報が新しいか、正しいか
+          - URLで検索して、引用しているサイトを見る
+        - 感情判定の例
+          - ”感情 判定”で検索、、、
+        - GitHubでもリンクを探る
+          - 古いライブラリの代替などだとREADMEに書かれていたり
+        - 専門の検索エンジン
+          - Libraries.io
+          - npm trends
+        - どこで専門サイトを見つける？
+          - awesome
+      - 人は知りすぎると動けなくなる
+- 行動
+  - 検証
+    - 本当なのか？
+    - なぜ検証が必要か？
+      - 必ずしも直感は正しくない
+      - 作者の説明が正しいとは限らない
+    - どうやって検証
+      - コードを読む
+      - パフォーマンス系は動かさないと分からない
+        - 特定のエッジケースでn倍速いとか。
+      - clone して動かすsnippetを用意
+    - 変更点を見つける
+      - ChangeLog, リリースノートを見る
+      - Issue/p-r を見る
+      - commit を見る
+    - 全ては検証できない
+      - 時間、コスト的問題
+      - 不確実性があれば掲載をスルー
+  - 説明
+    - postem（Electronクライアント）を作った、それを使って投稿
+    - 説明文
+      - 言葉は人によって解釈が違う
+      - JSer.infoで気にしていること
+        - 整理・正確・現状・中立・関連性・客観的
+      - 使いたくない言葉もある
+        - 煽る系
+        - 意図的に避けている
+    - JSAwards
+      - 中止になった
+    - JSer.infoで使う言葉
+      - 特徴、目的
+    - CODE OF CONDUCT
+      - その場所をどうやって扱って欲しいかを表明する
+      - jser.info/CODEOFCONDUCT.md
+        - 基本的に中立的な立場を表明している
+    - このイベントもCoCを定義している
+  - 言葉の難しさ
+    - 正しいことを言っても正しく伝わるとは限らない
+      - 正しいことを言う != 正しく伝える
+  - 言葉とツール
+    - 機械的に弾く
+    - textlint というツール
+      - 毎回説明文をチェック
+        - 引っかかれば修正もしくは掲載を諦める
+    - 単語感情極性対応表
+      - 0に近いほど中立
+      - 記事ごとに出してみた
+        - -0.216 くらいだった
+      - どんな言語でもネガティブなほうがポジティブより多い傾向
+  - まとめ
+    - 説明は場所・対象により正しさが異なる
+    - 正しい事実を簡単に説明するのが難しい
+    - 機械的チェック
+- 共有
+  - 一定数貯まったらbotが通知
+  - JSer.infoのアーカイブからピックアップして公開
+  - 継続性
+    - 更新コストを小さく
+    - ゴールができるだけ短く連続的に
+      - JSer.infoは週一くらいでPOSTするゴール
+  - 長すぎるゴールの問題
+    - 解決が難しくなる
+    - 不確実性のコーン
+  - 直感と予想は一致しない
+    - 一度やめると再開が難しい
+      - 短ければ再開も簡単
+  - 小さく作って小さく更新
+    - 一日で1週間分の更新は難しい
+      - 細かく
+    - 毎日作業
+- イテレーションのコスト
+  - 無コストではないけど、コストは小さく
+  - ワークフローは一方通行に
+    - Flux の図と同じ（w）
+- あなたもJSer.infoを作ってみませんか？
+  - jser/ping
+  - jser/report
+  - jser/jser.github.io
+  - jser/jser.info - Gitter
+- まとめ
+  - その場の知識はそこまで重要ではない
+    - 行動が大事
+  - 直感が正しくないときに確認する方法を持つ
+  - 動くスコープを決める
+    - 1週間で終わる目標
+          
+#### Q&A
+- Q. 毎週たくさん記事を紹介していて、週によってテーマがあるなと感じる時がある。そういうのはネタ帳に貯めているのか？
+- A. あまり貯めてはいない。関連が思いついたら関連に追加するくらい。同時に似たようなものが流れることも多い。
+- Q. 今週はテーマもストックもない、で困ることはある？
+- A. あまりない
+- Q. PDCAみたいなふりかえりはやってない？
+- A. 特にやってない。なんとなく雰囲気でやっているくらい。
+
+
+
+----------
+### ECMA-402を知ってますか？ - [@makoto_kato](https://twitter.com/makoto_kato)
+> スライド: [ECMA-402 - Google スライド](https://docs.google.com/presentation/d/1N0waGxmspbLyRf6a6hG5oXk77z69YirgW21_Cegxnq0/edit#slide=id.p)
+
+
+- 自己紹介
+  - プラットフォームエンジニア
+  - Firefoxのバグとか、担当する
+    - 日本語でOK
+- ECMA-402?
+  - ECMAScript Internationalization API
+    - Intl.DateTimeFormat
+    - Intl.NumberFormat
+    - Intl.Collator
+    - Number.prototype.toLocaleString
+    - String.prototype.localeCompare
+      - 文字列の比較は言語によって異なる
+      - accent記号での違い
+    - 日本語の年号を表示する、などもできる
+- Editors for ECMA-402
+  - 1st, 2nd, 3rd で全て Editor が違う
+    - https://github.com/rwaldron (TC39)
+    - https://github.com/caridy (TC39)
+  - ブラウザベンダの人たちではない
+    - 実はブラウザベンダのサポートが弱い
+- Intl.DateTimeFormat
+  - `Intl.DateTimeFormat("en_US", …)` 
+  - `Intl.DateTimeFormat("zh-TW", …)` 
+  - `Intl.DateTimeFormat("ja-JP-u-ca-japanese", …)` 
+    - → `平成` なども返ってくる
+    - → 年号が変わったときもブラウザ側が実装してくれる
+- Intl.NumberFormat
+  - `Intl.NumberFormat("de", …)` 
+    - → `10.000,00€` 
+  - `Intl.NumberFormat("ja-JP", …)` 
+    - `\10,000` 
+  - 通過記号の位置など勝手にやってくれる
+- Intl.Collator
+  - `Intl.Collator('de', …)` 
+- 対応状況
+  - ほとんどのブラウザに入っている
+  - Safari 10も入ってるので大体のブラウザで使える
+  - Android Firefox（？）
+    - ファイルサイズが増える
+    - 強硬に反対されている
+  - ICUライブラリ
+    - http://site.icu-project.org/
+    - IBMが作成
+      - 去年に unicord.org 配下になった
+    - 通貨、など全て各言語に対応
+  - Chakra, V8 などによって実装が少しぶれているところがある
+    - Chakra
+      - Windows API
+      - 今後、ICUを使っていくことになりそうとのこと
+    - V8
+      - ICU
+- ECMA-402 NEXT
+  - https://github.com/tc39/ecma402 にまとまっている
+  - 次のバージョンに入れようというもの
+    - Zibi Braniecki
+      - I20N の owner
+    - Rafael Xavier
+  - Stage 4
+    - Intl.DateTimeFormat.prototype.formatToParts
+    - https://github.com/tc39/ecma402/issues/30
+      - JSON 配列で返る
+      - V8とSpidermoneky
+        - ブラウザに入っている
+  - Stage 3
+    - Intl.NumberFormat.prototype.formatToParts
+      - SpiderMonkey
+    - Intl.PluralRules
+      - SpiderMonkey
+      - 複数形
+      - `IntelPluralRules("en-US").select(1)`  
+        - `"one"`  
+      - `IntelPluralRules("en-US").select(2)` 
+        - `"other"` 
+      - 
+  - デモ中
+  - ICUで提供されている機能をJSに持ってこようという話がある
+    - 多数の Issue が上がっている
+  - https://github.com/tc39/ecma402/issues
+
+#### Q&A
+- Q. ICU がファイルがでかくて入れるのに躊躇するとは、ブラウザ？OS？
+- A. ブラウザ。Chrome / Firefox はOSバージョンに依存していないものは、ここが響く。古いOSだと依存バージョンが入っていないので、ブラウザ側にいれる必要がある
+- Q. 今の仕様だと普通の人が使うには辛そうなインターフェイス。これは意図的にそうしているのか？そこまで考慮されていないだけなのか？
+- A. そこまで考えられてないだけだと思われる。元々フレームワークとかアプリのレイヤーから少し離れてる人が書いていたため
+
+
+----------
+
+
+### 2017年のJavaScriptとフロントエンドの楽しみ方 - [@potato4d](https://twitter.com/potato4d)
+> スライド: [2017年のJavaScriptと フロントエンドの楽しみかた #jserinfo // Speaker Deck](https://speakerdeck.com/potato4d/2017nian-falsejavascriptto-hurontoendofalsele-simikata-number-jserinfo)
+
+
+- 自己紹介
+  - 春から東京
+  - Vue.js周りが中心
+  - Electonでツール作成
+  - 漢は黙ってjQuery
+  - （正しさハラスメントの人？）
+- 2016年のJSの変化
+  - ES周り
+    - 2015→2016
+      - async/await 周りが盛り上がり
+      - SafariがES2015
+    - パッケージ
+      - npm / yarn
+    - フレームワーク
+      - Angular2
+      - Vueシェア増加
+  - SPA・モダンフレームワークを使うのが当たり前になった
+  - React / Angular のどちらかあるいは両方使える人が増えた
+    - 珍しくなくなった
+  - 2016年は浸透の1年
+- 進化から浸透
+  - その先は進出
+    - レイヤー間を越境する2017年
+  - JSといえばフロントエンドと言われるがそこだけではないはず
+    - バックエンドとしてのJS
+    - フロントエンドにおけるPWA… （追いつけず）
+- バックエンドとしてのJS
+  - Express + Serverless
+    - 
+  - Serverless Framework
+    - https://serverless.com/
+    - いい感じにサーバレスなバックエンドを構成できるフレームワーク
+      - AWS Lambdaをよしなに使ってくれる
+    - Serverless への期待
+      - サーバ管理の必要性の薄さ
+        - サーバサイドのコードは書きたいがインフラ管理までしたくない
+        - PaaS的な
+      - クラウド環境においてJSのみで記述できる
+        - ロマンを感じさせる
+- 新たに開拓されそうなレイヤ
+  - PWAとハイブリッドアプリ
+  - PWA
+    - Progressive Web Apps
+      - オフライン、ワーカー
+      - Webにアプリのようなリッチな体験を
+    - SPAは技術的観点が大きい、PWAはUXに関わる
+  - Web自体に増えるAPI
+    - PWAとAPIの組み合わせ
+      - ベンダごとの差異
+    - デスクトップ向けのオフライン周り
+      - 少し改善されつつあるが、まだまだ難しい
+  - ハイブリッドアプリの再来の可能性
+    - Cordova方式から変わっていくトレンド
+    - 「WebviewでHTMLが動くからすごい」からの脱却
+    - React Nativeなどネイティブ方面
+  - まとめ
+    - ハイブリッドアプリの勢力が強くなる可能性は大きくあると予想
+    - WeexをWatchしていきたい
+- 余談
+  - Web アセンブリ
+    - Python → Go の事例
+  - テクノロジの境界線が薄くなってきている
+    - 好きな技術を好きな領域で使える未来
+      - ex. サーバレス、Python を Go に
+    - レイヤーの越境を楽しむのが良いのではないか？
+  - フロントエンドカンファレンス（3/18開催）
+    - http://kfug.jp/frontconf2017/
+    - 関西
+    - 興味あれば是非！
+
+
+----------
+
+### A piece of potential of Cognitive Services - [@ovrmrw](https://twitter.com/ovrmrw)
+> スライド: [A piece of potential of Cognitive Services - Google スライド](https://docs.google.com/presentation/d/1rwmyRW99N4ZAPM5gyDGjgv0yvJXVATUom6rNxAZrYvQ/pub?start=false&loop=false&delayms=3000#slide=id.g1aed898fe2_0_156)
+
+
+- Cognitive Service
+  - Watson など機械学習サービスを使ってどのようなものができるのか？
+- 自己紹介
+  - なんて事のないただの人w
+  - Angular Japan UG のスタッフ
+- GitHub repo
+  - https://github.com/ovrmrw/angular-realtime-translation-presentation
+  - https://github.com/ovrmrw/cognitive-server-starter
+- 今日はアプリの紹介をしていく
+  - デモ
+    - 英語で話すとニコ動的なコメントが英語＋日本語で流れる
+    - このアプリをどのように構成されているのかの話
+- Angular (front-end)
+  - ニコニコ動画風のコメント
+    - Angular animation apiで実装
+- Hapi (server-side)
+  - Cognitive Serversとコネクションする
+- Watson
+  - 
+  - Speech to Text API
+    - http://www.ibm.com/smarterplanet/jp/ja/ibmwatson/developercloud/speech-to-text.html
+  - 音声データをテキストデータとしてリアルタイムで返ってくる
+  - スタート・ストップボタンを押してない
+    - リアルタイムレコーディング
+    - 2つのマイクを使っている
+- Google Cloud Translator
+  - Hapi 経由でこちらにも接続
+  - Watson で返ってきた英文を Cloud Translator に投げて翻訳
+  - Angularで翻訳前/翻訳語を Google Slide にオーバーレイ表示する
+  - 少しディレイする
+  - 日本語で話して英語に翻訳も
+- サービスの値段について
+  - Watson
+    - 最初の1000分/月は無料
+      - Googleは60分 / MS は 120分
+    - 超過分は $0.02/分
+    - 発表時間20分 = 月の無料枠0.2%
+  - Google Cloud Translator
+    - 100万文字毎に $20（無料枠はない）
+  - Microsoft Cognitive Serivices
+    - https://www.microsoft.com/cognitive-services/en-us/
+    - 200万文字/月は無料
+      - それ以上行くと打ち止め
+- なぜこれを作ったのか？
+  - 東京Node学園などで感じたことが元になっている
+  - 両側の話
+    - 登壇・通訳
+      - リズムが良くない
+      - 話したい事の半分くらいになってしまう
+      - 自分でも半分くらいしかわからないことも
+    - 日本人が日本語で発表
+      - 日本語ネイティブではない参加者にも分かるように
+  - 技術的には比較的簡単
+  - 気づいたこと
+    - Google Slides は iframe にするといい
+      - フルスクリーンだとオーバーレイ表示がうまくいかない
+
+
+#### Q&A
+- Q. 字を流している技術は？
+- A. Angular Animation API を使っている。20秒かけて左9000pxに向けて流している。そこで止まる。よほど長い文字でなければ大丈夫。配列に追加している。20秒後には左に行ったものは消している。Fluxみたいなストアが動いていて、20秒経過したら削除。メモリにも優しい。
+- Q. どれくらい英語の練習をしたのか？
+- A. JSer.infoを普通に参加者で応募。抽選で落選。発表枠が空いてた。そこから。Watsonに合わせて自分の発音をチューニング。結構発音が厳しい。
+- Q. 上に表示はWatson？
+- A. グレーのは認識中のもの。0.5秒くらいでfinal、watsonが区切る。白い文字はWatson。緑色がGoogle 翻訳のもの
+- Q. mic is active の部分は？
+- A. watson へ送っているところ。これは自前で書いている。
+-  右下のスライドURLを変えると、そのスライドで発表可能
+- Q. 韓国語をサポートする予定は？
+- A. Watson / Google翻訳は韓国語に対応しているので
+- Q. アプリケーションは公開されている？
+- A. GitHub にある（スライド中にURLがある・スライドは後ほど公開）
+  - https://github.com/ovrmrw/angular-realtime-translation-presentation
+  - https://github.com/ovrmrw/cognitive-server-starter
+- Q. Hapi を使った理由は？
+- A. Express がよくわからないから。Hapi に慣れているから。デモはサーバに上げずにローカルで動かしている。
+
+
+----------
+
+
+### Opalのすすめ - [@youchan](https://twitter.com/youchan)
+> スライド: [JSerInfo6th](http://slides.youchan.org/JSerInfo6th)
+
+
+- 自己紹介
+  - OpalのVirtualDOMなど作っている
+  - https://github.com/youchan/hyalite
+- Ruby方面から来ました
+  - Q. サーバサイドを書いている・Rubyで書いている人
+  - A. そこそこいますね
+- Opal アドベンドカレンダー
+  - 2016年書いてます
+- Opal とか
+  - Ruby → JS のトランスパイラ
+  - Nodeなくても動く
+  - Rubyコアライブラリを同梱
+- JSインテグレーション
+  - バッククォートで囲むと JS として埋め込まれる
+  - ローカル変数はそのまま参照できる
+  - NativeモジュールでWrapperが書ける
+- なぜOpal
+  - Rubyが大好きだから
+- Ruby の強力な機能
+  - Classベースのオブジェクト指向
+  - 組み込みライブラリ
+    - API豊富
+      - 外部ライブラリ入れなくてお
+  - メタプログラミング
+- Classベースのオブジェクト指向
+  - mix-in でprototypeベースのようにも使える
+    - `include Enumerable` 
+- 組み込みライブラリ
+  - Array, Hash, Rangeは便利
+  - `+` で配列の結合
+  - `-` で配列の一部除外
+  - 入れ子の配列を `.flatten` でフラットに
+  - 破壊的、非破壊的メソッドを `!` で見分けられる
+    - `map!()` 
+  - `Hash.merge()` 
+  - `(1..3).to_a`  , `(1…3).to_a` 
+- 強力なメタプログラミングのサポート
+  - オープンクラス、動的なメソッド定義
+  - ゴーストメソッド
+  - 言語内DSL
+    - Rake: Makeの Ruby 版
+    - Vagrant, Chef, etc.
+- オープンクラス、動的なメソッド定義
+  - クラスベースであってもJSのように動的なメソッド定義ができる
+- ゴーストメソッド
+  - メソッドが見つからなかった時に発動
+  - 動的なメソッド名で動かしたい時
+- Opalを活かしたフレームワーク
+  - Hyalite
+    - https://github.com/youchan/hyalite
+  - Menilite
+    - https://github.com/youchan/menilite
+- Hyalite
+  - 発表スライドもこれで
+  - React を書いている人はわかりやすいのでは、とのこと
+- Isomorphoic Programming
+  - Rubyでサーバサイド、ならばフロントもRubyで書けるといいよね
+  - そこでMenilite
+    - サーバサイドのモデルをクライアントからも使える
+    - `if_server` で分岐できる
+    - ActiveRecordインテグレーション
+- まとめ
+  - OpalはRuby→JSのトランスパイラ
+  - Rubyの強力な機能について説明
+  - Opalの日本語コミュニティ
+    - Slackにあるので参加してくれると嬉しい
+      - https://opalrb-jp-slack.herokuapp.com/
+
+
+----------
+
+## HOW AMP WORKS (AMPについて) - @Kishu
+- 自己紹介
+  - Navarでフロントエンド担当
+- AMP
+  - [Accelerated Mobile Pages Project](https://www.ampproject.org/)
+  - ウェブページを早くレンダリングするための技術
+    - By Google
+  - パフォーマンス向上のために行って来た Google のノウハウが詰まっている
+  - Web ページ用の機能がそのまま使える
+    - HTML5, JS, CSS3, Cache
+    - Google の CDN にキャッシュされる
+  - AMP HTML
+    - 拡張可能な HTML
+      - 拡張タグ
+        - `<amp-carousel>` 
+  - amp.js
+    - ページで使うリソースのライフサイクル、レンダリング速度に関するライブラリ
+    - AMP では外部 JS が使えない
+      - カスタムJSは sandbox の iframe で使える
+      - あるいは自分でカスタム amp component
+  - AMP STYLE = CSS
+    - 外部のスタイル、インラインスタイルは許可しない
+    - 最大50KB
+  - パターン
+    - HTML と AMP をペア
+    - スタンドアローン AMP
+  - まとめ
+    - AMPを使えば、Googleが高速レンダリングを保証
+    - ロードを感じさせない速度
+    - AMPを使えば、カリカリにチューニングしなくても速度が出せる
+  - AMPコンポーネント
+    - 基本コンポーネントと拡張コンポーネント
+    - 基本コンポーネントは、HTMLを代替しているイメージ
+    - 拡張コンポーネント
+      - JSを書かずにAMPタグのみで実装可能
+        - カルーセル
+        - ライトボックス
+        - サイドバー
+- Bench-marking
+  - Navar TVで試した
+    - イメージと動画が多いサイト
+  - ベンチマークIssue
+    - 動画
+      - 動作する（https必須）
+    - JS
+      - カスタムJSは使えない
+      - “top”でスクロールなども使えず
+    - CSS
+  - AMP でのタイムライン
+    - 1秒速くなった
+  - AMP でのネットワーク
+    - AMP 未適応
+      - 全てのリソース（48個）を一気にリクエスト
+    - AMP 適応
+      - 最初に26個のリクエスト、他は順次読み込む
+      - 表示されるものを先にリクエスト・ダウンロード
+        - スクロールして表示されそうになるときに遅延ロード
+- How AMP works?
+  - 非同期スクリプトのみ許可
+  - 全てのリソースサイズを指定
+  - 拡張コンポーネントをレンダリングを遮断せずに実行可能
+  - 3rd Party JSをパースから除外(基本的に使えない)
+  - CSSは内部スタイルシートのみ許可
+  - Webフォントを効率的にダウンロード
+    - 真っ先にダウンロード
+    - レイアウト性能が上がる
+  - スタイル再計算の最小化
+  - GPU加速アニメーションのみ表示
+  - リソースのロード順番を制御
+    - 重要なリソースからダウンロード
+  - ページの即時ロード
+- AMP Inside
+  - カスタムエレメント
+    - `registerElement()` 
+  - AMP Component = HTML Custom Elements
+  - 新しいHTMLタイプを定義してライフサイクルを制御
+    - https://www.w3.org/TR/custom-elements/
+    - W3C標準の機能
+    - AMPライフサイクルはこれを拡張
+      - ダウンロード、レンダリング視点の制御が可能になる
+  - FSM (Finite-State Machine)
+    - 条件により一つの状態を持つ
+    - 条件が変わると別の状態に変わる
+    - 状態が変わるとそれに伴うアクションを実行する
+    - doPass = discoverWork + work
+  - discoverWork
+    - AMPサイズ関連のパース
+    - レイアウトのJobスケジューリングなど
+  - work
+    - Jobの優先順位を計算、Jobを選択、レイアウト開始
+  - Single Pass Process
+    - 優先順位が高いJobはそのまま作業、低いのは、キューに
+  - AMP Promise
+    - 不要なイベントハンドルの処理を無くせる
+    - インターフェイスの統一ができる
+  - Optimization Reflow / Repaint
+    - Width / Height の変更があると該当のエレメントの再計算
+    - レンダーキューに入れて必要な時に一気に実行
+      - 最適化して高速化が可能
+    - `element.clientHeight`  などで Reflow 発生
+    - `element.style.height = (h1 *2) + 'px'`  などで Job 発生
+  - Class Vsync
+    - `mutate()` 
+    - `measure()` 
+    - `runScheduledTasks()` 
+  - egjs
+    - https://github.com/naver/egjs
+    - Navar で公開しているUIコンポーネントライブラリ
+    - パフォーマンス重視
+----------
+
+
+## JavaScript Discussion
+> [JSer.info 6周年 - JavaScript Discussion](https://app.sli.do/event/bkry5ojl/ask)
+
+
+- テーマ: productionでのJS/CSSなどのcompile timeが長くて辛い(yarn + webpack)。毎回deployに5分ぐらいかかってる。何とかならないか?
+  - アクビでもして待て
+  - Babelが遅いのは把握
+    - make で -j8 で分離して回避
+  - デプロイがどこからどこまでかはあるが、
+    - push して本番に出るまでが5分ならそこまで遅くないのでは？
+  - デプロイ時に瞬間にテストをする人が多い？
+    - push 時にテスト実行
+    - デプロイ時は本番サーバに出すだけ
+    - デプロイプロセスにビルドとテストが入っている人は？
+    - ビルドだけの人は？
+  - 
+- テーマ: Angular2は成功しそうですか?、どうやって予想していますか?
+  - 何を持っての成功か？
+    - Angular1より使われるか？
+      - 結構しんどい。 1 は相当使われている。超えるには相当時間がかかる。時間がかかるが成功はすると思う。
+      - Angular2とは言わないで、とコミュニティでは言っている
+        - Angularと呼んでほしい
+        - 3 はスキップ、次は 4 になる
+        - 「Angularのバージョン4を使っている」という表現にしてほしい
+  - 
+- テーマ: jQueryは辞めようみたいにいう声よく聞きますけど、ぶっちゃけまだまだ使ってますよね？
+  - まだ使っている人は？
+    - 会場の半分くらいはいる
+  - クライアントに指定されている
+    - 「semantic-ui を使ってください」という指定
+      - jQuery 依存
+  - Bootstrap は 4 で jQuery 辞めるという話
+  - 
+- テーマ: azuさんのJS愛はどこからやってきたのですか？
+  - 趣味なので
+- テーマ: ESModuleの最新情報を教えてください。
+  - 相変わらず進んでなさそう？
+  - Safari が ship した
+  - テックプレビューには出ている
+    - 今のところバグは出てなさそう
+    - パフォーマンスは http2 などが必要になりそう
+  - ダイレクトインポート
+    - stage 3 なので入れてもいいのでは？ 
+  - loader の仕様は？
+    - 無視でw
+  - ブラウザ側の実装は進んでいる
+    - 全ブラウザで進んでいる
+    - CORS のスペックが厳しい
+    - Node はまだ
+    - 
+- テーマ: SSRのアプローチって率直に言って「正解」だと思いますか？
+  - SSRをやっている人は？
+    - 会場では数人？
+  - 正解かはわからないが速い
+    - 会場がこんなに少ないとは思わなかった
+  - 正解だと思う。
+    - ユーザーメリットある
+    - 体感速度が上がる
+    - 問題点は実装が難しい
+      - ライブラリで解決されるのでは？
+  - 単純なサーバサイドレンダリングだと
+    - サーバがやることを最小
+    - 初回レンダリングのみサーバサイド
+      - フロントに寄せていくという意味だと良い
+    - ファーストビューの見えるところだけサーバサイドレンダリング
+      - これをやり始めるとサーバサイドの複雑性が増してしまうのでは？
+      - リクルートでの事例
+    - 
+- テーマ: 韓国ではMarkup開発者とJavaScript開発者が分かれている場合が多いですが、日本はどうですか。
+  - 分業されている人は？
+    - 会場ではあまりいない
+  - 2013年の頃の会社だといた
+  - 減っている気がする
+  - マークアップとは CSS ？
+    - かつてコーダーと呼ばれていた人？
+    - CSS と HTML をやっている人
+    - 会場に来ているのはあまり分かれていない
+- テーマ: Isomorphic programmingってどうですか?meteorとか流行ってるんでしょうか?
+  - あまり言わなくなった？
+  - 名前は変わっているが、やろうとしていることは変わっていない
+  - meteor はダメだったのでは？
+    - Vue.js の作者が Meteor にいたけど、独立したとか
+  - Meteor 詳しい人は？
+    - 会場にはいなかった
+  - Node Core が URL を入れてくれたのが良かった
+    - Node 標準が頑張ってくれるといいのにな
+- テーマ: コンパイルして、デプロイして公開の流れはどうされていますか？サーバサイドとの共存や使っているツール、サービスなど
+  - GitHub に push → ビルドとテスト
+    - Jenkins
+    - デプロイ時は tar ball
+      - deploy は 30sec くらい
+  - Jenkins でコンパイルの生成物をどこかに入れる
+    - Circle CI + S3 でやっている人はいますか？
+      - Travis でやってる。生成物は S3 へアップ
+      - 特殊な URL 経由で、JS だけ S3 にアップされたものを読み込むという仕込み
+        - それで本番サーバで確認する
+- テーマ: Aurelia は最近どうなのでしょうか？
+  - 元 Angular の人、いまは MS へ
+  - 最近どうかの知識はない
+- テーマ: Promiseのcancelがキャンセルされた経緯
+  - 正確な経緯は外に出ていない
+    - それしか解決できない API がイマイチだ、など
+    - 社内政治の結果？
+    - Dominic「もう疲れたよ」
+  - Fetch のキャンセルをどうするか？という話に戻った
+    - 1/23 にミーティングがある
+    - その結果何かが変わるかも
+    - 呟いとくので興味があれば参加してみては
+  - 属人性問題？
+    - 特定の人に依存しちゃっている？
+  - 
+- テーマ: 2017年で起るであろう、Webトレンド教えてください
+  - ありません！
+- テーマ: 社内でJSerを増やすためにはどうすればよいでしょうか？ （他言語をメインでやっている人は、JS界隈のトレンド変化が早く、「僕は消耗したくない！5年後10年後ならやってもいいよ！」と言われます）
+  - かつてやっていたこと
+    - JS 書く人を募集
+    - 採用するしかないんじゃないかな
+    - 書きたい人は書いているのでは？
+    - 雇用を増やしましょう
+  - 会社でフロントエンドウイークリーランチ
+    - 興味ある人たちで読む
+      - 「興味ある人」に絞り込まれている問題はある
+      - フロントエンドを触るけど
+    - マンスリー版もやりたいな、と思っている
+  - 単発・期間限定で企画をすることがある
+    - JS に触れてない人を巻き込むという方法
+    - 「3年間毎日 JS の人が欲しい」と言い続けた結果、来なかったのでやめた
+  - JSer.infoを毎週読むという活動をしている
+    - ちょこちょこ参加者は増えた
+    - 雑な情報を吹き込むくらいはできている
+  - お金と継続的な活動をしましょう
+- テーマ: フレームワークを選択する時主にどんな部分を重要に思いますか。
+  - ライブラリのバージョンが枯れているかは重要ではなかった
+    - 解決したいモチベーションが何なのか？
+    - 何を解決したいかのメリットが自分たちとあっているか？
+    - ユーザーベース、パトロン系が大きいところを考慮
+      - ex. VirtualDOM なら React (Facebook)
+  - 人数少ない・バイトがいる・人員が限られている例
+    - 協業ベースができる技術を選択
+      - デザイナーだけどコードかける人
+      - 関わる人数がどれだけ増やせるか
+    - 学習コストをかけていられない
+      - 軽ければ軽いほどいい
+  - Backbone から React へ移行時の例
+    - 部分的に置き換えていけるか？を考慮
+    - 
+- テーマ: SPA してる人って OGP とかどうしてるんですか
+  - OGP = Facebook のヘッダ情報
+  - blog の例
+    - Angular で blog
+    - Facebook, Twitter でキレイに表示されるために
+    - SSR を組むのは面倒くさかった
+    - prerender.io というサービスを使った
+      - ミドルウェアは OSS 
+      - キャッシュサーバは無料もしくは有料
+      - HTML を phantom-js でレンダリング
+        - それをキャッシュ
+      - キャッシュをクロールに読ませる
+        - そのようにサーバ設定をする
+  - レンダリングしたものを返すのが定説っぽい
+    
+- テーマ: React Storybook って使っている人ますか？ぶっちゃけどうですか？
+  - React Storybook = スタイルガイドのようなもの
+  - コンポーネントをビルドして使っていた
+    - それが面倒だった
+    - Storybook を使うとコンポーネントだけ実装していけば良い（ちと聞き取れず、不明）
+    - 残念だったこと
+      - コミュニケーションコストを下げたかったが、うまくいかなかった
+  - Abema TV は使っていた？
+  - パラメータはみれて、プレビューは便利
+    - どれだけ頑張るか、による
+    - 協業時のスタイルガイドとして使う
+- テーマ: Yarnをproductionで使ってますか?
+  - 使っている人？
+    - 4人くらい
+  - npm シュリンクラップ使っている人？
+    - ちょいちょい？
+  - npm 5 でちゃんと治すところあり
+    - npm4 だとまだ不十分？
+- テーマ: create-react-appで自分のHP作ったんですが、GooglePageSpeedでチェックしたところ結構点数低いです。 これどうにかして点数上げられないですか？モバイル66点、パソコンが85点です。ちなみにGithubでホストしています。
+  - 開発途中？
+    - 
+- テーマ: Webpackから開放されるときは来ますか？ES modulesが主要ブラウザ・Node.jsでサポートされたとき？
+  - 使っている人？
+    - 3-4割
+    - browserify を使っている人?
+      - 1-2割
+  - loader だけじゃないことを Webpack でやっている
+    - だから解放されない
+  - Webpack で .js 以外の処理をしている人は？
+    - 会場 1-2 割くらい
+  - 
+- テーマ: SPAはこの先当分の間続くと思いますか？
+  - そちらにメリットがあるなら続くのでは？
+- テーマ: PWA流行ってなくないですか？
+  - そちらにメリットがあるなら続くのでは？
+- テーマ: wasm が普及して JS が置き換えられる未来は来るのか、ということを皆さんどう思ってるのか気になります
+  - JS には複雑・簡単なアプリの両翼がある
+    - 簡単な、では JS が残る
+    - 複雑な、だと、、ゲームでどうなるかによる
+      - 1年で解決する問題ではなさそう
+  - wasm で書くのは10年後とかになるのでは？
+- テーマ: 海外のJSコミュニティと関わるにはどうすればよいでしょうか
+  - commit する、とか
+  - 開発者の代わりに返答してあげる、とか
+  - 海外のカンファレンスへ行ったことある人は？
+    - JS の例ではなかったが、思い切ってエイヤで行けば関われるのでは？
+  - 韓国での話は？
+    - コントリビュートしようと思っているが、うまく行ってない
+    - サムソン
+      - jQueryのコントリビューターを採用
+    - Navar
+      - webkit のフルタイムコミッタを採用
+    - 会社や周りの環境も大事
+    - 
+- テーマ: プロジェクト横断のUIコンポーネント、Reactで組んじゃっていいのかな？いまWeb Componentsで組むのも。。
+  - Rollup （？）の作者が同じようなことを言っている
+  - Onsen JS (Onsen UI ?) の仕組みが参考になるかも
+  - React / Angular の特定技術にフォーカスした人は？
+  - Firefox のカスタムエレメンツ
+    - v1 で止まっている？
+    - Shadow DOM
+      - プライオリティは高くない
+    - 1社しか実装しないものは微妙
+    - Webkit がちゃんとした後で動くのでは？
+- テーマ: 最近のフロントエンドがとまってみえるひとの数 ?
+  - いない？
+  - :sushi: が止まって見える？
+- テーマ: Proxy APIきてほしい
+  - 来なかった
+- テーマ: HTML ImportsはMozillaではどうなりました？
+  - なかったことで。。。
+- テーマ: serversideをnode.js(tsも可)で書いている人ってどれくらいいるのでしょうか？
+  - 書いている人？
+    - 5人くらい
+- テーマ: 次のフレームワークプロレスはいつ起こると思いますか？
+  - 
+- テーマ: react native や native script をガッツリ触ってる人はいますか？
+  - 使っている人？
+    - React Native をプロダクション投入
+    - React Native ミートアップあるよ
+- テーマ: 自社で管理しているWebサイトのリニューアルがあり、 これを機にES6を導入したいと思っています。 トランスパイラはTypeScriptとBabelが候補で個人的には型を厳格に取り扱えるTSが良いと思っています。メリデメと他の候補があれば教えてほしいです。
+  - 比較にならないのでは？
+  - 好きな方を使えば良いのでは？
+  - Babelを使うことがどういうことか
+    - ES6で書ける
+  - Flow を使っている人？
+    - TypeScript ではなくこちらを選んだ理由
+    - React を使っていた
+      - 他者が使ってて良さそうと思ったから
+  - ES5 → ES6
+    - Flow がまだ実装進んでなかった
+    - TypeScript のほうが進んでいた
+      - IDE サポートも進んでいた
+    - 型ありから型ありに移行するなら、まぁいいかという印象
+      - 型なしからの乗り換えよりははるかにマシ
+
+
+----------
+
+
