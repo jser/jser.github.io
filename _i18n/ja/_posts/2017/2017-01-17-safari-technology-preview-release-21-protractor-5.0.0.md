@@ -70,7 +70,7 @@ MobX 3リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ReleaseNote</span> <span class="jser-tag">webkit</span> <span class="jser-tag">safari</span></p>
 
 Safari Technology Preview Release 21リリース。
-Concurrent GCの有効化、`<script type="module">`の有効化、`global`のサポートされたがbreak the webのためbackoutなど
+Concurrent GCの有効化、`<script type="module">`の有効化、`global`がサポートされたがbreak the webのためbackoutなど
 
 - [チェンジセット 210570 – WebKit](https://trac.webkit.org/changeset/210570 "チェンジセット 210570 – WebKit")
 - [global breaks flickr.com · Issue #20 · tc39/proposal-global](https://github.com/tc39/proposal-global/issues/20 "global breaks flickr.com · Issue #20 · tc39/proposal-global")
