@@ -11,7 +11,30 @@ tags:
 
 ---
 
-JSer.info #314 - 
+JSer.info #314 - [Safari Technology Preview Release 21](https://webkit.org/blog/7265/release-notes-for-safari-technology-preview-21/ "Safari Technology Preview Release 21")がリリースされました。
+
+`<script type="module">`をサポートし、ECMAScript modulesが利用できるようになりました。
+ ECMAScript modulesについては次の記事にSafariでの設定も書かれているので合わせて見てみると良いです。
+
+- [Native ECMAScript modules - the first overview](https://blog.hospodarets.com/native-ecmascript-modules-the-first-overview "Native ECMAScript modules - the first overview")
+
+----
+
+E2Eテストフレームワークの[Protractor](http://www.protractortest.org/ "Protractor") [5.0.0](https://github.com/angular/protractor/blob/5.0.0/CHANGELOG.md "5.0.0")がリリースされました。
+
+- [protractor/CHANGELOG.md at 5.0.0 · angular/protractor](https://github.com/angular/protractor/blob/5.0.0/CHANGELOG.md "protractor/CHANGELOG.md at 5.0.0 · angular/protractor")
+
+[selenium-webdriver v3.x](https://github.com/SeleniumHQ/selenium/blob/master/javascript/node/selenium-webdriver/CHANGES.md#v300 "selenium-webdriver")にアップデートされたため、APIの変更などが含まれています。
+また、動作に必要なNode.jsのバージョンが v6.9.x となっています。
+
+----
+
+## お知らせ
+
+1月15日にJSer.info 6周年記念イベントを開催しました。
+当日に発表されたスライドや議事録などは次のページにまとまっているので、よろしければ見てみてください。
+
+- [JSer.info 6周年記念イベントを開催しました - JSer.info](https://jser.info/2017/01/15/jser-info-6years/ "JSer.info 6周年記念イベントを開催しました - JSer.info")
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
