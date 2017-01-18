@@ -22,7 +22,7 @@ tags:
 - [2017年のJavaScriptと フロントエンドの楽しみかた #jserinfo // Speaker Deck](https://speakerdeck.com/potato4d/2017nian-falsejavascriptto-hurontoendofalsele-simikata-number-jserinfo) - [@potato4d](https://twitter.com/potato4d)
 - [A piece of potential of Cognitive Services](https://docs.google.com/presentation/d/1rwmyRW99N4ZAPM5gyDGjgv0yvJXVATUom6rNxAZrYvQ/pub?start=false&loop=false&delayms=3000#slide=id.g1aed898fe2_0_156) - [@ovrmrw](https://twitter.com/ovrmrw)
 - [Opalのすすめ](http://slides.youchan.org/JSerInfo6th) - [@youchan](https://twitter.com/youchan)
-- HOW AMP WORKS - [@kishu](https://github.com/kishu "kishu") 翻訳: [@purewish](https://twitter.com/purewish "@purewish")
+- [HOW AMP WORKS](http://www.slideshare.net/rlaxogns/how-amp-work) - [@kishu](https://github.com/kishu "kishu") 翻訳: [@purewish](https://twitter.com/purewish "@purewish")
 
 with Many LT
 
