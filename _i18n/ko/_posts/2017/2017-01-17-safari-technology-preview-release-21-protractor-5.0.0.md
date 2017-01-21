@@ -161,7 +161,7 @@ Immutable.js와 같은 Immutable한 데이터 구조를 다룰 수 있는 라이
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-의존 라이브러리 없이 구현한 카누젤(Carrousel) 라이브러리입니다.
+의존 라이브러리 없이 구현한 캐러셀(Carrousel) 라이브러리입니다.
 
 ----
 
