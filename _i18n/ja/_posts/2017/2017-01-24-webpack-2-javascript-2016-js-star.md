@@ -39,9 +39,9 @@ JSer.info #315 - webpack 2.xの正式版としてwebpack v2.2.0がリリース�
 
 ----
 
-[2016 JavaScript Rising Stars](https://risingstars2016.js.org/ "2016 JavaScript Rising Stars")というサイトでは、2016年においてGitHub Starの増加率でランキングした結果が書かれています。
+[2016 JavaScript Rising Stars](https://risingstars2016.js.org/ "2016 JavaScript Rising Stars")というサイトでは、2016年においてGitHub Starの増加率でランキングした結果がまとめられています。
 
-右側にそれぞれの結果に登場したもの対する説明が書かれているので、一度見てみると良いかもしれません。
+それぞれのリポジトリ(ライブラリやツールなど)に対する説明が書かれているので、一度見てみると良いかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
