@@ -99,7 +99,7 @@ Reactコンポーネント、Fetch、スタイルシート、環境変数、ル�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">node.js</span></p>
 
-ES Modulesを仕様と現在のTranspilerの挙動について。
+ES Modulesの仕様と現在のTranspilerの挙動について。
 ECMAScriptとNode.jsのモジュールのInteroperabilityについて
 
 ----
