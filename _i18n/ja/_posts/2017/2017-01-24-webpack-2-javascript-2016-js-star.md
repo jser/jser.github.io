@@ -1,5 +1,5 @@
 ---
-title: "2017-01-24のJS: webpack 2正式リリース、JavaScriptの開発環境設定、2016 JS :star:"
+title: "2017-01-24のJS: webpack 2正式リリース、JavaScriptの開発環境設定、2016 JS Stars"
 author: azu
 layout: post
 date : 2017-01-24T10:33
