@@ -1,5 +1,5 @@
 ---
-title: "2017-01-24のJS: webpack 2正式リリース、JavaScriptの開発環境設定"
+title: "2017-01-24のJS: webpack 2正式リリース、JavaScriptの開発環境設定、2016 JS :star:"
 author: azu
 layout: post
 date : 2017-01-24T10:33
@@ -9,7 +9,35 @@ tags:
     - JavaScript
 ---
 
-JSer.info #315 - 
+JSer.info #315 - webpack 2.xの正式版としてwebpack v2.2.0がリリースされました。
+
+- [Release v2.2.0 · webpack/webpack](https://github.com/webpack/webpack/releases/tag/v2.2.0 "Release v2.2.0 · webpack/webpack")
+- [🎉 webpack 2.2: The Final Release 🎉 – webpack – Medium](https://medium.com/webpack/webpack-2-2-the-final-release-76c3d43bf144 "🎉 webpack 2.2: The Final Release 🎉 – webpack – Medium")
+
+[公式サイト](https://webpack.js.org/ "webpack")も2.xに対応したものとなっています。
+設定ファイル周りの細かい変更が多いですが、v1からv2への移行ガイドも公開されているので合わせて見ると良いです。
+
+- [Migrating from v1 to v2](https://webpack.js.org/guides/migrating/ "Migrating from v1 to v2")
+
+また今後のロードマップについて、投票ツールを通じて決定していくようです。
+(投票の重み付けに利用されている[Open Collectiveについてのスライド](http://azu.github.io/slide/2017/t_wada_sushi/OpenCollective.html "Open Collective")を書いたので、併せてみるといいかもしれません)
+
+- [https://webpack.js.org/vote/](https://webpack.js.org/vote/)
+
+投票のサイトを見ると今のところ次の開発候補としてはScope Hoisting(Rollupインスパイアな最適化)、Typescript周りの改善などが上がっているようです。
+
+----
+
+[Modern JavaScript概観、そしてElectronへ](http://blog.satotaichi.info/modern-javascript_201701/)という記事では、JavaScriptの開発環境設定について書かれています。
+
+型、Babelのエコシステム、Lint、テスト、UIフレームワーク、CSS、アーキテクチャ、ビルドなど幅広い内容を扱っています。
+また、どのような選択肢からなぜそのツール/ライブラリを選んだのかという点について詳しく書かれています。
+
+----
+
+[2016 JavaScript Rising Stars](https://risingstars2016.js.org/ "2016 JavaScript Rising Stars")というサイトでは、2016年においてGitHub Starの増加率でランキングした結果が書かれています。
+
+右側にそれぞれの結果に登場したもの対する説明が書かれているので、一度見てみると良いかもしれません。
 
 ----
 <h1 class="site-genre">ヘッドライン</h1>
