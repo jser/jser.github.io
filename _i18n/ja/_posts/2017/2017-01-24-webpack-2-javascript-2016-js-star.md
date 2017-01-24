@@ -19,7 +19,11 @@ JSer.info #315 - webpack 2.xの正式版としてwebpack v2.2.0がリリース�
 
 - [Migrating from v1 to v2](https://webpack.js.org/guides/migrating/ "Migrating from v1 to v2")
 
-また今後のロードマップについて、投票ツールを通じて決定していくようです。
+また、webpack 2では、TreeShakingと呼ばれる機能が追加されています。
+
+- [Demystifying webpack2 tree shaking - from scratch](http://yosuke-furukawa.hatenablog.com/entry/2017/01/24/110152 "Demystifying webpack2 tree shaking - from scratch")
+
+今後の機能追加や改善については、投票ツールを通じて決定していくようです。
 (投票の重み付けに利用されている[Open Collectiveについてのスライド](http://azu.github.io/slide/2017/t_wada_sushi/OpenCollective.html "Open Collective")を書いたので、併せてみるといいかもしれません)
 
 - [https://webpack.js.org/vote/](https://webpack.js.org/vote/)
