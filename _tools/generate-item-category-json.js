@@ -13,6 +13,12 @@ const mdFiles = glob.sync([
     `!${jaDir}/tumblr/*.md`,
     `!${jaDir}/about/*.md`,
 ]);
+/* urlとカテゴリ(記事中の分類)を関連付けたJSONを作る
+    [{
+        category: "ヘッドライン",
+        url: "http://example.com"
+    }]
+ */
 let resultJSON = [];
 mdFiles.forEach(mdFilePath => {
     const content = fs.readFileSync(mdFilePath, "utf-8");
