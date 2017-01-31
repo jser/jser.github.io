@@ -1,5 +1,5 @@
 ---
-title: "レポート #1 Next Bundler、テスティングフレームワーク"
+title: "JSerレポート #1 Next Bundler、テスティングフレームワーク"
 author: azu
 layout: report
 date : 2017-01-31T10:12
@@ -138,7 +138,7 @@ IssueやPull Requestのレビューをしてくれる人やMochaへのテスト�
 
 - [Sinon 2.0 Release · Issue #966 · sinonjs/sinon](https://github.com/sinonjs/sinon/issues/966 "Sinon 2.0 Release · Issue #966 · sinonjs/sinon")
 
-> The much fabled 2.0 release, that will split Sinon.JS into more modules, tidy up the api, simplify all the dependency boilerplate by using Browserify.
+> The much fabled 2.0 release, that will split Sinon.JS into more modules, tidy up the api, simplify all the dependency boilerplate by using Browserify. 
 > -- [2.0 Milestone](https://github.com/sinonjs/sinon/milestone/5 "2.0 Milestone")
 
 とあるように、(CommonJS)モジュールとして管理されていなかったのを大きくリファクタリングし、それぞれがモジュール化されています。
@@ -173,4 +173,4 @@ JSer.infoでは不定期でレポートという形で、特定のテーマに�
 <a href="https://twitter.com/jser_info" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jser_info</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-<a href='http://cloud.feedly.com/#subscription%2Ffeed%2F{{ rss_url | uri_escape }}'  target='blank'><img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+<a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttps://jser.info/rss/' target='blank'><img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
