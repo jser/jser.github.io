@@ -50,6 +50,13 @@ webpack 2のドキュメントは [webpack.js.org/](https://webpack.js.org/) の
 
 一部設定の名前が変更されていたり、`json-loader`がデフォルトとなっていたり既存のconfigを変更する参考になると思います。
 
+今後の機能追加や改善については、投票ツールを通じて決定していくようです。
+(投票の重み付けに利用されている[Open Collectiveについてのスライド](http://azu.github.io/slide/2017/t_wada_sushi/OpenCollective.html "Open Collective")を書いたので、併せてみるといいかもしれません)
+
+- [https://webpack.js.org/vote/](https://webpack.js.org/vote/)
+
+投票のサイトを見ると今のところ次の開発候補としてはScope Hoisting(Rollupインスパイアな最適化)、Typescript周りの改善などが上がっているようです。
+
 また多くの人は次のパフォーマンス警告にかかると思うので、次の記事を読むと良いかもしれません。
 
 - [Webpack2のパフォーマンス警告を制御する - Qiita](http://qiita.com/inuscript/items/f840b5ccff0c0be7420a "Webpack2のパフォーマンス警告を制御する - Qiita")
