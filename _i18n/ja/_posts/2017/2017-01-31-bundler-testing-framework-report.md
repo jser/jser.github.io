@@ -87,7 +87,7 @@ Issue/PRにはNode.js v6>=で追加されたDeprecated Warningや依存するパ
 - [buffer: discuss future direction of Buffer constructor API · Issue #9531 · nodejs/node](https://github.com/nodejs/node/issues/9531 "buffer: discuss future direction of Buffer constructor API · Issue #9531 · nodejs/node")
 
 先日、[14.0.0](https://github.com/substack/node-browserify/blob/master/changelog.markdown#1400 "14.0.0")がリリースされました。
-このリリースでは、browserifyが利用する`buffer`のpolyfillである[feross/buffer](https://github.com/feross/buffer "feross/buffer")がアップデートされています。
+このリリースでは、Browserifyが利用する`buffer`のpolyfillである[feross/buffer](https://github.com/feross/buffer "feross/buffer")がアップデートされています。
 `TypedArray`を使う実装になったため、bufferを含んだコードを変換した場合に、IE10以下では動かなくなります。
 
 IE10以下でも動くようにしたい場合は、古い[feross/buffer](https://github.com/feross/buffer "feross/buffer")を利用する必要があります。
