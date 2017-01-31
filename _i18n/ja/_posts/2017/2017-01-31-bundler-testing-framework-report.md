@@ -23,7 +23,7 @@ JavaScriptのコードはモジュールに分けて開発することが一般�
 - [レトロエンジニアのための近代Webフロントエンド事情 - Qiita](http://qiita.com/uctakeoff/items/ce8da368d020273c6064 "レトロエンジニアのための近代Webフロントエンド事情 - Qiita")
 
 
-この際に、モジュールの依存関係などを解決しながらファイルをまとめるbundlerと呼ばれるツールの動きについてのレポートです。
+その際にモジュールの依存関係などを解決しながらファイルをまとめる"bundler"と呼ばれるツールの動きについてのレポートです。
 
 ## webpack 2
 
@@ -119,10 +119,10 @@ Bundlerはそこへ直接関係するツールであるため、今後の動き�
 
 JavaScriptのテスティングフレームワーク周りのレポートです。
 
-## MochaがContributorを募集
+## [Mocha](https://github.com/mochajs/mocha)がContributorを募集
 
 > Mocha needs YOU!
-> -- https://github.com/mochajs/mocha#mocha-needs-you
+> -- [https://github.com/mochajs/mocha#mocha-needs-you](https://github.com/mochajs/mocha#mocha-needs-you)
 
 Mochaのメンテナンスリソースが足りていないため協力を募集する内容がREADMEにかかれています。
 IssueやPull Requestのレビューをしてくれる人やMochaへのテストの追加などをコントリビューションを募集しています。
