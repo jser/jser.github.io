@@ -1,5 +1,5 @@
 ---
-title: "JSerレポート #1 Bundler、テスティングフレームワーク"
+title: "JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状"
 author: azu
 layout: report
 date : 2017-01-31T10:12
