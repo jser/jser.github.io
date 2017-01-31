@@ -72,15 +72,15 @@ fuse.bundle(">index.js");
 ## [Rollup](https://github.com/rollup/rollup "Rollup")
 
 Rollupは順調に開発中です。
-## [browserify](https://github.com/substack/node-browserify "browserify")
+## [Browserify](https://github.com/substack/node-browserify "browserify")
 
-browserify自体を機能追加/改善するアップデートはあまり積極的に行われていません。
-substack以外にPRをマージするOwnerがいないことに起因しています。
+Browserify自体を機能追加/改善するアップデートはあまり積極的に行われていません。
+@substack以外にPRをマージするOwnerがいないことに起因しています。
 
 [![node-browserify 2017-01-31 19-47-37](https://cloud.githubusercontent.com/assets/19714/22461846/515bb70a-e7ee-11e6-9651-648f65a2a8c8.png)](https://github.com/substack/node-browserify/graphs/contributors)
 
 元々本体に多くの機能があるわけではなく依存するパッケージに機能が分散しています。
-しかし、その依存のアップデートが滞りがちであるため、
+しかし、その依存のアップデートが滞りがちです。
 Issue/PRにはNode.js v6>=で追加されたDeprecated Warningや依存するパッケージのDeprecated Warningを解消する些細なものが多く並んでいます。
 
 - [https://github.com/substack/node-browserify/pulls](https://github.com/substack/node-browserify/pulls)
