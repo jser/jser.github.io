@@ -57,10 +57,6 @@ webpack 2のドキュメントは [webpack.js.org/](https://webpack.js.org/) の
 
 投票のサイトを見ると今のところ次の開発候補としてはScope Hoisting(Rollupインスパイアな最適化)、Typescript周りの改善などが上がっているようです。
 
-また多くの人は次のパフォーマンス警告にかかると思うので、次の記事を読むと良いかもしれません。
-
-- [Webpack2のパフォーマンス警告を制御する - Qiita](http://qiita.com/inuscript/items/f840b5ccff0c0be7420a "Webpack2のパフォーマンス警告を制御する - Qiita")
-
 ## [Fusebox](http://fuse-box.org/ "Fusebox")
 
 [Fusebox](http://fuse-box.org/ "Fusebox")という新しいBundlerツールが登場しました。
