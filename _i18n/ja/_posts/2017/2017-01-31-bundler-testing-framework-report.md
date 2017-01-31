@@ -85,7 +85,11 @@ fuse.bundle(">index.js");
 
 ## [Rollup](https://github.com/rollup/rollup "Rollup")
 
-Rollupは順調に開発中です。
+大きな変化はありませんが、Rollupは順調に開発中です。
+次のIssueも併せてみると面白いかもしれません。
+
+- [Use minified version of React by gaearon · Pull Request #10 · GoogleChrome/sample-framework-boot](https://github.com/GoogleChrome/sample-framework-boot/pull/10#issuecomment-272632548 "Use minified version of React by gaearon · Pull Request #10 · GoogleChrome/sample-framework-boot")
+
 ## [Browserify](https://github.com/substack/node-browserify "browserify")
 
 Browserify自体を機能追加/改善するアップデートはあまり積極的に行われていません。
