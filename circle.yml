@@ -1,12 +1,17 @@
 machine:
   node:
     version: 4.1.0
+  environment:
+    REVIEWDOG_VERSION: 0.9.5
+
 dependencies:
   override:
     - npm install
+    - curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o reviewdog && chmod +x ./reviewdog
+
 test:
   override:
-    - npm test || ./test/travis-spellcheck.sh
+    - $(npm bin)/textlint --cache -f checkstyle _i18n/ja/ | ./reviewdog -f=checkstyle -name="textlint" -ci="circle-ci"
 general:
   branches:
     ignore:
