@@ -52,7 +52,7 @@ PhantomJSとHeadless Chromeの違いについては次の記事でも書かれ�
 
 ----
 
-[Headless SlimerJS with Firefox – Coding](https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/ "Headless SlimerJS with Firefox – Coding")の記事では、Firefox NightlyでHeadlessがサポートに向けて開発されている点について書かれています。
+[Headless SlimerJS with Firefox – Coding](https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/ "Headless SlimerJS with Firefox – Coding")の記事では、Firefox NightlyでHeadlessサポートに向けて開発されている点について書かれています。
 
 また、FirefoxベースのPhantomJSといえる[SlimerJS](http://slimerjs.org/ "SlimerJS")が、このHeadless Firefoxをサポートする方向について書かれています。
 ([SlimerJS](http://slimerjs.org/ "SlimerJS")は[PhantomJSの持つAPI](http://phantomjs.org/api/ "API | PhantomJS")とよく似ているAPIを持つ)
