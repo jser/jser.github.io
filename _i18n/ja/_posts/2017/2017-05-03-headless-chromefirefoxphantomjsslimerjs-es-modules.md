@@ -59,7 +59,7 @@ PhantomJSとHeadless Chromeの違いについては次の記事でも書かれ�
 
 - [Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs](https://github.com/laurentj/slimerjs/issues/80#issuecomment-280813674 "Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs")
 
-まとめ
+**まとめ**: Headless Browser
 
 <script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
 
