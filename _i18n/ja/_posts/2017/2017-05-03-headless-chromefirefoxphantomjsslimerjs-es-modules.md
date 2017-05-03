@@ -1,15 +1,76 @@
 ---
-title: "2017-05-03のJS: "
+title: "2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules"
 author: "azu"
 layout: post
 date : 2017-05-03T02:03:59.837Z
 category: JSer
 tags:
--
+- Firefox
+- Chrome
+- Headless
+- PhantomJS
+- SlimerJS
+- modules
 
 ---
 
-JSer.info #329
+JSer.info #329 - Chrome 59βがリリースされました。
+
+- [Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload](https://blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html "Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload")
+
+Service Workerの[navigation preloads](https://developers.google.com/web/updates/2017/02/navigation-preload)のサポート、`MediaError.message`のサポート、Image Capture APIの試験的サポートなどが行われています。
+
+また、[Headless Chromium](https://chromium.googlesource.com/chromium/src/+/master/headless/ "Headless Chromium")が追加されています。
+
+詳しくは次の記事で解説されていますが、PhantomJSのようにXvfbなどが不要なChromeを動かすことができるモードです。
+
+- [Getting Started with Headless Chrome  |  Web  |  Google Developers](https://developers.google.com/web/updates/2017/04/headless-chrome "Getting Started with Headless Chrome  |  Web  |  Google Developers")
+
+また、このHeadless Chromeのリリースをうけて、PhantomJSのコアメンテナー(唯一のアクティブメンテナー)が開発の終了を宣言しています。
+
+- [[Announcement] Stepping down as maintainer - Google グループ](https://groups.google.com/forum/#!topic/phantomjs/9aI5d-LDuNE "[Announcement] Stepping down as maintainer - Google グループ")
+- [[Release] PhantomJS 2.5.0 Beta - Google グループ](https://groups.google.com/forum/#!topic/phantomjs/AefOuwkgBh0 "[Release] PhantomJS 2.5.0 Beta - Google グループ")
+  - 少し前に公開されたα版(QtWebKitのアップデートが含まれている)
+
+PhantomJSはQtWebKitを利用しており、QtWebKitは一度削除され最近また復活しています。
+QtWebKitのAlternativeとしてChromiumベースの[QtWebEngine](https://wiki.qt.io/QtWebEngine "QtWebEngine")が提供されています。
+
+- [New Features in Qt 5.6 - Qt Wiki](https://wiki.qt.io/New_Features_in_Qt_5.6 "New Features in Qt 5.6 - Qt Wiki")
+- [QtWebKit Developer Journal: QtWebKit: I'm back!](http://qtwebkit.blogspot.jp/2016/08/qtwebkit-im-back.html "QtWebKit Developer Journal: QtWebKit: I&#39;m back!")
+
+どちらを利用した場合もPhantomJSには大量の修正が必要となり、サポートコストが高いためPhantomJSのメンテナンスを終了するとのことです。
+
+別方向の話としては、PhantomJSをHeadless Chromeベースで動かすことについてのIssueが立てられています。
+
+- [Support headless Chromium · Issue #14954 · ariya/phantomjs](https://github.com/ariya/phantomjs/issues/14954 "Support headless Chromium · Issue #14954 · ariya/phantomjs")
+
+PhantomJSとHeadless Chromeの違いについては次の記事でも書かれています。
+レンダリングエンジン以外の違いとして、[PhantomJSの持つAPI](http://phantomjs.org/api/ "API | PhantomJS")とHeadless Chromeの操作に使う[Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/ "Chrome DevTools Protocol")の違いがあります。
+
+> Headless Chrome is similar to tools like PhantomJS. Both can be used for automated testing in a headless environment. The main difference between the two is that Phantom uses an older version of WebKit as its rendering engine while Headless Chrome uses the latest version of Blink.
+> -- <https://developers.google.com/web/updates/2017/04/headless-chrome>
+
+----
+
+[Headless SlimerJS with Firefox – Coding](https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/ "Headless SlimerJS with Firefox – Coding")の記事では、Firefox NightlyでHeadlessがサポートに向けて開発されている点について書かれています。
+
+また、FirefoxベースのPhantomJSといえる[SlimerJS](http://slimerjs.org/ "SlimerJS")が、このHeadless Firefoxをサポートする方向について書かれています。
+([SlimerJS](http://slimerjs.org/ "SlimerJS")は[PhantomJSの持つAPI](http://phantomjs.org/api/ "API | PhantomJS")とよく似ているAPIを持つ)
+
+- [Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs](https://github.com/laurentj/slimerjs/issues/80#issuecomment-280813674 "Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs")
+
+まとめ
+
+<script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
+
+----
+
+[ECMAScript modules in browsers - JakeArchibald.com](https://jakearchibald.com/2017/es-modules-in-browsers/ "ECMAScript modules in browsers - JakeArchibald.com")という記事では、ブラウザのES modulesのサポート状況と挙動について書かれています。
+
+Node.jsで扱うモジュールとは異なる点や、`<script type="module">`のデフォルトの挙動などについて書かれています。
+次の記事も併せてみると良さそうです。
+
+- [Native ECMAScript modules: the new features and differences from Webpack modules](https://blog.hospodarets.com/native-ecmascript-modules-new-features "Native ECMAScript modules: the new features and differences from Webpack modules")
 
 ----
 
