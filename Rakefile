@@ -4,6 +4,10 @@ Rake::Jekyll::GitDeployTask.new(:deploy) do |t|
     # master branch for machine
     t.deploy_branch = 'master'
 
+    t.remote_url = -> {
+        url = `git config remote.origin.url`.strip.gsub(/^git:/, 'https:')
+        next url.gsub(%r{^https://([^/]+)/(.*)$}, 'git@\1:\2')
+    }
     # Skip commit and push when building a pull request or env. variable
     # SKIP_COMMIT represents truthy.
     t.skip_commit = -> {
