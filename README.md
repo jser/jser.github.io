@@ -49,9 +49,7 @@ npm test
 
 ## Contributing
 
-記事上部の **Edit on GitHub** 又は 下部の **この記事へ修正リクエストをする** から修正を送れます。
-
-![pull-request](http://take.ms/suw5I)
+サイト記事上部の **Edit on GitHub** 又は 下部の **この記事へ修正リクエストをする** から修正を送れます。
 
 記事からGitHubで直接編集してpull requestを送ることが出来ます。
 
