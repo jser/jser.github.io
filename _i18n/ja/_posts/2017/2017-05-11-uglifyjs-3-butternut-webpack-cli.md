@@ -16,7 +16,7 @@ JSer.info #330 - [UglifyJS](https://github.com/mishoo/UglifyJS2 "UglifyJS") [v3.
 > uglify-js@3.x has a new API and CLI and is not backwards compatible with uglify-js@2.x.
 > -- https://github.com/mishoo/UglifyJS2
 
-とあるように2.x系とのAPIやオプションに互換性のない変更が多く含まれています。
+2.x系のAPIやオプションとは互換性のない変更が多く含まれています。
 また、2.xではES2015+をサポートしていませんでしたが(パースができなかった)、[uglify-es](https://www.npmjs.com/package/uglify-es "uglify-es")というUglifyJS 3.x系と互換性のES2015をサポートしたバージョンが公開されています。
 
 > @kzc: it's also alpha quality and chock-full-o-bugs. But it's an official package!
