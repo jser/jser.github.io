@@ -1,15 +1,74 @@
 ---
-title: "2017-05-11のJS: "
+title: "2017-05-11のJS: UglifyJS 3、butternut、webpack-cli"
 author: "azu"
 layout: post
-date : 2017-05-11T00:23:09.246Z
+date : 2017-05-10T14:19:19.703Z
 category: JSer
 tags:
--
+- UglifyJS
+- webpack-cli
+- webpack
 
 ---
 
-JSer.info #330
+JSer.info #330 - [UglifyJS](https://github.com/mishoo/UglifyJS2 "UglifyJS") [v3.0.0](https://github.com/mishoo/UglifyJS2/releases/tag/v3.0.0 "v3.0.0")がリリースされました。
+
+> uglify-js@3.x has a new API and CLI and is not backwards compatible with uglify-js@2.x.
+> -- https://github.com/mishoo/UglifyJS2
+
+とあるように2.x系とのAPIやオプションに互換性のない変更が多く含まれています。
+また、2.xではES2015+をサポートしていませんでしたが(パースができなかった)、[uglify-es](https://www.npmjs.com/package/uglify-es "uglify-es")というUglifyJS 3.x系と互換性のES2015をサポートしたバージョンが公開されています。
+
+> @kzc: it's also alpha quality and chock-full-o-bugs. But it's an official package!
+> -- https://github.com/Rich-Harris/butternut/issues/2
+
+2.xから3への変更点やマイグレーションガイドが公開されてないことによりトラブルになっていますが、
+[Change Log](https://gist.github.com/azu/80d9b2e5f6ee42b2e78b73610c9c6967 "Change Log")を簡単にまとめると次のような変更が含まれています。
+
+- `--prefix`/`--lint`などの代替方法があるコマンドライン引数の削除
+- `angular`オプション(`/* @ngInject /*`の対応)の削除
+- オプションの`screw_ie8`が`ie8`へのリネームなど
+- `minify()`から`fs`依存が取り除かれ、結果をASTとして吐き出せるように
+
+など様々な変更が含まれています。
+
+- [unify CLI & API under `minify()` by alexlamsl · Pull Request #1811 · mishoo/UglifyJS2](https://github.com/mishoo/UglifyJS2/pull/1811 "unify CLI &amp; API under `minify()` by alexlamsl · Pull Request #1811 · mishoo/UglifyJS2")
+- [drop `angular` by alexlamsl · Pull Request #1812 · mishoo/UglifyJS2](https://github.com/mishoo/UglifyJS2/pull/1812 "drop `angular` by alexlamsl · Pull Request #1812 · mishoo/UglifyJS2")
+
+詳細は次のIssueを参照してください。
+
+- [What is backwards incompatible in 3.0? · Issue #1875 · mishoo/UglifyJS2](https://github.com/mishoo/UglifyJS2/issues/1875 "What is backwards incompatible in 3.0? · Issue #1875 · mishoo/UglifyJS2")
+- [Is there a migration guide, from version 2.x to 3.x? · Issue #1881 · mishoo/UglifyJS2](https://github.com/mishoo/UglifyJS2/issues/1881 "Is there a migration guide, from version 2.x to 3.x? · Issue #1881 · mishoo/UglifyJS2")
+
+----
+
+[butternut](https://github.com/Rich-Harris/butternut "butternut")というminifierがα公開されました。
+[rollup](https://github.com/rollup/rollup "rollup")や[svelte](https://github.com/sveltejs/svelte "svelte")の作者である@[Rich-Harris (Rich Harris)](https://github.com/Rich-Harris "Rich-Harris (Rich Harris)")によるもので、[buble](https://www.npmjs.com/package/buble "buble")と同じ高速なminifyが目的のツールです。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/mjackson">@mjackson</a> <a href="https://twitter.com/AdamRackis">@AdamRackis</a> it&#39;s fast for the same reason Bublé is fast — it doesn&#39;t manipulate AST and generate code, it edits code in place. Much less costly</p>&mdash; Rich Harris (@Rich_Harris) <a href="https://twitter.com/Rich_Harris/status/862067505774428160">May 9, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+コードをパースしてASTにし、そこからは[magic-string](https://github.com/Rich-Harris/magic-string "magic-string")を使い、直接圧縮したコードを吐いています。
+
+> The traditional approach to minification is this: parse your source code into an abstract syntax tree (AST) using something like Acorn, manipulate the AST, and finally generate code from it.
+> Butternut takes a different approach. It uses Acorn to generate an AST, but instead of steps 2 and 3 it then edits the code in place using magic-string — which is much less costly than AST manipulation and code generation.
+> -- https://github.com/Rich-Harris/butternut#how
+
+----
+
+[Webpack CLI](https://github.com/webpack/webpack-cli "Webpack CLI")というwebpackのCLIツールが公開されました。
+
+- [Announcing the new webpack CLI – webpack – Medium](https://medium.com/webpack/announcing-the-new-webpack-cli-75ce1d9b8663 "Announcing the new webpack CLI – webpack – Medium")
+
+webpackのCLIを作り変えているもので、`init`や`migrate`などのサブコマンドが追加されています。
+`migrate`サブコマンドではv1からv2への設定ファイルのマイグレーションができ、
+`init`コマンドでは[Yeoman](http://yeoman.io/ "Yeoman")をベースにしたテンプレ生成を行うことができます。
+
+- [webpack-cli/SCAFFOLDING.md at master · webpack/webpack-cli](https://github.com/webpack/webpack-cli/blob/master/SCAFFOLDING.md "webpack-cli/SCAFFOLDING.md at master · webpack/webpack-cli")
+
+今後の予定として`webpack`のパッケージに統合されるため、将来的には`webpack`コマンドとして扱えます。
+
+> The CLI is getting integrated into webpack soon, which means you will be using webpack init instead of webpack-cli init.
 
 ----
 
