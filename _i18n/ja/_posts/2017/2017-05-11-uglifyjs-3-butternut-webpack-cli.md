@@ -115,7 +115,7 @@ UglifyJS 3.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Jest 20リリース。
-プロジェクトをまたいでテストを実行できるように、`expect`でPromiseのサポートを改善、`expect.assertions(n)`の追加、Jasmineをforkした使うように、CIではSnapshotを自動的に保存しないようになるなど
+プロジェクトをまたいでテストを実行できるように、`expect`でPromiseのサポートを改善、`expect.assertions(n)`の追加、Jasmineをforkして使うように、CIではSnapshotを自動的に保存しないようになるなど
 
 
 ----
