@@ -196,7 +196,7 @@ JavaScriptの色々な"関数"についての解説
 ----
 
 ## A Modern Front-End Workflow – Umar Hansa | Render 2017 - YouTube
-[www.youtube.com/watch?v&#x3D;v5r\_n6Tq0uk](https://www.youtube.com/watch?v&#x3D;v5r_n6Tq0uk "A Modern Front-End Workflow – Umar Hansa | Render 2017 - YouTube")
+[www.youtube.com/watch?v&#x3D;v5r\_n6Tq0uk](https://www.youtube.com/watch?v=v5r_n6Tq0uk "A Modern Front-End Workflow – Umar Hansa | Render 2017 - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">video</span></p>
 
 Chrome開発者ツールのTipsやデバッグワークフローについての発表動画
@@ -205,7 +205,7 @@ Chrome開発者ツールのTipsやデバッグワークフローについての�
 ----
 
 ## The Future of Audio and Video on the Web (Google I/O '17) - YouTube
-[www.youtube.com/watch?v&#x3D;z9unKFzAj1w](https://www.youtube.com/watch?v&#x3D;z9unKFzAj1w "The Future of Audio and Video on the Web (Google I/O '17) - YouTube")
+[www.youtube.com/watch?v&#x3D;z9unKFzAj1w](https://www.youtube.com/watch?v=z9unKFzAj1w "The Future of Audio and Video on the Web (Google I/O '17) - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">video</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ProgressiveWebApp</span></p>
 
 ウェブサイトにおける動画や音楽のPWA対応についての発表動画。
@@ -218,7 +218,7 @@ ServiceWorkerを使ったオフライン対応、回転とフルスクリーン�
 ----
 
 ## Web Performance: Leveraging the Metrics that Most Affect User Experience (Google I/O '17) - YouTube
-[www.youtube.com/watch?v&#x3D;6Ljq-Jn-EgU&amp;index&#x3D;71&amp;list&#x3D;PLOU2XLYxmsIKC8eODk\_RNCWv3fBcLvMMy](https://www.youtube.com/watch?v&#x3D;6Ljq-Jn-EgU&amp;index&#x3D;71&amp;list&#x3D;PLOU2XLYxmsIKC8eODk_RNCWv3fBcLvMMy "Web Performance: Leveraging the Metrics that Most Affect User Experience (Google I/O '17) - YouTube")
+[www.youtube.com/watch?v&#x3D;6Ljq-Jn-EgU&amp;index&#x3D;71&amp;list&#x3D;PLOU2XLYxmsIKC8eODk\_RNCWv3fBcLvMMy](https://www.youtube.com/watch?v=6Ljq-Jn-EgU&index=71&list=PLOU2XLYxmsIKC8eODk_RNCWv3fBcLvMMy "Web Performance: Leveraging the Metrics that Most Affect User Experience (Google I/O '17) - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">video</span></p>
 
 パフォーマンスとメトリクスについての発表動画。
@@ -240,7 +240,7 @@ CSS/JavaScript/ブラウザの連携、Workletについて
 ----
 
 ##  Google I/O 2017 - All Sessions - YouTube
-[www.youtube.com/playlist?list&#x3D;PLOU2XLYxmsIKC8eODk\_RNCWv3fBcLvMMy](http://www.youtube.com/playlist?list&#x3D;PLOU2XLYxmsIKC8eODk_RNCWv3fBcLvMMy " Google I/O 2017 - All Sessions - YouTube")
+[www.youtube.com/playlist?list&#x3D;PLOU2XLYxmsIKC8eODk\_RNCWv3fBcLvMMy](http://www.youtube.com/playlist?list=PLOU2XLYxmsIKC8eODk_RNCWv3fBcLvMMy " Google I/O 2017 - All Sessions - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">video</span> <span class="jser-tag">イベント</span></p>
 
 Google I/O 2017の動画まとめ
@@ -249,7 +249,7 @@ Google I/O 2017の動画まとめ
 ----
 
 ##  JSConf EU 2017 - YouTube
-[www.youtube.com/playlist?list&#x3D;PL37ZVnwpeshFmAPr65sU2O5WMs7\_CGjs\_](https://www.youtube.com/playlist?list&#x3D;PL37ZVnwpeshFmAPr65sU2O5WMs7_CGjs_ " JSConf EU 2017 - YouTube")
+[www.youtube.com/playlist?list&#x3D;PL37ZVnwpeshFmAPr65sU2O5WMs7\_CGjs\_](https://www.youtube.com/playlist?list=PL37ZVnwpeshFmAPr65sU2O5WMs7_CGjs_ " JSConf EU 2017 - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">video</span></p>
 
 JSConf EU 2017の動画一覧
