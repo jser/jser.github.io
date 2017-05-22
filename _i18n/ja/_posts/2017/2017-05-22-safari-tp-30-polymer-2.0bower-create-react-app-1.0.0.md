@@ -1,15 +1,81 @@
 ---
-title: "2017-05-22のJS: "
+title: "2017-05-22のJS: Safari TP 30、Polymer 2.0とBower、Create React App 1.0.0"
 author: "azu"
 layout: post
 date : 2017-05-22T10:59:03.315Z
 category: JSer
 tags:
--
+- Safari
+- Polymer
+- Bower
+- React
 
 ---
 
-JSer.info #332
+JSer.info #332 - [Safari Technology Preview Release 30](https://webkit.org/blog/7614/release-notes-for-safari-technology-preview-30/ "Safari Technology Preview Release 30")がリリースされました。
+
+[Subresource Integrity](https://www.w3.org/TR/SRI/ "Subresource Integrity")(SRI)のサポート、`X-Content-Type-Options:nosniff`がサポートされました。
+
+- [How to implement SRI in your build process ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2016/04/how-to-implement-sri-into-your-build-process/ "How to implement SRI in your build process ★ Mozilla Hacks – the Web developer blog")
+- [X-Content-Type-Options: nosniff · Issue #2758 · Fyrd/caniuse](https://github.com/Fyrd/caniuse/issues/2758 "X-Content-Type-Options: nosniff · Issue #2758 · Fyrd/caniuse")
+  - Firefoxも[50でサポート](http://mozsec-jp.hatenablog.jp/entry/2016/08/29/222740)したので主要ブラウザの`nosniff`サポートが揃った
+
+また、Promiseの`rejectionhandled`と`unhandledrejection`のイベントサポートされています。
+
+----
+
+[Polymer 2.0.0](https://github.com/Polymer/polymer/releases/tag/v2.0.0 "2.0.0")と[polymer-cli 1.0.0](https://github.com/Polymer/polymer-cli "polymer-cli")がリリースされました。
+ES2015のクラスベースで書けるようになり、Dirty checkingをopt-outする手段が用意され、1.xとの互換レイヤーなども提供されています。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tKvNeNGmOtU" frameborder="0" allowfullscreen></iframe>
+
+- [Time for 2.0 - Polymer Project](https://www.polymer-project.org/blog/2017-05-15-time-for-two "Time for 2.0 - Polymer Project")
+- [What's new in 2.0 - Polymer Project](https://www.polymer-project.org/2.0/docs/about_20 "What&#39;s new in 2.0 - Polymer Project")
+
+1.xからのマイグレーションについては次のドキュメントにまとめられています。
+
+- [Polymer 2.0 upgrade guide - Polymer Project](https://www.polymer-project.org/2.0/docs/upgrade "Polymer 2.0 upgrade guide - Polymer Project")
+
+また、Polymerをインストールする方法として[Bower](https://bower.io/ "Bower")を使う方法が公式となっています。
+([polymer-cli](https://github.com/Polymer/polymer-cli "polymer-cli")もBowerをベースにしている)
+
+- [Install Polymer 2.x - Polymer Project](https://www.polymer-project.org/2.0/start/install-2-0 "Install Polymer 2.x - Polymer Project")
+
+しかし、数日前にBowerは正式に非推奨となりました。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Bower is deprecated. <a href="https://t.co/XkIxOKhfBc">pic.twitter.com/XkIxOKhfBc</a></p>&mdash; azu (@azu_re) <a href="https://twitter.com/azu_re/status/866085257052798976">May 21, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+- [Add yarn and webpack recommendation from bower.io to readme Fixes #2298 by graingert · Pull Request #2458 · bower/bower](https://github.com/bower/bower/pull/2458 "Add yarn and webpack recommendation from bower.io to readme Fixes #2298 by graingert · Pull Request #2458 · bower/bower")
+
+そのため、Polymerもnpm/yarnサポートへと移行中です。
+
+```
+philipahlberg 5:52 PM
+Hi everyone, with Bower being depreciated and pointing to Yarn now, should an issue be filed for the Polymer CLI to make the switch at some point in the future?
+
+fresnizky 7:47 PM
+@philipahlberg I think they're​ already working on it.
+ https://github.com/Polymer/polymer/issues/3903#issuecomment-279180914
+```
+
+- Polymerのslackより <https://polymer.slack.com/archives/C03PF4L4L/p1495270338490522>
+
+次のIssueでnpmサポートについて議論されていて、現在[@polymer/polymer](https://www.npmjs.com/package/@polymer/polymer "@polymer/polymer")がα版として公開されています。
+
+- [Polymer on NPM stuck on version 1.2.5 · Issue #3903 · Polymer/polymer](https://github.com/Polymer/polymer/issues/3903#issuecomment-279180914 "Polymer on NPM stuck on version 1.2.5 · Issue #3903 · Polymer/polymer")
+
+----
+
+ReactのScaffoldingツールであるCreate React App 1.0がリリースされました。
+
+webpack 2、ランタイムエラーの表示、Service Workerの対応、Jest 20、Dynamic importを使ったコード分割などさまざまな変更が含まれています。
+
+- [What's New in Create React App - React Blog](https://facebook.github.io/react/blog/2017/05/18/whats-new-in-create-react-app.html "What&#39;s New in Create React App - React Blog")
+
+0.9.5からのマイグレーション方法については次のリリースノートに書かれています。
+
+- [Release v1.0.0 · facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app/releases/tag/v1.0.0 "Release v1.0.0 · facebookincubator/create-react-app")
 
 ----
 
