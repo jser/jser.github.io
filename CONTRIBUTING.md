@@ -2,7 +2,7 @@
 
 [JSer.info](http://jser.info/)記事上部の **Edit on GitHub**、又は、下部の **この記事へ修正リクエストをする** から修正を送れます。
 
-![Pull Request](http://take.ms/suw5I)
+![Pull Request](https://monosnap.com/file/nk17SxPx11BaRwsdivFAkgQK06InU0.png)
 
 記事からGitHubで直接編集してPull Requestを送ることが出来ます。
 
@@ -17,7 +17,7 @@
 
 などがCIで実行されています。
 
-![lint-image](http://monosnap.com/image/vE9DQn1451rGrWGSCQJrmth5cYzzIj.png)
+![lint-image](https://monosnap.com/image/vE9DQn1451rGrWGSCQJrmth5cYzzIj.png)
 
 ### チェック対象となった場合の対応
 
