@@ -1,15 +1,42 @@
 ---
-title: "2017-06-26のJS: "
+title: "2017-06-26のJS: React入門、sonar - linting for web、Angularパフォーマンス改善"
 author: "azu"
 layout: post
 date : 2017-06-26T08:55:22.360Z
 category: JSer
 tags:
--
+- React
+- Lint
+- ESLint
+- Angular
 
 ---
 
-JSer.info #337
+JSer.info #337 - [React Express](http://www.react.express/ "React Express")というサイトでは、Reactでのアプリケーション開発についてのチュートリアルが書かれています。
+Reactから始める開発という形なので、npmなどの関連するツールやES2015など周辺環境についても簡単に紹介されています。
+基本的に実行できるサンプルコードと共にReactについて紹介されているので、触りながら理解するのに役立ちそうです。
+
+-----
+
+ [sonar, a linting tool for the web](https://sonarwhal.com/ "sonar, a linting tool for the web")というウェブサイトに対するESLintのようなツールがJS Foundationの元で公開されました。
+
+- [sonar – JS Foundation Welcomes Newest Project – JS Foundation](https://js.foundation/announcements/2017/06/22/sonar-js-foundation-welcomes-newest-project "sonar – JS Foundation Welcomes Newest Project – JS Foundation")
+
+元々はMSEdgeのチームによって作られたもので、ESLintのようにカスタムルールを書くことができます。
+
+- [sonar/events.md at master · sonarwhal/sonar](https://github.com/sonarwhal/sonar/blob/master/docs/developer-guide/collectors/events.md "sonar/events.md at master · sonarwhal/sonar")
+   - hookできるイベント
+
+ウェブサイトのHTML要素をトラバースしながら処理したり、リソースに対するリクエストに関する処理などをルールとして書くことができます。
+
+[FAQ](https://sonarwhal.com/about/faq.html "FAQ")によると、[aXe](https://www.deque.com/products/axe/ "Easy Accessibility Testing with aXe")や[SSL Server Test](https://www.ssllabs.com/ssltest/ "SSL Server Test")など既存ツールやサービスと連携したLintingツールとすることを目的としているようです。(そのためルールも非同期処理に対応している)
+
+> sonar doesn’t want to reinvent the wheel. For that reason it tries to integrate other tools and services that do a great job and contribute back where appropriate. For example, we are using axe for accessibility, SSL Server Test for checking the certificate configuration, etc.
+
+----
+
+[Improve SPA Performance with Angular App // Speaker Deck](https://speakerdeck.com/manakuro/improve-spa-performance-with-angular-app "Improve SPA Performance with Angular App // Speaker Deck")というスライドでは、メモリリークが起きやすいパターンやChrome開発者ツールを使った計測方法について書かれています。
+また、AngularにおけるメモリリークのパターンやChange Detectionの処理を削減する方法などについて書かれています。
 
 ----
 
