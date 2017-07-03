@@ -1,15 +1,56 @@
 ---
-title: "2017-07-03のJS: "
+title: "2017-07-03のJS: ECMAScript 2017、Prettier 1.5.0、UXのパフォーマンスメトリクス"
 author: "azu"
 layout: post
 date : 2017-07-03T05:14:08.123Z
 category: JSer
 tags:
--
+- ECMAScript
+- Prettier
+- performance
+- browser
 
 ---
 
-JSer.info #338
+JSer.info #338 - ECMAScript 2017が正式リリースされました。
+
+> ECMA-262 8th edition - ECMAScript® 2017 Language Specification
+> -- [Ecma latest news](http://ecma-international.org/news/index.html "Ecma latest news")
+
+- [Standard ECMA-262](http://ecma-international.org/publications/standards/Ecma-262.htm "Standard ECMA-262")
+
+ES2017ではasync/await、shared memory and atomic、`Object.entires`/`Object.values`、`String#padStart`/`String#padEnd`、`Object.getOwnPropertyDescriptors()`や関数内での末尾カンマの許容などが追加されています。
+
+詳細は次のサイトを見るといいかもしれません。
+
+- [III ECMAScript 2017](http://exploringjs.com/es2016-es2017/pt_es2017.html "III ECMAScript 2017")
+
+今後(ES2018~)で策定していくProposalについては次のページにまとめられています。
+
+- [tc39/proposals: Tracking ECMAScript Proposals](https://github.com/tc39/proposals "tc39/proposals: Tracking ECMAScript Proposals")
+- [babel/proposals: (WIP) Tracking the status of Babel's implementation of TC39 proposals](https://github.com/babel/proposals "babel/proposals: (WIP) Tracking the status of Babel&#39;s implementation of TC39 proposals")
+  - Babelの対応
+
+----
+
+整形ツールのPrettier 1.5.0がリリースされました。
+
+- [Release 1.5.0: GraphQL, CSS-in-JS & JSON · prettier/prettier](https://github.com/prettier/prettier/releases/tag/1.5.0 "Release 1.5.0: GraphQL, CSS-in-JS &amp; JSON · prettier/prettier")
+
+GraphQL、CSS in JS、JSONの対応、CSSやTypeScript、JSX周りバグ修正などが行われています。
+
+
+----
+
+[Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)という記事では、ユーザー体験への影響を見るパフォーマンスのメトリクスについて書かれています。
+
+単純に`DOMContentLoaded`や`load`の時間を見るだけでは体験を計測できないという問題があります。
+そのため、First Paint/First Meaningful Paing/Time to Interactive(TTI)/Longtasksなどの指標やその意味についてかかれています。
+
+記事の元は、Google I/Oでの発表となっているので併せて動画の方も見るといいかもしれません。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6Ljq-Jn-EgU?ecver=1" frameborder="0" allowfullscreen></iframe>
+
 
 ----
 
@@ -71,6 +112,7 @@ Safari Technology Preview Release 34リリース。
 ロード時間だけでは体験を計測できないため。
 そのため、First Paint/First Meaningful Paing/Time to Interactive/Longtasksを指標にそれぞれ何を意味するかや計測方法について
 
+- [You Need to know SSR // Speaker Deck](https://speakerdeck.com/yosuke_furukawa/you-need-to-know-ssr "You Need to know SSR // Speaker Deck")
 
 ----
 
