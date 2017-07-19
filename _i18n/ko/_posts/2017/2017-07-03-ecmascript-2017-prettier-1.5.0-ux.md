@@ -1,5 +1,5 @@
 ---
-title: "2017-07-03 JS: ECMAScript 2017, Prettier 1.5.0, UX의 성능 지표"
+title: "2017-07-03 JS: ECMAScript 2017, Prettier 1.5.0, UX의 성능 측정 지표"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
@@ -42,10 +42,10 @@ GraphQL, CSS in JS, JSON을 대응하고 CSS나 TypeScript, JSX 관련 버그가
 
 ----
 
-[Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)에는  사용자 경험에 영향을 주는 성능 지표에 관해 작성돼 있습니다.
+[Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)에는  사용자 경험에 영향을 주는 성능 측정 항목에 관해 작성돼 있습니다.
 
 단순히 `DOMContentLoaded`나 `load` 시간만으론 사용자 경험을 측정할 수 없는 문제가 있습니다.
-때문에 First Paint / First Meaningful Paing / Time to Interactive(TTI) / Longtasks 등의 지표나 그 의미에 대해 소개합니다.
+때문에 First Paint / First Meaningful Paing / Time to Interactive(TTI) / Longtasks 등의 측정 항목과 그 의미에 대해 소개합니다.
 
 이 글과 관련한 Google I/O 발표 영상이 있으니 함께 보시길 바랍니다.
 

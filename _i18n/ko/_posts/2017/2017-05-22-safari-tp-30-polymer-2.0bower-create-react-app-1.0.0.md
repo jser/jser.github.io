@@ -221,8 +221,8 @@ ServiceWorker를 사용한 오프라인 대응, 디바이스 회전 시 자동 �
 [www.youtube.com/watch?v&#x3D;6Ljq-Jn-EgU&amp;index&#x3D;71&amp;list&#x3D;PLOU2XLYxmsIKC8eODk\_RNCWv3fBcLvMMy](https://www.youtube.com/watch?v=6Ljq-Jn-EgU&index=71&list=PLOU2XLYxmsIKC8eODk_RNCWv3fBcLvMMy "Web Performance: Leveraging the Metrics that Most Affect User Experience (Google I/O '17) - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">video</span></p>
 
-성능과 매트릭스(Metrics)에 관해 소개하는 발표 영상입니다.
-로드 완료가 아닌 상호 작용(Interactive)된 시간(TTI)를 측정하는 방법과 Hero Elements, UX와 메트리크스에 관해 이야기하며 Long Tasks(50ms)를 PerformanceObserver로 감지하는 방법과 조작 지연 측정, 개선을 위한 패턴에 대해서도 소개합니다.
+성능과 측정 항목(Metrics)에 관해 소개하는 발표 영상입니다.
+로드 완료가 아닌 상호 작용(Interactive)된 시간(TTI)를 측정하는 방법과 Hero Elements, UX를 측정 항목에 기준하여 이야기하며 Long Tasks(50ms)를 PerformanceObserver로 감지하는 방법과 조작 지연 측정, 개선을 위한 패턴에 대해서도 소개합니다.
 
 - [GoogleChrome/tti-polyfill: TTI polyfill](https://github.com/GoogleChrome/tti-polyfill "GoogleChrome/tti-polyfill: TTI polyfill")
 
