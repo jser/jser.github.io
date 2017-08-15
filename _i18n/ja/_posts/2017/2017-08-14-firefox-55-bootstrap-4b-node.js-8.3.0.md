@@ -23,7 +23,7 @@ ECMAScriptにおいてはES2017の`SharedArrayBuffer`、現在Stage 3の[Object 
 
 - [scrollX、scrollY、pageXOffset、pageYOffset が整数の代わりに浮動小数点数を返すようになりました | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/docs/2017/scrollx-scrolly-pagexoffset-pageyoffset-now-return-double-instead-of-integer/ "scrollX、scrollY、pageXOffset、pageYOffset が整数の代わりに浮動小数点数を返すようになりました | Firefox サイト互換性情報")
 
-既に[Chrome(11~)](https://developers.google.com/web/updates/2017/03/background_tabs)やFireox(50~)でも行われているバックグラウンドタブにおける`setTimeout`などのスロットルについてですが、[]トラッキングスクリプト](https://wiki.mozilla.org/Security/Tracking_protection#Lists)に対してはさらに強い制約がかかるようになりました。
+既に[Chrome(11~)](https://developers.google.com/web/updates/2017/03/background_tabs)やFireox(50~)でも行われているバックグラウンドタブにおける`setTimeout`などのスロットルについてですが、[トラッキングスクリプト](https://wiki.mozilla.org/Security/Tracking_protection#Lists)に対してはさらに強い制約がかかるようになりました。
 
 - [Throttling of tracking timeout scripts](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout#Throttling_of_tracking_timeout_scripts "Throttling of tracking timeout scripts")
 
