@@ -1,15 +1,64 @@
 ---
-title: "2017-08-14のJS: "
+title: "2017-08-14のJS: Firefox 55、BootStrap 4β、Node.js 8.3.0"
 author: "azu"
 layout: post
 date : 2017-08-14T23:21:14.903Z
 category: JSer
 tags:
--
+- Firefox
+- BootStrap
+- Node.js
 
 ---
 
-JSer.info #344
+JSer.info #344 - [Firefox 55.0](https://www.mozilla.jp/firefox/55.0/releasenotes/ "Firefox 55.0")がリリースされました。
+
+- [Firefox 55 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/55)
+- [Firefox 55: first desktop browser to support WebVR ★ Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2017/08/firefox-55-supports-webvr/)
+
+ECMAScriptにおいてはES2017の`SharedArrayBuffer`、現在Stage 3の[Object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread)のサポートが行われています。
+加えて`requestIdleCallback`、[WebVR API](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API "WebVR API")、[Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API "Intersection Observer API")がサポートされています。
+
+また、既存の挙動の変更としてスクロール位置の値を浮動小数点数として返すように変更、[Selection API](https://developer.mozilla.org/en-US/docs/Web/API/Selection#Behavior_of_Selection_API_in_terms_of_editing_host_focus_changes)の仕様追従、WebRTC APIの仕様追従が行われています。
+
+- [scrollX、scrollY、pageXOffset、pageYOffset が整数の代わりに浮動小数点数を返すようになりました | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/docs/2017/scrollx-scrolly-pagexoffset-pageyoffset-now-return-double-instead-of-integer/ "scrollX、scrollY、pageXOffset、pageYOffset が整数の代わりに浮動小数点数を返すようになりました | Firefox サイト互換性情報")
+
+既に[Chrome(11~)](https://developers.google.com/web/updates/2017/03/background_tabs)やFireox(50~)でも行われているバックグラウンドタブにおける`setTimeout`などのスロットルについてですが、[]トラッキングスクリプト](https://wiki.mozilla.org/Security/Tracking_protection#Lists)に対してはさらに強い制約がかかるようになりました。
+
+- [Throttling of tracking timeout scripts](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout#Throttling_of_tracking_timeout_scripts "Throttling of tracking timeout scripts")
+
+Geolocation APIと[Storage API](https://developer.mozilla.org/ja/docs/Web/API/Storage_API)(ストレージの容量を確認するAPI)は[Secure Contexts](https://developer.mozilla.org/ja/docs/Web/Security/Secure_Contexts "Secure Contexts")(つまりHTTPS)でのみ有効となりました。
+既にChrome(50~)において、Geolocation APIはSecure Contextのみとなっています。
+
+- [Geolocation API Removed from Unsecured Origins in Chrome 50  |  Web  |  Google Developers](https://developers.google.com/web/updates/2016/04/geolocation-on-secure-contexts-only "Geolocation API Removed from Unsecured Origins in Chrome 50  |  Web  |  Google Developers")
+- [Deprecating Powerful Features on Insecure Origins - The Chromium Projects](https://www.chromium.org/Home/chromium-security/deprecating-powerful-features-on-insecure-origins "Deprecating Powerful Features on Insecure Origins - The Chromium Projects")
+
+----
+
+[Bootstrap 4 Beta · Bootstrap]: http://blog.getbootstrap.com/2017/08/10/bootstrap-4-beta/  "Bootstrap 4 Beta · Bootstrap"が公開されました。[Bootstrap 4 alpha](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/ "Bootstrap 4 alpha")から2年弱程度経っています。
+
+3.xからの変更点として、LessからSassへ移行、FlexboxとGridシステムの改善、IE8/9のサポート終了、JavaScriptプラグインの書き直しなどが行われています。
+詳細な変更点については次のIssueを見るとよさそうです。
+
+- [Beta 1 ship list · Issue #21568 · twbs/bootstrap](https://github.com/twbs/bootstrap/issues/21568 "Beta 1 ship list · Issue #21568 · twbs/bootstrap")
+
+----
+
+Node.js 8.3.0がリリースされました。
+
+- [Node v8.3.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v8.3.0/ "Node v8.3.0 (Current) | Node.js")
+
+このバージョンから[V8 6.0](https://v8project.blogspot.jp/2017/06/v8-release-60.html "V8 6.0")が使われるようになり、新しい最適化コンパイラのTurbofanが有効化されています。
+そのため、既存の最適化とは異なる傾向が出るようになっています。
+
+たとえば今までは`try/catch`を含む関数は最適化が行われませんでしたが、V8 6.0では最適化されるようになっています。また、`Function#bind`も今まではArrow Functionでラップした関数に比べて遅いものでしたが、ほぼ同等の速度がでるようになっています。
+コードの最適化がどのように変わっているかについては、次の記事でコード例と共に紹介されています。
+
+- [GET READY: A NEW V8 IS COMING, NODE.JS PERFORMANCE IS CHANGING.](https://medium.com/the-node-js-collection/get-ready-a-new-v8-is-coming-node-js-performance-is-changing-46a63d6da4de "GET READY: A NEW V8 IS COMING, NODE.JS PERFORMANCE IS CHANGING.")
+- [Get ready: A new V8 is coming, Node.js performance is changing. | nearForm](https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/ "Get ready: A new V8 is coming, Node.js performance is changing. | nearForm")
+
+そのため、[Optimization killers · petkaantonov/bluebird Wiki](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers "Optimization killers · petkaantonov/bluebird Wiki")で紹介されているような「最適化を妨げるコード」はTurboFanが使われているかで大きく変わっています。(Wikiの内容も更新されています)
+興味がある人は読んでみるといいと思います。
 
 ----
 
