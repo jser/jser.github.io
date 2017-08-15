@@ -35,7 +35,7 @@ Geolocation APIと[Storage API](https://developer.mozilla.org/ja/docs/Web/API/St
 
 ----
 
-[Bootstrap 4 Beta · Bootstrap]: http://blog.getbootstrap.com/2017/08/10/bootstrap-4-beta/  "Bootstrap 4 Beta · Bootstrap"が公開されました。[Bootstrap 4 alpha](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/ "Bootstrap 4 alpha")から2年弱程度経っています。
+[Bootstrap 4 Beta · Bootstrap](http://blog.getbootstrap.com/2017/08/10/bootstrap-4-beta/ "Bootstrap 4 Beta · Bootstrap")が公開されました。[Bootstrap 4 alpha](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/ "Bootstrap 4 alpha")から2年弱程度経っています。
 
 3.xからの変更点として、LessからSassへ移行、FlexboxとGridシステムの改善、IE8/9のサポート終了、JavaScriptプラグインの書き直しなどが行われています。
 詳細な変更点については次のIssueを見るとよさそうです。
