@@ -51,7 +51,7 @@ Node.js 8.3.0がリリースされました。
 このバージョンから[V8 6.0](https://v8project.blogspot.jp/2017/06/v8-release-60.html "V8 6.0")が使われるようになり、新しい最適化コンパイラのTurbofanが有効化されています。
 そのため、既存の最適化とは異なる傾向が出るようになっています。
 
-たとえば今までは`try/catch`を含む関数は最適化が行われませんでしたが、V8 6.0では最適化されるようになっています。また、`Function#bind`も今まではArrow Functionでラップした関数に比べて遅いものでしたが、ほぼ同等の速度がでるようになっています。
+たとえば今までは`try/catch`を含む関数は最適化が行われませんでしたが、Turbofanでは最適化されるようになっています。また、`Function#bind`も今まではArrow Functionでラップした関数に比べて遅いものでしたが、ほぼ同等の速度がでるようになっています。
 コードの最適化がどのように変わっているかについては、次の記事でコード例と共に紹介されています。
 
 - [GET READY: A NEW V8 IS COMING, NODE.JS PERFORMANCE IS CHANGING.](https://medium.com/the-node-js-collection/get-ready-a-new-v8-is-coming-node-js-performance-is-changing-46a63d6da4de "GET READY: A NEW V8 IS COMING, NODE.JS PERFORMANCE IS CHANGING.")
