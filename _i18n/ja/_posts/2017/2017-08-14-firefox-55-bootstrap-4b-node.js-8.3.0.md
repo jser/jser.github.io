@@ -154,7 +154,7 @@ WebVR、requestIdleCallback、Intersection Observer API対応。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">サーバー</span> <span class="jser-tag">library</span></p>
 
 Next.js 3.0リリース。
-Static Exportのサポート、Dynamic Impportのサポート、HMRの対応改善など
+Static Exportのサポート、Dynamic Importのサポート、HMRの対応改善など
 
 
 ----
