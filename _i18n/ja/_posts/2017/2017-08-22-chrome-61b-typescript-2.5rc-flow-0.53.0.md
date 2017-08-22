@@ -1,17 +1,66 @@
 ---
-title: "2017-08-22のJS: "
+title: "2017-08-22のJS:  Chrome 61β、TypeScript 2.5RC、Flow 0.53.0"
 author: "azu"
 layout: post
 date : 2017-08-22T02:00:59.401Z
 category: JSer
 tags:
--
+- Chrome
+- TypeScript
+- Flow
 
 ---
 
-JSer.info #345
+JSer.info #345 - Chrome 61βがリリースされました。
+
+- [Chromium Blog: Chrome 61 Beta: JavaScript modules, Payment Request API on desktop, Web Share API, and WebUSB](https://blog.chromium.org/2017/08/chrome-61-beta-javascript-modules.html "Chromium Blog: Chrome 61 Beta: JavaScript modules, Payment Request API on desktop, Web Share API, and WebUSB")
+
+`<script type=module>`でES modulesを扱えるようになりました。
+加えてPayment Request API](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/ "Payment Request API")や[Network Information API](https://googlechrome.github.io/samples/network-information/index.html "Network Information API")がデスクトップのChromeでも利用できるようになっています。
+また、[Web Share API](https://developers.google.com/web/updates/2016/10/navigator-share "Web Share API")や[WebUSB API](https://developers.google.com/web/updates/2016/03/access-usb-devices-on-the-web "WebUSB API")、[Visual Viewport API](https://github.com/WICG/ViewportAPI "Visual Viewport API")、[Device Memory](https://github.com/WICG/device-memory "Device Memory")のサポートが追加されています。
+
+既存の挙動の破壊的な変更としては、SEを使った動画はバックグラウンド時にVideo Trackが無効化されるようになっています。
+セキュリティ対策として`\n`と`<`をそのまま含むHTTP(S)のURLへのリクエストがブロックされるようになっています。
+
+- [Media Updates in Chrome 61  |  Web  |  Google Developers](https://developers.google.com/web/updates/2017/07/chrome-61-media-updates "Media Updates in Chrome 61  |  Web  |  Google Developers")
+- [Prevent requests to HTTP(S) URLs containing raw `\n` and `<`. · Issue #546 · whatwg/fetch](https://github.com/whatwg/fetch/issues/546 "Prevent requests to HTTP(S) URLs containing raw `\n` and `&lt;`. · Issue #546 · whatwg/fetch")
 
 ----
+
+[TypeScript 2.5 RC](https://blogs.msdn.microsoft.com/typescript/2017/08/17/announcing-typescript-2-5-rc/ "TypeScript 2.5 RC")がリリースされました。
+
+現在ECMAScript ProposalでStage 3の[Optional catch binding](https://tc39.github.io/proposal-optional-catch-binding/ "Optional catch binding")がサポートされています。
+
+```js
+try {
+   throw new Error("throw");
+} catch {
+   // errorを省略できる
+}
+```
+
+- [ES proposal: optional catch binding](http://2ality.com/2017/08/optional-catch-binding.html "ES proposal: optional catch binding")
+
+また今まではTypeScriptで書かれたモジュールを`npm link`すると定義が重複するという問題がありました。
+[Workaround](https://github.com/Microsoft/TypeScript/issues/11107#issuecomment-254003380)はありますが、2.5Rではこの問題が修正されています。
+
+- [Duplicate type declarations with npm link · Issue #6496 · Microsoft/TypeScript](https://github.com/Microsoft/TypeScript/issues/6496 "Duplicate type declarations with npm link · Issue #6496 · Microsoft/TypeScript")
+
+----
+
+Flow 0.53.0がリリースされました。
+
+- [flow/Changelog.md at v0.53.0 · facebook/flow](https://github.com/facebook/flow/blob/v0.53.0/Changelog.md "flow/Changelog.md at v0.53.0 · facebook/flow")
+
+Reactに対するFlowのモデルに破壊的な変更があるため、ReactでFlowを利用している場合はマイグレーションが必要です。
+[flow-upgrade](https://yarnpkg.com/en/package/flow-upgrade "flow-upgrade")を使うことでマイグレーションが行えます。
+
+また、Reactに対するutility typesが追加されています。
+
+- [Type Reference | Flow](https://flow.org/en/docs/react/types/ "Type Reference | Flow")
+
+----
+
 
 <h1 class="site-genre">ヘッドライン</h1>
 
