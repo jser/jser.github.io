@@ -16,7 +16,7 @@ JSer.info #345 - Chrome 61βがリリースされました。
 - [Chromium Blog: Chrome 61 Beta: JavaScript modules, Payment Request API on desktop, Web Share API, and WebUSB](https://blog.chromium.org/2017/08/chrome-61-beta-javascript-modules.html "Chromium Blog: Chrome 61 Beta: JavaScript modules, Payment Request API on desktop, Web Share API, and WebUSB")
 
 `<script type=module>`でES modulesを扱えるようになりました。
-加えてPayment Request API](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/ "Payment Request API")や[Network Information API](https://googlechrome.github.io/samples/network-information/index.html "Network Information API")がデスクトップのChromeでも利用できるようになっています。
+加えて[Payment Request API](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/ "Payment Request API")や[Network Information API](https://googlechrome.github.io/samples/network-information/index.html "Network Information API")がデスクトップのChromeでも利用できるようになっています。
 また、[Web Share API](https://developers.google.com/web/updates/2016/10/navigator-share "Web Share API")や[WebUSB API](https://developers.google.com/web/updates/2016/03/access-usb-devices-on-the-web "WebUSB API")、[Visual Viewport API](https://github.com/WICG/ViewportAPI "Visual Viewport API")、[Device Memory](https://github.com/WICG/device-memory "Device Memory")のサポートが追加されています。
 
 既存の挙動の破壊的な変更としては、SEを使った動画はバックグラウンド時にVideo Trackが無効化されるようになっています。
