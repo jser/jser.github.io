@@ -19,7 +19,7 @@ JSer.info #345 - Chrome 61βがリリースされました。
 加えて[Payment Request API](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/ "Payment Request API")や[Network Information API](https://googlechrome.github.io/samples/network-information/index.html "Network Information API")がデスクトップのChromeでも利用できるようになっています。
 また、[Web Share API](https://developers.google.com/web/updates/2016/10/navigator-share "Web Share API")や[WebUSB API](https://developers.google.com/web/updates/2016/03/access-usb-devices-on-the-web "WebUSB API")、[Visual Viewport API](https://github.com/WICG/ViewportAPI "Visual Viewport API")、[Device Memory](https://github.com/WICG/device-memory "Device Memory")のサポートが追加されています。
 
-既存の挙動の破壊的な変更としては、SEを使った動画はバックグラウンド時にVideo Trackが無効化されるようになっています。
+既存の挙動の破壊的な変更としては、MSEを使った動画はバックグラウンド時にVideo Trackが無効化されるようになっています。
 セキュリティ対策として`\n`と`<`をそのまま含むHTTP(S)のURLへのリクエストがブロックされるようになっています。
 
 - [Media Updates in Chrome 61  |  Web  |  Google Developers](https://developers.google.com/web/updates/2017/07/chrome-61-media-updates "Media Updates in Chrome 61  |  Web  |  Google Developers")
