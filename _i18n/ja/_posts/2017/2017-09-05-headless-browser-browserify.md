@@ -21,7 +21,8 @@ FirefoxのHeadlessモードはLinuxではFirefox 55から、Mac/Windowsは56(現
 
 ChromeもMac/LinuxはChrome 59から、WindowsはChrome 60からHeadlessモードを利用できるようになっています。
 
-以前[2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info](https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/ "2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info")でまとめた現在のHeadless対応状況をまとめると次のような感じです。
+以前[2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info](https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/ "2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info")でまとめた現在のHeadless対応状況を更新しました。
+Chromeは現バージョンである60から、Firefoxは次バージョンである56から全てのOSでHeadlessモードが利用できます。
 
 <script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
 
