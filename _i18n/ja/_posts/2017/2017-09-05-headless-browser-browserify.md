@@ -1,15 +1,53 @@
 ---
-title: "2017-09-05のJS: "
+title: "2017-09-05のJS: Headless Browserの対応、Browserifyの再開"
 author: "azu"
 layout: post
 date : 2017-09-05T01:20:45.284Z
 category: JSer
 tags:
--
+- browser
+- firefox
+- Chrome
+- headless
+- browserify
 
 ---
 
-JSer.info #347
+JSer.info #347 - FirefoxのHeadlessモードについてのドキュメントが公開されています。
+
+- [Headless mode - Mozilla | MDN](https://developer.mozilla.org/en-US/Firefox/Headless_mode "Headless mode - Mozilla | MDN")
+
+FirefoxのHeadlessモードはLinuxではFirefox 55から、Mac/Windowsは56(現在のNightly)から動作します。
+
+ChromeもMac/LinuxはChrome 59から、WindowsはChrome 60からHeadlessモードをが利用できるようになっています。
+
+以前[2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info](https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/ "2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info")でまとめた現在のHeadless対応状況をまとめると次のような感じです。
+
+<script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
+
+Firefoxは[selenium-webdriver](https://www.npmjs.com/package/selenium-webdriver "selenium-webdriver")を使った例が紹介されています。
+Chromeは、Chromeチームが公開している[Puppeteer](https://github.com/GoogleChrome/puppeteer "Puppeteer")をはじめ、[Chromeless, Chrominator, Chromy, Navalia, Lambdium, GhostJS, AutoGCD](https://medium.com/@kensoh/chromeless-chrominator-chromy-navalia-lambdium-ghostjs-autogcd-ef34bcd26907 "Chromeless, Chrominator, Chromy, Navalia, Lambdium, GhostJS, AutoGCD")などさまざまなライブラリが公開されています。
+
+[NickJS](https://nickjs.org/ "NickJS | The Modern Headless Browser Library")のようにPhantomJSからHeadless Chromeへ移行しているツールも出てきています。
+
+- [Web Scraping in 2017: Advanced Headless Chrome Tips & Tricks](https://blog.phantombuster.com/web-scraping-in-2017-headless-chrome-tips-tricks-4d6521d695e8 "Web Scraping in 2017: Advanced Headless Chrome Tips &amp; Tricks")
+
+----
+
+Browserifyが`substack/node-browserify`から[browserify/browserify](https://github.com/browserify/browserify "browserify/browserify")のorganizationへ移行するとともに、次のようなIssueを立てて協力を求めています。
+
+- [help wanted · Issue #5 · browserify/discuss](https://github.com/browserify/discuss/issues/5 "help wanted · Issue #5 · browserify/discuss")
+
+[JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状 - JSer.info](https://jser.info/2017/01/31/bundler-testing-framework-report/ "JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状 - JSer.info")で伝えていたようにBrowserifyの開発は停滞していました。
+今のBrowserifyはCommonJSをベースとしたBundlerであるため、今後[.mjs](https://blog.jxck.io/entries/2017-08-15/universal-mjs-ecosystem.html ".mjs")などがくることに備えた対応が必要であるなどを踏まえて現在のエコシステムを整理し始めています。
+
+このIssueを始め、[browserify/admin: administrative procedures for the browserify org](https://github.com/browserify/admin "browserify/admin: administrative procedures for the browserify org")といったコミュニティ向けのドキュメント公開や今まで各自のリポジトリにあった`*fy`パッケージを <https://github.com/browserify> に集約しています。
+
+Browserifyに意見がある人はこのIssueに書くとよさそうです。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">if you want to help out the browserify ecosystem, there&#39;s a new help wanted thread <a href="https://t.co/nB98TS5Cls">https://t.co/nB98TS5Cls</a></p>&mdash; substack (@substack) <a href="https://twitter.com/substack/status/902644080445874177">August 29, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 ----
 
