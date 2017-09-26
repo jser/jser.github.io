@@ -48,10 +48,11 @@ ServoのWebRenderを例に、現在のレンダリングパイプラインにつ
     1. DOMツリー: DOMパースしてDOMツリーを作る
     2. Frameツリー: 各DOMツリーのレイアウト結果
 2. Painting
-    3. Display List: Frameツリーごとに描画コマンドへ
-    4. Layerツリー: レイヤーに描画
+    1. Display List: Frameツリーごとに描画コマンドへ
+    2. Layerツリー: レイヤーに描画
 3. Compositor
-    5. LayerツリーのCompositing: レイヤー同士を合成
+    1. LayerツリーのCompositing: レイヤー同士を合成
+
 
 各ブラウザに差異はありますが、描画までのプロセス(Layout -> Painting)と合成のプロセス(Compositing)を分けるという手法は、現在のモダンウェブブラウザでは取り入れられています。
 
