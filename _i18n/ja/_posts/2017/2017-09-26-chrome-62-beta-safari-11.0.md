@@ -1,15 +1,66 @@
 ---
-title: "2017-09-26のJS: "
+title: "2017-09-26のJS: Chrome 62 Beta、Safari 11.0、モダンブラウザのレンダリングパイプライン"
 author: "azu"
 layout: post
 date : 2017-09-26T00:37:50.814Z
 category: JSer
 tags:
--
+- Chrome
+- Safari
+- browser
 
 ---
 
-JSer.info #350
+JSer.info #350 - Chrome 62betaがリリースされました。
+
+- [Chromium Blog: Chrome 62 Beta: Network Quality Estimator API, OpenType variable fonts, and media capture from DOM elements](https://blog.chromium.org/2017/09/chrome-62-beta-network-quality.html "Chromium Blog: Chrome 62 Beta: Network Quality Estimator API, OpenType variable fonts, and media capture from DOM elements")
+
+Network Quality Estimator API、OpenType Variable Fonts、DOM要素をキャプチャできる`captureStream()`のサポートなどが行われています。
+
+また、62からHTTPのページでのフォーム入力時に"Not secure"と表示されてるようになっています。
+
+- [Chromium Blog: Next steps toward more connection security](https://blog.chromium.org/2017/04/next-steps-toward-more-connection.html "Chromium Blog: Next steps toward more connection security")
+- [Chrome62から、http://でのフォームに入力すると警告が出るようになる - ASnoKaze blog](http://asnokaze.hatenablog.com/entry/2017/08/18/122808 "Chrome62から、http://でのフォームに入力すると警告が出るようになる - ASnoKaze blog")
+
+----
+
+Safari 11が正式リリースされました。
+
+- [New WebKit Features in Safari 11 | WebKit](https://webkit.org/blog/7956/new-webkit-features-in-safari-11/)
+- [Safari 11.0](https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Safari_11_0/Safari_11_0.html)
+
+[WebRTCとMedia Capture](https://webkit.org/blog/7763/a-closer-look-into-webrtc/ "WebRTC and media capture")、[WebAssembly](https://webkit.org/blog/7691/webassembly/ "WebAssembly")、[OpenType Variable Font](https://webkit.org/blog/7051/variable-fonts-on-the-web/ "Variable Font")のサポートが行われています。
+また、[Web Cryptography API](https://webkit.org/blog/7790/update-on-web-cryptography/ "Web Cryptography API")の更新や動画などのメディアの自動再生がデフォルトブロックする変更などが含まれています。
+
+- [Auto-Play Policy Changes for macOS | WebKit](https://webkit.org/blog/7734/auto-play-policy-changes-for-macos/ "Auto-Play Policy Changes for macOS | WebKit")
+
+またiPhone Xに関する`viewport-fit=cover`とCSSの`constants()`（`env()`にリネーム予定）とsafe-areaについての解説もかかれているので併せて読むと良さそうです。
+
+- [Designing Websites for iPhone X | WebKit](https://webkit.org/blog/7929/designing-websites-for-iphone-x/ "Designing Websites for iPhone X | WebKit")
+
+----
+
+[Introduction to WebRender – Part 1 – Browsers today – Mozilla Gfx Team Blog](https://mozillagfx.wordpress.com/2017/09/21/introduction-to-webrender-part-1-browsers-today/ "Introduction to WebRender – Part 1 – Browsers today – Mozilla Gfx Team Blog")という記事では、現在のメジャーなモダンブラウザにおけるレンダリングプロセスについて書かれています。
+
+ServoのWebRenderを例に、現在のレンダリングパイプラインについて書かれています。
+
+1. Layout
+  1. DOMツリー: DOMパースしてDOMツリーを作る
+  2. Frameツリー: 各DOMツリーのレイアウト結果
+2. Painting
+  3. Display List: Frameツリーごとに描画コマンドへ
+  4. Layerツリー: レイヤーに描画
+3. Compositor
+  5. LayerツリーのCompositing: レイヤー同士を合成
+
+各ブラウザに差異はありますが、描画までのプロセス(Layout -> Painting)と合成のプロセス(Compositing)を分けるという手法は、現在のモダンウェブブラウザでは取り入れられています。
+
+他のブラウザのレンダリングプロセスについても最近発表があったので併せてみるとよいかもしれません。
+
+- Chrome:
+  - [Next Gen Rendering Engine (BlinkOn 8) - Google スSlide](https://docs.google.com/presentation/d/11rr_vo7UNS6icihnWZMx45O4y5JiSegZKYLQKA1LAdo/edit?ts=599d038f&pli=1#slide=id.g2627e5dc61_1_27)
+  - [LayoutNG - Google Documents](https://docs.google.com/document/d/1uxbDh4uONFQOiGuiumlJBLGgO4KDWB8ZEkp7Rd47fw4/edit#heading=h.guvbepjyp0oj)
+- MSEdge: [Building a faster browser: Behind the scenes improvements in Microsoft Edge | Microsoft Edge Web Summit 2017 | Channel 9](https://channel9.msdn.com/Events/WebPlatformSummit/Microsoft-Edge-Web-Summit-2017/ES14 "Building a faster browser: Behind the scenes improvements in Microsoft Edge | Microsoft Edge Web Summit 2017 | Channel 9")
 
 ----
 
