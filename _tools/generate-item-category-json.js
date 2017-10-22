@@ -22,8 +22,13 @@ const mdFiles = glob.sync([
 let resultJSON = [];
 mdFiles.forEach(mdFilePath => {
     const content = fs.readFileSync(mdFilePath, "utf-8");
-    const maps = parse(content);
-    resultJSON = resultJSON.concat(maps);
+    try {
+        const maps = parse(content);
+        resultJSON = resultJSON.concat(maps);
+    } catch (error) {
+        console.log(mdFilePath);
+        console.error(error);
+    }
 });
 
 fs.writeFileSync(outputFilePath, JSON.stringify(resultJSON), "utf-8");
