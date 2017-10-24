@@ -1,17 +1,44 @@
 ---
-title: "2017-10-24のJS: "
+title: "2017-10-24のJS: CKEditor 5、MDN Web Docsへのドキュメント統合"
 author: "azu"
 layout: post
-date : 2017-10-24T02:16:42.759Z
+date : 2017-10-24T01:41:38.582Z
 category: JSer
 tags:
--
+- MDN
+- CKEditor
+- CORS
+- domain
 
 ---
 
-JSer.info #354
+JSer.info #354 - Mozilla、Microsoft、Google、W3Cが協調してウェブ開発のドキュメントを[MDN Web Docs](https://developer.mozilla.org/ "MDN Web Docs")に集約していくことを発表しました。
+
+- [Mozilla brings Microsoft, Google, the W3C, Samsung together to create cross-browser documentation on MDN - The Mozilla Blog](https://blog.mozilla.org/blog/2017/10/18/mozilla-brings-microsoft-google-w3c-samsung-together-create-cross-browser-documentation-mdn/ "Mozilla brings Microsoft, Google, the W3C, Samsung together to create cross-browser documentation on MDN - The Mozilla Blog")
+
+目に見える変化としては、MSDNのドキュメントがMDNにリダイレクトされていきます。
+ブラウザ固有のドキュメントに関しては[Microsoft Edge documentation - Microsoft Edge Development | Microsoft Docs](https://docs.microsoft.com/ja-jp/microsoft-edge/ "Microsoft Edge documentation - Microsoft Edge Development | Microsoft Docs")などに残ります。
+
+- [Documenting the Web together - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2017/10/18/documenting-web-together-mdn-web-docs/ "Documenting the Web together - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog")
+
+以前、Web Platform APIのドキュメントを統合しようという動きは[WebPlatform.org](https://webplatform.github.io/ "Your Web, documented. · WebPlatform.org")という試みが行われていましたが、2015年にdiscontinueとなっています。
+
+-----
+
+[CKEditor 5: A new era for rich text editing | CKEditor.com](https://ckeditor.com/blog/CKEditor-5-A-new-era-for-rich-text-editing/ "CKEditor 5: A new era for rich text editing | CKEditor.com")という記事ではリッチエディタライブラリであるCKEditor 5の変更点について書かれています。
+
+- [ckeditor/ckeditor5: Development environment for CKEditor 5; the best browser-based rich text editor.](https://github.com/ckeditor/ckeditor5 "ckeditor/ckeditor5: Development environment for CKEditor 5; the best browser-based rich text editor.")
+
+CKEditor 5では内部的にドキュメントモデルを持ち、エディタのインターフェースやAPI経由での変更はこのドキュメントモデルを操作するようになりました。
+今まではContentEditable + プリプロセスで行っていたため、汚いHTMLが生成される場合もあります。ドキュメントモデルから一意なHTMLを出力できるようになっています。また、ドキュメントモデルからの出力先として[Markdownへの出力](https://docs.ckeditor.com/ckeditor5/latest/features/markdown.html "Markdown")などもできるようになっています。
+
+このドキュメントモデルを内部的にもつアプローチは同様のリッチエディタでは採用されることが多くなっています。
+[Draft.js](https://draftjs.org/ "Draft.js")、[ProseMirror](http://marijnhaverbeke.nl/blog/prosemirror-1.html "ProseMirror")、[Quill](https://github.com/quilljs/quill "Quill")の[Parchment](https://github.com/quilljs/parchment "Parchment")、[Trix](https://github.com/basecamp/trix#understanding-the-document-model "Trix")、[Slate](https://github.com/ianstormtaylor/slate "Slate")のdata modelなどが似たような仕組みを持っています。
+
+興味がある人は合わせて見るとよいかもしれません。
 
 ----
+
 
 <h1 class="site-genre">ヘッドライン</h1>
 
@@ -52,10 +79,13 @@ Mozilla、Microsoft、Googleなどがウェブ開発系のドキュメントをM
 
 ## CKEditor 5: A new era for rich text editing | CKEditor.com
 [ckeditor.com/blog/CKEditor-5-A-new-era-for-rich-text-editing/](https://ckeditor.com/blog/CKEditor-5-A-new-era-for-rich-text-editing/ "CKEditor 5: A new era for rich text editing | CKEditor.com")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
-CKEditor 5での変更点について。 今までのアーキテクチャを一新し、編集するテキストをデータモデルとしてもつことでContentEditable特有の出力を回避できるように。 またエディタ共通の問題についてを扱うEditor Recommendationsサイトの公開
+CKEditor 5の変更点について。
+今までのアーキテクチャを一新し、編集するテキストをデータモデルとしてもつことでContentEditable特有の出力を回避できるように。
+またエディタ共通の問題についてを扱うEditor Recommendationsサイトの公開など
 
+- [Home | editor-recommendations](http://ckeditor.github.io/editor-recommendations/ "Home | editor-recommendations")
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -142,7 +172,7 @@ BlinkOn 8の動画一覧
 
 Micro Frontendsについて。
 マイクロサービスアーキテクチャ的な考えをフロントエンドの中にも適応していく話。
-機能でのチーム分割、独立したコンポーネントとWeb Components、ナビゲーションなど各トピックごとについて実現方法についてを書いていくとのこと
+機能でのチーム分割、独立したコンポーネントとWeb Components、ナビゲーションなど各トピックごとの実現方法についてを書いていくとのこと
 
 - [Micro frontends | Technology Radar | ThoughtWorks](https://www.thoughtworks.com/radar/techniques/micro-frontends "Micro frontends | Technology Radar | ThoughtWorks")
 
