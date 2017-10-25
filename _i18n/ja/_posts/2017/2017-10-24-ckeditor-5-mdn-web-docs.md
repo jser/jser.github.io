@@ -49,7 +49,7 @@ CKEditor 5では内部的にドキュメントモデルを持ち、エディタ�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">ReleaseNote</span></p>
 
 MSEdge 16の変更点について。
-CSS Grid Layout、objefct-fit、Payment Request APIのサポート。
+CSS Grid Layout、object-fit、Payment Request APIのサポート。
 Service Workerの試験的サポート、WebVR対応の改善など
 
 
