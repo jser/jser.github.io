@@ -1,17 +1,83 @@
 ---
-title: "2017-11-07のJS: "
+title: "2017-11-07のJS: TypeScript 2.6.、Node.js 8.9.0 LTS、Angular 5.0.0"
 author: "azu"
 layout: post
 date : 2017-11-07T01:13:49.333Z
 category: JSer
 tags:
--
+- TypeScript
+- Node.js
+- Angular
 
 ---
 
-JSer.info #356
+JSer.info #356 - TypeScript 2.6が正式にリリースされました。
+
+- [Announcing TypeScript 2.6 | TypeScript](https://blogs.msdn.microsoft.com/typescript/2017/10/31/announcing-typescript-2-6/ "Announcing TypeScript 2.6 | TypeScript")
+
+`strictFunctionTypes`オプションが有効時は、関数の引数がBivariantではなくContravariantとして扱われるようになりました。以前のTypeScriptはFlowとは異なり関数の引数の不整合をコンパイルエラーとしませんでしたが、今回の`strictFunctionTypes`オプションでその不整合をコンパイルエラーにできます。
+
+- [なぜ TypeScript の型システムが健全性を諦めているか - Qiita](https://qiita.com/na-o-ys/items/aa56d678cdf0de2bdd79 "なぜ TypeScript の型システムが健全性を諦めているか - Qiita")
+
+また`--locale`でのCLIやエラーメッセージの多言語化、`--watch`の改善、`// ts-ignore`のサポート。
+languageserviceの改善でVSCodeなどでJSDocから型をQuickfixできるように、`@types`の自動インストール対応などが行われています。
+
+詳しくは次の記事でも解説されています。
+
+- [TypeScript 2.6 変更点と注意点 - abcdefGets](http://abcdef.gets.b6n.ch/entry/2017/11/01/101358)
+- [TypeScript 2.6.1 変更点 - Qiita](https://qiita.com/vvakame/items/d2c7cf142fa0af39d2d5)
 
 ----
+
+Node.js 8.9.0と9.0.0がリリースされました。
+
+- [Node v8.9.0 (LTS) | Node.js](https://nodejs.org/en/blog/release/v8.9.0/)
+
+Node.js 8.9.0では、npm 5.5.1へのアップデート、`require.resolve()`に指定パスを基準に探索するオプションが追加、`util.TextEncoder`と`util.TextDecoder`の実験フラグが外れています。
+また、Node.js 8.9.0は8.x系のLong-Term Supported (LTS)となりました。
+
+![LTS](https://jser.info/uploads/2017/11/07-1510019474.png)
+
+> [nodejs/Release: Node.js Foundation Release Working Group](https://github.com/nodejs/Release "nodejs/Release: Node.js Foundation Release Working Group")より
+
+次の記事で詳細が書かれていますが、Node.js 4.xと6.xからのマイグレーションが推奨されています。
+
+- [NEWS: Node.js 8 Moves into Long-Term Support and Node.js 9 Becomes the New Current Release Line](https://medium.com/the-node-js-collection/news-node-js-8-moves-into-long-term-support-and-node-js-9-becomes-the-new-current-release-line-74cf754a10a0 "NEWS: Node.js 8 Moves into Long-Term Support and Node.js 9 Becomes the New Current Release Line")
+
+また、同時にリリースされてNode.js 9.0.0ではさまざまなBreaking Changeが含まれています。
+
+Error codeの対応、`assert.deepStrictEqual`がSameValueZeroのロジックで比較するように、`assert`のメソッドがカスタムエラーをサポート、`util.callbackify`、`util.isDeepStrictEqual`の追加など。
+また`Intl.v8BreakIterator`や`domain`から`.dispose()`の削除などが行われています。
+
+詳細は次の記事を参照してください。
+
+- [Node v9.0.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v9.0.0/)
+
+----
+
+Angular 5.0.0がリリースされました。
+また同時に[angular-cli](https://github.com/angular/angular-cli "angular-cli") 1.5.0がリリースされています。
+
+- [Version 5.0.0 of Angular Now Available – Angular Blog](https://blog.angular.io/version-5-0-0-of-angular-now-available-37e414935ced)
+- [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#500-pentagonal-donut-2017-11-01)
+- [Release 1.5 – Turing · angular/angular-cli](https://github.com/angular/angular-cli/releases/tag/v1.5.0)
+
+CLIでのビルドにBuild Optimizerがデフォルトで適応され、Decoratorなどランタイムでは不要なものを削除できるようになっています。
+破壊的な変更としてi18n pipesのデフォルト挙動の変更やDateFormatがCLDRに合わせた書式へと変更されています。
+偶然、同じ時期にCLDRの最新版であるCLDR 32もリリースされています。
+
+- [Date formats - Google spread sheet](https://docs.google.com/spreadsheets/d/12iygt-_cakNP1VO7MV9g4lq9NsxVWG4tSfc98HpHb0k/edit#gid=0 "Date formats - Google spread sheet")
+- [CLDR 32 Release Note - CLDR - Unicode Common Locale Data Repository](http://cldr.unicode.org/index/downloads/cldr-32 "CLDR 32 Release Note - CLDR - Unicode Common Locale Data Repository")
+
+RxJS 5.5へのアップデート、Routerのライフサイクルの追加なども行われています。
+
+AngularではLTSとして`4.x`系が公開されていて、`4.x`は2017年10月から2018年10月までのサポートとなっています。
+詳細は次のページに公開されています。
+
+- [Long-Term Supported (LTS) Versions](https://github.com/angular/angular/blob/master/docs/RELEASE_SCHEDULE.md#long-term-supported-lts-versions "Long-Term Supported (LTS) Versions")
+
+----
+
 
 <h1 class="site-genre">ヘッドライン</h1>
 
