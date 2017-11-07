@@ -44,10 +44,12 @@ Node.js 8.9.0では、npm 5.5.1へのアップデート、`require.resolve()`に
 
 - [NEWS: Node.js 8 Moves into Long-Term Support and Node.js 9 Becomes the New Current Release Line](https://medium.com/the-node-js-collection/news-node-js-8-moves-into-long-term-support-and-node-js-9-becomes-the-new-current-release-line-74cf754a10a0 "NEWS: Node.js 8 Moves into Long-Term Support and Node.js 9 Becomes the New Current Release Line")
 
-また、同時にリリースされてNode.js 9.0.0ではさまざまなBreaking Changeが含まれています。
+また、同時にNode.js 9.0.0がリリースされています。
+Node.js 9.0.0では、さまざまなBreaking Changeが含まれています。
 
-Error codeの対応、`assert.deepStrictEqual`がSameValueZeroのロジックで比較するように、`assert`のメソッドがカスタムエラーをサポート、`util.callbackify`、`util.isDeepStrictEqual`の追加など。
-また`Intl.v8BreakIterator`や`domain`から`.dispose()`の削除などが行われています。
+Error codeの対応、`assert.deepStrictEqual`がSameValueZeroのロジックで比較するようになり、`Intl.v8BreakIterator`や`domain`から`.dispose()`の削除などが行われています。
+
+機能追加として、`assert`のメソッドがカスタムエラーをサポート、`util.callbackify`、`util.isDeepStrictEqual`の追加などが行われています。
 
 詳細は次の記事を参照してください。
 
