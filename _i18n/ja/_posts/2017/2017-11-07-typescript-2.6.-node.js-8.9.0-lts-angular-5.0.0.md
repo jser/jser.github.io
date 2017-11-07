@@ -36,7 +36,7 @@ Node.js 8.9.0と9.0.0がリリースされました。
 Node.js 8.9.0では、npm 5.5.1へのアップデート、`require.resolve()`に指定パスを基準に探索するオプションが追加、`util.TextEncoder`と`util.TextDecoder`の実験フラグが外れています。
 また、Node.js 8.9.0は8.x系のLong-Term Supported (LTS)となりました。
 
-![LTS](https://jser.info/uploads/2017/11/07-1510019474.png)
+![LTS](https://cdn.rawgit.com/nodejs/Release/05e27d38230ae5077a3bb463933f5c2eeb33f981/schedule.png)
 
 > [nodejs/Release: Node.js Foundation Release Working Group](https://github.com/nodejs/Release "nodejs/Release: Node.js Foundation Release Working Group")より
 
