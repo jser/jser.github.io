@@ -55,7 +55,7 @@ JavaScriptのコストとはネットワークからのロード、パース、�
 
 [For Moment users](https://moment.github.io/luxon/docs/manual/faq/moment.html "For Moment users")にも書かれていますが、MomentとAPIの互換性はありません。
 
-特徴としては、日付/時間/インターバルの操作/パース/フォーマットを行うことができ、momentとは異なりImmutableなAPIとなっています。また、ECMA i18n APIを使ったTimeZoneやIntlを使った国際化に対応しています。
+特徴としては、日付/時間/インターバルの操作/パース/フォーマットを行うことができ、momentとは異なりImmutableなAPIとなっています。また、TimeZoneやIntlを使った国際化に対応しています。
 
 そして、LuxonはネイティブのDate、Moment、Date-fnsとは異なりmonthを`1-indexed`な値として扱います。
 
