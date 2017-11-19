@@ -57,6 +57,27 @@ JavaScriptのコストとはネットワークからのロード、パース、�
 
 特徴としては、日付/時間/インターバルの操作/パース/フォーマットを行うことができ、momentとは異なりImmutableなAPIとなっています。また、ECMA i18n APIを使ったTimeZoneやIntlを使った国際化に対応しています。
 
+そして、LuxonはネイティブのDate、Moment、Date-fnsとは異なりmonthを`1-indexed`な値として扱います。
+
+```js
+// 2017-01-01
+const date20170101 = new Date("2017-01-01T00:00:00.000Z");
+// Luxon - 1-index
+const { DateTime }  = require('luxon');
+console.log("Luxon:get:" + DateTime.fromJSDate(date20170101).month); // => 1
+console.log("Luxon:set:" + DateTime.fromJSDate(date20170101).set({ month: 1 }).month); // => 1
+// date-fns - 0-indexed
+const {getMonth, setMonth} = require('date-fns');
+console.log("date-fns:get:"+ getMonth(date20170101)); // => 0
+console.log("date-fns:set:"+ getMonth(setMonth(new Date(2017, 1, 1), 0))); // => 0
+// moment - 0-indexed
+const moment = require('moment');
+console.log("moment:get:"+ moment(date20170101).month()); // => 0
+console.log("moment:set:"+ moment(date20170101).month(0).month()); // => 0
+```
+
+- [Luxon - data-fns - moment | RunKit](https://runkit.com/azu/5a117a65dcefad0012187983 "Luxon - data-fns - moment | RunKit")
+
 ----
 
 <h1 class="site-genre">ヘッドライン</h1>
