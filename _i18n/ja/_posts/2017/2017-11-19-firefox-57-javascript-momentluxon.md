@@ -1,15 +1,61 @@
 ---
-title: "2017-11-19のJS: "
+title: "2017-11-19のJS: Firefox 57、JavaScriptのコスト、momentとLuxon"
 author: "azu"
 layout: post
 date : 2017-11-19T10:51:22.569Z
 category: JSer
 tags:
--
+- Firefox
+- Performance
+- Date
+- Moment
+- i18n
 
 ---
 
-JSer.info #358
+JSer.info #358 - Firefox 57がリリースされました。
+
+- [Firefox — Notes (57.0) — Mozilla](https://www.mozilla.org/en-US/firefox/57.0/releasenotes/)
+- [Introducing the New Firefox: Firefox Quantum - The Mozilla Blog](https://blog.mozilla.org/blog/2017/11/14/introducing-firefox-quantum/)
+
+[Project Quantum](https://medium.com/mozilla-tech/a-quantum-leap-for-the-web-a3b7174b3c12 "Project Quantum")と呼ばれていたFirefoxの大規模書き換えの初回のリリースとなっています。
+新たに書き直されたQuantum CSS(Stylo)と呼ばれるCSSエンジンが含まれるリリースであるため、既存のCSSとの挙動にさまざまな違い(バグ修正も含む)があります。
+
+詳しくは次の記事を読むと良さそうです。
+
+- [Inside a super fast CSS engine: Quantum CSS (aka Stylo) – Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2017/08/inside-a-super-fast-css-engine-quantum-css-aka-stylo/ "Inside a super fast CSS engine: Quantum CSS (aka Stylo) – Mozilla Hacks – the Web developer blog")
+- [Firefox Quantum 57 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/57 "Firefox Quantum 57 for developers - Mozilla | MDN")
+
+`PerformanceObserver`の有効化、Fetchのabortを行える[AbortController](https://developer.mozilla.org/ja/docs/Web/API/AbortController "AbortController")に対応しています。
+また、WindowsのFirefoxにおいてデフォルトのフォントが変更されています。
+
+- [日本語の既定フォントが変更されました | Firefox サイト互換性情報](https://www.fxsitecompat.com/ja/docs/2017/japanese-default-fonts-have-been-changed/ "日本語の既定フォントが変更されました | Firefox サイト互換性情報")
+
+----
+
+[The Cost Of JavaScript – Dev Channel – Medium](https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e "The Cost Of JavaScript – Dev Channel – Medium")という記事ではJavaScriptのコストについて書かれています。
+
+JavaScriptのコストとはネットワークからのロード、パース、コンパイル、実行から構成されています。
+このパースとコンパイルが低スペックのデバイスでは大きな割合となることがあります。
+そのため、同じサイズのJavaScriptと画像ファイルでは、実行 or 描画までの時間は異なります。
+
+これらのコストについての解説や対策方法の一つとしてのPRPLパターンやPerformance Budgetについて書かれています。
+
+----
+
+[moment/luxon: A library for working with dates and times in JS](https://github.com/moment/luxon "moment/luxon: A library for working with dates and times in JS")という日付周りのライブラリがαリリースされています。
+
+元々、[moment](https://github.com/moment/moment "moment")-labプロジェクトから始まったライブラリで、momentの問題点である[mutable](https://github.com/moment/moment-rfcs/pull/2)である点などを解決しています。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Wondering about the future of Moment, modularization, etc? We have what we&#39;ll call a &#39;moment-labs&#39; project here: <a href="https://t.co/tFxIq9lEjm">https://t.co/tFxIq9lEjm</a></p>&mdash; moment.js (@momentjs) <a href="https://twitter.com/momentjs/status/918264220663214081?ref_src=twsrc%5Etfw">October 11, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Want a smaller, immutable date library for modern browsers? Luxon has officially joined the family! <a href="https://t.co/HSjRuRuZG1">https://t.co/HSjRuRuZG1</a></p>&mdash; moment.js (@momentjs) <a href="https://twitter.com/momentjs/status/923982141704192000?ref_src=twsrc%5Etfw">October 27, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+[For Moment users](https://moment.github.io/luxon/docs/manual/faq/moment.html "For Moment users")にも書かれていますが、MomentとAPIの互換性はありません。
+
+特徴としては、日付/時間/インターバルの操作/パース/フォーマットを行うことができ、momentとは異なりImmutableなAPIとなっています。また、ECMA i18n APIを使ったTimeZoneやIntlを使った国際化に対応しています。
 
 ----
 
