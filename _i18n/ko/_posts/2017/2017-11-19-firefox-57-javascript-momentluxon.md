@@ -48,7 +48,7 @@ JavaScript의 비용은 네트워크에서의 로드, 파싱, 컴파일, 실행 
 
 본래 [moment](https://github.com/moment/moment "moment")-lab 프로젝트에서 시작된 라이브러리로 moment의 문제점 중 하나인 [mutable](https://github.com/moment/moment-rfcs/pull/2) 특징을 해결한 라이브러리입니다.
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Wondering about the future of Moment, modularization, etc? We have what we&#39;ll call a &#39;moment-labs&#39; project here: <a href="https://t.co/tFxIq9lEjm">https://t.co/tFxIq9lEjm</a>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Wondering about the future of Moment, modularization, etc? We have what we&#39;ll call a &#39;moment-labs&#39; project here: <a href="https://t.co/tFxIq9lEjm">https://t.co/tFxIq9lEjm</a></p>&mdash; moment.js (@momentjs) <a href="https://twitter.com/momentjs/status/918264220663214081?ref_src=twsrc%5Etfw">October 11, 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Want a smaller, immutable date library for modern browsers? Luxon has officially joined the family! <a href="https://t.co/HSjRuRuZG1">https://t.co/HSjRuRuZG1</a></p>&mdash; moment.js (@momentjs) <a href="https://twitter.com/momentjs/status/923982141704192000?ref_src=twsrc%5Etfw">October 27, 2017</a></blockquote>
