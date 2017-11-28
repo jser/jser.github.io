@@ -1,15 +1,68 @@
 ---
-title: "2017-11-28のJS: "
+title: "2017-11-28のJS: Firefox 58の変更点、Emscripten/WebAssembly/Rust"
 author: "azu"
 layout: post
 date : 2017-11-28T00:43:49.054Z
 category: JSer
 tags:
--
+- firefox
+- webassembly
+- emscripten
 
 ---
 
-JSer.info #359
+JSer.info #359 - [New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2017/11/new-in-firefox-58-developer-edition/ "New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blog")ではFirefox 58(開発版)での変更点について紹介しています。
+
+CSSの`clip-path`を編集できる[CSS shapes highlighter](https://developer.mozilla.org/ja/docs/Tools/Page_Inspector/How_to/Edit_CSS_shapes "CSS shapes highlighter")の追加、デバッガーで著名なフレームワークのスタックトレースが簡潔な表示にでき、また`console.groups`が折りたためるようになるなど。
+また、macOSでのWebVRをデフォルトで有効化、FLACのサポート環境の追加、`PerformanceNavigationTiming `のサポート、Budgetベースのバックグラウンドにおける処理の制限追加などが行われています。
+
+----
+
+[WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream](http://gfx.hatenablog.com/entry/2017/11/16/231950 "WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream")という記事では[Emscripten](https://kripken.github.io/emscripten-site/)経由でWebAssemblyを利用する方法について書かれています。
+
+Node.jsではNative addonの仕組みがあるためバインディングを書けばCやC++などで書かれたものも利用できますが、node-gypによるビルドは環境によって問題を起こすことがあります。
+ネイティブコードをwasmにビルド済みのものを配布し、各環境でwasmを読み込んで実行ことでこの問題を回避するという話を`zopfli`を例にして紹介しています。
+
+----
+
+[dcodeIO/webassembly](https://github.com/dcodeIO/webassembly "dcodeIO/webassembly")は、C/C++で書かれたコードをWebAssemblyに変換して実行できるコンパイラ、ランタイムをもつツールキットです。
+[Emscripten](https://kripken.github.io/emscripten-site/)などを使ってC/C++を`.wasm`へビルドできる環境を[自分で設定](https://github.com/azu/emscripten-example)するよりも、最小構成のビルド環境を簡単に作れるようにする目的のツールキットです。
+
+`npm`でインストールすると`.wasm`のビルドに必要なツールも同時にダウンロードしてくれます。
+
+```
+# Install
+npm install webassembly
+# Compile
+npx wa compile -o program.wasm program.c
+```
+
+Node.jsで`.wasm`ファイルを読み込んで実行できるランタイムも含まれているので、次のように読み込んで実行できます。
+
+```js
+// program.js
+require("webassembly")
+  .load("program.wasm")
+  .then(module => {
+    console.log("1 + 2 = " + module.exports.add(1, 2));
+  });
+```
+
+`git clone`して`npm install`するだけで動くサンプルコードは次のリポジトリに用意してあります。
+
+- [azu/webassembly-example: Test https://github.com/dcodeIO/webassembly](https://github.com/azu/webassembly-example "azu/webassembly-example: Test https://github.com/dcodeIO/webassembly")
+
+また、少し話は異なりますがRustがEmscriptenを使わずにWebAssembly(`wasm32-unknown-unknown
+`)の出力に対応しました。
+
+- [std: Add a new wasm32-unknown-unknown target by alexcrichton · Pull Request #45905 · rust-lang/rust](https://github.com/rust-lang/rust/pull/45905)
+- [rustbuild: Enable WebAssembly backend by default by alexcrichton · Pull Request #46115 · rust-lang/rust](https://github.com/rust-lang/rust/pull/46115)
+- [Rust単体でWebAssemblyをコンパイルする（Emscripten無し）](https://sbfl.net/blog/2017/11/27/rust-webassembly-standalone/ "Rust単体でWebAssemblyをコンパイルする（Emscripten無し）")
+
+[Emscripten](https://kripken.github.io/emscripten-site/)を使わずに`.wasm`を扱うことができる環境は増えてきているので、興味がある人は調べてみるといいかもしれません。
+WebAssemblyについては次のサイトがWeeklyでニュースレターを更新しています。
+
+- [WebAssembly Weekly · A community-driven weekly newsletter about WebAssembly](http://wasmweekly.news/ "WebAssembly Weekly · A community-driven weekly newsletter about WebAssembly")
 
 ----
 
@@ -32,9 +85,10 @@ jsdom 11.4.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Firefox 58について。
-デバッガーでフレームワークののスタックトレースが簡潔化、`console.groups`が折りたためるように。
-また、WebVR、FLACのサポート艦橋の追加、`PerformanceNavigationTiming `のサポート、Budgetベースのバックグラウンドにおける処理の制限追加など
+デバッガーでフレームワークのスタックトレースが簡潔化、`console.groups`が折りたためるように。
+また、WebVR(macOS)、FLACのサポート環境の追加、`PerformanceNavigationTiming `のサポート、Budgetベースのバックグラウンドにおける処理の制限追加など
 
+- [budget-based background timeout throttling](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance)
 
 ----
 
