@@ -109,7 +109,7 @@ ReduxやMobXなどのように`Store`でStateを管理し、変更の監視やco
 [developers.google.com/web/updates/2017/11/dynamic-import](https://developers.google.com/web/updates/2017/11/dynamic-import "Dynamic import()  |  Web  |  Google Developers")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">safari</span> <span class="jser-tag">article</span></p>
 
-Chrom 63から利用できるDynamic `import()`についての解説
+Chrome 63から利用できるDynamic `import()`についての解説
 
 
 ----
@@ -147,7 +147,7 @@ Browserifyを使った開発ツールキットについて
 [qiita.com/teatime77/items/e867d7d462cb553b373d](https://qiita.com/teatime77/items/e867d7d462cb553b373d "JavaScriptのWebGL 2.0でGPGPU - Qiita")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebGL</span> <span class="jser-tag">article</span></p>
 
-WebGL 2.0を使ったGPUGPUについての解説記事。
+WebGL 2.0を使ったGPGPUについての解説記事。
 WebGL 2.0を使った行列計算や他の実装との比較など
 
 
