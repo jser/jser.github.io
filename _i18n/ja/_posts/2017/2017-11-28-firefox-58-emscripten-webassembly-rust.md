@@ -179,7 +179,7 @@ MicrosoftのNode.js入門講座
 [speakerdeck.com/brn/source-to-binary-journey-of-v8-javascript-engine](https://speakerdeck.com/brn/source-to-binary-journey-of-v8-javascript-engine "Source to Binary - journey of V8 javascript engine // Speaker Deck")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">slide</span></p>
 
-V8がJavaScriptのコードをを実行するフロー、コンパイルパイプラインについてのスライド
+V8がJavaScriptのコードを実行するフロー、コンパイルパイプラインについてのスライド
 
 
 ----
