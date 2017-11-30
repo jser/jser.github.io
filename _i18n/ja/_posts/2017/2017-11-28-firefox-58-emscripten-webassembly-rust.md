@@ -21,7 +21,7 @@ CSSの`clip-path`を編集できる[CSS shapes highlighter](https://developer.mo
 [WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream](http://gfx.hatenablog.com/entry/2017/11/16/231950 "WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream")という記事では[Emscripten](https://kripken.github.io/emscripten-site/)経由でWebAssemblyを利用する方法について書かれています。
 
 Node.jsではNative addonの仕組みがあるためバインディングを書けばCやC++などで書かれたものも利用できますが、node-gypによるビルドは環境によって問題を起こすことがあります。
-ネイティブコードをwasmにビルド済みのものを配布し、各環境でwasmを読み込んで実行ことでこの問題を回避するという話を`zopfli`を例にして紹介しています。
+ネイティブコードをwasmにビルド済みのものを配布し、各環境でwasmを読み込んで実行することでこの問題を回避するという話を`zopfli`を例にして紹介しています。
 
 ----
 
