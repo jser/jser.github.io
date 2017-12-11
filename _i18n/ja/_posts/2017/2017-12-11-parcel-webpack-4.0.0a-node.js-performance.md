@@ -17,14 +17,14 @@ JSer.info #361 - [設定より規約](https://ja.wikipedia.org/wiki/%E8%A8%AD%E5
 - [🚀 Announcing Parcel: A blazing fast, zero configuration web application bundler 📦](https://hackernoon.com/announcing-parcel-a-blazing-fast-zero-configuration-web-application-bundler-feac43aac0f1 "🚀 Announcing Parcel: A blazing fast, zero configuration web application bundler 📦")
 
 [webpack](https://webpack.js.org/ "webpack")や[FuseBox](http://fuse-box.org/ "FuseBox")は詳細を設定ファイルで扱いますが、[Parcel](https://parceljs.org/ "Parcel")には現時点では設定ファイルがありません。
-代わりにビルトインのプラグインと`pacakge.json`に書かれた`parcel-plugin-`から始まる名前のパッケージで[Plugins](https://parceljs.org/plugins.html#plugin-api "Plugins")を読み込むことで、対応するファイル([Assets](https://parceljs.org/assets.html "Assets"))などを拡張します。
+代わりにビルトインのプラグインと`pacakge.json`に書かれた`parcel-plugin-`から始まる名前のパッケージを[Plugins](https://parceljs.org/plugins.html#plugin-api "Plugins")として読み込むことで、対応するファイル([Assets](https://parceljs.org/assets.html "Assets"))などを拡張します。
 （Assetの内部処理として、それぞれのAssetsに対応する設定ファイルを使う仕組み。たとえば[JSAsset](https://github.com/parcel-bundler/parcel/blob/cf6902a30a4acc49a5b4572be42781ebf3ed356a/src/assets/JSAsset.js "JSAsset")ならば内部的にBabelが利用され、`.babelrc`を読み込んで処理される)
 
 JavaScriptだけではなくHTMLファイルをEntry pointとして扱うことができるため、典型的にはHTMLを起点にそこから読み込まれているAsset(CSSやJavaScriptなど)の依存を集めてビルドします。
 
 ```
 $ parcel build src/index.html
-# dist/ へAssets毎{js,css,htmlなど}のパッケージ結果が出力される
+# distフォルダへAssets毎{js,css,htmlなど}のパッケージ結果が出力される
 ```
 
 また、[FuseBoxのような](https://github.com/fuse-box/fuse-box/blob/93b5daca3fb1f91989983cf088b546a6f3672083/docs/internal-process.md)Asset単位のファイルキャッシュをしていて、デフォルトでは2度目のビルドからキャッシュが利用されます。
