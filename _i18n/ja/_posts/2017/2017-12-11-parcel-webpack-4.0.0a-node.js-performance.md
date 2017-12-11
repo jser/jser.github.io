@@ -1,15 +1,67 @@
 ---
-title: "2017-12-11のJS: "
+title: "2017-12-11のJS: Parcel、webpack 4.0.0α、Node.js Performance改善ガイド"
 author: "azu"
 layout: post
 date : 2017-12-11T00:06:46.000Z
 category: JSer
 tags:
--
+- bundler
+- webpack
+- node.js
+- performance
 
 ---
 
-JSer.info #361
+JSer.info #361 - [設定より規約](https://ja.wikipedia.org/wiki/%E8%A8%AD%E5%AE%9A%E3%82%88%E3%82%8A%E8%A6%8F%E7%B4%84 "設定より規約")([Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration "Convention over configuration"))なbundlerである[Parcel](https://parceljs.org/ "Parcel")がリリースされました。
+
+- [🚀 Announcing Parcel: A blazing fast, zero configuration web application bundler 📦](https://hackernoon.com/announcing-parcel-a-blazing-fast-zero-configuration-web-application-bundler-feac43aac0f1 "🚀 Announcing Parcel: A blazing fast, zero configuration web application bundler 📦")
+
+[webpack](https://webpack.js.org/ "webpack")や[FuseBox](http://fuse-box.org/ "FuseBox")は詳細を設定ファイルで扱いますが、[Parcel](https://parceljs.org/ "Parcel")には現時点では設定ファイルがありません。
+代わりにビルトインのプラグインと`pacakge.json`に書かれた`parcel-plugin-`から始まる名前のパッケージで[Plugins](https://parceljs.org/plugins.html#plugin-api "Plugins")を読み込むことで、対応するファイル([Assets](https://parceljs.org/assets.html "Assets"))などを拡張します。
+（Assetの内部処理として、それぞれのAssetsに対応する設定ファイルを使う仕組み。たとえば[JSAsset](https://github.com/parcel-bundler/parcel/blob/cf6902a30a4acc49a5b4572be42781ebf3ed356a/src/assets/JSAsset.js "JSAsset")ならば内部的にBabelが利用され、`.babelrc`を読み込んで処理される)
+
+JavaScriptだけではなくHTMLファイルをEntry pointとして扱うことができるため、典型的にはHTMLを起点にそこから読み込まれているAsset(CSSやJavaScriptなど)の依存を集めてビルドします。
+
+```
+$ parcel build src/index.html
+# dist/ へAssets毎{js,css,htmlなど}のパッケージ結果が出力される
+```
+
+また、[FuseBoxのような](https://github.com/fuse-box/fuse-box/blob/93b5daca3fb1f91989983cf088b546a6f3672083/docs/internal-process.md)なAsset単位のキャッシュをしていて、デフォルトでは2度目のビルドからはキャッシュが利用されます。
+一方、[公式サイトに掲載されているBenchmark](https://github.com/parcel-bundler/parcel/tree/cf6902a30a4acc49a5b4572be42781ebf3ed356a#benchmarks)の[詳細は明らかにされていない](https://github.com/parcel-bundler/parcel/issues/9)ため、キャッシュなしにおける優位性は不明です。
+(parcelでは[source map support](https://github.com/parcel-bundler/parcel/issues/68 "source map support")がまだサポートされていないなど、同等の設定での計測かは明確にはなっていない。)
+
+----
+
+webpackの次のメジャーアップデートであるwebpack 4.0.0-alpha.0が公開されています。
+
+- [webpack 4.0.0-alpha.0 feedback · Issue #6064 · webpack/webpack](https://github.com/webpack/webpack/issues/6064 "webpack 4.0.0-alpha.0 feedback · Issue #6064 · webpack/webpack")
+
+BREAKING CHANGEとしてはNode.js 4のサポート終了、新しいプラグインシステムの追加と既存プラグインの変更などが中心です。既存のプラグインも基本的には互換性を持ちますが、一部プラグインではWorkaroundが必要になるようです。
+
+- [The new plugin system (week 22–23) – webpack – Medium](https://medium.com/webpack/the-new-plugin-system-week-22-23-c24e3b22e95 "The new plugin system (week 22–23) – webpack – Medium")
+
+新しく`--mode`オプション（"devevelop" or "production")の追加が行われています。
+これは現在の`-d`や`-p`を整理して、webpackコア側の設定を"devevelop" or "production"にするものです。
+
+- `-d` = `--mode development --devtool cheap-module-eval-source-map`
+- `-p` = `--mode production --plugin uglifyjs-webpack-plugin`
+- [Webpack 4: include UglifyJsPlugin under the production mode · Issue #6075 · webpack/webpack](https://github.com/webpack/webpack/issues/6075 "Webpack 4: include UglifyJsPlugin under the production mode · Issue #6075 · webpack/webpack")
+
+また、module typeとしてesm(`.mjs`)とwebassembly(`.wasm`)をデフォルトで探すようになり、`sideEffects`設定のサポートなどが追加されています。
+
+[Parcel](https://parceljs.org/ "Parcel")のリリースを受けて、webpackの今後のロードマップに投票できる[Vote](https://webpack.js.org/vote/ "Vote")にZero Config Modeが追加されています。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Alright <a href="https://twitter.com/hashtag/JavaScript?src=hash&amp;ref_src=twsrc%5Etfw">#JavaScript</a> <a href="https://twitter.com/hashtag/webpack?src=hash&amp;ref_src=twsrc%5Etfw">#webpack</a> folks, I&#39;ve created the voting item! <br><br>If you _really_ want a Zero Configuration (aka your configs live in .postcss, .babel, .everythingelse), we can do this. It seems like theres folks who want this.) Thanks <a href="https://twitter.com/parceljs?ref_src=twsrc%5Etfw">@parceljs</a> 4 ideas! <a href="https://t.co/y57ALM28fB">https://t.co/y57ALM28fB</a> <a href="https://t.co/m5RYhR4s3N">pic.twitter.com/m5RYhR4s3N</a></p>&mdash; Sean Thomas Larkin (@TheLarkInn) <a href="https://twitter.com/TheLarkInn/status/938928029044170752?ref_src=twsrc%5Etfw">December 8, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+----
+
+[Node.js Performance 改善ガイド - from scratch](http://yosuke-furukawa.hatenablog.com/entry/2017/12/05/125517 "Node.js Performance 改善ガイド - from scratch")という記事ではNode.jsアプリケーションのパフォーマンス改善方法について書かれています。
+
+メモリ、CPU、ファイルI/O、ネットワークそれぞれにおける典型的なボトルネックの調べ方や改善方法について。
+また、JavaScriptの最適化の問題や、クラスタやNative Addonなどの代替手法についてなどについてかかれています。
+
 
 ----
 
