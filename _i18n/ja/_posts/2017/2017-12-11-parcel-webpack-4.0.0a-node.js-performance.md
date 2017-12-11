@@ -27,7 +27,7 @@ $ parcel build src/index.html
 # dist/ へAssets毎{js,css,htmlなど}のパッケージ結果が出力される
 ```
 
-また、[FuseBoxのような](https://github.com/fuse-box/fuse-box/blob/93b5daca3fb1f91989983cf088b546a6f3672083/docs/internal-process.md)なAsset単位のキャッシュをしていて、デフォルトでは2度目のビルドからはキャッシュが利用されます。
+また、[FuseBoxのような](https://github.com/fuse-box/fuse-box/blob/93b5daca3fb1f91989983cf088b546a6f3672083/docs/internal-process.md)Asset単位のビルドキャッシュをしていて、デフォルトでは2度目のビルドからはキャッシュが利用されます。
 一方、[公式サイトに掲載されているBenchmark](https://github.com/parcel-bundler/parcel/tree/cf6902a30a4acc49a5b4572be42781ebf3ed356a#benchmarks)の[詳細は明らかにされていない](https://github.com/parcel-bundler/parcel/issues/9)ため、キャッシュなしにおける優位性は不明です。
 (parcelでは[source map support](https://github.com/parcel-bundler/parcel/issues/68 "source map support")がまだサポートされていないなど、同等の設定での計測かは明確にはなっていない。)
 
