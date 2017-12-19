@@ -1,15 +1,55 @@
 ---
-title: "2017-12-19のJS: "
+title: "2017-12-19のJS: JavaScript開発者アンケート2017、Reactのインフラ、CQRS/EventSourcing"
 author: "azu"
 layout: post
-date : 2017-12-19T01:25:31.038Z
+date : 2017-12-19T01:21:14.517Z
 category: JSer
 tags:
--
+- JavaScript
+- react
+- cqrs
+- EventSourcing
 
 ---
 
-JSer.info #362
+JSer.info #362 - [The State of JavaScript 2017: Introduction](https://stateofjs.com/2017/introduction/ "The State of JavaScript 2017: Introduction")にてJavaScriptを使う開発者向けアンケートの結果が公開されています。
+
+JavaScriptのフロントエンドからバックエンド、ツール、言語、ライブラリ、CSSなど幅広く扱った内容になっています。
+またそれらの結果と給料や経験年数などを組み合わせた結果を見れます。
+
+たとえば、[#StateOfJS 2017 Results: Front-end Frameworks](http://stateofjs.com/2017/front-end/results/)ではフロントエンドのフレームワークとして何を使っているかという質問の結果が掲載されています。
+結果としてはReact、何も使ってない、Angularとなっていて、それらのフレームワークをまた使いたいかどうかや組み合わせて使っているのかといった内容になっています。
+
+去年の結果も<http://2016.stateofjs.com/>で見れるため、比べて見ると思い白いかもしれません。
+
+----
+
+[Behind the Scenes: Improving the Repository Infrastructure - React Blog](https://reactjs.org/blog/2017/12/15/improving-the-repository-infrastructure.html#using-public-api-in-tests "Behind the Scenes: Improving the Repository Infrastructure - React Blog")という記事では
+[facebook/react](https://github.com/facebook/react/ "facebook/react")リポジトリの開発インフラ整備について書かれています。
+
+かなり幅広く(ライブラリにおける)プロジェクト管理や改善方法について書かれています。
+
+Prettierでのコード整形、monorepoとyarn workspace、モジュール構造といった買付環境の整備。
+rollupでのflat bundle、Closure Compilerでの圧縮、加えてそれらのproductionビルドに対するテストについて。
+また、Public APIに対するテストの重要性や`npm pack`でのpublish状況再現してのテストなど。
+
+Internalにおけるビルドシステムの改善やそれらのモジュールをリリースする仕組みの整備など、大きくなったライブラリ/フレームワークにおけるインフラを細かく紹介しています。
+
+----
+
+[Patterns for designing flexible architecture in node.js (CQRS/ES/Onion)](https://medium.com/@domagojk/patterns-for-designing-flexible-architecture-in-node-js-cqrs-es-onion-7eb10bbefe17 "Patterns for designing flexible architecture in node.js (CQRS/ES/Onion)")という記事では、TypeScriptを使ってCQRS/EventSourcing(ES)パターンでNode.jsアプリを実装する話が書かれています。
+
+記事中に出てくるサンプルアプリは[domagojk/beenion: Online adaptation of a scientific journal publishing and peer reviewing](https://github.com/domagojk/beenion "domagojk/beenion: Online adaptation of a scientific journal publishing and peer reviewing")で公開されています。
+
+かなりしっかりとCQRS/ESパターンについて書かれているのでFluxやRedux(redux-saga)に興味がある人は読んでみると面白いかもしれません。
+
+- Write side(Command side)
+- Command
+- Command handler
+- domain model
+- Repository
+- Event
+- Read side(Query side)
 
 ----
 
@@ -133,15 +173,6 @@ Chromeの開発者ツールの使い方について。
 
 
 ----
-
-## Patterns for designing flexible architecture in node.js (CQRS/ES/Onion)
-[medium.com/@domagojk/patterns-for-designing-flexible-architecture-in-node-js-cqrs-es-onion-7eb10bbefe17](https://medium.com/@domagojk/patterns-for-designing-flexible-architecture-in-node-js-cqrs-es-onion-7eb10bbefe17 "Patterns for designing flexible architecture in node.js (CQRS/ES/Onion)")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">CQRS</span> <span class="jser-tag">DDD</span> <span class="jser-tag">EventSourcing</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
-
-TypeScriptを使ってCQRS+EventSoucingのパターンでNode.jsアプリを実装する記事。 サンプルプロジェクトと共にコマンドからイベントを作りそれをRepositoryに保存する流れを紹介してる。
-
-
-----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
 
 ----
@@ -253,5 +284,16 @@ SvelteをつかったNext.jsのようなフレームワーク
 2018年5月1日発売
 Electronについての書籍
 
+
+----
+
+## Patterns for designing flexible architecture in node.js (CQRS/ES/Onion)
+[medium.com/@domagojk/patterns-for-designing-flexible-architecture-in-node-js-cqrs-es-onion-7eb10bbefe17](https://medium.com/@domagojk/patterns-for-designing-flexible-architecture-in-node-js-cqrs-es-onion-7eb10bbefe17 "Patterns for designing flexible architecture in node.js (CQRS/ES/Onion)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">CQRS</span> <span class="jser-tag">EventSourcing</span> <span class="jser-tag">DDD</span> <span class="jser-tag">JavaScript</span></p>
+
+TypeScriptを使ってCQRS+EventSourcingのパターンでNode.jsアプリを実装する記事。
+サンプルプロジェクトと共にコマンドからイベントを作りそれをRepositoryに保存する流れを紹介してる。
+
+- [domagojk/beenion: Online adaptation of a scientific journal publishing and peer reviewing](https://github.com/domagojk/beenion "domagojk/beenion: Online adaptation of a scientific journal publishing and peer reviewing")
 
 ----
