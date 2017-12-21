@@ -29,7 +29,7 @@ JavaScriptのフロントエンドからバックエンド、ツール、言語�
 
 かなり幅広く(ライブラリにおける)プロジェクト管理や改善方法について書かれています。
 
-Prettierでのコード整形、monorepoとyarn workspace、モジュール構造といった買付環境の整備。
+Prettierでのコード整形、monorepoとyarn workspace、モジュール構造といった開発環境の整備。
 rollupでのflat bundle、Closure Compilerでの圧縮、加えてそれらのproductionビルドに対するテストについて。
 また、Public APIに対するテストの重要性や`npm pack`でのpublish状況再現してのテストなど。
 
