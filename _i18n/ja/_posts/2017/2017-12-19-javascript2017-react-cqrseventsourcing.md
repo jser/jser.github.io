@@ -2,7 +2,7 @@
 title: "2017-12-19のJS: JavaScript開発者アンケート2017、Reactのインフラ、CQRS/EventSourcing"
 author: "azu"
 layout: post
-date : 2017-12-19T01:21:14.517Z
+date : 2017-12-19T11:21:14.517Z
 category: JSer
 tags:
 - JavaScript
