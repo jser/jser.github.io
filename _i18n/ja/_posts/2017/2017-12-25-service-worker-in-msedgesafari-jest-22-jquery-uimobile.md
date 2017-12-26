@@ -1,15 +1,64 @@
 ---
-title: "2017-12-25のJS: "
+title: "2017-12-25のJS: Service Worker in MSEdge/Safari、Jest 22、jQuery UIとMobileの統合"
 author: "azu"
 layout: post
 date : 2017-12-25T22:55:06.473Z
 category: JSer
 tags:
--
+- ServiceWorker
+- jest
+- jQuery
 
 ---
 
-JSer.info #363
+JSer.info #363 - MSEdge(Insider build)とSafari(Technology Preview)でそれぞれService Workerが実装されたことについてのブログが公開されました。
+
+- [Service Workers: Going beyond the page - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2017/12/19/service-workers-going-beyond-page/)
+- [Release Notes for Safari Technology Preview 46 | WebKit](https://webkit.org/blog/8042/release-notes-for-safari-technology-preview-46/)
+
+これによりモダンブラウザにはService Workerが実装されることになります。
+
+<p class="ciu_embed" data-feature="serviceworkers" data-periods="future_1,current,past_1,past_2">
+  <a href="http://caniuse.com/#feat=serviceworkers">Can I Use serviceworkers?</a> Data on support for the serviceworkers feature across the major browsers from caniuse.com.
+</p>
+
+MSEdgeとSafariどちらもまだ実験的なビルドでの公開なので、正常に動かないケースもあるようです。
+その場合はそれぞれのIssue Trackerに報告することが推奨されています。
+
+- MSEdge: [Microsoft Edge issue tracker - Microsoft Edge Development](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/?page=1&q=Service%20Worker "Microsoft Edge issue tracker - Microsoft Edge Development")
+- Safari: [Bug List](https://bugs.webkit.org/buglist.cgi?quicksearch=Service%20Worker "Bug List")
+
+----
+
+Jest 22がリリースされました。
+
+- [Jest 22: Refinements & Custom Runners · Jest](http://facebook.github.io/jest/blog/2017/12/18/jest-22.html "Jest 22: Refinements &amp; Custom Runners · Jest")
+
+
+Node.js 4のサポート終了、Custom Runnerのコアとなる[jest-worker](https://github.com/facebook/jest/tree/master/packages/jest-worker "jest-worker")が公開されました。
+Jestは元々[node-worker-farm](https://github.com/rvagg/node-worker-farm "node-worker-farm")を使い、テストの並列実行を行っていましたが、その役目を[jest-worker](https://github.com/facebook/jest/tree/master/packages/jest-worker "jest-worker")に置き換えていました。
+
+- [Initial version of jest-worker by mjesun · Pull Request #4497 · facebook/jest](https://github.com/facebook/jest/pull/4497 "Initial version of jest-worker by mjesun · Pull Request #4497 · facebook/jest")
+
+そして、Jestを並列実行処理の基盤として使えるCustom RunnerがJest 22で正式に公開されています。
+これにより、Jestの上で[jest-runner-mocha](https://github.com/rogeliog/jest-runner-mocha "jest-runner-mocha")や[jest-runner-eslint](https://github.com/jest-community/jest-runner-eslint "jest-runner-eslint")のように別のテストフレームワークやLint処理などを並列実行できるようになっています。
+
+詳しくは次の動画を見てください。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NtjyeojAOBs" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
+またテスト結果のフォーマッタの変更、`--detectLeaks`の追加、Babel 7のサポートなどが行われています。
+
+----
+
+[The Future of jQuery UI and jQuery Mobile | jQuery UI Blog](http://blog.jqueryui.com/2017/12/the-future-of-jquery-ui-and-jquery-mobile/ "The Future of jQuery UI and jQuery Mobile | jQuery UI Blog")では、jQuery UIとjQuery Mobileのプロジェクト統合について書かれています。
+
+[jquery-mobile](https://github.com/jquery/jquery-mobile "jquery-mobile")は[jquery-ui](https://github.com/jquery/jquery-ui "jquery-ui")に依存していますが、今までチームやリポジトリは別々にありました。
+今回、[@scottgonzalez](https://github.com/scottgonzalez "scottgonzalez")がjQuery UIプロジェクトのリーダを辞めることになり、現在jQuery Mobileのプロジェクトリーダである[@arschmitz](https://github.com/arschmitz "arschmitz")がjQuery UIプロジェクトも見ることになりました。
+jQuery MobileはUIに依存しているため、重複や無駄を避けるために2つのプロジェクトを統合したチームにしていく方針について書かれています。
+
+また合わせて協力者を募集するため<https://jqueryui-dev.slack.com/>のslackチームを作り、意見を募集しています。
+(<http://bit.ly/2Btf6pu>からslackチームにjoinできる)
 
 ----
 
@@ -123,7 +172,7 @@ Service Workerの基本的な使い方やService Workerの制限について書�
 [blog.jqueryui.com/2017/12/the-future-of-jquery-ui-and-jquery-mobile/](http://blog.jqueryui.com/2017/12/the-future-of-jquery-ui-and-jquery-mobile/ "The Future of jQuery UI and jQuery Mobile | jQuery UI Blog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">UI</span> <span class="jser-tag">mobile</span> <span class="jser-tag">article</span> <span class="jser-tag">opinion</span></p>
 
-jQuery MobileはjQuery UIに依存しているが、今までは別々のリポジトリとなっていた。
+jQuery MobileはjQuery UIに依存しているが、今までは別々のチーム/リポジトリとなっていた。
 重複などの無駄があるため、チームを統合し、停滞しているプロジェクトを改善していく指針が公開された。
 あわせてSlackチャンネルを開設して協力者を募集している。
 
