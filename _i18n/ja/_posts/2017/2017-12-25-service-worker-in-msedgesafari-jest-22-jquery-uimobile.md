@@ -1,8 +1,8 @@
 ---
-title: "2017-12-25のJS: Service Worker in MSEdge/Safari、Jest 22、jQuery UIとMobileの統合"
+title: "2017-12-26のJS: Service Worker in MSEdge/Safari、Jest 22、jQuery UIとMobileの統合"
 author: "azu"
 layout: post
-date : 2017-12-25T22:55:06.473Z
+date : 2017-12-26T09:55:06.473Z
 category: JSer
 tags:
 - ServiceWorker
