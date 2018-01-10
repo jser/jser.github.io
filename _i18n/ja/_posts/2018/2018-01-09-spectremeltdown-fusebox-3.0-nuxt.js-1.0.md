@@ -1,15 +1,58 @@
 ---
-title: "2018-01-09のJS: "
+title: "2018-01-09のJS: Spectre/Meltdownのブラウザへの影響、FuseBox 3.0、Nuxt.js 1.0"
 author: "azu"
 layout: post
 date : 2018-01-09T23:13:18.624Z
 category: JSer
 tags:
--
+- Security
+- browser
+- fusebox
+- vue
 
 ---
 
-JSer.info #365
+JSer.info #365 - Googleの[Project Zero](https://googleprojectzero.blogspot.jp/2014/07/announcing-project-zero.html "Project Zero")チームより、投機的実行の仕組みを利用したサイドチャネル攻撃に関する脆弱性として[Meltdown and Spectre](https://spectreattack.com/ "Meltdown and Spectre")が公開されました。
+
+ブラウザは任意のJavaScriptを実行でき、かつ`SharedArrayBuffer`や`performance.now()`など精度の高いタイマーをもつため、このサイドチャネル攻撃の影響受けます。本来は、ブラウザは一種Sandbox内で任意のJavaScriptを独立して実行する仕組みを持ちSandbox外の状態は観測できません。しかし、[Spectre](https://spectreattack.com/ "Spectre")によってSandbox外の状態を観測できる可能性がでてきたためです。
+
+そのためChrome、Firefox、MSEdge、Safariではそれぞれ一時的に[SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer "SharedArrayBuffer - JavaScript | MDN")の無効化、`performance.now()`の精度を下げる軽減策が導入されています。
+([fantastictimers.pdf](https://gruss.cc/files/fantastictimers.pdf#page=10 "fantastictimers.pdf")では`SharedArrayBuffer`を高精度のタイマーとして使えることについて書かれています）
+
+- [Actions required to mitigate Speculative Side-Channel Attack techniques - The Chromium Projects](https://sites.google.com/a/chromium.org/dev/Home/chromium-security/ssca)
+- [Mitigations landing for new class of timing attack | Mozilla Security Blog](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/)
+- [Mitigating speculative execution side-channel attacks in Microsoft Edge and Internet Explorer - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/#dvXo8lGoraWMULYx.97)
+- [What Spectre and Meltdown Mean For WebKit | WebKit](https://webkit.org/blog/8048/what-spectre-and-meltdown-mean-for-webkit/)
+
+どのブラウザも今回の変更は一時的な対策であるとして、`SharedArrayBuffer`については再度有効化する目標について書かれています。
+
+関連: 高精度のタイマーを使ってのサイドチャネル攻撃について。
+
+- [IAIK/ChromeZero: Google Chrome extension implementing JavaScript Zero](https://github.com/IAIK/ChromeZero)
+- [jszero.pdf](https://misc0110.net/web/files/jszero.pdf)
+- [fantastictimers.pdf](https://gruss.cc/files/fantastictimers.pdf#page=10)
+- [ecmascript_sharedmem/TimingAttack.md at master · tc39/ecmascript_sharedmem](https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md "ecmascript_sharedmem/TimingAttack.md at master · tc39/ecmascript_sharedmem")
+
+
+----
+
+BundlerかつTask Runnerである[FuseBox](https://github.com/fuse-box/fuse-box "FuseBox") 3.0がリリースされました。
+
+- [FuseBox 3.0 — faster than ever – fusebox – Medium](https://medium.com/fusebox/fusebox-3-0-faster-than-ever-5fae4254556c "FuseBox 3.0 — faster than ever – fusebox – Medium")
+- [fuse-box/version3changelog.md at master · fuse-box/fuse-box](https://github.com/fuse-box/fuse-box/blob/master/docs/version3changelog.md "fuse-box/version3changelog.md at master · fuse-box/fuse-box")
+
+
+Code Splittingをデフォルトでサポート、TypeScriptをソースにTree Shakingをサポートするために`ts:main`のサポート。
+パフォーマンスの改善、ウェブサイトのデザイン更新などが行われています。
+
+----
+
+Vue版Next.jsであるNuxt.js 1.0がリリースされました。
+
+- [Nuxt.js 1.0 is out 🎉 – Nuxt.js – Medium](https://medium.com/@nuxt_js/nuxt-js-1-0-is-out-bab1af459972 "Nuxt.js 1.0 is out 🎉 – Nuxt.js – Medium")
+
+Node.js 8.0.0未満のサポートを終了。
+今後はドキュメンテーション、パフォーマンス、TypeScriptサポートの改善などを行っていくロードマップについて書かれています。
 
 ----
 
