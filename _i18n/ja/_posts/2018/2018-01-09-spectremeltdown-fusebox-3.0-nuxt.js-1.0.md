@@ -264,16 +264,6 @@ W3Cのモバイルのウェブアプリに関する仕様のロードマップ�
 
 ----
 
-## Roadmap of Web Applications on Mobile
-[www.w3.org/Mobile/roadmap/](https://www.w3.org/Mobile/roadmap/ "Roadmap of Web Applications on Mobile")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span> <span class="jser-tag">spec</span> <span class="jser-tag">document</span></p>
-
-W3Cのモバイルのウェブアプリに関する仕様のステータスページ。
-それぞれのジャンルごとの仕様まとめ、ステータス、実装状況について
-
-
-----
-
 ## Lighthouse 2.7 Updates  |  Web  |  Google Developers
 [developers.google.com/web/updates/2018/01/lighthouse](https://developers.google.com/web/updates/2018/01/lighthouse "Lighthouse 2.7 Updates  |  Web  |  Google Developers")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span></p>
