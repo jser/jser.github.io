@@ -12,10 +12,10 @@ tags:
 
 ---
 
-JSer.info #365 - Googleの[Project Zero](https://googleprojectzero.blogspot.jp/2014/07/announcing-project-zero.html "Project Zero")チームより、投機的実行と分岐予測を利用したサイドチャネル攻撃に関する脆弱性として[Meltdown and Spectre](https://spectreattack.com/ "Meltdown and Spectre")が公開されました。
+JSer.info #365 - Googleの[Project Zero](https://googleprojectzero.blogspot.jp/2014/07/announcing-project-zero.html "Project Zero")チームより、投機的実行を利用したサイドチャネル攻撃に関する脆弱性として[Meltdown and Spectre](https://spectreattack.com/ "Meltdown and Spectre")が公開されました。
 
 
-ブラウザは任意のJavaScriptを実行でき、かつ`SharedArrayBuffer`や`performance.now()`など精度の高いタイマーをもつため、このサイドチャネル攻撃の影響受けます。本来は、ブラウザは一種Sandbox内で任意のJavaScriptを独立して実行する仕組みを持ちSandbox外の状態は観測できません。しかし、[Spectre](https://spectreattack.com/ "Spectre")によってSandbox外の状態を観測できる可能性がでてきたためです。
+ブラウザは任意のJavaScriptを実行でき、かつ`SharedArrayBuffer`や`performance.now()`など精度の高いタイマーをもつためこのサイドチャネル攻撃の影響受けます。本来は、ブラウザは一種Sandbox内で任意のJavaScriptを独立して実行する仕組みを持ちSandbox外の状態は観測できません。しかし、[Spectre](https://spectreattack.com/ "Spectre")によってSandbox外の状態を観測できる可能性がでてきたためです。
 
 そのためChrome、Firefox、MSEdge、Safariではそれぞれ一時的に[SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer "SharedArrayBuffer - JavaScript | MDN")の無効化、`performance.now()`の精度を下げる軽減策が導入されています。
 ([fantastictimers.pdf](https://gruss.cc/files/fantastictimers.pdf#page=10 "fantastictimers.pdf")では`SharedArrayBuffer`を高精度のタイマーとして使えることについて書かれています）
