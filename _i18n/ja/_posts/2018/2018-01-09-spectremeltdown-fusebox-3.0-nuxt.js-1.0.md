@@ -12,7 +12,8 @@ tags:
 
 ---
 
-JSer.info #365 - Googleの[Project Zero](https://googleprojectzero.blogspot.jp/2014/07/announcing-project-zero.html "Project Zero")チームより、投機的実行の仕組みを利用したサイドチャネル攻撃に関する脆弱性として[Meltdown and Spectre](https://spectreattack.com/ "Meltdown and Spectre")が公開されました。
+JSer.info #365 - Googleの[Project Zero](https://googleprojectzero.blogspot.jp/2014/07/announcing-project-zero.html "Project Zero")チームより、投機的実行と分岐予測を利用したサイドチャネル攻撃に関する脆弱性として[Meltdown and Spectre](https://spectreattack.com/ "Meltdown and Spectre")が公開されました。
+
 
 ブラウザは任意のJavaScriptを実行でき、かつ`SharedArrayBuffer`や`performance.now()`など精度の高いタイマーをもつため、このサイドチャネル攻撃の影響受けます。本来は、ブラウザは一種Sandbox内で任意のJavaScriptを独立して実行する仕組みを持ちSandbox外の状態は観測できません。しかし、[Spectre](https://spectreattack.com/ "Spectre")によってSandbox外の状態を観測できる可能性がでてきたためです。
 
@@ -32,6 +33,8 @@ JSer.info #365 - Googleの[Project Zero](https://googleprojectzero.blogspot.jp/2
 - [jszero.pdf](https://misc0110.net/web/files/jszero.pdf)
 - [fantastictimers.pdf](https://gruss.cc/files/fantastictimers.pdf#page=10)
 - [ecmascript_sharedmem/TimingAttack.md at master · tc39/ecmascript_sharedmem](https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md "ecmascript_sharedmem/TimingAttack.md at master · tc39/ecmascript_sharedmem")
+- [Flush+Reload](https://eprint.iacr.org/2013/448.pdf "Flush+Reload")
+- [sec15-paper-gruss.pdf](https://www.usenix.org/system/files/conference/usenixsecurity15/sec15-paper-gruss.pdf "sec15-paper-gruss.pdf")
 
 
 ----
