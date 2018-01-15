@@ -153,7 +153,7 @@ JSer.infoではできる限り元をたどって把握しようとしますが�
 
 - [2018-01-09のJS: Spectre/Meltdownのブラウザへの影響、FuseBox 3.0、Nuxt.js 1.0 - JSer.info](https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/ "2018-01-09のJS: Spectre/Meltdownのブラウザへの影響、FuseBox 3.0、Nuxt.js 1.0 - JSer.info")
 
-現在のJavaScriptをすべて知っている人などいないため、すべてを正確に伝えることは難しいと思います。
+JavaScriptがあらゆるものと関連している現在において、JavaScriptのすべて知っている人などいないため、すべてを正確に伝えることは難しいと思います。
 
 ### 説明する
 
