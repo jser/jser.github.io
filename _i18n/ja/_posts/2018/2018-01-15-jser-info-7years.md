@@ -79,11 +79,11 @@ JSer.infoの記事が更新されるまでのワークフローについては[J
 - [angular/RELEASE_SCHEDULE.md at master · angular/angular](https://github.com/angular/angular/blob/master/docs/RELEASE_SCHEDULE.md)
 
 また今まではライブラリの生死が、単純に作者のモチベーションで決まっていたことが多かったようにも思えます。
-しかし、近年は企業がバックにいる場合、[OpenCollective](https://opencollective.com/ "OpenCollective - A New Form of Association, Transparent by Design")による支援、[JS Foundation](https://github.com/JSFoundation/TAC "JS Foundation")による組織的なサポートなど色々な形が増えています。
+しかし、近年は企業がバックにいるケース、[OpenCollective](https://opencollective.com/ "OpenCollective - A New Form of Association, Transparent by Design")や[Patreon](https://www.patreon.com/ "Patreon")などによる支援、[JS Foundation](https://github.com/JSFoundation/TAC "JS Foundation")による組織的なサポートなど色々な形が増えています。
 
 - [Projects - JS Foundation](https://js.foundation/community/projects "Projects - JS Foundation")
 
-そのため、単純なStar数やPluseなどのリポジトリとしての情報だけではなく、コミュニティや組織と言った関連情報も見ないとそのライブラリを正しく評価できないと思います。
+また単純なStar数やGitHub Pluseなどのリポジトリとしての情報だけではなく、コミュニティや組織と言った関連情報も見ないとそのライブラリを正しく評価できないと思います。
 
 ライブラリを取り巻く状況は複雑化しているので、情報を伝える場合はこれを意識する必要があります。
 
