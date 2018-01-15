@@ -274,3 +274,9 @@ JSer.infoはその辺を徹底的に仕組化やイテレーションコスト�
 JSer.info が何かの助けになっていれば幸いです。
 
 意見や感想などがありましたら、[#jserinfo](https://twitter.com/search?f=tweets&vertical=default&q=%23jserinfo&src=typd "#jserinfo")のハッシュタグに投稿してください。
+
+----
+
+[JSer.infoの韓国語翻訳](https://jser.info/ko/)を継続的に行っていただいている[U-Yeong Ju](https://github.com/UYEONG "U-Yeong Ju")さんにも感謝を
+
+----
