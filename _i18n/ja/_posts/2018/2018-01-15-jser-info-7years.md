@@ -16,11 +16,11 @@ tags:
 
 去年一年間に紹介したサイト数は1074でした。
 
-[![今年のJSer.info紹介記事数](http://jser.info/uploads/media/2018/01/15-1515943367.png)](https://jser.info/data-dashboard/)
+[![今年のJSer.info紹介記事数](https://jser.info/uploads/media/2018/01/15-1515943367.png)](https://jser.info/data-dashboard/)
 
 また、今までのすべての紹介したサイト数の合計は7691でした。
 
-[![合計](http://jser.info/uploads/media/2018/01/15-1515984870.png)](https://jser.info/data-dashboard/)
+[![合計](https://jser.info/uploads/media/2018/01/15-1515984870.png)](https://jser.info/data-dashboard/)
 
 JSer.infoの紹介したサイトデータはすべてデータ化されているので次のページから見れます。
 
