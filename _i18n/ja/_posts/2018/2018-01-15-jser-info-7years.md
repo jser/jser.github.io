@@ -43,7 +43,7 @@ JSer.infoの紹介したサイトデータはすべてデータ化されてい�
 
 以前[JavaScript情報ってなんだっけ?](http://azu.github.io/slide/2016/jser5years/javascript-information.html "JavaScript情報ってなんだっけ?")という発表でも話していましたが、情報とは誰かの主観が入ったデータだと思います。
 
-[![JavaScript情報ってなんだっけ?](http://jser.info/uploads/media/2018/01/15-1515977359.png)](http://azu.github.io/slide/2016/jser5years/javascript-information.html)
+[![JavaScript情報ってなんだっけ?](https://jser.info/uploads/media/2018/01/15-1515977359.png)](http://azu.github.io/slide/2016/jser5years/javascript-information.html)
 
 JSer.infoのゴールには情報を整理(データを加工して)して正確に伝えるというものが含まれています。
 そのため、主観によって誤った情報が伝わることを避けるために、更新までに次のようなプロセスを辿っています。
@@ -188,7 +188,7 @@ JavaScriptがあらゆるものと関連している現在において、JavaScr
 紹介記事ごとにこれを繰り返してある程度数が溜まったら記事にしています。
 目安はBotが教えてくれます。
 
-![bot](http://jser.info/uploads/media/2018/01/15-1515972040.png)
+![bot](https://jser.info/uploads/media/2018/01/15-1515972040.png)
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr"><a href="https://twitter.com/azu_re?ref_src=twsrc%5Etfw">@azu_re</a> 今の投稿ステータスです！<br>平均値: 21.03013698630137<br>中央値: 21<br>現在値: 15</p>&mdash; JSer.info (@jser_info) <a href="https://twitter.com/jser_info/status/952681063968485377?ref_src=twsrc%5Etfw">January 14, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -206,7 +206,7 @@ CI/CD経由のブランチ更新と同じデータを使っているので、同
 
 実際に記事を公開するときは[github.com/jser/jser.github.io/compare/jser-week-366?expand=1](https://github.com/jser/jser.github.io/compare/jser-week-366?expand=1)のような作っておいたブランチからPull Requestを出す形になるので、基本的にGitHub Web UIだけで記事公開までできるようになっています。
 
-![記事がたまったブランチ](http://jser.info/uploads/media/2018/01/15-1515972306.png)
+![記事がたまったブランチ](https://jser.info/uploads/media/2018/01/15-1515972306.png)
 
 > 記事がたまったブランチ – これをPRにして直接Webで編集してマージする
 
