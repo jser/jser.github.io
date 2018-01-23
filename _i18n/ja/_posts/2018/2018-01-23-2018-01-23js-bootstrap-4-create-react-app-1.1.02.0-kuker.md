@@ -1,17 +1,74 @@
 ---
-title: "2018-01-23のJS: "
+title: "2018-01-23のJS: 2018-01-23のJS: Bootstrap 4、create-react-app 1.1.0と2.0、kuker"
 author: "azu"
 layout: post
 date : 2018-01-23T03:05:24.055Z
 category: JSer
 tags:
--
+- CSS
+- React
+- debug
+- browser
 
 ---
 
-JSer.info #367
+JSer.info #367 - CSSフレームワークのBootstrap 4が正式リリースされました。
+[Bootstrap 3.3.0](http://blog.getbootstrap.com/2014/10/29/bootstrap-3-3-0-released/ "Bootstrap 3.3.0")から約3年ぶりのメジャーアップデートとなります。
+
+- [Bootstrap 4 · Bootstrap](https://blog.getbootstrap.com/2018/01/18/bootstrap-4/)
+
+4.0では実装をLessからSassへ変更、GridシステムにFlexboxを利用、Panelsやthumbnailsを廃止しCardsへの移行などの変更が行なわれています。そのため、コンポーネントへ指定するクラス名のリネームも行われています。
+詳しい変更点とv3からの違いについてはマイグレーションガイドを参照してください。
+
+- [Migrating to v4 · Bootstrap](https://getbootstrap.com/docs/4.0/migration/)
+
+また、IE 8、9のサポート終了し、v4からはIE10+、iOS 7+、Android 5.0+が対象となっています。
+
+- [Browsers and devices · Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/ "Browsers and devices · Bootstrap")
 
 ----
+
+Reactの開発ツールである[create-react-app](https://github.com/facebook/create-react-app "create-react-app") 1.1.0がリリースされました。
+
+- [Release v1.1.0 · facebook/create-react-app](https://github.com/facebook/create-react-app/releases/tag/v1.1.0 "Release v1.1.0 · facebook/create-react-app")
+
+`--use-npm`の追加、`--scripts-version`で`.tar.gz`や`file:`のサポートなどが行われています。
+また、このリリースが1.1.x系の最後となり、次のメジャーアップデート候補である2.0に含める機能についての議論が行われています。
+
+- [Roadmap for react-scripts@2.0 · Issue #3815 · facebook/create-react-app](https://github.com/facebook/create-react-app/issues/3815 "Roadmap for react-scripts@2.0 · Issue #3815 · facebook/create-react-app")
+
+----
+
+[kuker](https://github.com/krasimir/kuker "kuker")というReact、Angular、Vue、Redux、MobX、HTMLなどに対応したデバッグツールが公開されています。
+kukerは、ライブラリの状態やイベントのログを`postMessage`で送り、そのログを表示できるブラウザ拡張となっています。
+
+たとえば、Reduxならばコンポーネントのライフサイクルログを表示し、ReduxならReduxからdispatchされたActionとその時点でのStateを表示できるようになります。
+
+同じ系統のデバッグブラウザ拡張として[Redux DevTools](https://github.com/gaearon/redux-devtools "Redux DevTools")があります。
+[Almin](https://almin.js.org/ "Almin")というライブラリ向けに、[Redux DevToolsに対応したもの](https://github.com/almin/almin-devtools)と[kukerに対応したもの](https://github.com/almin/almin-kuker-devtools)をそれぞれ書いてみました。
+どちらも任意のデータを送る仕組みを持っていますが、kukerは単純に`postMessage`でイベントやStateを送るだけなので特別な仕組みは必要ありません。
+
+```js
+const sendToDevTools = ({ type, state }) => {
+    window.postMessage({
+        kuker: true,
+        type: type,
+        origin: 'Almin',
+        label: type,
+        time: (new Date()).getTime(),
+        state: { state },
+        icon: 'fa-money',
+        color: '#bada55'
+    }, '*');
+};
+```
+
+詳しくは作者のブログで必要となった理由や仕組みについて書かれているので見てみると良さそうです。
+
+- [Debugging your front-end like it's 2019](http://krasimirtsonev.com/blog/article/debugging-your-front-end-like-is-2019 "Debugging your front-end like it&#39;s 2019")
+
+----
+
 
 <h1 class="site-genre">ヘッドライン</h1>
 
