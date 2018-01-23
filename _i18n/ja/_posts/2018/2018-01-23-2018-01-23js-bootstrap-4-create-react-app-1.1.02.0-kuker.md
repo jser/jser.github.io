@@ -227,8 +227,8 @@ ReactのRender Propsのパターンについてのドキュメント
 [nodesecroadmap.fyi/](https://nodesecroadmap.fyi/ "Introduction · A Roadmap for Node.js Security")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">security</span> <span class="jser-tag">document</span></p>
 
-Node.jsのセキュリティに関するドキュメント。Node.jsにおけてセキュリティ的な問題が起きる項目について。
-またDynamic requireなどコードレ別の問題などについて
+Node.jsのセキュリティに関するドキュメント。Node.jsにおいてセキュリティ的な問題が起きる項目について。
+またDynamic requireなどコード別の問題などについて
 
 
 ----
