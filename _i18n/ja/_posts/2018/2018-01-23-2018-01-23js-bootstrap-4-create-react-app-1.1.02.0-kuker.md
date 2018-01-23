@@ -33,7 +33,7 @@ Reactの開発ツールである[create-react-app](https://github.com/facebook/c
 - [Release v1.1.0 · facebook/create-react-app](https://github.com/facebook/create-react-app/releases/tag/v1.1.0 "Release v1.1.0 · facebook/create-react-app")
 
 `--use-npm`の追加、`--scripts-version`で`.tar.gz`や`file:`のサポートなどが行われています。
-また、このリリースが1.1.x系の最後となり、次のメジャーアップデート候補である2.0に含める機能についての議論が行われています。
+また、このリリースが1.x系の最後となり、次のメジャーアップデート候補である2.0に含める機能についての議論が行われています。
 
 - [Roadmap for react-scripts@2.0 · Issue #3815 · facebook/create-react-app](https://github.com/facebook/create-react-app/issues/3815 "Roadmap for react-scripts@2.0 · Issue #3815 · facebook/create-react-app")
 
