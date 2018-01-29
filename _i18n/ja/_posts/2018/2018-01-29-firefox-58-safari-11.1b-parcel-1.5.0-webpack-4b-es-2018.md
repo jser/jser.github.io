@@ -79,9 +79,10 @@ ECMAScriptは毎年6月ごろにリリースされるため、これから新し
 - [tc39/proposal-async-iteration: Asynchronous iteration for JavaScript](https://github.com/tc39/proposal-async-iteration)
   - IteratorのAsync版
 
-Proposalの詳しい解説は次の記事にまとめられています。
+Proposalの解説は次の記事にまとめられています。
 
 - [ECMAScript 2018: the final feature set](http://2ality.com/2017/02/ecmascript-2018.html)
+- [ECMAScript 2018（ES2018）の新機能まとめ | あるいてっく](https://arui.tech/es2018-new-features/ "ECMAScript 2018（ES2018）の新機能まとめ | あるいてっく")
 
 今回のTC39ミーティングで変化があったProposalは次のページにまとめてあります。
 
