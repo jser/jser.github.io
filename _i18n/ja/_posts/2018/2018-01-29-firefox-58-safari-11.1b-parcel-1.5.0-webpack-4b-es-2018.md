@@ -75,7 +75,7 @@ ECMAScriptは毎年6月ごろにリリースされるため、これから新し
 - [tc39/proposal-object-rest-spread: Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)
   - `{ ...obj }` オブジェクト版のRest/Spreadプロパティ(配列はES2015から利用できる)
 - [tc39/proposal-promise-finally: ECMAScript Proposal, specs, and reference implementation for Promise.prototype.finally](https://github.com/tc39/proposal-promise-finally)
-  - Promiseチェーンの最後に必ず実行されるコールバックを指定できる`Promise.prototype.finally`のサポート
+  - resolve、rejectどちらの場合でも実行されるコールバックを指定できる`Promise.prototype.finally`のサポート
 - [tc39/proposal-async-iteration: Asynchronous iteration for JavaScript](https://github.com/tc39/proposal-async-iteration)
   - IteratorのAsync版
 
