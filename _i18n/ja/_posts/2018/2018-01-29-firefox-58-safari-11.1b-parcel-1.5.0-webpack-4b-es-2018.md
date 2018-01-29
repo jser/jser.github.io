@@ -69,7 +69,7 @@ ECMAScriptは毎年6月ごろにリリースされるため、これから新し
 - [tc39/proposal-regexp-named-groups: Named capture groups for JavaScript RegExps](https://github.com/tc39/proposal-regexp-named-groups)
   - 正規表現の名前付きキャプチャ
 - [tc39/proposal-regexp-lookbehind: RegExp lookbehind assertions](https://github.com/tc39/proposal-regexp-lookbehind)
-  - 正規表現の後読みのサポート
+  - 正規表現の肯定後読みのサポート
 - [tc39/proposal-regexp-unicode-property-escapes: Proposal to add Unicode property escapes `\p{…}` and `\P{…}` to regular expressions in ECMAScript.](https://github.com/tc39/proposal-regexp-unicode-property-escapes)
   - `/^\p{White_Space}+$/u` Unicode character propertiesのサポート
 - [tc39/proposal-object-rest-spread: Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)
