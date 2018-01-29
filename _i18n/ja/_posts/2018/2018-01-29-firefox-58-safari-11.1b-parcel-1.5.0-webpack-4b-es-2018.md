@@ -55,7 +55,10 @@ Source Mapsの対応や、WebAssemblyなどAssertsの対応が追加されてい
 ----
 
 [62nd meeting of Ecma TC39](https://github.com/tc39/agendas/blob/master/2018/01.md "62nd meeting of Ecma TC39")が行われ、ECMAScript 2018に最終的に入るProposalが決定しました。
-ECMAScriptは毎年6月ごろにリリースされるため、これから新しい機能(Proposal)を入れると間に合わなくなるため、1月ごろに機能(Proposal)の追加は終了します。
+ECMAScriptは毎年6月ごろにリリースされるため、これから新しい機能(Proposal)を入れると間に合わなくなります。
+そのため、1月ごろに機能(Proposal)の追加はフリーズされ、この時期からStage 4となったProposalは[ECMAScript仕様本体](https://github.com/tc39/ecma262 "ECMAScript")へマージされます。
+
+- [is:pr label:"pending stage 4"](https://github.com/tc39/ecma262/pulls?utf8=%E2%9C%93&q=is%3Apr+label%3A%22pending+stage+4%22+)で実際にマージの様子が確認できます。
 
 [Finished Proposals](https://github.com/tc39/proposals/blob/master/finished-proposals.md "Finished Proposals")にまとめられていますが、ES2018には次の8つのProposalがマージされます。
 
