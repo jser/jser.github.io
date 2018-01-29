@@ -48,7 +48,7 @@ Source Mapsの対応や、WebAssemblyなどAssertsの対応が追加されてい
 - [🚀webpack 4 beta — try it today!🚀 – webpack – Medium](https://medium.com/webpack/webpack-4-beta-try-it-today-6b1d27d7d7e2)
 - [Release v4.0.0-beta.0 · webpack/webpack](https://github.com/webpack/webpack/releases/tag/v4.0.0-beta.0)
 
-また`CommonsChunkPlugin`などの一部プラグインを削除さて、代わりに`optimization`のオプションで設定できるようになるといった変更なども含まれています。
+また`CommonsChunkPlugin`などの一部プラグインを削除され、代わりに`optimization`のオプションで設定できるようになるといった変更なども含まれています。
 
 - [RIP CommonsChunkPlugin.md](https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693 "RIP CommonsChunkPlugin.md")
 
