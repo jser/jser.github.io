@@ -87,9 +87,6 @@ Proposalの解説は次の記事にまとめられています。
 今回のTC39ミーティングで変化があったProposalは次のページにまとめてあります。
 
 - [ECMAScript proposal updates at 2018-01 | ECMAScript Daily](https://ecmascript-daily.github.io/ecmascript/2018/01/28/ecmascript-proposal-updates)
-- [ECMAScript 2018: the final feature set](http://2ality.com/2017/02/ecmascript-2018.html)
-
-
 
 ----
 
