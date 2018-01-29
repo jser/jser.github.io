@@ -1,5 +1,5 @@
 ---
-title: "2018-01-29のJS: Firefox 58、Safari 11.1(β)、Parcel 1.5.0、webpack 4(β)、ES 2018に入る機能の決定"
+title: "2018-01-29のJS: Firefox 58、Safari 11.1(β)、Parcel 1.5.0、webpack 4(β)、ES 2018の機能が確定"
 author: "azu"
 layout: post
 date : 2018-01-29T21:51:02.933Z
