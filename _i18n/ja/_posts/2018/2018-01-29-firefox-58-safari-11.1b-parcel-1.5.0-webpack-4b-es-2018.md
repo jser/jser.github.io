@@ -43,12 +43,12 @@ Source Mapsの対応や、WebAssemblyなどAssertsの対応が追加されてい
 - [📦 Parcel v1.5.0 released: Source Maps, WebAssembly, Rust, and more! 🚀](https://medium.com/@devongovett/parcel-v1-5-0-released-source-maps-webassembly-rust-and-more-3a6385e43b95 "📦 Parcel v1.5.0 released: Source Maps, WebAssembly, Rust, and more! 🚀")
 
 また、webpack 4(β)もリリースされています。
-`--mode`オプションが必須となり、典型的な設定は`mode: development`または`mode: production`で行われてるようになっています。デフォルトでは`src`をソースディレクトリにし、`dist`ディレクトリに出力するといった設定ファイルなしでの利用改善が図られています。
+`--mode`オプションが必須となり、典型的な設定は`mode: development`または`mode: production`で行うようになっています。デフォルトでは`src`をソースディレクトリにし、`dist`ディレクトリに出力するといった設定ファイルなしでの利用改善が図られています。
 
 - [🚀webpack 4 beta — try it today!🚀 – webpack – Medium](https://medium.com/webpack/webpack-4-beta-try-it-today-6b1d27d7d7e2)
 - [Release v4.0.0-beta.0 · webpack/webpack](https://github.com/webpack/webpack/releases/tag/v4.0.0-beta.0)
 
-また`CommonsChunkPlugin`などの一部プラグインを削除され、代わりに`optimization`のオプションで設定できるようになるといった変更なども含まれています。
+また`CommonsChunkPlugin`などの一部プラグインが削除され、代わりに`optimization`のオプションで設定できるようになるといった変更なども含まれています。
 
 - [RIP CommonsChunkPlugin.md](https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693 "RIP CommonsChunkPlugin.md")
 
