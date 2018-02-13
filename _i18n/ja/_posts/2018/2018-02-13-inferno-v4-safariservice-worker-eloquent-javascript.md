@@ -1,15 +1,44 @@
 ---
-title: "2018-02-13のJS: "
+title: "2018-02-13のJS: Inferno v4、SafariでのService Worker、Eloquent JavaScript第三版"
 author: "azu"
 layout: post
 date : 2018-02-13T02:04:48.927Z
 category: JSer
 tags:
--
+- React
+- inferno
+- Safari
+- book
 
 ---
 
-JSer.info #370
+JSer.info #370 - ReactライクなAPIをもつInferno v4がリリースされました。
+
+- [Release Inferno v4 · infernojs/inferno](https://github.com/infernojs/inferno/releases/tag/v4.0.2 "Release Inferno v4 · infernojs/inferno")
+
+`Inferno.createPortal`の追加、[inferno-router](https://github.com/infernojs/inferno/tree/master/packages/inferno-router "inferno-router")がReact Router v4相当に、MobxやReduxとの連携の更新などが行われています。
+主にモジュール分割の破壊的な変更もあり、その詳細は次のマイグレーションガイドにまとめられています。
+
+- [inferno/v4-migration.md at master · infernojs/inferno](https://github.com/infernojs/inferno/blob/master/docs/v4-migration.md "inferno/v4-migration.md at master · infernojs/inferno")
+
+----
+
+[Workers at Your Service | WebKit](https://webkit.org/blog/8090/workers-at-your-service/ "Workers at Your Service | WebKit")という記事では、[Safari 11.1](https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_11_1.html "Safari 11.1")(beta)に実装されたService Workerについて解説されています。
+
+仕様的な面やSafariでの実装、キャッシュの保存場所や削除方法について書かれています。
+Safari 11.1では数週間利用されていないService Workerやキャッシュが自動的に削除される、キャッシュサイズは50MB/partitionに制限されている点などについても書かれています。
+
+また、[PWAs are coming to iOS 11.3: Cupertino, we have a problem](https://medium.com/@firt/pwas-are-coming-to-ios-11-3-cupertino-we-have-a-problem-2ff49fd7d6ea "PWAs are coming to iOS 11.3: Cupertino, we have a problem")という別の記事では、Safariと他のブラウザとの実装が異なる点や、ホームスクリーンアプリとした時のWeb App Manifestの対応、注意点についても書かれています。
+
+----
+
+[Eloquent JavaScript](https://eloquentjavascript.net/3rd_edition/ "Eloquent JavaScript")の第三版のドラフト版が公開されました。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">You&#39;re all invited to read the full draft of Eloquent JavaScript&#39;s 3rd edition: <a href="https://t.co/8M5hp5awU2">https://t.co/8M5hp5awU2</a><br><br>Finishing touches are still ongoing, but this should be a readable text.</p>&mdash; Marijn Haverbeke (@MarijnJH) <a href="https://twitter.com/MarijnJH/status/958665332448784384?ref_src=twsrc%5Etfw">January 31, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+JavaScriptやプログラミングについてを学ぶ書籍です。
+間違いやtypoを見つけた場合は[Issue](https://github.com/marijnh/Eloquent-JavaScript/issues)から報告できます。
 
 ----
 
