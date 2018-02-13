@@ -134,6 +134,9 @@ Inferno v4リリース。
 
 echojs.com が閉鎖された
 
+<blockquote class="twitter-tweet" data-partner="tweetdeck"><p lang="pt" dir="ltr">Echo JS, 2011-2018 - <a href="https://t.co/vEiEFdntF8">https://t.co/vEiEFdntF8</a></p>&mdash; Echo JS (@echojs) <a href="https://twitter.com/echojs/status/962996800738258945?ref_src=twsrc%5Etfw">February 12, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 ----
 <h1 class="site-genre">アーティクル</h1>
