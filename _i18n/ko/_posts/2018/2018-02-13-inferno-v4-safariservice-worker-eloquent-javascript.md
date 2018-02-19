@@ -35,7 +35,7 @@ JSer.info #370 - React 스러운 API를 갖고 있는 Inferno v4가 릴리스 �
 
 [Eloquent JavaScript](https://eloquentjavascript.net/3rd_edition/ "Eloquent JavaScript") 제3판의 초안이 공개 됐습니다.
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">You&#39;re all invited to read the full draft of Eloquent JavaScript&#39;s 3rd edition: <a href="https://t.co/8M5hp5awU2">https://t.co/8M5hp5awU2</a>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">You&#39;re all invited to read the full draft of Eloquent JavaScript&#39;s 3rd edition: <a href="https://t.co/8M5hp5awU2">https://t.co/8M5hp5awU2</a><br><br>Finishing touches are still ongoing, but this should be a readable text.</p>&mdash; Marijn Haverbeke (@MarijnJH) <a href="https://twitter.com/MarijnJH/status/958665332448784384?ref_src=twsrc%5Etfw">January 31, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 JavaScript와 프로그래밍에 대해 학습하는 도서입니다.
