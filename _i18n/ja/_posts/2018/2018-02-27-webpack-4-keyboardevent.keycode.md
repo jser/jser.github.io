@@ -1,5 +1,5 @@
 ---
-title: "2018-02-27のJS: webpack 4、プロファイルとパフォーマンス改善、KeyboardEvent.keyCodeとは何か"
+title: "2018-02-27のJS: webpack 4、プロファイルとパフォーマンス改善、KeyboardEvent.keyCodeの問題"
 author: "azu"
 layout: post
 date : 2018-02-27T02:15:36.179Z
