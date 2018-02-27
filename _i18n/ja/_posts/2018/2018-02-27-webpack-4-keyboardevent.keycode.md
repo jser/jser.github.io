@@ -1,15 +1,49 @@
 ---
-title: "2018-02-27のJS: "
+title: "2018-02-27のJS: webpack 4、プロファイルとパフォーマンス改善、KeyboardEvent.keyCodeとは何か"
 author: "azu"
 layout: post
 date : 2018-02-27T02:15:36.179Z
 category: JSer
 tags:
--
+- webpack
+- performance
+- keyboard
 
 ---
 
-JSer.info #372
+JSer.info #372 - webpack 4が正式リリースされました。
+
+- [🎼webpack 4: released today!!✨ – webpack – Medium](https://medium.com/webpack/webpack-4-released-today-6cdb994702d4)
+- [Release v4.0.0 · webpack/webpack](https://github.com/webpack/webpack/releases/tag/v4.0.0)
+
+ビルドパフォーマンスの改善、`mode`オプションの追加、`CommonsChunkPlugin`を廃止し代わりに`optimize`オプションの追加、`.wasm`、`.mjs`などをEntry Pointとしてサポートなどが行われています。
+
+新しいプラグインシステムが導入され、plugin/loader周りに破壊的な変更が行われています。
+まだ、いくつかのplugin/loaderは4.xには対応していないものもあります。
+
+plugin/loader作者向けのマイグレーションガイドは次の記事で公開されています。
+
+- [webpack 4: migration guide for plugins/loaders – webpack – Medium](https://medium.com/webpack/webpack-4-migration-guide-for-plugins-loaders-20a79b927202 "webpack 4: migration guide for plugins/loaders – webpack – Medium")
+
+----
+
+[Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html "Maybe you don&#39;t need Rust and WASM to speed up your JS")という記事では、[@mraleph](https://twitter.com/mraleph "@mraleph")さんがプロファイルを取りながらパフォーマンス改善を行うことについてを[mozilla/source-map](https://github.com/mozilla/source-map "mozilla/source-map")を例に解説しています。
+
+最近、[mozilla/source-map](https://github.com/mozilla/source-map "mozilla/source-map")は作者である[@fitzgen](https://twitter.com/fitzgen "@fitzgen")さんによってWebAssembly + Rustに書き換えられパフォーマンスが改善されました。これについては次の記事で解説されています。
+
+- [Oxidizing Source Maps with Rust and WebAssembly – Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2018/01/oxidizing-source-maps-with-rust-and-webassembly/ "Oxidizing Source Maps with Rust and WebAssembly – Mozilla Hacks – the Web developer blog")
+
+しかし[@mraleph](https://twitter.com/mraleph "@mraleph")さんは、元となったJavaScript版での改善の余地について分析し、JavaScript版を元に改善のアプローチを3つのグループに分けて解説しています。
+この記事では`d8`(V8)や`perf`を使ったプロファイルを取りながら、言語やV8の実装など深いところまで見ていく形になっています。
+
+また、この記事に対して[@fitzgen](https://twitter.com/fitzgen "@fitzgen")さんが[Speed Without Wizardry](http://fitzgeraldnick.com/2018/02/26/speed-without-wizardry.html "Speed Without Wizardry")というレスポンス記事を書いているので併せて読むと良さそうです。
+
+----
+
+[KeyboardEvent.keyCodeとは何か - WebStudio](https://d-toybox.com/studio/lib/what_is_keyCode.html "KeyboardEvent.keyCodeとは何か - WebStudio")という記事では`KeyboardEvent.keyCode`の歴史や問題点について書かれています。
+
+`KeyboardEvent.keyCode`はブラウザやOS間で互換性の問題があり、また標準仕様がない問題について書かれています。
+`keyCode`の代わりに[KeyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key "KeyboardEvent.key")や[KeyboardEvent.code](https://developer.mozilla.org/ja/docs/Web/API/KeyboardEvent/code "KeyboardEvent.code")など仕様化されたものがあります。
 
 ----
 
