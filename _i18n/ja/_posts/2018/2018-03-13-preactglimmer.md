@@ -1,15 +1,43 @@
 ---
-title: "2018-03-13のJS: "
+title: "2018-03-13のJS: MobX 4.0.0、PreactとGlimmerのパフォーマンス比較実験"
 author: "azu"
 layout: post
 date : 2018-03-13T01:26:18.731Z
 category: JSer
 tags:
--
+- MobX
+- Preact
+- glimmer
 
 ---
 
-JSer.info #374
+JSer.info #374 - [MobX](https://github.com/mobxjs/mobx "MobX") 4.0.0がリリースされました。
+
+- [MobX 4: Better, simpler, faster, smaller – Michel Weststrate – Medium](https://medium.com/@mweststrate/mobx-4-better-simpler-faster-smaller-c1fbc08008da)
+- [mobx/CHANGELOG.md at master · mobxjs/mobx](https://github.com/mobxjs/mobx/blob/master/CHANGELOG.md#400)
+
+
+Decorator proposal(`@decorator`)を使わずにObservableオブジェクトを作成する`decorate`関数の追加、[Object api](https://mobx.js.org/refguide/object-api.html "Object api | MobX")の追加、`when`や`flow`のような非同期サポートの補助する関数の追加などが行われています。
+
+破壊的な変更として`shareGlobalState`の削除、observable mapに`Map`を使うように、`extras`関係のAPIのリネーム、`mobx`モジュールがdefault exportをしなくなるなどが行われています。
+次のページにマイグレーションガイドが公開されています。
+
+- [Migrating from mobx 3 to mobx 4 · mobxjs/mobx Wiki](https://github.com/mobxjs/mobx/wiki/Migrating-from-mobx-3-to-mobx-4 "Migrating from mobx 3 to mobx 4 · mobxjs/mobx Wiki")
+
+また、現在開発中の[MobX 5(15?)](https://github.com/mobxjs/mobx/pull/1380)ではObservableにES Proxyを使ったものを予定しているようです。
+
+- [Road to MobX 5 · Issue #1390 · mobxjs/mobx](https://github.com/mobxjs/mobx/issues/1390 "Road to MobX 5 · Issue #1390 · mobxjs/mobx")
+
+----
+
+[Lighter than Lightweight: How We Built the Same App Twice with Preact and Glimmer.js | LinkedIn Engineering](https://engineering.linkedin.com/blog/2018/03/how-we-built-the-same-app-twice-with-preact-and-glimmerjs "Lighter than Lightweight: How We Built the Same App Twice with Preact and Glimmer.js | LinkedIn Engineering")という記事では、同じアプリをPreactとGlimmer.jsで実装し、ページロードに関するパフォーマンスの比較実験をした結果について書かれています。
+それぞれのアプリでページ表示に関する値を指標として比較した時に、極端な差はでなかったことについて書かれています。
+
+- [Web クライアントサイドのパフォーマンスメトリクス — Speed Index、Paint Timing、TTI etc... ::ハブろぐ](https://havelog.ayumusato.com/develop/performance/e744-performance_metrics.html "Web クライアントサイドのパフォーマンスメトリクス — Speed Index、Paint Timing、TTI etc... ::ハブろぐ")
+  - First Meaningful PaintやTime to Interactiveについての解説
+
+Preact(3kb)とGlimmer.js(30kb)ではファイルサイズに差がありますが、その差がそのままページの表示時間に出るわけではない点について書かれています。
+
 
 ----
 
