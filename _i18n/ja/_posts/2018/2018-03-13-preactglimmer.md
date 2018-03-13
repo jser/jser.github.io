@@ -31,13 +31,12 @@ Decorator proposal(`@decorator`)を使わずにObservableオブジェクトを�
 ----
 
 [Lighter than Lightweight: How We Built the Same App Twice with Preact and Glimmer.js | LinkedIn Engineering](https://engineering.linkedin.com/blog/2018/03/how-we-built-the-same-app-twice-with-preact-and-glimmerjs "Lighter than Lightweight: How We Built the Same App Twice with Preact and Glimmer.js | LinkedIn Engineering")という記事では、同じアプリをPreactとGlimmer.jsで実装し、ページロードに関するパフォーマンスの比較実験をした結果について書かれています。
-それぞれのアプリでページ表示に関する値を指標として比較した時に、極端な差はでなかったことについて書かれています。
+それぞれのアプリでページ表示に関する値を指標として比較した時に、極端な差はでませんでした。
 
 - [Web クライアントサイドのパフォーマンスメトリクス — Speed Index、Paint Timing、TTI etc... ::ハブろぐ](https://havelog.ayumusato.com/develop/performance/e744-performance_metrics.html "Web クライアントサイドのパフォーマンスメトリクス — Speed Index、Paint Timing、TTI etc... ::ハブろぐ")
   - First Meaningful PaintやTime to Interactiveについての解説
 
-Preact(3kb)とGlimmer.js(30kb)ではファイルサイズに差がありますが、その差がそのままページの表示時間に出るわけではない点について書かれています。
-
+Preact(3kb)とGlimmer.js(30kb)ではファイルサイズに差がありますが、その差がそのままページの表示時間に出てないことについて書かれています。
 
 ----
 
