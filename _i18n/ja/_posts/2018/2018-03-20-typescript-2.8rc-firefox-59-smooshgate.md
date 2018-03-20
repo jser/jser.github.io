@@ -42,7 +42,7 @@ Firefox 59がリリースされました。
 [#SmooshGate FAQ  |  Web  |  Google Developers](https://developers.google.com/web/updates/2018/03/smooshgate "#SmooshGate FAQ  |  Web  |  Google Developers")という記事では、最近話題となった[#smooshgate](https://twitter.com/hashtag/smooshgate "#smooshgate")についてよくある質問を解説しています。
 
 [#smooshgate](https://twitter.com/hashtag/smooshgate "#smooshgate")とは現在Stage 3のProposalである[Array.prototype.flatMap & Array.prototype.flatten](https://tc39.github.io/proposal-flatMap/ "Array.prototype.flatMap &amp; Array.prototype.flatten")とbreak the webについての問題です。
-Firefox Nightlyに`Array.prototype.flatten`が実験的に実装されてた所、MooToolsの`Array.prototype.flatten`の実装と衝突し動作しないサイトがあることとわかりました。
+Firefox Nightlyに`Array.prototype.flatten`が実験的に実装したところ、MooToolsの`Array.prototype.flatten`の実装と衝突し動作しないサイトがあることとわかりました。
 その回避案の１つとして`Array.prototype.flatten`を`Array.prototype.smoosh`にリネームするPRが出された一連の流れを[#smooshgate](https://twitter.com/hashtag/smooshgate "#smooshgate")と呼んでいます。
 
 - [rename flatten to smoosh by michaelficarra · Pull Request #56 · tc39/proposal-flatMap](https://github.com/tc39/proposal-flatMap/pull/56 "rename flatten to smoosh by michaelficarra · Pull Request #56 · tc39/proposal-flatMap")
