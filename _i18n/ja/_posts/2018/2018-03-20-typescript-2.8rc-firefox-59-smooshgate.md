@@ -53,7 +53,7 @@ Firefox Nightlyに`Array.prototype.flatten`が実験的に実装されてた所�
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Can I Standardize?<a href="https://t.co/Q1hA7MnHqB">https://t.co/Q1hA7MnHqB</a><br><br>`Array.prototype.flatten`:<br>- prototype.js define: true<br>- MooTools define: true<br>- Suger.js define: true<br><br>`Array.prototype.smoosh`:<br>prototype.js define: false<br>MooTools define: false<br>Suger.js define: false<br><br> <a href="https://twitter.com/hashtag/smooshgate?src=hash&amp;ref_src=twsrc%5Etfw">#smooshgate</a> <a href="https://twitter.com/hashtag/ecmascript?src=hash&amp;ref_src=twsrc%5Etfw">#ecmascript</a> <a href="https://t.co/JQluGQLU4N">pic.twitter.com/JQluGQLU4N</a></p>&mdash; azu (@azu_re) <a href="https://twitter.com/azu_re/status/971958777485312000?ref_src=twsrc%5Etfw">March 9, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-この記事ではなぜ既存prototype拡張と名前やenumerableの問題でbreak the webが起きるのか、なぜMooToolsを直しただけでは解決しないのか、TC39はこれからこの問題をどう修正していくかなどについて書かれいます。
+この記事ではなぜprototype拡張によってbreak the webが起きるのか、なぜMooToolsを直しただけでは解決しないのか、TC39はこれからこの問題をどう修正していくかなどについて書かれています。
 
 ----
 
