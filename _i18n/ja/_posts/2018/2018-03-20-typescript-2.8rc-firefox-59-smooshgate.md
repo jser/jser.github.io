@@ -1,15 +1,59 @@
 ---
-title: "2018-03-20のJS: "
+title: "2018-03-20のJS: TypeScript 2.8RC、Firefox 59、#SmooshGate"
 author: "azu"
 layout: post
 date : 2018-03-20T01:23:07.818Z
 category: JSer
 tags:
--
+- TypeScript
+- firefox
+- ECMAScript
 
 ---
 
-JSer.info #375
+JSer.info #375　- TypeScript 2.8 RCがリリースされました。
+
+- [Announcing TypeScript 2.8 RC | TypeScript](https://blogs.msdn.microsoft.com/typescript/2018/03/15/announcing-typescript-2-8-rc/ "Announcing TypeScript 2.8 RC | TypeScript")
+- [What's new in TypeScript · Microsoft/TypeScript Wiki](https://github.com/Microsoft/TypeScript/wiki/What%27s-new-in-TypeScript#typescript-28 "What&#39;s new in TypeScript · Microsoft/TypeScript Wiki")
+
+Conditional Typesのサポート、Mapped Type Modifierの`-`、`+`ができるようになりNonNullableへの変換が扱えるようになりました。
+また、JSX Pragmasをコメントで指定できるようなり、`.d.ts`だけを出力する`--emitDeclarationsOnly`のサポートなどが行われています。
+
+Conditional Typesで型の表現の幅が広がりますが、詳細はリリースノートや次の記事を参照してください。
+
+- [TypeScript 2.8 の Conditional Types について - Qiita](https://qiita.com/Quramy/items/b45711789605ef9f96de)
+- [Strongly Typed Event Emitters with Conditional Types](https://medium.com/@bterlson/strongly-typed-event-emitters-2c2345801de8)
+
+----
+
+Firefox 59がリリースされました。
+
+- [Firefox — Notes (59.0) — Mozilla](https://www.mozilla.org/en-US/firefox/59.0/releasenotes/ "Firefox — Notes (59.0) — Mozilla")
+- [Firefox 59 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/Firefox/Releases/59 "Firefox 59 for developers - Mozilla | MDN")
+
+[PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent "PointerEvent")がデフォルトで有効化され、[`overscroll-behavior`](https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior "overscroll-behavior")の実装、`EventTarget`コンストラクタの実装がされています。
+
+[EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget "EventTarget")はNode.jsのEventEmitterのように継承して利用できるpub/subなクラスとして利用できます。
+
+- [EventTarget の継承可能化による EventEmitter の代替 | blog.jxck.io](https://blog.jxck.io/entries/2017-07-10/subclassible-eventtarget.html "EventTarget の継承可能化による EventEmitter の代替 | blog.jxck.io")
+
+----
+
+[#SmooshGate FAQ  |  Web  |  Google Developers](https://developers.google.com/web/updates/2018/03/smooshgate "#SmooshGate FAQ  |  Web  |  Google Developers")という記事では、最近話題となった[#smooshgate](https://twitter.com/hashtag/smooshgate "#smooshgate")についてよくある質問を解説しています。
+
+[#smooshgate](https://twitter.com/hashtag/smooshgate "#smooshgate")とは現在Stage 3のProposalである[Array.prototype.flatMap & Array.prototype.flatten](https://tc39.github.io/proposal-flatMap/ "Array.prototype.flatMap &amp; Array.prototype.flatten")とbreak the webについての問題です。
+Firefox Nightlyに`Array.prototype.flatten`が実験的に実装されてた所、MooToolsの`Array.prototype.flatten`の実装と衝突し動作しないサイトがあることとわかりました。
+その回避案の１つとして`Array.prototype.flatten`を`Array.prototype.smoosh`にリネームするPRが出された一連の流れを[#smooshgate](https://twitter.com/hashtag/smooshgate "#smooshgate")と呼んでいます。
+
+- [rename flatten to smoosh by michaelficarra · Pull Request #56 · tc39/proposal-flatMap](https://github.com/tc39/proposal-flatMap/pull/56 "rename flatten to smoosh by michaelficarra · Pull Request #56 · tc39/proposal-flatMap")
+- [SmooshGate: The ongoing struggle between progress and stability in JavaScript](https://medium.com/@jacobdfriedmann/smooshgate-the-ongoing-struggle-between-progress-and-stability-in-javascript-2a971c1162dd "SmooshGate: The ongoing struggle between progress and stability in JavaScript")
+
+実際に判定ツールを書いたので[Can I Standardize?](https://azu.github.io/can-i-standardize/ "Can I Standardize?")試すことができますが、`Array.prototype.flatten`はMooToolsやprototype.js、sugar.jsなどで実装されています。
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Can I Standardize?<a href="https://t.co/Q1hA7MnHqB">https://t.co/Q1hA7MnHqB</a><br><br>`Array.prototype.flatten`:<br>- prototype.js define: true<br>- MooTools define: true<br>- Suger.js define: true<br><br>`Array.prototype.smoosh`:<br>prototype.js define: false<br>MooTools define: false<br>Suger.js define: false<br><br> <a href="https://twitter.com/hashtag/smooshgate?src=hash&amp;ref_src=twsrc%5Etfw">#smooshgate</a> <a href="https://twitter.com/hashtag/ecmascript?src=hash&amp;ref_src=twsrc%5Etfw">#ecmascript</a> <a href="https://t.co/JQluGQLU4N">pic.twitter.com/JQluGQLU4N</a></p>&mdash; azu (@azu_re) <a href="https://twitter.com/azu_re/status/971958777485312000?ref_src=twsrc%5Etfw">March 9, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+この記事ではなぜ既存prototype拡張と名前やenumerableの問題でbreak the webが起きるのか、なぜMooToolsを直しただけでは解決しないのか、TC39はこれからこの問題をどう修正していくかなどについて書かれいます。
 
 ----
 
@@ -42,7 +86,7 @@ puppeteer 1.2.0リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Firefox 59リリース。
-開発者ツールの改善、Pointer Eventsをデフォルトで有効化、`overscroll-behavior`の実装、`EventTarget`コンストラクタの実装など
+開発者ツールの改善、[PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent "PointerEvent")をデフォルトで有効化、[`overscroll-behavior`](https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior "overscroll-behavior")の実装、[`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget)コンストラクタの実装など
 
 - [Firefox 59 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/Firefox/Releases/59 "Firefox 59 for developers - Mozilla | MDN")
 
