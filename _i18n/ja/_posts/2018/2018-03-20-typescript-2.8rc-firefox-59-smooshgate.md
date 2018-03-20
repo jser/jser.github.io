@@ -31,9 +31,9 @@ Firefox 59がリリースされました。
 - [Firefox — Notes (59.0) — Mozilla](https://www.mozilla.org/en-US/firefox/59.0/releasenotes/ "Firefox — Notes (59.0) — Mozilla")
 - [Firefox 59 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/Firefox/Releases/59 "Firefox 59 for developers - Mozilla | MDN")
 
-[PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent "PointerEvent")がデフォルトで有効化され、[`overscroll-behavior`](https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior "overscroll-behavior")の実装、`EventTarget`コンストラクタの実装がされています。
+[PointerEvent](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent "PointerEvent")がデフォルトで有効化され、[`overscroll-behavior`](https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior "overscroll-behavior")の実装、[`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget)コンストラクタの実装が行われています。
 
-[EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget "EventTarget")はNode.jsのEventEmitterのように継承して利用できるpub/subなクラスとして利用できます。
+[EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget "EventTarget")はNode.jsのEventEmitterのように継承し、pub/subなクラスとして利用できます。
 
 - [EventTarget の継承可能化による EventEmitter の代替 | blog.jxck.io](https://blog.jxck.io/entries/2017-07-10/subclassible-eventtarget.html "EventTarget の継承可能化による EventEmitter の代替 | blog.jxck.io")
 
