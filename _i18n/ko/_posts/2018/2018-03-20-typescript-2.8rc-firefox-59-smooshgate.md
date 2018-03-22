@@ -182,7 +182,7 @@ TypeScript 2.8(RC)의 Conditional Type를 사용한 EventEmitter 형에 대해 �
 - [bterlson/strict-event-emitter-types: A type-only library for strongly typing any event emitter](https://github.com/bterlson/strict-event-emitter-types "bterlson/strict-event-emitter-types: A type-only library for strongly typing any event emitter")
 
 ----
-<h1 class="site-genre">슬라이드, 영상
+<h1 class="site-genre">슬라이드, 영상</h1>
 
 ----
 
