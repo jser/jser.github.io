@@ -65,17 +65,6 @@ JavaScriptとhigh-level layers APIで機械学習を行えるため、初めて�
 
 ----
 
-## Announcing TypeScript 2.8 | TypeScript
-[blogs.msdn.microsoft.com/typescript/2018/03/27/announcing-typescript-2-8/](https://blogs.msdn.microsoft.com/typescript/2018/03/27/announcing-typescript-2-8/ "Announcing TypeScript 2.8 | TypeScript")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
-
-TypeScript 2.8リリース。
-Conditional Types、d.ts飲みの出力に対応、`@jsx` pragmaコメントのサポート、mapped type modifierの`+`、`-`のサポートなど
-
-- [TypeScript 2.8.1 変更点 - Qiita](https://qiita.com/vvakame/items/2e32aeded05997f77dfa "TypeScript 2.8.1 変更点 - Qiita")
-
-----
-
 ## React v16.3.0: New lifecycles and context API - React Blog
 [reactjs.org/blog/2018/03/29/react-v-16-3.html](https://reactjs.org/blog/2018/03/29/react-v-16-3.html "React v16.3.0: New lifecycles and context API - React Blog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
