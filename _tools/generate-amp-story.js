@@ -58,7 +58,7 @@ const template = (result, originalURL) => {
     </amp-story-grid-layer>
     <amp-story-cta-layer>
         <div class="cta-layer-inner">
-            <a class="view-button" title="${item.title}" href="${item.url}">ページを見に行く</a>
+            <a class="view-button" title="${item.title}" href="${item.url}" target="_blank">ページを見に行く</a>
         </div>
     </amp-story-cta-layer>
 </amp-story-page>
