@@ -52,7 +52,7 @@ React 16.3.0がリリースされました。
 
 JavaScriptとhigh-level layers APIで機械学習を行えるため、初めて機械学習を学ぶJavaScript開発者をターゲットについていることなどについてが次の記事で書かれています。
 
-- [Introducing TensorFlow.js: Machine Learning in Javascript](https://medium.com/tensorflow/introducing-tensorflow-js-machine-learning-in-javascript-bf3eab376db "Introducing TensorFlow.js: Machine Learning in Javascript")
+- [Introducing TensorFlow.js: Machine Learning in JavaScript](https://medium.com/tensorflow/introducing-tensorflow-js-machine-learning-in-javascript-bf3eab376db "Introducing TensorFlow.js: Machine Learning in JavaScript")
 
 また、既存のTensorFlowやKerasのモデルを変換してインポートできブラウザ上で再学習なども行えます。
 現在はWebGLに依存しているためブラウザのみで動作し、Node.jsのサポートについては検討中であることなどがFAQにかかれています。
