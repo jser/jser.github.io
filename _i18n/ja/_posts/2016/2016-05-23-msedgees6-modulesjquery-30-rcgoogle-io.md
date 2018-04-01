@@ -1,5 +1,5 @@
 ---
-title: "2016-05-23: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース"
+title: "2016-05-23のJS: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース"
 author: azu
 layout: post
 date : 2016-05-23T19:45
@@ -26,11 +26,11 @@ JSer.info #280 - MSEdgeの新しいビルドが公開され、`<script type="mod
 
 また、MSEdgeはES2016で入る `**` と `Array.prototype.includes`のサポート、ES2017で入る予定の`Object.values`や`Object.entries`などの実装を開始しています。
 
-ECMAScriptの部分に関してはオープンソースのChakraCoreリポジトリの方で実装されるので、以下のリポジトリを見ておくと実装状況がわかると思います。
+ECMAScriptの部分に関してはオープンソースのChakraCoreリポジトリの方で実装されるので、次のリポジトリを見ておくと実装状況が分かると思います。
 
 - [Microsoft/ChakraCore: ChakraCore is the core part of the Chakra Javascript engine that powers Microsoft Edge](https://github.com/Microsoft/ChakraCore "Microsoft/ChakraCore: ChakraCore is the core part of the Chakra Javascript engine that powers Microsoft Edge")
 
-ECMAScriptのProposalの場所は以下に変更されたので合わせて参照するといいかもしれません。
+ECMAScriptのProposalの場所は次に変更されたので合わせて参照するといいかもしれません。
 
 - [tc39/proposals: Tracking ECMAScript Proposals](https://github.com/tc39/proposals "tc39/proposals: Tracking ECMAScript Proposals")
 
@@ -48,7 +48,7 @@ V8チームが書いた記事も合わせてみると、仕様策定から実装
 [jQuery 3.0 RC](http://blog.jquery.com/2016/05/20/jquery-3-0-release-candidate-released/)がリリースされました。
 
 jQuery 3.xはIE9+サポートとなり、1.xと2.xから3.xに一本化されます。
-過去のバージョンからのアップグレード方法については以下のドキュメントにまとめられています。
+過去のバージョンからのアップグレード方法については次のドキュメントにまとめられています。
 
 - [jQuery Core 3.0 Upgrade Guide | jQuery](https://jquery.com/upgrade-guide/3.0/ "jQuery Core 3.0 Upgrade Guide | jQuery")
 
@@ -117,7 +117,7 @@ jQuery 3.0 RCリリース
 
 ----
 
-## Refactoring a javascript video store
+## Refactoring a JavaScript video store
 [martinfowler.com/articles/refactoring-video-store-js/](http://martinfowler.com/articles/refactoring-video-store-js/ "Refactoring a javascript video store")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">リファクタリング</span></p>
@@ -126,7 +126,7 @@ jQuery 3.0 RCリリース
 
 ----
 
-## Iterators and Generators in Javascript | Kenneth Truyers
+## Iterators and Generators in JavaScript | Kenneth Truyers
 [www.kenneth-truyers.net/2016/05/20/iterators-and-generators-in-javascript/](https://www.kenneth-truyers.net/2016/05/20/iterators-and-generators-in-javascript/ "Iterators and Generators in Javascript | Kenneth Truyers")
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
@@ -220,7 +220,7 @@ Chrome開発者ツールのパフォーマンス周りの使い方や見かた�
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">JavaScript</span></p>
 
-ServiceWorkerを使ったオフラインファーストについての発表。
+Service Workerを使ったオフラインファーストについての発表。
 電波状態が悪いケースを想定した動作、IndexedDBを使ったデータの保存など
 
 - [pazguille/offline-first: Everything you need to know to create offline-first web apps.](https://github.com/pazguille/offline-first "pazguille/offline-first: Everything you need to know to create offline-first web apps.")
