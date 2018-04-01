@@ -1,15 +1,63 @@
 ---
-title: "2018-04-01のJS: "
+title: "2018-04-01のJS: TypeScript 2.8、React 16.3.0、TensorFlow.js"
 author: "azu"
 layout: post
 date : 2018-04-01T05:56:39.824Z
 category: JSer
 tags:
--
+- TypeScript
+- react
+- ML
 
 ---
 
-JSer.info #377
+JSer.info #377 - TypeScript 2.8が正式リリースされました。
+
+- [Announcing TypeScript 2.8 | TypeScript](https://blogs.msdn.microsoft.com/typescript/2018/03/27/announcing-typescript-2-8/)
+- [TypeScript 2.8.1 変更点 - Qiita](https://qiita.com/vvakame/items/2e32aeded05997f77dfa)
+
+Conditional Typesのサポートされ、またConditional Typesを使ったビルトインの型として`Exclude<T, U>`, `Extract<T, U>`, `NonNullable<T>`, `ReturnType<T>`, `InstanceType<T>`が追加されています。
+mapped type modifierの`+`、`-`のサポート、`.d.ts`ファイルだけを出力できる`emitDeclarationOnly`オプションの追加、`@jsx`プラグマコメントのサポートなどが行われています。
+
+----
+
+React 16.3.0がリリースされました。
+
+- [React v16.3.0: New lifecycles and context API - React Blog](https://reactjs.org/blog/2018/03/29/react-v-16-3.html "React v16.3.0: New lifecycles and context API - React Blog")
+- [Update on Async Rendering - React Blog](https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html "Update on Async Rendering - React Blog")
+
+今後に向けた大きな変更が追加されています。
+新しい[Context](https://reactjs.org/docs/context.html "Context") APIの追加、`createRef`メソッドの追加、`forwardRef`メソッドの追加、`StrictMode`コンポーネントの追加などが行われています。
+
+また非同期レンダリングのサポートのためなどにReactコンポーネントのライフサイクルイベントの変更が行われています。
+`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`は今後削除されていく方向になり、代わりに`getDerivedStateFromProps`と`getSnapshotBeforeUpdate`が追加されています。
+
+次のようなタイムラインで上記のライフサイクルイベントのAPIの削除が行われていくようです。
+
+- 16.3: それぞれaliasとなる`UNSAFE_componentWillMount`, `UNSAFE_componentWillReceiveProps`, ` UNSAFE_componentWillUpdate`の追加
+  - `UNSAFE_` prefixへのマイグレーションスクリプトとして[rename-unsafe-lifecycles](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles "rename-unsafe-lifecycles")が公開されている
+- A future 16.x release: `componentWillMount`, `componentWillReceiveProps`, `componentWillUpdate`は非推奨となり警告を表示
+- 17.0: `componentWillMount`, `componentWillReceiveProps`, `componentWillUpdate`を削除
+  - ただし緩やかなマイグレーションのために`UNSAFE_`版は17.xでも動作を維持する
+
+そのため、古いAPIが完全に削除されるのは18.0となる予定です。(`UNSAFE_`版は17.xでも残るため)
+詳しくは次の記事で解説されています。
+
+- [Update on Async Rendering - React Blog](https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html "Update on Async Rendering - React Blog")
+
+----
+
+[TensorFlow.js](https://js.tensorflow.org/ "TensorFlow.js")はブラウザでTensorFlowのモデルを使った機械学習を行えるライブラリです。
+元々Googleが開発していた[deeplearn.js](https://deeplearnjs.org/index.html "deeplearn.js")の後継バージョンとして公開されています。
+
+JavaScriptとhigh-level layers APIで機械学習を行えるため、初めて機械学習を学ぶJavaScript開発者をターゲットについていることなどについてが次の記事で書かれています。
+
+- [Introducing TensorFlow.js: Machine Learning in Javascript](https://medium.com/tensorflow/introducing-tensorflow-js-machine-learning-in-javascript-bf3eab376db "Introducing TensorFlow.js: Machine Learning in Javascript")
+
+また、既存のTensorFlowやKerasのモデルを変換してインポートできブラウザ上で再学習なども行えます。
+現在はWebGLに依存しているためブラウザのみで動作し、Node.jsのサポートについては検討中であることなどがFAQにかかれています。
+
+- [FAQ – TensorFlow.js](https://js.tensorflow.org/faq/)
 
 ----
 
@@ -172,7 +220,7 @@ Server Timinig APIを使いサーバサイドのリクエストごとのベン�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p>
 
 CSS Typed OMについての解説。
-既にある`style`プロパティと新しく追加された`attributeStyleMap`の違いや、CSS Typed OMで追加されたAPIのメリットや実際の使い方について
+すでにある`style`プロパティと新しく追加された`attributeStyleMap`の違いや、CSS Typed OMで追加されたAPIのメリットや実際の使い方について
 
 
 ----
