@@ -1,5 +1,5 @@
 ---
-title: "2016-05-23: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース"
+title: "2016-05-23のJS: MSEdgeがES6 Modulesをサポート、jQuery 3.0 RCリリース"
 author: azu
 layout: post
 date : 2016-05-23T19:45
