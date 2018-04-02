@@ -31,7 +31,6 @@ const template = (result, originalURL) => {
     }
     const meta = result.meta;
     const [_, titleDate, keyword] = meta.title.match(/((?:\d{4})-(?:\d{2})-(?:\d{2})のJS):(.*)/);
-    const keywords = keyword.split("、").map(keyword => keyword.trim());
     const coverPage = html`
 <amp-story-page id="cover">
     <amp-story-grid-layer template="fill">
@@ -49,12 +48,14 @@ const template = (result, originalURL) => {
         return html`
 <amp-story-page id="${item.url}">
     <amp-story-grid-layer template="vertical">
-        <amp-fit-text width="200"
-                      height="120"
-                      layout="responsive"
-                      max-font-size="28"
-                      class="item-title">${item.title}</amp-fit-text>
-        <p class="contents">${raw(markdownToHtml(item.content))}</p>
+        <div class="item">
+            <amp-fit-text width="200"
+                          height="120"
+                          layout="responsive"
+                          max-font-size="28"
+                          class="item-title">${item.title}</amp-fit-text>
+            <p class="item-contents">${raw(markdownToHtml(item.content))}</p>
+        </div>
     </amp-story-grid-layer>
     <amp-story-cta-layer>
         <div class="cta-layer-inner">
@@ -95,21 +96,22 @@ layout: null
 
         p {
             font-weight: normal;
-            font-size: 1.3em;
+            font-size: 1.1em;
             line-height: 1.5em;
             color: #000;
         }
 
-        p.contents {
-            overflow:hidden;    
+        .item {
+            
         }
-        
+       
         q {
             font-weight: 300;
-            font-size: 1.1em;
+            font-size: 1em;
+            color: #333;
         }
 
-        .cover-img{
+        .cover-img {
             background: #2a8d9b;
         }
         
@@ -125,7 +127,7 @@ layout: null
             color: #fff;
         }
         
-        .item-title{
+        .item-title {
         
         }
 
@@ -140,7 +142,7 @@ layout: null
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin: 8px;
+            margin: 24px 32px;
             padding: 4px;
             color: #2a8d9b;
             border: 2px solid #2a8d9b;
