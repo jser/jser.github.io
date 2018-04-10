@@ -1,15 +1,40 @@
 ---
-title: "2018-04-10のJS: "
+title: "2018-04-10のJS: PWA on iOS & Windows Store、dom-testing-library"
 author: "azu"
 layout: post
 date : 2018-04-10T01:35:23.636Z
 category: JSer
 tags:
--
+- PWA
+- iOS
+- windows
+- dom
+- tests
 
 ---
 
-JSer.info #378
+JSer.info #378 - [Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Medium](https://medium.com/@firt/progressive-web-apps-on-ios-are-here-d00430dee3a7)という記事では、iOS 11.3/Safari 11.1でサポートされたService Workerなどいわゆる[Progressive Web Apps ](https://developers.google.com/web/progressive-web-apps/)(PWA)の対応について書かれています。
+
+ホームスクリーンアプリとしての動作や[Safari Technology Preview](https://developer.apple.com/safari/technology-preview/)を使ったService Workerのデバッグ方法についてについて紹介しています。加えて、iOSのネイティブアプリと違いやAndroid/ChromeのPWAとの違いなどについても書かれています。
+
+また[First Windows 10 Progressive Web Apps (PWA) published by Microsoft hit the Store | Windows Central](https://www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here)という記事では、Windows 10 Spring Creators Update(Windows 10 build 1803)のプレビュー版のWindows StoreにPWAなアプリケーションが掲載されるようになったことが書かれています。
+
+Windows StoreでのPWAについては次の記事で解説されています。
+
+- [Welcoming Progressive Web Apps to Microsoft Edge and Windows 10 - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog](https://blogs.windows.com/msedgedev/2018/02/06/welcoming-progressive-web-apps-edge-windows-10/#0eVsoxrHYlso6vcS.97)
+
+----
+
+[kentcdodds/dom-testing-library: 🐙 Simple and complete DOM testing utilities that encourage good testing practices.](https://github.com/kentcdodds/dom-testing-library)というDOM要素をテストするためのライブラリが公開されています。
+テストの際によく利用するテキストを含む要素を選択する`getByText`関数や`data-testid`属性を元に要素を選択する`getByTestId`関数などを提供するライブラリとなっています。
+
+著名なViewライブラリ向けのバインディングも用意されていて[react-testing-library
+](https://github.com/kentcdodds/react-testing-library)、[vue-testing-library
+](https://github.com/dfcook/vue-testing-library)などがあります。
+
+詳しくは作者により次の記事で解説されています。
+
+- [Introducing the react-testing-library 🐐 – kentcdodds](https://blog.kentcdodds.com/introducing-the-react-testing-library-e3a274307e65)
 
 ----
 
