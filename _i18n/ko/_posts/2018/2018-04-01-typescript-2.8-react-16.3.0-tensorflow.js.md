@@ -1,5 +1,5 @@
 ---
-title: "2018-04-01のJS: TypeScript 2.8、React 16.3.0、TensorFlow.js"
+title: "2018-04-01 JS: TypeScript 2.8、React 16.3.0、TensorFlow.js"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
