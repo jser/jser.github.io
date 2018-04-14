@@ -1,5 +1,5 @@
 ---
-title: "2018-04-10のJS: PWA on iOS & Windows Store、dom-testing-library"
+title: "2018-04-10 JS: PWA on iOS & Windows Store、dom-testing-library"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
