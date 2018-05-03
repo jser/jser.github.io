@@ -1,4 +1,4 @@
-# JSer.info [![Build Status](https://travis-ci.org/jser/jser.github.io.svg?branch=develop)](https://travis-ci.org/jser/jser.github.io) [![CircleCI](https://circleci.com/gh/jser/jser.github.io.svg?style=svg)](https://circleci.com/gh/jser/jser.github.io)
+# JSer.info [![Build Status](https://travis-ci.org/jser/jser.github.io.svg?branch=develop)](https://travis-ci.org/jser/jser.github.io)
 
 JSer.info のブログリポジトリです。
 
