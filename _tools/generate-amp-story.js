@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 const glob = require("glob-all");
-const parseDetails = require("jser-item-category-parser").parseDetails;
+const parseDetails = require("@jser/post-parser").parse;
 const fs = require("fs");
 const raw = require('nanohtml/raw');
 const html = require('nanohtml');
