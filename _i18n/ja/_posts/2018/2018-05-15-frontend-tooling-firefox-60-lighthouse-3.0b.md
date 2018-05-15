@@ -1,15 +1,59 @@
 ---
-title: "2018-05-15のJS: "
+title: "2018-05-15のJS: フロントエンドツールアンケート結果、Firefox 60、Lighthouse 3.0β"
 author: "azu"
 layout: post
 date : 2018-05-15T01:33:11.228Z
 category: JSer
 tags:
--
+- frontend
+- firefox
+- Lighthouse
 
 ---
 
-JSer.info #383
+JSer.info #383 - フロントエンドツールアンケート2018の結果が公開されています。
+
+- [The Front-End Tooling Survey 2018 - Results - AshleyNolan.co.uk - Blog and Portfolio for Ashley Nolan](https://ashleynolan.co.uk/blog/frontend-tooling-survey-2018-results)
+
+JavaScriptやCSSに関するツールやライブラリなどについてのアンケート結果をまとめたもので、[前回の結果](https://ashleynolan.co.uk/blog/frontend-tooling-survey-2016-results)からの変化などについても掲載されています。
+
+利用言語、ライブラリ、Lint、テスト、bundlerなどについて項目ごとのアンケート結果が公開されているので見てみると良さそうです。
+
+----
+
+Firefox 60.0がリリースされました。
+
+- [Firefox — Notes (60.0) — Mozilla](https://www.mozilla.org/en-US/firefox/60.0/releasenotes/)
+- [Firefox 60 – Modules and More – Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2018/05/firefox-60-modules-and-more/ "Firefox 60 – Modules and More – Mozilla Hacks – the Web developer blog")
+- [Firefox 60 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/Firefox/Releases/60 "Firefox 60 for developers - Mozilla | MDN")
+
+ES Modulesの有効化、[Same-Site Cookies](https://blog.mozilla.org/security/2018/04/24/same-site-cookies-in-firefox-60/)のサポート、`Array#values`の有効化、Web Authentication APIのサポート、WebVR APIがmacOSで有効化などが行われています。
+
+ES ModulesはこれでIEを除くメジャーブラウザでサポートされたことになりました。
+
+- [JavaScript modules via script tag](https://caniuse.com/#feat=es6-module)
+
+また、[Firefox Quantum for Enterprise](https://www.mozilla.org/en-US/firefox/enterprise/)と名がついたエンタープライズ向けのESR(Extended Support Release)版もFirefox 60がベースとなっています。
+
+- [Open for business: Firefox Quantum is ready for IT – Mozilla Tech – Medium](https://medium.com/mozilla-tech/open-for-business-firefox-quantum-is-ready-for-it-622c74fe13fe)
+
+----
+
+Lighthouse 3.0がプレリリースされ新しい機能について解説されています。
+
+- [Announcing Lighthouse 3.0  |  Web  |  Google Developers](https://developers.google.com/web/updates/2018/05/lighthouse3)
+
+レポートUIの変更、First Contentful Paintの追加、RTTのコスト表示の追加など。
+その他の変更点として、スコアのWeightの変更、First InteractiveをFirst CPU Idleに名前の変更など指標が変更されています。
+
+また、LightHouseの記録下内容をPerformanceタブで見るView Traceなどといった機能も追加されています。
+この機能については次の発表動画でデモがおこなわれています。
+
+- [What's new in Chrome DevTools (Google I/O '18) - YouTube](https://www.youtube.com/watch?v=mfuE53x4b3k)
+
+Google I/Oの発表でもLighthouseを扱った内容は多いのであわせて見るとよさそうです。
+
+- [Chrome and Web at Google I/O 2018 - YouTube - YouTube](https://www.youtube.com/playlist?list=PLNYkxOF6rcIC4NQeXpdAy0RbOACI66Hvf)
 
 ----
 
