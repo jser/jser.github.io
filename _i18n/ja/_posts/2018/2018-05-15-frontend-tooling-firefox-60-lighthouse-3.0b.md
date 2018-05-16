@@ -90,7 +90,7 @@ ES Modulesの有効化、`Array#values`の有効化、Web Authentication APIの�
 
 Video.js 7リリース。
 Video.js HTTP Streaming (VHS)プラグインでHLSとDASHを試験的にサポート。
-古いブラウザサポートのコードを削除、オプトアウトだったGoogle ANalyticsの収集を終了など
+古いブラウザサポートのコードを削除、オプトアウトだったGoogle Analyticsの収集を終了など
 
 
 ----
@@ -191,7 +191,7 @@ Google I/O 2018の動画まとめ
 [www.youtube.com/playlist?list&#x3D;PL2z7rCjEG2ksF0rJ8Qwp1y5eTjqiPIRfT](https://www.youtube.com/playlist?list=PL2z7rCjEG2ksF0rJ8Qwp1y5eTjqiPIRfT "TSConf 2018 - YouTube - YouTube")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">video</span></p>
 
-TSCong 2018の動画まとめ
+TSConf 2018の動画まとめ
 
 - [TSConf 2018 | Seattle](https://tsconf.io/ "TSConf 2018 | Seattle")
 
