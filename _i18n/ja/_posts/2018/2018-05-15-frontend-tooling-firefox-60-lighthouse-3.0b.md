@@ -1,5 +1,5 @@
 ---
-title: "2018-05-15のJS: frontend-anser、Firefox 60、Lighthouse 3.0β teteteateata"
+title: "2018-05-15のJS: frontend-anser、Firefox 60、Lighthouse 3.0β teteteateata wowo"
 author: "azu"
 layout: post
 date : 2018-05-15T01:33:11.228Z
