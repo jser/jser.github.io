@@ -69,7 +69,7 @@ const template = (result, originalURL) => {
 layout: null
 ---
 <!doctype html>
-<html amp lang="en">
+<html amp lang="ja">
 <head>
     <meta charset="utf-8">
     <script async src="https://cdn.ampproject.org/v0.js"></script>
