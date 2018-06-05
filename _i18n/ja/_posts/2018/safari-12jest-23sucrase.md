@@ -1,5 +1,5 @@
 ---
-title: "2018-06-05のJS: 2018-06-05のJS: Safari 12の変更予定、Jest 23、sucrase"
+title: "2018-06-05のJS: Safari 12の変更予定、Jest 23、sucrase"
 author: "azu"
 layout: post
 date : 2018-06-05T00:34:04.007Z
