@@ -15,8 +15,7 @@ QtWebKitをベースにしたヘッドレスブラウザである[PhantomJS][]�
 [![ariya/phantomjs](https://jser.info/uploads/media/2018/06/11-1528724137.png)](https://github.com/ariya/phantomjs)
 
 以前にもお伝えしていましたが、PhantomJSはQtWebKitをベースにしていて安定版が利用しているバージョンも古いままでした。
-[新しいバージョンのQtWebKitへアップデートなどを行うベータ版](https://groups.google.com/forum/#!topic/phantomjs/AefOuwkgBh0)も開発されていました。
-しかし、[Headless Chromium](https://chromium.googlesource.com/chromium/src/+/master/headless/README.md)が公開されたことや[個人でPhantomJSのメンテナンスを続けていくの難しい](https://groups.google.com/forum/#!topic/phantomjs/9aI5d-LDuNE)という問題もあり開発は停止していました。
+また、[新しいバージョンのQtWebKitへアップデートなどを行うベータ版](https://groups.google.com/forum/#!topic/phantomjs/AefOuwkgBh0)も開発されていましたが、[Headless Chromium](https://chromium.googlesource.com/chromium/src/+/master/headless/README.md)が公開されたことや[個人でPhantomJSのメンテナンスを続けていくの難しい](https://groups.google.com/forum/#!topic/phantomjs/9aI5d-LDuNE)という問題もあり開発は停止していました。
 
 - [2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info](https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/ "2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info")
 - [2017-09-05のJS: Headless Browserの対応、Browserifyの再開 - JSer.info](https://jser.info/2017/09/05/headless-browser-browserify/ "2017-09-05のJS: Headless Browserの対応、Browserifyの再開 - JSer.info")
