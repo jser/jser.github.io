@@ -1,5 +1,5 @@
 ---
-title: "PhantomJSの開発が終了"
+title: "PhantomJSの開発が終了しリポジトリがアーカイブ化された"
 author: azu
 layout: post
 date : 2018-06-11T22:31
