@@ -38,7 +38,7 @@ JSer.infoではPhantomJSがリリースされた日にPhantomJSを紹介する�
 
 <script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
 
-ブラウザに同様の機能が実装され開発を終了したものとしては、開発者ツールの元となったFirebugがあります。
+ブラウザに同様の機能が実装され開発を終了したものとしては、開発者ツールの元となったFirebugなどがあります。
 
 - [Saying Goodbye to Firebug – Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2017/10/saying-goodbye-to-firebug/)
 
