@@ -43,7 +43,7 @@ JSer.infoではPhantomJSがリリースされた日にPhantomJSを紹介する�
 
 - [Saying Goodbye to Firebug – Mozilla Hacks – the Web developer blog](https://hacks.mozilla.org/2017/10/saying-goodbye-to-firebug/)
 
-PhantomJSは[Selenium](https://www.seleniumhq.org/)のような自動テストをはじめ、[スクレイピング](https://github.com/phantombuster/nickjs)、[Prerender](https://github.com/prerender/prerender)、[キャプチャやPDF化](http://phantomjs.org/screen-capture.html)、[パフォーマンステスト](https://www.sitespeed.io/ "元々はPhantomJSを利用していた")などさまざまな用途で利用されていました。
+PhantomJSは[Selenium](https://www.seleniumhq.org/)のような自動テストをはじめ、[スクレイピング](https://github.com/phantombuster/nickjs)、[Prerender](https://github.com/prerender/prerender)、[キャプチャやPDF化](http://phantomjs.org/screen-capture.html)、[パフォーマンス分析](http://yslow.org/)などさまざまな用途で利用されていました。
 
 PhantomJSはバイナリ1つでヘッドレスなブラウザを動かせることから、CIなどいろいろな環境で手軽にブラウザを実行できるツールとして広い環境で使われ、また実際のブラウザよりも高速に起動できたため自動テストにおいては大きな意味をもっていたと思います。
 
