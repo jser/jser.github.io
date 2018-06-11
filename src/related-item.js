@@ -5,7 +5,7 @@ import RelatedItemBox from "./component/RelatedItemBox";
 import FeedbackToTwitter from "./container/FeedbackToTwitter"
 import { getStat } from "./utils/get-stats";
 import { getCurrentURL } from "./utils/get-current-url";
-import { CommentCount } from 'disqus-react';
+import { CommentCount, DiscussionEmbed } from 'disqus-react';
 
 function addRelatedItemPlaceholder() {
     var siteNodeList = document.querySelectorAll(".site-genre ~ hr + h2 + p");
@@ -13,9 +13,12 @@ function addRelatedItemPlaceholder() {
     siteList.forEach(function(item) {
         var parentNode = item;
         var URL = parentNode.firstElementChild.href;
-        var placeholder = document.createElement("div");
-        parentNode.appendChild(placeholder);
-        render(<RelatedItemBox URL={URL}/>, placeholder);
+        var placeholderForRelatedItemBox = document.createElement("div");
+        parentNode.appendChild(placeholderForRelatedItemBox);
+        render(<div>
+            <RelatedItemBox URL={URL}/>
+            <ReportTalker URL={URL}/>
+        </div>, placeholderForRelatedItemBox);
     });
 }
 
