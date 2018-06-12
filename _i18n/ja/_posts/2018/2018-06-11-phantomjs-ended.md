@@ -26,6 +26,8 @@ QtWebKitをベースにしたヘッドレスブラウザである[PhantomJS][]�
 
 - [Archiving the project: suspending the development · Issue #15344 · ariya/phantomjs](https://github.com/ariya/phantomjs/issues/15344)
 
+Securityリリースの予定なども特にないことから事実上のEOL(End Of Life)になりました。
+
 ---
 
 [PhantomJS][]は2011年1月23日に公開されました。
