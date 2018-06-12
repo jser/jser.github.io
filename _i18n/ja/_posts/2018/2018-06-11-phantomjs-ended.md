@@ -12,6 +12,8 @@ tags:
 
 QtWebKitをベースにしたヘッドレスブラウザである[PhantomJS][]の開発が終了され、2018年6月2日にリポジトリもアーカイブされました。
 
+- [ariya/phantomjs: Scriptable Headless Browser](https://github.com/ariya/phantomjs)
+
 [![ariya/phantomjs](https://jser.info/uploads/media/2018/06/11-1528724137.png)](https://github.com/ariya/phantomjs)
 
 以前にもお伝えしていましたが、PhantomJSはQtWebKitをベースにしていて安定版が利用しているバージョンも古いままでした。
