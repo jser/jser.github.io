@@ -44,7 +44,7 @@ JSer.infoではPhantomJSがリリースされた日にPhantomJSを紹介する�
 
 PhantomJSは[Selenium](https://www.seleniumhq.org/)のような自動テストをはじめ、[スクレイピング](https://github.com/phantombuster/nickjs)、[Prerender](https://github.com/prerender/prerender)、[キャプチャやPDF化](http://phantomjs.org/screen-capture.html)、[パフォーマンス分析](http://yslow.org/)などさまざまな用途で利用されていました。
 
-PhantomJSはバイナリ1つでヘッドレスなブラウザを動かせることから、CIなどいろいろな環境で手軽にブラウザを実行できるツールとして広い環境で使われ、また実際のブラウザよりも高速に起動できたため自動テストにおいては大きな意味をもっていたと思います。
+PhantomJSはバイナリ1つでヘッドレスなブラウザを動かせることから、CIなどいろいろな環境で手軽にブラウザを実行できるツールとして使われ、また自動テストにおいては実際のブラウザよりも自動化がしやすかったため大きな意味をもっていたと思います。
 
 今回のリポジトリのアーカイブ化でPhantomJSは1つの役目を終えたと言えます。
 
