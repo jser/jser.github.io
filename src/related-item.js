@@ -79,7 +79,7 @@ function addFeedbackForm(stat) {
 
 getStat().then(function(stat) {
     addRelatedItemPlaceholder();
-    addFeedbackForm(stat);
+    // addFeedbackForm(stat);
 }).catch(function(error) {
     console.error(error, error.stack);
 });
