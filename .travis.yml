@@ -2,17 +2,23 @@ sudo: false
 language: ruby
 rvm: 2.3.4
 node_js: stable
+env:
+  global:
+  - REVIEWDOG_VERSION="0.9.10"
+cache:
+  directories:
+  - vendor/bundle
 before_install:
 - git fetch --unshallow
 - nvm install stable
 install:
+- mkdir -p ~/bin/ && export export PATH="~/bin/:$PATH"
+- curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o ~/bin/reviewdog && chmod +x ~/bin/reviewdog
 - bundle install --without production --deployment
 - npm install
-cache:
-  directories:
-  - vendor/bundle
 script:
 - npm run test:ci
+- ./test/reviewdog.sh
 - npm run build
 - node _tools/generate-amp-story.js
 - node _tools/generate-post-details-json.js
