@@ -60,8 +60,8 @@ Object Rest/Spread Properties、Async Iteration、`Promise#finally`、正規表�
 [Where is CSS4? When is it coming out?](https://www.youtube.com/watch?v=Jtmkk6odggs)という動画でCSS4はなぜないのかについてをわかりやすく解説しています。
 
 
-CSS3のときに仕様がmoduleに分解され、それぞれのModuleはLevel 3となりました。（全体をCSS3と呼んでいました）
-その後のCSSの仕様はModuleごとにLevelをあげる(Level 4になるなど)、また新しく追加されたModuleはLevel 1から開始するという形になっています。
+CSS3のときに仕様がModuleへ分解され、それぞれのModuleはLevel 3となりました。（全体をCSS3と呼んでいました）
+その後のCSSの仕様はModuleごとにLevelをあげる(CSS Selectors Level 4になるなど)、また新しく追加されたModuleはLevel 1から開始するという形になっています。
 そのため、CSS4という全体を表すものはないという話がされています。
 
 次の記事も合わせて読むと良さそうです。
