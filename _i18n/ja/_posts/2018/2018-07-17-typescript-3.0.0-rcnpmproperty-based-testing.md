@@ -26,7 +26,7 @@ TypeScript 3.0ではこれらの問題を解決するメタIssueがあり、フ�
 
 - [tsc --build / Project References Feedback & Discussion · Issue #25600 · Microsoft/TypeScript](https://github.com/Microsoft/TypeScript/issues/25600)
 
-またTuple型の改善、`unknown`型の追加、Reactのdefault propsの型チェックのサポートなどが行われています。
+その他にもTuple型の改善、`unknown`型の追加、Reactのdefault propsの型チェックのサポートなどが行われています。
 
 ----
 
