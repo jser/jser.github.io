@@ -1,5 +1,5 @@
 ---
-title: "2018-07-17のJS: TypeScript 3.0.0、ウイルスとnpmパッケージ、Property based testing"
+title: "2018-07-17のJS: TypeScript 3.0.0 RC、ウイルスとnpmパッケージ、Property based testing"
 author: "azu"
 layout: post
 date : 2018-07-17T02:20:17.375Z
