@@ -48,11 +48,12 @@ npmによれば4,500のnpmアカウントがこの問題の影響を受けたと
 [Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter](https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes)の記事では、パッケージのメンテナー側の対策として2要素認証をする、パスワードを使い回さないなどの対策などについて書かれています。
 またパッケージの利用する側の対策として`pacakge-lock.json`や`yarn.lock`などでパッケージのバージョンをロックして今回の問題のようなパッケージは自動的には入らないようにするといったことについて書かれています。
 
-今回のパッケージのインストール時に`postinstall`のhookで悪意あるコードを実行するという手法は以前も同様の問題が報告されていました。この問題の対策の一環として[read-only tokenや2要素認証](https://blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor)が導入されています。
+今回の攻撃に使われたパッケージのインストール時に`postinstall`のhookで悪意あるコードを実行するという手法は以前も同様の問題が報告されていました。この問題の対策の一環として[read-only tokenや2要素認証](https://blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor)が導入されていました。
 
 - [The npm Blog — Package install scripts vulnerability](https://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability)
 
-今回の問題をうけてnpmでは、ユーザーではなくパッケージごとに2要素認証を設定可能にすることやTime-limited tokensについての提案などが行われています。
+npmの2要素認証はユーザー単位であるため、メンテナーが複数人いる場合は全員が2要素認証を有効化していないと、パッケージ自体は攻撃の影響を受ける可能性があります。
+そのため今回の問題をうけてnpmでは、ユーザーではなくパッケージごとに2要素認証を設定可能にすることやTime-limited tokensについての提案などが行われています。
 
 - [The npm Blog — Two-factor authentication protection for packages](https://blog.npmjs.org/post/175861857230/two-factor-authentication-protection-for-packages)
 - [Time-limited tokens - 💡 ideas - npm forum](https://npm.community/t/time-limited-tokens/502)
