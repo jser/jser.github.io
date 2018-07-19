@@ -43,10 +43,10 @@ npmによれば4,500のnpmアカウントがこの問題の影響を受けたと
 
 - [The npm Blog — Incident report: npm, Inc. operations incident of...](https://blog.npmjs.org/post/175824896885/incident-report-npm-inc-operations-incident-of)
 
-現在は問題のパッケージ（`eslint-scope@3.7.2`と`eslint-config-eslint@5.0.2`）はunpublishされているため、インストールする可能性はほぼありません。しかし、npmのregistryには[Artifactory](https://www.jfrog.com/confluence/display/RTF/Npm+Registry)などのミラーを利用しているユーザーもいるため、ミラーのregistryには残っている可能性もあるので確認してください。仮に実行した場合でも[eslint-scope attack](https://gist.github.com/hzoo/51cb84afdc50b14bffa6c6dc49826b3e)で解説されているように、実際の攻撃スクリプトがすでに利用できないため影響はほぼありません。
+問題のパッケージ（`eslint-scope@3.7.2`と`eslint-config-eslint@5.0.2`）は既にunpublishされているため、インストールする可能性はほぼありません。しかし、npmのregistryには[Artifactory](https://www.jfrog.com/confluence/display/RTF/Npm+Registry)などのミラーを利用しているユーザーもいるため、ミラーのregistryには残っている可能性もあるので確認してください。仮に実行した場合でも[eslint-scope attack](https://gist.github.com/hzoo/51cb84afdc50b14bffa6c6dc49826b3e)で解説されているように、実際の攻撃スクリプトがすでに利用できないため影響はほぼありません。
 
 [Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter](https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes)の記事では、パッケージのメンテナー側の対策として2要素認証をする、パスワードを使い回さないなどの対策などについて書かれています。
-またパッケージの利用する側の対策として`pacakge-lock.json`や`yarn.lock`などでパッケージのバージョンをロックして今回の問題のようなパッケージは自動的には入らないようにするといったことについて書かれています。
+またパッケージの利用する側の対策として`pacakge-lock.json`や`yarn.lock`などでパッケージのバージョンをロックして今回の問題のようなパッケージを自動的には入らないようにするといったことについて書かれています。
 
 今回の攻撃に使われたパッケージのインストール時に`postinstall`のhookで悪意あるコードを実行するという手法は以前も同様の問題が報告されていました。この問題の対策の一環として[read-only tokenや2要素認証](https://blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor)が導入されていました。
 
