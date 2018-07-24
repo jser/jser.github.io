@@ -1,5 +1,5 @@
 ---
-title: "2018-07-24のJS: Monthly Web の作り方、普通のHTMLの書き方"
+title: "2018-07-24のJS: Monthly Webの作り方、普通のHTMLの書き方"
 author: "azu"
 layout: post
 date : 2018-07-24T00:40:57.119Z
