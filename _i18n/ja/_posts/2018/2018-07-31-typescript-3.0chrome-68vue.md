@@ -40,7 +40,7 @@ Chrome 68から`http://`なサイトの場合にアドレスバーには"Not Sec
 
 また、Chrome 68ではPage Lifecycle APIのサポート、`customElements.upgrade()`のサポート、Service WorkerにおけるHTTPキャッシュのデフォルトの挙動を変更などが行われています。
 
-Page Lifecycle API、`fetch` APIの[`keepalive`](https://fetch.spec.whatwg.org/#keep-alive-flag)オプション、`navigator.sendBeacon`などが揃ってきたこともあり、将来的にChromeではページを閉じる際に同期的なXHRでログを送信できなくする予定があります。
+Page Lifecycle API、`fetch` APIの[`keepalive`](https://fetch.spec.whatwg.org/#keep-alive-flag)オプション、`navigator.sendBeacon`などが揃ってきたこともあり、将来的にChromeではページを閉じる際に同期的なXHR（ログ送信などに利用されていた）を使えなくする予定があります。
 
 - [Intent to Implement & Ship: Disallow Sync XHR in Page Dismissal - Google グループ](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/LnqwTCiT9Gs/tO0IBO4PAwAJ)
 - [Page Lifecycle API  |  Web  |  Google Developers](https://developers.google.com/web/updates/2018/07/page-lifecycle-api)
