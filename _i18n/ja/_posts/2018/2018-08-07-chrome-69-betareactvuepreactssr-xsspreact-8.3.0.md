@@ -23,7 +23,7 @@ CSS conic gradients、CSS scroll snap、CSS `env()` functionのサポートな�
 またOffscreenCanvasや
 [ReportingObserver API](https://developers.google.com/web/updates/2018/07/reportingobserver)、[Keyboard Map API](https://github.com/WICG/keyboard-map)のサポートなどが行われています。
 
-WebRTCやメディア系のアップデートは[Audio/Video Updates in Chrome 69  |  Web  |  Google Developers](https://developers.google.com/web/updates/2018/08/chrome-69-media-updates "Audio/Video Updates in Chrome 69  |  Web  |  Google Developers")にまとめられています。
+メディア系のアップデートは[Audio/Video Updates in Chrome 69  |  Web  |  Google Developers](https://developers.google.com/web/updates/2018/08/chrome-69-media-updates "Audio/Video Updates in Chrome 69  |  Web  |  Google Developers")にまとめられています。
 
 ---
 
