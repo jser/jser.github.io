@@ -31,7 +31,7 @@ React 16.4.2でSSR（サーバサイドレンダリング）時に発生するXS
 
 - [React v16.4.2: Server-side vulnerability fix - React Blog](https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html)
 
-あまりないパターンだと思いますが任意の値を属性値として使っている場合に、SSR時にその属性値がタグとして出力されてしまう問題が修正されています。
+あまりないパターンだと思いますが、タグ文字列を含む任意の値を属性値として使っている場合に、SSR時にその属性値がタグとして出力されてしまう問題が修正されています。
 
 ```js
 let userProvidedData = '></div><script>alert("hi")</script>';
@@ -42,7 +42,7 @@ let html = ReactDOMServer.renderToString(element);
 // <div ></div><script>alert("hi")</script>
 ```
 
-VueとPreactに同様の問題があることが[Reactチームによって報告](https://github.com/facebook/react/pull/13302)されていたため、あわせて修正がリリースされています。
+VueとPreactの同様の問題が[Reactチームによって報告](https://github.com/facebook/react/pull/13302)されており、同時に修正がリリースされています。
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">This issue affected Preact (-compat &amp; -render-to-string) as well. It&#39;s been patched in versions 3.18.1 / 3.7.1 of those libraries. Cheers to the React folks for the easy disclosure process. <a href="https://t.co/pN9nnMBDEC">https://t.co/pN9nnMBDEC</a></p>&mdash; Jason Miller 🦊⚛ (@_developit) <a href="https://twitter.com/_developit/status/1024748991458762756?ref_src=twsrc%5Etfw">August 1, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
