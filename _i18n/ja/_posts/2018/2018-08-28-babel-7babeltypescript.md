@@ -29,7 +29,7 @@ Node.js 4のサポート終了し、`@babel`スコープへモジュールを移
 
 [TypeScript and Babel 7 | TypeScript](https://blogs.msdn.microsoft.com/typescript/2018/08/27/typescript-and-babel-7/)という記事では、Babel 7でTypeScriptのコードをJavaScriptに変換できる(型情報を取り除ける)ことについて紹介されています。
 
-Babel 7では[TypeScriptのコードをパース](https://github.com/babel/babylon/pull/523)できるようになり、[@babel/preset-typescript](https://babeljs.io/docs/en/next/babel-preset-typescript.html)を利用してFlowの同じように型情報を取り除いてJavaScriptに変換できます。
+Babel 7では[TypeScriptのコードをパース](https://github.com/babel/babylon/pull/523)できるようになり、[@babel/preset-typescript](https://babeljs.io/docs/en/next/babel-preset-typescript.html)を利用してFlowと同じように型情報を取り除いてJavaScriptに変換できます。
 
 制限として、Babel自体は型チェックを行なわないことや`enum`/`namespace`のようなTypeScript独自の構文はサポートしてない点についても紹介されています。
 
