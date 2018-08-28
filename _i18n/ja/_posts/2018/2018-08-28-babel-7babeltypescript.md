@@ -27,7 +27,7 @@ Node.js 4のサポート終了し、`@babel`スコープへモジュールを移
 
 - [Upgrade to Babel 7 · Babel](http://babeljs.io/docs/en/next/v7-migration)
 
-これに[TypeScript and Babel 7 | TypeScript](https://blogs.msdn.microsoft.com/typescript/2018/08/27/typescript-and-babel-7/)という記事では、Babel 7でTypeScriptのコードをJavaScriptに変換できる(型情報を取り除ける)ことについて紹介されています。
+[TypeScript and Babel 7 | TypeScript](https://blogs.msdn.microsoft.com/typescript/2018/08/27/typescript-and-babel-7/)という記事では、Babel 7でTypeScriptのコードをJavaScriptに変換できる(型情報を取り除ける)ことについて紹介されています。
 
 Babel 7では[TypeScriptのコードをパース](https://github.com/babel/babylon/pull/523)できるようになり、[@babel/preset-typescript](https://babeljs.io/docs/en/next/babel-preset-typescript.html)を利用してFlowの同じように型情報を取り除いてJavaScriptに変換できます。
 
