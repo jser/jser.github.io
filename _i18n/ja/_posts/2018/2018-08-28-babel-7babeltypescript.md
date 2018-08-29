@@ -93,7 +93,7 @@ Robotics Programming Frameworkの Johnny-Five v1.0リリース
 [github.com/stimulusjs/stimulus/releases/tag/v1.1.0](https://github.com/stimulusjs/stimulus/releases/tag/v1.1.0 "Release v1.1.0 · stimulusjs/stimulus")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">HTML</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
-Turbolinkと連携できるJavaScriptフレームワークのStimulus 1.1.0リリース。
+Turbolinksと連携できるJavaScriptフレームワークのStimulus 1.1.0リリース。
 `@stimulus/polyfills`の追加、`data-action`属性で複数のactionを指定時にその順序を尊重するように、`DOMContentLoaded`で処理を開始するようになるなど
 
 
