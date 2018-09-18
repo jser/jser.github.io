@@ -16,7 +16,7 @@ JSer.info #401 - Chrome 70βがリリースされました。
 - [Chromium Blog: Chrome 70 beta: shape detection, web authentication, and more](https://blog.chromium.org/2018/09/chrome-70-beta-shape-detection-web.html)
 
 
-Shpae Detection APIの[origin trial](https://blog.jxck.io/entries/2016-09-29/vender-prefix-to-origin-trials.html)の開始、Credential Management APIで指紋認証をサポート、Web Workerで`name`オプションをサポート、TLS 1.3のサポートなどが行われています。
+Shape Detection APIの[origin trial](https://blog.jxck.io/entries/2016-09-29/vender-prefix-to-origin-trials.html)の開始、Credential Management APIで指紋認証をサポート、Web Workerで`name`オプションをサポート、TLS 1.3のサポートなどが行われています。
 
 Web Components v0(Custom Elements v0、HTML Imports、Shadow DOM v0)が非推奨(deprecated)となりました。
 Deprecatedから削除までのスケジュールは次のMLにかかれていますが、origin trialsで利用範囲を狭めていき最終的に2020年Q2で削除の予定です。
@@ -86,7 +86,7 @@ Mapped TypeでTupleやArrayの扱いを改善、関数にプロパティを定�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Chrome 70リリース。
-Shpae Detection APIのorigin trialの開始、 Web Authenticationで指紋認証をサポート、Web Workerで`name`オプション、TLS 1.3のサポート。
+Shape Detection APIのorigin trialの開始、 Web Authenticationで指紋認証をサポート、Web Workerで`name`オプション、TLS 1.3のサポート。
 Web Components v0を非推奨化など
 
 
