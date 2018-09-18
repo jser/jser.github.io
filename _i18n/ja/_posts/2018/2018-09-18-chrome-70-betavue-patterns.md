@@ -56,6 +56,7 @@ CSSを使った縦組みの実装について書かれています。ブラウ�
 
 - ConnpassからのメールにかかれているID(7Fの入館端末でIDを入力して入館証を発行するの利用)
 - JavaScript Discussionで聞きたいこと
+  - 事前に書いておきたい人は[事前質問用のSpreadSheet](https://docs.google.com/spreadsheets/d/1pk1Nw4B5eo5mwOcQUo3ipVdwBOAeTkWCWbwW8I5e8Iw/edit#gid=0)にかいておいてください
 - 参加枠の人は1000円
 - LTをしたい人はLTの準備
 
