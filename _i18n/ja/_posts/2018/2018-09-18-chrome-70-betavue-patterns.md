@@ -225,7 +225,7 @@ webpackを使ったビルド、開発サーバ、Nuxt.jsのようなルーティ
 [github.com/getgauge/taiko](https://github.com/getgauge/taiko "getgauge/taiko: A node.js library to automate chrome/chromium browser")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span> <span class="jser-tag">console</span></p>
 
-REPLでChromeを操作するコードを実行指定気、その操作するコードを出力できるツール。
+REPLでChromeを操作するコードを実行していき、その操作するコードを出力できるツール。
 
 
 ----
