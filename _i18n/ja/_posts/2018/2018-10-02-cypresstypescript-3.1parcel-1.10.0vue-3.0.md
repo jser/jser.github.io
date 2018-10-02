@@ -50,7 +50,7 @@ Vue自体のコードベースをTypeSriptに書き直し、クラスベース�
 
 またProxyを使えないIE11も制限ありでサポートする予定ですが、`Object.defineProperty`を使った2.xと同じ仕組みであるため、他のブラウザと完全な互換性を提供することが難しい点についても書かれています。
 
-注釈: `Object.defineProperty`でgetter/setterを使い変更を検知する仕組みでは、オブジェクト作成時にないプロパティの変更を検知できない問題があります。一方Proxyはオブジェクト作成時にないプロパティ名に対する代入なども検知できます。
+注釈: `Object.defineProperty`のgetter/setterで変更を検知する仕組みでは、オブジェクト作成時にないプロパティの変更を検知できない問題があります。一方Proxyはオブジェクト作成時にないプロパティ名に対する代入なども検知できます。
 この点はMobX 4.xと5.xに類似する話だと思います。
 
 - [mobx/CHANGELOG.md at 5.0.0 · mobxjs/mobx](https://github.com/mobxjs/mobx/blob/5.0.0/CHANGELOG.md)
