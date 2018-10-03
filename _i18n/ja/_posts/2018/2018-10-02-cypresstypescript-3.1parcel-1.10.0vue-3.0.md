@@ -46,7 +46,7 @@ Vueの次のメジャーアップデートであるVue 3.0のロードマップ�
 - [\[和訳\] 次期 Vue (v3.0) の計画 / Plans for the Next Iteration of Vue.js - Qiita](https://qiita.com/unecochan/items/ac206365745257d68926)
 
 この記事ではVue 3で行われる変更予定や追加機能などについてかかれています。
-Vue自体のコードベースをTypeSriptに書き直し、クラスベースコンポーネントの導入、[Functional Component](https://jp.vuejs.org/v2/guide/render-function.html#%E9%96%A2%E6%95%B0%E5%9E%8B%E3%82%B3%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%8D%E3%83%B3%E3%83%88)がただの関数として書けるようになり、Observer/Schedulerの分離、ES Proxyベースのobserverの導入などについて書かれています。
+Vue自体のコードベースをTypeScriptに書き直し、クラスベースコンポーネントの導入、[Functional Component](https://jp.vuejs.org/v2/guide/render-function.html#%E9%96%A2%E6%95%B0%E5%9E%8B%E3%82%B3%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%8D%E3%83%B3%E3%83%88)がただの関数として書けるようになり、Observer/Schedulerの分離、ES Proxyベースのobserverの導入などについて書かれています。
 
 またProxyを使えないIE11も制限ありでサポートする予定ですが、`Object.defineProperty`を使った2.xと同じ仕組みであるため、他のブラウザと完全な互換性を提供することが難しい点についても書かれています。
 
