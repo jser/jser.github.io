@@ -16,7 +16,7 @@ JSer.info #410 - TypeScript 3.2 RCがリリースされました。
 - [Announcing TypeScript 3.2 RC | TypeScript](https://blogs.msdn.microsoft.com/typescript/2018/11/15/announcing-typescript-3-2-rc/)
 - [TypeScript 3.2.0-RC 変更点 - Qiita](https://qiita.com/vvakame/items/79557e00cfe6d3c612cd "TypeScript 3.2.0-RC 変更点 - Qiita")
 
-`strictBindCallApply`オプションが追加され`bind`、`call`、`apply`の型付け改善、Object spread/restとGenericsの組み合わせを改善、BigIntサポートなどが行わrています。
+`strictBindCallApply`オプションが追加され`bind`、`call`、`apply`の型付け改善、Object spread/restとGenericsの組み合わせを改善、BigIntサポートなどが行われています。
 またCLIに`--showConfig`オプションの追加され`tsconfig.json`で定義した設定をダンプできるようになっています。
 
 ----
