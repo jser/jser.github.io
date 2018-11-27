@@ -97,8 +97,8 @@ Node.jsのプログラムを依存含めて1つのファイルにするnccにつ
 [snyk.io/blog/malicious-code-found-in-npm-package-event-stream](https://snyk.io/blog/malicious-code-found-in-npm-package-event-stream "Malicious code found in npm package event-stream downloaded 8 million times in the past 2.5 months | Snyk")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">npm</span> <span class="jser-tag">library</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p>
 
-`event-stream@3.x`と`flatmap-stream`の問題について。
-`flatmap-stream`にwalletsからbitcoinを盗むコードが含まれており、`event-stream@3.x`がこのパッケージに依存していた問題について。
+`event-stream@3.3.6`と`flatmap-stream`の問題について。
+`flatmap-stream`にwalletsからbitcoinを盗むコードが含まれており、`event-stream@3.3.6`がこのパッケージに依存していた問題について。
 現在`flatmap-stream`はnpmからunpublishされている
 
 - [I don't know what to say. · Issue #116 · dominictarr/event-stream](https://github.com/dominictarr/event-stream/issues/116 "I don&#x27;t know what to say. · Issue #116 · dominictarr/event-stream")
