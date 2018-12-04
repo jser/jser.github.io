@@ -75,7 +75,6 @@ ESLintコアで行っていたJSDoc周りのパーサやルールなどの開発
 そのためコミュニティで開発されている[eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc)というプラグインへの移行が推奨されています。
 
 - [Incorporating now deprecated ESLint jsdoc features · Issue #107 · gajus/eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc/issues/107)
--
 
 ESLintが利用していたJSDocパーサである[doctrine](https://github.com/eslint/doctrine)も開発が終了され、現在アーカイブ化されています。
 これはもともと[@constellation](https://github.com/Constellation)さんが開発し、ESLint/JS Foundationにtransferしたパッケージです。
