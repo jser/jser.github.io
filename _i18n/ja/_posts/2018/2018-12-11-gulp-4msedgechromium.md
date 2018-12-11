@@ -42,7 +42,7 @@ Microsoftは、[Microsoft Edge](https://www.microsoft.com/windows/microsoft-edge
 MSEdgeというブラウザ自体(ブランド)は維持されますが、中身がChromeと同じ[Chromium](https://www.chromium.org/Home)ベースへ移行されます。
 この移行によってWindows7, 8を含めたすべてのサポートバージョンのWindowsとmacOSなどの他のプラットフォームをサポートする予定です。
 
-新しいMSEdgeはChakraCoreは利用しない予定ですが、ChakraCore自体はブラウザ以外でも利用されているためサポートを継続するとの発表もしています。
+新しいMSEdgeはChakraCoreを利用しない予定ですが、ChakraCore自体はブラウザ以外でも利用されているためサポートを継続するとの発表もしています。
 
 - [Chromium adoption in Microsoft Edge and future of ChakraCore · Issue #5865 · Microsoft/ChakraCore](https://github.com/Microsoft/ChakraCore/issues/5865)
 
