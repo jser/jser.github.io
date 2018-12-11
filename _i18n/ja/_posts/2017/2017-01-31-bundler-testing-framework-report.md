@@ -187,4 +187,4 @@ JSer.infoでは不定期でレポートという形で、特定のテーマに�
 <a href="https://twitter.com/jser_info" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jser_info</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-<a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttps://jser.info/rss/' target='blank'><img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
+<a href='https://feedly.com/i/subscription/feed%2Fhttps%3A%2F%2Fjser.info%2Frss%2F' target='blank'><img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a>
