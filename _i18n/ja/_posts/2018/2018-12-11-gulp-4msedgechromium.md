@@ -1,5 +1,5 @@
 ---
-title: "2018-12-11のJS: gulp 4が正式リリース、MSEdgeがChromiumベースへ"
+title: "2018-12-11のJS: gulp 4が正式リリース、MSEdgeがChromiumベースに移行"
 author: "azu"
 layout: post
 date : 2018-12-11T00:22:12.068Z
