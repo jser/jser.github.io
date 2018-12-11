@@ -18,7 +18,7 @@ JSer.info #413 - gulp 4.0が正式にリリースされました。
 今まではプレリリース扱いだったので`npm install gulp@next`でないとインストールされませんでしたが、現在は`npm install gulp`で4.0がインストールされるようになっています。
 
 `gulp.series`、`gulp.parallel`、`gulp.lastRun`、`gulp.symlink`などのAPIが追加されています。
-sourcemapsのデフォルトサポート、gulpfileからのmodule exportをタスクとして扱えるようなっています。
+sourcemapsのビルトインサポート、gulpfileからのmodule exportをタスクとして扱えるようなっています。
 
 または破壊的な変更として、`gulp`と`gulp-cli`の分離、`gulp.task`や`gulp.watch`の引数の変更などが行われています。
 
@@ -167,7 +167,7 @@ JSDoc関係のルールである`require-jsdoc`と`valid-jsdoc`が非推奨に�
 
 gulp 4.0が正式リリース。
 `gulp.series`と`gulp.parallel`を追加。
-sourcemapsのデフォルトサポート、gulpfileからのexportをタスクとして扱えるように、`gulp`と`gulp-cli`の分離など
+sourcemapsのビルトインサポート、gulpfileからのexportをタスクとして扱えるように、`gulp`と`gulp-cli`の分離など
 
 - [Release v4.0.0 · gulpjs/gulp](https://github.com/gulpjs/gulp/releases/tag/v4.0.0 "Release v4.0.0 · gulpjs/gulp")
 
