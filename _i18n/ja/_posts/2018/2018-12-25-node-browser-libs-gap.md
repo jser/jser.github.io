@@ -62,7 +62,7 @@ webpackとbrowserifyが利用するpolyfillライブラリは次の場所で管�
 
 注記: 依存しているpolyfillそのものはアップデートで解決されている場合があります。しかし、bundlerが古いバージョンを使っている場合があります。
 
-<table>
+<table border="1">
 <thead>
 <tr>
 <th style="text-align:center">Node.js</th>
