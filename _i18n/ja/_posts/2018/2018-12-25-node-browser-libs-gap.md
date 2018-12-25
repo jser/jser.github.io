@@ -530,7 +530,7 @@ Gapリスト通りのpolyfillが使われています。
 
 多くのコアモジュールにおいては、問題が表面化しない可能性もあります。
 しかし、`assert`、`events`、`url`はブラウザ向けとしてよく使われているにもかかわらず、差異が分かる程度にはあります。
-また、これらの問題が解決できた場合にも、webpackやbrowserifyには暗黙的にpolyfillライブラリを差し替える仕組み上は、バージョン違いといった互換性の問題が発生するかもしれません。
+また、ギャップの問題が解決できた場合にも、バージョンを指定できずに暗黙的なpolyfillライブラリを差し替える仕組みは、互換性の問題が発生するかもしれません。
 
 - [Node.js Errors — Changes you need to know about – Node.js Collection – Medium](https://medium.com/the-node-js-collection/node-js-errors-changes-you-need-to-know-about-dc8c82417f65 "Node.js Errors — Changes you need to know about – Node.js Collection – Medium")
   - `assert`結果の`Error#name`などが異なるため、Node.jsでは通るがブラウザ(polyfill)では失敗するテストができる
