@@ -565,6 +565,8 @@ webpack 5では自動的にNode.jsコアモジュールのpolyfillを自動的�
 これは[webpack 5の変更予定](https://github.com/webpack/changelog-v5/blob/master/README.md#automatic-nodejs-polyfills-removed)にも書かれていたように、Bundlerの目的の1つがNode.js向けに書かれたモジュールをブラウザ向けに変換することでした。
 しかし、現在は多くのブラウザ向けに書かれたモジュールがあり、Bundlerはそれを効率的に扱うという目的に変わってきている点も関係しているのかもしれません。
 
+## 調査を終えて
+
 今回の調査で感じたのは、Node.jsのコアモジュールとブラウザ向けのPolyfillといった一種の互換レイヤーに対して関心を持っている人の絶対数が少ないという印象です。Node.jsもコアAPIとしてブラウザと同じ[WHATWG URL API](https://nodejs.org/api/url.html#url_the_whatwg_url_api)を実装するなどいった[ブラウザとの相互運用性](https://github.com/nodejs/node/pull/18281)に関する取り組みも行われています。
 しかし、このNode.jsコアモジュールのpolyfillという互換レイヤーに関しては暗黙的に扱われていることが多く、その互換性に問題があることについてはあまり言及されていません。
 
