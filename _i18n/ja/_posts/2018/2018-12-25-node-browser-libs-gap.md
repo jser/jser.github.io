@@ -480,8 +480,8 @@ webpackとbrowserifyが利用するpolyfillライブラリは次の場所で管�
 
 ### webpack 4.82.2
 
-0/24のテストをパス。
-Gapリストに載っているものは未実装となっているpolyfillが使わrています。
+すべてのテストが失敗しました。
+Gapリスト通りのpolyfillが使われています。
 
 ```
   gap-test
