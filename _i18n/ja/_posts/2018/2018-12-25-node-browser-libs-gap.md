@@ -552,7 +552,7 @@ webpack 5では自動的にNode.jsコアモジュールのpolyfillを自動的�
 CHANGELOGにこのように書かれているのように、webpackはNode.jsモジュールをブラウザ向けにpack(polyfill)する役割から、フロントエンド向けに書かれたモジュールをbundleする役割へ変わってきています。
 
 今までは`Buffer`など[Node.jsのコアAPI](https://nodejs.org/api/index.html)に対応するモジュールを自動的にbundleすることで、Node.js向けに書かれたモジュールをブラウザでも動かせるようにしていました。
-一方で、現在ではブラウザ向けに書かれたは多くのモジュールがあるため、webpackが自動的にpolyfillを入れる必然性が小さくなってきています。
+一方で、現在ではブラウザ向けに書かれたは多くのモジュールがあるため、webpackが自動的にpolyfillを入れる必然性が少なくなってきています。
 
 また、`Buffer`のpolyfillなどはファイルサイズがほどほどに大きいため、パフォーマンス面においては自動的にpolyfillを行わないメリットもあります。(polyfillを行うかどうかは、webpack 4でも[node](https://webpack.js.org/configuration/node/)オプションによって設定が可能です)
 
