@@ -562,8 +562,18 @@ webpack 5では自動的にNode.jsコアモジュールのpolyfillを自動的�
 - [Unable to resolve module `assert` `buffer` `events` · Issue #21405 · facebook/react-native](https://github.com/facebook/react-native/issues/21405)
 
 このように、BundlerがNode.jsコアモジュールのpolyfillを暗黙的に入れるという挙動の状況は少し変わりつつあります。
-これは、[webpack 5の変更予定](https://github.com/webpack/changelog-v5/blob/master/README.md#automatic-nodejs-polyfills-removed)にも書かれていたように、Bundlerの目的の1つがNode.js向けに書かれたモジュールをブラウザ向けに変換することでした。
+これは[webpack 5の変更予定](https://github.com/webpack/changelog-v5/blob/master/README.md#automatic-nodejs-polyfills-removed)にも書かれていたように、Bundlerの目的の1つがNode.js向けに書かれたモジュールをブラウザ向けに変換することでした。
 しかし、現在は多くのブラウザ向けに書かれたモジュールがあり、Bundlerはそれを効率的に扱うという目的に変わってきている点も関係しているのかもしれません。
+
+今回の調査で感じたのは、Node.jsのコアモジュールとブラウザ向けのPolyfillといった一種の互換レイヤーに対して関心を持っている人の絶対数が少ないという印象です。Node.jsもコアAPIとしてブラウザと同じ[WHATWG URL API](https://nodejs.org/api/url.html#url_the_whatwg_url_api)を実装するなどいった[ブラウザとの相互運用性](https://github.com/nodejs/node/pull/18281)に関する取り組みも行われています。
+しかし、このNode.jsコアモジュールのpolyfillという互換レイヤーに関しては暗黙的に扱われていることが多く、その互換性に問題があることについてはあまり言及されていません。
+
+W3C TAGの[Polyfills and the evolution of the Web](https://w3ctag.github.io/polyfills/)というドキュメントでpolyfillがどうあるべきかということについて書かれています。
+このNode.jsコアモジュールのpolfyillの問題も[Node.jsとpolyfillのライフサイクルの違い](https://w3ctag.github.io/polyfills/#life-cycle)からきている面があると思います。
+ブラウザにおける壊れたpolyfillの場合は仕様策定の際に問題となることがありましたが、幸いにもNode.jsのコアモジュールのpolyfillの多くはモジュールやBundlerという仕組みの上に作られたものです。
+
+しかしながら、このNode.jsコアモジュールのpolfyillも一定数利用者がいるためエコシステムの互換性という問題からは切り離すことが難しいです。(polyfillの1つである[events](https://www.npmjs.com/package/events)モジュールは500万/weekダウンロードされています)
+この問題に深く関係しているのはwebpackやbrowserifyなどのbundlerであるため、bundlerの動きがそのままNode.jsコアモジュールのpolfyillの今後に影響するでしょう。
 
 ## [jser/report](https://github.com/jser/report) バックナンバー
 
