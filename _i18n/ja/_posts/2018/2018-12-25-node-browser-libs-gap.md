@@ -20,13 +20,13 @@ tags:
 
 ## Node.jsコアモジュールのpolyfillライブラリの例
 
-webpackとbrowserifyは変換時に、コード中に現れる`assert`モジュールを[commonjs-assert](https://github.com/browserify/commonjs-assert "commonjs-assert")というpolyfillライブラリに自動的にすり替えられます。
+webpackとbrowserifyは変換時に、コード中に現れる`assert`モジュールを[commonjs-assert](https://github.com/browserify/commonjs-assert "commonjs-assert")というpolyfillライブラリに自動的にすり替えます。
 
 ```js
 const assert = require("assert")
 ```
 
-というコードはwebpackなどでbundleすると、次のように書いたのと同じようにモジュールの差し替えが行われる。
+というコードはwebpackなどでbundleすると、次のように書いたのと同じようにモジュールの差し替えが行われます。
 
 ```js
 const assert = require("commonjs-assert")
