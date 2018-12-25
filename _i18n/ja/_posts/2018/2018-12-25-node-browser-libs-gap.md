@@ -572,7 +572,7 @@ webpack 5では自動的にNode.jsコアモジュールのpolyfillを自動的�
 
 W3C TAGの[Polyfills and the evolution of the Web](https://w3ctag.github.io/polyfills/)というドキュメントでpolyfillがどうあるべきかということについて書かれています。
 このNode.jsコアモジュールのpolfyillの問題も[Node.jsとpolyfillのライフサイクルの違い](https://w3ctag.github.io/polyfills/#life-cycle)からきている面があると思います。
-ブラウザにおける壊れたpolyfillの場合は仕様策定の際に問題となることがありましたが、幸いにもNode.jsのコアモジュールのpolyfillの多くはモジュールやBundlerという仕組みの上に作られたものです。
+ブラウザの仕様における壊れたpolyfillはグローバルの挙動を書き換えるため問題となることがありましたが、幸いにもNode.jsのコアモジュールのpolyfillの多くはモジュールやBundlerという仕組みの上に作られたものです。
 
 しかしながら、このNode.jsコアモジュールのpolfyillも一定数利用者がいるため互換性という問題からは切り離すことが難しいです。(polyfillの1つである[events](https://www.npmjs.com/package/events)モジュールは500万/weekダウンロードされています)
 この問題に深く関係しているのはwebpackやbrowserifyなどのbundlerであるため、bundlerの動きがそのままNode.jsコアモジュールのpolfyillの今後に影響する可能性は高いと思います。
