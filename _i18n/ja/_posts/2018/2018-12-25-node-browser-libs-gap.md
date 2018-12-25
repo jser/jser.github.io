@@ -542,7 +542,7 @@ webpackなどにIssueで同様の問題を報告していましたが、このIs
 
 - [Incompatibility between Node.js core libs and webpack's lib · Issue #78 · webpack/node-libs-browser](https://github.com/webpack/node-libs-browser/issues/78)
 
-最近になって、2018年12月21日に[webpack 5 alpha](https://github.com/webpack/webpack/issues/8537)が公開されました。
+最近(2018年12月21日)になって[webpack 5 alpha](https://github.com/webpack/webpack/issues/8537)が公開されました。
 webpack 5では自動的にNode.jsコアモジュールのpolyfillを自動的に入れないようにする変更が予定されています。
 (2018年12月25日時点ではただの予定であるため、[該当Issue](https://github.com/webpack/webpack/issues/8537)においてフィードバックを求めています。)
 
