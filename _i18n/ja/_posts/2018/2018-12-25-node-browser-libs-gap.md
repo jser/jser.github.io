@@ -556,7 +556,7 @@ CHANGELOGにこのように書かれているのように、webpackはNode.jsモ
 
 また、`Buffer`のpolyfillなどはファイルサイズがほどほどに大きいため、パフォーマンス面においては自動的にpolyfillを行わないメリットもあります。(polyfillを行うかどうかは、webpack 4でも[node](https://webpack.js.org/configuration/node/)オプションによって設定が可能です)
 
-少しブラウザとは異なりますが、React Nativeの[Bundler](https://facebook.github.io/metro/)もNode.jsのコアモジュールのpolyfillを自動的にbundleはしない仕組みになっています。
+少しブラウザとは異なりますが、React Nativeの[Bundler](https://facebook.github.io/metro/)もNode.jsコアモジュールのpolyfillを自動的に差し替えない仕組みとなっています。
 
 - [Unable to resolve module `assert` `buffer` `events` · Issue #21405 · facebook/react-native](https://github.com/facebook/react-native/issues/21405)
 
