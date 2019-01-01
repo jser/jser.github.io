@@ -1,4 +1,5 @@
---- title: "2019-01-01のJS: WebdriverIO v5、Rollup 1.0、Rust + WebAssembly + WebWorker"
+---
+title: "2019-01-01のJS: WebdriverIO v5、Rollup 1.0、Rust + WebAssembly + WebWorker"
 author: "azu"
 layout: post
 date : 2018-12-31T13:38:01.421Z
