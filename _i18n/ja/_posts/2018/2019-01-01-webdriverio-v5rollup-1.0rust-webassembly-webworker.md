@@ -21,7 +21,7 @@ JSer.info #416 - WebDriverを扱うテストフレームワークであるWebdri
 
 基本的なパッケージが[`@wdio`](https://www.npmjs.com/org/@wdio/)に移動され、同梱されていたCLIが`@wdio/cli`に移動しています。
 
-API周りではコマンドがselectorを受け取らないように変更されていたり、メソッドチェーンではなくasync/awaitベースに変更されています。
+API周りではコマンドがselectorを受け取らないようになり、メソッドチェーンではなくasync/awaitベースに変更されています。
 
 ```js
 // v4ではセレクタを渡せた
@@ -31,7 +31,8 @@ const elem = $('#elem')
 elem.click()
 ```
 
-その他にも`isVisible`が`isDisplayed`というようなコマンドのリネームが多く行われています。詳しくは[CHANGELOG.md](https://github.com/webdriverio/webdriverio/blob/master/CHANGELOG.md#v500-2018-12-20)に掲載されています。
+その他にも`isVisible`が`isDisplayed`にリネームされるなど多くのコマンドのリネームが行われています。
+詳しくは[CHANGELOG.md](https://github.com/webdriverio/webdriverio/blob/master/CHANGELOG.md#v500-2018-12-20)に掲載されています。
 
 ----
 
