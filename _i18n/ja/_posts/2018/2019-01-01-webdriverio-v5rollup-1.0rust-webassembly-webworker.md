@@ -49,8 +49,7 @@ elem.click()
 
 [Comlink + Rust で言語とスレッドの垣根を越えた WebAssembly 開発 - Qiita](https://qiita.com/3846masa/items/92d24e16ebb5151b08ba)という記事では、Zip展開アプリの例にしたRustとWebAssemblyを使った開発について書かれています。
 
-Rustや[wasm-pack](https://rustwasm.github.io/wasm-pack/book/)を使った開発環境の設定から、[wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/)でRust
-とJavaScriptのバインディングの作成、webpackでの読み込みとブラウザでの実行についてまで書かれています。
+Rustや[wasm-pack](https://rustwasm.github.io/wasm-pack/book/)を使った開発環境の設定から、[wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/)でRustとJavaScriptのバインディングの作成、webpackでの読み込みとブラウザでの実行についてまで書かれています。
 また、メインスレッドで重たい処理を行うのを避けるために、WebAssemblyの処理をWebWorker上で行い、そのメッセージのやり取りに[Comlink](https://github.com/GoogleChromeLabs/comlink)を使う方法などについても紹介されています。
 
 ----
