@@ -82,7 +82,7 @@ Rollup 1.0.0이 릴리스됐습니다.
 
 
 ----
-<h1 class="site-genre">アーティクル</h1>
+<h1 class="site-genre">아티클</h1>
 
 ----
 
