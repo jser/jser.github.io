@@ -1,6 +1,7 @@
 ---
 title: "2019-01-01: WebdriverIO v5, Rollup 1.0, Rust + WebAssembly + WebWorker"
 author: "azu"
+translator: U-Yeong Ju
 layout: post
 date : 2018-12-31T13:38:01.421Z
 category: JSer
