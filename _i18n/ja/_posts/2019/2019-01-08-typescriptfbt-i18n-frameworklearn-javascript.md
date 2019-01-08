@@ -42,17 +42,6 @@ ES2015なども含めた基本的なJavaScriptの書き方について練習問�
 
 ----
 
-## WebdriverIO v5 Released · WebdriverIO
-[webdriver.io/blog/2018/12/19/webdriverio-v5-released.html](https://webdriver.io/blog/2018/12/19/webdriverio-v5-released.html "WebdriverIO v5 Released · WebdriverIO")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">Selenium</span> <span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
-
-WebdriverIO v5リリース。
-`wdio` CLIは`@wdio/cli`に移動、コマンドがselectorを受け取らないように、メソッドチェーンではなくasync/awaitベースに変更。
-その他にもコマンドのリネームなどのは破壊的な変更を多く含む
-
-
-----
-
 ## Release 2.9.0 · qunitjs/qunit
 [github.com/qunitjs/qunit/releases/tag/2.9.0](https://github.com/qunitjs/qunit/releases/tag/2.9.0 "Release 2.9.0 · qunitjs/qunit")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
