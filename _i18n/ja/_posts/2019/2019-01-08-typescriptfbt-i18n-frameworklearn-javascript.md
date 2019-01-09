@@ -32,7 +32,7 @@ JSer.info #417 - TypeScriptの2019年前半のロードマップが、次のIssu
 [Learn JavaScript](https://learnjavascript.online/)というJavaScriptの学習サイトが公開されています。
 
 ES2015なども含めた基本的なJavaScriptの書き方について練習問題を解いていきながら学べるサイトとなっています。
-すべての問題にテストが書かれており、そのテストを通るようにJavaScriptを書いていく[code kata](https://en.wikipedia.org/wiki/Kata_(programming%29)です。
+すべての問題にテストが書かれており、そのテストを通るようにJavaScriptを書いていく[code kata](https://en.wikipedia.org/wiki/Kata_%28programming%29)です。
 
 復習用にFlashcardsも用意されているので、JavaScriptを書いて学びたい人は触ってみると良さそうです。
 
@@ -56,7 +56,7 @@ QUnit 2.9.0リリース
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">react</span> <span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p>
 
 create-react-app 2.1.3リリース。
-webpack-dev-server@3.1.10以下にあった脆弱性を修正したバージョンを取り込んでいる
+`webpack-dev-server@3.1.10`以下にあった脆弱性を修正したバージョンを取り込んでいる
 
 - [Sniffing Codes in Hot Module Reloading Messages - crblog](https://blog.cal1.cn/post/Sniffing%20Codes%20in%20Hot%20Module%20Reloading%20Messages "Sniffing Codes in Hot Module Reloading Messages - crblog")
 - [Release v3.1.11 · webpack/webpack-dev-server](https://github.com/webpack/webpack-dev-server/releases/tag/v3.1.11 "Release v3.1.11 · webpack/webpack-dev-server")
