@@ -56,7 +56,7 @@ QUnit 2.9.0リリース
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">react</span> <span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p>
 
 create-react-app 2.1.3リリース。
-webpack-dev-server@3.1.10以下にあった脆弱性を修正したバージョンを取り込んでいる
+`webpack-dev-server@3.1.10`以下にあった脆弱性を修正したバージョンを取り込んでいる
 
 - [Sniffing Codes in Hot Module Reloading Messages - crblog](https://blog.cal1.cn/post/Sniffing%20Codes%20in%20Hot%20Module%20Reloading%20Messages "Sniffing Codes in Hot Module Reloading Messages - crblog")
 - [Release v3.1.11 · webpack/webpack-dev-server](https://github.com/webpack/webpack-dev-server/releases/tag/v3.1.11 "Release v3.1.11 · webpack/webpack-dev-server")
