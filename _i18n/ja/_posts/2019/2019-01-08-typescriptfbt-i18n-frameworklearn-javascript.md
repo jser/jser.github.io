@@ -32,7 +32,7 @@ JSer.info #417 - TypeScriptの2019年前半のロードマップが、次のIssu
 [Learn JavaScript](https://learnjavascript.online/)というJavaScriptの学習サイトが公開されています。
 
 ES2015なども含めた基本的なJavaScriptの書き方について練習問題を解いていきながら学べるサイトとなっています。
-すべての問題にテストが書かれており、そのテストを通るようにJavaScriptを書いていく[code kata](https://en.wikipedia.org/wiki/Kata_(programming%29)です。
+すべての問題にテストが書かれており、そのテストを通るようにJavaScriptを書いていく[code kata](https://en.wikipedia.org/wiki/Kata_%28programming%29)です。
 
 復習用にFlashcardsも用意されているので、JavaScriptを書いて学びたい人は触ってみると良さそうです。
 
