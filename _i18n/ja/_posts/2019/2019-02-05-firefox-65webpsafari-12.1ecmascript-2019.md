@@ -29,7 +29,7 @@ iOS 12.2/macOS 10.14.4と合わせて公開予定のSafari 12.1のリリース�
 
 - [Safari 12.1 Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari_release_notes/safari_12_1_release_notes)
 
-Safari 12.1は[Safari Technology Preview 61](https://webkit.org/blog/8365/release-notes-for-safari-technology-preview-61/)までの変更が含まれているようです。
+Safari 12.1は[Safari Technology Preview 62](https://webkit.org/blog/8384/release-notes-for-safari-technology-preview-62/)からの変更が含まれているようです。
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Safari Technology Preview 62 is out!<br><br>A small note: STP 62 bumps its Safari version number from 12.0 to 12.1. That is, STP is now tracking a release after Safari 12.<br><br>Release Notes: <a href="https://t.co/vt8myfz7NO">https://t.co/vt8myfz7NO</a> <a href="https://t.co/yrgHQyUpSa">pic.twitter.com/yrgHQyUpSa</a></p>&mdash; Ricky Mondello (@rmondello) <a href="https://twitter.com/rmondello/status/1024708391396995072?ref_src=twsrc%5Etfw">August 1, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
