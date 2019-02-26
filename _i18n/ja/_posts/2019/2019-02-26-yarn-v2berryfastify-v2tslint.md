@@ -19,13 +19,14 @@ JSer.info #424 - [yarn](https://yarnpkg.com/) v2のソースコードとなる�
 
 次のIssueでも書かれているように、v1とは別のリポジトリにしているのはIssueのtriageをしやすくするためだそうです。
 
+- [👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry](https://github.com/yarnpkg/berry/issues/1 "👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry")
+- [Yarn's Future - v2 and beyond · Issue #6953 · yarnpkg/yarn](https://github.com/yarnpkg/yarn/issues/6953#issuecomment-466589196 "Yarn's Future - v2 and beyond · Issue #6953 · yarnpkg/yarn")
+
 > The codename for these changes is Berry
 > -- https://github.com/yarnpkg/yarn/issues/6953
 
 "Berry"という名前はv2に向けた変更のコードネームです。
 
-- [👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry](https://github.com/yarnpkg/berry/issues/1 "👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry")
-- [Yarn's Future - v2 and beyond · Issue #6953 · yarnpkg/yarn](https://github.com/yarnpkg/yarn/issues/6953#issuecomment-466589196 "Yarn's Future - v2 and beyond · Issue #6953 · yarnpkg/yarn")
 
 v2(berry)では[Yarn's Future - v2 and beyond](https://github.com/yarnpkg/yarn/issues/6953)で予定されていたものが実装されている段階のようです。
 
