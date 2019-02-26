@@ -30,7 +30,7 @@ JSer.info #424 - [yarn](https://yarnpkg.com/) v2のソースコードとなり�
 v2(berry)では[Yarn's Future - v2 and beyond](https://github.com/yarnpkg/yarn/issues/6953)で予定されていたものが実装されている段階のようです。
 
 コードベースがTypeScriptで書き直されていて、monorepoになっています。
-lockファイルをymlサブセットとなるような[syml](https://github.com/yarnpkg/berry/blob/master/packages/berry-parsers/sources/syml.ts)というフォーマットを作り実装しています。また、プラグインの仕組みが追加され、PnPやnpm(`pacakge-lock.json`を扱う)などの処理はプラグインとして実装されています。
+lockファイルをymlサブセットとなるような[syml](https://github.com/yarnpkg/berry/blob/master/packages/berry-parsers/sources/syml.ts)というフォーマットを作り実装しています。また、プラグインの仕組みが追加され、PnPやnpm(`package-lock.json`を扱う)などの処理はプラグインとして実装されています。
 また、ワークスペースの改善として[Constraints](https://github.com/yarnpkg/berry/blob/master/docs/workspaces-constraints.md)というProlog(実際には[tau-prolog](https://github.com/jariazavalverde/tau-prolog))を使った制約を扱う[プラグイン](https://github.com/yarnpkg/berry/tree/master/packages/plugin-constraints)が追加されています。ワークスペース間の依存などのルールをPrologを使って記述して、より効率的に扱えるようにするのが目的のようです。
 
 興味がある人は[Install](https://github.com/yarnpkg/berry#install)して試したり、[Issue](https://github.com/yarnpkg/berry/issues)を見てみると良いかもしれません。
