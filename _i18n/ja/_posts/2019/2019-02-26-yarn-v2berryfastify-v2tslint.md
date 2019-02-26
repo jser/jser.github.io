@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #424 - [yarn](https://yarnpkg.com/) v2のソースコードとなりリポジトリが公開されています。
+JSer.info #424 - [yarn](https://yarnpkg.com/) v2のソースコードとなるリポジトリが公開されています。
 
 - [yarnpkg/berry: 📦🐈 A modern, fast, reliable, package manager; part of the Yarn organization](https://github.com/yarnpkg/berry)
 
@@ -45,7 +45,7 @@ lockファイルをymlサブセットとなるような[syml](https://github.com
 - [Roadmap: TSLint -> ESLint · Issue #4534 · palantir/tslint](https://github.com/palantir/tslint/issues/4534 "Roadmap: TSLint -> ESLint · Issue #4534 · palantir/tslint")
 
 TSLintは2019年中には非推奨となり(今すぐではないです)、今後はESLintへの移行パスを整備していくという話が書かれています。
-[typescript-eslint](https://github.com/typescript-eslint/typescript-eslint)(ESLintのTypeScript対応)は開発途中であるため、TSLintとの互換となるようなルールがない部分もあります。そのため、TSLint自体はまだしばらくはメンテンスを続けていくという方針についても書かれています。
+[typescript-eslint](https://github.com/typescript-eslint/typescript-eslint)(ESLintのTypeScript対応)は開発途中であるため、TSLintとの互換となるようなルールがない部分もあります。そのため、TSLint自体もしばらくはメンテンスを続けていくという方針についても書かれています。
 
 現状の[typescript-eslint](https://github.com/typescript-eslint/typescript-eslint)の動作については、次の記事も参照して見てください。
 
