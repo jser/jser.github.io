@@ -56,7 +56,7 @@ Object.is(JSON.parse(JSON.stringify(-0)), -0); // => true
 現実ではあまり問題となるケースがないという話もあり、一旦PRが取り下げられています。
 
 ```js
-// 今の仕様
+// === は -0 と 0 の違いを無視して比較する
 JSON.parse(JSON.stringify(-0)) === -0; // => true
 ```
 
