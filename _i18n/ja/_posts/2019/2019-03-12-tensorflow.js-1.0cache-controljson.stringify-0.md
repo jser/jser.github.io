@@ -196,15 +196,6 @@ Feature Policyのデモサイト。 それぞれのポリシーのサポート�
 
 ----
 
-## dyatko/arkit: Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
-[github.com/dyatko/arkit](https://github.com/dyatko/arkit "dyatko/arkit: Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">SVG</span> <span class="jser-tag">UML</span></p>
-
-アーキテクチャのダイアグラムをファイルから生成するツール。 コードベースのファイルを指定して、その構造をPlant UMLやSVGなどの図に変換してくれるツール
-
-
-----
-
 ## Introduction · AnyProxy
 [anyproxy.io/en/](http://anyproxy.io/en/ "Introduction · AnyProxy")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">proxy</span> <span class="jser-tag">Tools</span></p>
