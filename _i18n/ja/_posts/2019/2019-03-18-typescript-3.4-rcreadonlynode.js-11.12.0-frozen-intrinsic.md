@@ -47,7 +47,7 @@ Node.js 11.12.0では`--frozen-intrinsics`という実験的フラグが追加�
 
 [Update on Experimental Features in Node.js - NodeSource](https://nodesource.com/blog/experimental-features-in-node.js)という記事では、現在実装されているNode.jsの実験的な機能について紹介されています。
 
-先程紹介したPolicis機能やWorker Threads、Performance Hooks、Diagnostic Report、ECMAScript Modulesについて書かれています。
+先程紹介したPolicy機能やWorker Threads、Performance Hooks、Diagnostic Report、ECMAScript Modulesについて書かれています。
 
 Performance HooksはブラウザのPerformance Timing APIとも互換性が意識して作られている話やECMAScript Modulesは`.mjs`の話などが書かれています。
 興味がある人は試してみるといいかもしれません。
@@ -163,7 +163,7 @@ Screen capture APIの実験的サポート、古いWebRTC APIの非推奨化な�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p>
 
 Node.jsの実験的な機能についての紹介記事。
-Worker Threads、Performance Hooks、Diagnostic Report、Policis、ECMAScript Modulesについて
+Worker Threads、Performance Hooks、Diagnostic Report、Policy、ECMAScript Modulesについて
 
 
 ----
