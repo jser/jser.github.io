@@ -41,7 +41,7 @@ Node.js 11.12.0에 `--frozen-intrinsics`라는 시험적인 플래그가 추가�
 이와 관련된 사항으로 Secure EcmaScript(SES)와 Node.js 11.8.0에 실험적으로 구현된 Policy 기능을 함께 살펴보면 좋을 것 같습니다.
 
 - [Agoric/SES: Secure EcmaScript](https://github.com/Agoric/SES "Agoric/SES: Secure EcmaScript")
-- [2019-01-29のJS: Node.js 11.8.0(Policy機能)、Nuxt.js 2.4.0(TSサポート)、Yarn v2のロードマップ](https://jser.info/2019/01/29/node.js-11.8.0policynuxt.js-2.4.0tsyarn-v2/)
+- [2019-01-29 JS: Node.js 11.8.0(Policy 기능), Nuxt.js 2.4.0(TS지원), Yarn v2 로드맵](https://jser.info/ko/2019/01/29/node.js-11.8.0policynuxt.js-2.4.0tsyarn-v2/)
 
 ----
 
