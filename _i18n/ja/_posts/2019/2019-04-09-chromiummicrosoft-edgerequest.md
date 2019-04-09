@@ -1,5 +1,5 @@
 ---
-title: "2019-04-09のJS: Chromium版Microsoft Edgeのプレビュー版公開、`request`モジュールがメンテンスモードに移行の予定"
+title: "2019-04-09のJS: ChromiumベースのMicrosoft Edge プレビュー版公開、`request`モジュールがメンテンスモードに移行の予定"
 author: "azu"
 layout: post
 date : 2019-04-09T00:14:01.804Z
