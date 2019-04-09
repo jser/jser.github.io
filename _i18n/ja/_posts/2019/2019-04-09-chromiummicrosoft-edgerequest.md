@@ -5,7 +5,10 @@ layout: post
 date : 2019-04-09T00:14:01.804Z
 category: JSer
 tags:
--
+- Chrome
+- MSEdge
+- Node.js
+- HTTP
 
 ---
 
@@ -18,9 +21,10 @@ JSer.info #430 - [2018年12月にアナウンス](https://blogs.windows.com/wind
 [Microsoft Edge Insider](https://www.microsoftedgeinsider.com/en-us/download/)ではBeta、Dev、Canaryビルドを公開していくようです。
 
 [Microsoft Edge and Chromium Open Source: Our Intent](https://github.com/MicrosoftEdge/MSEdge/blob/master/README.md)のドキュメントや[What to expect in the new Microsoft Edge Insider Channels - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2019/04/08/microsoft-edge-preview-channel-details/)ではChromiumのどこへコントリビュートしていくかについても書かれています。
-また、ウェブ標準へのコントリビュートについては[MSEdgeExplainers](https://github.com/MicrosoftEdge/MSEdgeExplainers)で公開されているドキュメントやHTML Modules周りで既にコミットされています。
+また、ウェブ標準へのコントリビュートについては[MSEdgeExplainers](https://github.com/MicrosoftEdge/MSEdgeExplainers)で公開されているドキュメントに予定が書かれていたり、HTML Modules周りで既にコミットされています。
 
 - [\[WIP\] Introduce HTML Modules by dandclark · Pull Request #4505 · whatwg/html](https://github.com/whatwg/html/pull/4505)
+- [Intent to Implement: HTML Modules - Google グループ](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/ewfRSdqcOd8/w_Fr6rJ3DQAJ)
 
 また、リリース記事では新しいEdgeのUser Agentについても書かれていて、ウェブ互換性の観点から`Edg`(Edgeではない)の文字列を使うようです。
 
