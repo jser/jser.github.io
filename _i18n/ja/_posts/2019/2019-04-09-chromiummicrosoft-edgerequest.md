@@ -17,7 +17,7 @@ JSer.info #430 - [2018年12月にアナウンス](https://blogs.windows.com/wind
 - [Microsoft Edge preview builds: The next step in our OSS journey | Windows Experience Blog](https://blogs.windows.com/windowsexperience/2019/04/08/microsoft-edge-preview-builds-the-next-step-in-our-oss-journey/ "Microsoft Edge preview builds: The next step in our OSS journey | Windows Experience Blog")
 - [What to expect in the new Microsoft Edge Insider Channels - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2019/04/08/microsoft-edge-preview-channel-details/)
 
-現在はWindows 10 PC向けのみですが、今後はmacOSなども対応していく予定とのことです。
+現在はWindows 10 PC向けのみですが、今後はWindows 7、Windows 8.1、macOSなども対応していく予定とのことです。
 [Microsoft Edge Insider](https://www.microsoftedgeinsider.com/en-us/download/)ではBeta、Dev、Canaryビルドを公開していくようです。
 
 [Microsoft Edge and Chromium Open Source: Our Intent](https://github.com/MicrosoftEdge/MSEdge/blob/master/README.md)のドキュメントや[What to expect in the new Microsoft Edge Insider Channels - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2019/04/08/microsoft-edge-preview-channel-details/)ではChromiumのどこへコントリビュートしていくかについても書かれています。
