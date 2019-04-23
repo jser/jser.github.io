@@ -8,9 +8,9 @@ tags:
 - Svelte
 - CSP
 - security
-​
+
 ---
-​
+
 JSer.info #432 - コンパイル前提のUIコンポーネントフレームワークであるSvelte 3リリースされました。
 
 - [Svelte 3: Rethinking reactivity](https://svelte.dev/blog/svelte-3-rethinking-reactivity)
