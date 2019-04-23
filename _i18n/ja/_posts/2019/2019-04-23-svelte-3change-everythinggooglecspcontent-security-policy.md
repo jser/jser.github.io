@@ -45,6 +45,7 @@ Svelte 3からは、次のように変更を検知したい文を`$`ラベル([J
 ```html
 <p>{count} doubled is {doubled}</p>
 <button on:click="{() => count += 1}">+1</button>
+
 <script>
 	let count = 0;
 	$: doubled = count * 2;
