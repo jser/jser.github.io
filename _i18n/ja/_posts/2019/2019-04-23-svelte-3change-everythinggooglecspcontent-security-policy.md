@@ -21,7 +21,7 @@ JSer.info #432 - コンパイル前提のUIコンポーネントフレームワ�
 テンプレートの構文、コンポーネントで利用できるAPI、ステートを変更したときにUIを更新するために変更検知の仕組み(Reactiveな仕組み)が変更されています。
 今までは、コンポーネントのステーを`set` APIなどで変更して、この変更がUIに反映されています。
 
-```js
+```html
 <p>{count} doubled is {double}</p>
 <button on:click="set({ count: count + 1 })">+1</button>
 
