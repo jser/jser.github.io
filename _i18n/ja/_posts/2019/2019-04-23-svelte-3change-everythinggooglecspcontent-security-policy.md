@@ -15,7 +15,7 @@ JSer.info #432 - コンパイル前提のUIコンポーネントフレームワ�
 
 - [Svelte 3: Rethinking reactivity](https://svelte.dev/blog/svelte-3-rethinking-reactivity)
 
-3.0.0の[CHANGELOGには"Everything"](https://github.com/sveltejs/svelte/blob/master/CHANGELOG.md#300)として書かれていませんが、
+3.0.0の[CHANGELOGには"Everything"](https://github.com/sveltejs/svelte/blob/master/CHANGELOG.md#300)としか書かれていませんが、
 今までの仕組みを大幅に書き換えたバージョンとなっています。
 
 テンプレートの構文、コンポーネントで利用できるAPI、ステートを変更したときにUIを更新するために変更検知の仕組み(Reactiveな仕組み)が変更されています。
