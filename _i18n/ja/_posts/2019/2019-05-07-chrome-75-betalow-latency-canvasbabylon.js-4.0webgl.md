@@ -11,7 +11,7 @@ tags:
 
 ---
 
-JSer.info #434 - CHrome 75のベータ版がリリースされました。
+JSer.info #434 - Chrome 75のベータ版がリリースされました。
 
 - [Chromium Blog: Chrome 75 Beta: low latency canvas contexts, sharing files, and numeric separators](https://blog.chromium.org/2019/05/chrome-75-beta-low-latency-canvas.html)
 - [Chrome Platform Status](https://www.chromestatus.com/features#milestone%3D75)
