@@ -78,7 +78,7 @@ CSP의 설정(directive)에 따라서 eval이나 inline code를 사용할 수 �
 
 이 슬라이드에서 언급하고 있는 화이트리스트 문제와 nonce-based CSP는 다음 글을 참고하면 도움이 될 거 같습니다.
 
-- [Content Security Policy Level 3におけるXSS対策 - pixiv inside](https://inside.pixiv.blog/kobo/5137 "Content Security Policy Level 3におけるXSS対策 - pixiv inside")
+- [Content Security Policy Level 3의 XSS 대책 - pixiv inside](https://inside.pixiv.blog/kobo/5137 "Content Security Policy Level 3의 XSS 대책 - pixiv inside")(일본어)
 
 ----
 
