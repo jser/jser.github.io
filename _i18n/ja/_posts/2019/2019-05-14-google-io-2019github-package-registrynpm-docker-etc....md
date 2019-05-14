@@ -1,5 +1,5 @@
 ---
-title: "2019-05-14のJS: Google I/O 2019、GitHub Package Registry(npm, Docket, etc...)"
+title: "2019-05-14のJS: Google I/O 2019、GitHub Package Registry(npm, Docker, etc...)"
 author: "azu"
 layout: post
 date : 2019-05-14T01:14:26.660Z
