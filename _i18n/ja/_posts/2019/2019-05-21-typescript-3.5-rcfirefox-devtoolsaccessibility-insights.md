@@ -41,7 +41,7 @@ function foo<T extends {}>(x: T): [T, string] {
 ```
 
 また、`tsconfig.json`で`target:es5`の場合に`Object.keys`がプリミティブ型を受け入れないように修正されました。
-これは、ES5までは`Object.keys(10)`のようなコードは例外が発生するのがECMAScriptの仕様だったためそれに合わせています。
+これは、ES5までは`Object.keys(10)`のようなコードは例外が発生するのがECMAScriptの仕様だったため、それに合わせる修正です。
 一方で、ES2015からは`Object.keys(10)`は例外が発生しないのがECMAScriptの仕様なので、TypeScriptもそれに合わせています。
 
 - [Break the Web: Object staticメソッドがES6で仕様変更になった件について](https://gist.github.com/teppeis/c50743a60832560aa1df)
