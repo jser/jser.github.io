@@ -184,7 +184,7 @@ immerを使ったステート更新ロジックに分け、Angular、Vue、React
 ----
 
 ## JSでDoSる/ Shibuya.XSS techtalk #11 - Speaker Deck
-[speakerdeck.com/masatokinugawa/shibuya-dot-xss-techtalk-number-11?slide&#x3D;6](https://speakerdeck.com/masatokinugawa/shibuya-dot-xss-techtalk-number-11?slide=6 "JSでDoSる/ Shibuya.XSS techtalk #11 - Speaker Deck")
+[speakerdeck.com/masatokinugawa/shibuya-dot-xss-techtalk-number-11](https://speakerdeck.com/masatokinugawa/shibuya-dot-xss-techtalk-number-11 "JSでDoSる/ Shibuya.XSS techtalk #11 - Speaker Deck")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">slide</span> <span class="jser-tag">security</span></p>
 
 JavaScriptで例外が発生するパターンやNode.jsでクラッシュするケーススタディについてのスライド
