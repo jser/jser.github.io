@@ -28,7 +28,7 @@ console.log(log(10))
 また、グローバルな設定ではなく`create`関数で依存と設定から特定の機能を作れるようになっています。
 その他にも、BigNumberの対応などを取り除いた軽量版の`mathjs/number`も利用できるようになっています。
 
-併せてパッケージ配布のModern JavaScript配布について書かれた[Enabling Modern JavaScript on npm](https://jasonformat.com/enabling-modern-js-on-npm/)という記事も読むと良さそうです。Modern JavaScriptは「ES2015以降の構文を使った書かれたコード」ぐらいの意味ですが、npmパッケージとして配布されている多くのコードはES5に変換(Transpile)されたものが公開されています。そのため、パッケージの利用者はES5に変換されたコードを利用することになって、Modernを選択できなくなる問題について書かれています。
+併せてパッケージ配布について書かれた[Enabling Modern JavaScript on npm](https://jasonformat.com/enabling-modern-js-on-npm/)という記事も読むと良さそうです。Modern JavaScriptは「ES2015以降の構文を使った書かれたコード」ぐらいの意味ですが、npmパッケージとして配布されている多くのコードはES5に変換(Transpile)されたものが公開されています。そのため、パッケージの利用者はES5に変換されたコードを利用することになって、Modernを選択できなくなる問題について書かれています。
 
 これを解決するために、WebpackやRollupでは`package.json`の`"module"` fieldなどをサポートし、パッケージ利用者が選択できるようになっています。
 また、[Microbundle](https://github.com/developit/microbundle)や[@pika/pack](https://www.pikapkg.com/blog/introducing-pika-pack/)などのModern JavaScriptをパッケージとして配布を補助するツールも出てきいますが、まだエコシステム全体としての固まりきっていない部分があるという話も書かれています。
