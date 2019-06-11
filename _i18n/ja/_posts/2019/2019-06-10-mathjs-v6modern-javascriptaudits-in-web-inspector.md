@@ -17,7 +17,7 @@ JSer.info #439 - 数値計算ライブラリの[Math.js](https://mathjs.org/) v6
 
 Math.jsは全体で200個以上の機能がありファイルサイズが137kB(gzip)もありました。
 そのため、v6では必要なものだけをモジュールとして使えるようにするための構造的な変更が含まれています。
-次のように書いた場合に、必要なもの以外を削除したりTree Shakingができるように[`"module"` filed](https://github.com/rollup/rollup/wiki/pkg.module)に対応しています。
+次のように書いた場合に、必要なもの以外を削除したりTree Shakingができるように[`"module"` field](https://github.com/rollup/rollup/wiki/pkg.module)に対応しています。
 
 ```js
 import { log } from "mathjs";
