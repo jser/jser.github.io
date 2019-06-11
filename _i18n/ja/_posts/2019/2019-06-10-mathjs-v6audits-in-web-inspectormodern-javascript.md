@@ -1,5 +1,5 @@
 ---
-title: "2019-06-10のJS: mathjs v6、Audits in Web Inspector、"modern" JavaScriptパッケージの配布"
+title: "2019-06-10のJS: mathjs v6、Modern JavaScriptパッケージの配布、Audits in Web Inspector"
 author: "azu"
 layout: post
 date : 2019-06-10T16:21:33.839Z
