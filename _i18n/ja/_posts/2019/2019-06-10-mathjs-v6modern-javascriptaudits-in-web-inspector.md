@@ -59,7 +59,7 @@ console.log(log(10))
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Node.js 12.4.0リリース。
-`import`文でJSONを読み込める` --experimental-json-modules`フラグの追加、V8 heap profilerを扱う`--heap-prof`フラグの追加など
+`import`文でJSONを読み込める` --experimental-json-modules`フラグの削除、V8 heap profilerを扱う`--heap-prof`フラグの追加など
 
 
 ----
