@@ -17,7 +17,7 @@ JSer.info #440 - ReactのRedux向けバインディングのreact-redux 7.1.0が
 - [Release v7.1.0 · reduxjs/react-redux](https://github.com/reduxjs/react-redux/releases/tag/v7.1.0)
 
 7.1.0ではReact Hooksに対応しています。
-React Hooksで扱える`ueSelector`というAPIが追加されています。
+React Hooksで扱える`useSelector`というAPIが追加されています。
 
 ```js
 import React from 'react'
