@@ -45,7 +45,7 @@ TypeScriptのオプションなど細かい指定ができるようになって�
 RollupをつかってnpmモジュールごとにES moduleのchunkを作成し、`<script module>`でのロード、`modulepreload`でのpreloadについて。
 また、Dynamic Importでの動的ロードと[polyfill](https://github.com/GoogleChromeLabs/dynamic-import-polyfill)、ES moduleをサポートしてない環境への`<script nonmodule>`での読み込みについてなどについて書かれています。
 
-またデモアプリも公開されているので、興味がある人は読んでみるとよさそうです。
+デモアプリも公開されているので、興味がある人は読んでみるとよさそうです。
 
 - [Real Modules with Rollup Demo](https://rollup-native-modules-boilerplate.glitch.me/)
 - [philipwalton/rollup-native-modules-boilerplate: A demo app showcasing the use of real JavaScript modules in production—complete with cross-browser fallbacks for legacy browsers.](https://github.com/philipwalton/rollup-native-modules-boilerplate)
