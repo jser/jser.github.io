@@ -16,7 +16,7 @@ JSer.info #451 - TypeScript 3.6が正式にリリースされました。
 - [Announcing TypeScript 3.6 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-3-6/)
 
 基本的にはβ、RCからの大きな変更はありませんが、Generatorsの型チェック改善、`--downlevelIteration`フラグでArray Spreadの仕様に合わせた変換の改善、Promiseの型エラーの改善ながお行われています。
-破壊的な変更としては`lib.dom.d.ts`の`globalThis`に関する変更、`GlobalFetch`の削除、`experimental-webgl`が削除され`webgl`とwebgl2`を使うように変更なども行われています。
+破壊的な変更としては`lib.dom.d.ts`の`globalThis`に関する変更、`GlobalFetch`の削除、`experimental-webgl`が削除され`webgl`と`webgl2`を使うように変更なども行われています。
 
 また、[TypeScript playground](https://www.typescriptlang.org/play/)が <https://typescript-play.js.org/> ベースのものに刷新され、
 TypeScriptのオプションなど細かい指定ができるようになっています。
