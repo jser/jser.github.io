@@ -24,7 +24,7 @@ Enhanced Tracking Protection (ETP)というanti-trackingの仕組みがデフォ
 - [Firefox Now Available with Enhanced Tracking Protection by Default Plus Updates to Facebook Container, Firefox Monitor and Lockwise - The Mozilla Blog](https://blog.mozilla.org/blog/2019/06/04/firefox-now-available-with-enhanced-tracking-protection-by-default/)
 - [Security/Anti tracking policy - MozillaWiki](https://wiki.mozilla.org/Security/Anti_tracking_policy)
 
-CSSの`@supports`がセレクタをサポートされ、ECMAScript ProposalのPublic class fieldのサポート、Resize Observerのサポート、`queueMicrotask`のサポートが含まれています。
+CSSの`@supports`がセレクタをサポートし、ECMAScript ProposalのPublic class fieldのサポート、Resize Observerのサポート、`queueMicrotask`のサポートが含まれています。
 また、`<keygen>`要素の削除やCSS `user-select`のprefixなしに対応しています。
 
 開発者ツールでは、ネットワークパネルにCSPでブロックされた理由の表示されるようになり、リモートデバッグ用の`about:debugging`ページの改善、類似するコンソールメッセージのグループ化など行われるようになりました。
