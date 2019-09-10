@@ -27,7 +27,7 @@ Enhanced Tracking Protection (ETP)というanti-trackingの仕組みがデフォ
 CSSの`@supports`がセレクタをサポートし、ECMAScript ProposalのPublic class fieldのサポート、Resize Observerのサポート、`queueMicrotask`のサポートが含まれています。
 また、`<keygen>`要素の削除やCSS `user-select`のprefixなしに対応しています。
 
-開発者ツールでは、ネットワークパネルにCSPでブロックされた理由の表示されるようになり、リモートデバッグ用の`about:debugging`ページの改善、類似するコンソールメッセージのグループ化など行われるようになりました。
+開発者ツールでは、ネットワークパネルにCSPやMixed-Contentでブロックされたなどの理由が表示されるようになり、リモートデバッグ用の`about:debugging`ページの改善、類似するコンソールメッセージのグループ化など行われるようになりました。
 
 またこれはStableではなくNightlyでの変更ですが、コンソールに複数行のエディタモードが追加される予定です。
 
@@ -61,7 +61,7 @@ Firefox 69.0リリース。
 Enhanced Tracking Protection (ETP)の有効化。
 CSSの`@supports`がセレクタをサポート.
 またECMAScript ProposalのPublic class fieldのサポート、Resize Observerのサポート、`queueMicrotask`のサポートなど。
-`<keygen>`要素の削除やCSS `user-select`のprefixなしに対応、ネットワークパネルにCSPでブロックされた理由の表示など
+`<keygen>`要素の削除やCSS `user-select`のprefixなしに対応、ネットワークパネルにCSPやMixed-Contentなどのブロック理由を追加など
 
 - [Firefox 69 — a tale of Resize Observer, microtasks, CSS, and DevTools - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2019/09/firefox-69-a-tale-of-resize-observer-microtasks-css-and-devtools/ "Firefox 69 — a tale of Resize Observer, microtasks, CSS, and DevTools - Mozilla Hacks - the Web developer blog")
 - [Firefox 69 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/69 "Firefox 69 for developers - Mozilla | MDN")
