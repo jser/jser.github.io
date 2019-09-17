@@ -31,7 +31,7 @@ Chrome 77では、`PerformanceObserver`の中でページ内の大きな要素�
 
 ECMAScript Private Fields、Optional Chaining、Nullish Coalescing、Top-Level awaitなど現在Stage3のProposalに対応していく予定です。
 また、今までは制限されていた`--declaration`と`--allowJs`の組合せや`--declaration`と`--isolatedModules`のの組み合わせに対応していく予定です。
-その他には`typescript`パッケージサイズの削減、`@types`パッケージをGitHub Package Registryにもpublishするようにし、ハンドブックの更新なども予定されています。
+その他として、`typescript`パッケージサイズの削減、`@types`パッケージをGitHub Package Registryにもpublishするようにし、ハンドブックの更新なども予定されています。
 
 ----
 
