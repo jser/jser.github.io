@@ -15,7 +15,7 @@ JSer.info #453 - Chrome 77がリリースされました。
 
 - [New in Chrome 77  |  Web  |  Google Developers](https://developers.google.com/web/updates/2019/09/nic77)
 
-Chrome 77では、`PerformanceObserver`の中でページ内の大きな要素の変更があったことを関しするLargest Contentful Paint(LCP)がサポートされました。
+Chrome 77では、`PerformanceObserver`の中でページ内の大きな要素の変更があったことを監視するLargest Contentful Paint(LCP)がサポートされました。
 
 - [Largest Contentful Paint  |  web.dev](https://web.dev/largest-contentful-paint/)
 
