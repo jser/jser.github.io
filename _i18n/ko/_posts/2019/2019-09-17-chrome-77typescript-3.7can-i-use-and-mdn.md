@@ -1,7 +1,7 @@
 ---
-title: "2019-09-17: Chrome 77, TypeScript 3.7 로그맵, Can I use and MDN"
+title: "2019-09-17: Chrome 77, TypeScript 3.7 로드맵, Can I use and MDN"
 author: "azu"
-translator: U-Yeong Ju
+translator: U-Yeong Ju, Taihoon Kim
 layout: post
 date : 2019-09-17T00:03:38.654Z
 category: JSer
