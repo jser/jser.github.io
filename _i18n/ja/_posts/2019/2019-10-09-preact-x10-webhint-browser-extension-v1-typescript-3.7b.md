@@ -32,7 +32,7 @@ import React from "preact/compat";
 
 また、preact本体はdefault exportをやめたため、named importをして使う形に変更されています。
 
-```
+```js
 // Preact 8.x
 import Preact from "preact";
 
