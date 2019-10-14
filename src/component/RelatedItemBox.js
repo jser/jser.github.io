@@ -1,4 +1,4 @@
-// MIT © 2017 azu
+// MIT © 2017- azu
 "use strict";
 import { h, Component } from 'preact';
 import { getStat } from "../utils/get-stats";
