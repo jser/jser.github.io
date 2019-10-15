@@ -158,7 +158,7 @@ Origin TrialとしてサポートされたNative File System APIやSMS Receiver 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">performance</span> <span class="jser-tag">slide</span></p>
 
 Vue.jsアプリのパフォーマンス改善についてのスライド。
-IntersectionObserverを使った表示サれたことの検知、画像の遅延ロード、Hydrationの遅延実行などについて
+IntersectionObserverを使った表示されたことの検知、画像の遅延ロード、Hydrationの遅延実行などについて
 
 
 ----
