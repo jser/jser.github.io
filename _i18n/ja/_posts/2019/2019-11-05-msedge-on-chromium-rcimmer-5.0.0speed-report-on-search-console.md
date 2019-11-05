@@ -165,7 +165,7 @@ Airbnbのデザインシステムの過去、現在、未来についての発�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">security</span></p>
 
 SameSite Cookiesへの対応方法について。
-SameSite=Noneに対応していないUAの対策として、LegacyなCookieととSameSite属性をつけたCookieを両方渡すパターンについてなど
+SameSite=Noneに対応していないUAの対策として、LegacyなCookieとSameSite属性をつけたCookieを両方渡すパターンについてなど
 
 
 ----
