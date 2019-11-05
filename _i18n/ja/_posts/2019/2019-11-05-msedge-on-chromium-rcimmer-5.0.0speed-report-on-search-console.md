@@ -2,7 +2,7 @@
 title: "2019-11-05のJS: MSEdge on Chromium RC、Immer 5.0.0、Speed Report on Search Console"
 author: "azu"
 layout: post
-date : 2019-11-05T00:07:14.841Z
+date : 2019-11-05T00:09:40.841Z
 category: JSer
 tags:
 - MSEdge
