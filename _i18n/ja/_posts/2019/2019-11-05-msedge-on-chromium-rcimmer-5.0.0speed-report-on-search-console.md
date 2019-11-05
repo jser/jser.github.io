@@ -118,7 +118,7 @@ Express+MongoなNode.jsアプリをDockerで動かして、それをminikubeを�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
 
 TypeScriptの型Tips。
-Utility types、`unknown`型の利用、Loolup Types、ライブラリの型の拡張、ビルトインオブジェクトの型についてなど
+Utility types、`unknown`型の利用、Lookup Types、ライブラリの型の拡張、ビルトインオブジェクトの型についてなど
 
 
 ----
