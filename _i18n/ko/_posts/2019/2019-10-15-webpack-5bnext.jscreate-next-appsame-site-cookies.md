@@ -1,5 +1,5 @@
 ---
-title: "2019-10-15: webpack 5β、Next.js(create-next-app)、Same-Site Cookies"
+title: "2019-10-15: webpack 5β, Next.js(create-next-app), Same-Site Cookies"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
