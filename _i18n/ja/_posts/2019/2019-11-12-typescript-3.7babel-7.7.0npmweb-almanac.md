@@ -157,7 +157,7 @@ npmの最近の変更と今後について。
 npmのフォーラム( https://npm.community/ )はアーカイブ化しバグ関係の管理はGitHub Issuesに再び移動、npm 6.13で`npm fund`のサポートなど。
 またnpm v7の変更予定としてパフォーマンスの改善、GitHubのPRからのインストール、Node 6と8のサポート終了、peerDepsをデフォルトでインストールするように変更など
 
-- [Release v6.13.0 · npm/cli](http://example.com/ "Release v6.13.0 · npm/cli")
+- [Release v6.13.0 · npm/cli](https://github.com/npm/cli/releases/tag/v6.13.0 "Release v6.13.0 · npm/cli")
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
