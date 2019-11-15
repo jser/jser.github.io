@@ -22,7 +22,7 @@ Playgroundで更新内容を確認できるようになり、新しく増えた�
 
 - <https://www.typescriptlang.org/play/index.html?#show-whatisnew>
 
-構文として新しい増えているため、TypeScriptをサポートしているツールチェイン周りもアップデートが必要になります。
+構文として新しく増えているため、TypeScriptをサポートしているツールチェイン周りもアップデートが必要になります。
 ECMASCript Proposal(Stage 3)の[Optional Chaining](https://github.com/tc39/proposal-optional-chaining)と[Nullish Coalescing](https://github.com/tc39/proposal-nullish-coalescing)のサポートが追加されました。
 Assertion Functionsで`asserts <expr>`を返り値の型として書けるようになっています。
 これにあわせて`never`型を返す関数の型推論の改善されています。
