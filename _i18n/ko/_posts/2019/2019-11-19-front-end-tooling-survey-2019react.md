@@ -82,7 +82,7 @@ Express의 에러 핸들링에 대해 이야기하는 글입니다.
 
 ## The Front-End Tooling Survey 2019 - Results - AshleyNolan.co.uk - Blog and Portfolio for Ashley Watson-Nolan
 [ashleynolan.co.uk/blog/frontend-tooling-survey-2019-results](https://ashleynolan.co.uk/blog/frontend-tooling-survey-2019-results "The Front-End Tooling Survey 2019 - Results - AshleyNolan.co.uk - Blog and Portfolio for Ashley Watson-Nolan")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">アンケート</span> <span class="jser-tag">article</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">설문조사</span> <span class="jser-tag">article</span></p>
 
 JavaScript나 CSS 도구와 관련한 설문 조사 The Front-End Tooling Survey 2019 결과가 공새됐습니다.
 프리프로세서, 프레임워크, Lint, Bundler, Testing, Performance, Accessiblity 등에 대해서 조사했습니다.
@@ -114,7 +114,7 @@ N-API 버전과 Node.js의 대응표와 NAN을 사용한 네이티브 애드온 
 
 ## Chrome Dev Summit 2019 - All Sessions - YouTube
 [www.youtube.com/playlist?list&#x3D;PLNYkxOF6rcIDA1uGhqy45bqlul0VcvKMr](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDA1uGhqy45bqlul0VcvKMr "Chrome Dev Summit 2019 - All Sessions - YouTube")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">video</span> <span class="jser-tag">イベント</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">video</span> <span class="jser-tag">이벤트</span></p>
 
 Chrome Dev Summmit 2019 영상이 공새됐습니다.
 
