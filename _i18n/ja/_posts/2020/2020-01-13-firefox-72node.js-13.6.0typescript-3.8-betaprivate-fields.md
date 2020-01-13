@@ -39,6 +39,7 @@ Firefox 72では開発者ツールの改善が行われ、デバッガーでプ�
 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+どちらも過剰な通知許可を求めることで体験を悪くするサイトを抑制することが目的とされています。
 
 ----
 
