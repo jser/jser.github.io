@@ -102,7 +102,7 @@ Chromium版MSEdgeをサポートなど
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span></p>
 
 ECMAScript Archives Page。
-過去のECMAScript仕様に関するT39MTGのミーティングログのアーカイブやドキュメント。
+過去のECMAScript仕様に関するTC39MTGのミーティングログのアーカイブやドキュメント。
 1996年から2015年までのアーカイブ
 
 
