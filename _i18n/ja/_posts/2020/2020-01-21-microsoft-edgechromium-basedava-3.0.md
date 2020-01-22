@@ -141,6 +141,16 @@ Node 10未満のサポート終了、Babelが同梱ではなくなり別パッ�
 
 
 ----
+
+## Cookie 概説 - 30歳からのプログラミング
+[numb86-tech.hatenablog.com/entry/2020/01/19/004420](https://numb86-tech.hatenablog.com/entry/2020/01/19/004420 "Cookie 概説 - 30歳からのプログラミング")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP</span> <span class="jser-tag"> node</span> <span class="jser-tag">security</span></p>
+
+ブラウザとexpressを使ったCookieの設定と属性などのCookieの仕組みについての解説記事。
+Expires、Max-Age、Domain、Path，Secure属性、HttpOnly属性、SameSite属性についての解説
+
+
+----
 <h1 class="site-genre">スライド、動画関係</h1>
 
 ----
@@ -186,19 +196,6 @@ Vue.js向けのGraphQLクライアントライブラリ。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag"> node</span> <span class="jser-tag">library</span></p>
 
 ファイルがバイナリかどうかを判定するNode.jsライブラリ
-
-
-----
-<h1 class="site-genre">書籍関係</h1>
-
-----
-
-## Cookie 概説 - 30歳からのプログラミング
-[numb86-tech.hatenablog.com/entry/2020/01/19/004420](https://numb86-tech.hatenablog.com/entry/2020/01/19/004420 "Cookie 概説 - 30歳からのプログラミング")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP</span> <span class="jser-tag"> node</span> <span class="jser-tag">security</span></p>
-
-ブラウザとexpressを使ったCookieの設定と属性などのCookieの仕組みについての解説記事。
-Expires、Max-Age、Domain、Path，Secure属性、HttpOnly属性、SameSite属性についての解説
 
 
 ----
