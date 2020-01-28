@@ -29,7 +29,7 @@ TypeScriptをサポートするために[@ava/typescript](https://github.com/ava
 
 ----
 
-Puppeteerのクラスブラウザ版を目指すplaywrightが公開されています。
+Puppeteerのクロスブラウザ版を目指すplaywrightが公開されています。
 
 - [microsoft/playwright: Node library to automate Chromium, Firefox and WebKit with a single API](https://github.com/microsoft/playwright)
 
