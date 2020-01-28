@@ -1,5 +1,5 @@
 ---
-title: "2020-01-27のJS: Safari TP 99(Remove Flash)、AVA 3.1.0(TypeScript) playwright"
+title: "2020-01-27のJS: Safari TP 99(Remove Flash)、AVA 3.1.0(TypeScript) playwright(Cross Browser Puppeteer)"
 author: "azu"
 layout: post
 date : 2020-01-27T14:40:00.229Z
