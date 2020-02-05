@@ -19,10 +19,10 @@ JSer.info #473 - npmにはパッケージを公開した人がパッケージを
 
 - [The npm Blog — changes to npm’s unpublish policy](https://blog.npmjs.org/post/141905368000/changes-to-npms-unpublish-policy)
 
-今回の変更では、`npm publish`してから`npm unpublish`できるまでの時間制限が緩める変更と、いくつかの条件を満たす場合は時間とは関係なくunpublishできるようになっています。
+今回の変更では、`npm publish`してから`npm unpublish`できるまでの時間制限を緩める変更と、いくつかの条件を満たす場合は時間とは関係なくunpublishできるようになっています。
 
 - publishしてから72時間以内(元々は24時間以内)
-- また、ダウンロード数が300未満 かつ 別の公開モジュールから依存されていない かつ メンテナが単独
+- またはダウンロード数が300未満 かつ 別の公開モジュールから依存されていない かつ メンテナが単独
 
 この変更以前では、publishしてから24時間以上経つと、unpublishするためにはサポートに連絡する必要がありました。
 そのため、他から依存されていなそうなモジュールに関しては、`npm unpublish`できるようにするルール変更をしたという感じのようです。
