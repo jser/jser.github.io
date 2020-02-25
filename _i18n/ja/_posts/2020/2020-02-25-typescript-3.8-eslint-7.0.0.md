@@ -47,7 +47,7 @@ Node.js 8.xのサポート終了され、`CLIEngine`クラスは非推奨とな�
 
 TypeScript 3.8リリース。
 `import type`/`export type`の追加、Stage 3のES Private Fields、Top-Level `await`のサポート。
-`tartet`と`module`オプションに`es2020`を追加、`watchOptions`で`--watch`時の挙動を設定できるようになるなど
+`target`と`module`オプションに`es2020`を追加、`watchOptions`で`--watch`時の挙動を設定できるようになるなど
 
 
 ----
