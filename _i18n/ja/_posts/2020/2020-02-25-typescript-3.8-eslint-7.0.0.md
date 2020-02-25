@@ -16,7 +16,7 @@ JSer.info #476 - TypeScript 3.8が正式にリリースされました。
 
 型定義だけをインポート/エクスポートできる`import type`/`export type`の追加、ECMASCript Proposal Stage 3の[ECMAScript Private Fields](https://github.com/tc39/proposal-private-fields)、[Top-Level `await`](https://github.com/tc39/proposal-top-level-await)のサポートが追加されています。
 
-また、`tsconfig.json`の`tartet`と`module`オプションに`es2020`を追加、`watchOptions`で`--watch`時の挙動の設定の追加、`assumeChangesOnlyAffectDirectDependencies`オプションで"Fast and Loose"なインクリメンタルビルドをサポートしています。
+また、`tsconfig.json`の`target`と`module`オプションに`es2020`を追加、`watchOptions`で`--watch`時の挙動の設定の追加、`assumeChangesOnlyAffectDirectDependencies`オプションで"Fast and Loose"なインクリメンタルビルドをサポートしています。
 
 ----
 
@@ -47,7 +47,7 @@ Node.js 8.xのサポート終了され、`CLIEngine`クラスは非推奨とな�
 
 TypeScript 3.8リリース。
 `import type`/`export type`の追加、Stage 3のES Private Fields、Top-Level `await`のサポート。
-`tartet`と`module`オプションに`es2020`を追加、`watchOptions`で`--watch`時の挙動を設定できるようになるなど
+`target`と`module`オプションに`es2020`を追加、`watchOptions`で`--watch`時の挙動を設定できるようになるなど
 
 
 ----
