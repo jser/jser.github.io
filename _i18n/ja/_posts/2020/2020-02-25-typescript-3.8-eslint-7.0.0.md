@@ -26,7 +26,7 @@ JSer.info #476 - TypeScript 3.8が正式にリリースされました。
 
 このドキュメントでは主に破壊的な変更についてまとめられています。
 
-Node.js 8.xのサポート終了され、`CLIEngine`クラスは非推奨となり新しく`ESLint`クラスが導入される予定です。
+Node.js 8.xのサポートを終了し、`CLIEngine`クラスは非推奨となり新しく`ESLint`クラスが導入される予定です。
 `ESLint`クラスについては次のRFCにまとめられていますが、既存の`CLIEngine`クラスは同期処理だったのに対して`ESLint`クラスは非同期処理に対応するものとなります。
 
 - [New: `ESLint` Class Replacing `CLIEngine` by mysticatea · Pull Request #40 · eslint/rfcs](https://github.com/eslint/rfcs/pull/40)
