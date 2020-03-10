@@ -1,6 +1,7 @@
 # update-pr-title
 
-- Update Pull Request content file
+- Update content file path with slug from content title(content <-> content)
+- Update content file path and content from PR's title(PR -> content)
 
 ## Usage
 
