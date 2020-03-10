@@ -1,0 +1,25 @@
+name: update-pr
+
+on:
+  pull_request:
+
+jobs:
+  update-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node_version: 12.x
+      - name: Install
+        run: yarn install
+        working-directory: actions/update-pr-title
+      - name: Run
+        run: yarn start
+        working-directory: actions/update-pr-title
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_EVENT: ${{ toJson(github.event.pull_request) }}
