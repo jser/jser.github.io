@@ -1,5 +1,5 @@
 ---
-title: "2020-03-10のJS: 2020-03-11のJS: new titleのテスト、JavaScript、OK、OK"
+title: "2020-03-10のJS: 2020-03-11のJS: new titleのテスト、JavaScript、OK、new class"
 author: "azu"
 layout: post
 date : 2020-03-10T14:14:41.789Z
