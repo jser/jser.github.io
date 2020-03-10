@@ -48,7 +48,7 @@ const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, origina
     console.log(`Rename: ${originalFileName} -> ${newFileName}`);
     // create new file
     // https://developer.github.com/v3/repos/contents/#create-a-file
-    const {data: createFileResponse} = await octokit.repos.createFile({
+    const {data: createFileResponse} = await octokit.repos.createOrUpdateFile({
         owner,
         repo,
         path: newFileName,
@@ -82,7 +82,7 @@ const canRename = (originalFilePath: string) => {
  */
 const replaceContentTitle = (content: string, newTitle: string) => {
     const titlePattern = /title: "(\d{4})-(\d{2})-(\d{2})のJS:(.*)"/;
-    if (!titlePattern.test(newTitle)) {
+    if (!titlePattern.test(content)) {
         return content;
     }
     return content.replace(titlePattern, `title: "$1-$2-$3のJS: ${newTitle}"`);
