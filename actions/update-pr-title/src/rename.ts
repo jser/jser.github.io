@@ -81,11 +81,11 @@ const canRename = (originalFilePath: string) => {
  * @returns {*}
  */
 const replaceContentTitle = (content: string, newTitle: string) => {
-    const titlePattern = /^(\d{4})-(\d{2})-(\d{2})のJS:(.*)/;
+    const titlePattern = /title: "(\d{4})-(\d{2})-(\d{2})のJS:(.*)"/;
     if (!titlePattern.test(newTitle)) {
         return content;
     }
-    return content.replace(titlePattern, newTitle);
+    return content.replace(titlePattern, `title: "$1-$2-$3のJS: ${newTitle}"`);
 };
 
 /**
