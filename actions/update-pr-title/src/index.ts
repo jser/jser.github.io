@@ -11,10 +11,21 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
     const octokit = new Octokit({
         auth: GITHUB_TOKEN
     });
-    await rename(octokit, {
-        head: PULL_REQUEST_EVENT.head,
-        base: PULL_REQUEST_EVENT.base,
-        owner: "jser",
-        repo: "jser.github.io"
-    })
+    console.log("PULL_REQUEST_EVENT.action", PULL_REQUEST_EVENT.action);
+    if (PULL_REQUEST_EVENT.action === "synchronize") {
+        await rename(octokit, {
+            head: PULL_REQUEST_EVENT.pull_request.head,
+            base: PULL_REQUEST_EVENT.pull_request.base,
+            owner: "jser",
+            repo: "jser.github.io"
+        })
+    } else if (PULL_REQUEST_EVENT.action === "edited") {
+        await rename(octokit, {
+            head: PULL_REQUEST_EVENT.pull_request.head,
+            base: PULL_REQUEST_EVENT.pull_request.base,
+            owner: "jser",
+            repo: "jser.github.io",
+            forceFitToTitle: PULL_REQUEST_EVENT.pull_request.title
+        });
+    }
 })();

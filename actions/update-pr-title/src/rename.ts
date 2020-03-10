@@ -16,7 +16,7 @@ import { Octokit } from "@octokit/rest"
  */
 const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, originalFileName, renameFn}: {
     ref: string, owner: string, repo: string, branch: string, originalFileName: string,
-    renameFn: (oldFileName: string, content: string) => string
+    renameFn: (oldFileName: string, content: string) => { newFileName: string, newContent: string }
 }) => {
     console.log("start rename(delete and create)", {
         ref,
@@ -40,7 +40,7 @@ const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, origina
         throw new Error("no content: " + getContentResponse);
     }
     const decodedContent = new Buffer(getContentResponse.content, "base64").toString();
-    const newFileName = renameFn(originalFileName, decodedContent);
+    const {newFileName, newContent} = renameFn(originalFileName, decodedContent);
     if (originalFileName === newFileName) {
         console.log(`No need to rename: ${originalFileName}`);
         return;
@@ -53,7 +53,7 @@ const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, origina
         repo,
         path: newFileName,
         message: `Move ${originalFileName} to ${newFileName}`,
-        content: getContentResponse.content,
+        content: Buffer.from(newContent).toString("base64"),
         branch
     });
     console.log("createFileResponse", createFileResponse);
@@ -77,12 +77,53 @@ const canRename = (originalFilePath: string) => {
     return RENAME_TARGET.test(originalFilePath);
 };
 /**
- *
+ * replace content:title to newTitle
+ * @returns {*}
+ */
+const replaceContentTitle = (content: string, newTitle: string) => {
+    const titlePattern = /^(\d{4})-(\d{2})-(\d{2})のJS:(.*)/;
+    if (!titlePattern.test(newTitle)) {
+        return content;
+    }
+    return content.replace(titlePattern, newTitle);
+};
+
+/**
+ * new title to file name
+ * @returns {*}
+ */
+const renameFilePathWithNewTitle = (originalFilePath: string, newTitle: string) => {
+    if (!RENAME_TARGET.test(originalFilePath)) {
+        return originalFilePath;
+    }
+    const titlePattern = /^(\d{4})-(\d{2})-(\d{2})のJS:(.*)/;
+    if (!titlePattern.test(newTitle)) {
+        return originalFilePath;
+    }
+    // @ts-ignore
+    const [_, year, month, day, keyword] = newTitle.match(titlePattern);
+    const trimmedKeyword = keyword.trim();
+    // Title is empty
+    if (trimmedKeyword.length === 0) {
+        return originalFilePath;
+    }
+    const newSlug = slug(trimmedKeyword, {
+        remove: null,
+        lower: true
+    });
+    const ext = path.extname(originalFilePath);
+    return originalFilePath.replace(RENAME_TARGET, (_all, pathname) => {
+        return `${pathname}/${year}-${month}-${day}-${newSlug}${ext}`;
+    });
+};
+
+/**
+ * content's title to file name
  * @param originalFilePath
  * @param content https://developer.github.com/v3/repos/contents/#get-contents
  * @returns {*}
  */
-const renamePattern = (originalFilePath: string, content: any) => {
+const renamePattern = (originalFilePath: string, content: string) => {
     if (!RENAME_TARGET.test(originalFilePath)) {
         return originalFilePath;
     }
@@ -110,6 +151,8 @@ const renamePattern = (originalFilePath: string, content: any) => {
 export const rename = async (octokit: Octokit, payload: {
     owner: string;
     repo: string;
+    // if exits, title based rename
+    forceFitToTitle?: string
     head: {
         ref: string;
         sha: string;
@@ -119,6 +162,7 @@ export const rename = async (octokit: Octokit, payload: {
         sha: string
     }
 }) => {
+    const newTitle = payload.forceFitToTitle;
     const compare = await octokit.repos.compareCommits(
         {
             owner: payload.owner,
@@ -144,7 +188,16 @@ export const rename = async (octokit: Octokit, payload: {
                 branch,
                 originalFileName: file.filename,
                 renameFn: (fileName, content) => {
-                    return renamePattern(fileName, content);
+                    // Update Pull Request title
+                    // if newTitle exists, replace fileName and content:title with newTtile
+                    return {
+                        newFileName: newTitle
+                            ? renameFilePathWithNewTitle(fileName, newTitle)
+                            : renamePattern(fileName, content),
+                        newContent: newTitle
+                            ? replaceContentTitle(content, newTitle)
+                            : content
+                    };
                 }
             });
         });
