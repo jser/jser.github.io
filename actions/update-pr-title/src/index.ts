@@ -4,9 +4,9 @@ import { Octokit } from "@octokit/rest";
 if (!process.env.PULL_REQUEST_EVENT) {
     throw new Error("process.env.PULL_REQUEST_EVENT is not defined");
 }
-console.log("process.env.PULL_REQUEST_EVENT", process.env.PULL_REQUEST_EVENT);
-const GITHUB_TOKEN = JSON.parse(process.env.GITHUB_TOKEN!);
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
 const PULL_REQUEST_EVENT = JSON.parse(process.env.PULL_REQUEST_EVENT!);
+console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
 (async () => {
     const octokit = new Octokit({
         auth: GITHUB_TOKEN
