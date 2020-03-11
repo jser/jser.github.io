@@ -19,7 +19,7 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
             owner: "jser",
             repo: "jser.github.io"
         })
-    } else if (PULL_REQUEST_EVENT.action === "edited") {
+    } else if (PULL_REQUEST_EVENT.action === "edited" || PULL_REQUEST_EVENT.action === "opened") {
         await rename(octokit, {
             head: PULL_REQUEST_EVENT.pull_request.head,
             base: PULL_REQUEST_EVENT.pull_request.base,
