@@ -85,7 +85,7 @@ const replaceContentTitle = (content: string, newTitle: string) => {
     if (!titlePattern.test(content)) {
         return content;
     }
-    return content.replace(titlePattern, `title: "$1-$2-$3のJS: ${newTitle}"`);
+    return content.replace(titlePattern, `title: "${newTitle}"`);
 };
 
 /**
