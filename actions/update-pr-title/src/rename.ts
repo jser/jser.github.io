@@ -2,6 +2,13 @@ import path from "path";
 import slug from "slug";
 import { Octokit } from "@octokit/rest"
 
+const slugTitle = (title: string) => {
+    const tenTitle = title.replace(/、/g, "-");
+    return slug(tenTitle, {
+        remove: null,
+        lower: true
+    });
+};
 /**
  *
  * @param {*} robot
@@ -77,6 +84,7 @@ const canRename = (originalFilePath: string) => {
     return RENAME_TARGET.test(originalFilePath);
 };
 /**
+ * PR title -> content:title
  * replace content:title to newTitle
  * @returns {*}
  */
@@ -89,7 +97,7 @@ const replaceContentTitle = (content: string, newTitle: string) => {
 };
 
 /**
- * new title to file name
+ * PR title -> file newm
  * @returns {*}
  */
 const renameFilePathWithNewTitle = (originalFilePath: string, newTitle: string) => {
@@ -107,10 +115,7 @@ const renameFilePathWithNewTitle = (originalFilePath: string, newTitle: string) 
     if (trimmedKeyword.length === 0) {
         return originalFilePath;
     }
-    const newSlug = slug(trimmedKeyword, {
-        remove: null,
-        lower: true
-    });
+    const newSlug = slugTitle(trimmedKeyword);
     const ext = path.extname(originalFilePath);
     return originalFilePath.replace(RENAME_TARGET, (_all, pathname) => {
         return `${pathname}/${year}-${month}-${day}-${newSlug}${ext}`;
@@ -118,6 +123,7 @@ const renameFilePathWithNewTitle = (originalFilePath: string, newTitle: string) 
 };
 
 /**
+ * title: ** -> file name
  * content's title to file name
  * @param originalFilePath
  * @param content https://developer.github.com/v3/repos/contents/#get-contents
@@ -138,10 +144,7 @@ const renamePattern = (originalFilePath: string, content: string) => {
     if (trimmedKeyword.length === 0) {
         return originalFilePath;
     }
-    const newSlug = slug(trimmedKeyword, {
-        remove: null,
-        lower: true
-    });
+    const newSlug = slugTitle(trimmedKeyword);
     const ext = path.extname(originalFilePath);
     return originalFilePath.replace(RENAME_TARGET, (_all, pathname) => {
         return `${pathname}/${year}-${month}-${day}-${newSlug}${ext}`;
