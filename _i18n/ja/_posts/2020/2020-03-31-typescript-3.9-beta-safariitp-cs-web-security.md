@@ -1,15 +1,61 @@
 ---
-title: "2020-03-31のJS: TypeScript 3.9 Beta、Safariの新しいITP、CS Web Securityコース"
+title: "2020-03-31のJS: TypeScript 3.9 Beta、Safari 13.1、CS Web Securityコース"
 author: "azu"
 layout: post
 date : 2020-03-30T14:02:02.940Z
 category: JSer
 tags:
--
+- TypeScript
+- Safari
+- ITP
+- Security
 
 ---
 
-JSer.info #481
+JSer.info #481 - TypeScript 3.9 Betaがリリースされました。
+
+- [Announcing TypeScript 3.9 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-3-9-beta/)
+
+`Promise.all`の型改善、`awaited` typeの追加、ビルドパフォーマンスの改善などが行われています。
+また`// @ts-ignore`のように型チェックを無視するのではなく、Type Errorとなることを期待する`// @ts-expect-error`コメントディレクティブの追加が行われています。
+
+その他には、`class`のGetter/Setterをトランスパイルした際に`enumrable: true`となっているのを、ECMAScript仕様に合わせて`enumerable: false`に変更されています。
+
+----
+
+iOS13.4/iPadOS13.4/macOSでそれぞれSafari 13.1がリリースされました。
+
+- [Safari 13.1 Beta Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari_release_notes/safari_13_1_beta_release_notes)
+- [Safari 13.1 のセキュリティコンテンツについて - Apple サポート](https://support.apple.com/ja-jp/HT211104)
+
+Safari 13.1ではNullish coalescing operator(`??`)や`String.prototype.replaceAll`がサポートされています。
+また、Web Animations、Async Clipboard API、Resize Observer、Picture-in-Picture APIなどのAPIも追加されています。
+
+その他には、新しいIntelligent Tracking Prevention(ITP)の仕組みが導入されています。
+
+- [Full Third-Party Cookie Blocking and More | WebKit](https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/)
+
+過去のITPでは条件に基づくサードパーティクッキーのブロックでしたが、[ITPの挙動を利用したトラッキングも可能であった](https://arxiv.org/abs/2001.07421)ため、
+Safari 13.1からサードパーティクッキーを完全にブロックする仕組みに変更されています。
+
+また、`document.cookie`、LocalStorage、Service Workerなどスクリプトから書き込めるストレージに7日間の上限が追加されました。
+スクリプトからストレージに書き込んでから、そのサイトでユーザー操作がなくなってから7日間たつと、そのサイトのストレージを削除する仕組みとなっています。
+この7-Day Capの制限もすべてのサイトに適用されますが、いくつかの例外があるようです。
+
+- ホーム画面に追加されたウェブアプリケーションはこの制限がない
+- WKWebViewなどのWebViewではこの制限がない
+- Safariを起動していない日は日付をカウントしない
+
+参考: [iOS 13.4 and Safari 13.1 persistent storage · Issue #943 · localForage/localForage](https://github.com/localForage/localForage/issues/943)
+
+----
+
+スタンフォード大学のウェブセキュリティコースの動画とスライドなど資料が公開されています。
+
+- [CS253 - Web Security](https://web.stanford.edu/class/cs253/)
+
+[Feross](https://github.com/feross)によるウェブセキュリティに関するコースで、ブラウザ/サーバ/ネットワークなどのセキュリティに関する講義となっています。
+幅広くウェブのセキュリティについて扱っているので興味がある人は見てみるとよさそうです。
 
 ----
 
