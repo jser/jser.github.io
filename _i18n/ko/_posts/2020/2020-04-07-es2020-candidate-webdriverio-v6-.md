@@ -1,5 +1,5 @@
 ---
-title: "2020-04-07: ES2020 Candidate、, WebdriverIO v6, 브라우저의 릴리스 정보를 모니터링하는 방법"
+title: "2020-04-07: ES2020 Candidate, WebdriverIO v6, 브라우저의 릴리스 정보를 모니터링하는 방법"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
