@@ -38,7 +38,7 @@ JavaScriptテストフレームワークのJest 26がリリースされました
 
 まとめると次のような変更が予定されています。
 
-- [testRunner](https://jestjs.io/docs/ja/configuration#testrunner-string): [jasmine2](https://github.com/facebook/jest/tree/master/packages/jest-jasmine2) → ["circus"](https://github.com/facebook/jest/tree/master/packages/jest-circus)
+- [testRunner](https://jestjs.io/docs/ja/configuration#testrunner-string): [jasmine2](https://github.com/facebook/jest/tree/master/packages/jest-jasmine2) → [circus](https://github.com/facebook/jest/tree/master/packages/jest-circus)
 - [testEnvironment](https://jestjs.io/docs/ja/configuration#testenvironment-string): [jsdom](https://github.com/facebook/jest/tree/master/packages/jest-environment-jsdom) → [node](https://github.com/facebook/jest/tree/master/packages/jest-environment-node)
 
 ----
