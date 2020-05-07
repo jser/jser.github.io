@@ -5,15 +5,72 @@ layout: post
 date : 2020-05-07T04:42:34.756Z
 category: JSer
 tags:
--
+- Firefox
+- Jest
+- Chrome
+- Performance
 
 ---
 
-JSer.info #486
+JSer.info #486 - Firefox 76がリリースされました。
+
+- [Firefox 76: Audio worklets and other tricks - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2020/05/firefox-76-audio-worklets-and-other-tricks/)
+- [Firefox 76 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/76)
+- [Firefox 76 Site Compatibility | Firefox Site Compatibility](https://www.fxsitecompat.dev/en-CA/releases/76/)
+- [Firefox 76.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/76.0/releasenotes/)
+
+Firefox 76では開発者ツールに多くの改善が含まれています。
+特定のディレクトリをDebuggerの対象から除外できるように、"Copy stack trace"の追加、Action CableのWebScoket Inspectionのサポートなどが追加されています。
+
+機能追加としてAudio workletsのサポート、CSS System Colorsのサポートが行われています。
+その他には未知のプロトコルへのNavigation移動をブロックするように変更なども含まれています。
+
+----
+
+JavaScriptテストフレームワークのJest 26がリリースされました。
+
+- [Jest 26: Tick Tock · Jest](https://jestjs.io/blog/2020/05/05/jest-26)
+
+[@sinonjs/fake-timers](https://github.com/sinonjs/fake-timers)ベースの新しいFake Timerの追加、`it`や`describe`などをexportする`@jest/globals`の追加、Native ESMのサポートなどが含まれています。
+破壊的な変更として、Node.js 8未満のサポートを終了しいくつかのコアモジュールでES5のビルドを提供しないように変更しています。
+今後の変更予定として、Jest 27でデフォルトのtestRunnerを["jest-circus"](https://github.com/facebook/jest/tree/master/packages/jest-circus)に変更しenvironmentを"node"に変更する予定です。
+また、Jest 28で"jest-jasmine2"と"jest-environment-jsdom"をコアから別のパッケージへと分離する予定となっています。
+
+まとめると次のような変更が予定されています。
+
+- [testRunner](https://jestjs.io/docs/ja/configuration#testrunner-string): [jasmine2](https://github.com/facebook/jest/tree/master/packages/jest-jasmine2) → ["circus"](https://github.com/facebook/jest/tree/master/packages/jest-circus)
+- [testEnvironment](https://jestjs.io/docs/ja/configuration#testenvironment-string): [jsdom](https://github.com/facebook/jest/tree/master/packages/jest-environment-jsdom) → [node](https://github.com/facebook/jest/tree/master/packages/jest-environment-node)
+
+----
+
+[Web Vitals](https://web.dev/vitals/)という記事では、ウェブサイトのパフォーマンスに関する重要な指標をCore Web Vitalsという概念にまとめて、Google/Chrome系のプロダクトで利用できるようにする話が書かれています。
+
+現在のCore Web Vitalsは次の3つの指標で構成されています。
+
+- [Largest Contentful Paint (LCP)](https://web.dev/lcp/): ロードに関する指標
+- [First Input Delay (FID)](https://web.dev/fid/): インタラクションに関する指標
+- [Cumulative Layout Shift (CLS)](https://web.dev/cls/): 描画に関する指標
+
+これらの指標を取得できる[web-vitals](https://github.com/GoogleChrome/web-vitals)というJavaScriptライブラリの提供([Performance Observer](Performance Observer)の値を利用するため[Chromeでしか取れない指標](https://github.com/GoogleChrome/web-vitals#browser-support)もある)や[ブラウザ拡張機能](https://github.com/GoogleChrome/web-vitals-extension)の提供なども行っています。
+
+今後は[Chrome User Experience Report](https://developers.google.com/web/tools/chrome-user-experience-report)(既に対応済み)、[PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)、Search Console などのツールでもこの指標を利用できるようにしていくとのことです。
 
 ----
 
 <h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Firefox 76: Audio worklets and other tricks - Mozilla Hacks - the Web developer blog
+[hacks.mozilla.org/2020/05/firefox-76-audio-worklets-and-other-tricks/](https://hacks.mozilla.org/2020/05/firefox-76-audio-worklets-and-other-tricks/ "Firefox 76: Audio worklets and other tricks - Mozilla Hacks - the Web developer blog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Firefox 76リリース。
+開発者ツールの改善、Audio workletsのサポート、CSS System Colorsのサポート、未知のプロトコルへのNavigation移動をブロックするように変更など
+
+- [Firefox 76 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/76 "Firefox 76 for developers - Mozilla | MDN")
+- [Firefox 76 Site Compatibility | Firefox Site Compatibility](https://www.fxsitecompat.dev/en-CA/releases/76/ "Firefox 76 Site Compatibility | Firefox Site Compatibility")
+- [Firefox 76.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/76.0/releasenotes/ "Firefox 76.0, See All New Features, Updates and Fixes")
 
 ----
 
@@ -55,8 +112,8 @@ jQuery 3.5.0でのリグレッションを修正。3.5ではXSSに対するセ�
 Jest 26リリース。
 `@sinonjs/fake-timers`ベースの新しいFake Timerの追加、`it`や`describe`などをexportする`@jest/globals`の追加、Native ESMのサポートなど。
 いくつかのコアモジュールでES5のビルドを提供しないように変更し、Node.js 8未満のサポートを終了。
-今後の変更として、Jest 27でデフォルトのtestRunner"jest-circus"に変更しenvironmentを"node"に変更する。
-また、Jest 28で"jest-jasmine2"と"jest-environment-jsdom"を削除予定。
+今後の変更として、Jest 27でデフォルトのtestRunnerを"jest-circus"に変更しenvironmentを"node"に変更する。
+また、Jest 28で"jest-jasmine2"と"jest-environment-jsdom"をコアから別のパッケージへと分離する予定。
 
 
 ----
@@ -81,19 +138,6 @@ Vueをベータサポート
 `wasm-decompile`でのWebAssemblyのデコンパイルについて
 
 - [wabt/decompiler.md at master · WebAssembly/wabt](https://github.com/WebAssembly/wabt/blob/master/docs/decompiler.md "wabt/decompiler.md at master · WebAssembly/wabt")
-
-----
-
-## Firefox 76: Audio worklets and other tricks - Mozilla Hacks - the Web developer blog
-[hacks.mozilla.org/2020/05/firefox-76-audio-worklets-and-other-tricks/](https://hacks.mozilla.org/2020/05/firefox-76-audio-worklets-and-other-tricks/ "Firefox 76: Audio worklets and other tricks - Mozilla Hacks - the Web developer blog")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p>
-
-Firefox 76リリース。
-開発者ツールの改善、Audio workletsのサポート、CSS System Colorsのサポート、未知のプロトコルへのNavigation移動をブロックするように変更など
-
-- [Firefox 76 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/76 "Firefox 76 for developers - Mozilla | MDN")
-- [Firefox 76 Site Compatibility | Firefox Site Compatibility](https://www.fxsitecompat.dev/en-CA/releases/76/ "Firefox 76 Site Compatibility | Firefox Site Compatibility")
-- [Firefox 76.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/76.0/releasenotes/ "Firefox 76.0, See All New Features, Updates and Fixes")
 
 ----
 
