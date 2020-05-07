@@ -51,7 +51,7 @@ JavaScriptテストフレームワークのJest 26がリリースされました
 - [First Input Delay (FID)](https://web.dev/fid/): インタラクションに関する指標
 - [Cumulative Layout Shift (CLS)](https://web.dev/cls/): 描画に関する指標
 
-これらの指標を取得できる[web-vitals](https://github.com/GoogleChrome/web-vitals)というJavaScriptライブラリの提供([Performance Observer](Performance Observer)の値を利用するため[Chromeでしか取れない指標](https://github.com/GoogleChrome/web-vitals#browser-support)もある)や[ブラウザ拡張機能](https://github.com/GoogleChrome/web-vitals-extension)の提供なども行っています。
+これらの指標を取得できる[web-vitals](https://github.com/GoogleChrome/web-vitals)というJavaScriptライブラリの提供([Performance Observer](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver)の値を利用するため[Chromeでしか取れない指標](https://github.com/GoogleChrome/web-vitals#browser-support)もある)や[ブラウザ拡張機能](https://github.com/GoogleChrome/web-vitals-extension)の提供なども行っています。
 
 今後は[Chrome User Experience Report](https://developers.google.com/web/tools/chrome-user-experience-report)(既に対応済み)、[PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)、Search Console などのツールでもこの指標を利用できるようにしていくとのことです。
 
