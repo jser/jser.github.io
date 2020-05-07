@@ -6,11 +6,14 @@ env:
   global:
   - REVIEWDOG_VERSION="0.9.10"
 cache:
+  yarn: true
   directories:
   - vendor/bundle
 before_install:
 - git fetch --unshallow
 - nvm install stable
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.21.1
+- export PATH="$HOME/.yarn/bin:$PATH"
 install:
 - mkdir -p ~/bin/ && export export PATH="~/bin/:$PATH"
 - curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o ~/bin/reviewdog && chmod +x ~/bin/reviewdog
@@ -21,7 +24,7 @@ script:
 - npm run test:ci
 # git diff --name-only --diff-filter=ACMR origin/develop | grep -a '_i18n/ja/.*.md$' | xargs --no-run-if-empty $(npm bin)/textlint -f checkstyle | xargs --no-run-if-empty reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
 - npm run build
-- node _tools/generate-amp-story.js
+# - node _tools/generate-amp-story.js
 - node _tools/generate-post-details-json.js
 after_success:
 - $(npm bin)/set-up-ssh --key "$encrypted_26fa663d1601_key" --iv "$encrypted_26fa663d1601_iv" --path-encrypted-key "./.travis/github_deploy_key.enc"
