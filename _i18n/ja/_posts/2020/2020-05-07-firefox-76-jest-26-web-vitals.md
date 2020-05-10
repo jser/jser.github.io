@@ -20,7 +20,7 @@ JSer.info #486 - Firefox 76がリリースされました。
 - [Firefox 76.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/76.0/releasenotes/)
 
 Firefox 76では開発者ツールに多くの改善が含まれています。
-特定のディレクトリをDebuggerの対象から除外できるように、"Copy stack trace"の追加、Action CableのWebScoket Inspectionのサポートなどが追加されています。
+特定のディレクトリをDebuggerの対象から除外できるように、"Copy stack trace"の追加、Action CableのWebSocket Inspectionのサポートなどが追加されています。
 
 機能追加としてAudio workletsのサポート、CSS System Colorsのサポートが行われています。
 その他には未知のプロトコルへのNavigation移動をブロックするように変更なども含まれています。
