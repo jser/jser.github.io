@@ -51,7 +51,7 @@ PuppeteerライクなAPIを持つクラスブラウザテストフレームワ�
 
 - [Fast and reliable cross-browser testing with Playwright 🎭](https://medium.com/@arjunattam/fast-and-reliable-cross-browser-testing-with-playwright-155c0e8a821f)
 
-PlaywrightはChromium、WebKit、Firefoxをそれぞれに[Patch](https://github.com/microsoft/playwright/tree/master/browser_patches)をあててつつサポートしています。
+PlaywrightはChromium、WebKit、Firefoxを一部[Patch](https://github.com/microsoft/playwright/tree/master/browser_patches)をあててつつサポートしています。
 PuppeteerもChromium、Firefoxをサポートしていますが、[Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/)(CDP)に基づいたサポートとなっています。そのため、CDPそのものを扱っていないWebKitはPuppeteerではサポートされていません。
 
 Playwrightは、Puppeteerをforkしてこの辺の違いもカバーしクロスブラウザのテストフレームワークとして使うのに適したAPI/エミュレーション機能を持つことを目的としています。
