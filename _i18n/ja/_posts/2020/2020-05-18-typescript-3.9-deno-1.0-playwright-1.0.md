@@ -16,7 +16,7 @@ JSer.info #488 - TypeScript 3.9がリリースされました。
 - [Announcing TypeScript 3.9 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-3-9/)
 
 `Promise.all`の型推論がされています。
-また3.9 β時点では導入される予定だった[`awaited`](https://github.com/microsoft/TypeScript/pull/35998)は[問題が見つかった](https://github.com/microsoft/TypeScript/issues/37897)ため、3.9時点では導入されないことになりました。
+また3.9 β時点では導入される予定だった[`awaited`](https://github.com/microsoft/TypeScript/pull/35998)は[問題が見つかった](https://github.com/microsoft/TypeScript/pull/37610)ため、[3.9時点では導入されない](https://github.com/microsoft/TypeScript/issues/37897)ことになりました。
 
 その他にはビルドパフォーマンスの改善、Type Errorとなることを期待する`// @ts-expect-error`コメントの追加などが行われています。
 JSへとコード変換における非互換な変更として、クラスのGetter/Setterを`enumerable: true`に変換するのではなく、`enumerable: false`に変換する変更が含まれています。
@@ -51,7 +51,7 @@ PuppeteerライクなAPIを持つクラスブラウザテストフレームワ�
 
 - [Fast and reliable cross-browser testing with Playwright 🎭](https://medium.com/@arjunattam/fast-and-reliable-cross-browser-testing-with-playwright-155c0e8a821f)
 
-PlaywrightはChromium、WebKit、Firefoxを一部[Patch](https://github.com/microsoft/playwright/tree/master/browser_patches)をあててつつサポートしています。
+PlaywrightはChromium、WebKit、Firefoxをそれぞれに[Patch](https://github.com/microsoft/playwright/tree/master/browser_patches)をあててつつサポートしています。
 PuppeteerもChromium、Firefoxをサポートしていますが、[Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/)(CDP)に基づいたサポートとなっています。そのため、CDPそのものを扱っていないWebKitはPuppeteerではサポートされていません。
 
 Playwrightは、Puppeteerをforkしてこの辺の違いもカバーしクロスブラウザのテストフレームワークとして使うのに適したAPI/エミュレーション機能を持つことを目的としています。
