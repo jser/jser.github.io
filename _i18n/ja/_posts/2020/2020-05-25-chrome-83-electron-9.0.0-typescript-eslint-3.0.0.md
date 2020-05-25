@@ -5,11 +5,65 @@ layout: post
 date : 2020-05-25T14:18:36.448Z
 category: JSer
 tags:
--
+- Chrome
+- Electron
+- TypeScript
+- ESLint
 
 ---
 
-JSer.info #489
+JSer.info #489 - Chrome 83がリリースされました。
+
+- [New in Chrome 83  |  Web  |  Google Developers](https://developers.google.com/web/updates/2020/05/nic83)
+- [What's New In DevTools (Chrome 83)  |  Web  |  Google Developers](https://developers.google.com/web/updates/2020/03/devtools)
+- [Deprecations and removals in Chrome 83  |  Web  |  Google Developers](https://developers.google.com/web/updates/2020/04/chrome-83-deps-rems)
+- [Chrome Platform Status](https://www.chromestatus.com/features#milestone%3D83)
+- [V8 release v8.3 · V8](https://v8.dev/blog/v8-release-83)
+
+Trusted Typesのサポート、フォームコントロールUIのアップデート、COOP(Cross-Origin-Opener-Policy)とCOEP(Cross-Origin-Embedder-Policy)が実装されています。
+COOPとCOEPはSite Isolationと深い関係がある仕組みなので、詳細は次の記事を参照してください。
+
+- [Making your website "cross-origin isolated" using COOP and COEP](https://web.dev/coop-coep/)
+- [Site Isolation 及び Web のセキュリティモデルの更新 | blog.jxck.io](https://blog.jxck.io/entries/2020-05-22/site-isolation.html)
+
+また、Origin Trialとして`performance.measureMemory()`や`Scheduler.postTask()`が追加されています。
+その他にはBarcode Detection APIやCSS ` prefers-color-scheme`のサポートなどが行われています。
+
+---
+
+Electron 9.0.0がリリースされました。
+
+- [Electron 9.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-9-0#highlight-features)
+
+9.0.0ではChromium 83、Node 12.14、V8 8.3へアップデートが行われています。
+
+`enableRemoteModle`オプションを使わずに`remote`モジュールを使うことを非推奨化されています。
+これは、`remote`モジュールをコアから外していく作業の一環です。
+
+- [Deprecate the 'remote' module and move it to userland · Issue #21408 · electron/electron](https://github.com/electron/electron/issues/21408)
+- [Electron’s ‘remote’ module considered harmful - Jeremy Apthorp - Medium](https://medium.com/@nornagon/electrons-remote-module-considered-harmful-70d69500f31)
+
+その他には、`app.enableRendererProcessReuse`をデフォルトで`true`に変更、スペルチェッカーの改善、PDFビューアの有効化なども行われています。
+
+----
+
+TypeScript向けのESLintプラグインであるtypescript-eslint 3.0.0がリリースされました。
+
+- [Release v3.0.0 · typescript-eslint/typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/releases/tag/v3.0.0)
+
+[ESLint 7](https://eslint.org/blog/2020/02/whats-coming-in-eslint-7.0.0)をサポート、TypeScript 3.9で挙動が変更されたOptional ChainingとNon-Null Assertionsの変更に追従したサポートが含まれます。
+
+- [TypeScript: Handbook - TypeScript 3.9](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html#parsing-differences-in-optional-chaining-and-non-null-assertions)
+
+また、同時にNode.js 8とTypeScript 3.2のサポートを終了しています。
+
+その他には、`@typescript-eslint/recommended`と`@typescript-eslint/recommended-requiring-typechecking`が`@typescript-eslint/eslint-recommended`を継承するように変更されています。
+またルールのデフォルト値の変更、Deprecatedなルールの削除なども行われています。
+
+具体的なrecommendedルールセットにおける設定値の変更は次のIssueにまとめられています。
+
+- [Changes to the `eslint-recommended` ruleset for 3.0.0 · Issue #1273 · typescript-eslint/typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/issues/1273)
+- [Changes to the `recommended` sets for 3.0.0 · Issue #1423 · typescript-eslint/typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/issues/1423)
 
 ----
 
