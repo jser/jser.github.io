@@ -217,7 +217,7 @@ WebGL/GLSLについてのチュートリアル
 [content.nuxtjs.org/](https://content.nuxtjs.org/ "Introduction - Nuxt Content")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-Nuxt.jsからMarkdown、JSON、CSVなどのコンテンツデータを取得して、埋め込めるNext.jsモジュール。
+Nuxt.jsからMarkdown、JSON、CSVなどのコンテンツデータを取得して、埋め込めるNuxt.jsモジュール。
 
 
 ----
