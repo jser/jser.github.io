@@ -19,16 +19,16 @@ JSer.info #493 - ECMAScript 2020がEcma internationalの119th General Assembly�
 
 ECMAScript 2020では次のような変更が含まれています。
 
-- for-in mechanics - for...inやObject.keysの順番が仕様で定義された
-- `export * as ns from "mod"` - 構文の追加
-- `String.prototype.matchAll` - マッチしたすべての文字列をイテレータで返す
-- `globalThis` - ブラウザの`window`、Node.jsの`global`へのProxy
-- BigInt - 巨大な整数/7番目のプリミティブ型
-- Optional chaining - `obj?.prop`
-- Nullish coalescing Operator - `??`
-- `Promise.allSettled` - `Promise.all`とは異なりRejectedも含まれてすべての完了を待つ
-- `import()` - Dynamic Import
-- `import.meta` - `import.meta.url`などが定義されるオブジェクト
+- [for-in mechanics](https://github.com/tc39/proposal-for-in-order) - for...inやObject.keysの順番が仕様で定義された
+- [`export * as ns from "mod"`](https://github.com/tc39/proposal-export-ns-from) - 構文の追加
+- [`String.prototype.matchAll`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll) - マッチしたすべての文字列をイテレータで返す
+- [`globalThis`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/globalThis) - ブラウザの`window`、Node.jsの`global`へのProxy
+- [BigInt](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt) - 巨大な整数/7番目のプリミティブ型
+- [Optional chaining](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Optional_chaining) - `obj?.prop`
+- [Nullish coalescing Operator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator) - `??`
+- [`Promise.allSettled`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) - `Promise.all`とは異なりRejectedも含めてすべての完了を待つ
+- [`import()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import) - Dynamic Import
+- [`import.meta`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import.meta) - `import.meta.url`などが定義されるオブジェクト
 
 ECMAScriptの策定プロセス/リリースプロセスについては次を参照してください。
 
