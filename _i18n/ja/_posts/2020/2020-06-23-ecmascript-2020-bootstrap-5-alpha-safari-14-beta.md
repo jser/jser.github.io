@@ -191,8 +191,6 @@ JavaScriptライブラリのコードリーディングについて
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">slide</span></p>
 
 WebAssemblyでのCross PlatformなUniversal Binaryについてのスライド。
-ネイティブバイナリに比べて28%程度の速度低下でUniversal Binaryが実現できているという話
-
 
 ----
 
