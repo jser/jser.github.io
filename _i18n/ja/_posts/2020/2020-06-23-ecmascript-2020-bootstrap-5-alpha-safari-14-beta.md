@@ -1,15 +1,67 @@
 ---
-title: "2020-06-23のJS: ECMAScript 2020リリース、Bootstrap 5 alpha、Safari 14 Beta "
+title: "2020-06-23のJS: ECMAScript 2020リリース、Bootstrap 5 alpha、Safari 14 Beta"
 author: "azu"
 layout: post
 date : 2020-06-23T02:59:04.220Z
 category: JSer
 tags:
--
+- ECMAScript
+- Bootstrap
+- CSS
+- Safari
 
 ---
 
-JSer.info #493
+JSer.info #493 - ECMAScript 2020がEcma internationalの119th General Assemblyで承認され、正式にリリースされました。
+
+- [Ecma latest news](https://www.ecma-international.org/news/index.html)
+- [proposals/finished-proposals.md at master · tc39/proposals](https://github.com/tc39/proposals/blob/master/finished-proposals.md)
+
+ECMAScript 2020では次のような変更が含まれています。
+
+- for-in mechanics - for...inやObject.keysの順番が仕様で定義された
+- `export * as ns from "mod"` - 構文の追加
+- `String.prototype.matchAll` - マッチしたすべての文字列をイテレータで返す
+- `globalThis` - ブラウザの`window`、Node.jsの`global`へのProxy
+- BigInt - 巨大な整数/7番目のプリミティブ型
+- Optional chaining - `obj?.prop`
+- Nullish coalescing Operator - `??`
+- `Promise.allSettled` - `Promise.all`とは異なりRejectedも含まれてすべての完了を待つ
+- `import()` - Dynamic Import
+- `import.meta` - `import.meta.url`などが定義されるオブジェクト
+
+ECMAScriptの策定プロセス/リリースプロセスについては次を参照してください。
+
+- [ECMAScript · JavaScript Primer #jsprimer](https://jsprimer.net/basic/ecmascript/)
+
+Releated:
+
+- [ECMAScript 2020の対応 · Issue #1145 · asciidwango/js-primer](https://github.com/asciidwango/js-primer/issues/1145)
+- [ECMAScript 2020: the final feature set](https://2ality.com/2019/12/ecmascript-2020.html)
+
+----
+
+Bootstrap 5 alphaがリリースされました。
+
+- [Bootstrap 5 alpha! | Bootstrap Blog](https://blog.getbootstrap.com/2020/06/16/bootstrap-5-alpha/)
+
+破壊的な変更としてjQueryの依存削除、IEのサポートが終了されています。
+CSS Custom Propertiesでのカスタマイズの対応、formやgridの対応改善、Utilities APIの追加なども含まれています。
+
+----
+
+Safari 14 Betaのリリースノートが公開されています。
+
+- [Safari 14 Beta Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari-release-notes/safari-14-beta-release-notes)
+
+WebExtensionsの拡張に対応、HTTP/3のサポート、Flashのサポート終了が含まれています。
+JavaScriptでは、BigInt、EventTargetの継承、Public class fieldのサポート。
+CSSでは、`is()`、`:where()`、image-orientationのサポート。
+その他にはWebP、Picture in Pictureのサポートなども行われています。
+
+詳しくはWWDC20での動画で発表される予定です。
+
+- [Safari and Web - Discover - Apple Developer](https://developer.apple.com/news/?id=e4u1mtfu)
 
 ----
 
