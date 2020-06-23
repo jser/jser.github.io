@@ -15,6 +15,7 @@ tags:
 JSer.info #493 - ECMAScript 2020がEcma internationalの119th General Assemblyで承認され、正式にリリースされました。
 
 - [Ecma latest news](https://www.ecma-international.org/news/index.html)
+- [Release ES2020 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2020)
 - [proposals/finished-proposals.md at master · tc39/proposals](https://github.com/tc39/proposals/blob/master/finished-proposals.md)
 
 ECMAScript 2020では次のような変更が含まれています。
