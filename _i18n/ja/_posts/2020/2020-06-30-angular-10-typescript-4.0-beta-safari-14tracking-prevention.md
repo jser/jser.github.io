@@ -1,15 +1,69 @@
 ---
-title: "2020-06-30のJS: Angular 10、TypeScript 4.0 Beta、Safari 14(Tracking Prevention)"
+title: "2020-06-30のJS: Angular 10、TypeScript 4.0 Beta、Safari 14の変更点(Tracking Prevention)"
 author: "azu"
 layout: post
 date : 2020-06-29T15:29:41.875Z
 category: JSer
 tags:
--
+- Angular
+- TypeScript
+- Safari
 
 ---
 
-JSer.info #494
+JSer.info #494 - Angular 10がリリースされました。
+
+- [Version 10 of Angular Now Available - Angular Blog](https://blog.angular.io/tagged/release-notes)
+- [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/compare/10.0.0-rc.6...10.0.0)
+- [What’s new in Angular 10 | InfoWorld](https://www.infoworld.com/article/3537449/whats-new-in-angular-10.html)
+
+依存するTypeScriptがそれぞれ[TypeScript 3.9](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html)、[TSLib 2.0](https://github.com/microsoft/tslib/releases/tag/2.0.0)、[TSLint 6](https://github.com/palantir/tslint/releases/tag/6.0.0)にアップデートされています。
+
+Angular MaterialにDate Range Pickerの追加されています。
+CommonJSを取り込むと警告がでるようになりES Momodulesを使うことを推奨するようになりました。
+`ng new`に`--strict`オプションの追加され、TypeScriptなどのビルド時の`strict`フラグをまとめて有効化できるようになっています。
+また新しいプロジェクトでのデフォルトのbrowserslistsが更新され、ES5のビルドを生成しないようになっています。
+
+----
+
+TypeScript 4.0 Betaがリリースされました。
+
+- [Announcing TypeScript 4.0 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0-beta/)
+
+Variadic Tuple Types、Labeled Tuple Elements、コンストラクタからClass Propertyの推論ができるようになっています
+また`catch`節の変数（識別子）の型として`unknown`を指定できるようになっています。
+その他にはStage 3のlogical assignmentをサポート、`jsxFragmentFactory`オプションのサポート、VSCodeで起動速度を向上させるためのPartial Editing Modeのサポートなどが含まれています。
+
+----
+
+Safari 14のBetaが公開されていますが、同様の変更内容を含むSafari Technology Previewが公開されています。
+
+- [Release Notes for Safari Technology Preview 109 with Safari 14 Features | WebKit](https://webkit.org/blog/10875/release-notes-for-safari-technology-preview-109-with-safari-14-features/)
+- [Safari 14 Beta Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari-release-notes/safari-14-beta-release-notes)
+
+また、[Tracking Prevention in WebKit | WebKit](https://webkit.org/tracking-prevention/)というドキュメントでは、
+Safariのトラッキング防止に関する用語の解説や具体的にブロックするものについて解説されています。
+Fingerprintingが可能になる可能性があるため、次のAPIを実装する予定がないことについても書かれています。
+
+- Web Bluetooth
+- Web MIDI API
+- Magnetometer API
+- Web NFC API
+- Device Memory API
+- Network Information API
+- Battery Status API
+- Ambient Light Sensor
+- HDCP Policy Check extension for EME
+- Proximity Sensor
+- WebHID
+- Serial API
+- Web USB
+- Geolocation Sensor (background geolocation)
+- User Idle Detection
+
+FirefoxもこれらのAPIのうちいくつかに関しては`harmful`という立場を示しています。
+
+- [Mozilla Specification Positions](https://mozilla.github.io/standards-positions/)
 
 ----
 
