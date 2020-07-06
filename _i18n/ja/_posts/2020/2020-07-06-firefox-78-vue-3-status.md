@@ -54,7 +54,7 @@ Vue 3のリリーススケジュールや提案されているRFCなどのステ
 その他にも、Vue 3リリース以降に入るかもしれないRFCなども出ているので、次のURLも参照してみてください。
 
 - [SFC Improvements by yyx990803 · Pull Request #182 · vuejs/rfcs](https://github.com/vuejs/rfcs/pull/182)
-- [Weekly Vue 2020-07-05 - DEV Community 👩‍💻👨‍💻](https://github.com/vuejs/rfcs/blob/sfc-improvements/active-rfcs/0000-sfc-style-variables.md)
+- [Weekly Vue 2020-07-05 - DEV Community 👩‍💻👨‍💻](https://dev.to/rabspice/weekly-vue-2020-07-05-4b12)
 
 ----
 
