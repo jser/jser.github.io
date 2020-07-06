@@ -1,15 +1,60 @@
 ---
-title: "2020-07-06のJS: Vue 3 Statusとリリーススケジュール、Firefox 78"
+title: "2020-07-06のJS: Firefox 78、Vue 3 Statusとリリーススケジュール"
 author: "azu"
 layout: post
 date : 2020-07-06T13:25:56.945Z
 category: JSer
 tags:
--
+- Firefox
+- Vue
 
 ---
 
-JSer.info #495
+JSer.info #495 - Firefox 78がリリースされました。
+
+- [New in Firefox 78: DevTools improvements, new regex engine, and abundant web platform updates - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2020/06/new-in-firefox-78/)
+- [Firefox 78.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/78.0/releasenotes/)
+- [Firefox 78 for developers - Mozilla | MDN](https://developer.mozilla.org/ja/docs/Mozilla/Firefox/Releases/78)
+
+Firefox 78は[Firefox Extended Support Release](https://support.mozilla.org/kb/choosing-firefox-update-channel)(ESR)のアップデートとなるバージョンです。また、前回のESR(Firefox 68相当)ではService Workerは無効化されていましたが、Firefox 78 ESRではサポートされています。
+
+- <https://support.mozilla.org/ja/kb/firefox-enterprise-78-release-notes>
+
+Firefox 78では開発者ツールが改善されています。
+コンソールにPromiseのエラーをより詳細に表示、ネットワークパネルでリクエストの失敗理由の表示するなどの変更が含まれています。
+
+CSSでは`:is`と`:where`のサポート、`:read-only`と`:read-write`のprefixなしをサポートしています。
+また正規表現エンジンを新しくしたことでES2018のNamed Cature Groupsなどをサポートしています。
+
+- [A New RegExp Engine in SpiderMonkey - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2020/06/a-new-regexp-engine-in-spidermonkey/)
+
+その他にはTLS 1.0と1.1がデフォルトで無効化される変更が含まれています。
+
+- [TLS 1.0/1.1 対応が初期設定で無効化されました (影響あり) | Firefox サイト互換性情報](https://www.fxsitecompat.dev/ja/docs/2020/tls-1-0-1-1-support-has-been-disabled-by-default/)
+
+----
+
+Vue 3のリリーススケジュールや提案されているRFCなどのステータスが公開されています。
+
+- [Vue 3: mid 2020 status update · Issue #183 · vuejs/rfcs](https://github.com/vuejs/rfcs/issues/183)
+
+元々は2020年前半のリリース予定でしたが、Vue 3 RCを7月中旬に、Vue 3を8月上旬に出す予定とのことです。
+ロードマップについては次のProject boardでも管理されています。
+
+- [Roadmap](https://github.com/vuejs/vue/projects/6)
+
+このIssueでは、関連するパッケージのステータスや[JSXサポートに関する議論](https://github.com/vuejs/jsx/issues/141)について紹介されています。
+
+関連する話として、Vue 2向けのVue3 Composition APIを提供する[@vue/composition-api](https://github.com/vuejs/composition-api) [v1.0.0-beta.1](https://github.com/vuejs/composition-api/releases/tag/v1.0.0-beta.1)がリリースされています。
+また、Vue 2とVue 3どちらにも対応するライブラリを作るためのツールキットであるvue-demiが公開されています。
+
+- [antfu/vue-demi: 🎩 Creates Universal Library for Vue 2 & 3](https://github.com/antfu/vue-demi)
+- [Make Libraries Working with Vue 2 and 3 - Anthony Fu](https://antfu.me/posts/make-libraries-working-with-vue-2-and-3/)
+
+その他にも、Vue 3リリース以降に入るかもしれないRFCなども出ているので、次のURLも参照してみてください。
+
+- [SFC Improvements by yyx990803 · Pull Request #182 · vuejs/rfcs](https://github.com/vuejs/rfcs/pull/182)
+- [Weekly Vue 2020-07-05 - DEV Community 👩‍💻👨‍💻](https://github.com/vuejs/rfcs/blob/sfc-improvements/active-rfcs/0000-sfc-style-variables.md)
 
 ----
 
@@ -34,7 +79,7 @@ Firefox 78リリース。ESRの更新バージョン。
 コンソールにPromiseのエラーをより詳細に表示、ネットワークパネルでリクエストの失敗理由の表示などの開発者ツールの改善。
 CSSの`:is`と`:where`のサポート、`:read-only`と`:read-write`のprefixなしをサポート。
 正規表現のNamed Cature Groupsをサポート、`ParentNode.replaceChildren`のサポート。
-TLS 1.0と1.1の削除など
+TLS 1.0と1.1をデフォルトで無効化など
 
 - [Firefox 78.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/78.0/releasenotes/ "Firefox 78.0, See All New Features, Updates and Fixes")
 - [Firefox 78 for developers - Mozilla | MDN](https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/78 "Firefox 78 for developers - Mozilla | MDN")
