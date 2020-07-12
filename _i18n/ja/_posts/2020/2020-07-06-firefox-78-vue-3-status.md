@@ -24,7 +24,7 @@ Firefox 78では開発者ツールが改善されています。
 コンソールにPromiseのエラーをより詳細に表示、ネットワークパネルでリクエストの失敗理由の表示するなどの変更が含まれています。
 
 CSSでは`:is`と`:where`のサポート、`:read-only`と`:read-write`のprefixなしをサポートしています。
-また正規表現エンジンを新しくしたことでES2018のNamed Cature Groupsなどをサポートしています。
+また正規表現エンジンを新しくしたことでES2018のNamed Capture Groupsなどをサポートしています。
 
 - [A New RegExp Engine in SpiderMonkey - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2020/06/a-new-regexp-engine-in-spidermonkey/)
 
