@@ -144,7 +144,7 @@ GraphQL ClientのApollo Client 3.0リリース。
 
 style属性でCSS Custom Propertyを指定することで、CSSに対して値を渡す方法について。
 
-- [なぜ私たちはCSSフレームワークを使わないのか - Scott Tolinksi氏、Reactive Conf](https://www.infoq.com/jp/profile/-Shoji-Shigeki/ "なぜ私たちはCSSフレームワークを使わないのか - Scott Tolinksi氏、Reactive Conf")
+- [なぜ私たちはCSSフレームワークを使わないのか - Scott Tolinksi氏、Reactive Conf](https://www.infoq.com/jp/news/2020/07/css-variables-design-systems/ "なぜ私たちはCSSフレームワークを使わないのか - Scott Tolinksi氏、Reactive Conf")
 
 ----
 
