@@ -1,15 +1,65 @@
 ---
-title: "2020-07-21のJS:  Chrome 84(SameSite Cookie)、Vue 3 RC、React Spectrum"
+title: "2020-07-21のJS: Chrome 84(SameSite Cookie)、Vue 3 RC、React Spectrum"
 author: "azu"
 layout: post
 date : 2020-07-21T02:20:24.850Z
 category: JSer
 tags:
--
+- Chrome
+- Vue
+- React
 
 ---
 
-JSer.info #497
+JSer.info #497 - Chrome 84がリリースされました。
+
+- [New in Chrome 84  |  Web  |  Google Developers](https://developers.google.com/web/updates/2020/07/nic84)
+- [Chromium Blog: Chrome 84 Beta: Web OTP, Web Animations, New Origin Trials and More](https://blog.chromium.org/2020/05/chrome-84-beta-web-otp-web-animations.html)
+- [Chrome Platform Status: milestone=84](https://www.chromestatus.com/features#milestone%3D84)
+
+
+Web animations APIの対応改善、Content Indexing API、Wake lock API、`WeakRef`のサポートなどが含まれています。
+また、Origin trialsとしてIdle detection、Web Assembly SIMDのサポートされています。
+
+- [Fast, parallel applications with WebAssembly SIMD · V8](https://v8.dev/features/simd)
+
+元々Chrome 80でロールアウト予定だったSame Site Cookieのロールアウトの再開がされています。
+
+- [Chromium Blog: Resuming SameSite Cookie Changes in July](https://blog.chromium.org/2020/05/resuming-samesite-cookie-changes-in-july.html)
+
+その他にはTLS 1.0と1.1のサポートの削除されています。
+実際にTLS 1.0や1.1での接続を確認するには[badssl\.com](https://badssl.com/)などが利用できます。
+
+この変更はFirefoxとSafariでも予定されています。
+
+- [Release Notes for Safari Technology Preview 91 | WebKit](https://webkit.org/blog/9526/release-notes-for-safari-technology-preview-91/)
+- [TLS 1.0/1.1 対応が初期設定で無効化されました (影響あり) | Firefox サイト互換性情報](https://www.fxsitecompat.dev/ja/docs/2020/tls-1-0-1-1-support-has-been-disabled-by-default/)
+
+----
+
+Vue 3 RCがリリースされています。
+
+- [Vue 3 is now in RC! · Issue #189 · vuejs/rfcs](https://github.com/vuejs/rfcs/issues/189)
+
+Vue 3の正式リリースは8月の予定です。
+RCのリリースに合わせて、マイグレーションガイドが公開されています。
+
+- [Introduction | Vue.js](https://v3.vuejs.org/guide/migration/introduction.html)
+
+RCではまだIE11サポートが完了していないため、正式リリースまでには対応していく予定とのことです。
+
+----
+
+Adobeからデザインシステム向けのReactフレームワークが公開されています。
+
+- [adobe/react-spectrum: A collection of libraries and tools that help you build adaptive, accessible, and robust user experiences.](https://github.com/adobe/react-spectrum)
+- [React Spectrum Libraries](https://react-spectrum.adobe.com/index.html)
+
+[React Aria](https://react-spectrum.adobe.com/react-aria/getting-started.html)はWAI-ARIAに対応する機能を提供するReact Hook、[React Stately](https://react-spectrum.adobe.com/react-stately/getting-started.html)は一般的なコンポーネントの状態管理をするReact Hooksです。
+これらはデザインよりもWAI-ARIAやキーボード操作などのアクセシビリティ、i18の仕組みなどを提供することが目的で、他のデザインシステムでも利用できるような作りになっています。
+
+また、これを利用したAdobeのデザインシステムのReactコンポーネントの実装のライブラリとして[React Spectrum](https://react-spectrum.adobe.com/react-spectrum/getting-started.html)が公開されています。
+
 
 ----
 
@@ -17,8 +67,8 @@ JSer.info #497
 
 ----
 
-## New in Chrome 84  |  Web  |  Google Developers
-[developers.google.com/web/updates/2020/07/nic84](https://developers.google.com/web/updates/2020/07/nic84 "New in Chrome 84  |  Web  |  Google Developers")
+## New in Chrome 84  |  Web  |  Google Developers
+[developers.google.com/web/updates/2020/07/nic84](https://developers.google.com/web/updates/2020/07/nic84 "New in Chrome 84  |  Web  |  Google Developers")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Chrome 84リリース。
