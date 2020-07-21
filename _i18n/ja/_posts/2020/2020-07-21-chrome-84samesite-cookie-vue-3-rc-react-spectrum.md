@@ -56,9 +56,9 @@ Adobeからデザインシステム向けのReactフレームワークが公開�
 - [React Spectrum Libraries](https://react-spectrum.adobe.com/index.html)
 
 [React Aria](https://react-spectrum.adobe.com/react-aria/getting-started.html)はWAI-ARIAに対応する機能を提供するReact Hooks、[React Stately](https://react-spectrum.adobe.com/react-stately/getting-started.html)は一般的なコンポーネントの状態管理をするReact Hooksです。
-これらはデザインよりもWAI-ARIAやキーボード操作などのアクセシビリティ、i18の仕組みなどを提供することが目的で、他のデザインシステムでも利用できるような作りになっています。
+これらはWAI-ARIAやキーボード操作などのアクセシビリティ、i18の仕組みなどを提供することが目的で、他のデザインシステムでも利用できるような作りになっています。
 
-また、これを利用したAdobeのデザインシステムのReactコンポーネントの実装のライブラリとして[React Spectrum](https://react-spectrum.adobe.com/react-spectrum/getting-started.html)が公開されています。
+また、これらを利用したAdobeのデザインシステムのReactコンポーネントの実装のライブラリとして[React Spectrum](https://react-spectrum.adobe.com/react-spectrum/getting-started.html)が公開されています。
 
 
 ----
