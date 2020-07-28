@@ -1,15 +1,49 @@
 ---
-title: "2020-07-28のJS:  SvelteのTypeScriptサポート、Chrome 85 beta、Web Speed Hackathon Online"
+title: "2020-07-28のJS: SvelteのTypeScriptサポート、Chrome 85 beta、Web Speed Hackathon Online"
 author: "azu"
 layout: post
 date : 2020-07-28T02:42:16.641Z
 category: JSer
 tags:
--
+- TypeScript
+- Chrome
+- Performance
 
 ---
 
-JSer.info #498
+JSer.info #498 - UIフレームワークであるSvelteであるSvelteがTypeScriptをサポートしました。
+
+- [Svelte <3 TypeScript](https://svelte.dev/blog/svelte-and-typescript)
+
+記事ではSveleteのテンプレート内でTypScriptを使う方法とエディタでのLSP([Language Server Protocol](https://langserver.org/)))を使ったコード補完の方法について紹介しています。
+
+----
+
+Chrome 85 betaがリリースされました。
+
+- [Chromium Blog: Chrome 85: Upload Streaming, Human Interface Devices, Custom Properties with Inheritance and More](https://blog.chromium.org/2020/07/chrome-85-upload-streaming-human.html)
+- [Chrome Platform Status](https://www.chromestatus.com/features#milestone%3D85)
+- [V8 release v8.5 · V8](https://v8.dev/blog/v8-release-85)
+
+Origin Trialとして[Fetch upload streaming](https://web.dev/fetch-upload-streaming/)、[WebHID](https://github.com/WICG/webhid)、[Declarative Shadow DOM](https://www.chromestatus.com/feature/5191745052606464)、[Portals](https://web.dev/hands-on-portals/)がサポートされています。
+また、Mixed Contentの画像に関するAutoupgradeの追加、AVIFフォーマットのサポート、CSSの`conetnt-visibility`、`counter-set`プロパティのサポートなども追加されています。
+[非推奨、破壊的な変更](https://developers.google.com/web/updates/2020/07/chrome-85-deps-rems)としては、`color-scheme`プロパティの`only`を削除、Referrer Policyのデフォルト値を`strict-origin-when-cross-origin`に変更。Cookieで`Secure`属性がない`SameSite=None`のサポート終了などが含まれています。
+
+Chrome 85に含まれるJavaScriptのアップデートはV8のブログの方にまとまっています。
+[2020-07のTC39 ミーティング](https://ecmascript-daily.github.io/ecmascript/2020/07/26/ecmascript-proposal-update)で[Stage 4](https://github.com/tc39/proposals/blob/master/finished-proposals.md)となった`Promise.any`と`AggregateError`、Logical assignment operatorsが実装されています。
+また、同様にStage 4でES2021に入る予定の`String#replaceAll`も実装されています。
+その他には、WebAssemblyでMulti-valueのサポート、BigIntsの値を渡せるようになるといった変更も含まれています。
+
+- [V8 release v8.5 · V8](https://v8.dev/blog/v8-release-85)
+
+----
+
+[WIC Speed Hackathon Online](https://github.com/CyberAgentHack/web-speed-hackathon-online)というウェブアプリケーションのパフォーマンス改善を競うハッカソンの課題と解説が公開されています。
+
+- [Web Speed Hackathon Online 出題のねらいと解説 · CyberAgentHack/web-speed-hackathon-online Wiki](https://github.com/CyberAgentHack/web-speed-hackathon-online/wiki/Web-Speed-Hackathon-Online-%E5%87%BA%E9%A1%8C%E3%81%AE%E3%81%AD%E3%82%89%E3%81%84%E3%81%A8%E8%A7%A3%E8%AA%AC)
+
+解説では、パフォーマンスのポイントやどのように改善していくのかについて解説しています。
+ビルド(主にフロントエンド)、フロントエンド、バックエンドの項目に大きく分けて解説されています。
 
 ----
 
