@@ -11,7 +11,7 @@ tags:
 
 ---
 
-JSer.info #498 - UIフレームワークであるSvelteであるSvelteがTypeScriptをサポートしました。
+JSer.info #498 - UIフレームワークであるSvelteがTypeScriptをサポートしました。
 
 - [Svelte <3 TypeScript](https://svelte.dev/blog/svelte-and-typescript)
 
