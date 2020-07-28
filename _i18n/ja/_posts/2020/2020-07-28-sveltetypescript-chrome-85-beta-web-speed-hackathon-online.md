@@ -151,7 +151,7 @@ WebWorkerで利用できるAPIについてブラウザごとにまとめた対�
 [blog.joshuakgoldberg.com/ts-expect-error/](http://blog.joshuakgoldberg.com/ts-expect-error/ "TypeScript Contribution Diary: // @ts-expect-error | Goldblog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
 
-`@ts-expect-error`wおどのように実装したのかについて
+`@ts-expect-error`をどのように実装したのかについて
 
 
 ----
