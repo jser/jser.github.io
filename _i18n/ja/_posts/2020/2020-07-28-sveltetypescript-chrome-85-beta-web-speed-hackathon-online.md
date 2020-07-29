@@ -15,7 +15,7 @@ JSer.info #498 - UIフレームワークであるSvelteがTypeScriptをサポー
 
 - [Svelte <3 TypeScript](https://svelte.dev/blog/svelte-and-typescript)
 
-記事ではSvelteのテンプレート内でTypScriptを使う方法とエディタでのLSP([Language Server Protocol](https://langserver.org/)))を使ったコード補完の方法について紹介しています。
+記事ではSvelteのテンプレート内でTypeScriptを使う方法とエディタでのLSP([Language Server Protocol](https://langserver.org/)))を使ったコード補完の方法について紹介しています。
 
 ----
 
