@@ -26,7 +26,7 @@ Chrome 85 betaがリリースされました。
 - [V8 release v8.5 · V8](https://v8.dev/blog/v8-release-85)
 
 Origin Trialとして[Fetch upload streaming](https://web.dev/fetch-upload-streaming/)、[WebHID](https://github.com/WICG/webhid)、[Declarative Shadow DOM](https://www.chromestatus.com/feature/5191745052606464)、[Portals](https://web.dev/hands-on-portals/)がサポートされています。
-また、Mixed Contentの画像に関するAutoupgradeの追加、AVIFフォーマットのサポート、CSSの`conetnt-visibility`、`counter-set`プロパティのサポートなども追加されています。
+また、Mixed Contentの画像に関するAutoupgradeの追加、AVIFフォーマットのサポート、CSSの`content-visibility`、`counter-set`プロパティのサポートなども追加されています。
 [非推奨、破壊的な変更](https://developers.google.com/web/updates/2020/07/chrome-85-deps-rems)としては、`color-scheme`プロパティの`only`を削除、Referrer Policyのデフォルト値を`strict-origin-when-cross-origin`に変更。Cookieで`Secure`属性がない`SameSite=None`のサポート終了などが含まれています。
 
 Chrome 85に含まれるJavaScriptのアップデートはV8のブログの方にまとまっています。
@@ -110,7 +110,7 @@ WebAssemblyでMulti-valueのサポート、BigIntsの値を渡せるようにな
 
 Chrome 85 beta リリース。
 Origin TrialとしてFetch upload streaming、WebHID、Declarative Shadow DOM、Portalsのサポート。
-Mixed Contentの画像に関するAutoupgradeの追加、AVIFフォーマットのサポート、CSSの`conetnt-visibility`、`counter-set`プロパティのサポート。
+Mixed Contentの画像に関するAutoupgradeの追加、AVIFフォーマットのサポート、CSSの`content-visibility`、`counter-set`プロパティのサポート。
 `color-scheme`プロパティの`only`を削除、Referrer Policyのデフォルト値を`strict-origin-when-cross-origin`に変更。Cookieで`Secure`属性がない`SameSite=None`のサポート終了など
 
 
