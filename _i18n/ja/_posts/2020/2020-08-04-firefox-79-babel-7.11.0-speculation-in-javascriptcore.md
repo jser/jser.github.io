@@ -46,7 +46,7 @@ Babel 7.11.0がリリースされました。
 
 ----
 
-[Speculation in JavaScriptCore | WebKit](https://webkit.org/blog/189/announcing-squirrelfish/)という記事ではWebKitのJavaScriptCoreの投機的コンパイラでのJavaScriptの最適化について解説されています。
+[Speculation in JavaScriptCore | WebKit](https://webkit.org/blog/10308/speculation-in-javascriptcore/)という記事ではWebKitのJavaScriptCoreの投機的コンパイラでのJavaScriptの最適化について解説されています。
 
 投機処理、JITコンパイラなどについてかなり詳しく解説されているので興味がある人は読んでみると良さそうです。
 とても長い記事/スライドなので、一番下のRelated WorkとConclusionから読んでみるとどういう話をしているかがつかみやすいかもしれません。
