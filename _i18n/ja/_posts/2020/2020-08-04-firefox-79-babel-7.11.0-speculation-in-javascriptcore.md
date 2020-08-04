@@ -5,11 +5,51 @@ layout: post
 date : 2020-08-04T02:14:59.068Z
 category: JSer
 tags:
--
+- Firefox
+- Babel
+- WebKit
+- JavaScriptCore
 
 ---
 
-JSer.info #499
+JSer.info #499 - Firefox 79がリリースされました。
+
+- [Firefox 79: The safe return of shared memory, new tooling, and platform updates - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2020/07/firefox-79/)
+- [Firefox 79 for developers - Mozilla | MDN](https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/79)
+
+非同期処理のスタックトレースのサポート、デバッガの改善が行われています。
+`target=_blank`のリンクに対して暗黙的に`rel=noopener`を同じ扱いをするようになりました。
+また、`crossOriginIsolated`が有効の場合に`SharedArrayBuffer`が利用可能になっています。
+
+詳しくは次の記事で解説されています。
+
+- [Safely reviving shared memory - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2020/07/safely-reviving-shared-memory/)
+- [Why you need "cross-origin isolated" for powerful features](https://web.dev/why-coop-coep/)
+
+
+JavaScriptではStage 4の`Promise.any`、Logical assignment、WeakRefのサポートしています。
+WebAssemblyのBulk memory operations、Reference types、Threads のサポートなども含まれています。
+
+----
+
+Babel 7.11.0がリリースされました。
+
+- [7.11.0 Released: ECMAScript 2021 support in preset-env, TypeScript 4.0 support, printing config and the future of `babel-eslint` · Babel](https://babeljs.io/blog/2020/07/30/7.11.0)
+
+`@babel/preset-env`にStage 4となったProposalのLogical Assignment、Numeric Separatorのサポートが追加されています。
+[TypeScript 4.0で追加される構文](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0-beta/)のサポートが追加されています。
+また、Stage 1の[Decimal Literal](https://github.com/tc39/proposal-decimal)の構文パースをサポート、`BABEL_SHOW_CONFIG_FOR`での設定出力をサポートしています。
+
+- [feat: add SHOW_CONFIG docs by JLHwung · Pull Request #2302 · babel/website](https://github.com/babel/website/pull/2302)
+
+また[`babel-eslint`](https://github.com/babel/babel-eslint)がmonorepo内の[`@babel/eslint-parser`](https://github.com/babel/babel/tree/main/eslint/babel-eslint-parser)に移動しています。
+
+----
+
+[Speculation in JavaScriptCore | WebKit](https://webkit.org/blog/189/announcing-squirrelfish/)という記事ではWebKitのJavaScriptCoreの投機的コンパイラでのJavaScriptの最適化について解説されています。
+
+投機処理、JITコンパイラなどについてかなり詳しく解説されているので興味がある人は読んでみると良さそうです。
+とても長い記事/スライドなので、一番下のRelated WorkとConclusionから読んでみるとどういう話をしているかがつかみやすいかもしれません。
 
 ----
 
@@ -27,8 +67,8 @@ Firefox 79リリース。
 Stage 4の`Promise.any`、Logical assignment、WeakRefのサポート。
 WebAssemblyのBulk memory operations、Reference types、Threads のサポートなど
 
-- [Firefox 79.0, See All New Features, Updates and Fixes]((https://www.mozilla.org/en-US/firefox/79.0/releasenotes/) "Firefox 79.0, See All New Features, Updates and Fixes")
-- [Firefox 79 for developers - Mozilla | MDN]((https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/79) "Firefox 79 for developers - Mozilla | MDN")
+- [Firefox 79.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/79.0/releasenotes/)
+- [Firefox 79 for developers - Mozilla | MDN](https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/79)
 
 ----
 
@@ -48,7 +88,7 @@ FirefoxでSpectreへの対応として無効になっていた`SharedArrayBuffer
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Babel 7.11.0リリース。
-Stage 4となったProposalのLogical Assignment、Numeric Separatorのサポート、TypeScript 4.0で追加される構文のサポート。
+`@babel/preset-env`がStage 4となったProposalのLogical Assignment、Numeric Separatorのサポート、TypeScript 4.0で追加される構文のサポート。
 Stage 1のDecimal Literalをサポート、`BABEL_SHOW_CONFIG_FOR`での設定出力をサポート、`babel-eslint`が`@babel/eslint-parser`に移動など
 
 
