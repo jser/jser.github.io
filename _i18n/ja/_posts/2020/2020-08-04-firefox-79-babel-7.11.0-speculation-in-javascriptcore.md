@@ -18,7 +18,7 @@ JSer.info #499 - Firefox 79がリリースされました。
 - [Firefox 79 for developers - Mozilla | MDN](https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/79)
 
 非同期処理のスタックトレースのサポート、デバッガの改善が行われています。
-`target=_blank`のリンクに対して暗黙的に`rel=noopener`を同じ扱いをするようになりました。
+`target=_blank`のリンクに対して暗黙的に`rel=noopener`と同じ扱いをするようになりました。
 また、`crossOriginIsolated`が有効の場合に`SharedArrayBuffer`が利用可能になっています。
 
 詳しくは次の記事で解説されています。
