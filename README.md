@@ -20,9 +20,10 @@ JSer.info に関するIssueは以下のどちらに立てても問題ありま�
 * [jser/jser.github.io](https://github.com/jser/jser.github.io "jser/jser.github.io") はサイトそのものについて
 * [jser/jser.info](https://github.com/jser/jser.info "jser/jser.info") はその他全般
 
-Gitterは共通で使用していますので、気になったことは以下に書き込んで下さい。
+JSer.infoのSlackワークスペースは次のURLから参加できます。
+JSer.infoに関する質問を気軽にしていただいて大丈夫です。
 
-[![Gitter chat](https://badges.gitter.im/jser/jser.info.png)](https://gitter.im/jser/jser.info)
+[JSer.info Slack](https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A)
 
 ## Installation
 
