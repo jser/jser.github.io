@@ -58,7 +58,7 @@ Chromium 85、V8 8.5、Node.js 12.16へアップデートされています。
 - [Electron 9.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-9-0)
 - [electron/breaking-changes.md at master · electron/electron](https://github.com/electron/electron/blob/master/docs/breaking-changes.md)
 
-その他には、`contents.backgroundThrottling`プロパティの追加、`sameSite`情報を取得できるように、`worldSafeExecuteJavaScript`オプションが追加されています。
+その他には、`contents.backgroundThrottling`プロパティの追加、C`sameSite`情報を取得できるように、`worldSafeExecuteJavaScript`オプションが追加されています。
 
 
 ----
