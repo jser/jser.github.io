@@ -22,7 +22,7 @@ Variadic Tuple Types、Labeled Tuple Elements、Class Propertyの型がConstruct
 Babel、PreitterはTypeScript 4.0に対応したバージョンがそれぞれリリースされています。
 
 - [7.11.0 Released: ECMAScript 2021 support in preset-env, TypeScript 4.0 support, printing config and the future of `babel-eslint` · Babel](https://babeljs.io/blog/2020/07/30/7.11.0)
-- [Prettier 2.1: new --embedded-language-formatting option and new JavaScript/TypeScript features! · Prettier](https://prettier.io/blog/2019/04/12/1.17.0.html)
+- [Prettier 2.1: new --embedded-language-formatting option and new JavaScript/TypeScript features! · Prettier](https://prettier.io/blog/2020/08/24/2.1.0.html)
 
 TypeScript-ESLintについては次のIssueを参照してください。
 
