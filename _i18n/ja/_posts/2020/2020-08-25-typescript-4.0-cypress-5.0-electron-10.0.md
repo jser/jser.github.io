@@ -2,14 +2,64 @@
 title: "2020-08-25のJS: TypeScript 4.0、Cypress 5.0、Electron 10.0"
 author: "azu"
 layout: post
-date : 2020-08-25T02:41:08.559Z
+date : 2020-08-25T02:59:14.022Z
 category: JSer
 tags:
--
+- TypeScript
+- Testing
+- Electron
 
 ---
 
-JSer.info #502
+JSer.info #502 - TypeScript 4.0が正式にリリースされました。
+
+- [Announcing TypeScript 4.0 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/)
+
+Variadic Tuple Types、Labeled Tuple Elements、Class Propertyの型がConstructorから推論されるようになるなどの型機能の改善がされています。
+また、ES2021で入る予定の[Logical Operators and Assignment Expressions](https://github.com/tc39/proposal-logical-assignment)がサポートされています。
+その他には`catch`節のデフォルトが`unknown`となるように変更され、`jsxFragmentFactory`オプションのサポート、`--incremental`と`--noEmit`の組み合わせをサポートが追加されています。
+
+Babel、PreitterはTypeScript 4.0に対応したバージョンがそれぞれリリースされています。
+
+- [7.11.0 Released: ECMAScript 2021 support in preset-env, TypeScript 4.0 support, printing config and the future of `babel-eslint` · Babel](https://babeljs.io/blog/2020/07/30/7.11.0)
+- [Prettier 2.1: new --embedded-language-formatting option and new JavaScript/TypeScript features! · Prettier](https://prettier.io/blog/2019/04/12/1.17.0.html)
+
+TypeScript-ESLintについては次のIssueを参照してください。
+
+- [TypeScript 4.0 Syntax Support · Issue #2260 · typescript-eslint/typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/issues/2260#issuecomment-677853883)
+
+----
+
+E2EテストフレームワークのCypress 5.0がリリースされました。
+
+- [Release 5.0.0 · cypress-io/cypress](https://github.com/cypress-io/cypress/releases/tag/v5.0.0)
+
+
+`cypress-plugin-retries`が非推奨化され、Cypress自体でリトライの設定できるようになっています。
+詳しくは次の記事で解説されています。
+
+- [Introducing Test Retries in Cypress 5.0](https://www.cypress.io/blog/2020/08/19/introducing-test-retries-in-cypress-5-0/)
+
+サポート対象をTypeScript 3.4+、Node.js 10+に変更、テストファイル内に書かれた`__dirname`と`__filename`の末尾に`/`が含まれなくなるなどの変更も含まれています。
+
+----
+
+Electron 10.0がリリースされました。
+
+[Release electron v10.0.0 · electron/electron](https://github.com/electron/electron/releases/tag/v10.0.0)
+
+Chromium 85、V8 8.5、Node.js 12.16へアップデートされています。
+また`enableRemoteModule`を`false`に変更、`app.allowRendererProcessReuse`を`true`に変更されています。
+
+`remote`モジュールはユーザーランドに移行するため、そのための段階的な変更として`enableRemoteModule`オプションが導入され、デフォルト値が`false`(無効)となりました。
+詳しくは次のIssueや予定されている破壊的変更のドキュメントを参照してください。
+
+- [Deprecate the 'remote' module and move it to userland · Issue #21408 · electron/electron](https://github.com/electron/electron/issues/21408)
+- [Electron 9.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-9-0)
+- [electron/breaking-changes.md at master · electron/electron](https://github.com/electron/electron/blob/master/docs/breaking-changes.md)
+
+その他には、`contents.backgroundThrottling`プロパティの追加、`sameSite`情報を取得できるように、`worldSafeExecuteJavaScript`オプションが追加されています。
+
 
 ----
 
@@ -79,6 +129,17 @@ Electron 10.0.0リリース。
 Chromium 85、V8 8.5、Node.js 12.16へアップデート。
 `enableRemoteModule`を`false`に変更、`app.allowRendererProcessReuse`を`true`に変更。
 `contents.backgroundThrottling`プロパティの追加、`sameSite`情報を取得できるように、`worldSafeExecuteJavaScript`オプションの追加など
+
+
+----
+
+## Prettier 2.1: new --embedded-language-formatting option and new JavaScript/TypeScript features! · Prettier
+[prettier.io/blog/2020/08/24/2.1.0.html](https://prettier.io/blog/2020/08/24/2.1.0.html "Prettier 2.1: new --embedded-language-formatting option and new JavaScript/TypeScript features! · Prettier")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Prettier 2.1リリース。
+`--embedded-language-formatting`フラグの追加、`--ignore-unknown`フラグの追加、TypeScript 4.0のサポート。
+ES ProposalのPipeline operator、Record and Tuple構文のサポートなど
 
 
 ----
