@@ -1,15 +1,51 @@
 ---
-title: "2020-09-08のJS:  Chrome 86ベータ、Underscore 1.11.0(ESM)、JavaScript Primer v2"
+title: "2020-09-08のJS: Chrome 86ベータ、Underscore 1.11.0(ESM)、JavaScript Primer v2"
 author: "azu"
 layout: post
 date : 2020-09-08T03:28:31.282Z
 category: JSer
 tags:
--
+- Chrome
+- Underscore
+- book
 
 ---
 
-JSer.info #504
+JSer.info #504 - Chrome 86ベータがリリースされました。
+
+- [Chromium Blog: Chrome 86: Improved Focus Highlighting, WebHID, and More](https://blog.chromium.org/2020/09/chrome-86-improved-focus-highlighting.html)
+
+CSS 擬似クラスの`:focus-visible`、擬似要素の`::marker`をサポートされています。
+Document Policy、`FetchEvent.handled`、Shadow DOM Distribution API、`ParentNode.replaceChildren()`のサポートなどのサポートも追加されています。
+また、Origin TrialとしてWebHID API、Window placement API、`<meta name="battery-savings">`などの試験的に利用できるようになっています。
+
+その他にはFTPのサポートの段階的な廃止が導入されていて、Chrome 86ではFTPが非推奨となりました。
+Chrome 87でデフォルトで無効となり、Chrome 88でコードベースから削除される予定です。
+
+- [Deprecate FTP support - Chrome Platform Status](https://www.chromestatus.com/feature/6246151319715840)
+
+----
+
+Underscore 1.11.0がリリースされています。
+
+- [Underscore.js 1.11.0](https://underscorejs.org/#1.11.0)
+
+このリリースでは、ECMAScript Modules(ESM)に対応した形式でパッケージを公開する変更が含まれています。この変更のために、Underscoreのコードベースがそれぞれの関数ごとにモジュール化されています。
+
+また、この変更行った[Julian Gonggrijp](https://github.com/jgonggrijp)によるUndescoreのモジュール版の利用方法について解説記事が公開されています。
+
+- [Introducing Modular Underscore—Julian Gonggrijp](https://juliangonggrijp.com/article/introducing-modular-underscore.html)
+
+記事では、既存(モノリシック)の使い方とES Modulesの使い方、ビルドサイズの最適化、Underscore 2.0などについて書かれています。
+
+----
+
+JavaScriptの入門書である[JavaScript Primer](https://jsprimer.net/) 2.0がリリースされました。
+
+- [Release 2.0.0: ECMAScript 2020対応 · asciidwango/js-primer](https://github.com/asciidwango/js-primer/releases/tag/v2.0.0)
+- [JavaScript Primer 2.0 - ECMAScript 2020に対応した入門書を公開しました | Web Scratch](https://efcl.info/2020/09/01/jsprimer-2.0/)
+
+JavaScript Primer 2.0では、ES2020で追加された`String.prototype.matchAll`、`globalThis`、BigInt、Nullish coalescing(`??`)、Optional chainin（`?.`）に対応した変更が含まれています。
 
 ----
 
@@ -90,7 +126,7 @@ underscore 1.10.0リリース。
 [blogs.windows.com/msedgedev/2020/09/04/update-adobe-flash-end-support/](https://blogs.windows.com/msedgedev/2020/09/04/update-adobe-flash-end-support/ "Update on Adobe Flash Player End of Support - Microsoft Edge Blog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">flash</span> <span class="jser-tag">news</span></p>
 
-MSEdgeではFlash Playerを2021年1月のEdge 88の削除する予定。
+MSEdgeではFlash Playerを2021年1月のEdge 88で削除する予定。
 この削除スケジュールはChromiumにあわせたもの
 
 - [Flash Roadmap - The Chromium Projects](https://www.chromium.org/flash-roadmap#TOC-Flash-Support-Removed-from-Chromium-Target:-Chrome-88---Jan-2021- "Flash Roadmap - The Chromium Projects")
@@ -126,7 +162,7 @@ snowpack、react、htm、immerを使ったReactのチュートリアル
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p>
 
 underscore 1.11.0でのES Modulesへの移行とその利用方法についての記事。
-既存(モノリシック)とES Modulesの利用方法、ビルドサイズの最適化、Underscore 2.0についてなど
+既存(モノリシック)の使い方とES Modulesの使い方、ビルドサイズの最適化、Underscore 2.0についてなど
 
 
 ----
