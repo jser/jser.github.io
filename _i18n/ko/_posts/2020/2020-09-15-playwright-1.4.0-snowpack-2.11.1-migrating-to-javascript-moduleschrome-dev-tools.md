@@ -190,7 +190,7 @@ TypeScript의 타입 정의 문제에 도전할 수 있는 문제 모음.
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">jsx</span> <span class="jser-tag">library</span> <span class="jser-tag">babel</span></p>
 
 React와 같은 API와 JSX로 코드를 작성할 수 있는 UI 라이브러리.
-Babel plugin으로 JSX를 Tagged Template Literal로 변환하고 lit-html와 같은 형태로 렌더링한다.のような形でレンダリングする
+Babel plugin으로 JSX를 Tagged Template Literal로 변환하고 lit-html와 같은 형태로 렌더링한다.
 
 
 ----
