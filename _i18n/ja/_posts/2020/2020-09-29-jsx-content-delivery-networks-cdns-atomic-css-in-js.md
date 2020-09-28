@@ -16,7 +16,7 @@ JSer.info #507 - 次の記事ではReact 17 RCからサポートされている�
 
 - [Introducing the New JSX Transform – React Blog](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
 
-新しいJSXの変換では、JSXを変換するBabelやTypeScriptなどのツール、JSXを扱うライブラリ(ReactやPreact)のアップデートが必要です。
+新しいJSXの変換では、JSXを変換するツール(BabelやTypeScript)、JSXを扱うライブラリ(ReactやPreact)のアップデートが必要です。
 一方で、JSXの構文は何も変わらないため、あくまで関係するのは変換ツールとライブラリ側の実装です。
 
 Reactコンポーネントがクラスのみだった時代に導入されたJSXの変換仕様の中には、JSXの変換仕様を複雑化しているものがあります。
