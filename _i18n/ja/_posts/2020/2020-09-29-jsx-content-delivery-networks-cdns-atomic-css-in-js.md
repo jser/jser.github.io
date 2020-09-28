@@ -5,11 +5,88 @@ layout: post
 date : 2020-09-28T22:45:55.623Z
 category: JSer
 tags:
--
+- JSX
+- CSS
+- CDN
+- CSS-in-JS
 
 ---
 
-JSer.info #507
+JSer.info #507 - 次の記事ではReact 17からサポートされている新しいJSXの変換について紹介されています。
+
+- [Introducing the New JSX Transform – React Blog](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
+
+新しいJSXの変換では、JSXを変換するBabelやTypeScriptなどのツール、JSXを扱うライブラリ(ReactやPreact)のアップデートが必要です。
+一方で、JSXの構文は何も変わらないため、あくまで関係するのは変換ツールとライブラリ側の実装です。
+
+Reactコンポーネントがクラスのみだった時代に導入されたJSXの変換仕様の中には、JSXの変換仕様を複雑化しているものがあります。
+新しいJSXの変換では、その仕様の単純化やそれに伴うパフォーマンスの改善が主な目的です。
+
+新しい変換の仕様については次のRFCにまとめられています。
+
+- [rfcs/0000-create-element-changes.md at createlement-rfc · reactjs/rfcs](https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md)
+
+また新しい変換方式では、JSX(React Component)を書く際に `import React from 'react';` のような Reactのimportが不要となります。
+そのため、既に書かれた `import React from 'react';` を削除するマイグレーションツールも公開されています。
+
+- [Removing Unused React Imports](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#removing-unused-react-imports)
+
+この新しいJSXの変換方式は、それぞれ次のライブラリとツールで対応しています。
+
+ライブラリ
+
+- [React v17.0(RC)](https://reactjs.org/blog/2020/08/10/react-v17-rc.html)
+- [Preact v10.5.0](https://github.com/preactjs/preact/releases/tag/10.5.0)
+
+ツール
+
+- [Babel 7.9.0](https://babeljs.io/blog/2020/03/16/7.9.0)
+- [TypeScript 4.1 Beta](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/#jsx-factories)
+- [Flow v0.126.0](https://github.com/facebook/flow/releases/tag/v0.126.0)
+
+----
+
+[Content delivery networks (CDNs)](https://web.dev/content-delivery-networks/)という記事では、CDNの概要について書かれています。
+
+CDNの仕組み、キャッシュのEvictionとPurging、Private/PublicなリソースでのCache-Control設定、動的/静的なコンテンツにおける設定の考え方。
+また、キャッシュヒット率(CHR)の計測と改善方法、CDNのパフォーマンス機能としての圧縮/TLS 1.3/minificationについてなどについて書かれています。
+
+----
+
+[Atomic CSS-in-JS](https://sebastienlorber.com/atomic-css-in-js)という記事では、Atomic CSSとCSS-in-JSの組み合わせについて書かれています。
+
+Atomic CSSはutility-firstなCSSを示す言葉です。
+
+```css
+/* Atomic CSS */
+.bw-2x {
+  border-width: 2px;
+}
+.bss {
+  border-style: solid;
+}
+.sans {
+  font-style: sans-serif;
+}
+.p-1x {
+  padding: 10px;
+}
+
+/* Not atomic, because the class contains 2 rules */
+.p-1x-sans {
+  padding: 10px;
+  font-style: sans-serif;
+}
+```
+
+このUtility/atomic CSSはgzip効率が良いコードとなりファイルサイズ的なメリットなどがあります。
+一方でのUtility/atomic CSSを手書きする場合には命名が難しい問題、utility-firstなライブラリである[Tailwind](https://tailwindcss.com/)のようなCSSライブラリを使うと未使用のクラスが残る問題などの問題もあります。
+
+この記事では、Atomic CSSの問題を解決するためにCSS-in-JSと組み合わせるAtomic CSS-in-JSについて書かれています。
+Atomic CSS-in-JSの例としてFacebookのStylexを紹介しています。
+
+- [Tech stack rebuild for a new Facebook.com - Facebook Engineering](https://engineering.fb.com/web/facebook-redesign/)
+- [Building the New Facebook with React and Relay | Frank Yan - YouTube](https://www.youtube.com/watch?v=9JZHodNR184)
 
 ----
 
@@ -58,16 +135,6 @@ JavaScriptのMIMEタイプではないWorkerスクリプトは`new Worker()`で�
 
 - [Firefox 81 for developers - Mozilla | MDN](https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/81 "Firefox 81 for developers - Mozilla | MDN")
 - [Worker scripts with wrong MIME type will be blocked from loading with Worker() or SharedWorker() (Breaking) | Firefox Site Compatibility](https://www.fxsitecompat.dev/docs/2020/worker-scripts-with-wrong-mime-type-will-be-blocked-from-loading-with-worker-or-sharedworker/ "Worker scripts with wrong MIME type will be blocked from loading with Worker() or SharedWorker() (Breaking) | Firefox Site Compatibility")
-
-----
-
-## jtbennett/create-ts-project: Create Typescript monorepo projects with project references, jest, eslint and prettier configured and ready for development.
-[github.com/jtbennett/create-ts-project](https://github.com/jtbennett/create-ts-project "jtbennett/create-ts-project: Create Typescript monorepo projects with project references, jest, eslint and prettier configured and ready for development.")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span></p>
-
-TypeScript monorepo向けの管理ツール。
-TypeScript Project References、Yarn、Jest、ESLint、Pretitterなどが入ったCreact React Appのようなツールを目指している
-
 
 ----
 
@@ -186,6 +253,16 @@ TypeScript 4.1のTemplate Literal Typeを使ってSQL構文からクエリ結果
 
 Performance Observerのラッパーライブラリ。
 指定したメトリクスを取得するAPIを提供する
+
+
+----
+
+## jtbennett/create-ts-project: Create Typescript monorepo projects with project references, jest, eslint and prettier configured and ready for development.
+[github.com/jtbennett/create-ts-project](https://github.com/jtbennett/create-ts-project "jtbennett/create-ts-project: Create Typescript monorepo projects with project references, jest, eslint and prettier configured and ready for development.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span></p>
+
+TypeScript monorepo向けの管理ツール。
+TypeScript Project References、Yarn、Jest、ESLint、Pretitterなどが入ったCreact React Appのようなツールを目指している
 
 
 ----
