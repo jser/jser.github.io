@@ -12,7 +12,7 @@ tags:
 
 ---
 
-JSer.info #507 - 次の記事ではReact 17からサポートされている新しいJSXの変換について紹介されています。
+JSer.info #507 - 次の記事ではReact 17 RCからサポートされている新しいJSXの変換について紹介されています。
 
 - [Introducing the New JSX Transform – React Blog](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)
 
