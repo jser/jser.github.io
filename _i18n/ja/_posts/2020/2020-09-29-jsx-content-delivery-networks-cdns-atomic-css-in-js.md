@@ -20,9 +20,9 @@ JSer.info #507 - 次の記事ではReact 17 RCからサポートされている�
 一方で、JSXの構文は何も変わらないため、あくまで関係するのは変換ツールとライブラリ側の実装です。
 
 [React 0.12の際に導入されたJSXの変換仕様](https://reactjs.org/blog/2014/10/16/react-v0.12-rc1.html#jsx-changes)の中には、ライブラリ側の実装を複雑化させる仕様や現在では不要な仕組みも含まれています。
-新しいJSXの変換の仕組みでは、その仕様の単純化やそれにともなうパフォーマンスの改善が主な目的です。
+新しいJSXの変換の仕様では、その仕様の単純化やそれにともなうパフォーマンスの改善が主な目的です。
 
-新しい変換の仕様については次のRFCにまとめられています。
+新しいJSXの変換の仕様については次のRFCにまとめられています。
 
 - [rfcs/0000-create-element-changes.md at createlement-rfc · reactjs/rfcs](https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md)
 
