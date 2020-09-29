@@ -80,7 +80,7 @@ Atomic CSSはutility-firstなCSSを示す言葉です。
 ```
 
 このUtility/atomic CSSはgzip効率が良いコードとなりファイルサイズ的なメリットなどがあります。
-一方でのUtility/atomic CSSを手書きする場合には命名が難しい問題、utility-firstなライブラリである[Tailwind](https://tailwindcss.com/)のようなCSSライブラリを使うと未使用のクラスが残る問題などの問題もあります。
+一方でUtility/atomic CSSを手書きする場合には命名が難しい問題、[utility-first](https://tailwindcss.com/docs/utility-first)なライブラリである[Tailwind](https://tailwindcss.com/)のようなCSSライブラリを使うと未使用のクラスが残る問題などもあります。
 
 この記事では、Atomic CSSの問題を解決するためにCSS-in-JSと組み合わせるAtomic CSS-in-JSについて書かれています。
 Atomic CSS-in-JSの例としてFacebookのStylexを紹介しています。
