@@ -5,11 +5,63 @@ layout: post
 date : 2020-10-13T01:08:50.516Z
 category: JSer
 tags:
--
+- Chrome
+- webpack
+- browserify
 
 ---
 
-JSer.info #509
+JSer.info #509 - Chrome 86がリリースされました。
+
+- [New in Chrome 86  |  Web  |  Google Developers](https://developers.google.com/web/updates/2020/10/nic86)
+- <https://www.chromestatus.com/features#milestone%3D86>
+- [Chromium Blog: Chrome 86: Improved Focus Highlighting, WebHID, and More](https://blog.chromium.org/2020/09/chrome-86-improved-focus-highlighting.html)
+
+File System Access API、CSS 擬似クラスの`:focus-visible`、Document-Policyヘッダなどのサポートなどが行われています。
+Origin TrialとしてWebHID API、Multi-Screen Window Placement APIなどのサポートが追加されています。
+
+また、Web Components v0の削除、FTPサポートの非推奨化が始まっています。
+
+- [Deprecations and removals in Chrome 86  |  Web  |  Google Developers](https://developers.google.com/web/updates/2020/09/chrome-86-deps-rems)
+
+----
+
+webpack 5がリリースされました。
+
+- [Webpack 5 release (2020-10-10) | webpack](https://webpack.js.org/blog/2020-10-10-webpack-5-release/)
+
+破壊的な変更と機能追加などかなり幅広い変更を含むメジャーアップデートとなっています。
+
+破壊的な変更として、自動的なNode.jsのpolyfillの削除、デフォルトの出力コードにES2015が含まれるように、非推奨のオプションの削除やオプション名の変更などが含まれています。
+機能追加として、filesystem cache、Asset modules、JSON Modules、`import.meta`、Worker script、Module Federation、Async modulesのサポートされています。
+また、`target`オプションが`browserslist`をサポート、CommonJSのTree Shakingをサポート、コード生成とTree Shakingの改善なども行われています。
+
+スケジュール通りのリリースのため、まだ既知のバグやloader側の対応がリリースされていない場合もあります。
+
+- [Issues · webpack/webpack](https://github.com/webpack/webpack/labels/webpack-5)
+
+4.xから5.xへのアップグレードガイドは次のページで公開されています。
+
+- [To v5 from v4 | webpack](https://webpack.js.org/migrate/5/)
+
+また、[webpack CLI](https://github.com/webpack/webpack-cli) 4.0.0もリリースされています。
+
+- <https://github.com/webpack/webpack-cli/blob/master/CHANGELOG.md#400-2020-10-10>
+
+webpack 5に対応、[Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)を実行する`--analyze`フラグの追加、`--env`フラグの追加、`init`コマンドの追加などが行われています。
+
+webpack 5のオプションそれぞれに対応したCLIのフラグが追加されています。
+
+- [webpack-cli](https://github.com/webpack/webpack-cli/tree/master/packages/webpack-cli)
+
+----
+
+Browserify 17.0.0がリリースされました。
+
+- [Release v17.0.0 · browserify/browserify](https://github.com/browserify/browserify/releases/tag/v17.0.0)
+
+shimライブラリの`events`、`path`、`stream`、`util`をNode.js 10+互換となるようにアップデートされています。
+また`.json`ファイルをrequireする際に、JSONかどうかのバリデーションを行うように修正されています。
 
 ----
 
@@ -78,7 +130,7 @@ shimライブラリの`events`、`path`、`stream`、`util`をNode.js 10+互換�
 
 webpack 5リリース。
 破壊的な変更として、自動的なNode.jsのpolyfillの削除、デフォルトの出力コードにES2015が含まれるように、非推奨のオプションの削除やオプション名の変更など。
-機能追加として、Asset modules、JSON Modules、`import.meta`、Worker script、Module Federation、Async modulesのサポート。
+機能追加として、filesystem cache、Asset modules、JSON Modules、`import.meta`、Worker script、Module Federation、Async modulesのサポート。
 また、`target`オプションが`browserslist`をサポート、CommonJSのTree Shakingをサポート、コード生成とTree Shakingの改善など
 
 - [To v5 from v4 | webpack](https://webpack.js.org/migrate/5/ "To v5 from v4 | webpack")
