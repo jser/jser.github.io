@@ -107,7 +107,7 @@ Next.js 9.5.4リリース。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Safari Technology Preview 114リリース。
-`Intl.DateTimeFormat`の`dateStyle`/`timeStayle`/`dayPeriod`のサポート、`Intl.Segmenter`のサポート。
+`Intl.DateTimeFormat`の`dateStyle`/`timeStyle`/`dayPeriod`のサポート、`Intl.Segmenter`のサポート。
 Paint Timingの有効化、WebGL2の有効化、`loading=lazy`の実装など
 
 
