@@ -263,7 +263,7 @@ Rustで書かれたJavaScript Lintツール。
 [github.com/RocktimSaikia/meta-fetcher](https://github.com/RocktimSaikia/meta-fetcher "RocktimSaikia/meta-fetcher: 🔎 Tiny URL meta-data fetcher(scrapper) for Node.js")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p>
 
-ウェブサイトのメタ情報を取得するすnode-fetchベースのスクレイピングライブラリ
+ウェブサイトのメタ情報を取得するnode-fetchベースのスクレイピングライブラリ
 
 
 ----
