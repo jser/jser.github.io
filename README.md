@@ -2,8 +2,8 @@
 
 JSer.info のブログリポジトリです。
 
-* [Jekyll](http://jekyllrb.com/ "Jekyll") + [Travis CI](https://travis-ci.org/jser/jser.github.io) + [GitHub Pages](https://pages.github.com/ "GitHub Pages")で動いています
-* 記事に対してtypo等の内容の修正をPull Requestすることが出来ます
+* [Jekyll](http://jekyllrb.com/) + [Travis CI](https://travis-ci.org/jser/jser.github.io) + [GitHub Pages](https://pages.github.com/)で動いています
+* 記事に対してtypo等の内容の修正をPull Requestできます
     * `develop` ブランチ(デフォルトブランチ)のMarkdownファイルに対して修正を送って下さい。
     * `master` ブランチのhtmlは自動的に生成されたファイルとなっています。
 * 記事の元となるデータ等は[jser/jser.info](https://github.com/jser/jser.info "jser/jser.info")で管理しています。
