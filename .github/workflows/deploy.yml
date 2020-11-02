@@ -1,0 +1,31 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - 'develop'
+jobs:
+  jekyll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node_version: 12.x
+      - name: Install
+        run: yarn install
+      - name: Test
+        run: npm run test:ci
+      - name: Build
+        run: |
+          npm run build
+          node _tools/generate-post-details-json.js
+      - name: Git Identify
+        run: |
+          git config --global user.email "azuciao@gmail.com"
+          git config --global user.name "azu"
+      - uses: helaili/jekyll-action@2.0.4
+        env:
+          JEKYLL_PAT: ${{ secrets.SHARED_BOT_GITHUB_TOKEN }}
+        with:
+          target_branch: 'master'
