@@ -1,8 +1,8 @@
-# JSer.info [![Build Status](https://travis-ci.org/jser/jser.github.io.svg?branch=develop)](https://travis-ci.org/jser/jser.github.io)
+# JSer.info [![Actions Status: Deploy](https://github.com/jser/jser.github.io/workflows/Deploy/badge.svg)](https://github.com/jser/jser.github.io/actions?query=workflow%3A"Deploy")
 
 JSer.info のブログリポジトリです。
 
-* [Jekyll](http://jekyllrb.com/) + [Travis CI](https://travis-ci.org/jser/jser.github.io) + [GitHub Pages](https://pages.github.com/)で動いています
+* [Jekyll](http://jekyllrb.com/) + GitHub Actions + [GitHub Pages](https://pages.github.com/)で動いています
 * 記事に対してtypo等の内容の修正をPull Requestできます
     * `develop` ブランチ(デフォルトブランチ)のMarkdownファイルに対して修正を送って下さい。
     * `master` ブランチのhtmlは自動的に生成されたファイルとなっています。
