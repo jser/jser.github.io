@@ -40,4 +40,7 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
             GITHUB_TOKEN: GITHUB_TOKEN
         });
     }
-})();
+})().catch(error => {
+    console.error(error);
+    process.exit(1);
+})

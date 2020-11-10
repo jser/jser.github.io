@@ -161,11 +161,12 @@ export const rename = async (payload: {
     },
     GITHUB_TOKEN: string
 }) => {
+    console.log("Payload", JSON.stringify(payload));
     const koreFile = createKoreFile({
         adaptor: createGitHubAdaptor({
             owner: payload.owner,
             repo: payload.repo,
-            ref: payload.head.ref.replace("refs/", ""),
+            ref: `heads/${payload.head.ref}`,
             token: payload.GITHUB_TOKEN
         })
     });
