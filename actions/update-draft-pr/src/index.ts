@@ -21,25 +21,24 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
     if (!PR_TITLE_PATTERN.test(pullRequestTitle)) {
         return;
     }
-    const octokit = new Octokit({
-        auth: GITHUB_TOKEN
-    });
     console.log("PULL_REQUEST_EVENT.action", PULL_REQUEST_EVENT.action);
     if (PULL_REQUEST_EVENT.action === "synchronize") {
-        await rename(octokit, {
+        await rename({
             head: PULL_REQUEST_EVENT.pull_request.head,
             base: PULL_REQUEST_EVENT.pull_request.base,
             owner: "jser",
-            repo: "jser.github.io"
+            repo: "jser.github.io",
+            GITHUB_TOKEN: GITHUB_TOKEN
         })
     } else if (PULL_REQUEST_EVENT.action === "edited" || PULL_REQUEST_EVENT.action === "opened") {
-        await rename(octokit, {
+        await rename({
             head: PULL_REQUEST_EVENT.pull_request.head,
             base: PULL_REQUEST_EVENT.pull_request.base,
             owner: "jser",
             repo: "jser.github.io",
             forceFitToTitle: pullRequestTitle,
-            headline: pullRequestBody
+            headline: pullRequestBody,
+            GITHUB_TOKEN: GITHUB_TOKEN
         });
     }
 })();
