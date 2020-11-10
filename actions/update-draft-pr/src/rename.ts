@@ -9,6 +9,26 @@ const slugTitle = (title: string) => {
         lower: true
     });
 };
+
+interface EmbedHeadlineParams {
+    content: string;
+    headline?: string;
+}
+
+const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
+    if (!headline) {
+        return content;
+    }
+    return content.replace(`---
+
+JSer.info #\d+
+
+----`, `---
+
+JSer.info #512 - ${headline}
+
+----`);
+}
 /**
  *
  * @param {*} robot
@@ -21,7 +41,7 @@ const slugTitle = (title: string) => {
  * https://medium.com/@obodley/renaming-a-file-using-the-git-api-fed1e6f04188
  * http://www.levibotelho.com/development/commit-a-file-with-the-github-api/
  */
-const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, originalFileName, renameFn}: {
+const renameCommit = async (octokit: Octokit, { ref, owner, repo, branch, originalFileName, renameFn }: {
     ref: string, owner: string, repo: string, branch: string, originalFileName: string,
     renameFn: (oldFileName: string, content: string) => { newFileName: string, newContent: string }
 }) => {
@@ -34,7 +54,7 @@ const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, origina
     });
     // get content
     // http://octokit.github.io/rest.js/#api-Repos-getContent
-    const {data: getContentResponse} = await octokit.repos.getContents({
+    const { data: getContentResponse } = await octokit.repos.getContents({
         owner,
         repo,
         path: originalFileName,
@@ -47,33 +67,46 @@ const renameCommit = async (octokit: Octokit, {ref, owner, repo, branch, origina
         throw new Error("no content: " + getContentResponse);
     }
     const decodedContent = new Buffer(getContentResponse.content, "base64").toString();
-    const {newFileName, newContent} = renameFn(originalFileName, decodedContent);
-    if (originalFileName === newFileName) {
-        console.log(`No need to rename: ${originalFileName}`);
+    const { newFileName, newContent } = renameFn(originalFileName, decodedContent);
+    if (originalFileName === newFileName && decodedContent === newContent) {
+        console.log(`No need to commit: ${originalFileName}`);
         return;
     }
-    console.log(`Rename: ${originalFileName} -> ${newFileName}`);
-    // create new file
-    // https://developer.github.com/v3/repos/contents/#create-a-file
-    const {data: createFileResponse} = await octokit.repos.createOrUpdateFile({
-        owner,
-        repo,
-        path: newFileName,
-        message: `Move ${originalFileName} to ${newFileName}`,
-        content: Buffer.from(newContent).toString("base64"),
-        branch
-    });
-    console.log("createFileResponse", createFileResponse);
-    // remove original file
-    const {data: deleteFileResponse} = await octokit.repos.deleteFile({
-        owner,
-        repo,
-        path: originalFileName,
-        message: `Remove ${originalFileName}`,
-        sha: getContentResponse.sha,
-        branch
-    });
-    console.log("deleteFileResponse", deleteFileResponse);
+    if (originalFileName === newFileName) {
+        // Update Content
+        const { data: createOrUpdateResponse } = await octokit.repos.createOrUpdateFile({
+            owner,
+            repo,
+            path: newFileName,
+            message: `Update ${newFileName}`,
+            content: Buffer.from(newContent).toString("base64"),
+            branch
+        });
+        console.log("createOrUpdateResponse", createOrUpdateResponse)
+    } else {
+        console.log(`Rename: ${originalFileName} -> ${newFileName}`);
+        // create new file
+        // https://developer.github.com/v3/repos/contents/#create-a-file
+        const { data: createFileResponse } = await octokit.repos.createOrUpdateFile({
+            owner,
+            repo,
+            path: newFileName,
+            message: `Move ${originalFileName} to ${newFileName}`,
+            content: Buffer.from(newContent).toString("base64"),
+            branch
+        });
+        console.log("createFileResponse", createFileResponse);
+        // remove original file
+        const { data: deleteFileResponse } = await octokit.repos.deleteFile({
+            owner,
+            repo,
+            path: originalFileName,
+            message: `Remove ${originalFileName}`,
+            sha: getContentResponse.sha,
+            branch
+        });
+        console.log("deleteFileResponse", deleteFileResponse);
+    }
     return {
         status: "ok"
     };
@@ -156,6 +189,8 @@ export const rename = async (octokit: Octokit, payload: {
     repo: string;
     // if exits, title based rename
     forceFitToTitle?: string
+    // headline from body
+    headline?: string;
     head: {
         ref: string;
         sha: string;
@@ -193,13 +228,14 @@ export const rename = async (octokit: Octokit, payload: {
                 renameFn: (fileName, content) => {
                     // Update Pull Request title
                     // if newTitle exists, replace fileName and content:title with newTtile
+                    const newContent = newTitle
+                        ? replaceContentTitle(content, newTitle)
+                        : content;
                     return {
                         newFileName: newTitle
                             ? renameFilePathWithNewTitle(fileName, newTitle)
                             : renamePattern(fileName, content),
-                        newContent: newTitle
-                            ? replaceContentTitle(content, newTitle)
-                            : content
+                        newContent: embedHeadline({ content: newContent, headline: payload.headline })
                     };
                 }
             });

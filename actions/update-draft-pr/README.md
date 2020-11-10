@@ -1,7 +1,8 @@
-# update-pr-title
+# update-draft-pr
 
 - Update content file path with slug from content title(content <-> content)
 - Update content file path and content from PR's title(PR -> content)
+- Update content from PR's body(PR → content)
 
 ## Usage
 

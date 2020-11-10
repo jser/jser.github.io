@@ -15,6 +15,7 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
     }
     const PR_TITLE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})のJS:(.*)/;
     const pullRequestTitle = PULL_REQUEST_EVENT.pull_request.title;
+    const pullRequestBody = PULL_REQUEST_EVENT.pull_request.body;
     // No update if the pull request is new draft pr
     // Prevent to apply new slug logic to old articles
     if (!PR_TITLE_PATTERN.test(pullRequestTitle)) {
@@ -37,7 +38,8 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
             base: PULL_REQUEST_EVENT.pull_request.base,
             owner: "jser",
             repo: "jser.github.io",
-            forceFitToTitle: pullRequestTitle
+            forceFitToTitle: pullRequestTitle,
+            headline: pullRequestBody
         });
     }
 })();
