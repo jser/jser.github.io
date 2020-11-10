@@ -1,5 +1,4 @@
 import { rename } from "./rename"
-import { Octokit } from "@octokit/rest";
 // ${{ toJSON(github.event) }}
 if (!process.env.PULL_REQUEST_EVENT) {
     throw new Error("process.env.PULL_REQUEST_EVENT is not defined");
