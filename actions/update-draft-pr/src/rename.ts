@@ -55,7 +55,7 @@ const renameCommit = async (koreFile: KoreFile, { originalFileName, renameFn }: 
         console.log("Update Content");
         // Update Content
         // https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#create-or-update-file-contents
-        await koreFile.writeFile(originalFileName, newFileName);
+        await koreFile.writeFile(originalFileName, newContent);
         console.log("Updated ", originalFileName)
     } else {
         console.log(`Rename: ${originalFileName} -> ${newFileName}`);
