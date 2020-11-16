@@ -31,7 +31,7 @@ Angularでも同様のTSLintからESLintの移行が進められていました�
 
 ---
 
-[Optimize React Apps PageSpeed Insights Score - thetuteur](https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/)という記事では、Reactで書かれたアプリケーションのパフォーマンス改善ついて書かれています。
+[Optimize React Apps PageSpeed Insights Score - thetuteur](https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/)という記事では、Reactで書かれたアプリケーションのパフォーマンス改善について書かれています。
 
 未使用のJavaScriptを削除、コンポーネントのLazy Load、TTFBを短縮するためにNode.jsでレスポンスのIn-Memoryでキャッシュする方法について。
 
