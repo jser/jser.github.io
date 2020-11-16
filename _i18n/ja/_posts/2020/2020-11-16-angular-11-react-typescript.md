@@ -13,20 +13,45 @@ tags:
 
 ---
 
-JSer.info #512 - - [Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog](https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7)
+JSer.info #512 -　Angular 11がリリースされました。
+
+- [Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog](https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7)
 - [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#1100-2020-11-11)
+
+Angular 11ではフォントの自動インライン化の対応、Component Test Harnessesがすべてのコンポーネントに対応、Language Serviceの対応改善、HMRをCLIの引数で有効化できるようになっています。
+その他には、webpack5の実験的サポート、Angular CLIのデフォルトLinterの今後について書かれています。
+
+現在のAngularではTSLintを使ったLintが実装されていますが、[TSLintは非推奨となりESLintへの移行](https://medium.com/palantir/tslint-in-2019-1a144c2317a9)が進められています。
+Angularでも同様のTSLintからESLintの移行が進められていましたが、すでにコミュニティベースで進んでいた[Angular ESLint](https://github.com/angular-eslint/angular-eslint)に移行していく方針についても書かれています。
+
+詳しくは次の記事も参照してください。
+
 - [Angular: ESLintサポートの現状 2020 Autumn | <output type=text>](https://blog.lacolaco.net/2020/11/angular-state-of-linting-2020/)
+
 
 ---
 
-- [Optimize React Apps PageSpeed Insights Score - thetuteur](https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/)
+[Optimize React Apps PageSpeed Insights Score - thetuteur](https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/)という記事では、Reactで書かれたアプリケーションのパフォーマンス改善ついて書かれています。
+
+未使用のJavaScriptを削除、コンポーネントのLazy Load、TTFBを短縮するためにNode.jsでレスポンスのIn-Memoryでキャッシュする方法について。
+
+[`react-lazy-load-image-component`](https://github.com/Aljullu/react-lazy-load-image-component#readme)を使って画像の遅延ロード、[`react-lazy-hydration`](https://github.com/hadeeb/react-lazy-hydration)を使って初期ロードでのメインスレッド処理を減らす方法などについて書かれています。
+また、CSSの非同期ロードや[`critical`](https://github.com/addyosmani/critical)を使ってUAごとに対してクリティカルパスCSSの生成などについても書かれています。
 
 ----
 
-- [10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg](https://www.techatbloomberg.com/blog/10-insights-adopting-typescript-at-scale/)
-- [Performance · microsoft/TypeScript Wiki](https://github.com/microsoft/TypeScript/wiki/Performance)
-- [TypeScript: Prefer Interfaces — @ncjamieson](https://ncjamieson.com/prefer-interfaces/)
+[10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg](https://www.techatbloomberg.com/blog/10-insights-adopting-typescript-at-scale/)という記事では、TypeScriptを採用して学んだことについて色々と書かれています。
 
+TypeScriptという言語、tsconfigの設定、型定義の扱い方などについて次のような判断軸で色々と書かれています。
+
+- Scalability
+- Ecosystem Coherence
+- Standards Alignment
+
+この記事から参照されている`type`と`interface`の違いやコンパイルパフォーマンスについての記事も興味深いです。
+
+- [TypeScript: Prefer Interfaces — @ncjamieson](https://ncjamieson.com/prefer-interfaces/)
+- [Performance · microsoft/TypeScript Wiki](https://github.com/microsoft/TypeScript/wiki/Performance)
 
 ----
 
