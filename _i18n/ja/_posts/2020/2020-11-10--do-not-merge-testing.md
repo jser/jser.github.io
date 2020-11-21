@@ -9,7 +9,18 @@ tags:
 
 ---
 
-JSer.info #478
+JSer.info #478 - [PRのbodyを記事のヘッドラインにする · Issue #803 · jser/jser.github.io](https://github.com/jser/jser.github.io/issues/803)のテストPRです。
+
+テスト・テストssssazxc?S?A?A?S?DAS?DASD?ASDa
+
+
+---
+
+この記事ではこういう感じ
+
+---
+
+korefileで書き直してみた。EDITIONですです。
 
 ----
 
