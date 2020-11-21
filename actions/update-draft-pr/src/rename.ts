@@ -20,7 +20,7 @@ const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
     if (!headline) {
         return content;
     }
-    return content.replace(/---\s+JSer.info #(\d+)[\s\S]*\n\n----\n\n<h1/, `---
+    return content.replace(/---\n\nJSer.info #(\d+)[\s\S]*\n\n----\n\n<h1/, `---
 
 JSer.info #$1 - ${headline}
 
