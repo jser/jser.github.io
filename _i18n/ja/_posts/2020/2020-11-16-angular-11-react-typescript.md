@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #512 -　Angular 11がリリースされました。
+JSer.info #514 -　Angular 11がリリースされました。
 
 - [Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog](https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7)
 - [angular/CHANGELOG.md at master · angular/angular](https://github.com/angular/angular/blob/master/CHANGELOG.md#1100-2020-11-11)
