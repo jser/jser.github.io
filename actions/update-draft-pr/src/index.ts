@@ -20,7 +20,6 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
     if (!PR_TITLE_PATTERN.test(pullRequestTitle)) {
         return;
     }
-    console.log("PULL_REQUEST_EVENT.action", PULL_REQUEST_EVENT.action);
     if (PULL_REQUEST_EVENT.action === "synchronize") {
         await rename({
             head: PULL_REQUEST_EVENT.pull_request.head,

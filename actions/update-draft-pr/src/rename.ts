@@ -20,7 +20,7 @@ const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
     if (!headline) {
         return content;
     }
-    return content.replace(/---\s+JSer.info #\d+\s+----/, `---
+    return content.replace(/---\s+JSer.info #\d+[\s\S]+----/, `---
 
 JSer.info #512 - ${headline}
 
@@ -161,7 +161,6 @@ export const rename = async (payload: {
     },
     GITHUB_TOKEN: string
 }) => {
-    console.log("Payload", JSON.stringify(payload));
     const koreFile = createKoreFile({
         adaptor: createGitHubAdaptor({
             owner: payload.owner,
@@ -195,7 +194,7 @@ export const rename = async (payload: {
                 originalFileName: file.filename,
                 renameFn: (fileName, content) => {
                     // Update Pull Request title
-                    // if newTitle exists, replace fileName and content:title with newTtile
+                    // if newTitle exists, replace fileName and content:title with newTitle
                     const newContent = newTitle
                         ? replaceContentTitle(content, newTitle)
                         : content;
