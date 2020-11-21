@@ -21,8 +21,10 @@ const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
         console.log("headline is not defined");
         return content;
     }
-    console.log("headline", headline);
-    console.log("content", content);
+    console.log("# headline")
+    console.log(headline);
+    console.log("# content")
+    console.log(content);
     const replacedContent = content.replace(/---\s+JSer\.info #(\d+)[\s\S]\n\n----\n\n<h1/, `---
 
 JSer.info #$1 - ${headline}
@@ -30,7 +32,8 @@ JSer.info #$1 - ${headline}
 ----
 
 <h1`);
-    console.log("replaced", replacedContent);
+    console.log("# replaced");
+    console.log(replacedContent);
     return replacedContent;
 }
 /**
