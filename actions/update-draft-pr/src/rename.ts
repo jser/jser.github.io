@@ -25,7 +25,7 @@ const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
     console.log(headline);
     console.log("# content")
     console.log(content);
-    const replacedContent = content.replace(/---\s+JSer\.info #(\d+)[\s\S]\n\n----\n\n<h1/, `---
+    const replacedContent = content.replace(/---\s+JSer\.info #(\d+)[\s\S]+\n\n----\n\n<h1/, `---
 
 JSer.info #$1 - ${headline}
 
