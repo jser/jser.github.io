@@ -23,13 +23,15 @@ const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
     }
     console.log("headline", headline);
     console.log("content", content);
-    return content.replace(/---\s+JSer\.info #(\d+)[\s\S]\n\n----\n\n<h1/, `---
+    const replacedContent = content.replace(/---\s+JSer\.info #(\d+)[\s\S]\n\n----\n\n<h1/, `---
 
 JSer.info #$1 - ${headline}
 
 ----
 
 <h1`);
+    console.log("replaced", replacedContent);
+    return replacedContent;
 }
 /**
  *
