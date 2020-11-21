@@ -1,5 +1,5 @@
 ---
-title: "2020-03-10のJS: "
+title: "2020-11-10のJS: アップデートテスト、DO NOT MERGE、TESTING"
 author: "azu"
 layout: post
 date : 2020-03-10T14:14:41.789Z
