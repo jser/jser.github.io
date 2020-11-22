@@ -13,11 +13,41 @@ tags:
 
 ---
 
-JSer.info #515 - - [Tailwind CSS v2.0 – Tailwind CSS](https://blog.tailwindcss.com/tailwindcss-v2)
-- [Electron 11.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-11-0)
-- [Announcing TypeScript 4.1 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/)
-- [microsoft/playwright-test: Build a cross-browser end-to-end test suite with Playwright.](https://github.com/microsoft/playwright-test)
+JSer.info #515 - [Utility-First](https://tailwindcss.com/docs/utility-first)なCSSフレームワークであるTailwind CSS 2.0がリリースされました。
 
+- [Tailwind CSS v2.0 – Tailwind CSS](https://blog.tailwindcss.com/tailwindcss-v2)
+
+破壊的な変更としてIE11のサポートを終了、Node 10以下のサポートを終了、一部クラス名の変更などが含まれています。
+機能追加としてカラーパレットの追加、ダークモードのサポート、`2xl` breakpointの追加しています。
+また、フォーム向けのプラグインとして`@tailwindcss/forms`の追加、`@apply`の対応改善、`overflow-ellipsis`と` overflow-clip`の追加などもされています。
+
+---
+
+Electron 10.0.0がリリースされました。
+
+- [Electron 11.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-11-0)
+- [Release electron v11.0.0 · electron/electron](https://github.com/electron/electron/releases/tag/v11.0.0)
+
+Electron 10.0.0ではApple Siliconに対応しています。
+
+- [Apple Silicon Support | Electron Blog](https://www.electronjs.org/blog/apple-silicon)
+
+その他には、Chromium 87/V8 8.7/Node.js 12.18.3へのアップデートなどが含まれています。
+
+---
+
+TypeScript 4.1が正式にリリースされました。
+
+- [Announcing TypeScript 4.1 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/)
+
+大きな変更としてTemplate Literal Typesがサポートされています。
+Template Literal Typesは型定義の表現をかなり強力にするため、DSLに対する型定義などに使われそうです。
+
+- [ghoullier/awesome-template-literal-types: Curated list of awesome Template Literal Types examples](https://github.com/ghoullier/awesome-template-literal-types)
+
+また、Mapped TypesでKeyのRemappingをサポート、再帰的なConditional Typesのサポート。 インデックスアクセス時に`undefined`となる可能性を考慮する`noUncheckedIndexedAccess`オプションの追加。
+その他には、`baseUrl`なしで`paths`オプションを指定できるように、新しいJSXの変換に対応しています。
+破壊的な変更として、`new Promise`における`resolve`関数の引数がOptionalではなるといった変更も含まれています。
 
 ----
 
