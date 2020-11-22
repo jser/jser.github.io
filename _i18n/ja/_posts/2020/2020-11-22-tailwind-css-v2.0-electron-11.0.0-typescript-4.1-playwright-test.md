@@ -46,7 +46,7 @@ Template Literal Typesは型定義の表現をかなり強力にするため、D
 - [ghoullier/awesome-template-literal-types: Curated list of awesome Template Literal Types examples](https://github.com/ghoullier/awesome-template-literal-types)
 
 また、Mapped TypesでKeyのRemappingをサポート、再帰的なConditional Typesのサポート。 インデックスアクセス時に`undefined`となる可能性を考慮する`noUncheckedIndexedAccess`オプションの追加。
-その他には、`baseUrl`なしで`paths`オプションを指定できるように、新しいJSXの変換に対応しています。
+その他には、`baseUrl`なしで`paths`オプションを指定に対応、新しいJSXの変換に対応しています。
 破壊的な変更として、`new Promise`における`resolve`関数の引数がOptionalではなるといった変更も含まれています。
 
 ----
