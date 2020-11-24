@@ -23,12 +23,12 @@ JSer.info #515 - [Utility-First](https://tailwindcss.com/docs/utility-first)なC
 
 ---
 
-Electron 10.0.0がリリースされました。
+Electron 11.0.0がリリースされました。
 
 - [Electron 11.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-11-0)
 - [Release electron v11.0.0 · electron/electron](https://github.com/electron/electron/releases/tag/v11.0.0)
 
-Electron 10.0.0ではApple Siliconに対応しています。
+Electron 11.0.0ではApple Siliconに対応しています。
 
 - [Apple Silicon Support | Electron Blog](https://www.electronjs.org/blog/apple-silicon)
 
