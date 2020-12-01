@@ -3,6 +3,10 @@ import slug from "slug";
 import { Octokit } from "@octokit/rest"
 import { createKoreFile, createGitHubAdaptor, KoreFile } from "korefile"
 
+const normalizeNewLine = (input: string): string => {
+    return input.replace(/\r\n/g, '\n');
+};
+
 const slugTitle = (title: string) => {
     const tenTitle = title.replace(/、/g, "-");
     return slug(tenTitle, {
@@ -34,7 +38,7 @@ JSer.info #$1 - ${headline}
 <h1`);
     console.log("# replaced");
     console.log(replacedContent);
-    return replacedContent;
+    return normalizeNewLine(replacedContent);
 }
 /**
  *
