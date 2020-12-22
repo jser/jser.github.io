@@ -27,18 +27,21 @@ ReactからReact Server Componentsと呼ばれる実験的な実装とRFCが公�
 - [Introducing Zero-Bundle-Size React Server Components – React Blog](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html)
 - [RFC: React Server Components by josephsavona · Pull Request #188 · reactjs/rfcs](https://github.com/reactjs/rfcs/pull/188)
 
-React Server Componentsは、サーバサイドでReact Componentをレンダリング仕組みですが、レンダリング結果はHTMLではなくJSONライクなデータ(SlotとコンポーネントのJSON表現を組み合わせた形式)です。
+React Server Componentsは、サーバサイドでReact Componentをレンダリングする仕組みですが、レンダリング結果はHTMLではなくJSONライクなデータ(SlotとコンポーネントのJSON表現を組み合わせた形式)です。
 
 リクエストごとにサーバコンポーネントをレンダリングした結果をJSON(クライアント描画するコンポーネントを含む)のレスポンスとして返し、クライアントではそのレスポンス結果を使いレンダリングできる仕組みとなっています。
 大まかにいえば、コンポーネントレベルでのSSRとHydrateを行える仕組みです。
 
-サーバサイドでコンポーネントをレンダリングすることで、サーバでのレンダリング結果のみを扱うクライアントでは不要なライブラリを含めずに扱えるためサイズを減らせるのが主な目的となっています。
+サーバサイドでコンポーネントをレンダリングすることで、サーバでのレンダリング結果のみを扱うクライアントでは不要なライブラリを含めずに扱えます。
+そのため、クライアントに必要なbundleサイズを減らせるのが主な目的となっています。
 Facebookのproductionでテストした結果、bundleサイズが最大30%削減できているそうです。
 
 詳しくは、次の動画とデモアプリで解説されています。
 
 - [Data Fetching with React Server Components - YouTube](https://www.youtube.com/watch?v=TQQPAU21ZUw&feature=emb_title)
 - [reactjs/server-components-demo: Demo app of React Server Components.](https://github.com/reactjs/server-components-demo)
+
+現在はまだRFCが出たばかりの実験的な段階であるため、来年にもっと詳細を決めていくようです。
 
 ---
 
