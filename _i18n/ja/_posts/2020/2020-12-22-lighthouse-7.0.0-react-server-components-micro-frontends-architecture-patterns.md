@@ -13,13 +13,37 @@ tags:
 
 ---
 
-JSer.info #519 - - [Release v7.0.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v7.0.0)
-- [Exploring the future of Core Web Vitals - YouTube](https://www.youtube.com/watch?v=iNfz9tg-wyg&list=PLNYkxOF6rcIDzLmWaDwfHVZJl1Q5RFgOR&index=21)
+JSer.info #519 - Lighthouse 7.0.0がリリースされました。
+
+- [Release v7.0.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v7.0.0)
+
+Node.js 10のサポート終了、PWAカテゴリの変更、アクセシビリティのテストに使う`axe-core`のアップデート、nightlyを`lighthouse@next`としてインストールできるようになるといった変更が含まれています。
+また、スクリーンショットがフルページとなりレポートのファイルサイズが増加しています。
+
+---
+
+ReactからReact Server Componentsと呼ばれる実験的な実装とRFCが公開されています。
+
 - [Introducing Zero-Bundle-Size React Server Components – React Blog](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html)
 - [RFC: React Server Components by josephsavona · Pull Request #188 · reactjs/rfcs](https://github.com/reactjs/rfcs/pull/188)
-- [Data Fetching with React Server Components - YouTube](https://www.youtube.com/watch?v=TQQPAU21ZUw&feature=emb_title)
-- [Micro Frontends Architecture Patterns](https://zenn.dev/okmttdhr/books/8c977618755cb68ad2c0)
 
+React Server Componentsは、サーバサイドでReact Componentをレンダリング仕組みですが、レンダリング結果はHTMLではなくJSONライクなデータ(SlotとコンポーネントのJSON表現を組み合わせた形式)です。
+
+リクエストごとにサーバコンポーネントをレンダリングした結果をJSON(クライアント描画するコンポーネントを含む)のレスポンスとして返し、クライアントではそのレスポンス結果を使いレンダリングできる仕組みとなっています。
+大まかにいえば、コンポーネントレベルでのSSRとHydrateを行える仕組みです。
+
+サーバサイドでコンポーネントをレンダリングすることで、サーバでのレンダリング結果のみを扱うクライアントでは不要なライブラリを含めずに扱えるためサイズを減らせるのが主な目的となっています。
+Facebookのproductionでテストした結果、bundleサイズが最大30%削減できているそうです。
+
+詳しくは、次の動画とデモアプリで解説されています。
+
+- [Data Fetching with React Server Components - YouTube](https://www.youtube.com/watch?v=TQQPAU21ZUw&feature=emb_title)
+- [reactjs/server-components-demo: Demo app of React Server Components.](https://github.com/reactjs/server-components-demo)
+
+---
+
+[Micro Frontends Architecture Patterns](https://zenn.dev/okmttdhr/books/8c977618755cb68ad2c0)という電子書籍では、 フロントエンドで見かけるアーキテクチャについて色々とまとめられています。
+まだ決まりきったパターンがないMicro Frontendsについても色々なパターンについて紹介されています。
 
 ----
 
