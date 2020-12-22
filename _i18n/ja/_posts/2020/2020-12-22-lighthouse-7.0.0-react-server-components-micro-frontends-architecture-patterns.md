@@ -113,7 +113,7 @@ htmlparser2 6.0.0リリース
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p>
 
 Reactで試験的に実装されたReact Server Componentsについて。
-リクエストごとにサーバコンポーネントをレンダリングした結果をJSON(JSX + Slot表現)として返し、クライアントではレンダリング結果を使いレンダリングできる仕組み。
+リクエストごとにサーバコンポーネントをレンダリングした結果をJSONライクなデータ(SlotとコンポーネントのJSON表現を組み合わせた形式)として返し、クライアントではレンダリング結果を使いレンダリングできる仕組み。
 サーバサイドでコンポーネントをレンダリングすることで、レンダリング結果のみを扱うクライアントでは不要なライブラリを含めずに扱えるためサイズを減らせる。
 コンポーネントレベルでのSSRとHydrateを行える仕組み。
 
