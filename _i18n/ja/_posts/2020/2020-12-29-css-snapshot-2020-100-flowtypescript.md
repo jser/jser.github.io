@@ -15,6 +15,7 @@ tags:
 
 JSer.info #520 - CSSの各仕様の現在のステータスを一覧する目的であるCSS Snapshot 2020が公開されています。
 
+- [CSS WG Blog – CSS Snapshot 2020 Published](https://www.w3.org/blog/CSS/2020/12/23/css-snapshot-2020-published/)
 - [CSS Snapshot 2020](https://www.w3.org/TR/2020/NOTE-css-2020-20201222/)
 - [CSS Snapshot 2020 日本語訳](https://momdo.github.io/css-2020/)
 - [CSS Snapshot 2020が発行されました | フロントエンドBlog | ミツエーリンクス](https://www.mitsue.co.jp/knowledge/blog/frontend/202012/23_1049.html)
