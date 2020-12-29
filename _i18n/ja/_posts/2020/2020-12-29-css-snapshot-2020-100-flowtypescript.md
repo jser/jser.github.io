@@ -102,7 +102,7 @@ CSS Snapshot 2020リリース
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">news</span></p>
 
 cross-envがメンテナンスモードとなりアーカイブされた。
-機能として完成しているため、これ以上機能追加することはないため。セキュリティアップデートと新しいNode.jsへの対応は続けるメンテナンスモードとなった
+機能として完成していて、これ以上機能追加することはないため。セキュリティアップデートと新しいNode.jsへの対応は続けるメンテナンスモードとなった
 
 
 ----
