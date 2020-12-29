@@ -44,7 +44,7 @@ CatchJSの記事では、同様の調査からウェブサイトのエラーに�
 
 [War stories: The move from Flow to TypeScript](https://react.christmas/2020/2)という記事ではFlowからTypeScriptへの移行について書かれています。
 
- js-unused-exportsをForkして使われてないファイルの削除、flow-to-tsを使った変換、ESLintを使ったフォーマットの修正といったどのようにコードを移行していったかについて書かれています。
+[js-unused-exports](https://github.com/devbridge/js-unused-exports)をベースにした使われてないファイルの削除、[flow-to-ts](https://github.com/Khan/flow-to-ts)を使った変換、ESLintを使ったフォーマットの修正といったどのようにコードを移行していったかについて書かれています。
 また移行期間中のコードのフリーズした話やマイグレーションの目標設定と目標の計測についても書かれています。
 
 ----
