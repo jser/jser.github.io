@@ -13,20 +13,38 @@ tags:
 
 ---
 
-JSer.info #520 - - [CSS Snapshot 2020が発行されました | フロントエンドBlog | ミツエーリンクス](https://www.mitsue.co.jp/knowledge/blog/frontend/202012/23_1049.html)
-  - [Working Group Note: CSS Snapshot 2020 | W3C News](https://www.w3.org/blog/news/archives/8820)
-  - [CSS Snapshot 2020](https://www.w3.org/TR/2020/NOTE-css-2020-20201222/)
+JSer.info #520 - CSSの各仕様の現在のステータスを一覧する目的であるCSS Snapshot 2020が公開されています。
+
+- [CSS Snapshot 2020](https://www.w3.org/TR/2020/NOTE-css-2020-20201222/)
+- [CSS Snapshot 2020 日本語訳](https://momdo.github.io/css-2020/)
+- [CSS Snapshot 2020が発行されました | フロントエンドBlog | ミツエーリンクス](https://www.mitsue.co.jp/knowledge/blog/frontend/202012/23_1049.html)
+
+スナップショットとしてCSSモジュール(ここではCSSの各仕様のこと)のステータスとサマリがまとまとめられています。
+CSSの仕様の全体像が分かりやすいので、興味がある人は見てみると良いかもしれません。
+
+また、最新のステータスは[CSS current work & how to participate](https://www.w3.org/Style/CSS/current-work)で確認できます。
 
 ----
 
-- [JavaScript Performance in the Wild 2020 | CatchJS](https://catchjs.com/Blog/PerformanceInTheWild)
-  - [JavaScript Errors in the Wild 2020 | CatchJS](https://catchjs.com/Blog/ErrorsInTheWild)
-  - [Web Performance Metrics | Kaggle](https://www.kaggle.com/indexhtml/web-performance-metrics)
+[JavaScript Performance in the Wild 2020 | CatchJS](https://catchjs.com/Blog/PerformanceInTheWild)という記事では、[Tranco](https://tranco-list.eu/)のデータを元にした100万サイトをPuppeteerでクロールした調査結果についてまとめられています。
+
+どのような要因がウェブサイトのパフォーマンスに影響を与えているかを調査するために集めたデータとなっていて、ライブラリとメトリクスへの影響などについて書かれています。
+集められたデータはKaggleで公開されています。
+
+- [Web Performance Metrics | Kaggle](https://www.kaggle.com/indexhtml/web-performance-metrics)
+
+また、類似するデータは[HTTP Archive](https://httparchive.org/)でも公開されているので興味がある人は調べてみると良いかもしれません。
+
+CatchJSの記事では、同様の調査からウェブサイトのエラーについて書かれています。
+
+- [JavaScript Errors in the Wild 2020 | CatchJS](https://catchjs.com/Blog/ErrorsInTheWild)
 
 ----
 
-- [War stories: The move from Flow to TypeScript](https://react.christmas/2020/2)
+[War stories: The move from Flow to TypeScript](https://react.christmas/2020/2)という記事ではFlowからTypeScriptへの移行について書かれています。
 
+ js-unused-exportsをForkして使われてないファイルの削除、flow-to-tsを使った変換、ESLintを使ったフォーマットの修正といったどのようにコードを移行していったかについて書かれています。
+また移行期間中のコードのフリーズとマイグレーションの目標設定と計測についても書かれています。
 
 ----
 
