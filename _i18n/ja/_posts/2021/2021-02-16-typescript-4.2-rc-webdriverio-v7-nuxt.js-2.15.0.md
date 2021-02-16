@@ -17,7 +17,7 @@ JSer.info #527 - TypeScript 4.2 RCがリリースされています。
 
 - [Announcing TypeScript 4.2 RC | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-2-rc/)
 
-Tuple TypesでRest Elementをサポート、Type Aliasの型追跡の仕組みを改善して表示される型を分かりやすくなるように。
+Tuple TypesでRest Elementをサポート、Type Aliasの型追跡の仕組みを改善して表示される型が分かりやすくなるように。
 また、オブジェクトではないオペランドに対する`in`演算子を利用した場合にコンパイルエラーとなるように変更。
 その他には、`noPropertyAccessFromIndexSignature`オプションの追加、`abstract new`のサポート、、`--explainFiles`フラグが追加されています。
 
