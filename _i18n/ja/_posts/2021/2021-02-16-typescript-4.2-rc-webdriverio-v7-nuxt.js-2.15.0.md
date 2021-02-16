@@ -186,8 +186,8 @@ Reactを使って動画を作るための開発環境とライブラリ
 
 ----
 
-## tildeio/simple-html-tokenizer: A lightweight JavaScript library for tokenizing non-\`<script>\` HTML expected to be found in the \`<body>\` of a document
-[github.com/tildeio/simple-html-tokenizer](https://github.com/tildeio/simple-html-tokenizer "tildeio/simple-html-tokenizer: A lightweight JavaScript library for tokenizing non-\`<script>\` HTML expected to be found in the \`<body>\` of a document")
+## tildeio/simple-html-tokenizer: A lightweight JavaScript library for tokenizing non-`<script>` HTML expected to be found in the `<body>` of a document
+[github.com/tildeio/simple-html-tokenizer](https://github.com/tildeio/simple-html-tokenizer "tildeio/simple-html-tokenizer: A lightweight JavaScript library for tokenizing non-`<script>` HTML expected to be found in the `<body>` of a document")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">HTML</span> <span class="jser-tag">library</span></p>
 
 HTMLをパースしてトークナイズするライブラリ
