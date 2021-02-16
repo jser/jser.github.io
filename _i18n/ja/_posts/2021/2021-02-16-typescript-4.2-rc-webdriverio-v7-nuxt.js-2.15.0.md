@@ -13,7 +13,53 @@ tags:
 
 ---
 
-JSer.info #527
+JSer.info #527 - TypeScript 4.2 RCがリリースされています。
+
+- [Announcing TypeScript 4.2 RC | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-2-rc/)
+
+Tuple TypesでRest Elementをサポート、Type Aliasの型追跡の仕組みを改善して表示される型を分かりやすくなるように。
+また、オブジェクトではないオペランドに対する`in`演算子を利用した場合にコンパイルエラーとなるように変更。
+その他には、`noPropertyAccessFromIndexSignature`オプションの追加、`abstract new`のサポート、、`--explainFiles`フラグが追加されています。
+
+[TypeScript 4.2 Beta](https://devblogs.microsoft.com/typescript/announcing-typescript-4-2-beta/)の時点では、Template Literal式をデフォルトでTemplate Literal Typeとして扱うように変更されていました。
+しかし、この挙動は[望ましくないケース](https://github.com/microsoft/TypeScript/issues/42589)もあることがわかり、revertしてデフォルトでは`string`として扱うようになっています。
+4.2 RCでは、Template Literal式に `as const` をつけた場合のみ、Template Literal Typeとして扱うようになっています。
+
+```ts
+declare const yourName: string;
+
+// 'bar' has type '`hello ${string}`'.
+const bar = `hello ${yourName}` as const;
+//                              ^^^^^^^^
+
+// 'baz' has type 'string'.
+const baz = `hello ${yourName}`;
+```
+
+---
+
+WebdriverIO v7がリリースされました。
+
+- [WebdriverIO v7 Released | WebdriverIO](https://webdriver.io/blog/2021/02/09/webdriverio-v7-released/)
+
+
+Node.js 10のサポート終了、TypeScriptでの書き直し、Cucumber v7へアップデート、Lightouse連携の改善が含まれています。
+`browser.checkPWA()`の追加、`@babel/register`や`ts-node`がインストールされている場合に自動的にコンパイルする[`autoCompileOpts`](https://webdriver.io/docs/configurationfile)オプションの追加などが含まれています。
+
+---
+
+Nuxt.js 2.15.0がリリースされています。
+
+- [Release v2.15.0 · nuxt/nuxt.js](https://github.com/nuxt/nuxt.js/releases/tag/v2.15.0)
+- [nuxt/components: Scan and auto import components for Nuxt.js 2.13+](https://github.com/nuxt/components#migration-guide)
+- [nuxt-contrib/jiti: Runtime Typescript and ESM support for Node.js](https://github.com/nuxt-contrib/jiti)
+
+破壊的な変更としてNode.js 10のサポート終了、`@nuxt/components` v2へのアップデートが含まれています。
+`@nuxt/components` v2へのアップデートするマイグレーションガイドも公開されています。
+
+- [nuxt/components: Scan and auto import components for Nuxt.js 2.13+](https://github.com/nuxt/components#migration-guide "nuxt/components: Scan and auto import components for Nuxt.js 2.13+")
+
+その他にはYarnのPlug'n'Playのサポート、PostCSS 8をopt-inでサポートしています。
 
 ----
 
