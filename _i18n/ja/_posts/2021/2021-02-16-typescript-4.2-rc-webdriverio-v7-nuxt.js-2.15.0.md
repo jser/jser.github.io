@@ -82,7 +82,7 @@ Node.js 10未満のサポート終了、依存のアップデートなど
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
 
 TypeScript 4.2 RCリリース。
-Tuple TypesでRest Elementをサポート、Type Aliasの型追跡の改善、オブジェクトではないオペランドに対する`in`演算子のチェックを追加。`noPropertyAccessFromIndexSignature`オプションの追加、`abstract new`のサポート、、`--explainFiles`フラグの追加など
+Tuple TypesでRest Elementをサポート、Type Aliasの型追跡の改善、オブジェクトではないオペランドに対する`in`演算子のチェックを追加。`noPropertyAccessFromIndexSignature`オプションの追加、`abstract new`のサポート、`--explainFiles`フラグの追加など
 
 
 ----
