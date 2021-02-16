@@ -19,7 +19,7 @@ JSer.info #527 - TypeScript 4.2 RCがリリースされています。
 
 Tuple TypesでRest Elementをサポート、Type Aliasの型追跡の仕組みを改善して表示される型が分かりやすくなるように。
 また、オブジェクトではないオペランドに対して`in`演算子を利用した場合に、コンパイルエラーとなるように変更。
-その他には、`noPropertyAccessFromIndexSignature`オプションの追加、`abstract new`のサポート、、`--explainFiles`フラグが追加されています。
+その他には、`noPropertyAccessFromIndexSignature`オプションの追加、`abstract new`のサポート、`--explainFiles`フラグが追加されています。
 
 [TypeScript 4.2 Beta](https://devblogs.microsoft.com/typescript/announcing-typescript-4-2-beta/)の時点では、Template Literal式をデフォルトでTemplate Literal Typeとして扱うように変更されていました。
 しかし、この挙動は[望ましくないケース](https://github.com/microsoft/TypeScript/issues/42589)もあることがわかり、revertしてデフォルトでは`string`として扱うようになっています。
