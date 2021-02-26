@@ -1,5 +1,5 @@
 ---
-title: "2021-02-16のJS: TypeScript 4.2 RC、WebdriverIO v7、Nuxt.js 2.15.0"
+title: "2021-02-16: TypeScript 4.2 RC, WebdriverIO v7, Nuxt.js 2.15.0"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
