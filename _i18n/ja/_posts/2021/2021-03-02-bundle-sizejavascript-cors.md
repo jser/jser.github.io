@@ -13,17 +13,31 @@ tags:
 
 ---
 
-JSer.info #529 - - [Managing focus in the shadow DOM | Read the Tea Leaves](https://nolanlawson.com/2021/02/13/managing-focus-in-the-shadow-dom/)
+JSer.info #529 - [JavaScript performance beyond bundle size | Read the Tea Leaves](https://nolanlawson.com/2021/02/23/javascript-performance-beyond-bundle-size/)という記事では、JavaScriptのパフォーマンス測定について書かれています。
+最近では、Bundle Sizeについては[BundlePhobia](https://bundlephobia.com/)や[Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)など分かりやすく測定するツールがありますが、それ以外のJavaScriptのパフォーマンスのメトリクスについて書かれています。
+
+ランタイムのCPUコスト、電力消費量、メモリ使用量、ディスクの使用量などのBundle Size以外のメトリクスをどのように見るのかについてまとめられています。
 
 ---
 
-- [CORS 完全手冊（一）：為什麼會發生 CORS 錯誤？](https://blog.huli.tw/2021/02/19/cors-guide-1/)
-- [CORS 完全手冊（二）：如何解決 CORS 問題？](https://blog.huli.tw/2021/02/19/cors-guide-2/)
-- [CORS 完全手冊（三）：CORS 詳解](https://blog.huli.tw/2021/02/19/cors-guide-3/)
-- [CORS 完全手冊（四）：一起看規範](https://blog.huli.tw/2021/02/19/cors-guide-4/)
-- [CORS 完全手冊（五）：跨來源的安全性問題](https://blog.huli.tw/2021/02/19/cors-guide-5/)
-- [CORS 完全手冊（六）：總結、後記與遺珠](https://blog.huli.tw/2021/02/19/cors-guide-6/)
+[CORS 完全手冊](https://blog.huli.tw/2021/02/19/cors-guide-1/)というCORSについての連載記事では、
+CORSの概念、対応方法、よくある間違い、CORB/CORP/COEP/COOPなど最近のオリジン関連のルール、セキュリティ的な問題について書かれています。
 
+- [CORS 完全手冊（一）：為什麼會發生 CORS 錯誤？](https://blog.huli.tw/2021/02/19/cors-guide-1/)
+  - クロスオリジンリクエストとは何か? CORSエラーはなぜおきるのかについて 
+- [CORS 完全手冊（二）：如何解決 CORS 問題？](https://blog.huli.tw/2021/02/19/cors-guide-2/)
+  - CORS対応の仕方(expressを例にしている)
+- [CORS 完全手冊（三）：CORS 詳解](https://blog.huli.tw/2021/02/19/cors-guide-3/)
+  - CORSの仕組み、それぞれのヘッダの意味をシナリオと合わせて解説している
+- [CORS 完全手冊（四）：一起看規範](https://blog.huli.tw/2021/02/19/cors-guide-4/)
+  - CORSの仕様を[Fetch Standard](https://fetch.spec.whatwg.org/)と共に解説。`Vary`ヘッダでのキャッシュの注意点についても書かれている
+- [CORS 完全手冊（五）：跨來源的安全性問題](https://blog.huli.tw/2021/02/19/cors-guide-5/)
+  - `res.headers['Access-Control-Allow-Origin'] = req.headers['Origin']` のようにOriginをオウム返しするよくある設定ミス(脆弱性)について
+  - CORB/CORP/COEP/COOPとSite Isolationについて
+- [CORS 完全手冊（六）：總結、後記與遺珠](https://blog.huli.tw/2021/02/19/cors-guide-6/)
+  - CORSのエラーのパターン分類、Origin Policy、CORSの細かな話など
+
+CORSについて必要な知識がほとんど書かれているため、おすすめです。
 
 ----
 
