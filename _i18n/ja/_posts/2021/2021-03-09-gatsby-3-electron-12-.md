@@ -13,19 +13,63 @@ tags:
 
 ---
 
-JSer.info #530 - - [Gatsby v3 Incremental Builds in OSS, new Gatsby Image, and more | Gatsby](https://www.gatsbyjs.com/blog/gatsby-v3/)
+JSer.info #530 - Gatsby v3がリリースされました。
+
+- [Gatsby v3 Incremental Builds in OSS, new Gatsby Image, and more | Gatsby](https://www.gatsbyjs.com/blog/gatsby-v3/)
+- [Gatsby v3.0 (March 2021 #1)](https://www.gatsbyjs.com/docs/reference/release-notes/v3.0/)
+
+ローカルでは実際にアクセスされたページだけをビルドすることで、全体を再構築せずにビルドする挙動がデフォルトとなっています。これによって必要なページだけをビルドするため、開発時のビルド待ち時間を少なくしています。
+
+破壊的変更としてNode.js 12未満のサポート終了、React 17/webpack 5/ESLint 7へアップデート、globalの`graphql`ではなくimportして使うように変更、APIの変更などが含まれています。
+
+マイグレーション方法については、次のドキュメントに丁寧な解説が書かれています。
+
 - [Migrating from v2 to v3 | Gatsby](https://www.gatsbyjs.com/docs/reference/release-notes/migrating-from-v2-to-v3/)
 
 ---
 
+Electron 12.0.0がリリースされました。
+
 - [Electron 12.0.0 | Electron Blog](https://www.electronjs.org/blog/electron-12-0)
+
+
+Chromium 89、V8 8.9、Node.js 14.16(12.xからの更新)へアップデートされています。
+`exposeInMainWorld`がオブジェクト以外をサポート、`webFrameMain` APIの追加など含まれています。
+
+Electron 12.0.0では`contextIsolation`と`worldSafeExecuteJavaScript`がデフォルトで`true`に変更されています。
+[Context Isolation](https://www.electronjs.org/docs/tutorial/context-isolation)は`preload`のスクリプトと`webContents`のスクリプトの実行コンテキスト分離することで、XSSなどの被害の範囲を軽減する仕組みです。
+
+- [Electron: Context Isolationの欠如を利用した任意コード実行 / Electron: Abusing the lack of context isolation - CureCon(ja) - Speaker Deck](https://speakerdeck.com/masatokinugawa/electron-abusing-the-lack-of-context-isolation-curecon-ja)
+- [Electron（v.12.0.0 現在）の IPC 通信入門 - よりセキュアな方法への変遷 - Qiita](https://qiita.com/hibara/items/c59fb6924610fc22a9db)
+
+また、[段階的に廃止されている`remote`モジュール](https://github.com/electron/electron/issues/21408)が非推奨となり、[@electron/remote](https://github.com/electron/remote)という外部モジュールへと移行されています。
+
 - [electron/remote: Bridge JavaScript objects from the main process to the renderer process in Electron.](https://github.com/electron/remote)
 
 ---
 
+ブラウザのライフサイクルが変化してきているのでいくつかのニュースをまとめて紹介します。
+
+現在6週間ごとにリリースされているChromeですが、Q3 of 2021のChrome 94からはリリースサイクルを4週間ごとに短縮することを発表しました。
+
 - [Chromium Blog: Speeding up Chrome's release cycle](https://blog.chromium.org/2021/03/speeding-up-release-cycle.html)
+- [Chromium Dash](https://chromiumdash.appspot.com/schedule)
+
+Microsoft Edge Legacyの廃止スケジュールが公開されています。
+Microsoft Edge Legacyは2021年3月9日でサポート終了されます。また、2021年4月13に配信されるセキュリティアップデートで削除され、同時に新しいChromiumベースのMSEdgeがインストールされます。(置き換わる)
+
 - [New Microsoft Edge to replace Microsoft Edge Legacy with April’s Windows 10 Update Tuesday release - Microsoft Tech Community](https://techcommunity.microsoft.com/t5/microsoft-365-blog/new-microsoft-edge-to-replace-microsoft-edge-legacy-with-april-s/ba-p/2114224)
-- [Releases | Node.js](https://nodejs.org/en/about/releases/)
+
+Internet Explorer(IE)の廃止はEdgeとは異なるライフサイクルであるためまだまだ先ですが、
+IEでアクセスしたときにMSEdgeへリダイレクトする互換リストによって移行が進められています。
+
+- [Moving users to Microsoft Edge from Internet Explorer - Microsoft Edge Development | Microsoft Docs](https://docs.microsoft.com/en-us/microsoft-edge/web-platform/ie-to-microsoft-edge-redirection)
+
+この[NeedEdgeの互換リスト](https://edge.microsoft.com/neededge/v1)に記載されたサイトへIEで訪問すると、MSEdgeで開き直すように促すリダイレクトポップアップが表示されるようになります。
+この互換リストに[追加されているサイト](https://github.com/teppeis/history-of-ie-incompatible-sites-list/commits/master)は徐々に増えてきています。
+これとは、別にIEのサポート終了を宣言しているサイトについては次のドキュメントにまとめられています。
+
+- [IE11 サポート終了の歴史 - Google ドキュメント](https://docs.google.com/document/d/1XP58gVMyp_UCP4FFsf5ATpvRVwqi7v_EpEF3sl_Sobk/edit)
 
 ----
 
