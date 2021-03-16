@@ -13,11 +13,41 @@ tags:
 
 ---
 
-JSer.info #531 - - [Release Notes for Safari Technology Preview 122 | WebKit](https://webkit.org/blog/11577/release-notes-for-safari-technology-preview-122/)
-- [Chromium Blog: Chrome 90 Beta: AV1 Encoder for WebRTC, New Origin Trials, and More](https://blog.chromium.org/2021/03/chrome-90-beta-av1-encoder-for-webrtc.html)
-- [sveltejs/kit: A monorepo for SvelteKit and friends](https://github.com/sveltejs/kit)
-- [What is SvelteKit? | SK Incognito](https://sk-incognito.vercel.app/learn/what-is-sveltekit)
+JSer.info #531 - Safari Technology Preview 122がリリースされました。
 
+- [Release Notes for Safari Technology Preview 122 | WebKit](https://webkit.org/blog/11577/release-notes-for-safari-technology-preview-122/)
+
+Safari Technology Preview 122では色々な機能が実装されています。
+実験フラグ付きでCSS `:focus-visible`とCSS Color 5の`color-mix()`/`color-contrast()`/[Relative color syntax](https://drafts.csswg.org/css-color-5/#relative-colors)が実装されています。
+ES Proposal Stage 3の[Private method](https://github.com/tc39/proposal-private-methods)、[Static private methods](https://github.com/tc39/proposal-static-class-features)、[Top-Level await](https://github.com/tc39/proposal-top-level-await)、[RegExp Match Indices](https://github.com/tc39/proposal-regexp-match-indices)のサポート。
+Web WorkerとService Workerで`type: module`をサポート、Paint Timingの(再)有効化なども含まれます。
+
+- [Threading the web with module workers](https://web.dev/module-workers/)
+- [Chrome 80 から Web Worker (Dedicated Worker) で ES Modules が使えます](https://nhiroki.jp/2019/12/05/es-modules-for-dedicated-workers)
+
+Safariとは直接関係しませんが、2021年6月ごろにリリースされる予定のECMAScript 2021のリリース候補も公開されています。
+
+- [Release ES2021 Candidate March 2021 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2021-candidate-2021-03)
+- [ECMAScript 2021: the final feature set](https://2ality.com/2020/09/ecmascript-2021.html)
+
+---
+
+SvelteベースのNext.jsライクなフレームワークであった[Sapper](https://sapper.svelte.dev/)を置き換える目的のSveleteKitのソースコードが公開されています。
+
+- [sveltejs/kit: A monorepo for SvelteKit and friends](https://github.com/sveltejs/kit)
+
+まだソースコードの公開だけでリリースはされていません。
+[What is SvelteKit? | SK Incognito](https://sk-incognito.vercel.app/learn/what-is-sveltekit)というチュートリアルサイトでは、SvelteKitがどのようなものか紹介されているので、興味がある人は見てみるといいかもしれません。
+
+---
+
+React Native 0.64がリリースされました。
+
+- [Announcing React Native 0.64 with Hermes on iOS · React Native](https://reactnative.dev/blog/2021/03/12/version-0.64)
+
+AOTによる事前コンパイルでfootprintを最適化してアプリの起動速度などを改善する目的である[Hermes JS Engine](https://github.com/facebook/hermes)がiOSでも利用可能になっています。
+また、HermesにES2015の[Proxy object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)のサポートが追加されています。
+その他には、MetroでInline Requiresがデフォルトで有効化、[React 17](https://reactjs.org/blog/2020/10/20/react-v17.html)へアップデートなどが含まれています。
 
 ----
 
