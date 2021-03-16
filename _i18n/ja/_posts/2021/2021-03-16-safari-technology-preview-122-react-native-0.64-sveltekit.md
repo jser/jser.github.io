@@ -32,8 +32,8 @@ Safariとは直接関係しませんが、2021年6月ごろにリリースされ
 
 ---
 
-SveleteKitのソースコードが公開されています。
-SveleteKitはSvelteベースのNext.jsライクなフレームワークであった[Sapper](https://sapper.svelte.dev/)を置き換える目的で作られています。
+SvelteKitのソースコードが公開されています。
+SvelteKitはSvelteベースのNext.jsライクなフレームワークであった[Sapper](https://sapper.svelte.dev/)を置き換える目的で作られています。
 
 - [sveltejs/kit: A monorepo for SvelteKit and friends](https://github.com/sveltejs/kit)
 
