@@ -157,7 +157,7 @@ JavaScriptのテストフレームワークのレポートの共通インター�
 
 Storybook 6.2リリース。
 Vue 3とSvelteサポート、Yarn 2のPnp/npm 7/ESMのサポート、webpack 5をopt-inでサポート。
-Controlsで関数やReact要素、Blobをサポートなど
+Controls addonにJSON editorやcolor pickerの追加など
 
 
 ----
