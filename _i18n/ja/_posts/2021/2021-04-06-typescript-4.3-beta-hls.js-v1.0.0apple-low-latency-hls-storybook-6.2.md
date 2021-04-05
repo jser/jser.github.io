@@ -13,17 +13,49 @@ tags:
 
 ---
 
-JSer.info #534 - - [Announcing TypeScript 4.3 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-3-beta/)
+JSer.info #534 - TypeScript 4.3 Betaがリリースされました。
+
+- [Announcing TypeScript 4.3 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-3-beta/)
+
+今までは、getterとsetterは同じ型であることが強制されていましたが、setterにgetterより幅広い型を指定できるようになっています。また、継承したメソッドをoverrideしていることを意味する`override`キーワードの追加し、`--noImplicitOverride`でチェックできるようになっています。
+
+その他には、Template String Typeの改善、一部不完全だったPrivate Class Elements(fields/methods/accessors)のサポートが改善されています。
+Private Class ElementsのサポートはRuntimeの変更も含まれるため、これに合わせてruntimeのライブラリであるtslint 2.2.0がリリースされています。
+
+- [Release tslib 2.2.0 · microsoft/tslib](https://github.com/microsoft/tslib/releases/2.2.0)
+
+また、Promiseオブジェクトを条件式に渡してしまうミスのチェックできるようになり、`static` Index Signaturesのサポートも追加されています。
 
 ----
 
+HLS(HTTP Live Streaming)を扱うライブラリであるhls.js 1.0.0がリリースされました。
+
 - [Release v1.0.0 · video-dev/hls.js](https://github.com/video-dev/hls.js/releases/tag/v1.0.0)
+
+1.0.0では低遅延の動画を扱うApple Low-Latency HLSがサポートされています。
+また、fmp4 streamのサポート改善、コードベースをTypeScriptに書きなおしなども含まれています。
+破壊的な変更として`backBufferLength`のデフォルト値の変更、イベントのシグネチャの変更なども含まれています。
+
+リリースに合わせてマイグレーションガイドも公開されています。
+
 - [hls.js/MIGRATING.md at master · video-dev/hls.js](https://github.com/video-dev/hls.js/blob/master/MIGRATING.md#migrating-from-hlsjs-0x-to-1x)
 
 ----
 
+Storybook 6.2がリリースされました。
+
 - [Storybook 6.2](https://storybook.js.org/blog/storybook-6-2/)
 
+Storybook 6.2ではVue 3とSvelteのサポートが追加されいます。
+
+- [Storybook for Vue 3](https://storybook.js.org/blog/storybook-vue3/)
+- [Storybook for Svelte](https://storybook.js.org/blog/storybook-for-svelte/)
+
+Yarn 2のPnP/npm 7/ESMのサポート、webpack 5をopt-inでサポートしています。
+
+- [Storybook for Webpack 5](https://storybook.js.org/blog/storybook-for-webpack-5/)
+
+また、Controls addonが改善され、JSON editorやcolor pickerなどの機能が追加されています。
 
 ----
 
