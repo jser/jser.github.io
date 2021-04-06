@@ -20,7 +20,7 @@ JSer.info #534 - TypeScript 4.3 Betaがリリースされました。
 今までは、getterとsetterは同じ型であることが強制されていましたが、setterにgetterより幅広い型を指定できるようになっています。また、継承したメソッドをoverrideしていることを意味する`override`キーワードの追加し、`--noImplicitOverride`でチェックできるようになっています。
 
 その他には、Template String Typeの改善、一部不完全だったPrivate Class Elements(fields/methods/accessors)のサポートが改善されています。
-Private Class ElementsのサポートはRuntimeの変更も含まれるため、これに合わせてruntimeのライブラリであるtslint 2.2.0がリリースされています。
+Private Class ElementsのサポートはRuntimeの変更も含まれるため、これに合わせてruntimeのライブラリであるtslib 2.2.0がリリースされています。
 
 - [Release tslib 2.2.0 · microsoft/tslib](https://github.com/microsoft/tslib/releases/2.2.0)
 
