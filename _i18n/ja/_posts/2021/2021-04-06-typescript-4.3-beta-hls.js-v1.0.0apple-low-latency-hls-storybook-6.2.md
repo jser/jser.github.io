@@ -24,7 +24,7 @@ Private Class ElementsのサポートはRuntimeの変更も含まれるため、
 
 - [Release tslib 2.2.0 · microsoft/tslib](https://github.com/microsoft/tslib/releases/2.2.0)
 
-また、Promiseオブジェクトを条件式に渡してしまうミスのチェックできるようになり、`static` Index Signaturesのサポートも追加されています。
+また、Promiseオブジェクトを条件式に渡してしまうミスのチェックができるようになり、`static` Index Signaturesのサポートも追加されています。
 
 ----
 
