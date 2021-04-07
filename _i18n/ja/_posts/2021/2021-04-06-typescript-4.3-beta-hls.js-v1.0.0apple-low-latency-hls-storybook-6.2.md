@@ -17,7 +17,7 @@ JSer.info #534 - TypeScript 4.3 Betaがリリースされました。
 
 - [Announcing TypeScript 4.3 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-3-beta/)
 
-今までは、getterとsetterは同じ型であることが強制されていましたが、setterにgetterより幅広い型を指定できるようになっています。また、継承したメソッドをoverrideしていることを意味する`override`キーワードの追加し、`--noImplicitOverride`でチェックできるようになっています。
+今までは、getterとsetterは同じ型であることが強制されていましたが、setterにgetterより幅広い型を指定できるようになっています。また、継承したメソッドをoverrideしていることを意味する`override`キーワードが追加され、`--noImplicitOverride`でチェックできるようになっています。
 
 その他には、Template String Typeの改善、一部不完全だったPrivate Class Elements(fields/methods/accessors)のサポートが改善されています。
 Private Class ElementsのサポートはRuntimeの変更も含まれるため、これに合わせてruntimeのライブラリであるtslib 2.2.0がリリースされています。
@@ -46,7 +46,7 @@ Storybook 6.2がリリースされました。
 
 - [Storybook 6.2](https://storybook.js.org/blog/storybook-6-2/)
 
-Storybook 6.2ではVue 3とSvelteのサポートが追加されいます。
+Storybook 6.2ではVue 3とSvelteのサポートが追加されています。
 
 - [Storybook for Vue 3](https://storybook.js.org/blog/storybook-vue3/)
 - [Storybook for Svelte](https://storybook.js.org/blog/storybook-for-svelte/)
