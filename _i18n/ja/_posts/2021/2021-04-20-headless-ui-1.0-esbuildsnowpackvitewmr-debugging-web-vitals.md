@@ -177,7 +177,7 @@ LabelとInputについての記事。
 [web.dev/debug-web-vitals-in-the-field/](https://web.dev/debug-web-vitals-in-the-field/ "Debug Web Vitals in the field")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p>
 
-Web VitalsのメトリクスとをJavaScriptで取得して、実際にどの要素がスコアに影響してるのかをデバッグする方法について
+Web VitalsのメトリクスをJavaScriptで取得して、実際にどの要素がスコアに影響してるのかをデバッグする方法について
 
 - [GoogleChromeLabs/web-vitals-report: Measure and report on your Web Vitals data in Google Analytics](https://github.com/GoogleChromeLabs/web-vitals-report "GoogleChromeLabs/web-vitals-report: Measure and report on your Web Vitals data in Google Analytics")
 
