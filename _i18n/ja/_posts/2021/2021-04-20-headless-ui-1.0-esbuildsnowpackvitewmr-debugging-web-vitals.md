@@ -13,20 +13,38 @@ tags:
 
 ---
 
-JSer.info #536 - - [Headless UI v1.0 – Tailwind CSS](https://blog.tailwindcss.com/headless-ui-v1)
+JSer.info #536 - ReactとVueに対応したスタイルなしコンポーネントライブラリであるHeadless UI 1.0がリリースされました。
+
+- [Headless UI v1.0 – Tailwind CSS](https://blog.tailwindcss.com/headless-ui-v1)
 - [tailwindlabs/headlessui: Completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS.](https://github.com/tailwindlabs/headlessui)
 
+Headless UIはTailwind CSSと一緒に使う目的で開発されているため、コンポーネント自体にはスタイルは含まれていません。
+Headless UIにはReactとVueの実装がそれぞれあり、今回のリリースでそれぞれが1.0としてリリースされています。
+
 ----
 
-- [Comparing the New Generation of Build Tools | CSS-Tricks](https://css-tricks.com/comparing-the-new-generation-of-build-tools/)
+[Comparing the New Generation of Build Tools | CSS-Tricks](https://css-tricks.com/comparing-the-new-generation-of-build-tools/)という記事では、esbuild/Snowpack/Vite/wmrのビルドツールについて比較しています。
+
+それぞれのツールの特徴や使い方、サポートしているファイル形式、production buildなどについて比較しています。
+esbuildは少しレイヤーが異なる気はしますが、それぞれのツールの特徴がまとめられいます。
 
 ----
+
+Google検索結果のランキングにpage experienceというWeb Vitalsをベースとして指標が6月から含まれる予定です。
+
+- [Timing for bringing page experience to Google Search](https://developers.google.com/search/blog/2020/11/timing-for-page-experience)
+- [More time, tools, and details on the page experience update](https://developers.google.com/search/blog/2021/04/more-details-page-experience)
+
+これにあわせて、Web Vitalsのデバッグ方法やツールなどが色々と公開されています。
 
 - [Debug Web Vitals in the field](https://web.dev/debug-web-vitals-in-the-field/)
+  - Web Vitalsのメトリクスのデバッグ方法
 - [An In-Depth Guide To Measuring Core Web Vitals — Smashing Magazine](https://www.smashingmagazine.com/2021/04/complete-guide-measure-core-web-vitals/)
+  - Web Vitalsの全体的な解説
 - [Cumulative Layout Shift Debugger (CLS) - webvitals.dev](https://webvitals.dev/cls)
+  - CLSのデバッグツール
 - [Waterfaller - find and fix all the slowdowns on your web page to boost speed and core web vital scores](https://waterfaller.dev/)
-
+  - ページロードをウォータフォール表示して、Web Vitalsのメトリクスなどをどのように改善するかを提示するツール
 
 ----
 
