@@ -1,5 +1,5 @@
 ---
-title: "2021-04-20:  Headless UI 1.0, esbuild/Snowpack/Vite/wmr 비교, debugging Web Vitals"
+title: "2021-04-20: Headless UI 1.0, esbuild/Snowpack/Vite/wmr 비교, debugging Web Vitals"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
