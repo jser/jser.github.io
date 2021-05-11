@@ -92,17 +92,6 @@ ECMAScript Modulesのサポート。
 Prettier 2.3リリース。
 JavaScriptのフォーマットの大きめな変更、Handlebarsサポートをalphaからreleaseに変更、JSON5/JSONのフォーマットの修正など
 
-
-----
-
-## google/zx: A tool for writing better scripts
-[github.com/google/zx](https://github.com/google/zx "google/zx: A tool for writing better scripts")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">ShellScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p>
-
-シェルスクリプトのような処理をJavaScriptで書けるNode.js製のツール。
-Top-Level awaitを使ってシェルコマンドをそのまま使える`$`やHTTP通信するfetchなどが同梱されている。
-
-
 ----
 <h1 class="site-genre">アーティクル</h1>
 
@@ -190,6 +179,15 @@ esbuildをベースにしたparcelのようにHTMLをエントリポイントに
 
 CSS Container Queriesのpolyfill。
 PostCSSと組み合わせて利用できる
+
+----
+
+## google/zx: A tool for writing better scripts
+[github.com/google/zx](https://github.com/google/zx "google/zx: A tool for writing better scripts")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ShellScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p>
+
+シェルスクリプトのような処理をJavaScriptで書けるNode.js製のツール。
+Top-Level awaitを使ってシェルコマンドをそのまま使える`$`やHTTP通信するfetchなどが同梱されている。
 
 
 ----
