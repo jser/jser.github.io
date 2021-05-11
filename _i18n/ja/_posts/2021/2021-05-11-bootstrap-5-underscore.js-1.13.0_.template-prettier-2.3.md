@@ -19,6 +19,9 @@ JSer.info #539 - - [Bootstrap 5 | Bootstrap Blog](https://blog.getbootstrap.com/
 ----
 
 - [Underscore.js 1.13.0](https://underscorejs.org/#1.13.0)
+- [Command Injection in lodash | Snyk](https://app.snyk.io/vuln/SNYK-JS-LODASH-1040724)
+- [Release 4.17.21 · lodash/lodash](https://github.com/lodash/lodash/releases/tag/4.17.21)
+
 
 ----
 
