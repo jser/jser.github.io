@@ -37,7 +37,7 @@ Underscore.js 1.13では、`package.json`の[`exports`フィールド](https://n
 
 - [Command Injection in lodash | Snyk](https://app.snyk.io/vuln/SNYK-JS-LODASH-1040724)
 
-UnderscoreとLodash 仕組みは異なりますが、どちらも`_.template`の`variable`オプションに任意の文字列を渡せる場合に、
+あまり多くはないと思いますが、UnderscoreとLodashどちらも`_.template`の`variable`オプションに任意の文字列を渡せる場合に、
 渡した文字列をコードとして実行できる脆弱性が修正されています。
 
 ```js
