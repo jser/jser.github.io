@@ -1,5 +1,5 @@
 ---
-title: "2021-05-11のJS: Bootstrap 5、 Underscore.js 1.13.0(`_.template`のセキュリティ修正)、Prettier 2.3"
+title: "2021-05-11のJS: Bootstrap 5、Underscore.js 1.13.0(`_.template`のセキュリティ修正)、Prettier 2.3"
 author: "azu"
 layout: post
 date : 2021-05-11T02:01:52.181Z
