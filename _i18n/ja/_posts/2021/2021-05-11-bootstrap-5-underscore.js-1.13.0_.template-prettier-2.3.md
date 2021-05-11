@@ -13,20 +13,47 @@ tags:
 
 ---
 
-JSer.info #539 - - [Bootstrap 5 | Bootstrap Blog](https://blog.getbootstrap.com/2021/05/05/bootstrap-5/)
+JSer.info #539 - CSSフレームワークであるBootstrap 5 がリリースされました。
+
+- [Bootstrap 5 | Bootstrap Blog](https://blog.getbootstrap.com/2021/05/05/bootstrap-5/)
+
+Bootstrap 5では、IEのサポート終了し、jQueryに依存しないように書き換えられています。
+offcanvasコンポーネント、cardの代替えとなるaccordionコンポーネントが追加されています。
+また、FormとLayoutの変更、RTLのサポート、SassのUtility APIの追加なども行われています。
+
+v4からのマイグレーション方法については次のドキュメントにまとめられています。
+
 - [Migrating to v5 · Bootstrap v5.0](https://getbootstrap.com/docs/5.0/migration/)
 
 ----
 
-- [Underscore.js 1.13.0](https://underscorejs.org/#1.13.0)
-- [Command Injection in lodash | Snyk](https://app.snyk.io/vuln/SNYK-JS-LODASH-1040724)
-- [Release 4.17.21 · lodash/lodash](https://github.com/lodash/lodash/releases/tag/4.17.21)
+Underscore.js 1.13がリリースされています。
 
+- [Underscore.js 1.13.0](https://underscorejs.org/#1.13.0)
+
+Underscore.js 1.13では、`package.json`の[`exports`フィールド](https://nodejs.org/api/packages.html#packages_exports)に対応し、ECMAScript Modulesをサポートしています。
+
+また、Underscore.js 1.12では、lodash [4.17.21](https://github.com/lodash/lodash/releases/tag/4.17.21)で修正された、`_.template`の脆弱性の修正も含まれています。
+
+- [Command Injection in lodash | Snyk](https://app.snyk.io/vuln/SNYK-JS-LODASH-1040724)
+
+UnderscoreとLodash 仕組みは異なりますが、どちらも`_.template`の`variable`オプションに任意の文字列を渡せる場合に、
+渡した文字列をコードとして実行できる脆弱性が修正されています。
+
+```js
+const _ = require("underscore");
+const template = _.template('hello: <%= name %>', { variable: 'ここに任意の文字列を渡せると脆弱性' });
+template({name: "Mustache"});
+```
 
 ----
 
+Prettier 2.3がリリースされました。
+
 - [Prettier 2.3. In which assignments are consistent, short keys non-breaking, and Handlebars official · Prettier](https://prettier.io/blog/2021/05/09/2.3.0.html)
 
+JavaScriptのフォーマットの大きめな変更、Handlebarsサポートをalphaからreleaseに変更、JSON5/JSONのフォーマットの修正などが含まれています。
+JavaScriptの変数やプロパティへの代入における一貫性の修正が含まれているため、アップデート後に大きなDiffがでる可能性についても書かれています。
 
 ----
 
