@@ -53,7 +53,7 @@ Prettier 2.3 릴리스.
 - [Prettier 2.3. In which assignments are consistent, short keys non-breaking, and Handlebars official · Prettier](https://prettier.io/blog/2021/05/09/2.3.0.html)
 
 새로운 JavaScript 포메터(Ember / Handlebars) 추가, Handlebars 지원을 alpha에서 release로 변경, JSON5 / JSON 포멧이 수정됐다.
-JavaScript의 변수 및 프로퍼티 대입 코드가 일관성 있게 수정되도록 변경됐으므로 업데이트 시 큰 Diif가 발생할 수 있다.
+JavaScript의 변수 및 프로퍼티 대입 코드가 일관성 있게 정책이 수정됐으므로 업데이트 시 큰 Diif가 발생할 수 있다. 그 외에 GraphQL, MD, YAML 관련 프리티어 정책이 변경돼 Diff가 발생한다.
 
 ----
 
@@ -90,7 +90,8 @@ ECMAScript Modules 지원,
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Prettier 2.3 릴리스.
-JavaScript 포메터의 큰 변경, Handlebars 지원을 alpha에서 release로 변경, JSON5 / JSON 포멧 수정.
+JavaScript 포메터 정책이 크게 변경됨.
+Handlebars 지원을 alpha에서 release로 변경, JSON5 / JSON 포멧 수정.
 
 ----
 <h1 class="site-genre">아티클</h1>
