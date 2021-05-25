@@ -101,14 +101,6 @@ Node v16.2.0リリース。
 
 ----
 
-## DOM Events
-[domevents.dev/](https://domevents.dev/ "DOM Events")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">event</span> <span class="jser-tag">Tools</span></p>
-
-DOMイベントの流れをBubbling、Capture、Passiveなどのオプションごとに動きを可視化できるツール
-
-
-----
 
 ## Release v10.0.0 · TypeStrong/ts-node
 [github.com/TypeStrong/ts-node/releases/tag/v10.0.0](https://github.com/TypeStrong/ts-node/releases/tag/v10.0.0 "Release v10.0.0 · TypeStrong/ts-node")
@@ -218,6 +210,16 @@ JavaScriptのライブラリをnpmに公開するチュートリアル。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">library</span></p>
 
 いろいろなCSS transitionを集めたCSSライブラリ
+
+
+----
+
+
+## DOM Events
+[domevents.dev/](https://domevents.dev/ "DOM Events")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">event</span> <span class="jser-tag">Tools</span></p>
+
+DOMイベントの流れをBubbling、Capture、Passiveなどのオプションごとに動きを可視化できるツール
 
 
 ----
