@@ -128,7 +128,7 @@ Node.js 10 지원 종료, `--show-config` 추가, `--transpiler` 옵션으로 SW
 [blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html](https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html "Chromium Blog: Update on User-Agent String Reduction in Chrome")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p>
 
-Chrome의 User-Agent 고정해 나갈 과정을 담은 로드맵. 
+Chrome의 User-Agent를 고정해 나갈 과정을 담은 로드맵. 
 Chrome 92에서 `navigator.userAgent` 등 비권장화, reduced UA string을 옵트인으로 도입하고 활성화하는 등 7 단계로 이뤄진 마이그레이션 전략에 대해.
 
 - [User-Agent Reduction - The Chromium Projects](https://www.chromium.org/updates/ua-reduction "User-Agent Reduction - The Chromium Projects")
