@@ -13,19 +13,43 @@ tags:
 
 ---
 
-JSer.info #541 - - [The future of Internet Explorer on Windows 10 is in Microsoft Edge | Windows Experience Blog](https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/)
+JSer.info #541 - Windows 10においてのInternet Explorer(IE)の単体のアプリとしてサポートが2022年6月15日で終了されることがアナウンスされました。
+
+- [The future of Internet Explorer on Windows 10 is in Microsoft Edge | Windows Experience Blog](https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/)
 - [Internet Explorer は Microsoft Edge へ – Windows 10 の Internet Explorer 11 デスクトップアプリは 2022 年 6 月 15 日にサポート終了 - Windows Blog for Japan](https://blogs.windows.com/japan/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/)
 - [「Internet Explorer 11 デスクトップ アプリケーションのサポート終了」の発表に関連する FAQ - Windows Blog for Japan](https://blogs.windows.com/japan/2021/05/19/internet-explorer-11-desktop-app-retirement-faq/)
 
+2022年6月15日以降は、IEのデスクトップアプリケーション(`iexplore.exe`)を利用しようとするとMicrosoft Edge(MSEdge)が代わりに起動します。
+MSEdgeにはIE モードが搭載されており、MSEdgeの設定を変更することでIEのレンダリングエンジンであるMSHTML (Trident)が使えるようになるようです。
+
+- [Microsoft Edge の Internet Explorer モード - Office サポート](https://support.microsoft.com/ja-jp/office/microsoft-edge-%e3%81%ae-internet-explorer-%e3%83%a2%e3%83%bc%e3%83%89-6604162f-e38a-48b2-acd2-682dbac6f0de?ui=ja-JP&rs=ja-JP&ad=JP)
+
+このIEモード(MSHTML)のサポート自体は今回のアナウンスとは関係なく、 2029 年までサポートされる予定となっています。
+
 ---
+
+WebContainersというブラウザ上でNode.jsのランタイムを動かす仕組みがstackblitzで公開されています。
 
 - [Introducing WebContainers: Run Node.js natively in your browser](https://blog.stackblitz.com/posts/introducing-webcontainers/)
-- [stackblitz/webcontainer-core](https://github.com/stackblitz/webcontainer-core)
+
+Node.jsのランタイムをブラウザで動かし、ブラウザ自体をSandboxとしてNode.jsのコードをセキュアに実行するための仕組みとなっています。あくまでブラウザの中で動かす仕組みであるため、ネイティブアドオンは対応せずCORSなどブラウザの制約の中で動作します。
+
+[stackblitz/webcontainer-core](https://github.com/stackblitz/webcontainer-core)ではキーコンセプトが解説されています。
+Virtual FSとNetworkingを実装し、各プロセスをWorkerとして起動してメッセージングすることでマルチプロセスのサポートしています。POSIXなシェルとしてjshという実装と、npm/yarnクライアントとしてturboという実装を持っています。
+
+現在はオープンソースではありませんが、将来的に[コア部分はオープンソースとして公開](https://news.ycombinator.com/item?id=27225150)する予定となっています。
 
 ---
 
-- [Migrate to User-Agent Client Hints](https://web.dev/migrate-to-ua-ch/)
+ChromeにおけるUA文字列を扱う `navigator.userAgent`, `navigator.appVersion`, `navigator.platform` を非推奨とするロードマップが更新されています。
+
 - [Chromium Blog: Update on User-Agent String Reduction in Chrome](https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html)
+
+Chrome 92で非推奨の警告をだすようになり、段階的にUA文字列から情報を削り、UA文字列化を固定化していく予定のロードマップが公開されています。
+
+`navigator.userAgent`の代替となる仕組みとして、UA Client Hintsがありロードマップの記事とあわせて、UA Client Hintsへの移行方法についての記事も公開されています。
+
+- [Migrate to User-Agent Client Hints](https://web.dev/migrate-to-ua-ch/)
 - [GoogleChromeLabs/uach-retrofill: This snippet illustrates how to reconstruct the legacy navigator.userAgent string value from the modern navigator.userAgentData values.](https://github.com/GoogleChromeLabs/uach-retrofill)
 
 
