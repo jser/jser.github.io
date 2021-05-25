@@ -20,11 +20,15 @@ JSer.info #541 - Windows 10においてのInternet Explorer(IE)の単体のア�
 - [「Internet Explorer 11 デスクトップ アプリケーションのサポート終了」の発表に関連する FAQ - Windows Blog for Japan](https://blogs.windows.com/japan/2021/05/19/internet-explorer-11-desktop-app-retirement-faq/)
 
 2022年6月15日以降は、IEのデスクトップアプリケーション(`iexplore.exe`)を利用しようとするとMicrosoft Edge(MSEdge)が代わりに起動します。
-MSEdgeにはIE モードが搭載されており、MSEdgeの設定を変更することでIEのレンダリングエンジンであるMSHTML (Trident)が使えるようになるようです。
+MSEdgeにはIEモードが搭載されており、MSEdgeの設定を変更することでIEのレンダリングエンジンであるMSHTML (Trident)が使えるようになるようです。
 
 - [Microsoft Edge の Internet Explorer モード - Office サポート](https://support.microsoft.com/ja-jp/office/microsoft-edge-%e3%81%ae-internet-explorer-%e3%83%a2%e3%83%bc%e3%83%89-6604162f-e38a-48b2-acd2-682dbac6f0de?ui=ja-JP&rs=ja-JP&ad=JP)
 
-このIEモード(MSHTML)のサポート自体は今回のアナウンスとは関係なく、 2029 年までサポートされる予定となっています。
+また、このIEモードではMSEdgeのF12開発者ツールと接続できないため、代わりに`IEChooser.exe`を使ったデバッグができるようになっています。
+
+- [IE モードのよくあるご質問 | Japan Developer Support Internet Team Blog](https://jpdsi.github.io/blog/internet-explorer-microsoft-edge/ie-mode-faq/)
+
+このIEモード(MSHTML)のサポート自体は今回のアナウンスとは関係なく、 2029年までサポートされる予定となっています。
 
 ---
 
