@@ -34,7 +34,7 @@ CSS Variablesが利用できないといったCSS Modulesの問題点の解決�
 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-vanilla-extractは[CSS Modules](https://github.com/css-modules/css-modules)の作者の一人でも[Mark Dalgleish](https://twitter.com/markdalgleish)が中心に作られている、CSS Modules-in-TypeScriptなCSSフレームワークです。
+vanilla-extractは[CSS Modules](https://github.com/css-modules/css-modules)の作者の一人でもある[Mark Dalgleish](https://twitter.com/markdalgleish)が中心に作成されているCSS Modules-in-TypeScriptなCSSフレームワークです。
 TypeScriptでスタイルをJSとして`.css.ts`に書いて`class`属性に指定したものをコンパイルすると、CSSファイルを生成するフレームワークに依存しないツールキットとなっています。
 
 直近で様々なCSS in JSが登場しているので、次の記事がCSSへのアプローチをグループ分けしてまとめられています。
