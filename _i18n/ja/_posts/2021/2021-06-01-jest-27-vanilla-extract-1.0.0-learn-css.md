@@ -126,6 +126,17 @@ Top-Level awaitとRegExp Match IndicesがStage 4となりES2022に含まれる�
 JSHint 2.13.0リリース。
 `export * as ns from`、`import.meta`、Dynamic `import()`、Optional Chaining、Nullish Coalescingのサポートなど
 
+----
+
+## vanilla-extract — Zero-runtime Stylesheets-in-TypeScript.
+[vanilla-extract.style/](https://vanilla-extract.style/ "vanilla-extract — Zero-runtime Stylesheets-in-TypeScript.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p>
+
+vanilla-extract v1.0リリース。
+TypeScriptでスタイルをJSとして`.css.ts`に書いて`class`属性に指定したものをコンパイルすると、CSSファイルを生成するフレームワークに依存しないツールキット。
+ビルド時に静的に展開されるAPIと実行時に動作するDynamic API、webpackやViteなどの各種ツールに対応したプラグインが用意されている。
+
+- [🧁🍨 Mark Dalgleish on Twitter: &amp;quot;🧁🎉 Announcing vanilla-extract v1.0! 💪 Locally scoped, type-safe styles, variables + themes. 🦄 Minimal abstraction over CSS. 🛠 Framework agnostic, w/ integrations for webpack, esbuild, Vite + Snowpack. ✅ Now stable + production ready. 🙇‍♂️ Enjoy! https://t.co/Ejaf4anfbj&amp;quot; / Twitter](https://twitter.com/markdalgleish/status/1398158090294292482 "🧁🍨 Mark Dalgleish on Twitter: &amp;amp;quot;🧁🎉 Announcing vanilla-extract v1.0! 💪 Locally scoped, type-safe styles, variables + themes. 🦄 Minimal abstraction over CSS. 🛠 Framework agnostic, w/ integrations for webpack, esbuild, Vite + Snowpack. ✅ Now stable + production ready. 🙇‍♂️ Enjoy! https://t.co/Ejaf4anfbj&amp;amp;quot; / Twitter")
 
 ----
 
@@ -157,17 +168,6 @@ Web Fontsのローディングについての連載。
 <h1 class="site-genre">スライド、動画関係</h1>
 
 ----
-
-## xqq/mpegts.js: HTML5 MPEG2-TS Stream Player
-[github.com/xqq/mpegts.js](https://github.com/xqq/mpegts.js "xqq/mpegts.js: HTML5 MPEG2-TS Stream Player")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">video</span> <span class="jser-tag">library</span></p>
-
-flv.jsをベースにしたMPEG-2 TS steram playerライブラリ。
-HTTPとWebSocketを使ったMPEG-2 TS streamの再生、低遅延、低スペックマシンでも再生できることを目的にしている。
-flv.jsベースであるため、FLV containerもサポートしている。
-
-
-----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
 
 ----
@@ -182,6 +182,17 @@ Box Model、セレクタ、詳細度、CSSの単位などの基本的な概念�
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+
+----
+
+## xqq/mpegts.js: HTML5 MPEG2-TS Stream Player
+[github.com/xqq/mpegts.js](https://github.com/xqq/mpegts.js "xqq/mpegts.js: HTML5 MPEG2-TS Stream Player")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">video</span> <span class="jser-tag">library</span></p>
+
+flv.jsをベースにしたMPEG-2 TS steram playerライブラリ。
+HTTPとWebSocketを使ったMPEG-2 TS streamの再生、低遅延、低スペックマシンでも再生できることを目的にしている。
+flv.jsベースであるため、FLV containerもサポートしている。
 
 ----
 
@@ -208,19 +219,6 @@ Auto LayoutとVisual Format Languageの実装ライブラリ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p>
 
 TypeScriptの型カバレッジを出すツール
-
-
-----
-
-## vanilla-extract — Zero-runtime Stylesheets-in-TypeScript.
-[vanilla-extract.style/](https://vanilla-extract.style/ "vanilla-extract — Zero-runtime Stylesheets-in-TypeScript.")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p>
-
-vanilla-extract v1.0リリース。
-TypeScriptでスタイルをJSとして`.css.ts`に書いて`class`属性に指定したものをコンパイルすると、CSSファイルを生成するフレームワークに依存しないツールキット。
-ビルド時に静的に展開されるAPIと実行時に動作するDynamic API、webpackやViteなどの各種ツールに対応したプラグインが用意されている。
-
-- [🧁🍨 Mark Dalgleish on Twitter: &amp;quot;🧁🎉 Announcing vanilla-extract v1.0! 💪 Locally scoped, type-safe styles, variables + themes. 🦄 Minimal abstraction over CSS. 🛠 Framework agnostic, w/ integrations for webpack, esbuild, Vite + Snowpack. ✅ Now stable + production ready. 🙇‍♂️ Enjoy! https://t.co/Ejaf4anfbj&amp;quot; / Twitter](https://twitter.com/markdalgleish/status/1398158090294292482 "🧁🍨 Mark Dalgleish on Twitter: &amp;amp;quot;🧁🎉 Announcing vanilla-extract v1.0! 💪 Locally scoped, type-safe styles, variables + themes. 🦄 Minimal abstraction over CSS. 🛠 Framework agnostic, w/ integrations for webpack, esbuild, Vite + Snowpack. ✅ Now stable + production ready. 🙇‍♂️ Enjoy! https://t.co/Ejaf4anfbj&amp;amp;quot; / Twitter")
 
 ----
 <h1 class="site-genre">書籍関係</h1>
