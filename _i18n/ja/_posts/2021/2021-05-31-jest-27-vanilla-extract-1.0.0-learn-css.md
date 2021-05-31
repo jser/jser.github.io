@@ -26,7 +26,7 @@ Jest 27.0.0では今までのデフォルトが大きく変更されるリリー
 
 ----
 
-CSS Modulesの問題点の解決と型安全なCSS in JSを目指すvanilla-extract 1.0.0がリリースされました。
+CSS Variablesが利用できないといったCSS Modulesの問題点の解決と型安全なCSS in JSを目指すvanilla-extract 1.0.0がリリースされました。
 
 - [vanilla-extract — Zero-runtime Stylesheets-in-TypeScript.](https://vanilla-extract.style/)
 
@@ -34,11 +34,18 @@ CSS Modulesの問題点の解決と型安全なCSS in JSを目指すvanilla-extr
 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-vanilla-extractは[CSS Modules](https://github.com/css-modules/css-modules)の作者の一人でも
+vanilla-extractは[CSS Modules](https://github.com/css-modules/css-modules)の作者の一人でも[Mark Dalgleish](https://twitter.com/markdalgleish)が中心に作られている、CSS Modules-in-TypeScriptなCSSフレームワークです。
+TypeScriptでスタイルをJSとして`.css.ts`に書いて`class`属性に指定したものをコンパイルすると、CSSファイルを生成するフレームワークに依存しないツールキットとなっています。
+
+直近で様々なCSS in JSが登場しているので、次の記事がCSSへのアプローチをグループ分けしてまとめられています。
+
+- [A Thorough Analysis of CSS-in-JS | CSS-Tricks](https://css-tricks.com/a-thorough-analysis-of-css-in-js/)
+- [Libraries to look out for · Issue #8 · andreipfeiffer/css-in-js](https://github.com/andreipfeiffer/css-in-js/issues/8)
 
 ----
 
-- [Learn CSS](https://web.dev/learn/css/)
+web.devで[Learn CSS](https://web.dev/learn/css/)というCSSについて一から学べるCSSのチュートリアル講座が公開されています。
+Box Model、セレクタ、詳細度、CSSの単位などの基本的な概念から、GridやFlexboxなどのレイアウト、ColorやmarginなどのCSSプロパティの解説、擬似クラスや疑似要素などCSS全般について幅広く解説されています。
 
 
 ----
