@@ -146,7 +146,7 @@ TypeScriptでスタイルをJSとして`.css.ts`に書いて`class`属性に指�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Lit 2.0 RCリリース。
-`lit-html`と`LitELement`を一つにまとめて`lit`パッケージの公開、ウェブサイトの刷新がおコン割れている。
+`lit-html`と`LitELement`を一つにまとめて`lit`パッケージの公開、ウェブサイトの刷新が行われている。
 ファイルサイズやパフォーマンスの改善、SSRの対応などが含まれている
 
 - [Lit Launch Event - YouTube](https://www.youtube.com/watch?v=f1j7b696L-E "Lit Launch Event - YouTube")
