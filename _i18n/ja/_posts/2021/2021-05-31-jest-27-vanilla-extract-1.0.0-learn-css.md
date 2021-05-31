@@ -13,12 +13,28 @@ tags:
 
 ---
 
-JSer.info #542 - - [Release 27.0.0 · facebook/jest](https://github.com/facebook/jest/releases/tag/v27.0.0)
-- [Release 27.0.0 · facebook/jest](https://github.com/facebook/jest/releases/tag/v27.0.0)
+JSer.info #542 - Jest 27.0.0がリリースされました。
+
+- [Release 27.0.0 · Facebook/jest](https://github.com/facebook/jest/releases/tag/v27.0.0)
+- [Jest 27: New Defaults for Jest, 2021 edition ⏩ · Jest](https://jestjs.io/blog/2021/05/25/jest-27)
+
+Jest 27.0.0では今までのデフォルトが大きく変更されるリリースとなっています。
+
+`testEnvironment`のデフォルトを`jsdom`から`node`へ変更、`jest-circus`のデフォルト化、fake timersのデフォルトを`@sinonjs/fake-timers`ベースの`modern`に変更している。
+機能追加として、失敗したテストをインタラクティブに実行できるように、inline snapshotsをprettierの依存なく実行できるようになっています。
+また、`done`の複数回呼び出しをエラーとしたり、Promiseを返すのと`done`の混在を禁止したり、TypeScriptの型を厳密化するといった変更も含まれています。
+
 ----
 
+CSS Modulesの問題点の解決と型安全なCSS in JSを目指すvanilla-extract 1.0.0がリリースされました。
+
 - [vanilla-extract — Zero-runtime Stylesheets-in-TypeScript.](https://vanilla-extract.style/)
-- [🧁🍨 Mark Dalgleish on Twitter: "🧁🎉 Announcing vanilla-extract v1.0! 💪 Locally scoped, type-safe styles, variables + themes. 🦄 Minimal abstraction over CSS. 🛠 Framework agnostic, w/ integrations for webpack, esbuild, Vite + Snowpack. ✅ Now stable + production ready. 🙇‍♂️ Enjoy! https://t.co/Ejaf4anfbj" / Twitter](https://twitter.com/markdalgleish/status/1398158090294292482)
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">🧁🎉 Announcing vanilla-extract v1.0!<br><br>💪 Locally scoped, type-safe styles, variables + themes.<br>🦄 Minimal abstraction over CSS.<br>🛠 Framework agnostic, w/ integrations for webpack, esbuild, Vite + Snowpack.<br>✅ Now stable + production ready.<br><br>🙇‍♂️ Enjoy!<a href="https://t.co/Ejaf4anfbj">https://t.co/Ejaf4anfbj</a></p>&mdash; 🧁🍨 Mark Dalgleish (@markdalgleish) <a href="https://twitter.com/markdalgleish/status/1398158090294292482?ref_src=twsrc%5Etfw">May 28, 2021</a></blockquote>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+vanilla-extractは[CSS Modules](https://github.com/css-modules/css-modules)の作者の一人でも
 
 ----
 
