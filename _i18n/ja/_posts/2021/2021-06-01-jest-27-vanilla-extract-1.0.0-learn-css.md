@@ -20,9 +20,9 @@ JSer.info #542 - Jest 27.0.0がリリースされました。
 
 Jest 27.0.0では今までのデフォルトが大きく変更されるリリースとなっています。
 
-`testEnvironment`のデフォルトを`jsdom`から`node`へ変更、`jest-circus`のデフォルト化、fake timersのデフォルトを`@sinonjs/fake-timers`ベースの`modern`に変更している。
+`testEnvironment`のデフォルトを`jsdom`から`node`へ変更、`jest-circus`のデフォルト化、fake timersのデフォルトを`@sinonjs/fake-timers`ベースの`modern`にしています。
 機能追加として、失敗したテストをインタラクティブに実行できるように、inline snapshotsをprettierの依存なく実行できるようになっています。
-また、`done`の複数回呼び出しをエラーとしたり、Promiseを返すのと`done`の混在を禁止したり、TypeScriptの型を厳密化するといった変更も含まれています。
+また、`done`の複数回呼び出しをエラーとしたり、テストケースでPromiseを返しつつ`done`を呼ぶことを禁止したり、TypeScriptの型を厳密化するといった変更も含まれています。
 
 ----
 
