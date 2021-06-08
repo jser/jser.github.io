@@ -1,5 +1,5 @@
 ---
-title: "2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0 "
+title: "2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0"
 author: "azu"
 layout: post
 date : 2021-06-08T02:48:58.962Z
