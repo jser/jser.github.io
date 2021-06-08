@@ -24,7 +24,7 @@ Lighthouse 8.0.0ではパフォーマンススコアの計算式が変更され�
 
 機能追加として、レポートをメトリクス別にフィルターできるように、`csp-xss`のAuditの追加なども含まれています。
 
----
+----
 
 Vue 3.1.0がリリースされました。
 
@@ -89,16 +89,6 @@ Chrome 91、Node.js 14.16.0、V8 9.1へアップデート。
 `process.contextIsolated`、`session.storagePat`、`process.contextId`の追加。
 WebContentsの`new-window`イベントがDeprecatedとなり`webContents.setWindowOpenHandler()`を推奨するようになるなど
 
-
-----
-
-## Node.js API Table
-[nodejs-api-table.netlify.app/](https://nodejs-api-table.netlify.app/ "Node.js API Table")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">API</span> <span class="jser-tag">document</span></p>
-
-Node.jsのモジュールやAPIがどのバージョンで追加されたのかを一覧できるサイト。
-
-- [Next.js で Node.js の API がいつ入ったのかわかる表を作る](https://zenn.dev/sosukesuzuki/articles/f00bc24600f2d8 "Next.js で Node.js の API がいつ入ったのかわかる表を作る")
 
 ----
 
@@ -214,6 +204,16 @@ Wasmファイルのロード、コンパイル、WasmからJSのコールバッ�
 IEのみがサポートしていないAPIをまとめたもの。
 MDNのデータをベースにHTML、JS、CSS、SVGのAPIを一覧できる
 
+----
+
+
+## Node.js API Table
+[nodejs-api-table.netlify.app/](https://nodejs-api-table.netlify.app/ "Node.js API Table")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">API</span> <span class="jser-tag">document</span></p>
+
+Node.jsのモジュールやAPIがどのバージョンで追加されたのかを一覧できるサイト。
+
+- [Next.js で Node.js の API がいつ入ったのかわかる表を作る](https://zenn.dev/sosukesuzuki/articles/f00bc24600f2d8 "Next.js で Node.js の API がいつ入ったのかわかる表を作る")
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
