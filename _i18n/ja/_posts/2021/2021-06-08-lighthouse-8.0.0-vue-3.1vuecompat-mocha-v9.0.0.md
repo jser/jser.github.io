@@ -111,7 +111,7 @@ Top-level `await`をデフォルトで有効化、64bitマシンでArrayBuffer�
 
 Chrome 92 betaリリース。
 Origin TrialとしてFile Handling API、Shared Element Transitions。
-`@font-face`の`size-adjust`、V9.2へのアップデート、SharedArrayBuffersがCross Origin Isolateされたページに限定されるなど
+`@font-face`の`size-adjust`、V8 9.2へのアップデート、SharedArrayBuffersがCross Origin Isolateされたページに限定されるなど
 
 
 ----
