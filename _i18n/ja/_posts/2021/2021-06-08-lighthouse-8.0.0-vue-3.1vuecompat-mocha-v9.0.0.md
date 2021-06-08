@@ -13,19 +13,45 @@ tags:
 
 ---
 
-JSer.info #543 - - [lighthouse/changelog.md at master · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/blob/master/changelog.md#800-2021-06-02)
-  - [lighthouse/v8-perf-faq.md at master · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/blob/master/docs/v8-perf-faq.md)
+JSer.info #543 - Lighthouse 8.0.0がリリースされました。
+
+- [Release v8.0.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v8.0.0)
+
+Lighthouse 8.0.0ではパフォーマンススコアの計算式が変更されています。
+詳細は次のドキュメントにかかれていますが、今まで実験的だったCumulative Layout Shift (CLS)の比重が5%から15%へと増加しています。それにあわせて他のスコアの比重も変化しています。
+
+- [lighthouse/v8-perf-faq.md at master · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/blob/master/docs/v8-perf-faq.md)
+
+機能追加として、レポートをメトリクス別にフィルターできるように、`csp-xss`のAuditの追加なども含まれています。
 
 ---
 
-- [Release v3.1.0 Pluto · vuejs/vue-next](https://github.com/vuejs/vue-next/releases/tag/v3.1.0)
-  - [Migration Build | Vue.js](https://v3.vuejs.org/guide/migration/migration-build.html)
+Vue 3.1.0がリリースされました。
 
+- [Release v3.1.0 Pluto · vuejs/vue-next](https://github.com/vuejs/vue-next/releases/tag/v3.1.0)
+
+Vue 3.1.0では`@vue/compat`というVue 2の互換APIを実装したパッケージが公開されています。
+既存のVue 2.xで書かれたアプリケーションをVue 3上で動かすためのMigration Buildとなっています。
+
+詳細は次のドキュメントで解説されていますが、Vue 2.xの時点での公開APIのみを実装した互換ビルドであるため、
+一部ライブラリは動かないことなどが書かれています。
+
+- [Migration Build | Vue.js](https://v3.vuejs.org/guide/migration/migration-build.html)
+
+また、今後の予定では、Vue 3で実装されたComposition APIなどをVue 2.xへとバックポートしたVue 2.7がリリースされる予定となっています。
 
 ----
 
+JavaScriptテストフレームワークのMocha 9.0.0がリリースされました。
+
 - [Release v9.0.0 · mochajs/mocha](https://github.com/mochajs/mocha/releases/tag/v9.0.0)
 
+Mocha 9ではNode.js 10のサポート終了し、ESM(ECMAScript Modules)をネイティブサポートしています。
+ESMでの読み込みを試してみてから、読み込めなかった場合はCJS(CommonJS)で読み込むようなfallbackとなっています。
+
+- [import-first loading of test files by giltayar · Pull Request #4635 · mochajs/mocha](https://github.com/mochajs/mocha/pull/4635)
+
+その他には、`--dry-run`オプションのサポート、非推奨だった`utils.lookupFiles()`の削除などが含まれています。
 
 ----
 
