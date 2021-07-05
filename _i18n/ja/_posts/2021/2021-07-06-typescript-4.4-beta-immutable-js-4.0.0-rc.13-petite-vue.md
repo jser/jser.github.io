@@ -13,18 +13,40 @@ tags:
 
 ---
 
-JSer.info #547 - - [Announcing TypeScript 4.4 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-4-beta/)
+JSer.info #547 - TypeScript 4.4 betaがリリースされました。
+
+- [Announcing TypeScript 4.4 Beta | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-4-beta/)
+
+Control Flow Analysisの改善され、Type Gurdeの結果を変数に入れてから扱うようなAliasのケースも正しく推論されるようになっています。
+また、Index SignaturesにSymbolやTemplate Stringを利用できるようになっています。
+Catch節のデフォルトを`unknown`型にする`useUnknownInCatchVariables`オプションの追加と
+optionalと`undefined`値の区別をする`exactOptionalPropertyTypes`オプションの追加されています。
+
+その他には、declarationの生成や`strict`モードでのビルドパフォーマンスの改善も含まれています。
 
 ----
 
+immutable-js 4.0.0-rc.13がリリースされています。
+
 - [Release 4.0.0-rc.13 · immutable-js/immutable-js](https://github.com/immutable-js/immutable-js/releases/tag/v4.0.0-rc.13)
+
+immutable-jsは[v4.0.0-rc.12](https://github.com/immutable-js/immutable-js/releases/tag/v4.0.0-rc.12)でメンテナンスが停止して、[immutable-oss](https://github.com/immutable-js-oss) organiztionにてforkとしてメンテナンスがされていました。
+
+今回のリリースでは、`immutable-js` organizationに`immutable-oss`のメンテナが追加され、`immutable-oss`の変更内容もimmutable-js 4.0.0-rc.13へとマージされています。
+改めて`immutable-js`としてメンテナンスを再開するリリースとなっています。
+
 - [Immutable.js is essentially unmaintained · Issue #1689 · immutable-js/immutable-js](https://github.com/immutable-js/immutable-js/issues/1689)
 - [Integrate immutable-js-oss fork into main repository by jdeniau · Pull Request #1833 · immutable-js/immutable-js](https://github.com/immutable-js/immutable-js/pull/1833)
 
 ----
 
+Vueのサブセットとしてファイルサイズが小さなpetite-vueが公開されています。
+
 - [vuejs/petite-vue: 5kb subset of Vue optimized for progressive enhancement](https://github.com/vuejs/petite-vue)
 
+Vue互換のテンプレート構文とサブセットのAPIをもつライブラリです。
+ES Modulesとしてimportして利用できるようになっていて、Vueにはない`v-scope`や`v-effect`などの仕組みも持っています。
+[Alpine.js](https://alpinejs.dev/)のように既存のレンダリングされたHTMLに対して動作を追加する小さなライブラリを目的としています。
 
 ----
 
