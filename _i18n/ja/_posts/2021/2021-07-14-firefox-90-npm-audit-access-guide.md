@@ -32,7 +32,7 @@ Fetch metadata request headersはSafariとIE以外のブラウザで実装され
 
 [npm audit: Broken by Design — Overreacted](https://overreacted.io/npm-audit-broken-by-design/)という記事では、[create-react-app](https://github.com/facebook/create-react-app/issues/11174)を例に `npm audit` で報告される脆弱性の問題について書かれています。
 
-殆どの脆弱性がReDOSとなっていて、`devDependencies`として扱うツールにおいてはfalse positiveに近いものとなっている点やエコシステムとして対応が難しくなっている点について書かれています。
+報告される脆弱性の殆どはReDOSとなっていて、`devDependencies`として扱うツールにおいてはfalse positiveに近いものとなっている点やエコシステムとして対応が難しくなっている点について書かれています。
 
 GitHubから公開されている GitHub’s Advisory Database のデータにおいても2021年はCWE-400であるDoSが一番多く報告されていて、ReDOSの報告が増えてることもわかります。
 
