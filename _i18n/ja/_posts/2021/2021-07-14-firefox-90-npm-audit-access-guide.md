@@ -38,7 +38,7 @@ GitHubから公開されている GitHub’s Advisory Database のデータに�
 
 - [Our shared common weaknesses | GitHub Security Lab](https://securitylab.github.com/research/CWE-Overview/)
 
-ツールが過剰する報告する問題の中に実際の問題が混ざって無視されてしまう懸念、どのような対応が考えられるかや[npm audit and audit-resolve.json](https://github.com/npm/rfcs/pull/18)といったRFCなどについても書かれています。
+ツールが過剰する報告する問題の中に実際の問題が混ざって無視されてしまう懸念、どのような対応が考えられるか、[npm audit and audit-resolve.json](https://github.com/npm/rfcs/pull/18)といったRFCなどについても書かれています。
 
 ---
 
