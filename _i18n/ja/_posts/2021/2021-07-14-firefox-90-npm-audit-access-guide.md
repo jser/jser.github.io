@@ -13,21 +13,37 @@ tags:
 
 ---
 
-JSer.info #548 - - [Firefox 90.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/90.0/releasenotes/)
+JSer.info #548 - Firefox 90がリリースされました。
+
+- [Firefox 90.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/90.0/releasenotes/)
 - [Firefox 90 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/90)
-- [Release 2.27.0 · prisma/prisma](https://github.com/prisma/prisma/releases/tag/2.27.0)
+
+Firefox 90ではECMAScript Proposal Stage 4のPrivate class fieldsをデフォルトでサポート、Stage 3のString/Arrayの`at()`をサポートしています。FTPサポートの削除、WheelEventの互換性を改善なども含まれています。
+
+また、Chromeでも実装されていた[Fetch metadata request headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#fetch_metadata_request_headers)が実装されています。
+`Sec-Fetch-Site`、`Sec-Fetch-Mode`、`Sec-Fetch-User`、`Sec-Fetch-Dest`のリクエストヘッダがそれぞれのリクエストに追加され、サーバ側でのチェックに利用できます。
+
 - [Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog](https://blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/)
 - [Protect your resources from web attacks with Fetch Metadata](https://web.dev/fetch-metadata/)
 
+Fetch metadata request headersはSafariとIE以外のブラウザで実装されています。
 
 ---
 
-- [npm audit: Broken by Design — Overreacted](https://overreacted.io/npm-audit-broken-by-design/)
+[npm audit: Broken by Design — Overreacted](https://overreacted.io/npm-audit-broken-by-design/)という記事では、[create-react-app](https://github.com/facebook/create-react-app/issues/11174)を例に `npm audit` で報告される脆弱性の問題について書かれています。
+
+殆どの脆弱性がReDOSとなっていて、`devDependencies`として扱うツールにおいてはfalse positiveに近いものとなっている点やエコシステムとして対応が難しくなっている点について書かれています。
+
+GitHubから公開されている GitHub’s Advisory Database のデータにおいても2021年のデータはCWE-400であるDoSが一番多く報告されていて、ReDOSの報告が増えてることもわかります。
+
 - [Our shared common weaknesses | GitHub Security Lab](https://securitylab.github.com/research/CWE-Overview/)
 
+ツールが過剰する報告する問題の中に実際の問題が混ざって無視されてしまう懸念、どのような対応が考えられるかや[npm audit and audit-resolve.json](https://github.com/npm/rfcs/pull/18)といったRFCなどについても書かれています。
+
 ---
 
--  [Access Guide](https://accessguide.io/)
+[Access Guide](https://accessguide.io/)というサイトでは、 WCAG 2.1のアクセシビリティガイドの解説が書かれています。
+それぞれのトピックごとに解説や実装方法、テスト方法などについてのリソースがまとめられています。
 
 ----
 
