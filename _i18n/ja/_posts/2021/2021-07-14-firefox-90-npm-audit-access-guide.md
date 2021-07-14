@@ -103,16 +103,6 @@ MongoDBをプレビューサポート、M1 Macのサポート、pnpmでインス
 - [Start from scratch with MongoDB (15 min) | Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb-typescript-mongodb "Start from scratch with MongoDB (15 min) | Prisma Docs")
 
 ----
-
-## Javascript Decorators
-[javascriptdecorators.org/](https://javascriptdecorators.org/ "Javascript Decorators")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">Tools</span> <span class="jser-tag">debug</span></p>
-
-ECMAScript ProposalのDecoratorsを試せるPlaygroundツール
-
-- [tc39/proposal-decorators: Decorators for ES6 classes](https://github.com/tc39/proposal-decorators "tc39/proposal-decorators: Decorators for ES6 classes")
-
-----
 <h1 class="site-genre">アーティクル</h1>
 
 ----
@@ -187,6 +177,17 @@ Firefox 90でFetch Metadata Request Headersをサポート。
 
 WCAG 2.1の解説サイト。
 どのように実装するか、どのようにテストするか、実際の例について
+
+
+----
+
+## Javascript Decorators
+[javascriptdecorators.org/](https://javascriptdecorators.org/ "Javascript Decorators")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">Tools</span> <span class="jser-tag">debug</span></p>
+
+ECMAScript ProposalのDecoratorsを試せるPlaygroundツール
+
+- [tc39/proposal-decorators: Decorators for ES6 classes](https://github.com/tc39/proposal-decorators "tc39/proposal-decorators: Decorators for ES6 classes")
 
 
 ----
