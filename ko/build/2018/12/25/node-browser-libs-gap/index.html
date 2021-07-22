@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JSerレポート #2: Node.jsコアモジュールとBundler(webpackなど)によるpolyfillのギャップ - JSer.info</title>
+    <meta name="description" content="このレポートは、現在進行形で機能追加や仕様変更が行われているNode.jsコアモジュールとブラウザ向けpolyfillにおける挙動の違い(ギャップ)が広がってきている問題について調べたものです。">
+    
+    <meta name="keywords" content="webpack,browserify,node.js,polyfill" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-12-25T12:14:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="レポート" property="article:section">
+      
+    
+    
+      
+      <meta content="webpack" property="article:tag">
+      
+      <meta content="browserify" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="polyfill" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/12/25/node-browser-libs-gap/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="このレポートは、現在進行形で機能追加や仕様変更が行われているNode.jsコアモジュールとブラウザ向けpolyfillにおける挙動の違い(ギャップ)が広がってきている問題について調べたものです。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="JSerレポート #2: Node.jsコアモジュールとBundler(webpackなど)によるpolyfillのギャップ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/12/25/node-browser-libs-gap/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="このレポートは、現在進行形で機能追加や仕様変更が行われているNode.jsコアモジュールとブラウザ向けpolyfillにおける挙動の違い(ギャップ)が広がってきている問題について調べたものです。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-12-25T12:14:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="webpack">
+
+<meta property="article:tag" content="browserify">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="polyfill">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/12/25/node-browser-libs-gap/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/12/25/node-browser-libs-gap/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/12/25/node-browser-libs-gap/">JSerレポート #2: Node.jsコアモジュールとBundler(webpackなど)によるpolyfillのギャップ</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年12月25日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-12-25-node-browser-libs-gap.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-12-25-node-browser-libs-gap.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/12/25/node-browser-libs-gap/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/12/25/node-browser-libs-gap/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>このレポートは、現在進行形で機能追加や仕様変更が行われているNode.jsコアモジュールとブラウザ向けpolyfillにおける挙動の違い(ギャップ)が広がってきている問題について調べたものです。</p>
+
+<p>ここでは <a href="https://nodejs.org/api/">https://nodejs.org/api/</a> に掲載されているうち <code>assert</code>のようにNode.jsにバンドルされているモジュールのことをNode.jsコアモジュールと呼びます。コアモジュールはNode.jsでの利用のみを想定しているため、Node.jsに依存した処理を多く含んでいます。そのため、コアモジュールのコードをコピーしてブラウザなどで動かすことは難しいです。</p>
+
+<p><a href="https://github.com/webpack/webpack" title="webpack">webpack</a>や<a href="https://github.com/substack/node-browserify" title="browserify">browserify</a>などのbundlerは、コード中にあるコアモジュールを代替モジュールへとすり替えます。この代替モジュールはブラウザ向けpolyfillライブラリとよび、このpolyfillライブラリはブラウザで動くようにNode.jsコアモジュールと同等また空のダミー実装をしています。</p>
+
+<h2 id="node-js-polyfill">Node.jsコアモジュールのpolyfillライブラリの例</h2>
+
+<p>webpackとbrowserifyは変換時に、コード中に現れる<code>assert</code>モジュールを<a href="https://github.com/browserify/commonjs-assert" title="commonjs-assert">commonjs-assert</a>というpolyfillライブラリに自動的にすり替えます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">const</span> <span class="nx">assert</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">assert</span><span class="dl">"</span><span class="p">)</span>
+</code></pre></div>
+<p>というコードはwebpackなどでbundleすると、次のように書いたのと同じようにモジュールの差し替えが行われます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">const</span> <span class="nx">assert</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">commonjs-assert</span><span class="dl">"</span><span class="p">)</span>
+</code></pre></div>
+<p>webpackでは、このNode.jsコアモジュールへの差し替えを<a href="https://webpack.js.org/configuration/node/">node</a>オプションによって設定が可能です。</p>
+
+<h2 id="polyfill-library">polyfill library</h2>
+
+<p>webpackとbrowserifyが利用するpolyfillライブラリは次の場所で管理されています。</p>
+
+<ul>
+<li>webpack:
+
+<ul>
+<li><a href="https://github.com/webpack/node-libs-browser" title="webpack/node-libs-browser: The node core libs for in browser usage.">webpack/node-libs-browser: The node core libs for in browser usage.</a></li>
+</ul></li>
+<li>browserify:
+
+<ul>
+<li><a href="https://github.com/substack/browserify-handbook#builtins">substack/browserify-handbook: how to build modular applications with browserify</a></li>
+<li><a href="https://github.com/substack/node-browserify/blob/master/lib/builtins.js">node-browserify/builtins.js at master · substack/node-browserify</a></li>
+</ul></li>
+</ul>
+
+<p>どちらも基本的に利用しているpolyfill自体はほとんど同じです。  </p>
+
+<h2 id="part-ce8bd090803bc3cf">機能のギャップ</h2>
+
+<p>このレポートの本題であるNode.jsコアモジュールとブラウザ向けpolyfillのギャップがあったものをまとめた表です。<br>
+ここでいうギャップというのは、次のようなケースを並べています。</p>
+
+<ul>
+<li>Node.jsコアモジュールで追加されたAPIがpolyfillライブラリには存在しない</li>
+<li>Node.jsコアモジュールとpolyfillライブラリで挙動が異なる</li>
+<li>利用されているpolyfillライブラリがDeprecatedになっている</li>
+</ul>
+
+<p>これらの調査結果については次のリポジトリで管理しています。最新の状況もこのリポジトリに反映しています。<br>
+そのため次の表は古くなっている可能性があります。</p>
+
+<ul>
+<li><a href="https://github.com/azu/node-browser-polyfill-gap" title="azu/node-browser-polyfill-gap: The gap issue between Node.js and Browser polyfills.">azu/node-browser-polyfill-gap: The gap issue between Node.js and Browser polyfills.</a></li>
+</ul>
+
+<p>注記: 依存しているpolyfillそのものはアップデートで解決されている場合があります。しかし、bundlerが古いバージョンを使っている場合があります。</p>
+
+<table border="1">
+<thead>
+<tr>
+<th style="text-align:center">Node.js</th>
+<th style="text-align:center">Browser polyfill</th>
+<th style="text-align:center">Issue</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">assert</td>
+<td style="text-align:center"><a href="https://github.com/browserify/commonjs-assert">browserify/commonjs-assert</a></td>
+<td style="text-align:center">Error code and Error message are different</td>
+<td><a href="https://github.com/nodejs/node/issues/13937">Issue</a>, <a href="https://medium.com/the-node-js-collection/node-js-errors-changes-you-need-to-know-about-dc8c82417f65">Article</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>assert.deepEqual</code> does&#39;t support <code>Map</code>, <code>Set</code>, <code>Iterator</code> etc...</td>
+<td><a href="https://github.com/nodejs/node/issues/2309">Issue</a>, <a href="https://nodejs.org/api/assert.html#assert_assert_deepequal_actual_expected_message">Document</a>, <a href="https://nodejs.org/en/blog/release/v8.0.0/">Release</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>require(&quot;assert&quot;).strict</code></td>
+<td><a href="https://nodejs.org/api/assert.html#assert_strict_mode">Docs</a>, <a href="https://nodejs.org/en/blog/release/v9.9.0/">Release</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/assert.html#assert_assert_rejects_block_error_message"><code>assert.rejects()</code></a></td>
+<td><a href="https://nodejs.org/en/blog/release/v10.0.0/">Release</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/assert.html#assert_assert_doesnotreject_block_error_message"><code>assert.doesNotReject()</code></a></td>
+<td><a href="https://nodejs.org/en/blog/release/v10.0.0/">Release</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">Compatible issue with <code>assert.fail()</code>, <code>assert.ok()</code>, and <code>assert.ifError()</code></td>
+<td>No arguments behavior. <a href="https://nodejs.org/en/blog/release/v10.0.0/">Release</a></td>
+</tr>
+<tr>
+<td style="text-align:center">buffer</td>
+<td style="text-align:center"><a href="https://github.com/feross/buffer">feross/buffer</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">child_process</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">cluster</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">console</td>
+<td style="text-align:center"><a href="https://github.com/Raynos/console-browserify">Raynos/console-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">constants</td>
+<td style="text-align:center"><a href="https://github.com/juliangruber/constants-browserify">juliangruber/constants-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">crypto</td>
+<td style="text-align:center"><a href="https://github.com/crypto-browserify/crypto-browserify">crypto-browserify/crypto-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dgram</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">dns</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">domain</td>
+<td style="text-align:center"><a href="https://github.com/bevry/domain-browser">bevry/domain-browser</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">events</td>
+<td style="text-align:center"><a href="https://github.com/Gozala/events">Gozala/events</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/events.html#events_emitter_eventnames"><code>eventNames</code></a></td>
+<td><a href="https://github.com/Gozala/events/pull/32">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/events.html#events_emitter_getmaxlisteners"><code>getMaxListeners</code></a></td>
+<td><a href="https://github.com/Gozala/events/pull/32">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/events.html#events_emitter_prependlistener_eventname_listener"><code>prependListener</code></a></td>
+<td><a href="https://github.com/Gozala/events/pull/32">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/events.html#events_emitter_prependoncelistener_eventname_listener"><code>prependOnceListener</code></a></td>
+<td><a href="https://github.com/Gozala/events/pull/32">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>off</code></td>
+<td><a href="https://github.com/nodejs/node/pull/17156">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center">fs</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">http</td>
+<td style="text-align:center"><a href="https://github.com/jhiesey/stream-http">jhiesey/stream-http</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">https</td>
+<td style="text-align:center"><a href="https://github.com/substack/https-browserify">substack/https-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">module</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">net</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">os</td>
+<td style="text-align:center"><a href="https://github.com/CoderPuppy/os-browserify">CoderPuppy/os-browserify</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/os.html#os_os_constants" title="os.constants">os.constants</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">path</td>
+<td style="text-align:center"><a href="https://github.com/browserify/path-browserify">browserify/path-browserify</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/path.html#path_path_posix" title="path.posix">path.posix</a></td>
+<td><a href="https://github.com/browserify/path-browserify/issues/11" title="Update to use newer node path code · Issue #11 · substack/path-browserify">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/docs/latest/api/path.html#path_path_parse_path" title="path.parse(path)">path.parse(path)</a></td>
+<td><a href="https://github.com/browserify/path-browserify/issues/2">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/path.html#path_path_posix" title="path.win32">path.win32</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/path.html#path_path_posix" title="path.format(pathObject)">path.format(pathObject)</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">process</td>
+<td style="text-align:center"><a href="https://github.com/defunctzombie/node-process">defunctzombie/node-process</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/process.html#process_process_channel" title="process.channel">process.channel</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/process.html#process_process_platform" title="process.platform">process.platform</a></td>
+<td><a href="https://github.com/defunctzombie/node-process/issues/55">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/process.html#process_process_execargv" title="process.execArgv">process.execArgv</a></td>
+<td><a href="https://github.com/defunctzombie/node-process/issues/75">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/process.html#process_process_cpuusage_previousvalue" title="process.cpuUsage([previousValue])">process.cpuUsage([previousValue])</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/process.html#process_process_emitwarning_warning_options" title="process.emitWarning(warning[, options])">process.emitWarning(warning[, options])</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">punycode</td>
+<td style="text-align:center"><a href="https://github.com/bestiejs/punycode.js">bestiejs/punycode.js</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">querystring</td>
+<td style="text-align:center"><a href="https://github.com/mike-spainhower/querystring">mike-spainhower/querystring</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">readline</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">repl</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">stream</td>
+<td style="text-align:center"><a href="https://github.com/browserify/stream-browserify">browserify/stream-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">string_decoder</td>
+<td style="text-align:center"><a href="https://github.com/rvagg/archived-string_decoder">rvagg/string_decoder</a></td>
+<td style="text-align:center">TODO</td>
+<td><a href="https://github.com/nodejs/string_decoder">Repository</a></td>
+</tr>
+<tr>
+<td style="text-align:center">sys</td>
+<td style="text-align:center"><a href="https://github.com/defunctzombie/node-util">defunctzombie/node-util</a></td>
+<td style="text-align:center">TODO</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">timers</td>
+<td style="text-align:center"><a href="https://github.com/browserify/timers-browserify">browserify/timers-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">tls</td>
+<td style="text-align:center">---</td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">tty</td>
+<td style="text-align:center"><a href="https://github.com/browserify/tty-browserify">browserify/tty-browserify</a></td>
+<td style="text-align:center">---</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">url</td>
+<td style="text-align:center"><a href="https://github.com/defunctzombie/node-url">defunctzombie/node-url</a></td>
+<td style="text-align:center"><code>url.URL</code>(WHATWG URL)</td>
+<td><a href="https://nodejs.org/en/blog/release/v8.0.0/#say-hello-to-the-whatwg-url-parser">Release</a>, <a href="https://nodejs.org/api/url.html#url_the_whatwg_url_api">Document</a>, <a href="https://github.com/defunctzombie/node-url/issues/33">Issue</a></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>url.format</code> does&#39;t support  WHATWG URL</td>
+<td><a href="https://nodejs.org/en/blog/release/v7.6.0/">Release</a>, <a href="https://nodejs.org/api/url.html#url_url_format_url_options">Document</a></td>
+</tr>
+<tr>
+<td style="text-align:center">util</td>
+<td style="text-align:center"><a href="https://github.com/defunctzombie/node-util">defunctzombie/node-util</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_callbackify_original" title="util.callbackify(original)">util.callbackify(original)</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_inspect_custom" title="util.inspect.custom">util.inspect.custom</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_inspect_defaultoptions" title="util.inspect.defaultOptions">util.inspect.defaultOptions</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_promisify_original" title="util.promisify(original)">util.promisify(original)</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_promisify_custom" title="util.promisify.custom">util.promisify.custom</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://github.com/defunctzombie/node-util/issues/15" title="util.inspect() options maxArrayLength, breakLength">util.inspect() options maxArrayLength, breakLength</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2">util.isDeepStrictEqual</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2">util.isDeepStrictEqual</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">vm</td>
+<td style="text-align:center"><a href="https://github.com/browserify/vm-browserify">browserify/vm-browserify</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/vm.html#vm_vm_runincontext_code_contextifiedsandbox_options" title="vm.isContext(sandbox)">vm.isContext(sandbox)</a></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">zlib</td>
+<td style="text-align:center"><a href="https://github.com/devongovett/browserify-zlib">devongovett/browserify-zlib</a></td>
+<td style="text-align:center"><a href="https://nodejs.org/api/zlib.html#zlib_zlib_bytesread" title="zlib.bytesRead#">zlib.bytesRead</a></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="part-2c5fae6c6b9bbc28">実装状況</h2>
+
+<p>この<a href="https://github.com/azu/node-browser-polyfill-gap">調査リポジトリ</a>には簡単な機能テストも実装されています。</p>
+
+<ul>
+<li><a href="https://github.com/azu/node-browser-polyfill-gap/tree/master/test">node-browser-polyfill-gap/test at master · azu/node-browser-polyfill-gap</a></li>
+</ul>
+
+<p>次にそれぞれでのテスト結果を示します。</p>
+
+<h3 id="node-v11-5-0">Node v11.5.0</h3>
+
+<p>24コのテストをすべてパス(これがpolyfillの元なので当然ですが…)</p>
+<div class="highlight"><pre><code class="language-" data-lang="">  24 passing (146ms)
+</code></pre></div>
+<h3 id="browserify-16-2-3">Browserify 16.2.3</h3>
+
+<p>4/24のテストをパス。</p>
+<div class="highlight"><pre><code class="language-" data-lang="">  gap-test
+    assert
+      1) Error#code
+      2) assert.deepEqual
+      3) assert.strict
+      4) assert.rejects
+      5) assert.doesNotReject
+    events
+      6) off
+      ✓ eventNames
+      ✓ getMaxListeners()
+      ✓ prependListener()
+      ✓ prependOnceListener()
+    os
+      7) constants
+    path
+      8) posix
+      9) win32
+      10) parse
+      11) format
+    process
+      12) platform
+      13) execArgv
+      14) cpuUsage()
+      15) emitWarning()
+    url
+      16) URL
+    util
+      17) inspect.defaultOptions
+      18) callbackify()
+      19) promisify()
+    vm
+      20) isContext
+
+
+  4 passing (293ms)
+  20 failing
+</code></pre></div>
+<h3 id="webpack-4-82-2">webpack 4.82.2</h3>
+
+<p>すべてのテストが失敗しました。<br>
+Gapリスト通りのpolyfillが使われています。</p>
+<div class="highlight"><pre><code class="language-" data-lang="">  gap-test
+    assert
+      1) Error#code
+      2) assert.deepEqual
+      3) assert.strict
+      4) assert.rejects
+      5) assert.doesNotReject
+    events
+      6) off
+      7) eventNames
+      8) getMaxListeners()
+      9) prependListener()
+      10) prependOnceListener()
+    os
+      11) constants
+    path
+      12) posix
+      13) win32
+      14) parse
+      15) format
+    process
+      16) platform
+      17) execArgv
+      18) cpuUsage()
+      19) emitWarning()
+    url
+      20) URL
+    util
+      21) inspect.defaultOptions
+      22) callbackify()
+      23) promisify()
+    vm
+      24) isContext
+
+
+  0 passing (134ms)
+  24 failing
+</code></pre></div>
+<h2 id="node-js-polyfill">Node.jsコアモジュールのpolyfillの今後</h2>
+
+<p>このレポートは、webpackやbrowserifyを使っているとあまり意識されないpolyfillライブラリに潜在的な問題があることを調べる目的で書きました。<br>
+この問題の難しさは各polyfillライブラリの管理者やバランスが異なるにもかかわらず、polyfillライブラリ群として暗黙的に参照されている点です。</p>
+
+<p>多くのコアモジュールにおいては、問題が表面化しない可能性もあります。<br>
+しかし、<code>assert</code>、<code>events</code>、<code>url</code>はブラウザ向けとしてよく使われているにもかかわらず、差異が分かる程度にはあります。<br>
+また、ギャップの問題が解決できた場合にも、バージョンを指定できずに暗黙的なpolyfillライブラリを差し替える仕組みは、互換性の問題が発生するかもしれません。</p>
+
+<ul>
+<li><a href="https://medium.com/the-node-js-collection/node-js-errors-changes-you-need-to-know-about-dc8c82417f65" title="Node.js Errors — Changes you need to know about – Node.js Collection – Medium">Node.js Errors — Changes you need to know about – Node.js Collection – Medium</a>
+
+<ul>
+<li><code>assert</code>結果の<code>Error#name</code>などが異なるため、Node.jsでは通るがブラウザ(polyfill)では失敗するテストができる</li>
+<li>MapやSetなどES2015以降のビルトインオブジェクトに対応していない</li>
+</ul></li>
+<li><a href="https://blog.jxck.io/entries/2016-10-27/whatwg-url.html" title="Node v7 で入った WHATWG URL 実装について | blog.jxck.io">Node v7 で入った WHATWG URL 実装について | blog.jxck.io</a>
+
+<ul>
+<li>Node.jsがブラウザのWHATWG URLをサポートしたが、ブラウザ(polyfill)ではサポートされていない</li>
+</ul></li>
+</ul>
+
+<p>webpackなどにIssueで同様の問題を報告していましたが、このIssueについては特に進捗はありませんでした。</p>
+
+<ul>
+<li><a href="https://github.com/webpack/node-libs-browser/issues/78">Incompatibility between Node.js core libs and webpack&#39;s lib · Issue #78 · webpack/node-libs-browser</a></li>
+</ul>
+
+<p>最近(2018年12月21日)になって<a href="https://github.com/webpack/webpack/issues/8537">webpack 5 alpha</a>が公開されました。<br>
+webpack 5では自動的にNode.jsコアモジュールのpolyfillを自動的に入れないようにする変更が予定されています。<br>
+(2018年12月25日時点ではただの予定であるため、<a href="https://github.com/webpack/webpack/issues/8537">該当Issue</a>においてフィードバックを求めています。)</p>
+
+<blockquote>
+<p>In the early days, webpack&#39;s aim was to allow running most node.js modules in the browser, but the module landscape changed and many module uses are now written mainly for frontend purposes.<br>
+-- <a href="https://github.com/webpack/changelog-v5/blob/master/README.md#automatic-nodejs-polyfills-removed">https://github.com/webpack/changelog-v5/blob/master/README.md#automatic-nodejs-polyfills-removed</a></p>
+</blockquote>
+
+<p>変更理由としてこのように書かれているのように、webpackはNode.jsモジュールをブラウザ向けにpack(polyfill)する役割から、フロントエンド向けに書かれたモジュールをbundleする役割へ変わってきています。</p>
+
+<p>今までは<code>Buffer</code>など<a href="https://nodejs.org/api/index.html">Node.jsのコアAPI</a>に対応するモジュールを自動的にbundleすることで、Node.js向けに書かれたモジュールをブラウザでも動かせるようにしていました。<br>
+一方で、現在ではブラウザ向けに書かれた多くのモジュールがあるため、webpackが自動的にpolyfillを入れる必然性が少なくなってきています。</p>
+
+<p>また、<code>Buffer</code>のpolyfillなどはファイルサイズがほどほどに大きいため、パフォーマンス面においては自動的にpolyfillを行わないメリットもあります。(polyfillを行うかどうかは、webpack 4でも<a href="https://webpack.js.org/configuration/node/">node</a>オプションによって設定が可能です)</p>
+
+<p>少しブラウザとは異なりますが、React Nativeの<a href="https://facebook.github.io/metro/">Bundler</a>もNode.jsコアモジュールのpolyfillを自動的に差し替えない仕組みとなっています。</p>
+
+<ul>
+<li><a href="https://github.com/facebook/react-native/issues/21405">Unable to resolve module <code>assert</code> <code>buffer</code> <code>events</code> · Issue #21405 · facebook/react-native</a></li>
+</ul>
+
+<p>このように、BundlerがNode.jsコアモジュールのpolyfillを暗黙的に入れるという挙動の状況は少し変わりつつあります。<br>
+これは<a href="https://github.com/webpack/changelog-v5/blob/master/README.md#automatic-nodejs-polyfills-removed">webpack 5の変更予定</a>にも書かれていたように、Bundlerの目的の1つがNode.js向けに書かれたモジュールをブラウザ向けに変換することでした。<br>
+しかし、現在は多くのブラウザ向けに書かれたモジュールがあり、Bundlerはそれを効率的に扱うという目的に変わってきている点も関係しているのかもしれません。</p>
+
+<h2 id="part-34bec9340448ad61">調査を終えて</h2>
+
+<p>今回の調査で感じたのは、Node.jsのコアモジュールとブラウザ向けのPolyfillといった一種の互換レイヤーに対して関心を持っている人の絶対数が少ないという印象です。Node.jsもコアAPIとしてブラウザと同じ<a href="https://nodejs.org/api/url.html#url_the_whatwg_url_api">WHATWG URL API</a>を実装するなどいった<a href="https://github.com/nodejs/node/pull/18281">ブラウザとの相互運用性</a>に関する取り組みも行われています。<br>
+しかし、このNode.jsコアモジュールのpolyfillという互換レイヤーに関しては暗黙的に扱われていることが多く、その互換性に問題があることについてはあまり言及されていません。</p>
+
+<p>W3C TAGの<a href="https://w3ctag.github.io/polyfills/">Polyfills and the evolution of the Web</a>というドキュメントでpolyfillがどうあるべきかということについて書かれています。<br>
+このNode.jsコアモジュールのpolfyillの問題も<a href="https://w3ctag.github.io/polyfills/#life-cycle">Node.jsとpolyfillのライフサイクルの違い</a>からきている面があると思います。<br>
+ブラウザの仕様における壊れたpolyfillはグローバルの挙動を書き換えるため問題となることがありましたが、幸いにもNode.jsのコアモジュールのpolyfillの多くはモジュールやBundlerという仕組みの上に作られたものです。</p>
+
+<p>しかしながら、このNode.jsコアモジュールのpolfyillも一定数利用者がいるため互換性という問題からは切り離すことが難しいです。(polyfillの1つである<a href="https://www.npmjs.com/package/events">events</a>モジュールは500万/weekダウンロードされています)<br>
+この問題に深く関係しているのはwebpackやbrowserifyなどのbundlerであるため、bundlerの動きがそのままNode.jsコアモジュールのpolfyillの今後に影響する可能性は高いと思います。</p>
+
+<h2 id="jser-report"><a href="https://github.com/jser/report">jser/report</a> バックナンバー</h2>
+
+<ul>
+<li><a href="https://jser.info/2017/01/31/bundler-testing-framework-report/">JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状 - JSer.info</a></li>
+</ul>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-12-25-node-browser-libs-gap.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["webpack","browserify","node.js","polyfill"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>webpack</li>
+                
+                <li>browserify</li>
+                
+                <li>node.js</li>
+                
+                <li>polyfill</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/12/25/node-browser-libs-gap/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/12/25/node-browser-libs-gap/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

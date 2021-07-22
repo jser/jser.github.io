@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-05-15 JS: PostCSS 6.0, FuseBox 2.0, 테스트 도구 정리 - JSer.info</title>
+    <meta name="description" content="JSer.info #331 - PostCSS 6.0이 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="PostCSS,FuseBox,Testing" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-05-15T19:34:23+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="PostCSS" property="article:tag">
+      
+      <meta content="FuseBox" property="article:tag">
+      
+      <meta content="Testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/05/15/postcss-6.0-fusebox-2.0/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #331 - PostCSS 6.0이 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-05-15 JS: PostCSS 6.0, FuseBox 2.0, 테스트 도구 정리">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/05/15/postcss-6.0-fusebox-2.0/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #331 - PostCSS 6.0이 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-05-15T19:34:23+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="PostCSS">
+
+<meta property="article:tag" content="FuseBox">
+
+<meta property="article:tag" content="Testing">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/05/15/postcss-6.0-fusebox-2.0/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/05/15/postcss-6.0-fusebox-2.0/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/05/15/postcss-6.0-fusebox-2.0/">2017-05-15 JS: PostCSS 6.0, FuseBox 2.0, 테스트 도구 정리</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年05月15日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-05-15-postcss-6.0-fusebox-2.0.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-05-15-postcss-6.0-fusebox-2.0.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/05/15/postcss-6.0-fusebox-2.0/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #331 - PostCSS 6.0이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/postcss/postcss/releases/tag/6.0.0" title="Release 6.0 “Marquis Orias” · postcss/postcss">Release 6.0 “Marquis Orias” · postcss/postcss</a></li>
+</ul>
+
+<p>Node.js 0.12 지원 종료되며 <code>@apply</code>를 지원합니다. 그리고 API의 수정 및 개선 이뤄졌으며 파서를 재작성하여 메모리 소비량을 개선했습니다.</p>
+
+<p>또, <code>@apply</code>는 사양제안자에 의한 갱신이 더이상 이뤄지지 않고 있습니다. 사실 상 버려졌기 때문에 이와 관련된 PostCSS의 대응은 아래 이슈에서 논의되고 있습니다.</p>
+
+<ul>
+<li><a href="http://www.xanthir.com/b4o00" title="Why I Abandoned @apply - Tab Completion">Why I Abandoned @apply - Tab Completion</a></li>
+<li><a href="https://github.com/MoOx/postcss-cssnext/issues/329#issuecomment-300408877" title="v3.0 discussion · Issue #329 · MoOx/postcss-cssnext">v3.0 discussion · Issue #329 · MoOx/postcss-cssnext</a></li>
+</ul>
+
+<hr>
+
+<p>모듈 번들러인 <a href="https://github.com/fuse-box/fuse-box" title="FuseBox">FuseBox</a> 2.0이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://medium.com/fusebox/fusebox-2-0-the-beast-reborn-e4ec0443b782" title="FuseBox 2.0 — The beast reborn – fusebox – Medium">FuseBox 2.0 — The beast reborn – fusebox – Medium</a></li>
+</ul>
+
+<p><code>fuse.run()</code>으로 처리가 시작되도록 Configuration API가 변경됐습니다.<br>
+또, 메서드 체인으로 API를 작성할 수 있고 Code Splitting API와 <a href="http://fuse-box.org/plugins">CSS Modules 등의 플러그인</a>이 추가됐으며 공식 문서 사이트가 리뉴얼됐습니다.</p>
+
+<hr>
+
+<p><a href="https://medium.com/powtoon-engineering/a-complete-guide-to-testing-javascript-in-2017-a217b4cd5a2a" title="An Overview of JavaScript Testing in 2017 – powtoon-engineering – Medium">An Overview of JavaScript Testing in 2017 – powtoon-engineering – Medium</a>에는 JavaScript 테스트 도구에 관해 작성돼 있습니다.</p>
+
+<p>Unit Tests / Integration Tests / Functional Tests라는 테스트 분류 시점에서 각 도구를 소개하고 함께 보면 좋을 여러 글이 정리돼 있습니다.<br>
+테스트 관련 여러 도구에 관해서 간결하게 정리돼 있으니 관심 있는 분은 살펴보시길 바랍니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="nest-final-release-is-here-node-js-framework-built-on-top-of-typescript-kamil-mysliwiec">Nest FINAL release is here! Node.js framework built on top of TypeScript | Kamil Mysliwiec</h2>
+
+<p><a href="https://kamilmysliwiec.com/nest-final-release-is-here-node-js-framework-built-top-of-typescript/" title="Nest FINAL release is here! Node.js framework built on top of TypeScript | Kamil Mysliwiec">kamilmysliwiec.com/nest-final-release-is-here-node-js-framework-built-top-of-typescript/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>Node.js의 서버 프레임워크 Nest.js를 소개하는 글입니다.</p>
+
+<hr>
+
+<h2 id="release-v0-46-0-facebook-flow">Release v0.46.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.46.0" title="Release v0.46.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.46.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flow v0.46.0이 릴리즈됐습니다.<br>
+strict arity check가 실험적으로 구현됐습니다.<br>
+<code>experimental.strict_call_arity=true</code></p>
+
+<ul>
+<li><a href="https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/" title="Flow: A Static Type Checker for JavaScript">Flow: A Static Type Checker for JavaScript</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-6-0-marquis-orias-postcss-postcss">Release 6.0 “Marquis Orias” · postcss/postcss</h2>
+
+<p><a href="https://github.com/postcss/postcss/releases/tag/6.0.0" title="Release 6.0 “Marquis Orias” · postcss/postcss">github.com/postcss/postcss/releases/tag/6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PostCSS</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>PostCSS 6.0이 릴리즈됐습니다.<br>
+Node.js 0.12 지원 종료되며 <code>@apply</code>를 지원합니다. 그리고 API의 수정 및 개선 이뤄졌습니다. 또, 파서를 재작성하여 메모리 소비량을 개선했습니다.</p>
+
+<hr>
+
+<h2 id="jquery-mobile-1-5-0-alpha-1-released-jquery-mobile">JQuery Mobile 1.5.0-alpha.1 Released | jQuery Mobile</h2>
+
+<p><a href="http://blog.jquerymobile.com/2017/05/11/jquery-mobile-1-5-0-alpha-1-released/" title="JQuery Mobile 1.5.0-alpha.1 Released | jQuery Mobile">blog.jquerymobile.com/2017/05/11/jquery-mobile-1-5-0-alpha-1-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">mobile</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>JQuery Mobile 1.5.0-alpha.1이 릴리즈됐습니다.<br>
+<code>controlgroup</code>과 <code>checkboxradio</code> 위젯이 추가됐으며 기존 위젯의 성능이 개선됐습니다. npm을 정식으로 지원하고 jQuery 3.x를 지원합니다. 또, IE10 이하 / Android 4.0 이하 버전의 지원을 종료했습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="refer-to-the-spec-what-is-all-that-stuff-at-the-top-of-the-spec">Refer to the spec: What is all that stuff at the top of the spec?</h2>
+
+<p><a href="https://rachelandrew.co.uk/archives/2017/04/24/refer-to-the-spec-what-is-all-that-stuff-at-the-top-of-the-spec/" title="Refer to the spec: What is all that stuff at the top of the spec?">rachelandrew.co.uk/archives/2017/04/24/refer-to-the-spec-what-is-all-that-stuff-at-the-top-of-the-spec/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">spec</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS의 사양 문서를 읽는 방법에 대해 소개하는 글입니다.</p>
+
+<ul>
+<li><a href="https://rachelandrew.co.uk/archives/2017/04/11/refer-to-the-spec/" title="Refer to the spec">Refer to the spec</a></li>
+</ul>
+
+<hr>
+
+<h2 id="es6-modules-in-chrome-canary-m60-dev-channel-medium">ES6 Modules in Chrome Canary (M60+) – Dev Channel – Medium</h2>
+
+<p><a href="https://medium.com/dev-channel/es6-modules-in-chrome-canary-m60-ba588dfb8ab7" title="ES6 Modules in Chrome Canary (M60+) – Dev Channel – Medium">medium.com/dev-channel/es6-modules-in-chrome-canary-m60-ba588dfb8ab7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">module</span></p></p>
+
+<p>ES modules에 관해 소개하는 글입니다. nonmobule 속성과 rollup을 사용해 modules를 지원하는 브라우저와 미지원하는 브라우저를 분기해 배포하는 방법에 대해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="the-focus-within-pseudo-class-ian-devlin">The :focus-within pseudo class | Ian Devlin</h2>
+
+<p><a href="https://www.iandevlin.com/blog/2017/04/css/the-focus-within-pseudo-class" title="The :focus-within pseudo class | Ian Devlin">www.iandevlin.com/blog/2017/04/css/the-focus-within-pseudo-class</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>:focus-within</code> 의사 클래스가 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="fusebox-2-0-the-beast-reborn-fusebox-medium">FuseBox 2.0 — The beast reborn – fusebox – Medium</h2>
+
+<p><a href="https://medium.com/fusebox/fusebox-2-0-the-beast-reborn-e4ec0443b782" title="FuseBox 2.0 — The beast reborn – fusebox – Medium">medium.com/fusebox/fusebox-2-0-the-beast-reborn-e4ec0443b782</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">serverless</span></p></p>
+
+<p>FuseBox 2.0이 릴리즈됐습니다.</p>
+
+<p>Configuration API가 변경으며 메서드 체인으로 API를 작성할 수 있도록 됐고 Code Splitting API와 플러그인이 추가됐으며 공식 문서 사이트가 리뉴얼됐습니다.</p>
+
+<hr>
+
+<h2 id="idiomatic-redux-marks-dev-blog">Idiomatic Redux · Mark&#39;s Dev Blog</h2>
+
+<p><a href="http://blog.isquaredsoftware.com/series/idiomatic-redux/" title="Idiomatic Redux · Mark&#39;s Dev Blog">blog.isquaredsoftware.com/series/idiomatic-redux/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">article</span></p></p>
+
+<p>Redux 패턴에 관해 자세히 설명돼 있는 연재 글입니다.</p>
+
+<hr>
+
+<h2 id="an-overview-of-javascript-testing-in-2017-powtoon-engineering-medium">An Overview of JavaScript Testing in 2017 – powtoon-engineering – Medium</h2>
+
+<p><a href="https://medium.com/powtoon-engineering/a-complete-guide-to-testing-javascript-in-2017-a217b4cd5a2a" title="An Overview of JavaScript Testing in 2017 – powtoon-engineering – Medium">medium.com/powtoon-engineering/a-complete-guide-to-testing-javascript-in-2017-a217b4cd5a2a</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p></p>
+
+<p>JavaScript의 테스트 도구가 정리 및 소개돼 있는 글입니다.</p>
+
+<p>Unit Tests / Integration Tests / Functional Tests라는 테스트 분류와 각 테스트 도구 별 개요가 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="webrtc">업무에서 WebRTC(일본어)</h2>
+
+<p><a href="https://gist.github.com/voluntas/379e48807635ed18ebdbcedd5f3beefa" title="업무에서 WebRTC">gist.github.com/voluntas/379e48807635ed18ebdbcedd5f3beefa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebRTC</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>WebRTC를 업무 환경에서 사용할 때 클라이언트와 서버의 환경을 어떻게 구성하고 무엇이 필요한지 정리돼 있는 가이드라인 문서입니다.</p>
+
+<hr>
+
+<h2 id="jit-mozilla-developer-street-modest">저스트 인 타임 (JIT) 컴파일의 단기 집중 코스 | Mozilla Developer Street (modest)(일본어)</h2>
+
+<p><a href="https://dev.mozilla.jp/2017/05/%e3%82%b8%e3%83%a3%e3%82%b9%e3%83%88%e3%83%bb%e3%82%a4%e3%83%b3%e3%83%bb%e3%82%bf%e3%82%a4%e3%83%a0-jit-%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%a9%e3%81%ae%e3%82%af%e3%83%a9%e3%83%83%e3%82%b7/" title="저스트 인 타임(JIT) 컴파일의 단기 집중 코스 | Mozilla Developer Street (modest)">dev.mozilla.jp/2017/05/%e3%82%b8%e3%83%a3%e3%82%b9%e3%83%88%e3%83%bb%e3%82%a4%e3%83%b3%e3%83%bb%e3%82%bf%e3%82%a4%e3%83%a0-jit-%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%a9%e3%81%ae%e3%82%af%e3%83%a9%e3%83%83%e3%82%b7/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JIT</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">번역</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScript의 JIT 컴파일의 구조에 관해 이해하기 쉽게 설명돼 있는 글입니다. 무엇을 어떻게 어떤 타이밍에  최적화 하는지 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="testing-made-easy-better-faster-stronger-unit-tests-and-integration-tests-sessions-by-pusher">Testing Made Easy: Better, Faster, Stronger Unit Tests and Integration Tests - Sessions by Pusher</h2>
+
+<p><a href="https://pusher.com/sessions/meetup/js-monthly-london/testing-made-easy-better-faster-stronger-unit-tests-and-integration-tests" title="Testing Made Easy: Better, Faster, Stronger Unit Tests and Integration Tests - Sessions by Pusher">pusher.com/sessions/meetup/js-monthly-london/testing-made-easy-better-faster-stronger-unit-tests-and-integration-tests</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">video</span></p></p>
+
+<p>JavaScript의 테스트에 관해 이야기하는 영상입니다.<br>
+Jest나 Cypress, StoryBook 등의 유닛 테스트 / E2E 테스트에 관해 이야기합니다.</p>
+
+<hr>
+
+<h2 id="profiling-paint-perf-youtube">Profiling Paint Perf 🔎 🎨 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v&#x3D;Wfxm56ttAmE" title="Profiling Paint Perf 🔎 🎨 - YouTube">www.youtube.com/watch?v&#x3D;Wfxm56ttAmE</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">video</span> <span class="jser-tag">browser</span></p></p>
+
+<p><code>element.left</code>를 이용해 스타일을 변경할 때에 프레임 내 불필요한 렌더링 처리가 발생하고 있는 것을 개선해 나가는 방법을 이야기하는 스크린케스트입니다.<br>
+CSS Triggers를 참고하여 <code>transform</code>으로 개선할 수 있는 것을 파악하고 수정하는 흐름으로 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="https://csstriggers.com/" title="CSS Triggers">CSS Triggers</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jsconf-eu-2017-more-videos-added-daily-youtube">JSConf EU 2017 [More videos added daily] - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v&#x3D;NpKLt_YO3o8&amp;list&#x3D;PL37ZVnwpeshFmAPr65sU2O5WMs7_CGjs_" title="JSConf EU 2017 \[More videos added daily\] - YouTube">www.youtube.com/watch?v&#x3D;NpKLt_YO3o8&amp;list&#x3D;PL37ZVnwpeshFmAPr65sU2O5WMs7_CGjs_</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">video</span></p></p>
+
+<p>JSConf EU 2017의 발표 영상이 공개됐습니다.</p>
+
+<hr>
+
+<h2 id="whats-new-in-chakracore-build-2017-channel-9">What&#39;s new in ChakraCore | Build 2017 | Channel 9</h2>
+
+<p><a href="https://channel9.msdn.com/Events/Build/2017/P4103" title="What&#39;s new in ChakraCore | Build 2017 | Channel 9">channel9.msdn.com/Events/Build/2017/P4103</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ChakraCore</span> <span class="jser-tag">video</span></p></p>
+
+<p>ChakraCore의 최근 변경 사항에 관해 정리 및 발표한 영상입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="hshoff-vx-react-d3-vx-visualization-components">hshoff/vx: react + d3 = vx | visualization components</h2>
+
+<p><a href="https://github.com/hshoff/vx" title="hshoff/vx: react + d3 = vx | visualization components">github.com/hshoff/vx</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">d3.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>React + D3.js로 개발한 비쥬얼라이즈 컴포넌트 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="webreflection-introspected-introspection-for-serializable-arrays-and-json-friendly-objects">WebReflection/introspected: Introspection for serializable arrays and JSON friendly objects.</h2>
+
+<p><a href="https://github.com/WebReflection/introspected" title="WebReflection/introspected: Introspection for serializable arrays and JSON friendly objects.">github.com/WebReflection/introspected</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Proxy나 <code>Symbol.toPrimitive</code>를 사용해 객체의 변경을 감지하고 Null Propagation 적인 기능을 갖는 랩퍼 라이브러입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="javascript-amazon">제대로 알자! JavaScript 마지막 입문 | 오오츠 신 | 책 | 통신판매 | Amazon(일본어)</h2>
+
+<p><a href="https://www.amazon.co.jp/%E3%81%8D%E3%81%A1%E3%82%93%E3%81%A8%E3%82%8F%E3%81%8B%E3%82%8B-JavaScript-%E3%81%A8%E3%81%93%E3%81%A8%E3%82%93%E5%85%A5%E9%96%80-%E5%A4%A7%E6%B4%A5-%E7%9C%9F/dp/4774190004" title="きちんとわかる! JavaScript とことん入門 | 大津 真 |本 | 通販 | Amazon">www.amazon.co.jp/%E3%81%8D%E3%81%A1%E3%82%93%E3%81%A8%E3%82%8F%E3%81%8B%E3%82%8B-JavaScript-%E3%81%A8%E3%81%93%E3%81%A8%E3%82%93%E5%85%A5%E9%96%80-%E5%A4%A7%E6%B4%A5-%E7%9C%9F/dp/4774190004</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 6월 7일 출간 예정인 JavaScript 입문서입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-05-15-postcss-6.0-fusebox-2.0.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["PostCSS","FuseBox","Testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>PostCSS</li>
+                
+                <li>FuseBox</li>
+                
+                <li>Testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/05/15/postcss-6.0-fusebox-2.0/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

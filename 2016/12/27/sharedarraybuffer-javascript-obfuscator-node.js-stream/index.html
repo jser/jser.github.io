@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-12-27のJS: SharedArrayBufferとAtomics API、Node.js Stream、JavaScript obfuscator - JSer.info</title>
+    <meta name="description" content="JSer.info #311 - Safari Technology Preview Release 20とMSEdgeのJavaScriptエンジンであるChakraCore 1.4.0が公開されています。">
+    
+    <meta name="keywords" content="browser,ECMAScript,Node.js,Stream,Tools" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-12-27T09:58:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="Stream" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #311 - Safari Technology Preview Release 20とMSEdgeのJavaScriptエンジンであるChakraCore 1.4.0が公開されています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-12-27のJS: SharedArrayBufferとAtomics API、Node.js Stream、JavaScript obfuscator">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #311 - Safari Technology Preview Release 20とMSEdgeのJavaScriptエンジンであるChakraCore 1.4.0が公開されています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-12-27T09:58:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="Stream">
+
+<meta property="article:tag" content="Tools">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">2016-12-27のJS: SharedArrayBufferとAtomics API、Node.js Stream、JavaScript obfuscator</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年12月27日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-12-27-sharedarraybuffer-javascript-obfuscator-node.js-stream.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-12-27-sharedarraybuffer-javascript-obfuscator-node.js-stream.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #311 - Safari Technology Preview Release 20とMSEdgeのJavaScriptエンジンである<a href="https://github.com/Microsoft/ChakraCore/wiki/Release-Notes#v140" title="ChakraCore 1.4.0">ChakraCore 1.4.0</a>が公開されています。</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/ChakraCore/wiki/Release-Notes#v140">Release Notes · Microsoft/ChakraCore Wiki</a></li>
+<li><a href="https://webkit.org/blog/7120/release-notes-for-safari-technology-preview-20/">Release Notes for Safari Technology Preview 20 | WebKit</a></li>
+</ul>
+
+<p>どちらも<a href="http://tc39.github.io/ecmascript_sharedmem/shmem.html#GlobalObject.ConstructorProps.SharedArrayBuffer" title="SharedArrayBuffer">SharedArrayBuffer</a>が実装されています。<br>
+SharedArrayBufferは、WebWorkerとの間でもデータを共有できる<a href="https://github.com/tc39/proposals">Stage 3のProposal</a>仕様です。</p>
+
+<p>データをコピーや<a href="https://developer.mozilla.org/ja/docs/Web/API/Transferable">Transfer</a>ではなく、メモリで共有する仕様です。(いわゆる共有メモリ)<br>
+複数のスレッドがメモリ内の同じデータを読み書きするため、スレッドセーフなAPIが必要になります。<br>
+そのため、<a href="https://github.com/tc39/ecmascript_sharedmem" title="tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript">tc39/ecmascript_sharedmem</a>の仕様では不可分操作を提供する<code>Atomics</code> APIが合わせて定義されています。</p>
+
+<p>SharedArrayBufferとAtomics APIについて、詳しくは次のURLを見るのが良いと思います。</p>
+
+<ul>
+<li><a href="https://github.com/tc39/ecmascript_sharedmem" title="tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript">tc39/ecmascript_sharedmem: Shared memory and atomics for ECMAscript</a></li>
+<li><a href="https://hacks.mozilla.org/2016/05/a-taste-of-javascripts-new-parallel-primitives/">A Taste of JavaScript’s New Parallel Primitives ★ Mozilla Hacks – the Web developer blog</a>(<a href="https://dev.mozilla.jp/2016/05/a-taste-of-javascripts-new-parallel-primitives/">翻訳</a>)</li>
+<li><a href="https://speakerdeck.com/chikoski/20161113-nodefest">JavaScriptでの並列プログラミング: 共有メモリーと不可分操作、ロック // Speaker Deck</a></li>
+<li><a href="http://js-next.hatenablog.com/entry/2015/09/30/225251" title="SharedArrayBufferとAtomics APIについて - JS.next">SharedArrayBufferとAtomics APIについて - JS.next</a></li>
+</ul>
+
+<p>Stage 3の仕様ですが、既に2つ以上の実装があるため、<a href="https://github.com/tc39/agendas/blob/master/2017/01.md">次のTC39 Meeting(2017年1月)</a>でStage 4となる予定です。<br>
+そのため、ES2017として公開される可能性があります。</p>
+
+<ul>
+<li><a href="https://github.com/rwaldron/tc39-notes/blob/master/es7/2016-11/nov-30.md#13iia-sharedarraybuffer" title="tc39-notes/nov-30.md at master · rwaldron/tc39-notes">tc39-notes/nov-30.md at master · rwaldron/tc39-notes</a></li>
+</ul>
+
+<p>この仕様に先んじて、ECMAScriptに&quot;Agent&quot;という概念が既に追加されています。</p>
+
+<ul>
+<li><a href="https://github.com/tc39/ecma262/pull/522" title="Add language to define Agents by lars-t-hansen · Pull Request #522 · tc39/ecma262">Add language to define Agents by lars-t-hansen · Pull Request #522 · tc39/ecma262</a></li>
+</ul>
+
+<p>また、2016年11月のTC39 MeetingでStageが変わったProposalは次の記事にまとめてあります。</p>
+
+<ul>
+<li><a href="https://ecmascript-daily.github.io/ecmascript/2016/12/22/ecmascript-proposals" title="ECMAScript proposal updates @ 2016-11 | ECMAScript Daily">ECMAScript proposal updates @ 2016-11 | ECMAScript Daily</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://qiita.com/Mizunashi_Mana/items/872354cd7bf25090932f" title="Stream API入門 - Qiita">Stream API入門 - Qiita</a>では、Node.jsのStream APIについて解説されています。コールバックやPromise、Generator、async/awaitなどの非同期処理についても触れています。</p>
+
+<p>Node.js Streamの特徴の一つでもあるバッファリングとバックプレッシャーについては合わせて次の記事を見てみるといいかもしれません。</p>
+
+<ul>
+<li><a href="https://techblog.yahoo.co.jp/advent-calendar-2016/node-stream-highwatermark/" title="highWaterMarkから探るNode.jsのStreamの仕組み - Yahoo! JAPAN Tech Blog">highWaterMarkから探るNode.jsのStreamの仕組み - Yahoo! JAPAN Tech Blog</a></li>
+</ul>
+
+<p>これとは別で、WHATWGが提案している<a href="https://streams.spec.whatwg.org/" title="Streams Standard">Streams Standard</a>(Fetch APIなどと連携する)も合わせて見ると面白いかもしれません。</p>
+
+<ul>
+<li><a href="https://github.com/whatwg/streams/blob/master/FAQ.md" title="streams/FAQ.md at master · whatwg/streams">streams/FAQ.md at master · whatwg/streams</a></li>
+</ul>
+
+<p>また、データのストリーム処理はJavaScriptという言語にかぎらずあるものなので、次の記事も見てみるとストリーム処理の特徴が分かりやすいかもしれません。</p>
+
+<ul>
+<li><a href="http://qiita.com/kimutansk/items/60e48ec15e954fa95e1c" title="ストリーム処理とは何か？＋2016年の出来事 - Qiita">ストリーム処理とは何か？＋2016年の出来事 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="say-allo-to-yeoman-generator-1-0-yeoman">Say allo&#x27; to yeoman-generator 1.0 | Yeoman</h2>
+
+<p><a href="http://yeoman.io/blog/hello-generator-1.0.html" title="Say allo&#39; to yeoman-generator 1.0 | Yeoman">yeoman.io/blog/hello-generator-1.0.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ジェネレーター</span> <span class="jser-tag">Tools</span></p>
+
+<p>Yeoman-generator 1.0リリース。<br>
+<code>composeWith</code>のAPIを簡略化、Yarnサポート、deprecatedなAPIを削除など</p>
+
+<ul>
+<li><a href="https://github.com/yeoman/generator/releases/tag/v1.0.0" title="Release v1.0.0 🎉 · yeoman/generator">Release v1.0.0 🎉 · yeoman/generator</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-microsoft-chakracore-wiki">Release Notes · Microsoft/ChakraCore Wiki</h2>
+
+<p><a href="https://github.com/Microsoft/ChakraCore/wiki/Release-Notes#v140" title="Release Notes · Microsoft/ChakraCore Wiki">github.com/Microsoft/ChakraCore/wiki/Release-Notes#v140</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ChakraCore 1.4リリース。<br>
+JITがLinuxやmacOSでも有効化、async/awaitをデフォルトで有効化、SharedArrayBufferを実験的にサポート、wasmの実験的サポートなど</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-20-webkit">Release Notes for Safari Technology Preview 20 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7120/release-notes-for-safari-technology-preview-20/" title="Release Notes for Safari Technology Preview 20 | WebKit">webkit.org/blog/7120/release-notes-for-safari-technology-preview-20/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Safari Technology Preview Release 20リリース。<br>
+Visual Viewport、SharedArrayBufferを有効化、<code>block-all-mixed-content</code>の追加、BlinkからportしたCSSパーサを使うようになるなど</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2015/01/What-the-Viewport" title="What the Virtual Viewport?  |  Web  |  Google Developers">What the Virtual Viewport?  |  Web  |  Google Developers</a></li>
+<li><a href="https://github.com/lars-t-hansen/ecmascript_sharedmem" title="lars-t-hansen/ecmascript\_sharedmem: Placeholder for old shared memory spec">lars-t-hansen/ecmascript_sharedmem: Placeholder for old shared memory spec</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-3rd-mutation-canjs-canjs">Release 3rd Mutation · canjs/canjs</h2>
+
+<p><a href="https://github.com/canjs/canjs/releases/tag/v3.0.0" title="Release 3rd Mutation · canjs/canjs">github.com/canjs/canjs/releases/tag/v3.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>CanJS 3.0リリース<br>
+コードは<code>can-*</code>からなるモジュールに分割され、<code>.attr()</code>の代わりに<code>DefineMap</code>の導入など</p>
+
+<ul>
+<li><a href="https://mag.osdn.jp/16/12/22/160000" title="JavaScriptフレームワーク「CanJS 3.0」リリース | OSDN Magazine">JavaScriptフレームワーク「CanJS 3.0」リリース | OSDN Magazine</a></li>
+<li><a href="http://donejs.com/" title="donejs - donejs">donejs - donejs</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2016-11-ecmascript-daily">ECMAScript proposal updates @ 2016-11 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2016/12/22/ecmascript-proposals" title="ECMAScript proposal updates @ 2016-11 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2016/12/22/ecmascript-proposals</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span></p>
+
+<p>2016年11月のTC39ミーティングでのProposalのStage変動をまとめたもの</p>
+
+<hr>
+
+<h2 id="stream-api-qiita">Stream API入門 - Qiita</h2>
+
+<p><a href="http://qiita.com/Mizunashi_Mana/items/872354cd7bf25090932f" title="Stream API入門 - Qiita">qiita.com/Mizunashi_Mana/items/872354cd7bf25090932f</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">stream</span></p>
+
+<p>Node.jsのStream APIについて。<br>
+非同期処理のコールバック、Promise、async/await、generatorを踏まえてのStreamについての解説。<br>
+Write/Read/Duplex、Stream処理が得意とすること、<code>objectMode</code>についてなど幅広く解説されてる</p>
+
+<hr>
+
+<h2 id="css-writing-modes-24-ways">CSS Writing Modes ◆ 24 ways</h2>
+
+<p><a href="https://24ways.org/2016/css-writing-modes/" title="CSS Writing Modes ◆ 24 ways">24ways.org/2016/css-writing-modes/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p>
+
+<p>CSSの<code>writing-mode</code>プロパティについての解説</p>
+
+<hr>
+
+<h2 id="vue-js-2016">かずぽんブログ • Vue.js 2016年まとめ &amp; 今後</h2>
+
+<p><a href="http://blog.kazupon.jp/post/154903508388/vuejs-2016-closing-and-future" title="かずぽんブログ • Vue.js 2016年まとめ &amp; 今後">blog.kazupon.jp/post/154903508388/vuejs-2016-closing-and-future</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>2016年のVue.jsの変化について。<br>
+Vue.js 2.0、コミュニティ、エコシステム、利用範囲や今後について</p>
+
+<hr>
+
+<h2 id="firebug-lives-on-in-firefox-devtools-mozilla-hacks-the-web-developer-blog">Firebug lives on in Firefox DevTools ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/12/firebug-lives-on-in-firefox-devtools/" title="Firebug lives on in Firefox DevTools ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/12/firebug-lives-on-in-firefox-devtools/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firebug</span> <span class="jser-tag">firefox</span> <span class="jser-tag">debug</span></p>
+
+<p>Firebugは開発終了したが、多くの機能はFirefoxの開発者ツールに引き継がれている/引き継ぐ予定があるという話。</p>
+
+<p>またFirebugはマルチプロセス対応を念頭に開発されたものではなかったため、Firebugを拡張するよりも、Firefoxの開発者ツールを拡張していく方が良いという決定がされた。</p>
+
+<hr>
+
+<h2 id="web-node-js-devtools">Web アクセシビリティ向け Node.js 製の自動チェックツールや DevTools 用の拡張機能など ::ハブろぐ</h2>
+
+<p><a href="https://havelog.ayumusato.com/develop/a11y/e732-a11y_checking_automate.html" title="Web アクセシビリティ向け Node.js 製の自動チェックツールや DevTools 用の拡張機能など ::ハブろぐ">havelog.ayumusato.com/develop/a11y/e732-a11y_checking_automate.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">test</span></p>
+
+<p>Webアクセシビリティの自動チェックツールや補助ツールの紹介。</p>
+
+<hr>
+
+<h2 id="javascript-ui-onsen-ui-id-anatoo">JavaScriptのUIライブラリはどうあるべきかという話とOnsen UIのアーキテクチャ - id:anatooのブログ</h2>
+
+<p><a href="http://blog.anatoo.jp/entry/2016/12/09/201511" title="JavaScriptのUIライブラリはどうあるべきかという話とOnsen UIのアーキテクチャ - id:anatooのブログ">blog.anatoo.jp/entry/2016/12/09/201511</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span></p>
+
+<p>特定のUIフレームワークに依存されないUIフレームワークの基盤をどのように作るかという話。<br>
+CSS Components層、Web Components層、フレームワークバインディング層のレイヤー分けについて</p>
+
+<hr>
+
+<h2 id="serviceworker-express-qiita">ServiceWorker内にExpressサーバーを立てる - Qiita</h2>
+
+<p><a href="http://qiita.com/narirou/items/738a0fe6656d0f905e28" title="ServiceWorker内にExpressサーバーを立てる - Qiita">qiita.com/narirou/items/738a0fe6656d0f905e28</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">node.js</span></p>
+
+<p>express-serviceがどのようにして実際のNode.jsで動くExpressのコードをServiceWorkerの中でも擬似的に動かしているのかについての解説</p>
+
+<ul>
+<li><a href="https://www.npmjs.com/package/express-service" title="express-service">express-service</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="accessibility-learn-web-development-mdn">Accessibility - Learn web development | MDN</h2>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility" title="Accessibility - Learn web development | MDN">developer.mozilla.org/en-US/docs/Learn/Accessibility</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">web </span></p>
+
+<p>アクセシビリティについてのガイド</p>
+
+<hr>
+
+<h2 id="speedtracker">SpeedTracker</h2>
+
+<p><a href="https://speedtracker.org/" title="SpeedTracker">speedtracker.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webservice</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span></p>
+
+<p>個人向けに使うCalibreやSpeedCurveのような継続的なパフォーマンス計測サービス。<br>
+WebPageTestで取った結果をGitHubリポジトリにJekyllで動くようにデータをpushしてくれる。</p>
+
+<ul>
+<li><a href="http://calendar.perfplanet.com/2016/introducing-speedtracker/" title="Performance Calendar » Introducing SpeedTracker">Performance Calendar » Introducing SpeedTracker</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="mithril-vue-js-dom-i18n-qiita">Mithril、Vue.jsの仮想DOM用のi18nライブラリ作った - Qiita</h2>
+
+<p><a href="http://qiita.com/shibukawa/items/c2298b21b4629941b230" title="Mithril、Vue.jsの仮想DOM用のi18nライブラリ作った - Qiita">qiita.com/shibukawa/items/c2298b21b4629941b230</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">library</span></p>
+
+<p>Node.jsでもブラウザでも動作するi18nライブラリ。<br>
+プレースホルダ、複数形、コンテキスト、<code>data-i18n</code>属性に対する翻訳する機能を持つ</p>
+
+<ul>
+<li><a href="https://i18n4v.js.org/" title="i18n for Virtual DOM (i18n4v) — i18n for virtual dom 0.1.5 documentation">i18n for Virtual DOM (i18n4v) — i18n for virtual dom 0.1.5 documentation</a></li>
+</ul>
+
+<hr>
+
+<h2 id="devongovett-regexgen-generate-regular-expressions-that-match-a-set-of-strings">devongovett/regexgen: Generate regular expressions that match a set of strings</h2>
+
+<p><a href="https://github.com/devongovett/regexgen" title="devongovett/regexgen: Generate regular expressions that match a set of strings">github.com/devongovett/regexgen</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">正規表現</span></p>
+
+<p>複数の文字列を渡して、それにマッチする正規表現を作るライブラリ</p>
+
+<hr>
+
+<h2 id="javascript-obfuscator-javascript-obfuscator-javascript-obfuscator-for-node-js">javascript-obfuscator/javascript-obfuscator: JavaScript obfuscator for Node.js</h2>
+
+<p><a href="https://github.com/javascript-obfuscator/javascript-obfuscator" title="javascript-obfuscator/javascript-obfuscator: JavaScript obfuscator for Node.js">github.com/javascript-obfuscator/javascript-obfuscator</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span></p>
+
+<p>JavaScriptの難読化ツール/ライブラリ。<br>
+ES2015+のコードを扱うことができ、Source Mapにも対応している</p>
+
+<hr>
+
+<h2 id="amilajack-eslint-plugin-compat-browser-and-es-spec-compatibility-assertion-with-eslint">amilajack/eslint-plugin-compat: Browser and ES spec compatibility assertion with ESLint</h2>
+
+<p><a href="https://github.com/amilajack/eslint-plugin-compat" title="amilajack/eslint-plugin-compat: Browser and ES spec compatibility assertion with ESLint">github.com/amilajack/eslint-plugin-compat</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ESLint</span></p>
+
+<p>AutoPrefixerのように想定ブラウザを記述し、そのブラウザで動かないAPIを使ってないかをチェックするESLintルール。<br>
+caniuseやcompat tableのデータを使う</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-12-27-sharedarraybuffer-javascript-obfuscator-node.js-stream.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["browser","ECMAScript","Node.js","Stream","Tools"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>browser</li>
+                
+                <li>ECMAScript</li>
+                
+                <li>Node.js</li>
+                
+                <li>Stream</li>
+                
+                <li>Tools</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/12/27/sharedarraybuffer-javascript-obfuscator-node.js-stream/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

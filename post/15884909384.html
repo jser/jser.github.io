@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2012-01-15のJS: PhantomJS 1.4リリース、JSTestDriverの導入、Device APIs - JSer.info</title>
+    <meta name="description" content="JSer.info #52 - 今年に入ってから、JavaScriptのいわゆるMVCフレームワークについての記事がとても多くなった気がします。(特にまとめ系記事は3つぐらいでてる)それだけWebアプリケーションを書くためのフレームワークが必要とされてるのだと思います。また、今週はDevice APIsとWeb ...">
+    
+    <meta name="keywords" content="javascript,coffeescript,mobile" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2012-01-15T23:33:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="javascript" property="article:tag">
+      
+      <meta content="coffeescript" property="article:tag">
+      
+      <meta content="mobile" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/15884909384">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #52 - 今年に入ってから、JavaScriptのいわゆるMVCフレームワークについての記事がとても多くなった気がします。(特にまとめ系記事は3つぐらいでてる)それだけWebアプリケーションを書くためのフレームワークが必要とされてるのだと思います。また、今週はDevice APIsとWeb ..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2012-01-15のJS: PhantomJS 1.4リリース、JSTestDriverの導入、Device APIs">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/15884909384">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #52 - 今年に入ってから、JavaScriptのいわゆるMVCフレームワークについての記事がとても多くなった気がします。(特にまとめ系記事は3つぐらいでてる)それだけWebアプリケーションを書くためのフレームワークが必要とされてるのだと思います。また、今週はDevice APIsとWeb ...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2012-01-15T23:33:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="javascript">
+
+<meta property="article:tag" content="coffeescript">
+
+<meta property="article:tag" content="mobile">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/15884909384">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/15884909384">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/15884909384">2012-01-15のJS: PhantomJS 1.4リリース、JSTestDriverの導入、Device APIs</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2012年01月15日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-01-15-2012-01-15-js-phantomjs-1-4-jstestdriver-device.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2012-01-15-2012-01-15-js-phantomjs-1-4-jstestdriver-device.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/15884909384">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/15884909384"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #52 - 今年に入ってから、JavaScriptのいわゆるMVCフレームワークについての記事がとても多くなった気がします。(特にまとめ系記事は3つぐらいでてる)<br/>それだけWebアプリケーションを書くためのフレームワークが必要とされてるのだと思います。</p>
+<p>また、今週は<a href="http://www.slideshare.net/jamesgpearce/mobile-device-apis" target="_blank">Device APIs</a>と<a href="http://blog.livedoor.jp/kotesaki/archives/1771448.html" target="_blank">Web Intents</a>という関係性があるワードを扱ったものがうまい具合に同時に出てきたので、両方共見ると理解が深まると思います。</p>
+<p>最後に、先月から言っていた<a href="http://atnd.org/events/23551" target="_blank">オフラインJavaScript勉強会</a>が今日行われて、そこでいくつか発表をしていきました。<br/>内容については別の記事にしてまとめてあります。</p>
+<ul><li><a href="http://jser.info/post/15883533195" target="_blank">オフライン勉強会でJSer.info一周年について発表してきた | JSer.info</a></li>
+</ul><p><a href="http://azu.github.com/slide/offline_study/javascript_world.html#slide1" target="_blank">世界のJavaScriptを読もう @ 2012</a>は結構頑張って書いたので、読んでいただけるといいかと思います。</p>
+<div class="connectedSortable ui-sortable ui-sortable-disabled" id="output">
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="ReleaseNotes - phantomjs - Release Notes - headless WebKit with JavaScript API - Google Project Hosting">
+<p class="jser-sitelink"><strong>ReleaseNotes - phantomjs - Release Notes - headless WebKit with JavaScript API - Google Project Hosting</strong><br/><a href="http://code.google.com/p/phantomjs/wiki/ReleaseNotes" title="ReleaseNotes - phantomjs - Release Notes - headless WebKit with JavaScript API - Google Project Hosting" target="_blank">http://code.google.com/p/phantomjs/wiki/ReleaseNotes</a></p>
+</blockquote>
+<p>PhantomJS 1.4リリース<br/> WebServerモジュールが追加されてウェブサーバを立ち上げられるようになった</p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="Stylus/mochaがやってるGlobal leakテストとNode.js Debugger - ウォンビン ビール瓶。">
+<p class="jser-sitelink"><strong>Stylus/mochaがやってるGlobal leakテストとNode.js Debugger - ウォンビン ビール瓶。</strong><br/><a href="http://d.hatena.ne.jp/teppeis/20120115/1326610019" title="Stylus/mochaがやってるGlobal leakテストとNode.js Debugger - ウォンビン ビール瓶。" target="_blank">http://d.hatena.ne.jp/teppeis/20120115/1326610019</a></p>
+</blockquote>
+<p>JavaScriptでグロールへスコープへのリークを検出するテストの書き方</p>
+</div>
+<div>
+<blockquote title="『design patterns | Joe Zim's JS Blog』">
+<p class="jser-sitelink"><strong>『design patterns | Joe Zim&#8217;s JS Blog』</strong><br/><a href="http://www.joezimjs.com/tag/design-patterns/" title="『design patterns | Joe Zim's JS Blog』" target="_blank">http://www.joezimjs.com/tag/design-patterns/</a></p>
+</blockquote>
+<p>JavaScriptのデザインパターンを紹介してるシリーズ</p>
+</div>
+<div>
+<blockquote title="JavaScriptの初見で読みづらいシンタックス＆パターン9種 ::ハブろぐ">
+<p class="jser-sitelink"><strong>JavaScriptの初見で読みづらいシンタックス＆パターン9種 ::ハブろぐ</strong><br/><a href="http://havelog.ayumusato.com/develop/javascript/e316-javascript_evil_syntax.html" title="JavaScriptの初見で読みづらいシンタックス＆パターン9種 ::ハブろぐ" target="_blank">http://havelog.ayumusato.com/develop/javascript/e316-javascript_evil_syntax.html</a></p>
+</blockquote>
+<p>JavaScriptで一見わかりにくい書き方についての話</p>
+</div>
+<div>
+<blockquote title="『typeof null === 'object' は ECMAScript 3 の仕様バグ - @think49の日記』">
+<p class="jser-sitelink"><strong>『typeof null === &#8216;object&#8217; は ECMAScript 3 の仕様バグ - @think49の日記』</strong><br/><a href="http://d.hatena.ne.jp/think49/20120114/1326554107" title="『typeof null === 'object' は ECMAScript 3 の仕様バグ - @think49の日記』" target="_blank">http://d.hatena.ne.jp/think49/20120114/1326554107</a></p>
+</blockquote>
+<p>typeof nullの歴史的な仕様バグについて</p>
+</div>
+<div>
+<blockquote title="This is Stuff: JavaScript Testing with JSTestDriver">
+<p class="jser-sitelink"><strong>This is Stuff: JavaScript Testing with JSTestDriver</strong><br/><a href="http://meri-stuff.blogspot.com/2012/01/javascript-testing-with-jstestdriver.html" title="This is Stuff: JavaScript Testing with JSTestDriver" target="_blank">http://meri-stuff.blogspot.com/2012/01/javascript-testing-with-jstestdriver.html</a></p>
+</blockquote>
+<p>JSTestDriverの使い方について詳細に書かれた記事<br/> インストールからテストの書き方や他のツールとの連携について書かれてる</p>
+</div>
+<div>
+<blockquote title="『addyosmani/backbone-fundamentals - GitHub』">
+<p class="jser-sitelink"><strong>『addyosmani/backbone-fundamentals - GitHub』</strong><br/><a href="https://github.com/addyosmani/backbone-fundamentals" title="『addyosmani/backbone-fundamentals - GitHub』" target="_blank">https://github.com/addyosmani/backbone-fundamentals</a></p>
+</blockquote>
+<p>Backbone.jsの基本的な概念や使い方の解説から、RESTFulやAMD、jQuery Mobileと合わせた使い方について、Jasmineを使ったテスト手法などについてまとめたドキュメント</p>
+</div>
+<div>
+<blockquote title="『How Batman can Help you Build Apps の翻訳 - ma2の日記』">
+<p class="jser-sitelink"><strong>『How Batman can Help you Build Apps の翻訳 - ma2の日記』</strong><br/><a href="http://d.hatena.ne.jp/ma2/20120107/p1" title="『How Batman can Help you Build Apps の翻訳 - ma2の日記』" target="_blank">http://d.hatena.ne.jp/ma2/20120107/p1</a></p>
+</blockquote>
+<p>Batman.jsについての紹介記事翻訳</p>
+</div>
+<div>
+<blockquote title="『The Top 10 Javascript MVC Frameworks Reviewed | CodeBrief』">
+<p class="jser-sitelink"><strong>『The Top 10 Javascript MVC Frameworks Reviewed | CodeBrief』</strong><br/><a href="http://codebrief.com/2012/01/the-top-10-javascript-mvc-frameworks-reviewed/" title="『The Top 10 Javascript MVC Frameworks Reviewed | CodeBrief』" target="_blank">http://codebrief.com/2012/01/the-top-10-javascript-mvc-frameworks-reviewed/</a></p>
+</blockquote>
+<p>JavaScript MVCフレームワークのまとめ<br/>結果としてはEmber.jsがいいという結論になってる</p>
+</div>
+<div>
+<blockquote title="How to name a web browser (by those who have) - thebeebs - Site Home - MSDN Blogs">
+<p class="jser-sitelink"><strong>How to name a web browser (by those who have) - thebeebs - Site Home - MSDN Blogs</strong><br/><a href="http://blogs.msdn.com/b/thebeebs/archive/2012/01/09/how-to-name-a-web-browser-by-those-who-have.aspx" title="How to name a web browser (by those who have) - thebeebs - Site Home - MSDN Blogs" target="_blank">http://blogs.msdn.com/b/thebeebs/archive/2012/01/09/how-to-name-a-web-browser-by-those-who-have.aspx</a></p>
+</blockquote>
+<p>ブラウザの名前の由来のまとめ</p>
+<div class="sites">
+<blockquote title="{errorception} blog: Writing Quality Third-Party JS - Part 1: The First Rule">
+<p class="jser-sitelink"><strong>{errorception} blog: Writing Quality Third-Party JS - Part 1: The First Rule</strong><br/><a href="http://blog.errorception.com/2012/01/writing-quality-third-party-js-part-1.html" title="{errorception} blog: Writing Quality Third-Party JS - Part 1: The First Rule" target="_blank">http://blog.errorception.com/2012/01/writing-quality-third-party-js-part-1.html</a></p>
+</blockquote>
+<p>JavaScriptでサードパーティなJSを書くときのルールについて<br/>ブログパーツとかのJavaScriptについて</p>
+<div class="sites">
+<blockquote title="Interactive Smooth CoffeeScript">
+<p class="jser-sitelink"><strong>Interactive Smooth CoffeeScript</strong><br/><a href="http://autotelicum.github.com/Smooth-CoffeeScript/interactive/interactive-coffeescript.html" title="Interactive Smooth CoffeeScript" target="_blank">http://autotelicum.github.com/Smooth-CoffeeScript/interactive/interactive-coffeescript.html</a></p>
+</blockquote>
+<p>Smooth CoffeeScriptのインタラクティブ版<br/>実際に入力して動かせる</p>
+</div>
+</div>
+</div>
+<div>
+<blockquote title="『JavaScript best practices - W3C Wiki』">
+<p class="jser-sitelink"><strong>『JavaScript best practices - W3C Wiki』</strong><br/><a href="http://www.w3.org/wiki/JavaScript_best_practices" title="『JavaScript best practices - W3C Wiki』" target="_blank">http://www.w3.org/wiki/JavaScript_best_practices</a></p>
+</blockquote>
+<p>JavaScriptベストプラクティスについてかかれたWiki</p>
+</div>
+<div>
+<blockquote title="『こてさきAjax:マルチデバイス連携を実現する Web Intents ～マルチデバイス連携編～ - livedoor Blog（ブログ）』">
+<p class="jser-sitelink"><strong>『こてさきAjax:マルチデバイス連携を実現する Web Intents ～マルチデバイス連携編～ - livedoor Blog（ブログ）』</strong><br/><a href="http://blog.livedoor.jp/kotesaki/archives/1771448.html" title="『こてさきAjax:マルチデバイス連携を実現する Web Intents ～マルチデバイス連携編～ - livedoor Blog（ブログ）』" target="_blank">http://blog.livedoor.jp/kotesaki/archives/1771448.html</a></p>
+</blockquote>
+<p>Web IntentsとDevice APIsについて<br/> 連携のシナリオについて</p>
+</div>
+<div class="site-genre ui-sortable"><strong>スライド、動画関係</strong></div>
+<div>
+<blockquote title="『Mobile Device APIs』">
+<p class="jser-sitelink"><strong>『Mobile Device APIs』</strong><br/><a href="http://www.slideshare.net/jamesgpearce/mobile-device-apis" title="『Mobile Device APIs』" target="_blank">http://www.slideshare.net/jamesgpearce/mobile-device-apis</a></p>
+</blockquote>
+<p>Device APIについてのスライド。<br/> WAC、omtp、W3C Device APIs、Mozilla Web API、PhoneGapについて それぞれの目標としたことや仕様などについて書かれてる。</p>
+</div>
+<div>
+<blockquote title="JavaScript Performance (at SFJS)">
+<p class="jser-sitelink"><strong>JavaScript Performance (at SFJS)</strong><br/><a href="http://www.slideshare.net/souders/javascript-performance-at-sfjs" title="JavaScript Performance (at SFJS)" target="_blank">http://www.slideshare.net/souders/javascript-performance-at-sfjs</a></p>
+</blockquote>
+<p>JavaScriptのサイズが大きくなってきていることやスクリプトのロード方法の変遷についてのスライド。非同期ロードの仕組みついての解説なども</p>
+</div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="『最速な JavaScript のリファレンスマニュアルサイトをつくった - &gt;TokuLog 改メ tokuhiroms blog』">
+<p class="jser-sitelink"><strong>『最速な JavaScript のリファレンスマニュアルサイトをつくった - ”&gt;TokuLog 改メ tokuhirom’s blog』</strong><br/><a href="http://d.hatena.ne.jp/tokuhirom/20120114/1326500882" title="『最速な JavaScript のリファレンスマニュアルサイトをつくった - &gt;TokuLog 改メ tokuhiroms blog』" target="_blank">http://d.hatena.ne.jp/tokuhirom/20120114/1326500882</a></p>
+</blockquote>
+<p>JQAPIと同じようにMDCのドキュメントを検索出来るサービス</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="『eligrey/FileSaver.js - GitHub』">
+<p class="jser-sitelink"><strong>『eligrey/FileSaver.js - GitHub』</strong><br/><a href="https://github.com/eligrey/FileSaver.js" title="『eligrey/FileSaver.js - GitHub』" target="_blank">https://github.com/eligrey/FileSaver.js</a></p>
+</blockquote>
+<p>名前をつけて保存、saveAs()の実装ライブラリ。</p>
+</div>
+<div>
+<blockquote title="CasperJS, a navigation scripting and testing utility for PhantomJS">
+<p class="jser-sitelink"><strong>CasperJS, a navigation scripting and testing utility for PhantomJS</strong><br/><a href="http://n1k0.github.com/casperjs/" title="CasperJS, a navigation scripting and testing utility for PhantomJS" target="_blank">http://n1k0.github.com/casperjs/</a></p>
+</blockquote>
+<p>PhantomJSを使ってSeleniumみたいな自動テストを行うライブラリ<br/>ブラウザの操作をPhantomJS上でエミュレートするテストを書ける</p>
+</div>
+<div class="site-genre ui-sortable"><strong>書籍関係</strong></div>
+<div>
+<blockquote title="『Amazon: HTML5 in Action [Paperback]: Rob Crowther, Joe Lennon, Ash Blue』">
+<p class="jser-sitelink"><strong>『Amazon: HTML5 in Action [Paperback]: Rob Crowther, Joe Lennon, Ash Blue』</strong><br/><a href="http://www.amazon.com/o/ASIN/1617290491/book042-22/ref=nosim" title="『Amazon: HTML5 in Action [Paperback]: Rob Crowther, Joe Lennon, Ash Blue』" target="_blank">http://www.amazon.com/o/ASIN/1617290491/book042-22/ref=nosim</a></p>
+</blockquote>
+<p>2012年05月28日発売<br/> HTML5のAction本</p>
+</div>
+<div>
+<blockquote title="『Amazon: Professional JavaScript for Web Developers [ペーパーバック]: Nicholas C. Zakas』">
+<p class="jser-sitelink"><strong>『Amazon: Professional JavaScript for Web Developers [ペーパーバック]: Nicholas C. Zakas』</strong><br/><a href="http://www.amazon.co.jp/o/ASIN/1118026691/book042-22/ref=nosim" title="『Amazon: Professional JavaScript for Web Developers [ペーパーバック]: Nicholas C. Zakas』" target="_blank">http://www.amazon.co.jp/o/ASIN/1118026691/book042-22/ref=nosim</a></p>
+</blockquote>
+<p>2012年1月18日発売<br/> Nicholas C. Zakasによる書籍の第3版</p>
+</div>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-01-15-2012-01-15-js-phantomjs-1-4-jstestdriver-device.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["javascript","coffeescript","mobile"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>javascript</li>
+                
+                <li>coffeescript</li>
+                
+                <li>mobile</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/15884909384">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/15884909384"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

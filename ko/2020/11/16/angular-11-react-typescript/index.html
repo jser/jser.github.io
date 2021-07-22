@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2020-11-16: Angular 11, React 앱 최적화, TypeScript를 채택(adopting)하고 배운것 - JSer.info</title>
+    <meta name="description" content="JSer.info #514 -　Angular 11 릴리스.Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blogangular/CHANGELOG.md at master · angular/angu...">
+    
+    <meta name="keywords" content="React,Angular,ESLint,performance,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2020-11-16T09:28:55+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="Angular" property="article:tag">
+      
+      <meta content="ESLint" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2020/11/16/angular-11-react-typescript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #514 -　Angular 11 릴리스.Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blogangular/CHANGELOG.md at master · angular/angu..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2020-11-16: Angular 11, React 앱 최적화, TypeScript를 채택(adopting)하고 배운것">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2020/11/16/angular-11-react-typescript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #514 -　Angular 11 릴리스.Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blogangular/CHANGELOG.md at master · angular/angu...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2020-11-16T09:28:55+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="Angular">
+
+<meta property="article:tag" content="ESLint">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2020/11/16/angular-11-react-typescript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2020/11/16/angular-11-react-typescript/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2020/11/16/angular-11-react-typescript/">2020-11-16: Angular 11, React 앱 최적화, TypeScript를 채택(adopting)하고 배운것</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2020年11月16日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2020/2020-11-16-angular-11-react-typescript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2020/2020-11-16-angular-11-react-typescript.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2020/11/16/angular-11-react-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #514 -　Angular 11 릴리스.</p>
+
+<ul>
+<li><a href="https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7">Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog</a></li>
+<li><a href="https://github.com/angular/angular/blob/master/CHANGELOG.md#1100-2020-11-11">angular/CHANGELOG.md at master · angular/angular</a></li>
+</ul>
+
+<p>Angular 11에서는 폰트 자동 인라인 화 대응, Component Test Harnesses 모든 컴포넌트 지원, Language Service 대응 개선, HMR을 CLI 인수로 활성화 할 수 있도록 변경됐다. <br>
+그 외로 webpack5 실험적 지원, Angular CLI의 기본 Linter 변경에 대해 정리돼 있다. </p>
+
+<p>현재 Angular에는 TSLint를 기반의 Lint가 구현돼 있다. 하지만, <a href="https://medium.com/palantir/tslint-in-2019-1a144c2317a9">TSLint는 비권장되어 ESLint로 이전</a>이 진행되고 있다.<br>
+Angular에서도 마찬가지로 TSLint에서 ESlint로 이전이 진행되고 있었으며, 이미 커뮤니티 기반으로 진행되고 있던 <a href="https://github.com/angular-eslint/angular-eslint">Angular ESLint</a>로 이전하는 방침에 대해서도 정리돼 있다.</p>
+
+<p>자세한 내용은 아래 문서를 참고.</p>
+
+<ul>
+<li><a href="https://blog.lacolaco.net/2020/11/angular-state-of-linting-2020/">Angular: ESLint 지원 현황 2020 Autumn | <output type=text></a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/">Optimize React Apps PageSpeed Insights Score - thetuteur</a></p>
+
+<p>리액트 기반 애플리케이션의 성능 개선을 주제로 정리돼 있다.</p>
+
+<p>미사용 자바스크립트 삭제, 컴포넌트 Lazy Load, TTFB 단축을 위해 Node.js 응답을 In-Memory로 캐시하는 방법.</p>
+
+<p><a href="https://github.com/Aljullu/react-lazy-load-image-component#readme"><code>react-lazy-load-image-component</code></a>를 사용한 이미지 지연 로드, <a href="https://github.com/hadeeb/react-lazy-hydration"><code>react-lazy-hydration</code></a>을 사용한 초기 로드 시의 메인 스레드 처리를 줄이는 방법 등이 정리돼 있다.<br>
+또, 비동기 로드나 <a href="https://github.com/addyosmani/critical"><code>critical</code></a>을 사용한 UA 별 크리티컬 패스 CSS 생성 등에 대해서도 작성돼 있다.</p>
+
+<hr>
+
+<p><a href="https://www.techatbloomberg.com/blog/10-insights-adopting-typescript-at-scale/">10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg</a></p>
+
+<p>타입스크립트를 채택해서 배운 것에 대해서 여러가지 작성돼 있다.</p>
+
+<p>타입스크립트라는 언어, tsconfig 설정, 타입 정의 방법 등, 아래 원칙을 기준으로 다양하게 이야기한다.</p>
+
+<ul>
+<li>Scalability</li>
+<li>Ecosystem Coherence</li>
+<li>Standards Alignment</li>
+</ul>
+
+<p>위 글에서 참조하고 있는 <code>type</code>과 <code>interface</code>의 차이점이나 컴파일 성능과 관련된 글도 꽤 흥미롭다.</p>
+
+<ul>
+<li><a href="https://ncjamieson.com/prefer-interfaces/">TypeScript: Prefer Interfaces — @ncjamieson</a></li>
+<li><a href="https://github.com/microsoft/TypeScript/wiki/Performance">Performance · microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="node-v15-2-0-current-node-js">Node v15.2.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v15.2.0/" title="Node v15.2.0 (Current) | Node.js">nodejs.org/en/blog/release/v15.2.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v15.2.0 릴리스.<br>
+<code>events</code>에 이벤트를 지정해 리스너를 가져올 수 있는 <code>getEventListeners</code> 추가, <code>fs</code>의 <code>writeFile</code> / <code>readFile</code> AbortSignal에 대응.</p>
+
+<hr>
+
+<h2 id="bootstrap-5-alpha-3-bootstrap-blog">Bootstrap 5 Alpha 3 | Bootstrap Blog</h2>
+
+<p><a href="https://blog.getbootstrap.com/2020/11/11/bootstrap-5-alpha-3/" title="Bootstrap 5 Alpha 3 | Bootstrap Blog">blog.getbootstrap.com/2020/11/11/bootstrap-5-alpha-3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bootstrap 5 Alpha 3 릴리스.<br>
+<code>.card</code> 기반의 아코디언 대신 <code>.accordion</code> 추가, <code>.btn-block</code> 삭제, Utilities 클래스 추가.</p>
+
+<hr>
+
+<h2 id="version-11-of-angular-now-available-by-mark-techson-nov-2020-angular-blog">Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog</h2>
+
+<p><a href="https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7" title="Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog">blog.angular.io/version-11-of-angular-now-available-74721b7952f7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Angular 11 릴리스.<br>
+폰트 자동 인라인 화 대응, Component Test Harnesses 모든 컴포넌트 지원, Service 대응 개선, HMR을 CLI의 인수로 활성화 할 수 있다.<br>
+그 외로 Webpack5를 실험적으로 지원한다.</p>
+
+<ul>
+<li><a href="https://github.com/angular/angular/blob/master/CHANGELOG.md#1100-2020-11-11" title="angular/CHANGELOG.md at master · angular/angular">angular/CHANGELOG.md at master · angular/angular</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-22-0-ryansolid-solid">Release v0.22.0 · ryansolid/solid</h2>
+
+<p><a href="https://github.com/ryansolid/solid/releases/tag/v0.22.0" title="Release v0.22.0 · ryansolid/solid">github.com/ryansolid/solid/releases/tag/v0.22.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>UI 개발 라이브러리 solid v0.22.0 릴리스.<br>
+<code>splid-js/dom</code>를 비권장하고 <code>solid-js/web</code>을 대신 사용하도록.<br>
+<code>dev</code>옵션 지원 , CDN을 통해서 사용할 수 있도록 <code>solid-js/html</code> 등을 패키지에 포함하고 <code>renderToWebStream</code>와 <code>createMutable</code> 추가.</p>
+
+<hr>
+
+<h2 id="lunuy-iterable-weak-iterable-weakset-weakmap-using-es2021-weakref">Lunuy/iterable-weak: Iterable WeakSet / WeakMap using ES2021 WeakRef</h2>
+
+<p><a href="https://github.com/Lunuy/iterable-weak" title="Lunuy/iterable-weak: Iterable WeakSet / WeakMap using ES2021 WeakRef">github.com/Lunuy/iterable-weak</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ECMAScript</span></p></p>
+
+<p>WeakRef 사용해 개발한 Iterable한 WeakMap/WeakSet 구현 라이브러리.<br>
+Iterate 가능하도록 요소를 참조하며 WeakRef의 FinalizationRegistry를 사용해 참조를 해제할 수도 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-88-web-google-developers">What&#39;s New In DevTools (Chrome 88)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2020/11/devtools" title="What&#39;s New In DevTools (Chrome 88)  |  Web  |  Google Developers">developers.google.com/web/updates/2020/11/devtools</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 88 개발자 도구 변경 사항 정리.<br>
+CSS angle 시각적 도구, AVIF가 지원하지 않는 상태를 에뮬레이트 할 수 있도록 지원, storage quota size 애뮬레이터 지원.<br>
+Performance 패널에 Web Vitals 레인(lane) 추가, Application 패널에 Cross-Origin Isolated 상태 표시, network initiator 스택 트레이스 복사 지원.<br>
+실험적인 기능으로 CSS Flexbox 디버깅 기능, 키보드 단축키(shortcut) 커스터마이즈 기능이 추가 됐다.</p>
+
+<hr>
+
+<h2 id="optimize-react-apps-pagespeed-insights-score-thetuteur">Optimize React Apps PageSpeed Insights Score - thetuteur</h2>
+
+<p><a href="https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/" title="Optimize React Apps PageSpeed Insights Score - thetuteur">thetuteur.com/optimize-react-apps-pagespeed-insights-score/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 앱 성능 개선.<br>
+사용하지 않는 자바스크립트 삭제, 컴포넌트 Lazy Load, TTFB를 단축하기 위해서 응답 캐시.<br>
+<code>react-lazy-load-image-component</code>를 이용한 이미지 지연 로드, <code>react-lazy-hydration</code>을 사용해 초기 로드 시점의 CPU 처리 줄이기.<br>
+또, CSS 비동기 로드, <code>critical</code>을 사용한 UA 별 크리티컬 패스 CSS 생성 등.</p>
+
+<hr>
+
+<h2 id="typescript-prefer-interfaces-ncjamieson">TypeScript: Prefer Interfaces — @ncjamieson</h2>
+
+<p><a href="https://ncjamieson.com/prefer-interfaces/" title="TypeScript: Prefer Interfaces — @ncjamieson">ncjamieson.com/prefer-interfaces/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScript우ㅏ <code>type</code>과 <code>interface</code>의 다른점.<br>
+<code>interface</code>는 이름으로 참조되는 것에 반해 <code>type</code>으로 정의한 형은 인라인 화 되는 경우가 있다. 때문에 <code>type</code>을 사용한 경우  <code>d.ts</code>가 필요 이상으로 커질 수 도 있다.</p>
+
+<ul>
+<li><a href="https://www.techatbloomberg.com/blog/10-insights-adopting-typescript-at-scale/" title="10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg">10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg</a></li>
+</ul>
+
+<hr>
+
+<h2 id="performance-microsoft-typescript-wiki">Performance · microsoft/TypeScript Wiki</h2>
+
+<p><a href="https://github.com/microsoft/TypeScript/wiki/Performance" title="Performance · microsoft/TypeScript Wiki">github.com/microsoft/TypeScript/wiki/Performance</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScript 컴파일 성능과 관련된 내용이 정리 돼 있다.<br>
+<code>type</code>과 <code>interface</code>, Base Type과 Union Type, Project Reference, tsconfig.json 설정과 관련한 최적화.</p>
+
+<hr>
+
+<h2 id="angular-eslint-2020-autumn">Angular: ESLint 지원 상황 2020 Autumn | <output type=text>(일본)</h2>
+
+<p><a href="https://blog.lacolaco.net/2020/11/angular-state-of-linting-2020/" title="Angular: ESLintサポートの現状 2020 Autumn | &lt;output type=text&gt;">blog.lacolaco.net/2020/11/angular-state-of-linting-2020/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">article</span></p></p>
+
+<p>Agular에서의 Lint(TSLint / ESLint) 향후 방향.<br>
+TSLint는 Angular 12에서 비권장 될 예정으로 ESLint로의 이전은 커뮤니티 기반(angular-eslint 사용을 권장)으로 진행되고 있다.</p>
+
+<ul>
+<li><a href="https://github.com/angular-eslint/angular-eslint" title="angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular">angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular</a></li>
+</ul>
+
+<hr>
+
+<h2 id="official-google-webmaster-central-blog-timing-for-bringing-page-experience-to-google-search">Official Google Webmaster Central Blog: Timing for bringing page experience to Google Search</h2>
+
+<p><a href="https://webmasters.googleblog.com/2020/11/timing-for-page-experience.html" title="Official Google Webmaster Central Blog: Timing for bringing page experience to Google Search">webmasters.googleblog.com/2020/11/timing-for-page-experience.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">SEO</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span> <span class="jser-tag">search</span></p></p>
+
+<p>2021년 5월 부터 Core Web Vitals(LCP, FID, CLS) 점수가 구글 검색 결과의 시그널로 사용된다.<br>
+웹 성능이 검색 결과 순위에 영향을 주게 된다.</p>
+
+<hr>
+
+<h2 id="microsoft-web-dev-for-beginners-24-lessons-12-weeks-get-started-as-a-web-developer">microsoft/Web-Dev-For-Beginners: 24 Lessons, 12 Weeks, Get Started as a Web Developer</h2>
+
+<p><a href="https://github.com/microsoft/Web-Dev-For-Beginners" title="microsoft/Web-Dev-For-Beginners: 24 Lessons, 12 Weeks, Get Started as a Web Developer">github.com/microsoft/Web-Dev-For-Beginners</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>HTML / CSS / JS 및 애플리케이션 개발에 대해 학습할 수 있는 웹 개발 튜터리얼 모음 및 레슨.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="next-js-conf-2020-youtube">Next.js Conf 2020 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLBnKlKpPeagnT2Cmv4giCbosfrbKnuYTD" title="Next.js Conf 2020 - YouTube">www.youtube.com/playlist?list&#x3D;PLBnKlKpPeagnT2Cmv4giCbosfrbKnuYTD</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">video</span> <span class="jser-tag">Conference</span></p></p>
+
+<p>Next.js Conf 2020 발표 영상 목록</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="esm">ESM</h2>
+
+<p><a href="https://esm.sh/" title="ESM">esm.sh/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">deno</span> <span class="jser-tag">cdn</span> <span class="jser-tag">library</span></p></p>
+
+<p>esbuild로 의존을 포함해 bundle한 패키지를 배포하는 npm CDN 서비스.<br>
+npm 패키지를 deno에서 ES Modules로 불러올 수 있고 polyfill 구조도 준비돼 있다.</p>
+
+<hr>
+
+<h2 id="open-source-labs-recoilize-recoil-developer-tool">open-source-labs/Recoilize: Recoil developer tool</h2>
+
+<p><a href="https://github.com/open-source-labs/Recoilize" title="open-source-labs/Recoilize: Recoil developer tool">github.com/open-source-labs/Recoilize</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">React</span></p></p>
+
+<p>recoil 디버깅 도구.</p>
+
+<hr>
+
+<h2 id="acot-a11y-acot-more-accessible-web-all-over-the-world">acot-a11y/acot: More accessible web, all over the world.</h2>
+
+<p><a href="https://github.com/acot-a11y/acot" title="acot-a11y/acot: More accessible web, all over the world.">github.com/acot-a11y/acot</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>ESLint와 비슷한 플러그인 시스템을 갖는 Accessibility 테스트 프레임워크.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="trivago-prettier-plugin-sort-imports-a-prettier-plugin-to-sort-imports-in-typescript-and-javascript-files-by-the-provided-regex-order">trivago/prettier-plugin-sort-imports: A prettier plugin to sort imports in typescript and javascript files by the provided RegEx order.</h2>
+
+<p><a href="https://github.com/trivago/prettier-plugin-sort-imports" title="trivago/prettier-plugin-sort-imports: A prettier plugin to sort imports in typescript and javascript files by the provided RegEx order.">github.com/trivago/prettier-plugin-sort-imports</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>import 문 순서를 정렬하는 prettier plugin</p>
+
+<hr>
+
+<h2 id="vinissimus-next-translate-i18n-tool-for-next-js-10-load-page-translations-and-use-them-in-an-easy-way">vinissimus/next-translate: i18n tool for Next.js 10 🌍 - Load page translations and use them in an easy way!</h2>
+
+<p><a href="https://github.com/vinissimus/next-translate" title="vinissimus/next-translate: i18n tool for Next.js 10 🌍 - Load page translations and use them in an easy way!">github.com/vinissimus/next-translate</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">i18n</span> <span class="jser-tag">library</span></p></p>
+
+<p>Next.js 용 i18n 도구.</p>
+
+<hr>
+
+<h2 id="angular-eslint-angular-eslint-monorepo-for-all-the-tooling-related-to-using-eslint-with-angular">angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular</h2>
+
+<p><a href="https://github.com/angular-eslint/angular-eslint" title="angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular">github.com/angular-eslint/angular-eslint</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ESLint</span></p></p>
+
+<p>Angular 용 ESLint 플러그인 세트.<br>
+Codelyzer / TSLint에서 이전 시 사용을 권장하고 있다.</p>
+
+<hr>
+
+<h2 id="felixfbecker-dom-to-svg-library-to-convert-a-given-html-dom-node-into-an-accessible-svg-screenshot">felixfbecker/dom-to-svg: Library to convert a given HTML DOM node into an accessible SVG &quot;screenshot&quot;.</h2>
+
+<p><a href="https://github.com/felixfbecker/dom-to-svg" title="felixfbecker/dom-to-svg: Library to convert a given HTML DOM node into an accessible SVG \&quot;screenshot\&quot;.">github.com/felixfbecker/dom-to-svg</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">SVG</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p><code>&lt;foreignObject&gt;</code>를 사용하지 않고 DOM에서 SVG를 생성하는 라이브러리.<br>
+DOM 상의 WAI-ARIA나 링크 등도 포함하는 SVG를 생성한다.</p>
+
+<hr>
+
+<h2 id="davnicwil-react-frontload-async-data-loading-for-react-components-on-client-server">davnicwil/react-frontload: Async data loading for React components, on client &amp; server</h2>
+
+<p><a href="https://github.com/davnicwil/react-frontload" title="davnicwil/react-frontload: Async data loading for React components, on client &amp; server">github.com/davnicwil/react-frontload</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">server</span></p></p>
+
+<p>React 용 Data Loader 라이브러리.<br>
+컴포넌트에서 API를 호출해 데이터를 가져오거나 호출 상태를 다룰 수 있다. 클라이언트와 서버에서 각각 대응하는 API를 준비해 hydration도 가능하다.</p>
+
+<hr>
+
+<h2 id="alephjs-aleph-js-the-react-framework-in-deno">alephjs/aleph.js: The React Framework in Deno.</h2>
+
+<p><a href="https://github.com/alephjs/aleph.js" title="alephjs/aleph.js: The React Framework in Deno.">github.com/alephjs/aleph.js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>React를 기반으로 한 Next.js와 비슷한 Deno 용 프레임워크.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="javascript-impress-top-gear-cay-s-horstmann-amazon">JavaScript 모던 프로그래밍 완전 가이드 [견고한 코드를 효율적으로 개발! ] (impress top gear 시리즈) | Cay S. Horstmann, 요시카와 쿠니오 | 책 | 통신판매 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4295010561/" title="JavaScript 모던 프로그래밍 완전 가이드 \[견고한 코드를 효율적으로 개발! \] (impress top gear 시리즈) | Cay S. Horstmann, 요시카와 쿠니오 | 책 | 통신판매 | Amazon">www.amazon.co.jp/dp/4295010561/</a>(일본어)<br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2020년 12월 21일 출간 예정인 Modern JavaScript for the Impatient의 번역서.</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/dp/B08F5HFWBH/" title="Amazon | Modern JavaScript for the Impatient (English Edition) \[Kindle edition\] by Horstmann, Cay S. | Languages &amp;amp; Tools | Kindle 스토어">Amazon | Modern JavaScript for the Impatient (English Edition) [Kindle edition] by Horstmann, Cay S. | Languages &amp; Tools | Kindle 스토어</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2020/2020-11-16-angular-11-react-typescript.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","Angular","ESLint","performance","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>Angular</li>
+                
+                <li>ESLint</li>
+                
+                <li>performance</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2020/11/16/angular-11-react-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

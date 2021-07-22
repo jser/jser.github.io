@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-01-09のJS: Spectre/Meltdownのブラウザへの影響、FuseBox 3.0、Nuxt.js 1.0 - JSer.info</title>
+    <meta name="description" content="JSer.info #365 - GoogleのProject Zeroチームより、投機的実行を利用したサイドチャネル攻撃に関する脆弱性としてMeltdown and Spectreが公開されました。">
+    
+    <meta name="keywords" content="Security,browser,fusebox,vue" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-01-10T08:13:18+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Security" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="fusebox" property="article:tag">
+      
+      <meta content="vue" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #365 - GoogleのProject Zeroチームより、投機的実行を利用したサイドチャネル攻撃に関する脆弱性としてMeltdown and Spectreが公開されました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-01-09のJS: Spectre/Meltdownのブラウザへの影響、FuseBox 3.0、Nuxt.js 1.0">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #365 - GoogleのProject Zeroチームより、投機的実行を利用したサイドチャネル攻撃に関する脆弱性としてMeltdown and Spectreが公開されました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-01-10T08:13:18+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Security">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="fusebox">
+
+<meta property="article:tag" content="vue">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">2018-01-09のJS: Spectre/Meltdownのブラウザへの影響、FuseBox 3.0、Nuxt.js 1.0</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年01月10日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-01-09-spectremeltdown-fusebox-3.0-nuxt.js-1.0.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-01-09-spectremeltdown-fusebox-3.0-nuxt.js-1.0.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #365 - Googleの<a href="https://googleprojectzero.blogspot.jp/2014/07/announcing-project-zero.html" title="Project Zero">Project Zero</a>チームより、投機的実行を利用したサイドチャネル攻撃に関する脆弱性として<a href="https://spectreattack.com/" title="Meltdown and Spectre">Meltdown and Spectre</a>が公開されました。</p>
+
+<p>ブラウザは任意のJavaScriptを実行でき、かつ<code>SharedArrayBuffer</code>や<code>performance.now()</code>など精度の高いタイマーをもつためこのサイドチャネル攻撃の影響受けます。本来は、ブラウザは一種Sandbox内で任意のJavaScriptを独立して実行する仕組みを持ちSandbox外の状態は観測できません。しかし、<a href="https://spectreattack.com/" title="Spectre">Spectre</a>によってSandbox外の状態を観測できる可能性がでてきたためです。</p>
+
+<p>そのためChrome、Firefox、MSEdge、Safariではそれぞれ一時的に<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer" title="SharedArrayBuffer - JavaScript | MDN">SharedArrayBuffer</a>の無効化、<code>performance.now()</code>の精度を下げる軽減策が導入されています。<br>
+(<a href="https://gruss.cc/files/fantastictimers.pdf#page=10" title="fantastictimers.pdf">fantastictimers.pdf</a>では<code>SharedArrayBuffer</code>を高精度のタイマーとして使えることについて書かれています）</p>
+
+<ul>
+<li><a href="https://sites.google.com/a/chromium.org/dev/Home/chromium-security/ssca">Actions required to mitigate Speculative Side-Channel Attack techniques - The Chromium Projects</a></li>
+<li><a href="https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/">Mitigations landing for new class of timing attack | Mozilla Security Blog</a></li>
+<li><a href="https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/#dvXo8lGoraWMULYx.97">Mitigating speculative execution side-channel attacks in Microsoft Edge and Internet Explorer - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</a></li>
+<li><a href="https://webkit.org/blog/8048/what-spectre-and-meltdown-mean-for-webkit/">What Spectre and Meltdown Mean For WebKit | WebKit</a></li>
+</ul>
+
+<p>どのブラウザも今回の変更は一時的な対策であるとして、<code>SharedArrayBuffer</code>については再度有効化する目標について書かれています。</p>
+
+<p>関連: 高精度のタイマーを使ってのサイドチャネル攻撃について。</p>
+
+<ul>
+<li><a href="https://github.com/IAIK/ChromeZero">IAIK/ChromeZero: Google Chrome extension implementing JavaScript Zero</a></li>
+<li><a href="https://misc0110.net/web/files/jszero.pdf">jszero.pdf</a></li>
+<li><a href="https://gruss.cc/files/fantastictimers.pdf#page=10">fantastictimers.pdf</a></li>
+<li><a href="https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md" title="ecmascript_sharedmem/TimingAttack.md at master · tc39/ecmascript_sharedmem">ecmascript<em>sharedmem/TimingAttack.md at master · tc39/ecmascript</em>sharedmem</a></li>
+<li><a href="https://eprint.iacr.org/2013/448.pdf" title="Flush+Reload">Flush+Reload</a></li>
+<li><a href="https://www.usenix.org/system/files/conference/usenixsecurity15/sec15-paper-gruss.pdf" title="sec15-paper-gruss.pdf">sec15-paper-gruss.pdf</a></li>
+</ul>
+
+<hr>
+
+<p>BundlerかつTask Runnerである<a href="https://github.com/fuse-box/fuse-box" title="FuseBox">FuseBox</a> 3.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://medium.com/fusebox/fusebox-3-0-faster-than-ever-5fae4254556c" title="FuseBox 3.0 — faster than ever – fusebox – Medium">FuseBox 3.0 — faster than ever – fusebox – Medium</a></li>
+<li><a href="https://github.com/fuse-box/fuse-box/blob/master/docs/version3changelog.md" title="fuse-box/version3changelog.md at master · fuse-box/fuse-box">fuse-box/version3changelog.md at master · fuse-box/fuse-box</a></li>
+</ul>
+
+<p>Code Splittingをデフォルトでサポート、TypeScriptをソースにTree Shakingをサポートするために<code>ts:main</code>のサポート。<br>
+パフォーマンスの改善、ウェブサイトのデザイン更新などが行われています。</p>
+
+<hr>
+
+<p>Vue版Next.jsであるNuxt.js 1.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://medium.com/@nuxt_js/nuxt-js-1-0-is-out-bab1af459972" title="Nuxt.js 1.0 is out 🎉 – Nuxt.js – Medium">Nuxt.js 1.0 is out 🎉 – Nuxt.js – Medium</a></li>
+</ul>
+
+<p>Node.js 8.0.0未満のサポートを終了。<br>
+今後はドキュメンテーション、パフォーマンス、TypeScriptサポートの改善などを行っていくロードマップについて書かれています。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v8-9-4-lts-node-js">Node v8.9.4 (LTS) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v8.9.4/" title="Node v8.9.4 (LTS) | Node.js">nodejs.org/en/blog/release/v8.9.4/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 8.9.4リリース。<br>
+npm 5.6.0の同梱など</p>
+
+<ul>
+<li><a href="http://blog.npmjs.org/post/167963735925/v560-2017-11-27" title="The npm Blog — v5.6.0 (2017-11-27)">The npm Blog — v5.6.0 (2017-11-27)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="actions-required-to-mitigate-speculative-side-channel-attack-techniques-the-chromium-projects">Actions Required to Mitigate Speculative Side-Channel Attack Techniques - The Chromium Projects</h2>
+
+<p><a href="https://sites.google.com/a/chromium.org/dev/Home/chromium-security/ssca" title="Actions Required to Mitigate Speculative Side-Channel Attack Techniques - The Chromium Projects">sites.google.com/a/chromium.org/dev/Home/chromium-security/ssca</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">security</span> <span class="jser-tag">news</span> <span class="jser-tag">browser</span></p></p>
+
+<p>Chrome、Firefox、MSEdge、SafariなどのブラウザはMeltdown/Spectre(CPUプロセッサに関する脆弱性)を受ける。<br>
+そのためSharedArrayBufferの無効化や軽減策として<code>performance.now()</code>などの挙動を変更する</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/" title="Mitigations landing for new class of timing attack | Mozilla Security Blog">Mitigations landing for new class of timing attack | Mozilla Security Blog</a></li>
+<li><a href="https://spectreattack.com/" title="Meltdown and Spectre">Meltdown and Spectre</a></li>
+<li><a href="https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/#m2GyZlsjAzq0Do6K.97" title="Mitigating speculative execution side-channel attacks in Microsoft Edge and Internet Explorer - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog">Mitigating speculative execution side-channel attacks in Microsoft Edge and Internet Explorer - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</a></li>
+<li><a href="https://webkit.org/blog/8048/what-spectre-and-meltdown-mean-for-webkit/" title="What Spectre and Meltdown Mean For WebKit | WebKit">What Spectre and Meltdown Mean For WebKit | WebKit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="browserify-changelog-markdown-at-v15-0-0-browserify-browserify">browserify/changelog.markdown at v15.0.0 · browserify/browserify</h2>
+
+<p><a href="https://github.com/browserify/browserify/blob/v15.0.0/changelog.markdown" title="browserify/changelog.markdown at v15.0.0 · browserify/browserify">github.com/browserify/browserify/blob/v15.0.0/changelog.markdown</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Browserify 15.0.0リリース。<br>
+Node.js 4未満のサポート終了、<code>module-deps</code>の依存を更新、<code>browserify</code> organizationに移動など</p>
+
+<ul>
+<li><a href="https://github.com/browserify/module-deps/releases/tag/v5.0.0" title="Release v5.0.0 · browserify/module-deps">Release v5.0.0 · browserify/module-deps</a></li>
+</ul>
+
+<hr>
+
+<h2 id="dev-opera-what-s-new-in-chromium-63-and-opera-50">Dev.Opera — What’s new in Chromium 63 and Opera 50</h2>
+
+<p><a href="https://dev.opera.com/blog/opera-50/" title="Dev.Opera — What’s new in Chromium 63 and Opera 50">dev.opera.com/blog/opera-50/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">Opera</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Opera 50 (based on Chromium 63)リリース。<br>
+Dynamic import、Async Iterator/Generator、<code>Promise#finally</code>、<code>Intl.PluralRules</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="eslint-v4-15-0-released-eslint-pluggable-javascript-linter">ESLint v4.15.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2018/01/eslint-v4.15.0-released" title="ESLint v4.15.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2018/01/eslint-v4.15.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint 4.15.0リリース。<br>
+<code>CLIEngine#getRules()</code>で設定されたルールの取得、<code>messageId</code>の追加など開発者向けの機能追加など</p>
+
+<ul>
+<li><a href="https://qiita.com/mysticatea/items/c6c10d4749e7d69d321e" title="ESLint v4.15.0 - Qiita">ESLint v4.15.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="ecmascript-2015-javascript-this-web-scratch">ECMAScript 2015以降のJavaScriptの`this`を理解する | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2018/01/04/what-is-this/" title="ECMAScript 2015以降のJavaScriptの\`this\`を理解する | Web Scratch">efcl.info/2018/01/04/what-is-this/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptの<code>this</code>についての解説記事。<br>
+状況によって異なる値を参照する<code>this</code>は、どのような仕組みでその値を決まっているかについて。<br>
+関数やArrow Functionでの仕組みの違いなどについて</p>
+
+<ul>
+<li><a href="https://github.com/asciidwango/js-primer" title="asciidwango/js-primer: JavaScriptの入門書">asciidwango/js-primer: JavaScriptの入門書</a></li>
+</ul>
+
+<hr>
+
+<h2 id="fusebox-3-0-faster-than-ever-fusebox-medium">FuseBox 3.0 — faster than ever – fusebox – Medium</h2>
+
+<p><a href="https://medium.com/fusebox/fusebox-3-0-faster-than-ever-5fae4254556c" title="FuseBox 3.0 — faster than ever – fusebox – Medium">medium.com/fusebox/fusebox-3-0-faster-than-ever-5fae4254556c</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>FuseBox 3.0リリース。<br>
+Code Splittingをデフォルトでサポート、TypeScriptをソースにTree Shakingをサポートするために<code>ts:main</code>のサポート。<br>
+パフォーマンスの改善、ウェブサイトのデザイン更新など</p>
+
+<ul>
+<li><a href="https://github.com/fuse-box/fuse-box/releases/tag/3.0.2" title="Release 3.0.2 · fuse-box/fuse-box">Release 3.0.2 · fuse-box/fuse-box</a></li>
+<li><a href="https://github.com/fuse-box/fuse-box/blob/master/docs/version3changelog.md" title="fuse-box/version3changelog.md at master · fuse-box/fuse-box">fuse-box/version3changelog.md at master · fuse-box/fuse-box</a></li>
+</ul>
+
+<hr>
+
+<h2 id="new-flexbox-guides-on-mdn-mozilla-hacks-the-web-developer-blog">New flexbox guides on MDN – Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2018/01/new-flexbox-guides-on-mdn/" title="New flexbox guides on MDN – Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2018/01/new-flexbox-guides-on-mdn/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span> <span class="jser-tag">document</span></p></p>
+
+<p>FlexboxのガイドがMDNに追加された</p>
+
+<hr>
+
+<h2 id="the-contributors-guide-to-webpack-part-1">🐛🔨 The Contributors Guide to webpack — Part 1 🎨 🖼</h2>
+
+<p><a href="https://medium.com/webpack/the-contributors-guide-to-webpack-part-1-a0410cc82ca4" title="🐛🔨 The Contributors Guide to webpack — Part 1 🎨 🖼">medium.com/webpack/the-contributors-guide-to-webpack-part-1-a0410cc82ca4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>webpackのアーキテクチャの解説をする連載。<br>
+webpack関係のツール、プラグインのエコシステムや動作の仕組み、モジュール依存関係グラフの構築などについて</p>
+
+<ul>
+<li><a href="https://github.com/TheLarkInn/artsy-webpack-tour" title="TheLarkInn/artsy-webpack-tour: Annotations on webpack source code in a pseudo-guided fashion.">TheLarkInn/artsy-webpack-tour: Annotations on webpack source code in a pseudo-guided fashion.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="using-react-fragments-for-the-first-time">Using React Fragments for the first time</h2>
+
+<p><a href="https://javascriptplayground.com/react-fragments/" title="Using React Fragments for the first time">javascriptplayground.com/react-fragments/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 16で導入されたFragmentについての記事。<br>
+どのような問題を解決するのかや気をつけるべき点、ユースケースについて</p>
+
+<hr>
+
+<h2 id="what-s-new-in-html-5-2">What’s New in HTML 5.2?</h2>
+
+<p><a href="https://bitsofco.de/whats-new-in-html-5-2/" title="What’s New in HTML 5.2?">bitsofco.de/whats-new-in-html-5-2/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span> <span class="jser-tag">HTML</span> <span class="jser-tag">spec</span> <span class="jser-tag">article</span></p></p>
+
+<p>W3C HTML 5.2の変更点まとめ。<br>
+<code>&lt;dialog&gt;</code>要素、iframeに<code>allowpaymentrequest</code>属性の追加、<code>&lt;main&gt;</code>要素の複数配置の許容。<br>
+また<code>keygen</code>、<code>menu</code>、<code>menuitem</code>の削除、HTML4 XHTML1 strict doctypeの削除など</p>
+
+<ul>
+<li><a href="https://www.w3.org/TR/html52/changes.html#changes" title="HTML 5.2: Changes">HTML 5.2: Changes</a></li>
+<li><a href="https://www.mitsue.co.jp/knowledge/blog/frontend/201412/02_1454.html" title="main要素、二つの定義 | フロントエンドBlog | ミツエーリンクス">main要素、二つの定義 | フロントエンドBlog | ミツエーリンクス</a></li>
+<li><a href="http://momdo.hatenablog.jp/entry/20180105/1515161004" title="メモ：両HTMLにおけるmain要素の説明、ついに一定の収束の気配か。 - 水底の血">メモ：両HTMLにおけるmain要素の説明、ついに一定の収束の気配か。 - 水底の血</a></li>
+</ul>
+
+<hr>
+
+<h2 id="javascript-start-up-optimization-web-fundamentals-google-developers">JavaScript Start-up Optimization  |  Web Fundamentals  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/" title="JavaScript Start-up Optimization  |  Web Fundamentals  |  Google Developers">developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>ウェブサイトの起動速度周りの改善ポイントについてまとめた記事。<br>
+ネットワーク、ファイルサイズ、パース、コンパイル、実行コストについてを簡単にまとめたもの</p>
+
+<ul>
+<li><a href="https://medium.com/reloading/javascript-start-up-performance-69200f43b201" title="JavaScript Start-up Performance – reloading – Medium">JavaScript Start-up Performance – reloading – Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="nuxt-js-1-0-is-out-nuxt-js-medium">Nuxt.js 1.0 is out 🎉 – Nuxt.js – Medium</h2>
+
+<p><a href="https://medium.com/@nuxt_js/nuxt-js-1-0-is-out-bab1af459972" title="Nuxt.js 1.0 is out 🎉 – Nuxt.js – Medium">medium.com/@nuxt_js/nuxt-js-1-0-is-out-bab1af459972</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Vue</span> <span class="jser-tag">server</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue版Next.jsであるNuxt.js 1.0リリース。<br>
+Node.js 8.0.0未満のサポートを終了。<br>
+今後はドキュメンテーション、パフォーマンス、TypeScriptサポートの改善などを行っていく</p>
+
+<ul>
+<li><a href="https://github.com/nuxt/nuxt.js/releases/tag/v1.0.0" title="Release v1.0.0 · nuxt/nuxt.js">Release v1.0.0 · nuxt/nuxt.js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="sapper-towards-the-ideal-web-app-framework">Sapper: Towards the ideal web app framework</h2>
+
+<p><a href="https://svelte.technology/blog/sapper-towards-the-ideal-web-app-framework" title="Sapper: Towards the ideal web app framework">svelte.technology/blog/sapper-towards-the-ideal-web-app-framework</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">server</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>SvelteベースのNext.js的なフレームワークであるSapperについて。<br>
+それぞれのページがSvelteのコンポーネントとなる。<br>
+元々フレームワークからではなくコンパイラとして始まったSvelteと他のフレームワークとの違いについて</p>
+
+<ul>
+<li><a href="https://sapper.svelte.technology/" title="Sapper • Military-grade progressive web apps, powered by Svelte">Sapper • Military-grade progressive web apps, powered by Svelte</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-state-of-javascript-frameworks-2017-part-1-front-end-frameworks">The State of JavaScript Frameworks, 2017 | Part 1: Front-End Frameworks</h2>
+
+<p><a href="https://www.npmjs.com/npm/state-of-javascript-frameworks-2017-part-1" title="The State of JavaScript Frameworks, 2017 | Part 1: Front-End Frameworks">www.npmjs.com/npm/state-of-javascript-frameworks-2017-part-1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>npmのダウンロード数から見るJavaScriptのエコシステムについての連載記事。<br>
+フロントエンドとバックエンドのフレームワーク、Reactに関するエコシステムについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="chrome-devtools-101-debugging-javascript-youtube">Chrome DevTools 101: Debugging JavaScript - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=H0XScE08hy8" title="Chrome DevTools 101: Debugging JavaScript - YouTube">www.youtube.com/watch?v&#x3D;H0XScE08hy8</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">video</span></p></p>
+
+<p>Chrome開発者ツールでのデバッガーの使い方についての動画。<br>
+ブレークポイントの種類や貼り方、ステップ実行などについて</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/javascript/breakpoints" title="Pause Your Code With Breakpoints  |  Tools for Web Developers  |  Google Developers">Pause Your Code With Breakpoints  |  Tools for Web Developers  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="roadmap-of-web-applications-on-mobile">Roadmap of Web Applications on Mobile</h2>
+
+<p><a href="https://www.w3.org/2018/01/web-roadmaps/mobile/" title="Roadmap of Web Applications on Mobile">www.w3.org/2018/01/web-roadmaps/mobile/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span> <span class="jser-tag">spec</span> <span class="jser-tag">document</span></p></p>
+
+<p>W3Cのモバイルのウェブアプリに関する仕様のロードマップ。<br>
+それぞれの仕様のジャンルごとのまとめ、ステータス、実装状況について</p>
+
+<hr>
+
+<h2 id="lighthouse-2-7-updates-web-google-developers">Lighthouse 2.7 Updates  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2018/01/lighthouse" title="Lighthouse 2.7 Updates  |  Web  |  Google Developers">developers.google.com/web/updates/2018/01/lighthouse</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Lighthouse 2.7リリース。<br>
+SEO auditの追加、手動のアクセシビリティチェックリストの追加、WebP auditの更新など</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="mweststrate-immer-create-the-next-immutable-state-by-mutating-the-current-one">mweststrate/immer: Create the next immutable state by mutating the current one</h2>
+
+<p><a href="https://github.com/mweststrate/immer" title="mweststrate/immer: Create the next immutable state by mutating the current one">github.com/mweststrate/immer</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>MutableなAPIでImmutableにオブジェクトや配列を変更できるライブラリ。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-01-09-spectremeltdown-fusebox-3.0-nuxt.js-1.0.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Security","browser","fusebox","vue"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Security</li>
+                
+                <li>browser</li>
+                
+                <li>fusebox</li>
+                
+                <li>vue</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/01/10/spectremeltdown-fusebox-3.0-nuxt.js-1.0/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules - JSer.info</title>
+    <meta name="description" content="JSer.info #329 - Chrome 59βがリリースされました。">
+    
+    <meta name="keywords" content="Firefox,Chrome,Headless,PhantomJS,SlimerJS,modules,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-05-03T11:03:59+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="Headless" property="article:tag">
+      
+      <meta content="PhantomJS" property="article:tag">
+      
+      <meta content="SlimerJS" property="article:tag">
+      
+      <meta content="modules" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #329 - Chrome 59βがリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #329 - Chrome 59βがリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-05-03T11:03:59+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="Headless">
+
+<meta property="article:tag" content="PhantomJS">
+
+<meta property="article:tag" content="SlimerJS">
+
+<meta property="article:tag" content="modules">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">2017-05-03のJS: Headless Chrome/FirefoxとPhantomJS/SlimerJS、ES modules</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年05月03日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-05-03-headless-chromefirefoxphantomjsslimerjs-es-modules.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-05-03-headless-chromefirefoxphantomjsslimerjs-es-modules.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #329 - Chrome 59βがリリースされました。</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html" title="Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload">Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload</a></li>
+</ul>
+
+<p>Service Workerの<a href="https://developers.google.com/web/updates/2017/02/navigation-preload">navigation preloads</a>のサポート、<code>MediaError.message</code>のサポート、Image Capture APIの試験的サポートなどが行われています。</p>
+
+<p>また、<a href="https://chromium.googlesource.com/chromium/src/+/master/headless/" title="Headless Chromium">Headless Chromium</a>が追加されています。</p>
+
+<p>詳しくは次の記事で解説されていますが、PhantomJSのようにXvfbなどが不要なChromeを動かすことができるモードです。</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" title="Getting Started with Headless Chrome  |  Web  |  Google Developers">Getting Started with Headless Chrome  |  Web  |  Google Developers</a></li>
+</ul>
+
+<p>また、このHeadless Chromeのリリースをうけて、PhantomJSのコアメンテナー(唯一のアクティブメンテナー)が開発の終了を宣言しています。</p>
+
+<ul>
+<li><a href="https://groups.google.com/forum/#!topic/phantomjs/9aI5d-LDuNE" title="[Announcement] Stepping down as maintainer - Google グループ">[Announcement] Stepping down as maintainer - Google グループ</a></li>
+<li><a href="https://groups.google.com/forum/#!topic/phantomjs/AefOuwkgBh0" title="[Release] PhantomJS 2.5.0 Beta - Google グループ">[Release] PhantomJS 2.5.0 Beta - Google グループ</a>
+
+<ul>
+<li>少し前に公開されたα版(QtWebKitのアップデートが含まれている)</li>
+</ul></li>
+</ul>
+
+<p>PhantomJSはQtWebKitを利用しており、QtWebKitは一度削除され最近また復活しています。<br>
+QtWebKitのAlternativeとしてChromiumベースの<a href="https://wiki.qt.io/QtWebEngine" title="QtWebEngine">QtWebEngine</a>が提供されています。</p>
+
+<ul>
+<li><a href="https://wiki.qt.io/New_Features_in_Qt_5.6" title="New Features in Qt 5.6 - Qt Wiki">New Features in Qt 5.6 - Qt Wiki</a></li>
+<li><a href="http://qtwebkit.blogspot.jp/2016/08/qtwebkit-im-back.html" title="QtWebKit Developer Journal: QtWebKit: I&amp;#39;m back!">QtWebKit Developer Journal: QtWebKit: I&#39;m back!</a></li>
+</ul>
+
+<p>どちらを利用した場合もPhantomJSには大量の修正が必要となり、サポートコストが高いためPhantomJSのメンテナンスを終了するとのことです。</p>
+
+<p>別方向の話としては、PhantomJSをHeadless Chromeベースで動かすことについてのIssueが立てられています。</p>
+
+<ul>
+<li><a href="https://github.com/ariya/phantomjs/issues/14954" title="Support headless Chromium · Issue #14954 · ariya/phantomjs">Support headless Chromium · Issue #14954 · ariya/phantomjs</a></li>
+</ul>
+
+<p>PhantomJSとHeadless Chromeの違いについては次の記事でも書かれています。<br>
+レンダリングエンジン以外の違いとして、<a href="http://phantomjs.org/api/" title="API | PhantomJS">PhantomJSの持つAPI</a>とHeadless Chromeの操作に使う<a href="https://chromedevtools.github.io/devtools-protocol/" title="Chrome DevTools Protocol">Chrome DevTools Protocol</a>の違いがあります。</p>
+
+<blockquote>
+<p>Headless Chrome is similar to tools like PhantomJS. Both can be used for automated testing in a headless environment. The main difference between the two is that Phantom uses an older version of WebKit as its rendering engine while Headless Chrome uses the latest version of Blink.<br>
+-- <a href="https://developers.google.com/web/updates/2017/04/headless-chrome">https://developers.google.com/web/updates/2017/04/headless-chrome</a></p>
+</blockquote>
+
+<hr>
+
+<p><a href="https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/" title="Headless SlimerJS with Firefox – Coding">Headless SlimerJS with Firefox – Coding</a>の記事では、Firefox NightlyでHeadlessサポートに向けて開発されている点について書かれています。</p>
+
+<p>また、FirefoxベースのPhantomJSといえる<a href="http://slimerjs.org/" title="SlimerJS">SlimerJS</a>が、このHeadless Firefoxをサポートする方向について書かれています。<br>
+(<a href="http://slimerjs.org/" title="SlimerJS">SlimerJS</a>は<a href="http://phantomjs.org/api/" title="API | PhantomJS">PhantomJSの持つAPI</a>とよく似ているAPIを持つ)</p>
+
+<ul>
+<li><a href="https://github.com/laurentj/slimerjs/issues/80#issuecomment-280813674" title="Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs">Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs</a></li>
+</ul>
+
+<p><strong>まとめ</strong>: Headless Browser</p>
+
+<script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
+
+<hr>
+
+<p><a href="https://jakearchibald.com/2017/es-modules-in-browsers/" title="ECMAScript modules in browsers - JakeArchibald.com">ECMAScript modules in browsers - JakeArchibald.com</a>という記事では、ブラウザのES modulesのサポート状況と挙動について書かれています。</p>
+
+<p>Node.jsで扱うモジュールとは異なる点や、<code>&lt;script type=&quot;module&quot;&gt;</code>のデフォルトの挙動などについて書かれています。<br>
+次の記事も併せてみると良さそうです。</p>
+
+<ul>
+<li><a href="https://blog.hospodarets.com/native-ecmascript-modules-new-features" title="Native ECMAScript modules: the new features and differences from Webpack modules">Native ECMAScript modules: the new features and differences from Webpack modules</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="headless-slimerjs-with-firefox-coding">Headless SlimerJS with Firefox – Coding</h2>
+
+<p><a href="https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/" title="Headless SlimerJS with Firefox – Coding">adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">E2E</span> <span class="jser-tag">webdriver</span></p></p>
+
+<p>Firefox Nightlyでheadlessサポートが行われたため、SlimerJSでヘッドレスなテストをおこなえるようになったという話</p>
+
+<hr>
+
+<h2 id="testcafe-v0-15-0-released-testcafe">TestCafe v0.15.0 Released | TestCafe</h2>
+
+<p><a href="http://devexpress.github.io/testcafe/blog/testcafe-v0-15-0-released.html" title="TestCafe v0.15.0 Released | TestCafe">devexpress.github.io/testcafe/blog/testcafe-v0-15-0-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">E2E</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>TestCafe 0.15.0リリース。<br>
+<code>Selector()#withText</code>の仕様を変更、ReactとVue向けのSelector拡張のサポート、セットアップ済みのDocker imageの提供。<br>
+<code>--proxy</code>と<code>--debug-mode</code>の追加、<code>Role</code>に<code>preserveUrl</code>オプションの追加など</p>
+
+<hr>
+
+<h2 id="angular-angular-4-1-0-now-available">Angular: Angular 4.1.0 Now Available</h2>
+
+<p><a href="http://angularjs.blogspot.com/2017/04/angular-410-now-available.html" title="Angular: Angular 4.1.0 Now Available">angularjs.blogspot.com/2017/04/angular-410-now-available.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Angular 4.1.0リリース。<br>
+StrictNullChecksを有効化したTypeScript 2.2/2.3のサポート。</p>
+
+<hr>
+
+<h2 id="release-v2-3-0-jojos-bizarre-adventure-vuejs-vue">Release v2.3.0 JoJo&#39;s Bizarre Adventure · vuejs/vue</h2>
+
+<p><a href="https://github.com/vuejs/vue/releases/tag/v2.3.0" title="Release v2.3.0 JoJo&#39;s Bizarre Adventure · vuejs/vue">github.com/vuejs/vue/releases/tag/v2.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue.js 2.3.0リリース。<br>
+サーバサイドレンダリングの改善、コンポーネントの非同期ローディングの改善、passive event listenerのサポートなど</p>
+
+<hr>
+
+<h2 id="release-v0-45-0-facebook-flow">Release v0.45.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.45.0" title="Release v0.45.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.45.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flow 0.45.0リリース。<br>
+Unicodeサポートの改善、Dynamic Importのサポート、<code>export type * from ...</code>に対応など</p>
+
+<hr>
+
+<h2 id="announcing-typescript-2-3-typescript">Announcing TypeScript 2.3 | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/" title="Announcing TypeScript 2.3 | TypeScript">blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 2.3リリース。<br>
+<code>--checkJs</code>で<code>// @ts-check</code>と書かれたJavaScriptのJSDocをtype checkできるように。<br>
+Default type argumentsのサポート、<code>--downlevelIteration</code>の追加、<code>tsc  --init</code>で生成される<code>tsconfig.json</code>の整理など</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/TypeScript/wiki/JSDoc-support-in-JavaScript" title="JSDoc support in JavaScript · Microsoft/TypeScript Wiki">JSDoc support in JavaScript · Microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-js-ember-2-13-and-2-14-beta-released">Ember.js - Ember 2.13 and 2.14 Beta Released</h2>
+
+<p><a href="https://emberjs.com/blog/2017/04/29/ember-2-13-released.html" title="Ember.js - Ember 2.13 and 2.14 Beta Released">emberjs.com/blog/2017/04/29/ember-2-13-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Ember 2.14リリース。<br>
+Ember CLIでyarnのサポート、BabelやAutoprefixerで利用できる<code>targets</code>を指定する<code>config/target.js</code>が生成されるようになるなど</p>
+
+<ul>
+<li><a href="http://rwjblue.com/2017/04/21/ember-cli-targets/" title="Ember CLI Targets 🎯">Ember CLI Targets 🎯</a></li>
+</ul>
+
+<hr>
+
+<h2 id="netflix-unleash-professionally-publish-your-javascript-modules-in-one-keystroke">Netflix/unleash: Professionally publish your JavaScript modules in one keystroke</h2>
+
+<p><a href="https://github.com/Netflix/unleash" title="Netflix/unleash: Professionally publish your JavaScript modules in one keystroke">github.com/Netflix/unleash</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span> <span class="jser-tag">npm</span></p></p>
+
+<p>npm publishバージョン管理ツール。<br>
+semverでのバージョン付け、テストの実行、CHANGELOGの生成、publish時のpreview、gh-pagesへのドキュメントのデプロイなどpublish周りの処理をまとめたツール</p>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-59-beta-headless-chromium-native-notifications-on-macos-and-service-worker-navigation-preload">Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload</h2>
+
+<p><a href="https://blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html" title="Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload">blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 59 Betaリリース。<br>
+Headless Chrome、SWのnavigation preloadsのサポート、<code>MediaError.message</code>のサポート、Image Capture APIの試験的サポートなど</p>
+
+<ul>
+<li><a href="https://github.com/w3c/mediacapture-image/blob/gh-pages/implementation-status.md" title="mediacapture-image/implementation-status.md at gh-pages · w3c/mediacapture-image">mediacapture-image/implementation-status.md at gh-pages · w3c/mediacapture-image</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="introducing-a-faster-bbc-news-front-page-wildly-inaccurate">Introducing a faster BBC News front page | Wildly Inaccurate</h2>
+
+<p><a href="https://wildlyinaccurate.com/introducing-a-faster-bbc-news-front-page" title="Introducing a faster BBC News front page | Wildly Inaccurate">wildlyinaccurate.com/introducing-a-faster-bbc-news-front-page</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span></p></p>
+
+<p>BBC Newsのパフォーマンス改善について。 SpeedCurveを使って計測を行い、画像遅延ロード、Reactをサーバサイドレンダリングのみに利用してる。 まだ改善の1段階で、Reactをブラウザ側で動かしたときにモバイルだと重たい問題</p>
+
+<hr>
+
+<h2 id="internationalize-your-keyboard-controls-mozilla-hacks-the-web-developer-blog">Internationalize your keyboard controls ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2017/03/internationalize-your-keyboard-controls/" title="Internationalize your keyboard controls ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2017/03/internationalize-your-keyboard-controls/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">キーボード</span> <span class="jser-tag">browser</span> <span class="jser-tag">WebPlatformAPI</span></p></p>
+
+<p>キーボードイベントについて。<br>
+<code>keyCode</code>/<code>charCode</code>/<code>which</code>を置き換える<code>key</code>と<code>code</code>プロパティについて。<br>
+また、その他のKeyboardEvent周りのTipsについて。</p>
+
+<ul>
+<li><a href="https://docs.google.com/spreadsheets/d/1YB4M5Y5BWSn-7FX7pXFNbLtDDGzQ0noUTIo-YSqyRzc/edit#gid&#x3D;0" title="KeyboardEvent.key mapping of each browser - Google スプレッドシート">KeyboardEvent.key mapping of each browser - Google スプレッドシート</a></li>
+<li><a href="https://github.com/cvan/keyboardevent-key-polyfill" title="cvan/keyboardevent-key-polyfill: polyfill for \&amp;#x60;KeyboardEvent.prototype.key\&amp;#x60;">cvan/keyboardevent-key-polyfill: polyfill for `KeyboardEvent.prototype.key`</a></li>
+<li><a href="https://w3c.github.io/uievents/#code-examples" title="UI Events">UI Events</a></li>
+</ul>
+
+<hr>
+
+<h2 id="everything-you-need-to-know-about-babeljs">Everything you need to know about BabelJS</h2>
+
+<p><a href="http://kleopetrov.me/2016/03/18/everything-about-babel/" title="Everything you need to know about BabelJS">kleopetrov.me/2016/03/18/everything-about-babel/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">article</span></p></p>
+
+<p>Babelの設定やCLIについての概要解説</p>
+
+<hr>
+
+<h2 id="functional-pattern-flatmap">Functional pattern: flatMap</h2>
+
+<p><a href="http://2ality.com/2017/04/flatmap.html" title="Functional pattern: flatMap">2ality.com/2017/04/flatmap.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p></p>
+
+<p><code>flatMap</code>と呼ばれるものはどのようなものを言っているのかについて。<br>
+またそれに関連するECMAScriptのStage 1のProposalについて</p>
+
+<ul>
+<li><a href="https://github.com/bterlson/proposal-flatMap" title="bterlson/proposal-flatMap: Proposal for flatten and flatMap">bterlson/proposal-flatMap: Proposal for flatten and flatMap</a></li>
+</ul>
+
+<hr>
+
+<h2 id="getting-started-with-headless-chrome-web-google-developers">Getting Started with Headless Chrome  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" title="Getting Started with Headless Chrome  |  Web  |  Google Developers">developers.google.com/web/updates/2017/04/headless-chrome</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>Headless Chromeの使い方について。<br>
+コマンドラインからDOMのダンプ、PDFの作成、スクリーンショット、remote debuggingの方法などについて</p>
+
+<hr>
+
+<h2 id="ecmascript-modules-in-browsers-jakearchibald-com">ECMAScript modules in browsers - JakeArchibald.com</h2>
+
+<p><a href="https://jakearchibald.com/2017/es-modules-in-browsers/" title="ECMAScript modules in browsers - JakeArchibald.com">jakearchibald.com/2017/es-modules-in-browsers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">module</span></p></p>
+
+<p>ES modulesのブラウザサポートとNode.jsのモジュールと異なる点などについて。<br>
+また、モジュールが未サポート環境へのfallbackとしての<code>nonmodule</code>、デフォルトが<code>defer</code>である点や実行順、CORSやMIME typeなどについて</p>
+
+<hr>
+
+<h2 id="node-js-8-0-0-has-been-delayed-and-will-ship-on-or-around-may-30th">Node.js 8.0.0 has been delayed and will ship on or around May 30th</h2>
+
+<p><a href="https://medium.com/the-node-js-collection/node-js-8-0-0-has-been-delayed-and-will-ship-on-or-around-may-30th-cd38ba96980d" title="Node.js 8.0.0 has been delayed and will ship on or around May 30th">medium.com/the-node-js-collection/node-js-8-0-0-has-been-delayed-and-will-ship-on-or-around-may-30th-cd38ba96980d</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodev</span> <span class="jser-tag">V8</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js 8.0.0のリリース日が5月30日になった件について。<br>
+V8のTurboFan + Ignition pipelineのデフォルト化リリースを待ってからにする点について</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="bevacqua-prop-tc39-scraping-microservice-for-tc39-proposals">bevacqua/prop-tc39: Scraping microservice for TC39 proposals 😸</h2>
+
+<p><a href="https://github.com/bevacqua/prop-tc39" title="bevacqua/prop-tc39: Scraping microservice for TC39 proposals 😸">github.com/bevacqua/prop-tc39</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">API</span></p></p>
+
+<p>ECMAScriptのProposalsの一覧とそれをJSONとして取得できるAPIとパッケージ</p>
+
+<hr>
+
+<h2 id="performance-best-practices-for-firefox-front-end-engineers-mozilla-mdn">Performance best practices for Firefox front-end engineers - Mozilla | MDN</h2>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Performance_best_practices_for_Firefox_fe_engineers" title="Performance best practices for Firefox front-end engineers - Mozilla | MDN">developer.mozilla.org/en-US/docs/Mozilla/Firefox/Performance_best_practices_for_Firefox_fe_engineers</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">performance</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Firefoxのフロントエンド向けに書かれたパフォーマンスガイド。<br>
+requestIdleCallback、reflow、repaint、パフォーマンス計測などについて</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="introduction-react-sketchapp">Introduction · react-sketchapp</h2>
+
+<p><a href="http://airbnb.io/react-sketchapp/" title="Introduction · react-sketchapp">airbnb.io/react-sketchapp/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Sketch</span> <span class="jser-tag">library</span></p></p>
+
+<p>React ComponentをSketchへレンダリングするrenderer</p>
+
+<hr>
+
+<h2 id="create-next-app">Create Next App</h2>
+
+<p><a href="https://open.segment.com/create-next-app" title="Create Next App">open.segment.com/create-next-app</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span> <span class="jser-tag">React</span></p></p>
+
+<p>Next.js版create react app</p>
+
+<hr>
+
+<h2 id="ktsn-houl-gulp-compatible-build-tool-for-huge-static-sites">ktsn/houl: Gulp compatible build tool for huge static sites</h2>
+
+<p><a href="https://github.com/ktsn/houl" title="ktsn/houl: Gulp compatible build tool for huge static sites">github.com/ktsn/houl</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span> <span class="jser-tag">gulp</span> <span class="jser-tag">debug</span></p></p>
+
+<p>gulp pluginを利用できるビルド/dev serverツール</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/ktsn/da-gui-mo-jing-de-saitofalsetamefalsebirudoturu" title="大規模静的サイトのためのビルドツール // Speaker Deck">大規模静的サイトのためのビルドツール // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="webrtc-route-312-booth">わか(った気にな)るWebRTC 紙＋電子版セット - Route 312 - BOOTH（同人誌通販・ダウンロード）</h2>
+
+<p><a href="https://booth.pm/ja/items/504677" title="わか(った気にな)るWebRTC 紙＋電子版セット - Route 312 - BOOTH（同人誌通販・ダウンロード）">booth.pm/ja/items/504677</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebRTC</span> <span class="jser-tag">book</span></p></p>
+
+<p>WebRTCの入門書</p>
+
+<hr>
+
+<h2 id="web-amazon">Webフロントエンド ハイパフォーマンス チューニング | 久保田 光則 |本 | 通販 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/Web%E3%83%95%E3%83%AD%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%83%89-%E3%83%8F%E3%82%A4%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9-%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E4%B9%85%E4%BF%9D%E7%94%B0-%E5%85%89%E5%89%87/dp/4774189677" title="Webフロントエンド ハイパフォーマンス チューニング | 久保田 光則 |本 | 通販 | Amazon">www.amazon.co.jp/Web%E3%83%95%E3%83%AD%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%83%89-%E3%83%8F%E3%82%A4%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9-%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E4%B9%85%E4%BF%9D%E7%94%B0-%E5%85%89%E5%89%87/dp/4774189677</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017年5月26日発売<br>
+ウェブサイトのフロントエンドのパフォーマンスについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-05-03-headless-chromefirefoxphantomjsslimerjs-es-modules.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Firefox","Chrome","Headless","PhantomJS","SlimerJS","modules","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Firefox</li>
+                
+                <li>Chrome</li>
+                
+                <li>Headless</li>
+                
+                <li>PhantomJS</li>
+                
+                <li>SlimerJS</li>
+                
+                <li>modules</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

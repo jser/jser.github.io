@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-12-18のJS: Firefox 64.0、AVA 1.0、ES Modules対応パッケージ検索 - JSer.info</title>
+    <meta name="description" content="JSer.info #414 - Firefox 64.0がリリースされました。">
+    
+    <meta name="keywords" content="firefox,avajs,testing,Modules" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-12-18T10:21:34+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="firefox" property="article:tag">
+      
+      <meta content="avajs" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="Modules" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/12/18/firefox-64.0ava-1.0es-modules/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #414 - Firefox 64.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-12-18のJS: Firefox 64.0、AVA 1.0、ES Modules対応パッケージ検索">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/12/18/firefox-64.0ava-1.0es-modules/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #414 - Firefox 64.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-12-18T10:21:34+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="firefox">
+
+<meta property="article:tag" content="avajs">
+
+<meta property="article:tag" content="testing">
+
+<meta property="article:tag" content="Modules">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/12/18/firefox-64.0ava-1.0es-modules/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/12/18/firefox-64.0ava-1.0es-modules/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/12/18/firefox-64.0ava-1.0es-modules/">2018-12-18のJS: Firefox 64.0、AVA 1.0、ES Modules対応パッケージ検索</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年12月18日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-12-18-firefox-64.0ava-1.0es-modules.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-12-18-firefox-64.0ava-1.0es-modules.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/12/18/firefox-64.0ava-1.0es-modules/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/12/18/firefox-64.0ava-1.0es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #414 - Firefox 64.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/64.0/releasenotes/">Firefox 64.0, See All New Features, Updates and Fixes</a></li>
+<li><a href="https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/64">Firefox 64 for developers | MDN</a></li>
+<li><a href="https://www.fxsitecompat.com/ja/versions/64/">Firefox 64 サイト互換性情報 | Firefox サイト互換性情報</a></li>
+<li><a href="https://hacks.mozilla.org/2018/12/firefox-64-released/">Firefox 64 Released - Mozilla Hacks - the Web developer blog</a></li>
+</ul>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars">CSS Scrollbars</a>のサポート、<br>
+Fullscreen APIの接頭辞を削除、<code>requestFullscreen()</code>や<code>exitFullscreen()</code>が変更完了時にPromiseを返すように。</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen">Element.requestFullscreen() | MDN</a></li>
+<li><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27674">27674 – requestFullscreen should return a promise</a></li>
+</ul>
+
+<p>また、macOSでWebVR API(1.1)が有効化され、<code>XMLHttpRequest.getAllResponseHeaders()</code>がヘッダ名を小文字で返すようになるといった変更も行われています。</p>
+
+<ul>
+<li><a href="https://www.fxsitecompat.com/ja/docs/2018/xhr-getallresponseheaders-now-returns-header-names-in-lowercase/">XHR.getAllResponseHeaders() がヘッダー名を小文字で返すようになりました | Firefox サイト互換性情報</a></li>
+</ul>
+
+<hr>
+
+<p>テストフレームワークのAVA 1.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/avajs/ava/releases/tag/v1.0.1">Release 1.0 · avajs/ava</a></li>
+</ul>
+
+<p>Babel 7に対応、<code>ava.config.js</code>のサポート、<code>t.throws</code>の挙動の変更と<code>t.throwsAsync</code>の追加などが行わなわれています。<br>
+破壊的な変更として<code>test</code>関数は名前をもつことが必須となり、<code>t.ifError</code>が削除され代わりに<code>t.falsy</code>の利用が推奨されています。</p>
+
+<p>1.0では<code>t.throws</code>と<code>t.notThrows</code>はObservableやPromiseなどの非同期をサポートしなくなったため、<code>t.throwsAsync</code>と<code>t.notThrowsAsync</code>へ移行するマイグレーションスクリプトも公開されています。</p>
+
+<ul>
+<li><a href="https://gist.github.com/novemberborn/c2cdc94020083a1cafe3f41e8276f983">AVA throwsAsync transform for jscodeshift</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="firefox-64-0-see-all-new-features-updates-and-fixes">Firefox 64.0, See All New Features, Updates and Fixes</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/64.0/releasenotes/" title="Firefox 64.0, See All New Features, Updates and Fixes">www.mozilla.org/en-US/firefox/64.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 64.0リリース。<br>
+Fullscreen APIの接頭辞を削除、<code>requestFullscreen()</code>などがPromiseを返すように、macOSでWebVR APIを有効化。<br>
+<code>XMLHttpRequest.getAllResponseHeaders()</code>がヘッダ名を小文字で返すようになるなど</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/ja/docs/Mozilla/Firefox/Releases/64" title="Firefox 64 for developers | MDN">Firefox 64 for developers | MDN</a></li>
+<li><a href="https://www.fxsitecompat.com/ja/versions/64/" title="Firefox 64 サイト互換性情報 | Firefox サイト互換性情報">Firefox 64 サイト互換性情報 | Firefox サイト互換性情報</a></li>
+<li><a href="https://hacks.mozilla.org/2018/12/firefox-64-released/" title="Firefox 64 Released - Mozilla Hacks - the Web developer blog">Firefox 64 Released - Mozilla Hacks - the Web developer blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-js-ember-3-6-released">Ember.js - Ember 3.6 Released</h2>
+
+<p><a href="https://emberjs.com/blog/2018/12/13/ember-3-6-released.html" title="Ember.js - Ember 3.6 Released">emberjs.com/blog/2018/12/13/ember-3-6-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Ember 3.6リリース。<br>
+いくつかの制限はあるがES classをサポート。<br>
+<code>new EmberObject()</code>を非推奨化し、<code>EmberObject.create()</code>の利用を推奨するようになるなど</p>
+
+<hr>
+
+<h2 id="release-v6-0-0-reduxjs-react-redux">Release v6.0.0 · reduxjs/react-redux</h2>
+
+<p><a href="https://github.com/reduxjs/react-redux/releases/tag/v6.0.0" title="Release v6.0.0 · reduxjs/react-redux">github.com/reduxjs/react-redux/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React Redux 6.0.0リリース。<br>
+Context APIのサポート、<code>withRef</code>オプションは<code>forwardRef</code>オプションに置き換えなど</p>
+
+<hr>
+
+<h2 id="release-1-0-avajs-ava">Release 1.0 · avajs/ava</h2>
+
+<p><a href="https://github.com/avajs/ava/releases/tag/v1.0.1" title="Release 1.0 · avajs/ava">github.com/avajs/ava/releases/tag/v1.0.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>AVA 1.0リリース。<br>
+<code>t.throws</code>の挙動の変更と<code>t.throwsAsync</code>の追加。<br>
+Babel 7に対応、<code>ava.config.js</code>のサポートなど。<br>
+破壊的な変更として<code>test</code>は名前をもつことが必須となり、<code>t.ifError</code>の削除など</p>
+
+<hr>
+
+<h2 id="billboard-js-1-7-0-release-jae-sung-park-medium">billboard.js 1.7.0 release!! – Jae Sung Park – Medium</h2>
+
+<p><a href="https://medium.com/@alberto.park/billboard-js-1-7-0-release-4944a2eb59fe" title="billboard.js 1.7.0 release!! – Jae Sung Park – Medium">medium.com/@alberto.park/billboard-js-1-7-0-release-4944a2eb59fe</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">グラフ</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>D3.jsベースのグラフライブラリであるbillboard.js 1.7.0リリース。<br>
+Multi Axes、<code>graph</code> theme、TypeScriptのサポートなど</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="chrome-devtools-web-mercari-engineering-blog">Chrome DevToolsを用いたメルカリWebのパフォーマンス計測 - Mercari Engineering Blog</h2>
+
+<p><a href="https://tech.mercari.com/entry/2018/12/12/090156" title="Chrome DevToolsを用いたメルカリWebのパフォーマンス計測 - Mercari Engineering Blog">tech.mercari.com/entry/2018/12/12/090156</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chromeの開発者ツールのネットワークパネルやパフォーマンスパネルの読み方について。<br>
+スクリーンショットを元にそれぞれの要素が何を表しているかを説明している</p>
+
+<hr>
+
+<h2 id="introducing-background-fetch-web-google-developers">Introducing Background Fetch  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2018/12/background-fetch" title="Introducing Background Fetch  |  Web  |  Google Developers">developers.google.com/web/updates/2018/12/background-fetch</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">Fetch</span> <span class="jser-tag">ServiceWorker</span></p></p>
+
+<p>Chrome 71で試験的に導入されるBackground Fetchについて。</p>
+
+<hr>
+
+<h2 id="an-introduction-and-guide-to-the-css-object-model-cssom-css-tricks">An Introduction and Guide to the CSS Object Model (CSSOM) | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/" title="An Introduction and Guide to the CSS Object Model (CSSOM) | CSS-Tricks">css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS Object Model (CSSOM) について。<br>
+JavaScriptから要素のスタイルの取得、変更、Priorityや<code>@keyframes</code>などへのアクセス方法などについて</p>
+
+<hr>
+
+<h2 id="worker_threads-node-js-kakts-log">worker_threadsを使ったNode.js マルチスレッドプログラミング - kakts-log</h2>
+
+<p><a href="http://kakts-tec.hatenablog.com/entry/2018/12/14/005316" title="worker\_threadsを使ったNode.js マルチスレッドプログラミング - kakts-log">kakts-tec.hatenablog.com/entry/2018/12/14/005316</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js 10.5.0で試験的にサポートされた<code>worker_threads</code>モジュールについて。<br>
+Node.jsでのWorkerを使ったスレッド処理について</p>
+
+<hr>
+
+<h2 id="jquery-vue-js-qiita">混沌を極める jQuery のコードをいかにして Vue.js に頼らずに整理したか - Qiita</h2>
+
+<p><a href="https://qiita.com/cesare/items/c00acd7911afcba21224" title="混沌を極める jQuery のコードをいかにして Vue.js に頼らずに整理したか - Qiita">qiita.com/cesare/items/c00acd7911afcba21224</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">リファクタリング</span></p></p>
+
+<p>jQueryを使い書かれていたイベント処理が密結合で影響範囲が複雑化していた問題について。<br>
+イベントのフローや影響範囲をViewで区切るなど、どのようにリファクタリングを進めたかについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="html5-conference-2018-youtube">HTML5 Conference 2018 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLeFZWzLJpZccuopdBjJAuod_tYGvVCIHv" title="HTML5 Conference 2018 - YouTube">www.youtube.com/playlist?list&#x3D;PLeFZWzLJpZccuopdBjJAuod_tYGvVCIHv</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span> <span class="jser-tag">イベント</span> <span class="jser-tag">video</span></p></p>
+
+<p>HTML5 Conference 2018の動画まとめ</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="measuring-the-performance-impact-of-chrome-extensions-debugbear">Measuring the performance impact of Chrome extensions | DebugBear</h2>
+
+<p><a href="https://www.debugbear.com/blog/measuring-the-performance-impact-of-chrome-extensions" title="Measuring the performance impact of Chrome extensions | DebugBear">www.debugbear.com/blog/measuring-the-performance-impact-of-chrome-extensions</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span> <span class="jser-tag">Extension</span></p></p>
+
+<p>Chrome拡張などがパフォーマンス計測に与える影響について</p>
+
+<hr>
+
+<h2 id="googlechromelabs-quicklink-faster-subsequent-page-loads-by-prefetching-in-viewport-links-during-idle-time">GoogleChromeLabs/quicklink: ⚡️Faster subsequent page-loads by prefetching in-viewport links during idle time</h2>
+
+<p><a href="https://github.com/GoogleChromeLabs/quicklink" title="GoogleChromeLabs/quicklink: ⚡️Faster subsequent page-loads by prefetching in-viewport links during idle time">github.com/GoogleChromeLabs/quicklink</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Viewportに表示されているリンクをアイドル時にprefetchを行うライブラリ</p>
+
+<hr>
+
+<h2 id="pika-search-modern-module-esm-packages-on-npm">Pika | Search modern module esm packages on npm</h2>
+
+<p><a href="https://www.pikapkg.com/" title="Pika | Search modern module esm packages on npm">www.pikapkg.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">module</span> <span class="jser-tag">検索</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>ECMAScriptモジュールに対応したnpmパッケージを検索できるウェブサービス。<br>
+&quot;module&quot;フィールドに対応しているパッケージを検索できる。</p>
+
+<ul>
+<li><a href="https://www.pikapkg.com/about/" title="Pika | What is Pika?">Pika | What is Pika?</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="simov-grant-oauth-middleware-for-express-koa-and-hapi">simov/grant: OAuth Middleware for Express, Koa and Hapi</h2>
+
+<p><a href="https://github.com/simov/grant" title="simov/grant: OAuth Middleware for Express, Koa and Hapi">github.com/simov/grant</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">OAuth</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>expressなどで使えるOAuth middleware。<br>
+passportのように色々なサービスに対応している</p>
+
+<ul>
+<li><a href="https://github.com/simov/grant/issues/77" title="How does this project compare to Passport? · Issue #77 · simov/grant">How does this project compare to Passport? · Issue #77 · simov/grant</a></li>
+</ul>
+
+<hr>
+
+<h2 id="wenzil-mhysa-dependency-free-stream-utils-for-node-js">Wenzil/Mhysa: Dependency-free stream utils for Node.js</h2>
+
+<p><a href="https://github.com/Wenzil/Mhysa" title="Wenzil/Mhysa: Dependency-free stream utils for Node.js">github.com/Wenzil/Mhysa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Node.js Streamを扱う<br>
+TypeScriptで書かれているライブラリ。<code>fromArray</code>からStreamのラッパーを作成し<code>map</code>、<code>reduce</code>、<code>merge</code>、<code>duplex</code>などを使いStream処理できるライブラリ</p>
+
+<hr>
+
+<h2 id="zeit-arg-simple-argument-parsing">zeit/arg: Simple argument parsing</h2>
+
+<p><a href="https://github.com/zeit/arg" title="zeit/arg: Simple argument parsing">github.com/zeit/arg</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>シンプルなコマンドライン引数パーサライブラリ</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-12-18-firefox-64.0ava-1.0es-modules.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["firefox","avajs","testing","Modules"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>firefox</li>
+                
+                <li>avajs</li>
+                
+                <li>testing</li>
+                
+                <li>Modules</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/12/18/firefox-64.0ava-1.0es-modules/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/12/18/firefox-64.0ava-1.0es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

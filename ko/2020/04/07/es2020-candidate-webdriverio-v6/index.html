@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2020-04-07: ES2020 Candidate, WebdriverIO v6, 브라우저의 릴리스 정보를 모니터링하는 방법 - JSer.info</title>
+    <meta name="description" content="JSer.info #482 - ECMAScript 2020의 릴리스 후보가 공개됐습니다.">
+    
+    <meta name="keywords" content="ECMAScript,WebDriver,Browser" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2020-04-07T10:38:40+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="WebDriver" property="article:tag">
+      
+      <meta content="Browser" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2020/04/07/es2020-candidate-webdriverio-v6/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #482 - ECMAScript 2020의 릴리스 후보가 공개됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2020-04-07: ES2020 Candidate, WebdriverIO v6, 브라우저의 릴리스 정보를 모니터링하는 방법">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2020/04/07/es2020-candidate-webdriverio-v6/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #482 - ECMAScript 2020의 릴리스 후보가 공개됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2020-04-07T10:38:40+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="WebDriver">
+
+<meta property="article:tag" content="Browser">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2020/04/07/es2020-candidate-webdriverio-v6/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2020/04/07/es2020-candidate-webdriverio-v6/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2020/04/07/es2020-candidate-webdriverio-v6/">2020-04-07: ES2020 Candidate, WebdriverIO v6, 브라우저의 릴리스 정보를 모니터링하는 방법</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2020年04月07日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2020/2020-04-07-es2020-candidate-webdriverio-v6-.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2020/2020-04-07-es2020-candidate-webdriverio-v6-.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2020/04/07/es2020-candidate-webdriverio-v6/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #482 - ECMAScript 2020의 릴리스 후보가 공개됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/tc39/ecma262/releases/tag/es2020">Release ES2020 Candidate · tc39/ecma262</a></li>
+</ul>
+
+<p><a href="https://tc39.es/ecma262/2020/">ES2020 Candidate</a>는 TC39에서 승인된 형태로, 2020년 6월에 있을 Ecma의 <a href="https://www.ecma-international.org/memento/ga.htm">General Assembly</a>에서 승인되면 정식으로 ECMAScript 2020으로서 릴리스됩니다.</p>
+
+<p>또, 이번 3월 부터 4월에 걸쳐 행해진 TC39 미팅에서 <code>import.meta</code>가 Stage 4로 변경됐습니다.</p>
+
+<ul>
+<li><a href="https://ecmascript-daily.github.io/ecmascript/2020/04/04/ecmascript-proposal-update">ECMAScript proposal updates @ 2020-04 | ECMAScript Daily</a></li>
+</ul>
+
+<p>이로인해 <code>import.meta</code>도 아슬아슬하게 ES2020에 포함되게 됐습니다.<br>
+ES2020에 포함되는 Proposal은 아래 문서에 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/tc39/proposals/blob/master/finished-proposals.md">proposals/finished-proposals.md at master · tc39/proposals</a></li>
+<li><a href="https://2ality.com/2019/12/ecmascript-2020.html">ECMAScript 2020: the final feature set</a></li>
+</ul>
+
+<hr>
+
+<p>WebdriverIO v6가 릴리스 됐습니다.</p>
+
+<ul>
+<li><a href="https://webdriver.io/blog/2020/03/26/webdriverio-v6-released.html">WebdriverIO v6 Released · WebdriverIO</a></li>
+</ul>
+
+<p>WebdriverIO v6에서는 <code>devtools</code>가 기본적으로 활성화 됩니다.<br>
+WebdriverIO는 Webdriver API를 사용하며, 현재의 Webdriver API에서는 접속한 브라우저의 개발자 도구를 사용할 수 없습니다.<br>
+때문에 <code>devtools</code>에서는 Puppeteer를 통합해 이 문제를 회피합니다.</p>
+
+<ul>
+<li><a href="https://webdriver.io/blog/2019/09/16/devtools.html">Chrome DevTools as Automation Protocol · WebdriverIO</a></li>
+</ul>
+
+<p>이와 관련해 Webdriver API 쪽에도 MSEdge Team에 의한 양방향 통신 제안이 공개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/MicrosoftEdge/MSEdgeExplainers/tree/master/WebDriverRPC">MSEdgeExplainers/WebDriverRPC at master · MicrosoftEdge/MSEdgeExplainers</a></li>
+</ul>
+
+<p>이 외에 비권장된 <a href="https://github.com/request/request">request</a> 대신 <a href="https://github.com/sindresorhus/got">got</a>를 사용한 성능 개선이 이뤄졌으며 타입스크립트 지원이 추가됐습니다.</p>
+
+<hr>
+
+<p>JSer.info에서도 브라우저 릴리스 정보를 모니터링하고 있으며 이와 관련해 브라우저 릴리스 정보 사이트를 모아봤습니다.</p>
+
+<ul>
+<li><a href="https://gist.github.com/azu/7e879fd0c4598476b93aecd4d8dbb511">브라우저 / 보안 / 정보 보호 관련 1차 정보에 가까운 2차 정보의 정보원을 정리한 문서</a>(일본어)</li>
+</ul>
+
+<p>실제로는 좀 더 많은 리소스를 살펴보고 있지만 이를 간추려 정보원에 가까운 곳을 정리했습니다.</p>
+
+<p>공개한 글과 함께 브라우저 공식 블로그나 이슈, SNS 등을 정리한 browser-resources도 갱신하고 있으니 살펴봐주시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://github.com/azu/browser-resources">azu/browser-resources: A Collection of official Resources/Status/Issues for browsers.</a></li>
+</ul>
+
+<p>이 외로 브라우저 관련 RSS 등을 정리한 다음 사이트가 도움이 될 것 같습니다.</p>
+
+<ul>
+<li><a href="https://topicdeck.com/web-dev/browser-eng/chromium/">Web Browser Eng</a></li>
+<li><a href="https://github.com/PaulKinlan/topicdeck">PaulKinlan/topicdeck: An NPM module that hosts and aggregates collections of RSS feeds.</a>
+
+<ul>
+<li>Chrome 팀의 <a href="https://github.com/PaulKinlan">Paul Kinlan</a>이 관리하고 있다</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-es2020-candidate-tc39-ecma262">Release ES2020 Candidate · tc39/ecma262</h2>
+
+<p><a href="https://github.com/tc39/ecma262/releases/tag/es2020" title="Release ES2020 Candidate · tc39/ecma262">github.com/tc39/ecma262/releases/tag/es2020</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ES2020 릴리스 후보가 공개됐습니다.<br>
+<code>import.meta</code>도 ES2020에 포함됐습니다.</p>
+
+<hr>
+
+<h2 id="webdriverio-v6-released-webdriverio">WebdriverIO v6 Released · WebdriverIO</h2>
+
+<p><a href="https://webdriver.io/blog/2020/03/26/webdriverio-v6-released.html" title="WebdriverIO v6 Released · WebdriverIO">webdriver.io/blog/2020/03/26/webdriverio-v6-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webdriver</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebdriverIO v6가 릴리스됐습니다.<br>
+Node 8 지원이 종료됐으며 Puppeteer 통합과 <code>devtools</code> 패키지 기본 활성화 됐고, <code>request</code>에서 <code>got</code>으로 변경하여 성능 개선이 이뤄졌습니다. 또, 타입스크립트를 지원합니다.</p>
+
+<hr>
+
+<h2 id="chromium-blog-temporarily-rolling-back-samesite-cookie-changes">Chromium Blog: Temporarily rolling back SameSite Cookie Changes</h2>
+
+<p><a href="https://blog.chromium.org/2020/04/temporarily-rolling-back-samesite.html" title="Chromium Blog: Temporarily rolling back SameSite Cookie Changes">blog.chromium.org/2020/04/temporarily-rolling-back-samesite.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">news</span> <span class="jser-tag">security</span></p></p>
+
+<p>Chrome 80에서 단계적으로 롤아웃 됐던 SameSite의 기본값을 Lax로 변경하는 계획을 롤백, 디폴트 변경을 일시적으로 하지 않겠다는 글입니다.<br>
+여름을 목표로 다시 시행한다고 합니다.</p>
+
+<ul>
+<li><a href="https://www.chromium.org/updates/same-site" title="SameSite Updates - The Chromium Projects">SameSite Updates - The Chromium Projects</a></li>
+</ul>
+
+<hr>
+
+<h2 id="new-webkit-features-in-safari-13-1-webkit">New WebKit Features in Safari 13.1 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/10247/new-webkit-features-in-safari-13-1/" title="New WebKit Features in Safari 13.1 | WebKit">webkit.org/blog/10247/new-webkit-features-in-safari-13-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari 13.1의 변경 사항이 정리돼 있습니다.<br>
+iPadOS 13.4에서 Pointer Events를 대응했고 Web Animations API, Async Clipboard API, ResizeObserver, Picture-in-Picture를 지원합니다. 또, ES Proposal의 Nullish coalesing operator(<code>??</code>), CSS Shadow Parts를 지원하며 ITP 갱신 등이 이뤄졌습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="1-2">브라우저 / 보안 / 정보 보호 관련 1차 정보에 가까운 2차 정보의 정보원을 정리한 문서</h2>
+
+<p><a href="https://gist.github.com/azu/7e879fd0c4598476b93aecd4d8dbb511" title="ブラウザ/セキュリティ/プライバシー周りの一次情報に近い二次情報の情報源をまとめたもの">gist.github.com/azu/7e879fd0c4598476b93aecd4d8dbb511</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">article</span> <span class="jser-tag">MSEdge</span> <span class="jser-tag">Firefox</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">safari</span> <span class="jser-tag">webkit</span></p></p>
+
+<p>브라우저의 새로운 API나 릴리스 등을 모니터링 하는 방법과 참고 사이트를 정리 했습니다.</p>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2020-04-ecmascript-daily">ECMAScript proposal updates @ 2020-04 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2020/04/04/ecmascript-proposal-update" title="ECMAScript proposal updates @ 2020-04 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2020/04/04/ecmascript-proposal-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">article</span></p></p>
+
+<p>2020-03에서 2020-04에 걸쳐 진행한 TC39MTG에서 변경된 Proposal이 정리돼 있습니다.<br>
+<code>import.meta</code>가 Stage 4로 변경돼 ECMAScript 2020에 포함됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/tc39/ecma262/releases/tag/es2020" title="Release ES2020 Candidate · tc39/ecma262">Release ES2020 Candidate · tc39/ecma262</a></li>
+</ul>
+
+<hr>
+
+<h2 id="lch-colors-in-css-what-why-and-how-lea-verou">LCH colors in CSS: what, why, and how? | Lea Verou</h2>
+
+<p><a href="http://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/" title="LCH colors in CSS: what, why, and how? | Lea Verou">lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS Color Modules Level 4에 정의돼 있는 LCH 색상을 설명하는 글입니다.<br>
+LCH란 무엇인지 왜 도입되고 있는지에 대해 정리돼 있습니다. RGB에 비해 많은 색상을 사용할 수 있는 점 등에 대해서도 이야기합니다.</p>
+
+<hr>
+
+<h2 id="x-rtc-console-lealog">프런트엔드 x RTC와 관련한 최근과 다음 - console.lealog();(일본어)</h2>
+
+<p><a href="https://lealog.hateblo.jp/entry/2020/04/02/094225" title="フロントエンド x RTC界隈の最近とこれから - console.lealog();">lealog.hateblo.jp/entry/2020/04/02/094225</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebRTC</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>WebRTC 관련 Web Platform API 스테이터스와 Proposal에 대해서 작성돼 있습니다.<br>
+WebTransport, WebRTC-QUIC, WebCodecs, WebSocketStream 등 관련한 API도 소개합니다.</p>
+
+<hr>
+
+<h2 id="a-quic-update-for-node-js">A QUIC Update for Node.js</h2>
+
+<p><a href="https://www.nearform.com/blog/a-quic-update-for-node-js/" title="A QUIC Update for Node.js">www.nearform.com/blog/a-quic-update-for-node-js/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span> <span class="jser-tag">QUIC</span></p></p>
+
+<p>Node.js에서 QUIC 프로토콜 구현에 대해 작성돼 있습니다.<br>
+QUIC의 개요, Node.js Core에 추가할 목적으로 구현하고 있는 <code>quic</code> 모듈을 소개합니다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/quic" title="nodejs/quic: Exploring a QUIC implementation for Node.js core">nodejs/quic: Exploring a QUIC implementation for Node.js core</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="engine262-engine262-an-implementation-of-ecma-262-in-javascript">engine262/engine262: An implementation of ECMA-262 in JavaScript</h2>
+
+<p><a href="https://github.com/engine262/engine262" title="engine262/engine262: An implementation of ECMA-262 in JavaScript">github.com/engine262/engine262</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span></p></p>
+
+<p>JavaScript로 개발된 ECMAScript-262 구현체입니다.<br>
+JavaScript 개발자가 새로운 언어 기능의 프로토타이핑을 쉽게 할 수 있도록 관련 기능을 제공하는데 목적을 두고 잇습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="lezer">Lezer</h2>
+
+<p><a href="https://lezer.codemirror.net/" title="Lezer">lezer.codemirror.net/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">AST</span></p></p>
+
+<p>인크리멘탈 파싱을 수행하는 파서 시스템 라이브러리입니다.<br>
+문법을 정의해 파싱을 인크리멘탈하게 수행하며 에러 복귀 등에도 대응한 AST를 생성하는 파서 제너레이터입니다.<br>
+에디터의 신텍스 하이라이트와 같은 기능에 이용할 수 있으며 Code Mirror 팀에서 개발하고 있습니다.</p>
+
+<hr>
+
+<h2 id="lirantal-npq-safely-install-packages-with-npm-or-yarn-by-auditing-them-as-part-of-your-install-process">lirantal/npq: 🎖safely* install packages with npm or yarn by auditing them as part of your install process</h2>
+
+<p><a href="https://github.com/lirantal/npq" title="lirantal/npq: 🎖safely\* install packages with npm or yarn by auditing them as part of your install process">github.com/lirantal/npq</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>npm이나 yarn에서 패키지를 설치할 때에 패키지의 다운로드 수, README 유무, 설치 스크립트 등을 확인하고 Snyk로 검사를 수행하는 CLI 도구입니다.</p>
+
+<hr>
+
+<h2 id="keyboard-event-viewer">Keyboard Event Viewer</h2>
+
+<p><a href="https://w3c.github.io/uievents/tools/key-event-viewer.html" title="Keyboard Event Viewer">w3c.github.io/uievents/tools/key-event-viewer.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Keyboard</span> <span class="jser-tag">Tools</span> <span class="jser-tag">DOM</span></p></p>
+
+<p>JavaScript의 Keyboard Event 뷰어입니다.</p>
+
+<hr>
+
+<h2 id="caroso1222-notyf-a-minimalistic-responsive-vanilla-javascript-library-to-show-toast-notifications">caroso1222/notyf: 👻 A minimalistic, responsive, vanilla JavaScript library to show toast notifications.</h2>
+
+<p><a href="https://github.com/caroso1222/notyf" title="caroso1222/notyf: 👻 A minimalistic, responsive, vanilla JavaScript library to show toast notifications.">github.com/caroso1222/notyf</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p></p>
+
+<p>의존 모듈 없는 토스트 메시지를 제공하는 UI 라이브러리입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2020/2020-04-07-es2020-candidate-webdriverio-v6-.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["ECMAScript","WebDriver","Browser"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>ECMAScript</li>
+                
+                <li>WebDriver</li>
+                
+                <li>Browser</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2020/04/07/es2020-candidate-webdriverio-v6/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

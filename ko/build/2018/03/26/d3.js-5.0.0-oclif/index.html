@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-03-26のJS: D3.js 5.0.0、ウェブアプリの技術選定、oclif - JSer.info</title>
+    <meta name="description" content="JSer.info #376 - D3.js 5.0.0がリリースされました。">
+    
+    <meta name="keywords" content="D3.js,architecture,CLI,framework" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-03-26T20:22:36+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="D3.js" property="article:tag">
+      
+      <meta content="architecture" property="article:tag">
+      
+      <meta content="CLI" property="article:tag">
+      
+      <meta content="framework" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/03/26/d3.js-5.0.0-oclif/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #376 - D3.js 5.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-03-26のJS: D3.js 5.0.0、ウェブアプリの技術選定、oclif">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/03/26/d3.js-5.0.0-oclif/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #376 - D3.js 5.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-03-26T20:22:36+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="D3.js">
+
+<meta property="article:tag" content="architecture">
+
+<meta property="article:tag" content="CLI">
+
+<meta property="article:tag" content="framework">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/03/26/d3.js-5.0.0-oclif/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/03/26/d3.js-5.0.0-oclif/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/03/26/d3.js-5.0.0-oclif/">2018-03-26のJS: D3.js 5.0.0、ウェブアプリの技術選定、oclif</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年03月26日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-03-26-d3.js-5.0.0-oclif.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-03-26-d3.js-5.0.0-oclif.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/03/26/d3.js-5.0.0-oclif/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/03/26/d3.js-5.0.0-oclif/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #376 - D3.js 5.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/d3/d3/releases/tag/v5.0.0" title="Release 5.0.0 · d3/d3">Release 5.0.0 · d3/d3</a></li>
+<li><a href="https://github.com/d3/d3/blob/master/CHANGES.md#changes-in-d3-50" title="d3/CHANGES.md at master · d3/d3">d3/CHANGES.md at master · d3/d3</a></li>
+</ul>
+
+<p><a href="https://github.com/d3/d3-request" title="d3-request">d3-request</a>が<a href="https://github.com/d3/d3-fetch" title="d3-fetch">d3-fetch</a>に置き換えられロード系のメソッドがコールバックからPromiseを返すように変更されています。<br>
+また<code>d3.schemeCategory20*</code>が削除され<a href="https://github.com/d3/d3-scale-chromatic" title="d3-scale-chromatic">d3-scale-chromatic</a>を使うなどの変更が行われています。</p>
+
+<hr>
+
+<p>次の記事では、新規でウェブアプリを開発する際の技術選定、ビルド設定、コード設計、アーキテクチャについて書かれています。</p>
+
+<ul>
+<li><a href="https://havelog.ayumusato.com/develop/others/e747-scratch_memo_1.html">技術要素編: web アプリが新陳代謝を続けるための依存関係の厳選（新規開発のメモ書きシリーズ1） ::ハブろぐ</a></li>
+<li><a href="https://havelog.ayumusato.com/develop/others/e749-scratch_memo_2.html">ビルド設定編: UA に応じた最適な JS バンドルの配信と webpack との距離感（新規開発のメモ書きシリーズ2） ::ハブろぐ</a></li>
+<li><a href="https://havelog.ayumusato.com/develop/others/e750-scratch_memo_3.html">コード設計編: context による縦軸分類とレイヤードアーキテクチャ（新規開発のメモ書きシリーズ3） ::ハブろぐ</a></li>
+<li><a href="https://havelog.ayumusato.com/develop/others/e751-scratch_memo_4.html">アーキテクチャ編: SSR と CDN ( Fastly ) とユーザー依存情報の分離（新規開発のメモ書きシリーズ4） ::ハブろぐ</a></li>
+</ul>
+
+<p>どのようなライブラリ/ツール/設計をなぜ選んだかやそれらを使った開発について詳細に書かれています。<br>
+また、それらの開発したウェブアプリをどのように配信し、どのようなパフォーマンス対策取ったかについて書かれています。</p>
+
+<hr>
+
+<p><a href="https://github.com/heroku/cli" title="Heroku CLI">Heroku CLI</a>などのCLIエンジンが<a href="https://oclif.io/">oclif</a>という名前のCLIフレームワークとなって公開されています。</p>
+
+<ul>
+<li><a href="https://oclif.io/" title="oclif: The Open CLI Framework · Create command line tools your users love">oclif: The Open CLI Framework · Create command line tools your users love</a></li>
+</ul>
+
+<p>シングルコマンド、マルチコマンドのCLIを作成できるCLIツール向けのフレームワークです。<br>
+必要なコードを生成する機能やテストヘルパー、ヘルプの自動生成などCLIツールを作成するための機能を持っています。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="eslint-v4-19-0-released-eslint-pluggable-javascript-linter">ESLint v4.19.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2018/03/eslint-v4.19.0-released" title="ESLint v4.19.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2018/03/eslint-v4.19.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint 4.19.0リリース。<br>
+ES2018のRegExp拡張に対応など</p>
+
+<ul>
+<li><a href="https://qiita.com/mysticatea/items/be9558c263aca26416ca" title="ESLint v4.19.0 - Qiita">ESLint v4.19.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-release-of-1-0-0-laurentj-slimerjs">Release Release of 1.0.0 · laurentj/slimerjs</h2>
+
+<p><a href="https://github.com/laurentj/slimerjs/releases/tag/1.0.0" title="Release Release of 1.0.0 · laurentj/slimerjs">github.com/laurentj/slimerjs/releases/tag/1.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>FirefoxベースのPhantomJSライクなライブラリであるSlimerJS 1.0リリース。<br>
+Firefox 56以降では<code>--headless</code>を使うことでヘッドレスブラウザとして利用できるようになるなど</p>
+
+<hr>
+
+<h2 id="npm-changelog-md-at-v5-8-0-npm-npm">npm/CHANGELOG.md at v5.8.0 · npm/npm</h2>
+
+<p><a href="https://github.com/npm/npm/blob/v5.8.0/CHANGELOG.md" title="npm/CHANGELOG.md at v5.8.0 · npm/npm">github.com/npm/npm/blob/v5.8.0/CHANGELOG.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm 5.8.0リリース。<br>
+<code>--no-color</code>オプションのサポート、<code>npm ci</code>の改善など</p>
+
+<hr>
+
+<h2 id="d3-changes-md-at-master-d3-d3">d3/CHANGES.md at master · d3/d3</h2>
+
+<p><a href="https://github.com/d3/d3/blob/master/CHANGES.md#changes-in-d3-50" title="d3/CHANGES.md at master · d3/d3">github.com/d3/d3/blob/master/CHANGES.md#changes-in-d3-50</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>D3.js 5.0リリース。<br>
+ロード系のメソッドがコールバックからPromiseを返すように変更、XHRからFetch APIを利用するように。<br>
+また<code>d3.schemeCategory20*</code>を削除し<code>d3-scale-chromatic</code>などをつかうようになるなど</p>
+
+<ul>
+<li><a href="https://github.com/d3/d3-scale-chromatic" title="d3/d3-scale-chromatic: Sequential, diverging and categorical color scales.">d3/d3-scale-chromatic: Sequential, diverging and categorical color scales.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="dev-opera-what-s-new-in-chromium-65-and-opera-52">Dev.Opera — What’s new in Chromium 65 and Opera 52</h2>
+
+<p><a href="https://dev.opera.com/blog/opera-52/" title="Dev.Opera — What’s new in Chromium 65 and Opera 52">dev.opera.com/blog/opera-52/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Opera</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Opera 52 (based on Chromium 65)リリース。<br>
+Paint Worklet、Server Timing API、Feature Policyのサポートなど</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="lazy-loading-javascript-modules-with-conditionerjs-smashing-magazine">Lazy Loading JavaScript Modules With ConditionerJS — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2018/03/lazy-loading-with-conditioner-js/" title="Lazy Loading JavaScript Modules With ConditionerJS — Smashing Magazine">www.smashingmagazine.com/2018/03/lazy-loading-with-conditioner-js/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>data</code>属性を使ってlazy LoadやResponsiveな動作を定義できるConditionerJSについての紹介</p>
+
+<ul>
+<li><a href="https://github.com/rikschennink/conditioner" title="rikschennink/conditioner: 💆🏻 Frizz free, context-aware, JavaScript modules">rikschennink/conditioner: 💆🏻 Frizz free, context-aware, JavaScript modules</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-at-2018-03-ecmascript-daily">ECMAScript proposal updates at 2018-03 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2018/03/26/ecmascript-proposal-updates" title="ECMAScript proposal updates at 2018-03 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2018/03/26/ecmascript-proposal-updates</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span></p></p>
+
+<p>2018年3月に行われたTC39ミーティングによってステータスが変更された/追加されたECMAScript Proposalのまとめ</p>
+
+<hr>
+
+<h2 id="web-1">技術要素編: web アプリが新陳代謝を続けるための依存関係の厳選（新規開発のメモ書きシリーズ1） ::ハブろぐ</h2>
+
+<p><a href="https://havelog.ayumusato.com/develop/others/e747-scratch_memo_1.html" title="技術要素編: web アプリが新陳代謝を続けるための依存関係の厳選（新規開発のメモ書きシリーズ1） ::ハブろぐ">havelog.ayumusato.com/develop/others/e747-scratch_memo_1.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">project</span> <span class="jser-tag">article</span> <span class="jser-tag">architecture</span></p></p>
+
+<p>ウェブアプリの技術選定、ビルド設定、コード設計、アーキテクチャについての連載記事。<br>
+新規でウェブアプリを開発する際にどのような理由でライブラリやビルドツール、ディレクトリ構造などの採用したか、配信におけるCDNやパフォーマンス計測について</p>
+
+<hr>
+
+<h2 id="getting-started-with-the-web-midi-api-smashing-magazine">Getting Started With The Web MIDI API — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2018/03/web-midi-api/" title="Getting Started With The Web MIDI API — Smashing Magazine">www.smashingmagazine.com/2018/03/web-midi-api/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">web</span> <span class="jser-tag">audio</span></p></p>
+
+<p>Web MIDI APIについて入門記事</p>
+
+<hr>
+
+<h2 id="node-js-ecmascript-modules">Node.jsとECMAScript Modules - 技術探し</h2>
+
+<p><a href="http://blog.hiroppy.me/entry/nodejs-esm" title="Node.jsとECMAScript Modules - 技術探し">blog.hiroppy.me/entry/nodejs-esm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">module</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsとES Modulesについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="agis-mcdetect-catch-mixed-content-issues-in-the-wild">agis/mcdetect: Catch mixed content issues in the wild</h2>
+
+<p><a href="https://github.com/agis/mcdetect" title="agis/mcdetect: Catch mixed content issues in the wild">github.com/agis/mcdetect</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">security</span> <span class="jser-tag">browser</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Headless Chromeを使ったMixed Contentの検知ツール</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="continuationlabs-wequire-synchronously-load-wasm-files">continuationlabs/wequire: synchronously load wasm files</h2>
+
+<p><a href="https://github.com/continuationlabs/wequire" title="continuationlabs/wequire: synchronously load wasm files">github.com/continuationlabs/wequire</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">WebAssembly</span></p></p>
+
+<p>Node.jsで<code>.wasm</code>ファイルを同期的読み込めるライブラリ</p>
+
+<hr>
+
+<h2 id="oclif-the-open-cli-framework-create-command-line-tools-your-users-love">oclif: The Open CLI Framework · Create command line tools your users love</h2>
+
+<p><a href="https://oclif.io/" title="oclif: The Open CLI Framework · Create command line tools your users love">oclif.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p></p>
+
+<p>Heroku CLIなどで使われているNode.jsでCLIを作るためのフレームワーク。<br>
+シングルコマンド、マルチコマンドのCLIに対応していて、テンプレートコードの生成やテストの補助も行うツール</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="simplifying-javascript-writing-modern-javascript-with-es5-es6-and-beyond-joe-morgan-9781680502886-amazon-com-books">Simplifying JavaScript: Writing Modern JavaScript with ES5, ES6, and Beyond: Joe Morgan: 9781680502886: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Simplifying-JavaScript-Writing-Modern-Beyond/dp/1680502883" title="Simplifying JavaScript: Writing Modern JavaScript with ES5, ES6, and Beyond: Joe Morgan: 9781680502886: Amazon.com: Books">www.amazon.com/Simplifying-JavaScript-Writing-Modern-Beyond/dp/1680502883</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年5月25日発売<br>
+ES2015以降を使ったシンプルで読みやすく予想可能なコードの書き方についての書籍</p>
+
+<hr>
+
+<h2 id="rediscovering-javascript-master-es6-es7-and-es8-by-venkat-subramaniam-the-pragmatic-bookshelf">Rediscovering JavaScript: Master ES6, ES7, and ES8 by Venkat Subramaniam | The Pragmatic Bookshelf</h2>
+
+<p><a href="https://pragprog.com/book/ves6/rediscovering-javascript" title="Rediscovering JavaScript: Master ES6, ES7, and ES8 by Venkat Subramaniam | The Pragmatic Bookshelf">pragprog.com/book/ves6/rediscovering-javascript</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年6月10日発売<br>
+ES2015の構文を使ったJavaScriptの書き方、オブジェクト指向やモジュールについての書籍</p>
+
+<hr>
+
+<h2 id="survivejs-webpack-updated-to-webpack-4">&quot;SurviveJS - Webpack&quot; Updated to webpack 4</h2>
+
+<p><a href="https://survivejs.com/blog/webpack-book-updated-to-webpack-4/" title="\&quot;SurviveJS - Webpack\&quot; Updated to webpack 4">survivejs.com/blog/webpack-book-updated-to-webpack-4/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">book</span> <span class="jser-tag">webpack</span></p></p>
+
+<p>SurviveJS - Webpackがwebpack 4に対応した。</p>
+
+<hr>
+
+<h2 id="securing-node-applications-web-programming-conference-web-performance-conference-fluent">Securing Node Applications: Web Programming Conference | Web Performance Conference | Fluent</h2>
+
+<p><a href="https://conferences.oreilly.com/fluent/fl-ca/public/content/securing-node-applications" title="Securing Node Applications: Web Programming Conference | Web Performance Conference | Fluent">conferences.oreilly.com/fluent/fl-ca/public/content/securing-node-applications</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">security</span> <span class="jser-tag">book</span></p></p>
+
+<p>OWASP Top 10 security risksとNode.jsについての小さな書籍。<br>
+それぞれの脆弱性の紹介やNode.jsを使った場合での対策についてまとめられている</p>
+
+<hr>
+
+<h2 id="pwa-pod-nextpublishing">プログレッシブウェブアプリ PWA開発入門 | 電子書籍とプリントオンデマンド（POD） | NextPublishing（ネクストパブリッシング）</h2>
+
+<p><a href="https://nextpublishing.jp/book/9553.html" title="プログレッシブウェブアプリ PWA開発入門 | 電子書籍とプリントオンデマンド（POD） | NextPublishing（ネクストパブリッシング）">nextpublishing.jp/book/9553.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PWA</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年3月23日発売<br>
+Progressive Web Appsについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-03-26-d3.js-5.0.0-oclif.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["D3.js","architecture","CLI","framework"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>D3.js</li>
+                
+                <li>architecture</li>
+                
+                <li>CLI</li>
+                
+                <li>framework</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/03/26/d3.js-5.0.0-oclif/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/03/26/d3.js-5.0.0-oclif/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

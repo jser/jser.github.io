@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-06-19 JS: webpack v3.0.0, redux 3.7.0, JavaScript 최적화 핸드북 - JSer.info</title>
+    <meta name="description" content="JSer.info #336 - webpack 3이 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="webpack,redux,JavaScript,performance" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-06-20T08:24:17+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="webpack" property="article:tag">
+      
+      <meta content="redux" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #336 - webpack 3이 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-06-19 JS: webpack v3.0.0, redux 3.7.0, JavaScript 최적화 핸드북">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #336 - webpack 3이 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-06-20T08:24:17+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="webpack">
+
+<meta property="article:tag" content="redux">
+
+<meta property="article:tag" content="JavaScript">
+
+<meta property="article:tag" content="performance">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/">2017-06-19 JS: webpack v3.0.0, redux 3.7.0, JavaScript 최적화 핸드북</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年06月20日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-06-19-webpack-v3.0.0-redux-3.7.0-javascript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-06-19-webpack-v3.0.0-redux-3.7.0-javascript.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #336 - webpack 3이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/releases/tag/v3.0.0" title="Release v3.0.0 · webpack/webpack">Release v3.0.0 · webpack/webpack</a></li>
+<li><a href="https://medium.com/webpack/webpack-3-official-release-15fd2dd8f07b" title="🍾🚀 webpack 3: Official Release!! 🚀🍾 – webpack – Medium">🍾🚀 webpack 3: Official Release!! 🚀🍾 – webpack – Medium</a></li>
+</ul>
+
+<p><a href="https://webpack.js.org/vote/" title="vote">vote</a> 결과 상위에 랭크되어 있는 Scope Hoisting 기능을 담당할 <code>webpack.optimize.ModuleConcatenationPlugin</code> 플러그인이 추가됐습니다.<br>
+이 기능은 Rollup과 마찬가지로 ES module 문법으로 작성돼 있는 경우에만 적용됩니다.</p>
+
+<ul>
+<li><a href="https://nolanlawson.com/2016/08/15/the-cost-of-small-modules/" title="The cost of small modules | Read the Tea Leaves">The cost of small modules | Read the Tea Leaves</a>
+
+<ul>
+<li>Scope Hoisting은 모듈의 inlining라고도 불림</li>
+</ul></li>
+</ul>
+
+<p>또 <code>node: false</code>로 설정하여 node와 관련된 기능을 모두 무효화(disable)할 수 있도록 기능이 추가됐고, SourceMap과 관련된 버그가 수정되는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<p>Redux 3.7.0이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/reactjs/redux/releases/tag/v3.7.0" title="Release v3.7.0 · reactjs/redux">Release v3.7.0 · reactjs/redux</a></li>
+</ul>
+
+<p>UMD 파일 번들 도구가 webpack2에서 rollup.js로 변경됐습니다. 이에 의해 배포되는 UMD 파일의 사이즈가 작아졌으며 이 외 몇 가지 개선이 이뤄졌습니다.</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/43219030/what-is-flat-bundling-and-why-is-rollup-better-at-this-than-webpack/43255948" title="reactjs - What is flat bundling and why is Rollup better at this than Webpack? - Stack Overflow">reactjs - What is flat bundling and why is Rollup better at this than Webpack? - Stack Overflow</a></li>
+<li><a href="https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c" title="Webpack and Rollup: the same but different – webpack – Medium">Webpack and Rollup: the same but different – webpack – Medium</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://mythbusters.js.org/" title="JS MythBusters, A JavaScript optimization handbook from a high level point of view.">JS MythBusters, A JavaScript optimization handbook from a high level point of view.</a>에는  JavaScript 최적화에 관해 작성돼 있습니다.<br>
+JavaScript 엔진의 구현에 따라 최적화 방법은 다르지만 <code>arguments</code>를 사용할 때 주의할 점이나 Date 객체를 이용한 타임스탬프를 만드는 방법 등 도움 될 만한 다양한 기법에 대해 소개 돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="announcing-typescript-2-4-rc-typescript">Announcing TypeScript 2.4 RC | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2017/06/12/announcing-typescript-2-4-rc/" title="Announcing TypeScript 2.4 RC | TypeScript">blogs.msdn.microsoft.com/typescript/2017/06/12/announcing-typescript-2-4-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 2.4 RC가 릴리즈됐습니다.<br>
+Dynamic import 문법을 지원하며 Promise 등 generic type 간 취급 방식이 변경됐습니다 또, 모든게 옵셔널인 I/F(weak types)의 타입 검사가 보다 강력하게 변경됐으며 String Enum을 지원합니다.</p>
+
+<ul>
+<li><a href="http://qiita.com/na-o-ys/items/aa56d678cdf0de2bdd79" title="왜 TypeScript의 형 시스템이 건전성을 포기하고 있는가 - Qiita">왜 TypeScript의 형 시스템이 건전성을 포기하고 있는가 - Qiita</a>(일본어)</li>
+<li><a href="https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#typescript-24" title="Breaking Changes · Microsoft/TypeScript Wiki">Breaking Changes · Microsoft/TypeScript Wiki</a></li>
+<li><a href="https://github.com/Microsoft/TypeScript/wiki/What&#x27;s-new-in-TypeScript" title="What&amp;amp;#39;s new in TypeScript · Microsoft/TypeScript Wiki">What&#39;s new in TypeScript · Microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v8-1-0-current-node-js">Node v8.1.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v8.1.0/" title="Node v8.1.0 (Current) | Node.js">nodejs.org/en/blog/release/v8.1.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 8.1.0이 릴리즈됐습니다.<br>
+npm 5.0.3으로 업데이트 했으며 <code>--inspect=0</code>으로 랜덤 포트를 사용할 수 있도록 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="firefox-notes-54-0-mozilla">Firefox — Notes (54.0) — Mozilla</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/54.0/releasenotes/" title="Firefox — Notes (54.0) — Mozilla">www.mozilla.org/en-US/firefox/54.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 54.0이 릴리즈됐습니다.<br>
+멀티프로세스를 지원(e10s-multi)하며 <code>URL.toJSON</code> 메서드가 구현됐습니다. 그리고 <code>URLSearchParams</code> 생성자가 init 객체로 <code>USVString</code>를 포함한 레코드를 전달 받을 수 있도록 변경됐고 <code>event.timeStamp</code> 프로퍼티가 보다 정밀한 값(DOMTimeStamp가 아닌 DOMHighResTimeStamp을 반환하도록)을 가지도록 바뀌었습니다. 또, URL 객체 생성 시 호스트 명이 없는 URL(<code>http://</code> 만 있다든가)은 부정확한 값으로 취급되도록 변경됐습니다.</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/Firefox/Releases/54" title="Firefox 54 for developers - Mozilla | MDN">Firefox 54 for developers - Mozilla | MDN</a></li>
+<li><a href="https://www.fxsitecompat.com/ja/versions/54/" title="Firefox 54 사이트 호환성 정보 | Firefox 사이트 호환성 정보">Firefox 54 사이트 호환성 정보 | Firefox 사이트 호환성 정보</a>(일본어)</li>
+<li><a href="https://www.fxsitecompat.com/ja/docs/2017/urls-with-no-host-name-are-now-treated-as-invalid/" title="호스트명을 알 수 없는 URL은 부정확한 것으로 취급되도록 됐습니다(영향이 있는 변경) | Firefox 사이트 호환성 정보">호스트명을 알 수 없는 URL은 부정확한 것으로 취급되도록 됐습니다(영향이 있는 변경) | Firefox 사이트 호환성 정보</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-60-beta-paint-timing-api-css-font-display-and-credential-management-api-improvements">Chromium Blog: Chrome 60 Beta: Paint Timing API, CSS font-display, and Credential Management API improvements</h2>
+
+<p><a href="https://blog.chromium.org/2017/06/chrome-60-beta-paint-timing-api-css.html" title="Chromium Blog: Chrome 60 Beta: Paint Timing API, CSS font-display, and Credential Management API improvements">blog.chromium.org/2017/06/chrome-60-beta-paint-timing-api-css.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 60β가 릴리즈됐습니다.<br>
+Paint Timing API, CSS font-display, Object rest/spread properties를 지원합니다.<br>
+또, Payment Request API의 데스크탑 버전도 지원하는 등 다양한 변경 사항이 있습니다.</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics#first_paint_and_fist_contentful_paint" title="Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers">Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers</a></li>
+<li><a href="https://github.com/wicg/paint-timing" title="WICG/paint-timing: A proposal for a Time To First Paint specification.">WICG/paint-timing: A proposal for a Time To First Paint specification.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-4-0-0-2017-05-26-chaijs-chai">Release 4.0.0 / 2017-05-26 · chaijs/chai</h2>
+
+<p><a href="https://github.com/chaijs/chai/releases/tag/4.0.0" title="Release 4.0.0 / 2017-05-26 · chaijs/chai">github.com/chaijs/chai/releases/tag/4.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chai 4.0.0이 릴리즈됐습니다.<br>
+Node.js 0.12의 지원이 종료됐고, <code>Map</code>, <code>Set</code>와 같은 ES6 타입에 대한 평가(Deep equality)가 개선됐습니다. 또, <code>deep</code>의 동작 방식이 변경됐으며 ES6 Proxy를 사용해 undefined safe한 체인 시스템을 구현하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="release-v3-7-0-reactjs-redux">Release v3.7.0 · reactjs/redux</h2>
+
+<p><a href="https://github.com/reactjs/redux/releases/tag/v3.7.0" title="Release v3.7.0 · reactjs/redux">github.com/reactjs/redux/releases/tag/v3.7.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span> <span class="jser-tag">redux</span></p></p>
+
+<p>Redux 3.7.0이 릴리즈됐습니다. Rollup로 bundle한 UMD 번들을 배포하도록 변경됐습니다. 쓸데없는 함수 콜이 줄어들기 때문에 결과적으로 배포 파일의 사이즈가 줄어들었습니다.</p>
+
+<hr>
+
+<h2 id="rxjs-changelog-md-at-6-0-0-alpha-0-reactivex-rxjs">rxjs/CHANGELOG.md at 6.0.0-alpha.0 · ReactiveX/rxjs</h2>
+
+<p><a href="https://github.com/ReactiveX/rxjs/blob/6.0.0-alpha.0/CHANGELOG.md" title="rxjs/CHANGELOG.md at 6.0.0-alpha.0 · ReactiveX/rxjs">github.com/ReactiveX/rxjs/blob/6.0.0-alpha.0/CHANGELOG.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Rx</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>RxJS 6.0.0-alpha.0가 릴리즈됐습니다.<br>
+<code>find</code>, <code>buffer</code>, <code>first</code> 등의 동작 방식이 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="release-v3-0-0-webpack-webpack">Release v3.0.0 · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/releases/tag/v3.0.0" title="Release v3.0.0 · webpack/webpack">github.com/webpack/webpack/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack 3.0.0이 릴리즈됐습니다.<br>
+Scope Hoisting (<code>webpack.optimize.ModuleConcatenationPlugin</code>)이 추가됐으며 <code>node: false</code>로 설정하여 node와 관련된 기능을 모두 무효화(disable)할 수 있도록 기능이 추가됐고, SourceMap과 관련된 버그가 수정됐습니다.</p>
+
+<ul>
+<li><a href="https://medium.com/webpack/webpack-3-official-release-15fd2dd8f07b" title="🍾🚀 webpack 3: Official Release!! 🚀🍾 – webpack – Medium">🍾🚀 webpack 3: Official Release!! 🚀🍾 – webpack – Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="angular-angular-4-2-now-available">Angular: Angular 4.2 Now Available</h2>
+
+<p><a href="http://angularjs.blogspot.com/2017/06/angular-42-now-available.html" title="Angular: Angular 4.2 Now Available">angularjs.blogspot.com/2017/06/angular-42-now-available.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Angular 4.2가 릴리즈됐습니다.<br>
+이와 함게 angular.io 사이트가 개편됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="auto-play-policy-changes-for-macos-webkit">Auto-Play Policy Changes for macOS | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7734/auto-play-policy-changes-for-macos/" title="Auto-Play Policy Changes for macOS | WebKit">webkit.org/blog/7734/auto-play-policy-changes-for-macos/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">article</span> <span class="jser-tag">audio</span> <span class="jser-tag">safari</span> <span class="jser-tag">video</span></p></p>
+
+<p>Mac Safari도 mobile safari 등과 같이 유저가 설정하지 않으면 MediaElement의 자동 재생이 되지 않도록 변경됐습니다(브라우저 판단 하에 소리 없는 영상은 그대로 자동 재생됩니다. 하지만 사용자가 이 마저도 끌 수 있으므로 관련 처리를 해두는 게 좋을 것 같습니다).<br>
+play()가 Promise를 반환하고 실패한 경우 reject 됩니다.  Video/Audio/사이트 마다 허가 여부가 결정되므로 여러개의 요소로 따로 만들기보다 하나의 요소에서 src를 변경하는 방법이 권장됩니다.</p>
+
+<hr>
+
+<h2 id="choo-architecture-performance-yoshua-wuyts-medium">Choo, architecture &amp; performance – Yoshua Wuyts – Medium</h2>
+
+<p><a href="https://medium.com/@yoshuawuyts/choo-architecture-performance-f6f0c44e8a6a" title="Choo, architecture &amp; performance – Yoshua Wuyts – Medium">medium.com/@yoshuawuyts/choo-architecture-performance-f6f0c44e8a6a</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">opinion</span> <span class="jser-tag">architecture</span> <span class="jser-tag">article</span></p></p>
+
+<p>웹 프론트를 작성하는 작은 사이즈의 프레임워크인 Choo 아키텍처를 소개하는 글입니다.<br>
+Choo를 구성하는 작은 사이즈의 라이브러리와 이를 선택한 이유 그리고 성능에 관해 이야기합니다.</p>
+
+<ul>
+<li><a href="https://github.com/yoshuawuyts/choo" title="yoshuawuyts/choo: - sturdy 4kb frontend framework">yoshuawuyts/choo: - sturdy 4kb frontend framework</a></li>
+</ul>
+
+<hr>
+
+<h2 id="typescript-2-3-type-checking-javascript-files-with-checkjs-marius-schulz">TypeScript 2.3: Type-Checking JavaScript Files with --checkJs | Marius Schulz</h2>
+
+<p><a href="https://blog.mariusschulz.com/2017/06/16/typescript-2-3-type-checking-javascript-files-with-checkjs" title="TypeScript 2.3: Type-Checking JavaScript Files with --checkJs | Marius Schulz">blog.mariusschulz.com/2017/06/16/typescript-2-3-type-checking-javascript-files-with-checkjs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScript의 <code>--checkJs</code>를 이용해 JavaScript에서 TypeScript로 마이그레이션 하는 방법에 관해 소개돼 있습니다. 화이트리스트, 블랙리스트 각 접근법과 방법에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="handling-long-and-unexpected-content-in-css-css-tricks">Handling Long and Unexpected Content in CSS | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/handling-long-unexpected-content-css/" title="Handling Long and Unexpected Content in CSS | CSS-Tricks">css-tricks.com/handling-long-unexpected-content-css/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p></p>
+
+<p>장문의 컨텐츠(문장)로 인해 의도하지 않게 밀려나온 제목이나 개행되어 레이아웃이 깨지는 결우 어떻게 대처할 수 있는지 패턴별로 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="ng-japan-2017-qiita">ng-japan 2017 세션 자료 목록 - Qiita</h2>
+
+<p><a href="http://qiita.com/goto63/items/362cef58e16198e20f56" title="ng-japan 2017 セッション資料の一覧 - Qiita">qiita.com/goto63/items/362cef58e16198e20f56</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">slide</span> <span class="jser-tag">video</span></p></p>
+
+<p>ng-japan 2017의 발표 영상과 슬라이드가 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="http://ngjapan.org/" title="ng-japan - The Angular conference in Tokyo, Japan (2017/6/17)">ng-japan - The Angular conference in Tokyo, Japan (2017/6/17)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="up-and-running-with-preact-course-by-shaneosbourne-eggheadio">Up and running with Preact - Course by @shaneosbourne @eggheadio</h2>
+
+<p><a href="https://egghead.io/courses/up-and-running-with-preact" title="Up and running with Preact - Course by @shaneosbourne @eggheadio">egghead.io/courses/up-and-running-with-preact</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">video</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>Preact에 관해 소개하는 스크린캐스트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="js-mythbusters-a-javascript-optimization-handbook-from-a-high-level-point-of-view">JS MythBusters, A JavaScript optimization handbook from a high level point of view.</h2>
+
+<p><a href="https://mythbusters.js.org/" title="JS MythBusters, A JavaScript optimization handbook from a high level point of view.">mythbusters.js.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">ebook</span></p></p>
+
+<p>JavaScript의 최적화 핸드북입니다.<br>
+V8의 최적화 기법이나 알고리즘적인 최적화 방법 그리고 흔히 하는 최적화해 관해 잘 정리 및 설명돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="amplitudejs-the-html-audio-player-for-the-modern-era">AmplitudeJS: The HTML Audio Player For The Modern Era</h2>
+
+<p><a href="https://521dimensions.com/open-source/amplitudejs" title="AmplitudeJS: The HTML Audio Player For The Modern Era">521dimensions.com/open-source/amplitudejs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">music</span> <span class="jser-tag">library</span></p></p>
+
+<p>의존 라이브러리 없이 Web Audio API를 사용해 구현한 음악 플레이어 라이브러리입니다.<br>
+음악, 플레이리스트 데이터를 설정하여 음악을 재생하는 플레이어를 만들 수 있습니다.</p>
+
+<hr>
+
+<h2 id="angelmmiguel-svgi-the-svg-inspection-tool">Angelmmiguel/svgi: 🔎 The SVG inspection tool</h2>
+
+<p><a href="https://github.com/Angelmmiguel/svgi" title="Angelmmiguel/svgi: 🔎 The SVG inspection tool">github.com/Angelmmiguel/svgi</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">debug</span></p></p>
+
+<p>SVG inspection 도구입니다.</p>
+
+<hr>
+
+<h2 id="25th-floor-spected-validation-library">25th-floor/spected: Validation library</h2>
+
+<p><a href="https://github.com/25th-floor/spected" title="25th-floor/spected: Validation library">github.com/25th-floor/spected</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>객체에 대한 검증 규칙을 작성하여 검증할 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-06-19-webpack-v3.0.0-redux-3.7.0-javascript.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["webpack","redux","JavaScript","performance"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>webpack</li>
+                
+                <li>redux</li>
+                
+                <li>JavaScript</li>
+                
+                <li>performance</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/06/20/webpack-v3.0.0-redux-3.7.0-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

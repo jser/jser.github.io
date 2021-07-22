@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-07-17のJS: TypeScript 3.0.0 RC、ウイルスとnpmパッケージ、Property based testing - JSer.info</title>
+    <meta name="description" content="JSer.info #392 - TypeScript 3.0 RCが公開されています。TypeScriptはSemantic Versioningではないため、いわゆるメジャーアップデートとは違いますが、monorepoなど大きなリポジトリ向けの変更が入っています。">
+    
+    <meta name="keywords" content="TypeScript,eslint,npmjs,testing" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-07-17T11:20:17+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="eslint" property="article:tag">
+      
+      <meta content="npmjs" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #392 - TypeScript 3.0 RCが公開されています。TypeScriptはSemantic Versioningではないため、いわゆるメジャーアップデートとは違いますが、monorepoなど大きなリポジトリ向けの変更が入っています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-07-17のJS: TypeScript 3.0.0 RC、ウイルスとnpmパッケージ、Property based testing">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #392 - TypeScript 3.0 RCが公開されています。TypeScriptはSemantic Versioningではないため、いわゆるメジャーアップデートとは違いますが、monorepoなど大きなリポジトリ向けの変更が入っています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-07-17T11:20:17+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="eslint">
+
+<meta property="article:tag" content="npmjs">
+
+<meta property="article:tag" content="testing">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">2018-07-17のJS: TypeScript 3.0.0 RC、ウイルスとnpmパッケージ、Property based testing</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年07月17日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-07-17-typescript-3.0.0-rcnpmproperty-based-testing.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-07-17-typescript-3.0.0-rcnpmproperty-based-testing.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #392 - TypeScript 3.0 RCが公開されています。<br>
+TypeScriptは<a href="https://semver.org/">Semantic Versioning</a>ではないため、いわゆるメジャーアップデートとは違いますが、monorepoなど大きなリポジトリ向けの変更が入っています。</p>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/typescript/2018/07/12/announcing-typescript-3-0-rc/">Announcing TypeScript 3.0 RC | TypeScript</a></li>
+<li><a href="https://qiita.com/vvakame/items/57a0559c45b88b2ae168">TypeScript 3.0.0-RC 変更点 - Qiita</a></li>
+<li><a href="https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#typescript-30">Breaking Changes · Microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<p>Project Referencesによりmonorepo内の別パッケージの型定義を参照できるようになり、Build modeによって関連するパッケージのインクリメンタルビルドできます。<br>
+今までも<a href="https://github.com/Quramy/lerna-yarn-workspaces-example"><code>paths</code></a>を使ってmonorepo内の別パッケージのソースコード(<code>.ts</code>)を直接参照できていましたが、<a href="https://github.com/textlint/textlint/issues/440">module resolution</a>や<code>outDir</code>に必要ないものまで含まれるなどの問題がありました。</p>
+
+<p>TypeScript 3.0ではこれらの問題を解決するメタIssueがあり、フィードバックを募集しています。</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/TypeScript/issues/25600">tsc --build / Project References Feedback &amp; Discussion · Issue #25600 · Microsoft/TypeScript</a></li>
+</ul>
+
+<p>その他にもTuple型の改善、<code>unknown</code>型の追加、Reactのdefault propsの型チェックのサポートなどが行われています。</p>
+
+<hr>
+
+<p>2018年7月12日の18:00〜22:00（JST）に<code>eslint-scope@3.7.2</code>または<code>eslint-config-eslint@5.0.2</code>を含むパッケージをインストールすると<code>.npmrc</code>を盗み取られるウイルス入りのパッケージが公開されていたインシデントがありました。</p>
+
+<p><code>eslint-scope@3.x</code>に依存していたパッケージには<code>webpack</code>、<code>eslint@4</code>、<code>babel-eslint</code>などがあり影響範囲が広がりました。</p>
+
+<p>より正確な時間や影響範囲については次の記事を参照してください。</p>
+
+<ul>
+<li><a href="https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes" title="Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter">Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter</a></li>
+<li><a href="https://qiita.com/mysticatea/items/0141657e4478d9cf4614" title="2018/07/12 に発生したセキュリティ インシデント (eslint-scope@3.7.2) について - Qiita">2018/07/12 に発生したセキュリティ インシデント (eslint-scope@3.7.2) について - Qiita</a></li>
+</ul>
+
+<p>npmによれば4,500のnpmアカウントがこの問題の影響を受けたと推測されており、またこの問題の後にすべてのユーザーのnpmのアクセストークンを無効化しています。そのため、ほとんどのユーザーはもう一度<code>npm login</code>などをしてアクセストークンを再発行する必要があります。</p>
+
+<ul>
+<li><a href="https://blog.npmjs.org/post/175824896885/incident-report-npm-inc-operations-incident-of">The npm Blog — Incident report: npm, Inc. operations incident of...</a></li>
+</ul>
+
+<p>問題のパッケージ（<code>eslint-scope@3.7.2</code>と<code>eslint-config-eslint@5.0.2</code>）は既にunpublishされているため、インストールする可能性はほぼありません。しかし、npmのregistryには<a href="https://www.jfrog.com/confluence/display/RTF/Npm+Registry">Artifactory</a>などのミラーを利用しているユーザーもいるため、ミラーのregistryには残っている可能性もあるので確認してください。仮に実行した場合でも<a href="https://gist.github.com/hzoo/51cb84afdc50b14bffa6c6dc49826b3e">eslint-scope attack</a>で解説されているように、実際の攻撃スクリプトがすでに利用できないため影響はほぼありません。</p>
+
+<p><a href="https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes">Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter</a>の記事では、パッケージのメンテナー側の対策として2要素認証をする、パスワードを使い回さないなどの対策などについて書かれています。<br>
+またパッケージの利用する側の対策として<code>pacakge-lock.json</code>や<code>yarn.lock</code>などでパッケージのバージョンをロックして今回の問題のようなパッケージを自動的には入らないようにするといったことについて書かれています。</p>
+
+<p>今回の攻撃に使われたパッケージのインストール時に<code>postinstall</code>のhookで悪意あるコードを実行するという手法は以前も同様の問題が報告されていました。この問題の対策の一環として<a href="https://blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor">read-only tokenや2要素認証</a>が導入されていました。</p>
+
+<ul>
+<li><a href="https://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability">The npm Blog — Package install scripts vulnerability</a></li>
+</ul>
+
+<p>npmの2要素認証はユーザー単位であるため、メンテナーが複数人いる場合は全員が2要素認証を有効化していないと、パッケージ自体は攻撃の影響を受ける可能性があります。<br>
+そのため今回の問題をうけてnpmでは、ユーザーではなくパッケージごとに2要素認証を設定可能にすることやTime-limited tokensについての提案などが行われています。</p>
+
+<ul>
+<li><a href="https://blog.npmjs.org/post/175861857230/two-factor-authentication-protection-for-packages">The npm Blog — Two-factor authentication protection for packages</a></li>
+<li><a href="https://npm.community/t/time-limited-tokens/502">Time-limited tokens - 💡 ideas - npm forum</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="the-npm-blog-v6-2-0">The npm Blog — v6.2.0</h2>
+
+<p><a href="https://blog.npmjs.org/post/175871462900/v620" title="The npm Blog — v6.2.0">blog.npmjs.org/post/175871462900/v620</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm 6.2.0リリース。<br>
+<code>npm audit</code>にawkなどでパースしやすい<code>--parseable</code>オプションの追加、<code>sign-git-commit</code>の設定を追加など</p>
+
+<hr>
+
+<h2 id="announcing-typescript-3-0-rc-typescript">Announcing TypeScript 3.0 RC | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2018/07/12/announcing-typescript-3-0-rc/" title="Announcing TypeScript 3.0 RC | TypeScript">blogs.msdn.microsoft.com/typescript/2018/07/12/announcing-typescript-3-0-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 3.0 RCリリース。<br>
+monorepo向けのサポートがメイン。<br>
+Project Referencesによりmonorepo内の別パッケージの型定義を参照できるようになり、Build modeによって関連するパッケージのビルドをインクリメンタルに行える。<br>
+tuples型の改善、<code>unknown</code>型の追加、Reactのdefault propsのサポートなど</p>
+
+<ul>
+<li><a href="https://qiita.com/vvakame/items/57a0559c45b88b2ae168" title="TypeScript 3.0.0-RC 変更点 - Qiita">TypeScript 3.0.0-RC 変更点 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v1-6-0-googlechrome-puppeteer">Release v1.6.0 · GoogleChrome/puppeteer</h2>
+
+<p><a href="https://github.com/GoogleChrome/puppeteer/releases/tag/v1.6.0" title="Release v1.6.0 · GoogleChrome/puppeteer">github.com/GoogleChrome/puppeteer/releases/tag/v1.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Puppeteer v1.6.0リリース。<br>
+<code>page.waitForRequest</code>と<code>page.waitForResponse</code>のサポート。<br>
+要素が現在のviewportに表示されているかを判定する<code>elementHandle.isIntersectingViewport</code>の追加など</p>
+
+<hr>
+
+<h2 id="release-9-0-a-mari-usque-ad-mare-postcss-autoprefixer">Release 9.0 “A Mari Usque Ad Mare” · postcss/autoprefixer</h2>
+
+<p><a href="https://github.com/postcss/autoprefixer/releases/tag/9.0.0" title="Release 9.0 “A Mari Usque Ad Mare” · postcss/autoprefixer">github.com/postcss/autoprefixer/releases/tag/9.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Autoprefixer 9.0、Browserslist 4.0、PostCSS 7.0.0リリース。<br>
+Node.js 4のサポート終了など</p>
+
+<hr>
+
+<h2 id="postmortem-for-malicious-packages-published-on-july-12th-2018-eslint-pluggable-javascript-linter">Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes" title="Postmortem for Malicious Packages Published on July 12th, 2018 - ESLint - Pluggable JavaScript linter">eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">node.js</span></p></p>
+
+<p><code>.npmrc</code>の内容を盗み取る<code>eslint-scope@3.7.2</code>と<code>eslint-config-eslint@5.0.2</code>が公開された問題についてのレポート。<br>
+パスワードリスト攻撃で取られてたアカウントのtokenから直接publishされ、その後npm incによって全ユーザーのtokenがリセットされた。<br>
+攻撃手法や対策について</p>
+
+<ul>
+<li><a href="https://blog.npmjs.org/post/175824896885/incident-report-npm-inc-operations-incident-of" title="The npm Blog — Incident report: npm, Inc. operations incident of...">The npm Blog — Incident report: npm, Inc. operations incident of...</a></li>
+<li><a href="https://qiita.com/mysticatea/items/0141657e4478d9cf4614" title="2018/07/12 に発生したセキュリティ インシデント (eslint-scope@3.7.2) について - Qiita">2018/07/12 に発生したセキュリティ インシデント (eslint-scope@3.7.2) について - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="site-isolation-for-web-developers-web-google-developers">Site Isolation for web developers  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2018/07/site-isolation" title="Site Isolation for web developers  |  Web  |  Google Developers">developers.google.com/web/updates/2018/07/site-isolation</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">browser</span> <span class="jser-tag">security</span></p></p>
+
+<p>Chrome 67でデフォルト有効化されたSite Isolationについて。<br>
+レンダラープロセスを分離することで、サイドチャネル攻撃やオリジン超えの攻撃によって機密情報が盗まれるのを防止する。<br>
+CORB、iframeなどにおけるloadとunloadにおける挙動の違いなどについて</p>
+
+<ul>
+<li><a href="https://security.googleblog.com/2018/07/mitigating-spectre-with-site-isolation.html" title="Google Online Security Blog: Mitigating Spectre with Site Isolation in Chrome">Google Online Security Blog: Mitigating Spectre with Site Isolation in Chrome</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="the-css-paint-api-css-tricks">The CSS Paint API | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/the-css-paint-api/" title="The CSS Paint API | CSS-Tricks">css-tricks.com/the-css-paint-api/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>CSS Paint APIについての記事。<br>
+新しいShapeの追加、カスタムプロパティとの連携方法について</p>
+
+<hr>
+
+<h2 id="life-of-a-pixel-2018-google">Life of a Pixel 2018 - Google スライド</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/mobilepresent#slide=id.p" title="Life of a Pixel 2018 - Google スライド">docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/mobilepresent#slide&#x3D;id.p</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Chromeのレンダリングの仕組みについてのスライド。<br>
+DOM、Style、Layout、Paint、Rasterization。<br>
+変更があったときに再レンダリングやCompositingなどの処理の流れなどについて。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="vue-js-cheat-sheet">Vue.js Cheat Sheet</h2>
+
+<p><a href="https://flaviocopes.com/vue-cheat-sheet/" title="Vue.js Cheat Sheet">flaviocopes.com/vue-cheat-sheet/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">チートシート</span></p></p>
+
+<p>Vueチートシート</p>
+
+<hr>
+
+<h2 id="browsh">Browsh</h2>
+
+<p><a href="https://www.brow.sh/" title="Browsh">www.brow.sh/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">console</span> <span class="jser-tag">firefox</span></p></p>
+
+<p>Firefoxをバックエンド(WebExtensions)に使ったテキストブラウザ。<br>
+CSSやWebGL、画像や動画などの描画結果をテキストベースで閲覧できる。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="dubzzz-fast-check-property-based-testing-framework-for-javascript-like-quickcheck-written-in-typescript">dubzzz/fast-check: Property based testing framework for JavaScript (like QuickCheck) written in TypeScript</h2>
+
+<p><a href="https://github.com/dubzzz/fast-check" title="dubzzz/fast-check: Property based testing framework for JavaScript (like QuickCheck) written in TypeScript">github.com/dubzzz/fast-check</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>Property based testingを行うテストライブラリ。<br>
+値のパターンや組み合わせを定義してランダムな値を生成してテストできる。<br>
+またテストが失敗した際には<code>seed</code>値を使って同じ組み合わせを再現してテストできる。</p>
+
+<hr>
+
+<h2 id="joshwcomeau-guppy">joshwcomeau/guppy</h2>
+
+<p><a href="https://github.com/joshwcomeau/guppy" title="joshwcomeau/guppy">github.com/joshwcomeau/guppy</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">GUI</span> <span class="jser-tag">Tools</span> <span class="jser-tag">software</span></p></p>
+
+<p>React向けのアプリケーション管理、タスク実行を行えるGUIアプリ。</p>
+
+<hr>
+
+<h2 id="teadjs-tead-lighting-the-way-to-simpler-testing">teadjs/tead: Lighting the way to simpler testing</h2>
+
+<p><a href="https://github.com/teadjs/tead" title="teadjs/tead: Lighting the way to simpler testing">github.com/teadjs/tead</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p></p>
+
+<p>シンプルなテストフレームワーク。<br>
+<code>[actual, expected]</code>の組み合わせを返すだけでテストできる。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="programming-typescript-making-your-javascript-applications-scale-boris-cherny-9781492037651-amazon-com-books">Programming TypeScript: Making Your JavaScript Applications Scale: Boris Cherny: 9781492037651: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/dp/1492037656/" title="Programming TypeScript: Making Your JavaScript Applications Scale: Boris Cherny: 9781492037651: Amazon.com: Books">www.amazon.com/dp/1492037656/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2019年4月4日発売<br>
+TypeScriptでのアプリケーション開発についての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-07-17-typescript-3.0.0-rcnpmproperty-based-testing.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["TypeScript","eslint","npmjs","testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>TypeScript</li>
+                
+                <li>eslint</li>
+                
+                <li>npmjs</li>
+                
+                <li>testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/07/17/typescript-3.0.0-rcnpmproperty-based-testing/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

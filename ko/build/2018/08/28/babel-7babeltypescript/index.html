@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-08-28のJS: Babel 7、BabelとTypeScript、継続的なパフォーマンス改善と計測 - JSer.info</title>
+    <meta name="description" content="JSer.info #398 - Babel 7が正式にリリースされました。">
+    
+    <meta name="keywords" content="babel,TypeScript,performance" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-08-28T11:02:42+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="babel" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/08/28/babel-7babeltypescript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #398 - Babel 7が正式にリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-08-28のJS: Babel 7、BabelとTypeScript、継続的なパフォーマンス改善と計測">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/08/28/babel-7babeltypescript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #398 - Babel 7が正式にリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-08-28T11:02:42+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="babel">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="performance">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/08/28/babel-7babeltypescript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/08/28/babel-7babeltypescript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/08/28/babel-7babeltypescript/">2018-08-28のJS: Babel 7、BabelとTypeScript、継続的なパフォーマンス改善と計測</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年08月28日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-08-28-babel-7babeltypescript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-08-28-babel-7babeltypescript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/08/28/babel-7babeltypescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/08/28/babel-7babeltypescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #398 - Babel 7が正式にリリースされました。</p>
+
+<ul>
+<li><a href="https://babeljs.io/blog/2018/08/27/7.0.0">Babel 7 Released · Babel</a></li>
+</ul>
+
+<p>Node.js 4のサポート終了し、<code>@babel</code>スコープへモジュールを移動、<code>es2015</code>のような年号プリセットを廃止し<code>@babel/preset-env</code>に移行、Stageプリセットを廃止などが行われています。</p>
+
+<ul>
+<li>年号プリセット(<code>babel-preset-es2015</code>) -&gt; 廃止(<a href="https://babeljs.io/docs/en/next/babel-preset-env.html">@babel/preset-env</a>へ移行)</li>
+<li>Stageプリセット -&gt; 廃止(個別の<code>@babel/plugin-proposal-*</code>プラグインを使う)</li>
+<li><code>babel-preset-env</code> -&gt; <code>@babel/preset-env</code>へ移行</li>
+</ul>
+
+<p>またJavaScriptで設定を書ける<code>babel.config.js</code>での設定をサポート、パフォーマンスの改善などが行われています。</p>
+
+<p>マイグレーションは<a href="https://github.com/babel/babel-upgrade">babel-upgrade</a>というツールで行え、マイグレーションガイドも合わせて公開されています。</p>
+
+<ul>
+<li><a href="http://babeljs.io/docs/en/next/v7-migration">Upgrade to Babel 7 · Babel</a></li>
+</ul>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2018/08/27/typescript-and-babel-7/">TypeScript and Babel 7 | TypeScript</a>という記事では、Babel 7でTypeScriptのコードをJavaScriptに変換できる(型情報を取り除ける)ことについて紹介されています。</p>
+
+<p>Babel 7では<a href="https://github.com/babel/babylon/pull/523">TypeScriptのコードをパース</a>できるようになり、<a href="https://babeljs.io/docs/en/next/babel-preset-typescript.html">@babel/preset-typescript</a>を利用してFlowと同じように型情報を取り除いてJavaScriptに変換できます。</p>
+
+<p>制限として、Babel自体は型チェックを行なわないことや<code>enum</code>/<code>namespace</code>のようなTypeScript独自の構文はサポートしてない点についても紹介されています。</p>
+
+<hr>
+
+<p><a href="http://azu.github.io/slide/2018/roppongijs/webpagetest-performance.html">Webpagetestから始める継続的パフォーマンス改善</a>というスライドでは、継続的パフォーマンスを行うために継続的にパフォーマンス計測を行うことについてかかれています。</p>
+
+<p>パフォーマンス改善と指標、それを測るための<a href="https://www.webpagetest.org/">WebPagetest</a>といったサービスの紹介。<br>
+また、計測した可視化する方法や改善した結果を確認したり、実際にどのように問題を見つけるかやパフォーマンスリグレッションを防ぐ方法などについて書かれています。</p>
+
+<p><a href="https://www.webpagetest.org/">WebPagetest</a>のUIの使い方については<a href="https://frontendnews.io/editions/2018-08-22-a-brief-guide-to-webpagetest">A brief guide to using WebpageTest - Frontend News #5</a>という記事が公開されていたので合わせて読むと良さそうです。</p>
+
+<p>またパフォーマンス改善方法については<a href="https://developers.google.com/web/updates/2018/08/web-performance-made-easy">Web Performance Made Easy: Google I/O 2018 edition  |  Web  |  Google Developers</a>というリファインされた記事が公開されているので合わせて読むと良さそうです。</p>
+
+<hr>
+
+<h2 id="part-2a003bb4b350ea2b">お知らせ</h2>
+
+<p>2018年9月22日(土)に開催予定の<a href="https://github.com/jser/jser.info/issues/102">JSer.info 400回記念イベント</a>ですが、今週中にconnpassでイベントページを公開予定です。<br>
+次のグループのメンバーになっておくと、イベントページが公開された時に通知が飛ぶと思います。（抽選にすると思うので、ゆっくり登録できると思います）</p>
+
+<ul>
+<li><a href="https://jser.connpass.com/">JSer.info - connpass</a></li>
+</ul>
+
+<p><a href="https://github.com/jser/jser.info/issues/89">以前</a>と<a href="https://github.com/jser/jser.info/issues/31">同じ</a><a href="https://github.com/jser/jser.info/issues/54">ように</a>、数人の発表者とメモを書いてくれる人と質問を管理してくれるモデレータ(具体的には<a href="http://sli.do/">http://sli.do/</a>周りの管理)を募集する予定です。</p>
+
+<p>テーマは「憶測せずに議論しよう」です。</p>
+
+<p>会場には大体自分より何かしら詳しい人がいると思います。そのため、発表者であっても憶測でしゃべるよりはその場で詳しい人に聞いて議論することを重要視しています。</p>
+
+<p>発表途中でも発表者に質問することや逆に会場の人に質問することを推奨する感じのイベントです（これは会場に「XXXを使ってる人」と聞くのではなく、疑問を解決する話）</p>
+
+<p>発表者は深く考えずに質問時間が長く取れるJavaScriptに関連する発表という感じで応募していただけると幸いです。<br>
+(発表に集中してもらえるように細かい補助とかは自分がやります。)</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="jsdom-changelog-md-at-master-jsdom-jsdom">jsdom/Changelog.md at master · jsdom/jsdom</h2>
+
+<p><a href="https://github.com/jsdom/jsdom/blob/master/Changelog.md#1200" title="jsdom/Changelog.md at master · jsdom/jsdom">github.com/jsdom/jsdom/blob/master/Changelog.md#1200</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>jsdom 12.0.0リリース。<br>
+Node.js 8以降が必要になるように、<code>ResourceLoader</code>の追加、依存の更新など</p>
+
+<hr>
+
+<h2 id="johnny-five-io-johnny-five-v1-0">Johnny-Five.io: Johnny-Five v1.0</h2>
+
+<p><a href="http://johnny-five.io/news/v1_0/" title="Johnny-Five.io: Johnny-Five v1.0">johnny-five.io/news/v1_0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Robotics Programming Frameworkの Johnny-Five v1.0リリース</p>
+
+<hr>
+
+<h2 id="release-v1-1-0-stimulusjs-stimulus">Release v1.1.0 · stimulusjs/stimulus</h2>
+
+<p><a href="https://github.com/stimulusjs/stimulus/releases/tag/v1.1.0" title="Release v1.1.0 · stimulusjs/stimulus">github.com/stimulusjs/stimulus/releases/tag/v1.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">HTML</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Turbolinksと連携できるJavaScriptフレームワークのStimulus 1.1.0リリース。<br>
+<code>@stimulus/polyfills</code>の追加、<code>data-action</code>属性で複数のactionを指定時にその順序を尊重するように、<code>DOMContentLoaded</code>で処理を開始するようになるなど</p>
+
+<hr>
+
+<h2 id="almin-v0-18-react-native-compatible-almin">Almin v0.18 – React Native compatible · Almin</h2>
+
+<p><a href="https://almin.js.org/blog/2018/08/27/almin-0.18.html" title="Almin v0.18 – React Native compatible · Almin">almin.js.org/blog/2018/08/27/almin-0.18.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">almin</span></p></p>
+
+<p>ステート管理ライブラリのAlmin 0.18.0リリース。<br>
+TypeScript 3.0に対応、React Nativeとの互換性の向上、ファイルサイズの削減など</p>
+
+<hr>
+
+<h2 id="babel-7-released-babel">Babel 7 Released · Babel</h2>
+
+<p><a href="https://babeljs.io/blog/2018/08/27/7.0.0" title="Babel 7 Released · Babel">babeljs.io/blog/2018/08/27/7.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Babel 7リリース。<br>
+Node.js 4以下のサポート終了、<code>@babel</code>スコープへモジュールを移動、<code>es2015</code>のような年号プリセットを廃止し<code>preset-env</code>に移行、Stageプリセットを廃止。<br>
+<code>babel.config.js</code>での設定をサポート、パフォーマンスの改善など。<br>
+マイグレーションは<code>babel-upgrade</code>で行える。</p>
+
+<ul>
+<li><a href="https://github.com/babel/babel-upgrade" title="babel/babel-upgrade: ⬆️ A tool for upgrading Babel versions (to v7): \&amp;#x60;npx babel-upgrade\&amp;#x60;">babel/babel-upgrade: ⬆️ A tool for upgrading Babel versions (to v7): `npx babel-upgrade`</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="dep-a-little-node-js-dependency-installer-daijiro-wachi-medium">dep: a little Node.js dependency installer – Daijiro Wachi – Medium</h2>
+
+<p><a href="https://medium.com/@watilde/dep-a-little-node-js-dependency-installer-b8fead7596d3" title="dep: a little Node.js dependency installer – Daijiro Wachi – Medium">medium.com/@watilde/dep-a-little-node-js-dependency-installer-b8fead7596d3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span> <span class="jser-tag">npm</span></p></p>
+
+<p><code>package.json</code>の依存をインストールできる<code>dep</code>について。<br>
+<code>npm</code>のコマンドと違って<code>install</code>、<code>lock</code>、<code>run</code>のみを扱う</p>
+
+<hr>
+
+<h2 id="workerdom-concurrency-for-javascript-programming-with-the-dom-accelerated-mobile-pages-project">WorkerDOM: Concurrency for JavaScript programming with the DOM – Accelerated Mobile Pages Project</h2>
+
+<p><a href="https://amphtml.wordpress.com/2018/08/21/workerdom/" title="WorkerDOM: Concurrency for JavaScript programming with the DOM – Accelerated Mobile Pages Project">amphtml.wordpress.com/2018/08/21/workerdom/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">webworker</span> <span class="jser-tag">article</span> <span class="jser-tag">AMP</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>WebWorkerの中で動くDOMの実装のアルファ版を公開したという話。<br>
+メインスレッドでの処理が重なるとjankとなるため、WorkerスレッドでDOM APIの処理を行う実験的実装。<br>
+HydrateしたデータでWorkerとの間をやりとりし、変更はMutationObserverで監視する</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/cramforce/workerdom-javascript-concurrency-and-the-dom" title="WorkerDOM: JavaScript Concurrency and the DOM - Speaker Deck">WorkerDOM: JavaScript Concurrency and the DOM - Speaker Deck</a></li>
+<li><a href="https://github.com/ampproject/worker-dom" title="ampproject/worker-dom: The same DOM API and Frameworks you know, but in a Web Worker.">ampproject/worker-dom: The same DOM API and Frameworks you know, but in a Web Worker.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="why-graphql-advantages-disadvantages-alternatives-rwieruch">Why GraphQL: Advantages, Disadvantages &amp; Alternatives - RWieruch</h2>
+
+<p><a href="https://www.robinwieruch.de/why-graphql-advantages-disadvantages-alternatives/" title="Why GraphQL: Advantages, Disadvantages &amp; Alternatives - RWieruch">www.robinwieruch.de/why-graphql-advantages-disadvantages-alternatives/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">graphic</span> <span class="jser-tag">article</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>GraphQLに関する連載記事。<br>
+GraphQLの特徴、メリット、デメリット、Apolloについて。またApollo Serverとexpressを使ってGraphQLサーバを作成するチュートリアルなど</p>
+
+<ul>
+<li><a href="https://www.robinwieruch.de/graphql-apollo-server-tutorial/" title="GraphQL Server Tutorial with Apollo Server and Express - RWieruch">GraphQL Server Tutorial with Apollo Server and Express - RWieruch</a></li>
+</ul>
+
+<hr>
+
+<h2 id="web-performance-made-easy-google-i-o-2018-edition-web-google-developers">Web Performance Made Easy: Google I/O 2018 edition  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2018/08/web-performance-made-easy" title="Web Performance Made Easy: Google I/O 2018 edition  |  Web  |  Google Developers">developers.google.com/web/updates/2018/08/web-performance-made-easy</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>ウェブサイトのパフォーマンスについての概要的な記事の。<br>
+LightHouseやChromeの開発者ツールを使った不必要なリソースの把握。<br>
+JavaScriptのサイズが起動速度に与える影響やファイルサイズの削減、レンダリングのボトルネックの取り除く方法などについて</p>
+
+<hr>
+
+<h2 id="typescript-and-babel-7-typescript">TypeScript and Babel 7 | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2018/08/27/typescript-and-babel-7/" title="TypeScript and Babel 7 | TypeScript">blogs.msdn.microsoft.com/typescript/2018/08/27/typescript-and-babel-7/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">babel</span> <span class="jser-tag">article</span></p></p>
+
+<p>Babel 7の<code>@babel/typescript</code>について。<br>
+BabelでTypeScriptのコードをJavaScriptへ変換(型情報を除去)できる。<br>
+型チェックやいくつかのTS独自の構文をサポートしないという制限はあるが、Babelのエコシステム上でTSのコードを扱える。</p>
+
+<hr>
+
+<h2 id="service-worker-caching-strategies-based-on-request-types">Service Worker Caching Strategies Based on Request Types</h2>
+
+<p><a href="https://medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c" title="Service Worker Caching Strategies Based on Request Types">medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Fetch</span> <span class="jser-tag">ServiceWorker</span> <span class="jser-tag">article</span></p></p>
+
+<p>どの種類に対するリクエストかを判定できる<code>Request.destination</code>について。 <code>Request.destination</code>を使いキャッシュの戦略を変えるという話。注意点として、一部リクエストは空文字列となり判定できないという話。<br>
+また<code>Request.mode</code>や<code>Request.url</code>などとの組み合わせについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="webpagetest">Webpagetestから始める継続的パフォーマンス改善</h2>
+
+<p><a href="http://azu.github.io/slide/2018/roppongijs/webpagetest-performance.html" title="Webpagetestから始める継続的パフォーマンス改善">azu.github.io/slide/2018/roppongijs/webpagetest-performance.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">webservice</span> <span class="jser-tag">slide</span></p></p>
+
+<p>ウェブアプリの継続的なパフォーマンス改善についてのスライド。<br>
+パフォーマンス改善と指標、それを測るための継続的な計測とサービスについて。<br>
+WebPagetestを中心にどのように計測して可視化し、改善した結果を確認したりリグレッションを防ぐかについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="a-brief-guide-to-using-webpagetest-frontend-news-5">A brief guide to using WebpageTest - Frontend News #5</h2>
+
+<p><a href="https://frontendnews.io/editions/2018-08-22-a-brief-guide-to-webpagetest" title="A brief guide to using WebpageTest - Frontend News #5">frontendnews.io/editions/2018-08-22-a-brief-guide-to-webpagetest</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>ウェブサイトのパフォーマンス計測サービスであるWebPagetestの使い方を解説した記事。<br>
+それぞれのビューの読み方や指標となる値などについて</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="rikschennink-fitty-makes-text-fit-perfectly">rikschennink/fitty: ✨ Makes text fit perfectly</h2>
+
+<p><a href="https://github.com/rikschennink/fitty" title="rikschennink/fitty: ✨ Makes text fit perfectly">github.com/rikschennink/fitty</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p></p>
+
+<p>指定した要素に対してテキストのサイズを合わせるライブラリ。<br>
+カスタムフォントなどにも対応している</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-08-28-babel-7babeltypescript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["babel","TypeScript","performance"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>babel</li>
+                
+                <li>TypeScript</li>
+                
+                <li>performance</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/08/28/babel-7babeltypescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/08/28/babel-7babeltypescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

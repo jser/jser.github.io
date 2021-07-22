@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-03-09: Gatsby 3, Electron 12, 브라우저의 라이프 사이클 변화 - JSer.info</title>
+    <meta name="description" content="JSer.info #530 - Gatsby v3 릴리스.">
+    
+    <meta name="keywords" content="React,serverless,aws,GraphQL,jQuery" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2021-03-08T23:53:58+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="serverless" property="article:tag">
+      
+      <meta content="aws" property="article:tag">
+      
+      <meta content="GraphQL" property="article:tag">
+      
+      <meta content="jQuery" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/03/08/gatsby-3-electron-12/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #530 - Gatsby v3 릴리스." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-03-09: Gatsby 3, Electron 12, 브라우저의 라이프 사이클 변화">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/03/08/gatsby-3-electron-12/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #530 - Gatsby v3 릴리스.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-03-08T23:53:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="serverless">
+
+<meta property="article:tag" content="aws">
+
+<meta property="article:tag" content="GraphQL">
+
+<meta property="article:tag" content="jQuery">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/03/08/gatsby-3-electron-12/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/03/08/gatsby-3-electron-12/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/03/08/gatsby-3-electron-12/">2021-03-09: Gatsby 3, Electron 12, 브라우저의 라이프 사이클 변화</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年03月08日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-03-09-gatsby-3-electron-12-.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-03-09-gatsby-3-electron-12-.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/03/08/gatsby-3-electron-12/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #530 - Gatsby v3 릴리스.</p>
+
+<ul>
+<li><a href="https://www.gatsbyjs.com/blog/gatsby-v3/">Gatsby v3 Incremental Builds in OSS, new Gatsby Image, and more | Gatsby</a></li>
+<li><a href="https://www.gatsbyjs.com/docs/reference/release-notes/v3.0/">Gatsby v3.0 (March 2021 #1)</a></li>
+</ul>
+
+<p>로컬에서 실제 접근한 페이지만 빌드하는 등 전체를 재구축하지 않고 빌드하는 방식을 기본으로 적용. 따라서 필요한 페이지만 빌드하기 때문에 개발 시의 빌드 대기 시간이 줄었다.</p>
+
+<p>비호환 변경으로는 Node.js 12 미만 지원 종료, React 17 / webpack 5 / ESLint 7으로 갱신, 전역 <code>graphql</code> 대신 import 하여 사용하도록 변경, API 변경이 있다.</p>
+
+<p>마이그레이션 방법은 다음 문서를 통해 친절히 설명하고 있다.</p>
+
+<ul>
+<li><a href="https://www.gatsbyjs.com/docs/reference/release-notes/migrating-from-v2-to-v3/">Migrating from v2 to v3 | Gatsby</a></li>
+</ul>
+
+<hr>
+
+<p>Electron 12.0.0리 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://www.electronjs.org/blog/electron-12-0">Electron 12.0.0 | Electron Blog</a></li>
+</ul>
+
+<p>Chromium 89, V8 8.9, Node.js 14.16(12.x에서)으로 갱신.<br>
+<code>exposeInMainWorld</code>가 객체 이외의 형식을 지원, <code>webFrameMain</code> API 추가.</p>
+
+<p>Electron 12.0.0에서는 <code>contextIsolation</code>와 <code>worldSafeExecuteJavaScript</code>가 기본적으로 <code>true</code>로 변경됐다.<br>
+<a href="https://www.electronjs.org/docs/tutorial/context-isolation">Context Isolation</a>는 <code>preload</code> 스크립트와 <code>webContents</code> 스크립트의 실행 문맥을 분리하는 것으로 XSS 등의 피해 범위를 축소하는 구조다.</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/masatokinugawa/electron-abusing-the-lack-of-context-isolation-curecon-ja">Electron: Context Isolation의 격리 기능을 이용한 임의 코드 실행 / Electron: Abusing the lack of context isolation - CureCon(ja) - Speaker Deck</a>(일본어)</li>
+<li><a href="https://qiita.com/hibara/items/c59fb6924610fc22a9db">Electron(v.12.0.0 현재)의 IPC 통신 입문 - 보다 안전한 방법으로의 변화 - Qiita</a>(일본어)</li>
+</ul>
+
+<p>또, <a href="https://github.com/electron/electron/issues/21408">단계적으로 폐지되고 있는 <code>remote</code> 모듈</a>이 비권장 됐고 <a href="https://github.com/electron/remote">@electron/remote</a> 라는 외부 모듈로 이전 중이다.</p>
+
+<ul>
+<li><a href="https://github.com/electron/remote">electron/remote: Bridge JavaScript objects from the main process to the renderer process in Electron.</a></li>
+</ul>
+
+<hr>
+
+<p>브라우저 라이프 사이클이 변화하고 있어 관련하여 몇 가지 소식을 정리해 소개.</p>
+
+<p>현재 6주 마다 릴리스하고 있는 크롬이지만 2021년 Q3 즉, 크롬 94부터 릴리스 사이클을 4주로 단축한다고 발표했다.</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2021/03/speeding-up-release-cycle.html">Chromium Blog: Speeding up Chrome&#39;s release cycle</a></li>
+<li><a href="https://chromiumdash.appspot.com/schedule">Chromium Dash</a></li>
+</ul>
+
+<p>Microsoft Edge Legacy의 폐지 일정이 공개됐다.<br>
+Microsoft Edge Legacy는 2021년 3월 9일로 지원 종료된다. 또, 2021년 4월 13일에 릴리스되는 보안 업데이트를 통해 삭제되고 동시에 새로운 크로미움 기반의 MS Edge가 설치된다(대체됨).</p>
+
+<ul>
+<li><a href="https://techcommunity.microsoft.com/t5/microsoft-365-blog/new-microsoft-edge-to-replace-microsoft-edge-legacy-with-april-s/ba-p/2114224">New Microsoft Edge to replace Microsoft Edge Legacy with April’s Windows 10 Update Tuesday release - Microsoft Tech Community</a></li>
+</ul>
+
+<p>Internet Explorer(IE) 폐지는 Edge와는 다른 라이프 사이클을 갖기 때문에 아직 남았지만,<br>
+IE에서 접속했을 경우 사이트의 호환 여부에 따라서 MSEdge로 리다이렉트하는 등의 이전이 이뤄지고 있다.</p>
+
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/microsoft-edge/web-platform/ie-to-microsoft-edge-redirection">Moving users to Microsoft Edge from Internet Explorer - Microsoft Edge Development | Microsoft Docs</a></li>
+</ul>
+
+<p>이 <a href="https://edge.microsoft.com/neededge/v1">NeedEdge 호환 목록</a>에 작성된 사이트를 IE로 접속하면 MS Edge를 사용할 것을 가이드하는 리다이렉트 팝업이 제공된다.<br>
+호환 목록에 <a href="https://github.com/teppeis/history-of-ie-incompatible-sites-list/commits/master">추가돼 있는 사이트</a>는 점차 늘어나고 있다.<br>
+이와 별개로 IE 지원 종료를 선언한 사이트는 다음 문서에 정리돼 있으니 참고한다.</p>
+
+<ul>
+<li><a href="https://docs.google.com/document/d/1XP58gVMyp_UCP4FFsf5ATpvRVwqi7v_EpEF3sl_Sobk/edit">IE11 지원 종료 역사 - Google 문서</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="gatsby-v3-incremental-builds-in-oss-new-gatsby-image-and-more-gatsby">Gatsby v3 Incremental Builds in OSS, new Gatsby Image, and more | Gatsby</h2>
+
+<p><a href="https://www.gatsbyjs.com/blog/gatsby-v3/" title="Gatsby v3 Incremental Builds in OSS, new Gatsby Image, and more | Gatsby">www.gatsbyjs.com/blog/gatsby-v3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">GraphQL</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Gatsby 3.0 릴리스.<br>
+비호환 변경으로는 Node.js 12 미만 지원 종료, webpack 5 / ESLint 7으로 갱신, 전역 <code>graphql</code> 대신 import 하여 사용하도록 변경, API 변경 등이 있다.<br>
+로컬 환경에서 전체를 재구축하지 않고 실제 접속한 페이지만 빌드하는 방식이 적용됐다.</p>
+
+<ul>
+<li><a href="https://www.gatsbyjs.com/docs/reference/release-notes/migrating-from-v2-to-v3/" title="Migrating from v2 to v3 | Gatsby">Migrating from v2 to v3 | Gatsby</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jquery-3-6-0-released-official-jquery-blog">jQuery 3.6.0 Released! | Official jQuery Blog</h2>
+
+<p><a href="https://blog.jquery.com/2021/03/02/jquery-3-6-0-released/" title="jQuery 3.6.0 Released! | Official jQuery Blog">blog.jquery.com/2021/03/02/jquery-3-6-0-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">JSON</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>jQuery 3.6.0 릴리스.<br>
+JSONP 요청 시 에러 응답으로 JSON을 반환했을 경우의 동작 변경.<br>
+<code>.focus()</code>의 버그 수정.</p>
+
+<hr>
+
+<h2 id="deno-1-8-release-notes">Deno 1.8 Release Notes</h2>
+
+<p><a href="https://deno.land/posts/v1.8" title="Deno 1.8 Release Notes">deno.land/posts/v1.8</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno 1.8.0 릴리스.<br>
+WebGPU API를 실험적으로 지원.<br>
+ICU를 대응하는 ECMA i18n API인 <code>Intl</code> 객체 등 지원, <code>DENO_AUTH_TOKENS</code>로 모듈을 가져올 때 인증 토큰 지원, Exit sanitier를 <code>Deno.test</code>에 추가, <code>deno fmt</code>가 JSON을 지원, TypeScript 4.2으로 갱신.<br>
+Import Map, <code>Deno.permissions</code>, <code>Deno.link</code>, <code>Deno.symlink</code> API가 각각 Stable API로 변경됐다.</p>
+
+<hr>
+
+<h2 id="new-microsoft-edge-to-replace-microsoft-edge-legacy-with-april-s-windows-10-update-tuesday-release-microsoft-tech-community">New Microsoft Edge to replace Microsoft Edge Legacy with April’s Windows 10 Update Tuesday release - Microsoft Tech Community</h2>
+
+<p><a href="https://techcommunity.microsoft.com/t5/microsoft-365-blog/new-microsoft-edge-to-replace-microsoft-edge-legacy-with-april-s/ba-p/2114224" title="New Microsoft Edge to replace Microsoft Edge Legacy with April’s Windows 10 Update Tuesday release - Microsoft Tech Community">techcommunity.microsoft.com/t5/microsoft-365-blog/new-microsoft-edge-to-replace-microsoft-edge-legacy-with-april-s/ba-p/2114224</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">news</span></p></p>
+
+<p>Microsoft Edge Legacy는 2021년 3월 9일 지원 종료.<br>
+이어 2021년 4월 13에 Legacy를 삭제함과 동시에 새로운 크로미움 기반 MS Edge를 설치하는 보안 업데이트가 실행될 예정</p>
+
+<hr>
+
+<h2 id="chromium-blog-speeding-up-chromes-release-cycle">Chromium Blog: Speeding up Chrome&#039;s release cycle</h2>
+
+<p><a href="https://blog.chromium.org/2021/03/speeding-up-release-cycle.html" title="Chromium Blog: Speeding up Chrome&amp;#039;s release cycle">blog.chromium.org/2021/03/speeding-up-release-cycle.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">news</span></p></p>
+
+<p>Chrome의 릴리스 주기를 6 주에서 4주로 단축.</p>
+
+<hr>
+
+<h2 id="announcing-the-new-typescript-handbook-typescript">Announcing the New TypeScript Handbook | TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-the-new-typescript-handbook/" title="Announcing the New TypeScript Handbook | TypeScript">devblogs.microsoft.com/typescript/announcing-the-new-typescript-handbook/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">document</span></p></p>
+
+<p>TypeScript Handbook 개편.</p>
+
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/" title="TypeScript: The starting point for learning TypeScript">TypeScript: The starting point for learning TypeScript</a></li>
+</ul>
+
+<hr>
+
+<h2 id="electron-12-0-0-electron-blog">Electron 12.0.0 | Electron Blog</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-12-0" title="Electron 12.0.0 | Electron Blog">www.electronjs.org/blog/electron-12-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 12.0.0 릴리스.<br>
+Chromium 89, V8 8.9, Node.js 14.16으로 갱신.</p>
+
+<p><code>exposeInMainWorld</code>가 객체 이외의 형식을 지원, <code>webFrameMain</code> API 추가.</p>
+
+<p>Electron 12.0.0에서는 <code>contextIsolation</code>와 <code>worldSafeExecuteJavaScript</code>가 기본적으로 <code>true</code>로 변경, <code>remote</code> 모듈이 비권장 됐고 <code>@electron/remote</code> 라는 외부 모듈로 이전 중이다.</p>
+
+<ul>
+<li><a href="https://github.com/electron/remote" title="electron/remote: Bridge JavaScript objects from the main process to the renderer process in Electron.">electron/remote: Bridge JavaScript objects from the main process to the renderer process in Electron.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v6-0-0-pixijs-pixi-js">Release v6.0.0 · pixijs/pixi.js</h2>
+
+<p><a href="https://github.com/pixijs/pixi.js/releases/tag/v6.0.0" title="Release v6.0.0 · pixijs/pixi.js">github.com/pixijs/pixi.js/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">game</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">canvas</span> <span class="jser-tag">WebGL</span></p></p>
+
+<p>pixi.js 6.0.0 릴리스.<br>
+TypeScript의 타입 개선, Deprecated 됐던 API 삭제, <code>alpha</code> 옵션의 기본값을 <code>true</code>로 변경, <code>FAIL_IF_MAJOR_PERFORMANCE_CAVEAT</code>의 기본 값을 <code>false</code>로 변경</p>
+
+<hr>
+
+<h2 id="google-developers-blog-announcing-flutter-2">Google Developers Blog: Announcing Flutter 2</h2>
+
+<p><a href="https://developers.googleblog.com/2021/03/announcing-flutter-2.html" title="Google Developers Blog: Announcing Flutter 2">developers.googleblog.com/2021/03/announcing-flutter-2.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flutter</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flutter 2 릴리스.<br>
+Web 및 데스크탑 안정적(Stable) 지원, Dart 2.12 지원.<br>
+iOS에서 Autocomplete와 ScaffoldMessenger 지원 등.</p>
+
+<ul>
+<li><a href="https://medium.com/dartlang/announcing-dart-2-12-499a6e689c87" title="Dart 2.12">Dart 2.12</a></li>
+<li><a href="https://medium.com/flutter/flutter-web-support-hits-the-stable-milestone-d6b84e83b425" title="Flutter web support hits the stable milestone | Flutter">Flutter web support hits the stable milestone | Flutter</a></li>
+<li><a href="https://medium.com/flutter/whats-new-in-flutter-2-0-fe8e95ecc65" title="What’s New in Flutter 2. by Chris Sells | Mar, 2021 | Medium | Flutter | Flutter">What’s New in Flutter 2. by Chris Sells | Mar, 2021 | Medium | Flutter | Flutter</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="mini-apps-web-dev">Mini apps - web.dev</h2>
+
+<p><a href="https://web.dev/mini-apps/" title="Mini apps - web.dev">web.dev/mini-apps/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">article</span></p></p>
+
+<p>Mini apps의 에코시스템에 대한 글</p>
+
+<hr>
+
+<h2 id="hiding-content-responsibly-kitty-giraudel">Hiding Content Responsibly | Kitty Giraudel</h2>
+
+<p><a href="https://kittygiraudel.com/2021/02/17/hiding-content-responsibly/" title="Hiding Content Responsibly | Kitty Giraudel">kittygiraudel.com/2021/02/17/hiding-content-responsibly/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">article</span></p></p>
+
+<p>컨텐츠를 숨김 처리하는 CSS와 WAI-ARIA 속성이 각각 접근성 측면에서 어떻게 동작하는지 정리.<br>
+데이터, 비주얼, 레이아웃, 시멘틱스, 컨텐츠, 키보드, 포인터, 스타일 등의 상태 등을 소개.</p>
+
+<ul>
+<li><a href="https://codepen.io/vincent-valentin/full/JjGmxzV" title="removal techniques and implications">removal techniques and implications</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="serverless-stack-serverless-stack-serverless-stack-sst-is-a-framework-that-makes-it-easy-to-build-serverless-apps">serverless-stack/serverless-stack: Serverless Stack (SST) is a framework that makes it easy to build serverless apps.</h2>
+
+<p><a href="https://github.com/serverless-stack/serverless-stack" title="serverless-stack/serverless-stack: Serverless Stack (SST) is a framework that makes it easy to build serverless apps.">github.com/serverless-stack/serverless-stack</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">serverless</span> <span class="jser-tag">aws</span></p></p>
+
+<p>AWS CDK를 사용한 serverless 관리 및 개발 도구.<br>
+Lambda 개발, 디플로이, 빌드나 Lint 설정. 각종 AWS 스택과의 연동을 포함한다.</p>
+
+<hr>
+
+<h2 id="nightlycommit-twing-first-class-twig-engine-for-node-js">NightlyCommit/twing: First-class Twig engine for Node.js</h2>
+
+<p><a href="https://github.com/NightlyCommit/twing" title="NightlyCommit/twing: First-class Twig engine for Node.js">github.com/NightlyCommit/twing</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">template</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>템플릿 엔진인 Twig의 자바스크립트 구현 라이브러리.</p>
+
+<hr>
+
+<h2 id="jakepartusch-serverlessui-a-command-line-utility-for-deploying-serverless-applications-to-aws-complete-with-custom-domains-deploy-previews-typescript-support-and-more">JakePartusch/serverlessui: A command-line utility for deploying serverless applications to AWS. Complete with custom domains, deploy previews, TypeScript support, and more.</h2>
+
+<p><a href="https://github.com/JakePartusch/serverlessui" title="JakePartusch/serverlessui: A command-line utility for deploying serverless applications to AWS. Complete with custom domains, deploy previews, TypeScript support, and more.">github.com/JakePartusch/serverlessui</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">aws</span> <span class="jser-tag">serverless</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>AWS에서 serverless 애플리케이션을 디플로이 하기 위한 도구.<br>
+CDK를 사용해 정적 사이트와 lambda 등의 디플로이을 일괄 처리.</p>
+
+<hr>
+
+<h2 id="nanojsx-nano-ssr-first-lightweight-1kb-jsx-library">nanojsx/nano: 🎯 SSR first, lightweight 1kB JSX library.</h2>
+
+<p><a href="https://github.com/nanojsx/nano" title="nanojsx/nano: 🎯 SSR first, lightweight 1kB JSX library.">github.com/nanojsx/nano</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jsx</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>JSX를 사용한 SSR first한 UI 라이브러리.<br>
+지정한 컴포넌트만을 Hydrate, Lazy Hydrate 할 수 있으며 Router나 Head 관련 컴포넌트를 내장으로 제공한다.<br>
+React 스러운 라이프 사이클 메서드와 Hooks 구조도 제공.</p>
+
+<ul>
+<li><a href="https://nanojsx.github.io/" title="Nano JSX • Lightweight 1kB JSX library">Nano JSX • Lightweight 1kB JSX library</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-03-09-gatsby-3-electron-12-.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","serverless","aws","GraphQL","jQuery"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>serverless</li>
+                
+                <li>aws</li>
+                
+                <li>GraphQL</li>
+                
+                <li>jQuery</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/03/08/gatsby-3-electron-12/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

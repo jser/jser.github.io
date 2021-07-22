@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳 - JSer.info</title>
+    <meta name="description" content="JSer.info #276 - Babelのruntimeでも利用されているcore-js 2.3.0がリリースされました。">
+    
+    <meta name="keywords" content="ECMAScript,DOM,W3C,WHATWG,Spec,Translation" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-04-26T20:25:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="DOM" property="article:tag">
+      
+      <meta content="W3C" property="article:tag">
+      
+      <meta content="WHATWG" property="article:tag">
+      
+      <meta content="Spec" property="article:tag">
+      
+      <meta content="Translation" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2016/04/26/core-js-230addeventlistener3/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #276 - Babelのruntimeでも利用されているcore-js 2.3.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2016/04/26/core-js-230addeventlistener3/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #276 - Babelのruntimeでも利用されているcore-js 2.3.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-04-26T20:25:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="DOM">
+
+<meta property="article:tag" content="W3C">
+
+<meta property="article:tag" content="WHATWG">
+
+<meta property="article:tag" content="Spec">
+
+<meta property="article:tag" content="Translation">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/04/26/core-js-230addeventlistener3/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/04/26/core-js-230addeventlistener3/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/04/26/core-js-230addeventlistener3/">2016-04-26のJS: core-js 2.3.0、addEventListenerの第3引数、ウェブ関連仕様の翻訳</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年04月26日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-04-26-core-js-230addeventlistener3.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-04-26-core-js-230addeventlistener3.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/04/26/core-js-230addeventlistener3/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/04/26/core-js-230addeventlistener3/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #276 - <a href="https://babeljs.io/docs/plugins/transform-runtime/">Babelのruntime</a>でも利用されているcore-js 2.3.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/releases/tag/v2.3.0" title="Release 2.3.0 - 2016.04.24 · zloirock/core-js">Release 2.3.0 - 2016.04.24 · zloirock/core-js</a></li>
+</ul>
+
+<p>3月にあったTC39のミーティング内容を反映した変更が多く、ProposalのStageの移動などが中心です。</p>
+
+<ul>
+<li><a href="https://github.com/rwaldron/tc39-notes/tree/master/es7/2016-03" title="tc39-notes/es7/2016-03 at master · rwaldron/tc39-notes">tc39-notes/es7/2016-03 at master · rwaldron/tc39-notes</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.webreflection.co.uk/blog/2016/04/17/new-dom4-standards" title="DOM Listener: capture, passive, and once">DOM Listener: capture, passive, and once</a>という記事では、最近WHATWG HTMLに追加された <code>node.addEventListener(type, handler, {capture: true}</code> などの第三引数である<code>EventListenerOptions</code>について解説されています。</p>
+
+<p>仕様や実装状況については以下を参照するのが良いと思います。</p>
+
+<ul>
+<li><a href="https://www.chromestatus.com/feature/5718574840676352" title="addEventListener/removeEventListener EventListenerOptions API - Chrome Platform Status">addEventListener/removeEventListener EventListenerOptions API - Chrome Platform Status</a></li>
+<li><a href="https://github.com/WICG/EventListenerOptions" title="WICG/EventListenerOptions: An extension to the DOM event pattern to allow authors to disable support for preventDefault">WICG/EventListenerOptions: An extension to the DOM event pattern to allow authors to disable support for preventDefault</a></li>
+</ul>
+
+<p>まだ、仕様も議論中ではあるようでですが、Chromeには一部実装されています。</p>
+
+<ul>
+<li><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=543685" title="Issue 543685 - chromium - Implement addEventListener(type, listener, EventListenerOptions); - Monorail">Issue 543685 - chromium - Implement addEventListener(type, listener, EventListenerOptions); - Monorail</a></li>
+</ul>
+
+<hr>
+
+<p>上記のような <code>addEventListener</code> といった既存のDOM APIに対する変更はWHATWGの方に大抵追加されています。</p>
+
+<ul>
+<li><a href="http://takenspc.hatenablog.com/entry/2015/12/03/235927" title="WHATWG版とW3C版がある仕様たち - Unreviewed">WHATWG版とW3C版がある仕様たち - Unreviewed</a></li>
+<li>今もHTMLの仕様に関して<a href="http://momdo.hatenablog.jp/entry/20160415/1460722489">ゴタゴタ</a>がありますが…</li>
+</ul>
+
+<p>そうした<a href="https://github.com/whatwg/" title="WHATWG">WHATWG</a>にあるLiving Standardな仕様を多く翻訳している<a href="http://www.hcn.zaq.ne.jp/___/WEB/">www.hcn.zaq.ne.jp/___/WEB/</a>がGitHubに移行しています。</p>
+
+<ul>
+<li><a href="https://triple-underscore.github.io/" title="ウェブ関連仕様 日本語訳">ウェブ関連仕様 日本語訳</a></li>
+</ul>
+
+<p>また、WHATWGの一部仕様では本家から翻訳へのリンクが追加されるようです。</p>
+
+<ul>
+<li><a href="https://github.com/triple-underscore/triple-underscore.github.io/issues/1" title="WHATWG translations · Issue #1 · triple-underscore/triple-underscore.github.io">WHATWG translations · Issue #1 · triple-underscore/triple-underscore.github.io</a></li>
+</ul>
+
+<p>同様のLiving Standardの仕様書の翻訳としては、<a href="https://twitter.com/momdo_" title="@momdo_">@momdo_</a>さんがやっている<a href="https://momdo.github.io/html/" title="HTML Standard 日本語訳">HTML Standard 日本語訳</a>があります。</p>
+
+<ul>
+<li><a href="https://momdo.github.io/html/" title="HTML Standard 日本語訳">HTML Standard 日本語訳</a></li>
+<li><a href="https://github.com/momdo/momdo.github.io/wiki/html" title="html · momdo/momdo.github.io Wiki">html · momdo/momdo.github.io Wiki</a></li>
+</ul>
+
+<p>WHATWG Living Standardというだけあって<a href="https://github.com/whatwg/html/commits/master">常に更新されている</a>ので、本当に最新を参照したい場合は本家を見るべきですが、まとめて読みたい場合などは翻訳も参照してみるといいかもしれません。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="new-release-2-9-2">New Release: 2.9.2</h2>
+
+<p><a href="http://jshint.com/blog/2016-04-19/release-2-9-2/" title="New Release: 2.9.2">jshint.com/blog/2016-04-19/release-2-9-2/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>JSHint 2.9.2リリース</p>
+
+<hr>
+
+<h2 id="release-v3-5-0-reactjs-redux">Release v3.5.0 · reactjs/redux</h2>
+
+<p><a href="https://github.com/reactjs/redux/releases/tag/v3.5.0" title="Release v3.5.0 · reactjs/redux">github.com/reactjs/redux/releases/tag/v3.5.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Redux 3.5.0リリース<br>
+ES.nextのStage 1 Proposalであるes obvervableに対応。<br>
+<code>Symbol.observable</code>を実装を追加</p>
+
+<hr>
+
+<h2 id="release-2-3-0-2016-04-24-zloirock-core-js">Release 2.3.0 - 2016.04.24 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v2.3.0" title="Release 2.3.0 - 2016.04.24 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v2.3.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>core-js 2.3.0リリース。<br>
+<code>global.asap</code>、<code>Symbol.asyncIterator</code>、<code>Symbol.observable</code>の追加。<br>
+<code>Map#toJSON</code>、<code>Set#toJSON</code>、<code>Error.isError</code>の削除など。TC39ミーティング内容の反映が中心</p>
+
+<ul>
+<li><a href="https://github.com/rwaldron/tc39-notes/tree/master/es7/2016-03" title="tc39-notes/es7/2016-03 at master · rwaldron/tc39-notes">tc39-notes/es7/2016-03 at master · rwaldron/tc39-notes</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-5-1">V8 JavaScript Engine: V8 Release 5.1</h2>
+
+<p><a href="http://v8project.blogspot.com/2016/04/v8-release-51.html" title="V8 JavaScript Engine: V8 Release 5.1">v8project.blogspot.com/2016/04/v8-release-51.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>V8 5.1リリース。<br>
+<code>Symbol.species</code>、<code>Symbol.hasInstance</code>、 Function nameの仕様追従、パフォーマンス/メモリ使用量の改善など</p>
+
+<hr>
+
+<h2 id="release-version-2-0-0-chartjs-chart-js">Release Version 2.0.0 · chartjs/Chart.js</h2>
+
+<p><a href="https://github.com/chartjs/Chart.js/releases/tag/v2.0.0" title="Release Version 2.0.0 · chartjs/Chart.js">github.com/chartjs/Chart.js/releases/tag/v2.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">canvas</span> <span class="jser-tag">グラフ</span> <span class="jser-tag">library</span></p>
+
+<p>Canvasを使ったグラフライブラリのChart.js 2.0.0リリース。</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="dom-listener-capture-passive-and-once">DOM Listener: capture, passive, and once</h2>
+
+<p><a href="https://www.webreflection.co.uk/blog/2016/04/17/new-dom4-standards" title="DOM Listener: capture, passive, and once">www.webreflection.co.uk/blog/2016/04/17/new-dom4-standards</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WHATWG</span> <span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span></p>
+
+<p><code>node.addEventListener(type, handler, EventListenerOptions)</code> 第三引数に追加された<code>EventListenerOptions</code>について。<br>
+<code>passive</code>と<code>capture</code>の解説</p>
+
+<hr>
+
+<h2 id="how-do-i-update-to-gulp-4-liquid-light">How do I update to Gulp 4? - Liquid Light</h2>
+
+<p><a href="https://www.liquidlight.co.uk/blog/article/how-do-i-update-to-gulp-4/" title="How do I update to Gulp 4? - Liquid Light">www.liquidlight.co.uk/blog/article/how-do-i-update-to-gulp-4/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span></p>
+
+<p>まだリリースはされてないが、gulp 4へのアップデートについて<br>
+どのようにアップデートすればいいかが書かれている</p>
+
+<hr>
+
+<h2 id="stylelint-css-tricks">Stylelint | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/stylelint/" title="Stylelint | CSS-Tricks">css-tricks.com/stylelint/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span></p>
+
+<p>CSSのLintツールであるStylelintについて。<br>
+エディタとの連携、PostCSS、stylefmtについて</p>
+
+<hr>
+
+<h2 id="emilbjorklund-svg-weirdness-a-repository-of-bugs-and-plain-weird-behavior-in-svg">emilbjorklund/svg-weirdness: A repository of bugs and plain weird behavior in SVG</h2>
+
+<p><a href="https://github.com/emilbjorklund/svg-weirdness" title="emilbjorklund/svg-weirdness: A repository of bugs and plain weird behavior in SVG">github.com/emilbjorklund/svg-weirdness</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">browser</span> <span class="jser-tag">issue</span></p>
+
+<p>SVGのバグを集めたリポジトリ</p>
+
+<hr>
+
+<h2 id="service-worker-tutorial-blog-jxck-io">中級者向け Service Worker Tutorial | blog.jxck.io</h2>
+
+<p><a href="https://blog.jxck.io/entries/2016-04-24/service-worker-tutorial.html" title="中級者向け Service Worker Tutorial | blog.jxck.io">blog.jxck.io/entries/2016-04-24/service-worker-tutorial.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">動画 </span></p>
+
+<p>ServiceWorkerを使って開発する際に出てくる問題や挙動について解説しているスクリーンキャスト</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="emberconf-2016-youtube">EmberConf 2016 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PL4eq2DPpyBblc8aQAd516-jGMdAhEeUiW" title="EmberConf 2016 - YouTube">www.youtube.com/playlist?list=PL4eq2DPpyBblc8aQAd516-jGMdAhEeUiW</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">動画 </span></p>
+
+<p>EmberConf 2016の動画まとめ</p>
+
+<ul>
+<li><a href="http://emberconf.com/" title="EmberConf 2016 - March 29 &amp;amp; 30, Portland, OR.">EmberConf 2016 - March 29 &amp; 30, Portland, OR.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="dev-opera-front-end-performance-the-dark-side">Dev.Opera — Front-End Performance: The Dark Side</h2>
+
+<p><a href="https://dev.opera.com/blog/timing-attacks/" title="Dev.Opera — Front-End Performance: The Dark Side">dev.opera.com/blog/timing-attacks/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">動画 </span></p>
+
+<p>フロントエンドのパフォーマンスについての動画</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="flexbox-patterns">Flexbox Patterns</h2>
+
+<p><a href="http://www.flexboxpatterns.com/home" title="Flexbox Patterns">www.flexboxpatterns.com/home</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span></p>
+
+<p>Flexboxのパターン集</p>
+
+<hr>
+
+<h2 id="part-c94dc817f0b84c1">ウェブ関連仕様 日本語訳</h2>
+
+<p><a href="https://triple-underscore.github.io/" title="ウェブ関連仕様 日本語訳">triple-underscore.github.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">spec</span> <span class="jser-tag">翻訳</span></p>
+
+<p>WHATWGやW3Cなどの仕様書を翻訳しているサイト</p>
+
+<hr>
+
+<h2 id="part-f0e09b7027a11cd5">はじめてのプログレッシブ ウェブアプリ</h2>
+
+<p><a href="https://codelabs.developers.google.com/codelabs/your-first-pwapp-ja/" title="はじめてのプログレッシブ ウェブアプリ">codelabs.developers.google.com/codelabs/your-first-pwapp-ja/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ProgressiveWebApp</span></p>
+
+<p>プログレッシブウェブアプリについて学ぶチュートリアル</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="evcohen-eslint-plugin-jsx-a11y-static-ast-checker-for-a11y-rules-on-jsx-elements">evcohen/eslint-plugin-jsx-a11y: Static AST checker for a11y rules on JSX elements.</h2>
+
+<p><a href="https://github.com/evcohen/eslint-plugin-jsx-a11y" title="evcohen/eslint-plugin-jsx-a11y: Static AST checker for a11y rules on JSX elements.">github.com/evcohen/eslint-plugin-jsx-a11y</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">ESLint</span></p>
+
+<p>JSX要素のアクセシビリティをチェックするESLintルール</p>
+
+<hr>
+
+<h2 id="victorbjelkholm-autochecker-test-your-javascript-modules-simultaneously-in-32-different-versions-of-nodejs">VictorBjelkholm/autochecker: Test your JavaScript modules simultaneously in 32 different versions of NodeJS</h2>
+
+<p><a href="https://github.com/VictorBjelkholm/autochecker" title="VictorBjelkholm/autochecker: Test your JavaScript modules simultaneously in 32 different versions of NodeJS">github.com/VictorBjelkholm/autochecker</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">testing</span></p>
+
+<p>Node.jsの複数のバージョンでテストするツール。 matrix test</p>
+
+<hr>
+
+<h2 id="staltz-xstream-an-extremely-intuitive-small-and-fast-functional-reactive-stream-library-for-javascript">staltz/xstream: An extremely intuitive, small, and fast functional reactive stream library for JavaScript</h2>
+
+<p><a href="https://github.com/staltz/xstream" title="staltz/xstream: An extremely intuitive, small, and fast functional reactive stream library for JavaScript">github.com/staltz/xstream</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Rx</span> <span class="jser-tag">library</span></p>
+
+<p>Hot onlyなRxJSライクなStreamライブラリ。</p>
+
+<ul>
+<li><a href="http://staltz.com/why-we-built-xstream.html" title="André Staltz - Why we built xstream">André Staltz - Why we built xstream</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jonathanewerner-webpack-validator-validates-your-webpack-config-with-joi">jonathanewerner/webpack-validator: Validates your webpack config with Joi</h2>
+
+<p><a href="https://github.com/jonathanewerner/webpack-validator" title="jonathanewerner/webpack-validator: Validates your webpack config with Joi">github.com/jonathanewerner/webpack-validator</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">Tools</span></p>
+
+<p>webpackの設定ファイルのバリデーションツール</p>
+
+<hr>
+
+<h2 id="webpack-memory-fs-a-simple-in-memory-filesystem-holds-data-in-a-javascript-object">webpack/memory-fs: A simple in-memory filesystem. Holds data in a javascript object.</h2>
+
+<p><a href="https://github.com/webpack/memory-fs" title="webpack/memory-fs: A simple in-memory filesystem. Holds data in a javascript object.">github.com/webpack/memory-fs</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p>
+
+<p>memory上で読み書きするfsモジュール</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-04-26-core-js-230addeventlistener3.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["ECMAScript","DOM","W3C","WHATWG","Spec","Translation"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>ECMAScript</li>
+                
+                <li>DOM</li>
+                
+                <li>W3C</li>
+                
+                <li>WHATWG</li>
+                
+                <li>Spec</li>
+                
+                <li>Translation</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/04/26/core-js-230addeventlistener3/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/04/26/core-js-230addeventlistener3/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-08-29のJS: Prettier 1.6.0の設定ファイルサポート、Polymer 3.0がES Modulesへ移行 - JSer.info</title>
+    <meta name="description" content="JSer.info #346 - Opinionatedな整形ツールのPrettier 1.6.0がリリースされました。">
+    
+    <meta name="keywords" content="prettier,polymer,webcomponents" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-08-29T09:52:30+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="prettier" property="article:tag">
+      
+      <meta content="polymer" property="article:tag">
+      
+      <meta content="webcomponents" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #346 - Opinionatedな整形ツールのPrettier 1.6.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-08-29のJS: Prettier 1.6.0の設定ファイルサポート、Polymer 3.0がES Modulesへ移行">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #346 - Opinionatedな整形ツールのPrettier 1.6.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-08-29T09:52:30+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="prettier">
+
+<meta property="article:tag" content="polymer">
+
+<meta property="article:tag" content="webcomponents">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">2017-08-29のJS: Prettier 1.6.0の設定ファイルサポート、Polymer 3.0がES Modulesへ移行</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年08月29日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-08-29-prettier-1.6.0-polymer-3.0es-modules.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-08-29-prettier-1.6.0-polymer-3.0es-modules.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #346 - Opinionatedな整形ツールの<a href="https://github.com/prettier/prettier" title="Prettier">Prettier</a> 1.6.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/prettier/prettier/releases/tag/1.6.0" title="Release 1.6.0: Config File, JSX · prettier/prettier">Release 1.6.0: Config File, JSX · prettier/prettier</a></li>
+</ul>
+
+<p>Prettierは今までCLIの引数でしかオプションを定義できませんでした。1.6.0から<code>.prettierrc</code>などの<a href="https://github.com/prettier/prettier#configuration-file">設定ファイル</a>でも定義できるようになりました。<br>
+また、無視ファイルを設定できる<code>--ignore-path</code>が追加されています。ESLintやgitignoreと同じ形式なので<code>prettier --ignore-path .eslintignore</code>のような<a href="https://github.com/almin/almin/pull/227#discussion_r126703748">使い方</a>もできるそうです。<br>
+あわせてCLIが複数の入力を受け付けるようになったので、<code>prettier --write &#39;{**/*,*}.{js,jsx,json}&#39; &#39;!vendor/**&#39;</code>のようなglobにより否定パターンも記述しやすくなっています。</p>
+
+<ul>
+<li><a href="https://github.com/prettier/prettier/pull/2412" title="CLI: Support .ignore files by evilebottnawi · Pull Request #2412 · prettier/prettier">CLI: Support .ignore files by evilebottnawi · Pull Request #2412 · prettier/prettier</a></li>
+</ul>
+
+<p>JSXやCSSの対応改善やTypeScript 2.5 RCのサポートなどが行われています。</p>
+
+<hr>
+
+<p>Polymer 3.0がプレビュー公開されています。</p>
+
+<ul>
+<li><a href="https://www.polymer-project.org/blog/2017-08-22-npm-modules">Polymer 3.0 preview: npm and ES6 Modules - Polymer Project</a></li>
+<li><a href="https://www.polymer-project.org/blog/2017-08-23-hands-on-30-preview.html">Hands-on with the Polymer 3.0 preview - Polymer Project</a></li>
+</ul>
+
+<p>HTML ImportsベースだったものをES Modulesへ移行し、Bowerで配布していたのをnpm(yarn)に移行するなどが大きな変更が含まれる予定です。</p>
+
+<p>詳細は次の動画でも見ることができます。</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JH6jEcLxJEI" frameborder="0" allowfullscreen></iframe>
+
+<p>HTML ImportsからES Modulesへの移行するツールとして<a href="https://github.com/Polymer/polymer-modulizer" title="polymer-modulizer">polymer-modulizer</a>を公開しています。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-38-webkit">Release Notes for Safari Technology Preview 38 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7877/release-notes-for-safari-technology-preview-38/" title="Release Notes for Safari Technology Preview 38 | WebKit">webkit.org/blog/7877/release-notes-for-safari-technology-preview-38/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 38リリース。<br>
+Beacon APIのサポート、Web Paymentsを試験的にサポート、<code>font-display</code>/<code>caret-color</code>の対応、<code>input</code>要素の<code>accept</code>属性のサポートなど</p>
+
+<hr>
+
+<h2 id="release-inferno-3-8-0-infernojs-inferno">Release Inferno 3.8.0 · infernojs/inferno</h2>
+
+<p><a href="https://github.com/infernojs/inferno/releases/tag/v3.8.0" title="Release Inferno 3.8.0 · infernojs/inferno">github.com/infernojs/inferno/releases/tag/v3.8.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Inferno 3.8.0リリース。<br>
+<code>inferno-router</code>が非同期データ取得をサポート、<code>dangerouslySetInnerHtml</code>のバグ修正など</p>
+
+<hr>
+
+<h2 id="bumped-bumped-makes-easy-release-software">bumped/bumped: Makes easy release software</h2>
+
+<p><a href="https://github.com/bumped/bumped" title="bumped/bumped: Makes easy release software">github.com/bumped/bumped</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>npm publishまわりの補助ツール。<br>
+semverに対するサブコマンドの対応、publishライフサイクルに対するパイプライン処理を書ける、プラグインでの拡張など</p>
+
+<hr>
+
+<h2 id="release-v0-4-0-sonarwhal-sonar">Release v0.4.0 · sonarwhal/sonar</h2>
+
+<p><a href="https://github.com/sonarwhal/sonar/releases/tag/0.4.0" title="Release v0.4.0 · sonarwhal/sonar">github.com/sonarwhal/sonar/releases/tag/0.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">web </span></p></p>
+
+<p>sonar v0.4.0リリース。<br>
+<code>Strict-Transport-Security</code>/<code>Set-Cookie</code>ヘッダーをチェックするルール、<code>viewport</code>の値をチェックするルールの追加など</p>
+
+<hr>
+
+<h2 id="release-1-6-0-config-file-jsx-prettier-prettier">Release 1.6.0: Config File, JSX · prettier/prettier</h2>
+
+<p><a href="https://github.com/prettier/prettier/releases/tag/1.6.0" title="Release 1.6.0: Config File, JSX · prettier/prettier">github.com/prettier/prettier/releases/tag/1.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>prettier 1.6.0リリース。<br>
+<code>.prettierrc</code>、<code>.prettierignore</code>の設定ファイルをサポート。<br>
+JSXのサポート改善、TypeScript 2.5RCのサポート、CLIの引数でignoreパターンをサポートなど</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="polymer-3-0-preview-npm-and-es6-modules-polymer-project">Polymer 3.0 preview: npm and ES6 Modules - Polymer Project</h2>
+
+<p><a href="https://www.polymer-project.org/blog/2017-08-22-npm-modules" title="Polymer 3.0 preview: npm and ES6 Modules - Polymer Project">www.polymer-project.org/blog/2017-08-22-npm-modules</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>Polymer 3.0での変更点の予定について書かれている。<br>
+Bowerは止めnpmをサポート、HTML Importsを止めES modulesへと変更する予定</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=yTASiOaXlck" title="Polymer Developer Summit 2017 - Live Stream Day 1 - YouTube">Polymer Developer Summit 2017 - Live Stream Day 1 - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h2 id="custom-elements-everywhere">Custom Elements Everywhere</h2>
+
+<p><a href="https://custom-elements-everywhere.com/" title="Custom Elements Everywhere">custom-elements-everywhere.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p></p>
+
+<p>AngularやReact、Vueなど各種Viewを含むフレームワークがCustom Elementsとどの程度協調処理できているかをまとめたテストスイート</p>
+
+<hr>
+
+<h2 id="unit-testing-with-angular-and-ineeda-default-to-open-medium">Unit testing with Angular and ineeda – Default to Open – Medium</h2>
+
+<p><a href="https://medium.com/default-to-open/unit-testing-with-angular-and-ineeda-76746a0c8f58" title="Unit testing with Angular and ineeda – Default to Open – Medium">medium.com/default-to-open/unit-testing-with-angular-and-ineeda-76746a0c8f58</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Angular</span> <span class="jser-tag">testing</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>ineedaというES Proxyを利用したモックライブラリについて。<br>
+Angularを例にネストモックやTypeScriptの型定義について書かれている。</p>
+
+<hr>
+
+<h2 id="using-react-v16-to-create-self-destructing-components">Using React v16 to create self-destructing components</h2>
+
+<p><a href="https://medium.com/@gajus/using-react-v16-to-create-self-destructing-components-de8e4eb61d0f" title="Using React v16 to create self-destructing components">medium.com/@gajus/using-react-v16-to-create-self-destructing-components-de8e4eb61d0f</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 16から利用できるself-destructing componentsについて</p>
+
+<hr>
+
+<h2 id="google-dev-tools-are-x-rays-specs-for-code-codeburst">Google Dev Tools are X-Rays Specs For Code – codeburst</h2>
+
+<p><a href="https://codeburst.io/google-dev-tools-are-x-rays-specs-for-code-db3e7e17f801" title="Google Dev Tools are X-Rays Specs For Code – codeburst">codeburst.io/google-dev-tools-are-x-rays-specs-for-code-db3e7e17f801</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chromeの開発者ツールを使ってコールスタックトレースとスコープの読み方について</p>
+
+<hr>
+
+<h2 id="reactnative-razokulover-publog">ReactNativeでの開発を通じて得た知見 - razokulover publog</h2>
+
+<p><a href="http://razokulover.hateblo.jp/entry/2017/08/28/173807" title="ReactNativeでの開発を通じて得た知見 - razokulover publog">razokulover.hateblo.jp/entry/2017/08/28/173807</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ios</span> <span class="jser-tag">Android</span></p></p>
+
+<p>ReactNativeでのアプリ開発で気をつけたことについて。<br>
+コンポーネント、ステート管理、非同期処理、ルーティング、スタイルなどについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="sf-webperf-meetup-building-for-resilience-performance-google">SF WebPerf Meetup: Building for Resilience &amp; Performance - Google スライド</h2>
+
+<p><a href="https://docs.google.com/presentation/d/11FJdFFWlFOS6QtjjU-YWQ0ltRjmxgRhQqU1CLZTxzeA/present?token=AC4w5ViQ3m5H0R1Zr_C21LlP3f9X1vsTEg%3A1503931823319&includes_info_params=1#slide=id.g1e42364cea_0_119" title="SF WebPerf Meetup: Building for Resilience &amp; Performance - Google スライド">docs.google.com/presentation/d/11FJdFFWlFOS6QtjjU-YWQ0ltRjmxgRhQqU1CLZTxzeA/present?token&#x3D;AC4w5ViQ3m5H0R1Zr_C21LlP3f9X1vsTEg%3A1503931823319&amp;includes_info_params&#x3D;1#slide&#x3D;id.g1e42364cea_0_119</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">browser</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Client HintとRUMについてのスライド。 クライアント/デバイスの状態に合わせてコンテンツを提供するためのHint APIとRUMについて。 Device MemoryやNetInfo Extension、RUMを計測する方法と低スペックなデバイスではLong Taskがロードタイム</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="new-selenium-ide-for-chrome-open-source-plus-additional-features-kantu-for-chrome">🤖 NEW: Selenium IDE for Chrome (Open-Source), plus additional features = Kantu for Chrome</h2>
+
+<p><a href="https://a9t9.com/kantu/web-automation/chrome" title="🤖 NEW: Selenium IDE for Chrome (Open-Source), plus additional features = Kantu for Chrome">a9t9.com/kantu/web-automation/chrome</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">Selenium</span> <span class="jser-tag">Extension</span></p></p>
+
+<p>操作を記録して再生できるChrome拡張。<br>
+Selecnium IDEのようなものを目指している。</p>
+
+<hr>
+
+<h2 id="tsuyoshiwada-storybook-chrome-screenshot-a-storybook-addon-save-the-screenshot-image-of-your-stories-via-puppeteer">tsuyoshiwada/storybook-chrome-screenshot: A Storybook addon, Save the screenshot image of your stories via puppeteer.</h2>
+
+<p><a href="https://github.com/tsuyoshiwada/storybook-chrome-screenshot" title="tsuyoshiwada/storybook-chrome-screenshot: A Storybook addon, Save the screenshot image of your stories via puppeteer.">github.com/tsuyoshiwada/storybook-chrome-screenshot</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">testing</span> <span class="jser-tag">スクリーンショット</span></p></p>
+
+<p>StorybookのスクリーンショットをHeadless Chromeでキャプチャするツール</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="phenomnomnominal-ineeda-ineeda-auto-mocking-for-javascript-with-proxies">phenomnomnominal/ineeda: ineeda - auto-mocking for JavaScript with Proxies!</h2>
+
+<p><a href="https://github.com/phenomnomnominal/ineeda" title="phenomnomnominal/ineeda: ineeda - auto-mocking for JavaScript with Proxies!">github.com/phenomnomnominal/ineeda</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p></p>
+
+<p>ES Proxyを使ったモックライブラリ。<br>
+処理のintercept、処理の追加、TypeScriptとの型定義。</p>
+
+<hr>
+
+<h2 id="fmsouza-wcode-monaco-based-code-editor-which-runs-inside-a-browser">fmsouza/wcode: Monaco-based code editor which runs inside a browser.</h2>
+
+<p><a href="https://github.com/fmsouza/wcode" title="fmsouza/wcode: Monaco-based code editor which runs inside a browser.">github.com/fmsouza/wcode</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">editor</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Monacoベースのエディタをブラウザで動かすツール</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="d3-in-depth">D3 in Depth</h2>
+
+<p><a href="http://d3indepth.com/" title="D3 in Depth">d3indepth.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span> <span class="jser-tag">book</span></p></p>
+
+<p>D3.jsについての電子書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-08-29-prettier-1.6.0-polymer-3.0es-modules.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["prettier","polymer","webcomponents"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>prettier</li>
+                
+                <li>polymer</li>
+                
+                <li>webcomponents</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/08/29/prettier-1.6.0-polymer-3.0es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

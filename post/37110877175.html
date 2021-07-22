@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2012-12-03のJS: enchant.js v0.6.0、Graphical Timeline、Async JavaScript - JSer.info</title>
+    <meta name="description" content="JSer.info #99 - enchant.js v0.6.0がリリースされ、デフォルトがCanvasベースの描画になったそうです。FirefoxのアドオンとしてGraphical Timelineというネットワークのイベント、DOMイベント、GC等をタイムライン表示するものが公開されています(リリースされた...">
+    
+    <meta name="keywords" content="canvas,firefox,books" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2012-12-03T22:50:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="canvas" property="article:tag">
+      
+      <meta content="firefox" property="article:tag">
+      
+      <meta content="books" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/37110877175">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #99 - enchant.js v0.6.0がリリースされ、デフォルトがCanvasベースの描画になったそうです。FirefoxのアドオンとしてGraphical Timelineというネットワークのイベント、DOMイベント、GC等をタイムライン表示するものが公開されています(リリースされた..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2012-12-03のJS: enchant.js v0.6.0、Graphical Timeline、Async JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/37110877175">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #99 - enchant.js v0.6.0がリリースされ、デフォルトがCanvasベースの描画になったそうです。FirefoxのアドオンとしてGraphical Timelineというネットワークのイベント、DOMイベント、GC等をタイムライン表示するものが公開されています(リリースされた...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2012-12-03T22:50:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="canvas">
+
+<meta property="article:tag" content="firefox">
+
+<meta property="article:tag" content="books">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/37110877175">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/37110877175">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/37110877175">2012-12-03のJS: enchant.js v0.6.0、Graphical Timeline、Async JavaScript</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2012年12月03日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-12-03-2012-12-03-js-enchant-js-v0-6-0-graphical.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2012-12-03-2012-12-03-js-enchant-js-v0-6-0-graphical.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/37110877175">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/37110877175"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #99 - enchant.js v0.6.0がリリースされ、デフォルトがCanvasベースの描画になったそうです。</p>
+<p>Firefoxのアドオンとして<a href="https://addons.mozilla.org/ja/firefox/addon/graphical-timeline/" target="_blank">Graphical Timeline</a>というネットワークのイベント、DOMイベント、GC等をタイムライン表示するものが公開されています(リリースされたのは7月で紹介するの忘れてた)<br/><a href="https://developers.google.com/chrome-developer-tools/docs/timeline" target="_blank">Chrome Developer Tools: Timeline Panel</a>と類似ジャンルのもので、デザインや仕組みや使い方については<a href="http://grssam.com/2012/08/timeline-docs/" target="_blank">Timeline Docs | An Idea ..</a>にまとまっています。</p>
+<p><a href="http://pragprog.com/book/tbajs/async-javascript" target="_blank">Async JavaScript</a>という非同期JavaScriptをメインに扱った書籍が出るようです。(まだpre段階ですが購入はできます)<br/>この書籍は以前<a href="https://leanpub.com/" target="_blank">Leanpub</a>で<a href="https://leanpub.com/asyncjs" target="_blank">Async JavaScript - Recipes for Event-Driven Code</a>という題名で自費出版として販売していたものを改定したものとなるそうです。<br/>著者の<a href="https://github.com/trevorburnham" target="_blank">Trevor Burnham</a>は同じくPragmatic Bookshelfからでてる<a href="http://pragprog.com/book/tbcoffee/coffeescript" target="_blank">CoffeeScript</a>本の著者でもあります。</p>
+<p>最近、<a href="http://domenlightenment.com/" target="_blank">DOM Enlightenment</a>やAddy Osmani氏がオライリーから出してる<a href="https://twitter.com/azu_re/status/202735302454939648" target="_blank">書籍</a>等、一度違う所で電子書籍として公開や販売してから、改めて出版されるケースが増えてきている気がします。<br/>特定のトピックが中心の書籍はこのパターンが多い気がするので、面白い流れなのかもしれないです。</p>
+<div class="connectedSortable ui-sortable ui-sortable-disabled" id="output">
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="Node v0.8.15 (Stable)">
+<p class="jser-sitelink"><strong>Node v0.8.15 (Stable)</strong><br/><a href="http://blog.nodejs.org/2012/11/26/node-v0-8-15/" title="Node v0.8.15 (Stable)" target="_blank">http://blog.nodejs.org/2012/11/26/node-v0-8-15/</a></p>
+</blockquote>
+<p>node.js 0.8.15 リリース</p>
+</div>
+<div>
+<blockquote title="wise9 : enchant.js v0.6.0 リリース! アップデートの内容紹介">
+<p class="jser-sitelink"><strong>wise9&#160;› enchant.js v0.6.0 リリース! アップデートの内容紹介</strong><br/><a href="http://wise9.jp/archives/8077" title="wise9 : enchant.js v0.6.0 リリース! アップデートの内容紹介" target="_blank">http://wise9.jp/archives/8077</a></p>
+</blockquote>
+<p>enchant.js v0.6.0リリース。<br/> Canvas ベースの描画が標準となった。<br/> WebAudioのサポート、 tl.enchant.jsの統合</p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="Advent Calendar 3日目:SVG画像を1キロバイトでも削るダイエット術！ - 聴く耳を持たない(片方しか)">
+<p class="jser-sitelink"><strong>Advent Calendar 3日目:SVG画像を1キロバイトでも削るダイエット術！ - 聴く耳を持たない(片方しか)</strong><br/><a href="http://d.hatena.ne.jp/rikuo/20121203" title="Advent Calendar 3日目:SVG画像を1キロバイトでも削るダイエット術！ - 聴く耳を持たない(片方しか)" target="_blank">http://d.hatena.ne.jp/rikuo/20121203</a></p>
+</blockquote>
+<p>SVG軽量化Tips</p>
+</div>
+<div>
+<blockquote title="jQueryの$()が多機能すぎる件について。5種類も仕事があるよ。（軽めのjQuery Advent Calendar 2012  01日目） | Ginpen.com">
+<p class="jser-sitelink"><strong>jQueryの$()が多機能すぎる件について。5種類も仕事があるよ。（軽めのjQuery Advent Calendar 2012 – 01日目） | Ginpen.com</strong><br/><a href="http://ginpen.com/2012/12/01/jquery-core-func/" title="jQueryの$()が多機能すぎる件について。5種類も仕事があるよ。（軽めのjQuery Advent Calendar 2012  01日目） | Ginpen.com" target="_blank">http://ginpen.com/2012/12/01/jquery-core-func/</a></p>
+</blockquote>
+<p>jQueryの$の5つの動作について</p>
+</div>
+<div>
+<blockquote title="jQueryの似ているAPIまとめ | js STUDIO | jQuery 日本語リファレンス">
+<p class="jser-sitelink"><strong>jQueryの似ているAPIまとめ | js STUDIO | jQuery 日本語リファレンス</strong><br/><a href="http://js.studio-kingdom.com/jquery/news/2" title="jQueryの似ているAPIまとめ | js STUDIO | jQuery 日本語リファレンス" target="_blank">http://js.studio-kingdom.com/jquery/news/2</a></p>
+</blockquote>
+<p>jQueryで似ているAPIを並べたもの</p>
+</div>
+<div>
+<blockquote title="Backbone.js FAQ 日本語訳 - ">
+<p class="jser-sitelink"><strong>Backbone.js FAQ 日本語訳 - &#8220;is a library, not a framework&#8221; ::ハブろぐ</strong><br/><a href="http://havelog.ayumusato.com/develop/javascript/e532-backbone_faq_translate.html" title="Backbone.js FAQ 日本語訳 - " target="_blank">http://havelog.ayumusato.com/develop/javascript/e532-backbone_faq_translate.html</a></p>
+</blockquote>
+<p>Bonebone.jsサイトのFAQの翻訳</p>
+</div>
+<div>
+<blockquote title="compass ベンダープリフィックス  Gist">
+<p class="jser-sitelink"><strong>compass ベンダープリフィックス — Gist</strong><br/><a href="https://gist.github.com/4146804" title="compass ベンダープリフィックス  Gist" target="_blank">https://gist.github.com/4146804</a></p>
+</blockquote>
+<p>compassのprefixを付けるmixinの仕組み解説</p>
+</div>
+<div>
+<blockquote title="0-9, CSSファイルをJSから非同期読込する方法">
+<p class="jser-sitelink"><strong>0-9, CSSファイルをJSから非同期読込する方法</strong><br/><a href="http://0-9.tumblr.com/post/36733562874/css-asynch-loading" title="0-9, CSSファイルをJSから非同期読込する方法" target="_blank">http://0-9.tumblr.com/post/36733562874/css-asynch-loading</a></p>
+</blockquote>
+<p>CSS(link element)を直接appendすると読み込みのブロックが起きるので、iframe内で読み込ませて、それを改めて追加することでブロックしないで読み込む</p>
+</div>
+<div>
+<blockquote title="大規模JSでのBackbone.js/CoffeeScript について考えてみた - mizchi log">
+<p class="jser-sitelink"><strong>大規模JSでのBackbone.js/CoffeeScript について考えてみた - mizchi log</strong><br/><a href="http://d.hatena.ne.jp/mizchi/20121127/1354023345" title="大規模JSでのBackbone.js/CoffeeScript について考えてみた - mizchi log" target="_blank">http://d.hatena.ne.jp/mizchi/20121127/1354023345</a></p>
+</blockquote>
+<p>Backboneを使ったモデルの分離について。<br/> ViewModelとイベント</p>
+</div>
+<div>
+<blockquote title="JavaScript Templating with Handlebars | Blog :: The JavaScript Playground">
+<p class="jser-sitelink"><strong>JavaScript Templating with Handlebars | Blog :: The JavaScript Playground</strong><br/><a href="http://javascriptplayground.com/blog/2012/05/javascript-templating-handlebars-tutorial" title="JavaScript Templating with Handlebars | Blog :: The JavaScript Playground" target="_blank">http://javascriptplayground.com/blog/2012/05/javascript-templating-handlebars-tutorial</a></p>
+</blockquote>
+<p>JavaScriptテンプレートライブラリのHandlebarsの使い方について</p>
+</div>
+<div>
+<blockquote title="[mixi] Source Mapについて">
+<p class="jser-sitelink"><strong>[mixi] Source Mapについて</strong><br/><a href="http://page.mixi.jp/run_page_apps.pl?page_id=287564&amp;module_id=1630003" title="[mixi] Source Mapについて" target="_blank">http://page.mixi.jp/run_page_apps.pl?page_id=287564&amp;module_id=1630003</a></p>
+</blockquote>
+<p>SourceMapについて。<br/> どのようにマッピングしているのか、また仕様を理解する方法について。</p>
+</div>
+<div class="site-genre ui-sortable"></div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="dfilatov/jspath">
+<p class="jser-sitelink"><strong>dfilatov/jspath</strong><br/><a href="https://github.com/dfilatov/jspath" title="dfilatov/jspath" target="_blank">https://github.com/dfilatov/jspath</a></p>
+</blockquote>
+<p>JSONから検索できるクエリのDSL.<br/> クエリとなるパスを書いてJSONから値を取り出す</p>
+</div>
+<div>
+<blockquote title="Graphical Timeline :: Add-ons for Firefox">
+<p class="jser-sitelink"><strong>Graphical Timeline :: Add-ons for Firefox</strong><br/><a href="https://addons.mozilla.org/ja/firefox/addon/graphical-timeline/" title="Graphical Timeline :: Add-ons for Firefox" target="_blank">https://addons.mozilla.org/ja/firefox/addon/graphical-timeline/</a></p>
+</blockquote>
+<p>Firefoxのネットワークイベント、ページで発生するDOMイベント、GC等をタイムライン的に表示するアドオン</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="RubyJS | Home">
+<p class="jser-sitelink"><strong>RubyJS | Home</strong><br/><a href="http://rubyjs.org/" title="RubyJS | Home" target="_blank">http://rubyjs.org/</a></p>
+</blockquote>
+<p>RubyのメソッドをJavaScriptにポートしたライブラリ</p>
+</div>
+<div>
+<blockquote title="faisalman/ua-parser-js">
+<p class="jser-sitelink"><strong>faisalman/ua-parser-js</strong><br/><a href="https://github.com/faisalman/ua-parser-js" title="faisalman/ua-parser-js" target="_blank">https://github.com/faisalman/ua-parser-js</a></p>
+</blockquote>
+<p>UAパースライブラリ</p>
+</div>
+<div class="site-genre ui-sortable"><strong>書籍関係</strong></div>
+<div>
+<blockquote title="HTML5 Hacks - O'Reilly Media">
+<p class="jser-sitelink"><strong>HTML5 Hacks - O&#8217;Reilly Media</strong><br/><a href="http://shop.oreilly.com/product/0636920026273.do" title="HTML5 Hacks - O'Reilly Media" target="_blank">http://shop.oreilly.com/product/0636920026273.do</a></p>
+</blockquote>
+<p>HTML5、Web API、Canvas、SVG、CSS3などについてのクックブック的な書籍</p>
+</div>
+<div>
+<blockquote title="The Pragmatic Bookshelf | Async JavaScript">
+<p class="jser-sitelink"><strong>The Pragmatic Bookshelf | Async JavaScript</strong><br/><a href="http://pragprog.com/book/tbajs/async-javascript" title="The Pragmatic Bookshelf | Async JavaScript" target="_blank">http://pragprog.com/book/tbajs/async-javascript</a></p>
+</blockquote>
+<p>非同期JavaScriptについての書籍。<br/> イベントドリブン、Promises や Deferreds、Async.js、非同期ロードやtameJS等の変換系について</p>
+</div>
+<div>
+<blockquote title="Amazon: JavaScript Step by Step (Step By Step (Microsoft)) [Paperback]: Steve Suehring">
+<p class="jser-sitelink"><strong>Amazon: JavaScript Step by Step (Step By Step (Microsoft)) [Paperback]: Steve Suehring</strong><br/><a href="http://www.amazon.com/o/ASIN/0735665931/book042-22/ref=nosim" title="Amazon: JavaScript Step by Step (Step By Step (Microsoft)) [Paperback]: Steve Suehring" target="_blank">http://www.amazon.com/o/ASIN/0735665931/book042-22/ref=nosim</a></p>
+</blockquote>
+<p>2013年9月20日発売<br/> Visual Studioを使ったJavaScript開発についての書籍</p>
+</div>
+<div>
+<blockquote title="Amazon: JavaScript Programming: Pushing the Limits [Paperback]: Jon Raasch">
+<p class="jser-sitelink"><strong>Amazon: JavaScript Programming: Pushing the Limits [Paperback]: Jon Raasch</strong><br/><a href="http://www.amazon.com/o/ASIN/111852456X/book042-22/ref=nosim" title="Amazon: JavaScript Programming: Pushing the Limits [Paperback]: Jon Raasch" target="_blank">http://www.amazon.com/o/ASIN/111852456X/book042-22/ref=nosim</a></p>
+</blockquote>
+<p>2013年11月4日発売<br/> クライアントサイド、backbone、テンプレート、MongoDB、Canvas、WebGL、デスクトプアプリなど幅広げ</p>
+</div>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-12-03-2012-12-03-js-enchant-js-v0-6-0-graphical.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["canvas","firefox","books"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>canvas</li>
+                
+                <li>firefox</li>
+                
+                <li>books</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/37110877175">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/37110877175"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

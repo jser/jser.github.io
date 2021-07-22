@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide - JSer.info</title>
+    <meta name="description" content="JSer.info #548 - Firefox 90がリリースされました。">
+    
+    <meta name="keywords" content="node.js,Next.js,npm,TypeScript,Tools" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2021-07-14T12:24:13+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #548 - Firefox 90がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #548 - Firefox 90がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-07-14T12:24:13+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+<meta property="og:see_also" content="https://jser.info/2021/06/29/es2021-storybook-6.3-styled-components/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="Tools">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/07/14/firefox-90-npm-audit-access-guide/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年07月14日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-07-14-firefox-90-npm-audit-access-guide.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2021/2021-07-14-firefox-90-npm-audit-access-guide.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #548 - Firefox 90がリリースされました。</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/90.0/releasenotes/">Firefox 90.0, See All New Features, Updates and Fixes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/90">Firefox 90 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<p>Firefox 90ではECMAScript Proposal Stage 4のPrivate class fieldsをデフォルトでサポート、Stage 3のString/Arrayの<code>at()</code>をサポートしています。FTPサポートの削除、WheelEventの互換性を改善なども含まれています。</p>
+
+<p>また、Chromeでも実装されていた<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#fetch_metadata_request_headers">Fetch metadata request headers</a>が実装されています。<br>
+<code>Sec-Fetch-Site</code>、<code>Sec-Fetch-Mode</code>、<code>Sec-Fetch-User</code>、<code>Sec-Fetch-Dest</code>のリクエストヘッダがそれぞれのリクエストに追加され、サーバ側でのチェックに利用できます。</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/">Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog</a></li>
+<li><a href="https://web.dev/fetch-metadata/">Protect your resources from web attacks with Fetch Metadata</a></li>
+</ul>
+
+<p>Fetch metadata request headersはSafariとIE以外のブラウザで実装されています。</p>
+
+<hr>
+
+<p><a href="https://overreacted.io/npm-audit-broken-by-design/">npm audit: Broken by Design — Overreacted</a>という記事では、<a href="https://github.com/facebook/create-react-app/issues/11174">create-react-app</a>を例に <code>npm audit</code> で報告される脆弱性の問題について書かれています。</p>
+
+<p>報告される脆弱性の殆どはReDOSとなっていて、<code>devDependencies</code>として扱うツールにおいてはfalse positiveに近いものとなっている点やエコシステムとして対応が難しくなっている点について書かれています。</p>
+
+<p>GitHubから公開されている GitHub’s Advisory Database のデータにおいても2021年はCWE-400であるDoSが一番多く報告されていて、ReDOSの報告が増えてることもわかります。</p>
+
+<ul>
+<li><a href="https://securitylab.github.com/research/CWE-Overview/">Our shared common weaknesses | GitHub Security Lab</a></li>
+</ul>
+
+<p>ツールが過剰する報告する問題の中に実際の問題が混ざって無視されてしまう懸念、どのような対応が考えられるか、<a href="https://github.com/npm/rfcs/pull/18">npm audit and audit-resolve.json</a>といったRFCなどについても書かれています。</p>
+
+<hr>
+
+<p><a href="https://accessguide.io/">Access Guide</a>というサイトでは、 WCAG 2.1のアクセシビリティガイドの解説が書かれています。<br>
+それぞれのトピックごとに解説や実装方法、テスト方法などについてのリソースがまとめられています。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="html2canvas-changelog-md-at-master-niklasvh-html2canvas">html2canvas/CHANGELOG.md at master · niklasvh/html2canvas</h2>
+
+<p><a href="https://github.com/niklasvh/html2canvas/blob/master/CHANGELOG.md#100-2021-07-04" title="html2canvas/CHANGELOG.md at master · niklasvh/html2canvas">github.com/niklasvh/html2canvas/blob/master/CHANGELOG.md#100-2021-07-04</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>HTMLをCanvasにしてスクリーンショットを取るhtml2canvas 1.0.0リリース</p>
+
+<hr>
+
+<h2 id="release-v8-0-0-nestjs-nest">Release v8.0.0 · nestjs/nest</h2>
+
+<p><a href="https://github.com/nestjs/nest/releases/tag/v8.0.0" title="Release v8.0.0 · nestjs/nest">github.com/nestjs/nest/releases/tag/v8.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nest.js 8.0.0リリース。<br>
+Loggerクラスの改善、API Versioningのサポートなど</p>
+
+<hr>
+
+<h2 id="release-8-9-2-mermaid-js-mermaid">Release 8.9.2 · mermaid-js/mermaid</h2>
+
+<p><a href="https://github.com/mermaid-js/mermaid/releases/tag/8.9.2" title="Release 8.9.2 · mermaid-js/mermaid">github.com/mermaid-js/mermaid/releases/tag/8.9.2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">diagram</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>mermaid 8.9.2で <code>%%{init: {&lt;JSON_OBJECT&gt;}}%%</code> の設定記法を使ったXSS脆弱性とPrototype pollutionの脆弱性が修正されている。</p>
+
+<ul>
+<li><a href="https://hackerone.com/reports/1106238" title="#1106238 Client-Side DOS via Mermaid Prototype Pollution vulnerability">#1106238 Client-Side DOS via Mermaid Prototype Pollution vulnerability</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-90-0-see-all-new-features-updates-and-fixes">Firefox 90.0, See All New Features, Updates and Fixes</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/90.0/releasenotes/" title="Firefox 90.0, See All New Features, Updates and Fixes">www.mozilla.org/en-US/firefox/90.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 90リリース。<br>
+ES Proposal Stage 4のPrivate class fieldsをデフォルトでサポート、Stage 3のString/Arrayの<code>at()</code>をサポート。<br>
+FTPサポートの削除、WheelEventの互換性を改善など</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/90" title="Firefox 90 for developers - Mozilla | MDN">Firefox 90 for developers - Mozilla | MDN</a></li>
+<li><a href="https://github.com/tc39/proposal-relative-indexing-method" title="tc39/proposal-relative-indexing-method: A TC39 proposal to add an .at() method to all the basic indexable classes (Array, String, TypedArray)">tc39/proposal-relative-indexing-method: A TC39 proposal to add an .at() method to all the basic indexable classes (Array, String, TypedArray)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-2-27-0-prisma-prisma">Release 2.27.0 · prisma/prisma</h2>
+
+<p><a href="https://github.com/prisma/prisma/releases/tag/2.27.0" title="Release 2.27.0 · prisma/prisma">github.com/prisma/prisma/releases/tag/2.27.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">MongoDB</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js向けのORMであるPrisma 2.27.0リリース。<br>
+MongoDBをプレビューサポート、M1 Macのサポート、pnpmでインストールできない問題を修正など</p>
+
+<ul>
+<li><a href="https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb-typescript-mongodb" title="Start from scratch with MongoDB (15 min) | Prisma Docs">Start from scratch with MongoDB (15 min) | Prisma Docs</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="how-does-node-js-load-its-built-in-native-modules-joyee-cheungs-blog">How does Node.js load its built-in/native modules? | Joyee Cheung&#039;s Blog</h2>
+
+<p><a href="https://joyeecheung.github.io/blog/2021/07/06/how-does-node-js-load-its-builtins-native-modules/" title="How does Node.js load its built-in/native modules? | Joyee Cheung&amp;#039;s Blog">joyeecheung.github.io/blog/2021/07/06/how-does-node-js-load-its-builtins-native-modules/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js内のJavaScriptで書かれたビルトインモジュールは、Node.jsバイナリにどのように保存されて読み込まれているかについて。<br>
+バイナリファイルの読み取り専用のデータセクションに保存されており、bootstrapでV8を使ってコンパイルやSnapshotsを扱う仕組みをもっている。</p>
+
+<hr>
+
+<h2 id="resource-inlining-in-javascript-frameworks">Resource inlining in JavaScript frameworks</h2>
+
+<p><a href="https://web.dev/aurora-resource-inlining/" title="Resource inlining in JavaScript frameworks">web.dev/aurora-resource-inlining/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">Angular</span> <span class="jser-tag">CSS</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.jsとAngularのGoogle FontsのCritical CSSのインライン化について。<br>
+FontをロードするCSSをインライン化することでCLSの最適化ができるという話</p>
+
+<hr>
+
+<h2 id="npm-audit-broken-by-design-overreacted">npm audit: Broken by Design — Overreacted</h2>
+
+<p><a href="https://overreacted.io/npm-audit-broken-by-design/" title="npm audit: Broken by Design — Overreacted">overreacted.io/npm-audit-broken-by-design/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span></p></p>
+
+<p>devDependenciesとして使うツールにおけるnpm auditの報告のほとんどがReDoSの脆弱性になってしまっている問題について。<br>
+本番で動くdependenciesのみをチェックする<code>npm audit --production</code>、公開するパッケージをインライン化する方法とその問題、エコシステムへの問題提起的な記事</p>
+
+<hr>
+
+<h2 id="typescript-and-native-esm-on-node-js">TypeScript and native ESM on Node.js</h2>
+
+<p><a href="https://2ality.com/2021/06/typescript-esm-nodejs.html" title="TypeScript and native ESM on Node.js">2ality.com/2021/06/typescript-esm-nodejs.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScriptでのESMの対応方法について。<br>
+<code>package.json</code>の<code>&quot;type&quot;: &quot;module&quot;</code>設定、<code>exports</code>フィールドと<code>typesVersions</code>フィールド、<code>import</code>するファイルの拡張子設定などについて</p>
+
+<hr>
+
+<h2 id="jquery-typescript-react-vite-ics-media">jQueryからTypeScript・Reactまで - Viteで始めるモダンで高速な開発環境構築 - ICS MEDIA</h2>
+
+<p><a href="https://ics.media/entry/210708/" title="jQueryからTypeScript・Reactまで - Viteで始めるモダンで高速な開発環境構築 - ICS MEDIA">ics.media/entry/210708/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">article</span></p></p>
+
+<p>Viteの基本的な使い方についての記事。<br>
+ライブラリ、TypeScript、画像などのアセットの利用、設定ファイル、IE11対応についてなど</p>
+
+<hr>
+
+<h2 id="firefox-90-supports-fetch-metadata-request-headers-mozilla-security-blog">Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog</h2>
+
+<p><a href="https://blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/" title="Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog">blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Firefox 90でFetch Metadata Request Headersをサポート。<br>
+<code>Sec-Fetch-Site</code>などの<code>Sec-Fetch-*</code>のリクエストヘッダをサポートしている</p>
+
+<ul>
+<li><a href="https://web.dev/fetch-metadata/" title="Protect your resources from web attacks with Fetch Metadata">Protect your resources from web attacks with Fetch Metadata</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="access-guide">Access Guide</h2>
+
+<p><a href="https://accessguide.io/" title="Access Guide">accessguide.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">document</span></p></p>
+
+<p>WCAG 2.1の解説サイト。<br>
+どのように実装するか、どのようにテストするか、実際の例について</p>
+
+<hr>
+
+<h2 id="javascript-decorators">Javascript Decorators</h2>
+
+<p><a href="https://javascriptdecorators.org/" title="Javascript Decorators">javascriptdecorators.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">Tools</span> <span class="jser-tag">debug</span></p></p>
+
+<p>ECMAScript ProposalのDecoratorsを試せるPlaygroundツール</p>
+
+<ul>
+<li><a href="https://github.com/tc39/proposal-decorators" title="tc39/proposal-decorators: Decorators for ES6 classes">tc39/proposal-decorators: Decorators for ES6 classes</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="frontlabsofficial-vue-tiny-validate-tiny-2-5kb-minified-vue-validate-composition">FrontLabsOfficial/vue-tiny-validate: 💯 Tiny (2.5KB minified) Vue Validate Composition</h2>
+
+<p><a href="https://github.com/FrontLabsOfficial/vue-tiny-validate" title="FrontLabsOfficial/vue-tiny-validate: 💯 Tiny (2.5KB minified) Vue Validate Composition">github.com/FrontLabsOfficial/vue-tiny-validate</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">library</span></p></p>
+
+<p>Vue Composition API向けのバリデーションライブラリ</p>
+
+<hr>
+
+<h2 id="lucacasonato-dext-ts-the-preact-framework-for-deno">lucacasonato/dext.ts: The Preact Framework for Deno</h2>
+
+<p><a href="https://github.com/lucacasonato/dext.ts" title="lucacasonato/dext.ts: The Preact Framework for Deno">github.com/lucacasonato/dext.ts</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">Next.js</span></p></p>
+
+<p>Deno向けのNext.jsをインスパイアしたPreactを使ったウェブフレームワーク。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="oreilly-japan-webgl-2-2">O&#039;Reilly Japan - 初めてのWebGL 2 第2版</h2>
+
+<p><a href="https://www.oreilly.co.jp/books/9784873119373/" title="O&amp;#039;Reilly Japan - 初めてのWebGL 2 第2版">www.oreilly.co.jp/books/9784873119373/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2021年07月21日発売<br>
+WebGLの入門書</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-07-14-firefox-90-npm-audit-access-guide.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","Next.js","npm","TypeScript","Tools"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>Next.js</li>
+                
+                <li>npm</li>
+                
+                <li>TypeScript</li>
+                
+                <li>Tools</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

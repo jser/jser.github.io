@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-05-03 JS: Headless Chrome/Firefox와 PhantomJS/SlimerJS, ES modules - JSer.info</title>
+    <meta name="description" content="JSer.info #329 - Chrome 59 베타(β)가 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="Firefox,Chrome,Headless,PhantomJS,SlimerJS,modules,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-05-03T11:03:59+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="Headless" property="article:tag">
+      
+      <meta content="PhantomJS" property="article:tag">
+      
+      <meta content="SlimerJS" property="article:tag">
+      
+      <meta content="modules" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #329 - Chrome 59 베타(β)가 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-05-03 JS: Headless Chrome/Firefox와 PhantomJS/SlimerJS, ES modules">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #329 - Chrome 59 베타(β)가 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-05-03T11:03:59+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="Headless">
+
+<meta property="article:tag" content="PhantomJS">
+
+<meta property="article:tag" content="SlimerJS">
+
+<meta property="article:tag" content="modules">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/">2017-05-03 JS: Headless Chrome/Firefox와 PhantomJS/SlimerJS, ES modules</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年05月03日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-05-03-headless-chromefirefoxphantomjsslimerjs-es-modules.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-05-03-headless-chromefirefoxphantomjsslimerjs-es-modules.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #329 - Chrome 59 베타(β)가 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html" title="Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload">Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload</a></li>
+</ul>
+
+<p>Service Worker의 <a href="https://developers.google.com/web/updates/2017/02/navigation-preload">navigation preloads</a>와 <code>MediaError.message</code>를 지원합니다. 또, Image Capture API를 실험적으로 지원하는 등 다양한 변경 사항이 있습니다.</p>
+
+<p>이어, <a href="https://chromium.googlesource.com/chromium/src/+/master/headless/" title="Headless Chromium">Headless Chromium</a>이 추가돼 있습니다.</p>
+
+<p>간단히 소개하자면 PhantomJS 처럼 Xvfb등이 불필요한 Chorme을 실행시킬 수 있는 모드입니다. 자세한 건 아래 문서에 설명돼 있습니다.</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" title="Getting Started with Headless Chrome  |  Web  |  Google Developers">Getting Started with Headless Chrome  |  Web  |  Google Developers</a></li>
+</ul>
+
+<p>이 Headless Chrome의 릴리즈 소식에 이어 PhantomJS의 코어테이너(유일한 액티브 테이너)가 개발 종료를 선언했습니다.</p>
+
+<ul>
+<li><a href="https://groups.google.com/forum/#!topic/phantomjs/9aI5d-LDuNE" title="[Announcement] Stepping down as maintainer - Google 그룹스">[Announcement] Stepping down as maintainer - Google 그룹스</a></li>
+<li><a href="https://groups.google.com/forum/#!topic/phantomjs/AefOuwkgBh0" title="[Release] PhantomJS 2.5.0 Beta - Google 그룹스">[Release] PhantomJS 2.5.0 Beta - Google 그룹스</a>
+
+<ul>
+<li>얼마전 공개된 알파(α) 버전(QtWebKit의 업데이트가 포함돼 있다)</li>
+</ul></li>
+</ul>
+
+<p>PhantomJS는 QtWebKit을 사용했으며 QtWebKit은 한번 프로젝트가 멈췄다 최근 다시 부활하고 있습니다.<br>
+QtWebKit의 Alternative로써 Chromium 기반의 <a href="https://wiki.qt.io/QtWebEngine" title="QtWebEngine">QtWebEngine</a>을 제공하고 있습니다.</p>
+
+<ul>
+<li><a href="https://wiki.qt.io/New_Features_in_Qt_5.6" title="New Features in Qt 5.6 - Qt Wiki">New Features in Qt 5.6 - Qt Wiki</a></li>
+<li><a href="http://qtwebkit.blogspot.jp/2016/08/qtwebkit-im-back.html" title="QtWebKit Developer Journal: QtWebKit: I&amp;#39;m back!">QtWebKit Developer Journal: QtWebKit: I&#39;m back!</a></li>
+</ul>
+
+<p>또 다른 방향으로 PhantomJS를 Headless Chrome 기반으로 변경하는 것에 대한 Issue가 있었습니다.</p>
+
+<ul>
+<li><a href="https://github.com/ariya/phantomjs/issues/14954" title="Support headless Chromium · Issue #14954 · ariya/phantomjs">Support headless Chromium · Issue #14954 · ariya/phantomjs</a></li>
+</ul>
+
+<p>현재 어느쪽을 이용하더라도 PhantomJS에는 대규모 수정이 필요하고 지원 비용이 높기 때문에 메인테이너를 종료한다는 입장입니다.</p>
+
+<p>PhantomJS와 Headless Chrome의 차이에 관해는 아래 기사에 간단히 소개돼 있습니다.<br>
+렌더링 엔진 이외에도 <a href="http://phantomjs.org/api/" title="API | PhantomJS">PhantomJS의 API</a>와 Headless Chrome을 조작할 수 있는 <a href="https://chromedevtools.github.io/devtools-protocol/" title="Chrome DevTools Protocol">Chrome DevTools Protocol</a>의 차이가 있습니다.</p>
+
+<blockquote>
+<p>Headless Chrome is similar to tools like PhantomJS. Both can be used for automated testing in a headless environment. The main difference between the two is that Phantom uses an older version of WebKit as its rendering engine while Headless Chrome uses the latest version of Blink.<br>
+-- <a href="https://developers.google.com/web/updates/2017/04/headless-chrome">https://developers.google.com/web/updates/2017/04/headless-chrome</a></p>
+</blockquote>
+
+<hr>
+
+<p><a href="https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/" title="Headless SlimerJS with Firefox – Coding">Headless SlimerJS with Firefox – Coding</a>에는 Firefox Nightly에서 Headless를 지원하기 위한 개발 관련 내용이 작성돼 있습니다.</p>
+
+<p>또, Firefox 기반의 PhantomJS라고 볼 수 있는 <a href="http://slimerjs.org/" title="SlimerJS">SlimerJS</a>를 이용해 Headless Firefox를 지원하는 방향에 관해서도 작성돼 있습니다<br>
+(<a href="http://slimerjs.org/" title="SlimerJS">SlimerJS</a>는 <a href="http://phantomjs.org/api/" title="API | PhantomJS">PhantomJS의 API</a>와 비슷한 API를 갖고 있습니다).</p>
+
+<ul>
+<li><a href="https://github.com/laurentj/slimerjs/issues/80#issuecomment-280813674" title="Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs">Turn SlimerJS into an headless browser · Issue #80 · laurentj/slimerjs</a></li>
+</ul>
+
+<p><strong>표</strong>: Headless Browser 정리</p>
+
+<script src="https://gist.github.com/azu/c4206d94f18f35f6fe2fe303f988e7d5.js"></script>
+
+<hr>
+
+<p><a href="https://jakearchibald.com/2017/es-modules-in-browsers/" title="ECMAScript modules in browsers - JakeArchibald.com">ECMAScript modules in browsers - JakeArchibald.com</a>에는 브라우저의 ES modules 지원 현황과 동작 방식에 관해 작성돼 있습니다.</p>
+
+<p>Node.js에서 다루는 모듈과 다른점이나 <code>&lt;script type=&quot;module&quot;&gt;</code>의 기본적인 동작 등에 관해 소개돼 있습니다.</p>
+
+<p>아래 글도 함께 살펴보면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://blog.hospodarets.com/native-ecmascript-modules-new-features" title="Native ECMAScript modules: the new features and differences from Webpack modules">Native ECMAScript modules: the new features and differences from Webpack modules</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="headless-slimerjs-with-firefox-coding">Headless SlimerJS with Firefox – Coding</h2>
+
+<p><a href="https://adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/" title="Headless SlimerJS with Firefox – Coding">adriftwith.me/coding/2017/04/21/headless-slimerjs-with-firefox/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">E2E</span> <span class="jser-tag">webdriver</span></p></p>
+
+<p>Firefox Nightly에서 headleass 지원이 이뤄졌으며 SlimerJS를 이용해 헤드리스 환경에서 테스트를 수행할 수 있습니다.</p>
+
+<hr>
+
+<h2 id="testcafe-v0-15-0-released-testcafe">TestCafe v0.15.0 Released | TestCafe</h2>
+
+<p><a href="http://devexpress.github.io/testcafe/blog/testcafe-v0-15-0-released.html" title="TestCafe v0.15.0 Released | TestCafe">devexpress.github.io/testcafe/blog/testcafe-v0-15-0-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">E2E</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>TestCafe 0.15.0이 릴리즈됐습니다.<br>
+<code>Selector()#withText</code>의 사양을 변경했고 React와 Vue 용 확장 Selector를 지원합니다. 또, 셋업돼 있는 Docker image도 제공합니다.<br>
+<code>--proxy</code>와 <code>--debug-mode</code>가 추가됐고 <code>Role</code>에 <code>preserveUrl</code> 옵션을 추가하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="angular-angular-4-1-0-now-available">Angular: Angular 4.1.0 Now Available</h2>
+
+<p><a href="http://angularjs.blogspot.com/2017/04/angular-410-now-available.html" title="Angular: Angular 4.1.0 Now Available">angularjs.blogspot.com/2017/04/angular-410-now-available.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Angular 4.1.0이 릴리즈됐습니다.<br>
+StrictNullChecks를 활성화한 TypeScript 2.2/2.3을 지원합니다.</p>
+
+<hr>
+
+<h2 id="release-v2-3-0-jojos-bizarre-adventure-vuejs-vue">Release v2.3.0 JoJo&#39;s Bizarre Adventure · vuejs/vue</h2>
+
+<p><a href="https://github.com/vuejs/vue/releases/tag/v2.3.0" title="Release v2.3.0 JoJo&#39;s Bizarre Adventure · vuejs/vue">github.com/vuejs/vue/releases/tag/v2.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue.js 2.3.0이 릴리즈됐습니다.<br>
+서버 사이드 렌더링과 컴포넌트 비동기 로딩 관련 사항을 개선했으며 passive event listener 지원하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="release-v0-45-0-facebook-flow">Release v0.45.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.45.0" title="Release v0.45.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.45.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flow 0.45.0이 릴리즈됐습니다.<br>
+Unicode와 Dynamic Import 지원하며 <code>export type * from ...</code>를 대응합니다.</p>
+
+<hr>
+
+<h2 id="announcing-typescript-2-3-typescript">Announcing TypeScript 2.3 | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/" title="Announcing TypeScript 2.3 | TypeScript">blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 2.3이 릴리즈됐습니다.<br>
+<code>--checkJs</code>로 <code>// @ts-check</code>라고 작성된 JavaScript의 JSDoc을 type check 할 수 있도록 변경 됐습니다.<br>
+Default type arguments 지원하며 <code>--downlevelIteration</code> 추가가 추가 됐습니다. 또, <code>tsc  --init</code>로 <code>tsconfig.json</code> 생성 시 명시적으로 코드가 생성되도록 정리됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/TypeScript/wiki/JSDoc-support-in-JavaScript" title="JSDoc support in JavaScript · Microsoft/TypeScript Wiki">JSDoc support in JavaScript · Microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-js-ember-2-13-and-2-14-beta-released">Ember.js - Ember 2.13 and 2.14 Beta Released</h2>
+
+<p><a href="https://emberjs.com/blog/2017/04/29/ember-2-13-released.html" title="Ember.js - Ember 2.13 and 2.14 Beta Released">emberjs.com/blog/2017/04/29/ember-2-13-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Ember 2.14가 릴리즈됐습니다.<br>
+Ember CLI에서 yarn을 지원하며 Babel이나 Autoprefixer에서 이용할 수 있도록 <code>targets</code>를 지정하는 <code>config/targets.js</code>가 생성되도록 변경 됐습니다.</p>
+
+<ul>
+<li><a href="http://rwjblue.com/2017/04/21/ember-cli-targets/" title="Ember CLI Targets 🎯">Ember CLI Targets 🎯</a></li>
+</ul>
+
+<hr>
+
+<h2 id="netflix-unleash-professionally-publish-your-javascript-modules-in-one-keystroke">Netflix/unleash: Professionally publish your JavaScript modules in one keystroke</h2>
+
+<p><a href="https://github.com/Netflix/unleash" title="Netflix/unleash: Professionally publish your JavaScript modules in one keystroke">github.com/Netflix/unleash</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span> <span class="jser-tag">npm</span></p></p>
+
+<p>unleash는 Netflix에서 개발하고 공개한 npm publish 버전 관리 도구 입니다.<br>
+semver 기반으로 버전을 관리하며 테스트를 함께 실행해 배포 안전 여부를 검사할 수 있습니다. 또, CHANGELOG를 자동 생성하며 publish 시의 preview도 볼 수 있습니다. 그리고 gh-pages에 문서를 배포하는 기능도 지원하는 등 npm publish 관련 처리를 정리 및 지원하는 도구입니다.</p>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-59-beta-headless-chromium-native-notifications-on-macos-and-service-worker-navigation-preload">Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload</h2>
+
+<p><a href="https://blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html" title="Chromium Blog: Chrome 59 Beta: Headless Chromium, native notifications on macOS, and service worker navigation preload">blog.chromium.org/2017/05/chrome-59-beta-headless-chromium-native.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 59 Beta가 릴리즈됐습니다.<br>
+Headless Chrome과 SW의 navigation preloads, <code>MediaError.message</code>를 지원합니다. 또, Image Capture API를 실험적으로 지원하는 등 다양한 변경 사항이 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/w3c/mediacapture-image/blob/gh-pages/implementation-status.md" title="mediacapture-image/implementation-status.md at gh-pages · w3c/mediacapture-image">mediacapture-image/implementation-status.md at gh-pages · w3c/mediacapture-image</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="introducing-a-faster-bbc-news-front-page-wildly-inaccurate">Introducing a faster BBC News front page | Wildly Inaccurate</h2>
+
+<p><a href="https://wildlyinaccurate.com/introducing-a-faster-bbc-news-front-page" title="Introducing a faster BBC News front page | Wildly Inaccurate">wildlyinaccurate.com/introducing-a-faster-bbc-news-front-page</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span></p></p>
+
+<p>BBC News의 성능 개선에 관해 작성돼 있습니다. SpeedCurve를 사용해 성능을 모니터링하고 이미지를 지연 로드 하며 React를 서버 사이드 렌더링으로만 이용하고 있다고 합니다. 또 현재 개선 1단계로 React를 브라우저에서 동작시킬 때 모바일에서 특히 무거운 문제를 어떻게 해결할 지 고민중 이라고 합니다.</p>
+
+<hr>
+
+<h2 id="internationalize-your-keyboard-controls-mozilla-hacks-the-web-developer-blog">Internationalize your keyboard controls ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2017/03/internationalize-your-keyboard-controls/" title="Internationalize your keyboard controls ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2017/03/internationalize-your-keyboard-controls/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">키보드</span> <span class="jser-tag">browser</span> <span class="jser-tag">WebPlatformAPI</span></p></p>
+
+<p>키보드 이벤트에 관해 소개돼 있습니다.<br>
+<code>keyCode</code>/<code>charCode</code>/<code>which</code>를 대신하는 <code>key</code>와 <code>code</code> 프로퍼티에 관해 이야기합니다.<br>
+또, 그 외 KeyboardEvent 관련 팁도 소개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://docs.google.com/spreadsheets/d/1YB4M5Y5BWSn-7FX7pXFNbLtDDGzQ0noUTIo-YSqyRzc/edit#gid&#x3D;0" title="KeyboardEvent.key mapping of each browser - Google 스프레드시트">KeyboardEvent.key mapping of each browser - Google 스프레드시트</a></li>
+<li><a href="https://github.com/cvan/keyboardevent-key-polyfill" title="cvan/keyboardevent-key-polyfill: polyfill for \&amp;#x60;KeyboardEvent.prototype.key\&amp;#x60;">cvan/keyboardevent-key-polyfill: polyfill for `KeyboardEvent.prototype.key`</a></li>
+<li><a href="https://w3c.github.io/uievents/#code-examples" title="UI Events">UI Events</a></li>
+</ul>
+
+<hr>
+
+<h2 id="everything-you-need-to-know-about-babeljs">Everything you need to know about BabelJS</h2>
+
+<p><a href="http://kleopetrov.me/2016/03/18/everything-about-babel/" title="Everything you need to know about BabelJS">kleopetrov.me/2016/03/18/everything-about-babel/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">article</span></p></p>
+
+<p>Babel의 설정이나 CLI의 개요가 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="functional-pattern-flatmap">Functional pattern: flatMap</h2>
+
+<p><a href="http://2ality.com/2017/04/flatmap.html" title="Functional pattern: flatMap">2ality.com/2017/04/flatmap.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p></p>
+
+<p><code>flatMap</code>이라 불리는 것은 무엇을 뜻하는 것인지 소개합니다.<br>
+또 이와 관련된 ECMAScript의 Stage 1의 Proposal도 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/bterlson/proposal-flatMap" title="bterlson/proposal-flatMap: Proposal for flatten and flatMap">bterlson/proposal-flatMap: Proposal for flatten and flatMap</a></li>
+</ul>
+
+<hr>
+
+<h2 id="getting-started-with-headless-chrome-web-google-developers">Getting Started with Headless Chrome  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" title="Getting Started with Headless Chrome  |  Web  |  Google Developers">developers.google.com/web/updates/2017/04/headless-chrome</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>Headless Chrome를 사용하는 방법에 관해 소개돼 있습니다.<br>
+커멘드라인으로 DOM을 덤프하는 방법과 PDF를 만드는 방법, 스크린샷을 찍는 방법이나 remote debugging 방법 등이 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="ecmascript-modules-in-browsers-jakearchibald-com">ECMAScript modules in browsers - JakeArchibald.com</h2>
+
+<p><a href="https://jakearchibald.com/2017/es-modules-in-browsers/" title="ECMAScript modules in browsers - JakeArchibald.com">jakearchibald.com/2017/es-modules-in-browsers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">module</span></p></p>
+
+<p>ES modules의 브라우저 지원 현황 및 Node.js의 모듈 시스템과의 차이점에 관해 작성돼 있습니다<br>
+또, 모듈을 미지원하는 환경에서 fallback으로써 <code>nomodule</code>을 선언하는 방법, 기본적으로 <code>defer</code>인 점과 실행 순서, CORS와 MIME type 등을 소개합니다.</p>
+
+<hr>
+
+<h2 id="node-js-8-0-0-has-been-delayed-and-will-ship-on-or-around-may-30th">Node.js 8.0.0 has been delayed and will ship on or around May 30th</h2>
+
+<p><a href="https://medium.com/the-node-js-collection/node-js-8-0-0-has-been-delayed-and-will-ship-on-or-around-may-30th-cd38ba96980d" title="Node.js 8.0.0 has been delayed and will ship on or around May 30th">medium.com/the-node-js-collection/node-js-8-0-0-has-been-delayed-and-will-ship-on-or-around-may-30th-cd38ba96980d</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodev</span> <span class="jser-tag">V8</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js 8.0.0의 릴리즈 날이 3월 30일로 변경된 이유에 관해 작성돼 있습니다. <br>
+V8의 TurboFan + Ignition pipeline가 기본적으로 활성화되는 릴리즈를 기다렸다 진행할 예정이라고 합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="bevacqua-prop-tc39-scraping-microservice-for-tc39-proposals">bevacqua/prop-tc39: Scraping microservice for TC39 proposals 😸</h2>
+
+<p><a href="https://github.com/bevacqua/prop-tc39" title="bevacqua/prop-tc39: Scraping microservice for TC39 proposals 😸">github.com/bevacqua/prop-tc39</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">API</span></p></p>
+
+<p>ECMAScript의 Proposals의 목록과 이를 JSON으로 취득 가능한 Web API와 패키지 API에 관해 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="performance-best-practices-for-firefox-front-end-engineers-mozilla-mdn">Performance best practices for Firefox front-end engineers - Mozilla | MDN</h2>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Performance_best_practices_for_Firefox_fe_engineers" title="Performance best practices for Firefox front-end engineers - Mozilla | MDN">developer.mozilla.org/en-US/docs/Mozilla/Firefox/Performance_best_practices_for_Firefox_fe_engineers</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">performance</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Firefox의 프론트엔드에 맞춰 작성된 성능 가이드라인입니다.<br>
+requestIdleCallback, reflow, repaint, 성능 측정 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="introduction-react-sketchapp">Introduction · react-sketchapp</h2>
+
+<p><a href="http://airbnb.io/react-sketchapp/" title="Introduction · react-sketchapp">airbnb.io/react-sketchapp/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Sketch</span> <span class="jser-tag">library</span></p></p>
+
+<p>React Component를 Sketch에 렌더링하는 renderer입니다.</p>
+
+<hr>
+
+<h2 id="create-next-app">Create Next App</h2>
+
+<p><a href="https://open.segment.com/create-next-app" title="Create Next App">open.segment.com/create-next-app</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span> <span class="jser-tag">React</span></p></p>
+
+<p>Next.js 버전의 create react app 입니다.</p>
+
+<hr>
+
+<h2 id="ktsn-houl-gulp-compatible-build-tool-for-huge-static-sites">ktsn/houl: Gulp compatible build tool for huge static sites</h2>
+
+<p><a href="https://github.com/ktsn/houl" title="ktsn/houl: Gulp compatible build tool for huge static sites">github.com/ktsn/houl</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span> <span class="jser-tag">gulp</span> <span class="jser-tag">debug</span></p></p>
+
+<p>gulp plugin를 사용할 수 있는 빌드 / dev server 도구 입니다.</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/ktsn/da-gui-mo-jing-de-saitofalsetamefalsebirudoturu" title="대규모 정적 사이드를 위한 빌드 도구 // Speaker Deck">대규모 정적 사이드를 위한 빌드 도구 // Speaker Deck</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="webrtc-route-312-booth">알다(알고 싶은) WebRTC 종이 + 전자 서적 셋트 - Route 312 - BOOTH（동인지 통신판매・다운로드）(일본어)</h2>
+
+<p><a href="https://booth.pm/ja/items/504677" title="알다(알고 싶은) WebRTC 종이 + 전자 서적 셋트 - Route 312 - BOOTH（동인지 통신판매・다운로드）(일본어)">booth.pm/ja/items/504677</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebRTC</span> <span class="jser-tag">book</span></p></p>
+
+<p>WebRTC의 입문 서적 입니다.</p>
+
+<hr>
+
+<h2 id="web-amazon">Web 프론트엔드 하이 퍼포먼스 튜닝 | 쿠보타 미츠노리 | 책 | 통신판매 | Amazon(일본어)</h2>
+
+<p><a href="https://www.amazon.co.jp/Web%E3%83%95%E3%83%AD%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%83%89-%E3%83%8F%E3%82%A4%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9-%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E4%B9%85%E4%BF%9D%E7%94%B0-%E5%85%89%E5%89%87/dp/4774189677" title="Web 프론트엔드 하이 퍼포먼트 튜닝 | 쿠보타 미츠노리 | 책 | 통신판매 | Amazon(일본어)">www.amazon.co.jp/Web%E3%83%95%E3%83%AD%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%83%89-%E3%83%8F%E3%82%A4%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9-%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E4%B9%85%E4%BF%9D%E7%94%B0-%E5%85%89%E5%89%87/dp/4774189677</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 5월 26일에 출간 예정인 웹사이트의 프론트엔드 성능에 관해 설명하는 서적입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-05-03-headless-chromefirefoxphantomjsslimerjs-es-modules.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Firefox","Chrome","Headless","PhantomJS","SlimerJS","modules","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Firefox</li>
+                
+                <li>Chrome</li>
+                
+                <li>Headless</li>
+                
+                <li>PhantomJS</li>
+                
+                <li>SlimerJS</li>
+                
+                <li>modules</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/05/03/headless-chromefirefoxphantomjsslimerjs-es-modules/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

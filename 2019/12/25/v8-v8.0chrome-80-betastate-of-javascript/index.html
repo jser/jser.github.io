@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-12-25のJS: V8 v8.0、Chrome 80 beta、State of JavaScript(アンケート) - JSer.info</title>
+    <meta name="description" content="JSer.info #467 - V8 version 8.0がリリースされました。">
+    
+    <meta name="keywords" content="V8,Chrome,JavaScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2019-12-25T09:13:25+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="V8" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #467 - V8 version 8.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-12-25のJS: V8 v8.0、Chrome 80 beta、State of JavaScript(アンケート)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #467 - V8 version 8.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-12-25T09:13:25+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="V8">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="JavaScript">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">2019-12-25のJS: V8 v8.0、Chrome 80 beta、State of JavaScript(アンケート)</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年12月25日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2019/2019-12-25-v8-v8.0chrome-80-betastate-of-javascript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2019/2019-12-25-v8-v8.0chrome-80-betastate-of-javascript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #467 - V8 version 8.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://v8.dev/blog/v8-release-80">V8 release v8.0 · V8</a></li>
+</ul>
+
+<p>メモリ消費量の改善、ビルドインの高階関数の最適化が行われています。<br>
+また、<a href="https://github.com/tc39/proposals/blob/master/finished-proposals.md">Stage 4</a>となりECMASCript 2020に入ることが決まったOptional ChainingとNullish coalescingがサポートされています。</p>
+
+<p>V8 v8.xはChrome 80.xに搭載されます。<br>
+ChromeとV8のバージョン関係は次のページで確認できます。</p>
+
+<ul>
+<li><a href="https://v8.dev/docs/version-numbers">V8’s version numbering scheme · V8</a></li>
+<li><a href="https://omahaproxy.appspot.com/">OmahaProxy - Google Chrome</a></li>
+</ul>
+
+<hr>
+
+<p>Chrome 80がベータリリースされました。</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2019/12/chrome-80-content-indexing-es-modules.html">Chromium Blog: Chrome 80, Content Indexing, ES Modules and More</a></li>
+<li><a href="https://www.chromestatus.com/features#milestone%3D80">Chrome Platform Status milestone=80</a></li>
+</ul>
+
+<p>Content IndexingとContact Picker APIのOrigin Trialがサポートされています。<br>
+Web Workerのオプションで<code>type: &#39;module&#39;</code>をサポートし、Workrerスクリプト内でES Modulesを利用できるようになっています。<br>
+その他には、Fetch APIが<code>Sec-Fetch-Dest</code> HTTPヘッダをサポート、Text URL Fragmentsのサポートなどが追加されています。</p>
+
+<p>また以前から予告されていたWeb Components v0が削除されるため、Polymer 1.x系を利用しているページなどに影響があるかもしれません。</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2019/07/web-components-time-to-upgrade?hl=en">Web Components update: more time to upgrade to v1 APIs</a></li>
+<li><a href="https://www.polymer-project.org/blog/2018-10-02-webcomponents-v0-deprecations">Web Components v0 deprecations - Polymer Project</a></li>
+</ul>
+
+<p>Chrome 80ではCookieのデフォルト値が<code>SameSite=Lax</code>となる変更も予定されています。</p>
+
+<ul>
+<li><a href="https://web.dev/samesite-cookies-explained/">SameSite cookies explained</a></li>
+</ul>
+
+<hr>
+
+<p>JavaScriptの言語やツール、ライブラリなどについてのアンケートを行ったState of JavaScriptの2019年版の結果が公開されました。</p>
+
+<ul>
+<li><a href="https://2019.stateofjs.com/">The State of JavaScript 2019</a></li>
+</ul>
+
+<p>前年度からの変化も掲載されているので、興味がある人は見てみると良いかもしれません。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="v8-release-v8-0-v8">V8 release v8.0 · V8</h2>
+
+<p><a href="https://v8.dev/blog/v8-release-80" title="V8 release v8.0 · V8">v8.dev/blog/v8-release-80</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 v8.0リリース。<br>
+メモリ消費量の改善、ビルドインの高階関数の最適化、Optional ChainingとNullish coalescingのサポートなど</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-97-webkit">Release Notes for Safari Technology Preview 97 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/9672/release-notes-for-safari-technology-preview-97/" title="Release Notes for Safari Technology Preview 97 | WebKit">webkit.org/blog/9672/release-notes-for-safari-technology-preview-97/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 97リリース。<br>
+Resize Observerを有効化、<code>Clipboard.readText</code><code>String#replaceAll</code>、Picture-in-Picture Web APIのサポートなど</p>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-80-content-indexing-es-modules-and-more">Chromium Blog: Chrome 80, Content Indexing, ES Modules and More</h2>
+
+<p><a href="https://blog.chromium.org/2019/12/chrome-80-content-indexing-es-modules.html" title="Chromium Blog: Chrome 80, Content Indexing, ES Modules and More">blog.chromium.org/2019/12/chrome-80-content-indexing-es-modules.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 80βリリース。<br>
+Content IndexingとContact Picker APIのOrigin Trialサポート、Web Worker中でES Modulesを利用できるように。<br>
+Fetch APIが<code>Sec-Fetch-Dest</code>ヘッダをサポート、Text URL Fragmentsのサポート。<br>
+Web Components v0の削除など</p>
+
+<ul>
+<li><a href="https://web.dev/content-indexing-api/" title="Indexing your offline-capable pages with the Content Indexing API">Indexing your offline-capable pages with the Content Indexing API</a></li>
+<li><a href="https://web.dev/contact-picker/" title="A contact picker for the web">A contact picker for the web</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v1-0-0-aframevr-aframe">Release v1.0.0 · aframevr/aframe</h2>
+
+<p><a href="https://github.com/aframevr/aframe/releases/tag/v1.0.0" title="Release v1.0.0 · aframevr/aframe">github.com/aframevr/aframe/releases/tag/v1.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AR</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>A-Frame 1.0.0リリース。<br>
+WebXR仕様のサポート、WebXR gamepadsモジュール、WebXR ARモジュール(experimental)のサポート、Three.jsのアップデートなど</p>
+
+<ul>
+<li><a href="https://aframe.io/blog/aframe-v1.0.0/" title="A-Frame v1.0.0 - WebXR Support, AR Mode – A-Frame">A-Frame v1.0.0 - WebXR Support, AR Mode – A-Frame</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v13-5-0-current-node-js">Node v13.5.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v13.5.0/" title="Node v13.5.0 (Current) | Node.js">nodejs.org/en/blog/release/v13.5.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag"> node</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v13.5.0リリース。<br>
+終了時にスタックトレースを出力する<code>--trace-exit</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="sinon-changelog-md-at-master-sinonjs-sinon">sinon/CHANGELOG.md at master · sinonjs/sinon</h2>
+
+<p><a href="https://github.com/sinonjs/sinon/blob/master/CHANGELOG.md#800--2019-12-22" title="sinon/CHANGELOG.md at master · sinonjs/sinon">github.com/sinonjs/sinon/blob/master/CHANGELOG.md#800--2019-12-22</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Sinon.js 8.0.0リリース。<br>
+lolexをアップグレードしasync timerメソッドに対応、<code>sinon.spyCall</code>と<code>sinon.sandbox.create</code>の削除など</p>
+
+<ul>
+<li><a href="https://github.com/sinonjs/lolex" title="sinonjs/lolex: Fake setTimeout and friends (collectively known as &amp;amp;quot;timers&amp;amp;quot;). Useful in your JavaScript tests. Extracted from Sinon.JS">sinonjs/lolex: Fake setTimeout and friends (collectively known as &quot;timers&quot;). Useful in your JavaScript tests. Extracted from Sinon.JS</a></li>
+</ul>
+
+<hr>
+
+<h2 id="eslint-v6-8-0-released-eslint-pluggable-javascript-linter">ESLint v6.8.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2019/12/eslint-v6.8.0-released" title="ESLint v6.8.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2019/12/eslint-v6.8.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint 6.8.0リリース。<br>
+<code>.eslintrc.cjs</code>のサポート、<code>--no-error-on-unmatched-pattern</code>フラグの追加など。<br>
+また誤検知が多かった<code>require-atomic-updates</code>ルールは<code>eslint:recommended</code>から削除されるなど</p>
+
+<ul>
+<li><a href="https://qiita.com/mysticatea/items/cc40251136ce167a010b" title="ESLint v6.8.0 - Qiita">ESLint v6.8.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v4-0-5-reduxjs-redux">Release v4.0.5 · reduxjs/redux</h2>
+
+<p><a href="https://github.com/reduxjs/redux/releases/tag/v4.0.5" title="Release v4.0.5 · reduxjs/redux">github.com/reduxjs/redux/releases/tag/v4.0.5</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Redux 4.0.5リリース。<br>
+メモリリークの修正、TypeScriptの型定義改善など</p>
+
+<hr>
+
+<h2 id="release-tfjs-backend-wasm-v1-5-1-alpha5-update-tfjs-backend-wasm-to-1-5-1-alpha5-2610-tensorflow-tfjs">Release tfjs-backend-wasm-v1.5.1-alpha5: Update tfjs-backend-wasm to 1.5.1-alpha5. (#2610) · tensorflow/tfjs</h2>
+
+<p><a href="https://github.com/tensorflow/tfjs/releases/tag/tfjs-backend-wasm-v1.5.1-alpha5" title="Release tfjs-backend-wasm-v1.5.1-alpha5: Update tfjs-backend-wasm to 1.5.1-alpha5. (#2610) · tensorflow/tfjs">github.com/tensorflow/tfjs/releases/tag/tfjs-backend-wasm-v1.5.1-alpha5</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TensorFlow.jsのWebAssemblyバックエンドがアルファリリース。</p>
+
+<ul>
+<li><a href="https://twitter.com/TensorFlow/status/1208153137774813187" title="TensorFlow on Twitter: &amp;amp;quot;We’re excited to release the Alpha of our WebAssembly backend for TensorFlow.js! 🎉 WASM has wider device support and better numerical stability while getting competitive with WebGL for smaller models. Share your feedback here → https://t.co/PqwNOGDRKZ https://t.co/f5NthyUcHe&amp;amp;quot; / Twitter">TensorFlow on Twitter: &quot;We’re excited to release the Alpha of our WebAssembly backend for TensorFlow.js! 🎉 WASM has wider device support and better numerical stability while getting competitive with WebGL for smaller models. Share your feedback here → https://t.co/PqwNOGDRKZ https://t.co/f5NthyUcHe&quot; / Twitter</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="an-update-on-cdnjs">An Update on CDNJS</h2>
+
+<p><a href="https://blog.cloudflare.com/an-update-on-cdnjs/" title="An Update on CDNJS">blog.cloudflare.com/an-update-on-cdnjs/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cdn</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptライブラリをCloudflareのCDN経由で配布するCDNJSについて。<br>
+CDNJSの今後について</p>
+
+<hr>
+
+<h2 id="feature-watch-ecmascript-2020">Feature watch: ECMAScript 2020</h2>
+
+<p><a href="https://2ality.com/2019/12/ecmascript-2020.html" title="Feature watch: ECMAScript 2020">2ality.com/2019/12/ecmascript-2020.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">article</span></p></p>
+
+<p>ECMAScript 2020(予定)のProposalまとめ</p>
+
+<hr>
+
+<h2 id="server-sent-events-sse-a-conceptual-deep-dive-ably-realtime">Server-Sent Events (SSE): A conceptual deep dive | Ably Realtime</h2>
+
+<p><a href="https://www.ably.io/concepts/server-sent-events" title="Server-Sent Events (SSE): A conceptual deep dive | Ably Realtime">www.ably.io/concepts/server-sent-events</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag"> node</span> <span class="jser-tag">article</span></p></p>
+
+<p>Server-Sent Events (SSE)のコンセプトと使い方について。<br>
+サポートブラウザ、ExpressでのSSEなレスポンスの返し方についてなど</p>
+
+<hr>
+
+<h2 id="typescript-react-qiita">TypeScript で書く React コンポーネントを基礎から理解する - Qiita</h2>
+
+<p><a href="https://qiita.com/sangotaro/items/3ea63110517a1b66745b" title="TypeScript で書く React コンポーネントを基礎から理解する - Qiita">qiita.com/sangotaro/items/3ea63110517a1b66745b</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>ReactのTypeScript型定義の扱い方について。<br>
+コンポーネントの型、Childrenの型、既存のHTML要素のProps拡張などについて</p>
+
+<ul>
+<li><a href="http://example.com/" title="typescript-cheatsheets/react-typescript-cheatsheet: Cheatsheets for experienced React developers getting started with TypeScript">typescript-cheatsheets/react-typescript-cheatsheet: Cheatsheets for experienced React developers getting started with TypeScript</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="the-state-of-javascript-2019">The State of JavaScript 2019</h2>
+
+<p><a href="https://2019.stateofjs.com/" title="The State of JavaScript 2019">2019.stateofjs.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">アンケート</span></p></p>
+
+<p>State of JavaScript 2019のアンケート結果が公開された</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="alpinejs-alpine-a-rugged-minimal-framework-for-composing-javascript-behavior-in-your-markup">alpinejs/alpine: A rugged, minimal framework for composing JavaScript behavior in your markup.</h2>
+
+<p><a href="https://github.com/alpinejs/alpine" title="alpinejs/alpine: A rugged, minimal framework for composing JavaScript behavior in your markup.">github.com/alpinejs/alpine</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p></p>
+
+<p>HTMLの属性にディレクティブを指定することでリアクティブな動作を実装できる小さなフレームワーク。</p>
+
+<hr>
+
+<h2 id="anephenix-sarus-a-websocket-javascript-library">anephenix/sarus: A WebSocket JavaScript library</h2>
+
+<p><a href="https://github.com/anephenix/sarus" title="anephenix/sarus: A WebSocket JavaScript library">github.com/anephenix/sarus</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebSocket</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebSocketライブラリ。<br>
+イベントハンドリング、自動再接続、メッセージのQueuing、リトライ、永続化のサポートなど</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="structure-and-interpretation-of-computer-programs-javascript-adaptation">Structure and Interpretation of Computer Programs, JavaScript Adaptation</h2>
+
+<p><a href="https://sicp.comp.nus.edu.sg/" title="Structure and Interpretation of Computer Programs, JavaScript Adaptation">sicp.comp.nus.edu.sg/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>SICPのJavaScript版</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2019/2019-12-25-v8-v8.0chrome-80-betastate-of-javascript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["V8","Chrome","JavaScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>V8</li>
+                
+                <li>Chrome</li>
+                
+                <li>JavaScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2019/12/25/v8-v8.0chrome-80-betastate-of-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

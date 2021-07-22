@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-10-16のJS: Node.js v10.12.0、Inferno v6.0.0、ブラウザのTLS 1.0と1.1終了時期 - JSer.info</title>
+    <meta name="description" content="JSer.info #405 - Node.js v10.12.0がリリースされました。">
+    
+    <meta name="keywords" content="Node.js,react,Inferno,TLS" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-10-16T09:07:04+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="react" property="article:tag">
+      
+      <meta content="Inferno" property="article:tag">
+      
+      <meta content="TLS" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #405 - Node.js v10.12.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-10-16のJS: Node.js v10.12.0、Inferno v6.0.0、ブラウザのTLS 1.0と1.1終了時期">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #405 - Node.js v10.12.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-10-16T09:07:04+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="react">
+
+<meta property="article:tag" content="Inferno">
+
+<meta property="article:tag" content="TLS">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">2018-10-16のJS: Node.js v10.12.0、Inferno v6.0.0、ブラウザのTLS 1.0と1.1終了時期</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年10月16日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-10-16-node.js-v10.12.0inferno-v6.0.0tls-1.01.1.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-10-16-node.js-v10.12.0inferno-v6.0.0tls-1.01.1.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #405 - Node.js v10.12.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v10.12.0/">Node v10.12.0 (Current) | Node.js</a></li>
+</ul>
+
+<p><code>util.inspect</code>に<code>sorted</code>オプションの追加されています。<br>
+これは<code>assert.deepStrictEqual</code>などのDiff表示を改善するために導入されました。</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/22763">assert.deepStrictEqual diff confusion · Issue #22763 · nodejs/node</a></li>
+<li><a href="https://github.com/nodejs/node/pull/22788">util: add sorted option by BridgeAR · Pull Request #22788 · nodejs/node</a></li>
+</ul>
+
+<p><code>fs.mkdir</code>に<code>recursive</code>オプションの追加、<code>nghttp2</code>のアップデートを取り込みWebSockets over HTTP/2のサポート。</p>
+
+<ul>
+<li><a href="https://github.com/nghttp2/nghttp2/releases/tag/v1.34.0">Release nghttp2 v1.34.0 · nghttp2/nghttp2</a></li>
+</ul>
+
+<p><code>module.createRequireFromPath(filename)</code>の追加、<code>URL</code>とPathの相互変換する<code>url.fileURLToPath(url)</code>と<code>url.pathToFileURL(path)</code>を<code>url</code>モジュールに追加などが行われています。</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/pull/19360" title="module: add createRequireFunction method by devsnek · Pull Request #19360 · nodejs/node">module: add createRequireFunction method by devsnek · Pull Request #19360 · nodejs/node</a></li>
+<li><a href="https://github.com/nodejs/node/issues/22502" title="Discussion: File URLs in Node.js · Issue #22502 · nodejs/node">Discussion: File URLs in Node.js · Issue #22502 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<p>ReactライクなAPIをもつUIライブラリのInferno v6.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/infernojs/inferno/releases/tag/v6.0.0">Release Inferno v6.0.0 · infernojs/inferno</a></li>
+</ul>
+
+<p>スタイルプロパティがhyphenを使った命名規則になりました。今までは<code>domStyle[style] = value</code>でスタイルを指定していたためCamelCaseの命名規則でした、しかし、CSS Custom Propertiesを設定するために<a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration/setProperty">CSSStyleDeclaration.setProperty()</a>を使うという理由で、CamelCaseからHyphen区切りに変更されています。<br>
+<code>inferno-compat</code>ではCamelCaseのまま使えるように<code>reactStyles</code>というオプションも追加されています。（デフォルトは有効です）</p>
+
+<ul>
+<li><code>backgroundColor</code> =&gt; <code>background-color</code></li>
+<li><a href="https://github.com/infernojs/inferno/issues/1375">Setting css variables by a style object - style.setProperty is needed · Issue #1375 · infernojs/inferno</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables#Values_in_JavaScript">Using CSS custom properties (variables) - CSS: Cascading Style Sheets | MDN</a></li>
+</ul>
+
+<p>またReactのライフサイクルイベントとの互換性向上するために<code>getDerivedStateFromProps</code>と<code>getSnapshotBeforeUpdate</code>が追加されています。<br>
+String refsを削除、CreateRef/ForwardRef APIの追加、Fragmentsのサポートなども行われています。</p>
+
+<p>マイグレーションガイドもあわせて公開されています。</p>
+
+<ul>
+<li><a href="https://github.com/infernojs/inferno/blob/master/docs/v6-migration.md">inferno/v6-migration.md at master · infernojs/inferno</a></li>
+</ul>
+
+<hr>
+
+<p>メジャーブラウザがTSL 1.0とTLS 1.1のサポート終了/デフォルト無効化の予定を公開しました。</p>
+
+<ul>
+<li><a href="https://security.googleblog.com/2018/10/modernizing-transport-security.html" title="Google Online Security Blog: Modernizing Transport Security">Google Online Security Blog: Modernizing Transport Security</a></li>
+<li><a href="https://blog.mozilla.org/security/2018/10/15/removing-old-versions-of-tls/" title="Removing Old Versions of TLS | Mozilla Security Blog">Removing Old Versions of TLS | Mozilla Security Blog</a></li>
+<li><a href="https://blogs.windows.com/msedgedev/2018/10/15/modernizing-tls-edge-ie11/#F58sj5zxl7oF3LxK.97" title="Modernizing TLS connections in Microsoft Edge and Internet Explorer 11 - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog">Modernizing TLS connections in Microsoft Edge and Internet Explorer 11 - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</a></li>
+<li><a href="https://webkit.org/blog/8462/deprecation-of-legacy-tls-1-0-and-1-1-versions/" title="Deprecation of Legacy TLS 1.0 and 1.1 Versions | WebKit">Deprecation of Legacy TLS 1.0 and 1.1 Versions | WebKit</a></li>
+</ul>
+
+<p>それぞれのStableバージョンで次のスケジュールでTSL 1.0とTLS 1.1のサポートを終了またはデフォルト無効化される予定となっています。</p>
+
+<ul>
+<li>IE/MSEdge: 2020年前半</li>
+<li>Firefox: 2020年3月</li>
+<li>Chrome: 2020年1月/ Enterprise 2021年1月</li>
+<li>Safari: 2020年3月</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v10-12-0-current-node-js">Node v10.12.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v10.12.0/" title="Node v10.12.0 (Current) | Node.js">nodejs.org/en/blog/release/v10.12.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 10.12.0リリース。<br>
+<code>util.inspect</code>に<code>sorted</code>オプションの追加、<code>fs.mkdir</code>に<code>recursive</code>オプションの追加、WebSockets over HTTP/2のサポート。<br>
+<code>module.createRequireFromPath(filename)</code>の追加、<code>URL</code>とPathの相互変換するメソッドを<code>url</code>モジュールに追加など</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/pull/19360" title="module: add createRequireFunction method by devsnek · Pull Request #19360 · nodejs/node">module: add createRequireFunction method by devsnek · Pull Request #19360 · nodejs/node</a></li>
+<li><a href="https://github.com/nodejs/node/issues/22502" title="Discussion: File URLs in Node.js · Issue #22502 · nodejs/node">Discussion: File URLs in Node.js · Issue #22502 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<h2 id="eslint-v5-7-0-released-eslint-pluggable-javascript-linter">ESLint v5.7.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2018/10/eslint-v5.7.0-released" title="ESLint v5.7.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2018/10/eslint-v5.7.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint v5.7.0リリース。<br>
+<code>no-tabs</code>ルールに<code>allowIndentationTabs</code>オプションの追加、<code>camelcase</code>ルールに<code>allow</code>オプションの追加など</p>
+
+<hr>
+
+<h2 id="release-v4-0-1-reduxjs-redux">Release v4.0.1 · reduxjs/redux</h2>
+
+<p><a href="https://github.com/reduxjs/redux/releases/tag/v4.0.1" title="Release v4.0.1 · reduxjs/redux">github.com/reduxjs/redux/releases/tag/v4.0.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Redux 4.0.1リリース。<br>
+<code>.mjs</code>をサポート、unpkgフィールドを追加など</p>
+
+<hr>
+
+<h2 id="release-inferno-v6-0-0-infernojs-inferno">Release Inferno v6.0.0 · infernojs/inferno</h2>
+
+<p><a href="https://github.com/infernojs/inferno/releases/tag/v6.0.0" title="Release Inferno v6.0.0 · infernojs/inferno">github.com/infernojs/inferno/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Inferno v6.0.0リリース。<br>
+<code>hydrate</code>を別パッケージに移行、スタイルプロパティがhyphenを使った命名規則に、Reactのライフサイクルイベントとの互換性向上。<br>
+String refsを削除、CreateRef/ForwardRef APIの追加、Fragmentsのサポートなど</p>
+
+<ul>
+<li><a href="https://github.com/infernojs/inferno/blob/master/docs/v6-migration.md" title="inferno/v6-migration.md at master · infernojs/inferno">inferno/v6-migration.md at master · infernojs/inferno</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-67-webkit">Release Notes for Safari Technology Preview 67 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8419/release-notes-for-safari-technology-preview-67/" title="Release Notes for Safari Technology Preview 67 | WebKit">webkit.org/blog/8419/release-notes-for-safari-technology-preview-67/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 67リリース。<br>
+Pointer Eventsを試験的にサポート、H264  Simulcastの有効化、<code>CSS.registerProperty</code>の<code>initialValue</code>プロパティのサポートなど</p>
+
+<ul>
+<li><a href="https://www.w3.org/TR/css-properties-values-api-1/#the-registerproperty-function" title="CSS.registerProperty">CSS.registerProperty</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-release-v7-0-v8">V8 release v7.0 · V8</h2>
+
+<p><a href="https://v8.dev/blog/v8-release-70" title="V8 release v7.0 · V8">v8.dev/blog/v8-release-70</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 7.0リリース。<br>
+Embedded builtinsでのメモリ消費量の削減、WebAssembly ThreadsのOrigin Trialの開始、<code>Array#sort</code>が安定ソートになるなど</p>
+
+<ul>
+<li><a href="https://v8.dev/blog/array-sort" title="Getting things sorted in V8 · V8">Getting things sorted in V8 · V8</a></li>
+</ul>
+
+<hr>
+
+<h2 id="lolex-history-md-at-master-sinonjs-lolex">lolex/History.md at master · sinonjs/lolex</h2>
+
+<p><a href="https://github.com/sinonjs/lolex/blob/master/History.md#300--2018-10-08" title="lolex/History.md at master · sinonjs/lolex">github.com/sinonjs/lolex/blob/master/History.md#300--2018-10-08</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p></p>
+
+<p>Sinon.jsでも使われるFake TimerライブラリであるLolex 3.0リリース。 <code>Clock#countTimers</code>の追加、negative tickは例外を投げるように変更など</p>
+
+<ul>
+<li><a href="https://github.com/sinonjs/sinon/blob/master/History.md#700--2018-10-14" title="sinon/History.md at master · sinonjs/sinon">sinon/History.md at master · sinonjs/sinon</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-71-web-google-developers">What&#39;s New In DevTools (Chrome 71)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2018/10/devtools" title="What&#39;s New In DevTools (Chrome 71)  |  Web  |  Google Developers">developers.google.com/web/updates/2018/10/devtools</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">chromre</span> <span class="jser-tag">debug</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 71の開発者ツールの変更点について。<br>
+DOM nodeをglobal variableとして保存できるように、HARファイルに<code>_initiator</code>と<code>_priority</code>を追加、PiPのbreakpointをサポートなど</p>
+
+<hr>
+
+<h2 id="addyosmani-com-start-performance-budgeting">AddyOsmani.com - Start Performance Budgeting</h2>
+
+<p><a href="https://addyosmani.com/blog/performance-budgets/" title="AddyOsmani.com - Start Performance Budgeting">addyosmani.com/blog/performance-budgets/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>performance budgetとはなにかについての記事。performance budgetとして使うことがある指標やその設定例。<br>
+新しい機能開発をするときにステークホルダーとの理解を共有に使うケースやトレードオフについてなど</p>
+
+<hr>
+
+<h2 id="what-s-new-in-create-react-app-2-0-video-series-elijah-manor-medium">What’s New in Create React App 2.0 Video Series – Elijah Manor – Medium</h2>
+
+<p><a href="https://medium.com/@elijahmanor/whats-new-in-create-react-app-2-0-video-series-4ffaaa7cb7df" title="What’s New in Create React App 2.0 Video Series – Elijah Manor – Medium">medium.com/@elijahmanor/whats-new-in-create-react-app-2-0-video-series-4ffaaa7cb7df</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">video</span> <span class="jser-tag">article</span></p></p>
+
+<p>Create React App 2.0についてのスクリーンキャストと解説</p>
+
+<hr>
+
+<h2 id="webpack-v3-v4-qiita">Webpack v3 → v4移行パッケージ対照表 - Qiita</h2>
+
+<p><a href="https://qiita.com/shimarin/items/17707fa575744ca0bd89" title="Webpack v3 → v4移行パッケージ対照表 - Qiita">qiita.com/shimarin/items/17707fa575744ca0bd89</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">article</span></p></p>
+
+<p>webpack3から4への移行におけるオプションやプラグインなどの対応関係や変更点について</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="sinnerschrader-tech-session-18-2018-the-year-of-web-components-speaker-deck">SinnerSchrader Tech Session &#39;18 - 2018 - The Year of Web Components - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/dkundel/sinnerschrader-tech-session-18-2018-the-year-of-web-components" title="SinnerSchrader Tech Session &#39;18 - 2018 - The Year of Web Components - Speaker Deck">speakerdeck.com/dkundel/sinnerschrader-tech-session-18-2018-the-year-of-web-components</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Web Componentsについてのスライド。<br>
+Web Componentsを構成する仕様の紹介、ツールやフレームワークについて</p>
+
+<hr>
+
+<h2 id="npm-and-the-future-of-javascript">npm and the future of JavaScript</h2>
+
+<p><a href="https://slides.com/seldo/npm-future-of-javascript#/" title="npm and the future of JavaScript">slides.com/seldo/npm-future-of-javascript#/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">slide</span></p></p>
+
+<p>npmとJavaScriptのエコシステムについてスライド。<br>
+フロントエンドフレームワークやバックエンドフレームワークのシェアの変化、何にnpmを使っているかについてなど。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="smooth-code-loadable-components-react-code-splitting-made-easy">smooth-code/loadable-components: React code splitting made easy ✂️✨</h2>
+
+<p><a href="https://github.com/smooth-code/loadable-components" title="smooth-code/loadable-components: React code splitting made easy ✂️✨">github.com/smooth-code/loadable-components</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>Dynamic ImportやCode Splitting、SSRに対応したReactコンポーネントの動的ロードを扱うライブラリ</p>
+
+<ul>
+<li><a href="https://blog.hiroppy.me/entry/loadable-components" title="loadable-components + TypeScriptでSSRとCSRに対応したdynamic importを実現する - 技術探し">loadable-components + TypeScriptでSSRとCSRに対応したdynamic importを実現する - 技術探し</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="javascript-visualizer">JavaScript Visualizer</h2>
+
+<p><a href="https://javascriptvisualizer.com/" title="JavaScript Visualizer">javascriptvisualizer.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>JavaScriptコードの実行をステップごとにインタプリタ的に実行しながら、実行コンテキストがどのように変化しているかを見られるツール。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript-amazon">入門JavaScript フロントエンドエンジニアになるための基本と実践スキル | 玉川 純 |本 | 通販 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4798153907/" title="入門JavaScript フロントエンドエンジニアになるための基本と実践スキル | 玉川 純 |本 | 通販 | Amazon">www.amazon.co.jp/dp/4798153907/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年11月28日発売。<br>
+初心者向けのJavaScriptについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-10-16-node.js-v10.12.0inferno-v6.0.0tls-1.01.1.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","react","Inferno","TLS"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>react</li>
+                
+                <li>Inferno</li>
+                
+                <li>TLS</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/10/16/node.js-v10.12.0inferno-v6.0.0tls-1.01.1/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

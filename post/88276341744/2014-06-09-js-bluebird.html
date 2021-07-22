@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-06-09のJS: Bluebird 2.0.0、ES6のリリーススケジュール、Nodeで作るコマンドラインツール - JSer.info</title>
+    <meta name="description" content="JSer.info #178 - JavaScriptのPromise実装ライブラリであるBluebirdの2.0.0がリリースされました。">
+    
+    <meta name="keywords" content="promises,ECMAScript,ES6,Node.js" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2014-06-09T23:37:42+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="promises" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="ES6" property="article:tag">
+      
+      <meta content="Node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/88276341744/2014-06-09-js-bluebird">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #178 - JavaScriptのPromise実装ライブラリであるBluebirdの2.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2014-06-09のJS: Bluebird 2.0.0、ES6のリリーススケジュール、Nodeで作るコマンドラインツール">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/88276341744/2014-06-09-js-bluebird">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #178 - JavaScriptのPromise実装ライブラリであるBluebirdの2.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2014-06-09T23:37:42+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="promises">
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="ES6">
+
+<meta property="article:tag" content="Node.js">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/88276341744/2014-06-09-js-bluebird">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/88276341744/2014-06-09-js-bluebird">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/88276341744/2014-06-09-js-bluebird">2014-06-09のJS: Bluebird 2.0.0、ES6のリリーススケジュール、Nodeで作るコマンドラインツール</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年06月09日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-06-09-2014-06-09-js-bluebird.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2014-06-09-2014-06-09-js-bluebird.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/88276341744/2014-06-09-js-bluebird">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/88276341744/2014-06-09-js-bluebird"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #178 - JavaScriptのPromise実装ライブラリである<a href="https://github.com/petkaantonov/bluebird" title="Bluebird" target="_blank">Bluebird</a>の<a href="https://github.com/petkaantonov/bluebird/blob/master/changelog.md#200-2014-06-04" title="2.0.0" target="_blank">2.0.0</a>がリリースされました。</p>
+
+<p><a href="http://azu.github.io/promises-book/#promise-library" title="Promiseのライブラリ" target="_blank">Promiseのライブラリ - JavaScript Promiseの本</a>でも紹介してますが、Bluebirdは<a href="https://github.com/kriskowal/q" title="Q" target="_blank">Q</a>(こちらも2.0開発中)と並んで有名なPromiseライブラリです。</p>
+
+<p>progressionとdeferredsがDeprecatedに、<a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promiseusingpromisedisposer-promise-promisedisposer-promise--function-handler---promise" title="Promise.using" target="_blank">Promise.using</a>や<a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#disposerfunction-disposer---disposer" title=".disposer" target="_blank">.disposer</a>の追加等色々な変更が入ってます。</p>
+
+<p>また<code>Promise.cast</code>は非推奨になり、<a href="https://github.com/petkaantonov/bluebird/blob/master/API.md#promiseresolvedynamic-value---promise" title="Promise.resolve" target="_blank">Promise.resolve</a>が同じ動作(ES6 Promisesと挙動を揃えた)するようになるなど、ECMAScriptの仕様に合わせた変更なども行っています。</p>
+
+<hr><p><a href="http://www.2ality.com/2014/06/es6-schedule.html" title="The ECMAScript 6 schedule changes" target="_blank">The ECMAScript 6 schedule changes</a> ではES6の公式リリーススケジュールの予定変更についてまとめられています。
+(ECMAScriptのエディターである<a href="https://twitter.com/awbjs" title="@awbjs" target="_blank">@awbjs</a>のTwitterが元ソース)</p>
+
+<p>現時点でES6として載せる機能はもう固定されていて(今からだしても載るのはES7とかになる感じ?)、
+細かいバグなどを除いてES6の仕様策定は2014年いっぱいで完成する形です。</p>
+
+<p>そこから実装やテスト等によるフィードバックを受けて、ECMAに提出する正式のリリースは2015年の6月となる予定とのことです。(提出作業の開始は5月予定)</p>
+
+<p><a href="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" title="ES6 timeline" target="_blank"><img width="100%" src="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" alt="ES6 Release Schedule"/></a></p>
+
+<p><a href="http://monosnap.com/image/VdNAJQPs9B0Jynw6bG3BoDxceqAEzl.png" title="ES6 timeline" target="_blank">＊画像横に長いのでクリック</a></p>
+
+<hr><p><a href="http://cruft.io/posts/node-command-line-utilities/" title="Command-line utilities with Node.js" target="_blank">Command-line utilities with Node.js</a> という記事ではNode.jsを使ったコマンドラインツールの基本について書かれています。
+引数の処理や終了コード、パイプで使えるようにするなどコマンドラインで必要な基本がまとまっています。</p>
+
+<p><a href="http://michaelbrooks.ca/deck/jsconf2013/#/" title="Building CLI Tools with Node.js" target="_blank">Building CLI Tools with Node.js</a> なども一緒に見ると面白いかもしれません。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://blog.brackets.io/2014/06/06/brackets-0-40-release-find-exclusion-sets/" title="Brackets 0.40 Release (Find Exclusion Sets) – Brackets Blog">
+<p class="jser-sitelink"><strong>Brackets 0.40 Release (Find Exclusion Sets) – Brackets Blog</strong></p><footer><cite><a href="http://blog.brackets.io/2014/06/06/brackets-0-40-release-find-exclusion-sets/" title="Brackets 0.40 Release (Find Exclusion Sets) – Brackets Blog" target="_blank">blog.brackets.io/2014/06/06/brackets-0-40-release-find-exclusion-sets/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">IDE</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Brackets 0.40リリース。</p>
+
+<p>検索するときに除外するルールを書けるように、API ドキュメントの自動生成</p>
+
+<blockquote cite="https://github.com/yyx990803/vue/releases/tag/v0.10.5" title="Release v0.10.5: Release-v0.10.5 · yyx990803/vue">
+<p class="jser-sitelink"><strong>Release v0.10.5: Release-v0.10.5 · yyx990803/vue</strong></p><footer><cite><a href="https://github.com/yyx990803/vue/releases/tag/v0.10.5" title="Release v0.10.5: Release-v0.10.5 · yyx990803/vue" target="_blank">github.com/yyx990803/vue/releases/tag/v0.10.5</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">MVC</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Vue.js v0.10.5リリース。</p>
+
+<blockquote cite="https://github.com/adobe-webplatform/Snap.svg/blob/master/history.md#030" title="Snap.svg/history.md at master · adobe-webplatform/Snap.svg">
+<p class="jser-sitelink"><strong>Snap.svg/history.md at master · adobe-webplatform/Snap.svg</strong></p><footer><cite><a href="https://github.com/adobe-webplatform/Snap.svg/blob/master/history.md#030" title="Snap.svg/history.md at master · adobe-webplatform/Snap.svg" target="_blank">github.com/adobe-webplatform/Snap.svg/blob/master/history.md#030</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>SVGライブラリのSnap.svg 0.3.0リリース。</p>
+
+<p><code>.addClass()</code>等のクラス系のAPI、<code>Paper.mask()</code>や<code>Paper.ptrn()</code>等の<code>Paper.g()</code>のショートカット的なマスク/パターン要素のメソッドの追加等</p>
+
+<blockquote cite="http://mootools.net/blog/2014/05/19/mootools-1-5-is-here/" title="MooTools - MooTools Core and More 1.5 are here!">
+<p class="jser-sitelink"><strong>MooTools - MooTools Core and More 1.5 are here!</strong></p><footer><cite><a href="http://mootools.net/blog/2014/05/19/mootools-1-5-is-here/" title="MooTools - MooTools Core and More 1.5 are here!" target="_blank">mootools.net/blog/2014/05/19/mootools-1-5-is-here/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>MooTools 1.5リリース</p>
+
+<blockquote cite="http://www.sencha.com/blog/announcing-sencha-ext-js-5/" title="Announcing Sencha Ext JS 5 | Blog | Sencha">
+<p class="jser-sitelink"><strong>Announcing Sencha Ext JS 5 | Blog | Sencha</strong></p><footer><cite><a href="http://www.sencha.com/blog/announcing-sencha-ext-js-5/" title="Announcing Sencha Ext JS 5 | Blog | Sencha" target="_blank">www.sencha.com/blog/announcing-sencha-ext-js-5/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sencha</span><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>Ext JS 5リリース。</p>
+
+<p>MVVMなデータバインドの実装、タッチサポート、Responsive Layouts等</p>
+
+<blockquote cite="https://github.com/petkaantonov/bluebird/blob/master/changelog.md#200-2014-06-04" title="bluebird/changelog.md at master · petkaantonov/bluebird">
+<p class="jser-sitelink"><strong>bluebird/changelog.md at master · petkaantonov/bluebird</strong></p><footer><cite><a href="https://github.com/petkaantonov/bluebird/blob/master/changelog.md#200-2014-06-04" title="bluebird/changelog.md at master · petkaantonov/bluebird" target="_blank">github.com/petkaantonov/bluebird/blob/master/changelog.md#200-2014-06-04</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Promiseライブラリのbluebird 2.0.0リリース。</p>
+
+<h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://www.2ality.com/2014/06/es6-schedule.html" title="The ECMAScript 6 schedule changes">
+<p class="jser-sitelink"><strong>The ECMAScript 6 schedule changes</strong></p><footer><cite><a href="http://www.2ality.com/2014/06/es6-schedule.html" title="The ECMAScript 6 schedule changes" target="_blank">www.2ality.com/2014/06/es6-schedule.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6リリースのスケジュールについて。</p>
+
+<p>バグへの対応を除いたものは2014年の終わりまでに完了し、それらの実装からくるフィードバックに対応してから、</p>
+
+<p>正式なものとしてECMAに提出するのは June 2015 に予定を変更</p>
+
+<blockquote cite="http://cruft.io/posts/node-command-line-utilities/" title="Command-line utilities with Node.js">
+<p class="jser-sitelink"><strong>Command-line utilities with Node.js</strong></p><footer><cite><a href="http://cruft.io/posts/node-command-line-utilities/" title="Command-line utilities with Node.js" target="_blank">cruft.io/posts/node-command-line-utilities/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">tutorial</span><span class="jser-tag">console</span><span class="jser-tag">Tools</span></p>
+
+<p>Node.jsで作るコマンドラインツールのチュートリアル。</p>
+
+<p>shebang、commanderでの引数の処理、 chalkを使った色、終了コード、他のCLIとパイプ実行について等</p>
+
+<ul><li><a href="https://github.com/visionmedia/commander.js/" target="_blank">visionmedia/commander.js</a></li>
+<li><a href="https://github.com/sindresorhus/chalk" target="_blank">sindresorhus/chalk</a></li>
+</ul><blockquote cite="http://blog.getify.com/promises-part-1/" title="Promises: The Sync Problem (part 1) | getiblog">
+<p class="jser-sitelink"><strong>Promises: The Sync Problem (part 1) | getiblog</strong></p><footer><cite><a href="http://blog.getify.com/promises-part-1/" title="Promises: The Sync Problem (part 1) | getiblog" target="_blank">blog.getify.com/promises-part-1/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span></p>
+
+<p>ES6 Promisesについての連載。</p>
+
+<p>Promise Polyfillがsub-classableである事とstateの保護が両立できない事について。</p>
+
+<p>ネイティブのPromise.prototypeを拡張すべきなのかどうか、Promiseをレゴのように組み立てて使う話。</p>
+
+<ul><li><a href="https://github.com/getify/native-promise-only" target="_blank">getify/native-promise-only</a></li>
+</ul><blockquote cite="http://addyosmani.com/blog/mutation-observers/" title="Detect, Undo And Redo DOM Changes With Mutation Observers">
+<p class="jser-sitelink"><strong>Detect, Undo And Redo DOM Changes With Mutation Observers</strong></p><footer><cite><a href="http://addyosmani.com/blog/mutation-observers/" title="Detect, Undo And Redo DOM Changes With Mutation Observers" target="_blank">addyosmani.com/blog/mutation-observers/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">tutorial</span></p>
+
+<p>MutationObserverの使い方、MutationObserverでキャッチ出来る変化をUndo/Redoする実装について</p>
+
+<blockquote cite="http://www.playfuljs.com/a-first-person-engine-in-265-lines/" title="A first-person engine in 265 lines">
+<p class="jser-sitelink"><strong>A first-person engine in 265 lines</strong></p><footer><cite><a href="http://www.playfuljs.com/a-first-person-engine-in-265-lines/" title="A first-person engine in 265 lines" target="_blank">www.playfuljs.com/a-first-person-engine-in-265-lines/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">game</span></p>
+
+<p>300行弱でFPS的なエンジンを作るチュートリアル。</p>
+
+<p>視点の計算やテクスチャーについて書かれてる</p>
+
+<h3 class="site-genre">スライド、動画関係、ドキュメント</h3>
+
+<blockquote cite="https://github.com/osscafe/gulp-cheatsheet" title="osscafe/gulp-cheatsheet">
+<p class="jser-sitelink"><strong>osscafe/gulp-cheatsheet</strong></p><footer><cite><a href="https://github.com/osscafe/gulp-cheatsheet" title="osscafe/gulp-cheatsheet" target="_blank">github.com/osscafe/gulp-cheatsheet</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span><span class="jser-tag">チートシート</span></p>
+
+<p>gulpfileのタスクの書き方のチートシート</p>
+
+<blockquote cite="http://www.slideshare.net/frontainer/angularjs-1angularjs-lig" title="受託開発でのAngularJS - 第1回AngularJS 勉強会 at LIG">
+<p class="jser-sitelink"><strong>受託開発でのAngularJS - 第1回AngularJS 勉強会 at LIG</strong></p><footer><cite><a href="http://www.slideshare.net/frontainer/angularjs-1angularjs-lig" title="受託開発でのAngularJS - 第1回AngularJS 勉強会 at LIG" target="_blank">www.slideshare.net/frontainer/angularjs-1angularjs-lig</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">AngularJS</span><span class="jser-tag">スライド</span><span class="jser-tag">IE</span></p>
+
+<p>AngularJSでIE7,8等もサポートする場合の対処法、AngularJSの学習コストについてのスライド</p>
+
+<blockquote cite="https://www.youtube.com/watch?v=djQh8XKRzRg" title="▶ Introducing the Polymer Designer tool - YouTube">
+<p class="jser-sitelink"><strong>▶ Introducing the Polymer Designer tool - YouTube</strong></p><footer><cite><a href="https://www.youtube.com/watch?v=djQh8XKRzRg" title="▶ Introducing the Polymer Designer tool - YouTube" target="_blank">www.youtube.com/watch?v=djQh8XKRzRg</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span><span class="jser-tag">動画</span><span class="jser-tag">design</span><span class="jser-tag">Tools</span></p>
+
+<p>WebComponentsを使ったGUIでUIを追加出来るデザインツールについての紹介動画</p>
+
+<ul><li><a href="https://github.com/Polymer/designer" target="_blank">Polymer/designer</a></li>
+</ul><blockquote cite="https://github.com/domenic/count-to-6" title="domenic/count-to-6">
+<p class="jser-sitelink"><strong>domenic/count-to-6</strong></p><footer><cite><a href="https://github.com/domenic/count-to-6" title="domenic/count-to-6" target="_blank">github.com/domenic/count-to-6</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span><span class="jser-tag">tutorial</span><span class="jser-tag">console</span></p>
+
+<p>ES6の機能や構文について課題を回答していく形で学べるコンソールアプリ</p>
+
+<blockquote cite="http://tcorral.github.io/javascript-challenges-book/" title="Intro | Javascript Challenges">
+<p class="jser-sitelink"><strong>Intro | Javascript Challenges</strong></p><footer><cite><a href="http://tcorral.github.io/javascript-challenges-book/" title="Intro | Javascript Challenges" target="_blank">tcorral.github.io/javascript-challenges-book/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">book</span></p>
+
+<p>git-bookで書かれたドリル形式のJavaScriptの機能や動作について学習出来るサイト</p>
+
+<blockquote cite="https://developers.google.com/web/fundamentals/" title="Web Fundamentals — Web Fundamentals">
+<p class="jser-sitelink"><strong>Web Fundamentals — Web Fundamentals</strong></p><footer><cite><a href="https://developers.google.com/web/fundamentals/" title="Web Fundamentals — Web Fundamentals" target="_blank">developers.google.com/web/fundamentals/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span><span class="jser-tag">tutorial</span><span class="jser-tag">design</span><span class="jser-tag">mobile</span><span class="jser-tag">JavaScript</span></p>
+
+<p>Googleによるマルチデバイス対応のウェブ開発についてのドキュメント。</p>
+
+<p>Responsiveなデザイン、フォーム、Touchやジェスチャー、画像や音楽/動画、パフォーマンスの最適化等について書かれてる</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="http://jsnice.org/" title="JS NICE: Statistical renaming, Type inference and Deobfuscation">
+<p class="jser-sitelink"><strong>JS NICE: Statistical renaming, Type inference and Deobfuscation</strong></p><footer><cite><a href="http://jsnice.org/" title="JS NICE: Statistical renaming, Type inference and Deobfuscation" target="_blank">jsnice.org/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Tools</span></p>
+
+<p>JavaScriptコードの整形とJSDocの型注釈コメントの自動追加、変数のリネームとその名前のサジェストをしてくれるツール。</p>
+
+<p>Githubのプロジェクトをクロールして学習した結果が使われてる。</p>
+
+<p>エディタの部分はCodeMirrorを利用</p>
+
+<ul><li><a href="http://www.srl.inf.ethz.ch/jsnice.php" target="_blank">Software Reliability Lab | ETH | Jsnice</a></li>
+</ul><blockquote cite="http://blog.playcanvas.com/playcanvas-goes-open-source/" title="PlayCanvas goes open source | PlayCanvas">
+<p class="jser-sitelink"><strong>PlayCanvas goes open source | PlayCanvas</strong></p><footer><cite><a href="http://blog.playcanvas.com/playcanvas-goes-open-source/" title="PlayCanvas goes open source | PlayCanvas" target="_blank">blog.playcanvas.com/playcanvas-goes-open-source/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span><span class="jser-tag">library</span></p>
+
+<p>WebGLを使ったゲームエンジンのPlayCanvasがオープンソースになった。</p>
+
+<ul><li><a href="http://sourceforge.jp/magazine/14/06/05/160000" target="_blank">Mozilla、クロスプラットフォームのWebGLゲームエンジン「PlayCanvas Engine」公開 | SourceForge.JP Magazine</a></li>
+</ul><blockquote cite="http://ng-inspector.org/" title="ng-inspector for AngularJS">
+<p class="jser-sitelink"><strong>ng-inspector for AngularJS</strong></p><footer><cite><a href="http://ng-inspector.org/" title="ng-inspector for AngularJS" target="_blank">ng-inspector.org/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span><span class="jser-tag">debug</span></p>
+
+<p>AngularJSのアプリをデバッグするためのChrome/Safari拡張。</p>
+
+<p>Scopeやディレクティブ、モデル等のインスペクトできる</p>
+
+<blockquote cite="https://github.com/reworkcss/css" title="reworkcss/css">
+<p class="jser-sitelink"><strong>reworkcss/css</strong></p><footer><cite><a href="https://github.com/reworkcss/css" title="reworkcss/css" target="_blank">github.com/reworkcss/css</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span><span class="jser-tag">library</span><span class="jser-tag">node.js</span></p>
+
+<p>CSSパーサー/ジェネレーターライブラリ。CSSプリプロセッサのreworkで使われている。</p>
+
+<p>CSSをパースした結果をASTとして取得でき、ASTからCSSを生成時にSourcemapも生成出来る。</p>
+
+<ul><li><a href="https://github.com/reworkcss/rework" target="_blank">reworkcss/rework</a></li>
+</ul><blockquote cite="https://github.com/andrewbredow/Library-Detector-for-Chrome" title="andrewbredow/Library-Detector-for-Chrome">
+<p class="jser-sitelink"><strong>andrewbredow/Library-Detector-for-Chrome</strong></p><footer><cite><a href="https://github.com/andrewbredow/Library-Detector-for-Chrome" title="andrewbredow/Library-Detector-for-Chrome" target="_blank">github.com/andrewbredow/Library-Detector-for-Chrome</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Chrome</span><span class="jser-tag">Extension</span><span class="jser-tag">library</span></p>
+
+<p>サイトで使ってるJavaScriptライブラリを判定するChrome拡張</p>
+
+<h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://www.oreilly.co.jp/books/9784873116815/" title="O'Reilly Japan - オブジェクト指向JavaScriptの原則">
+<p class="jser-sitelink"><strong>O&#8217;Reilly Japan - オブジェクト指向JavaScriptの原則</strong></p><footer><cite><a href="http://www.oreilly.co.jp/books/9784873116815/" title="O'Reilly Japan - オブジェクト指向JavaScriptの原則" target="_blank">www.oreilly.co.jp/books/9784873116815/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">翻訳</span><span class="jser-tag">book</span></p>
+
+<p>2014年06月18日 発売</p>
+
+<p>The Principles of Object-Oriented JavaScript の翻訳本</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-06-09-2014-06-09-js-bluebird.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["promises","ECMAScript","ES6","Node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>promises</li>
+                
+                <li>ECMAScript</li>
+                
+                <li>ES6</li>
+                
+                <li>Node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/88276341744/2014-06-09-js-bluebird">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/88276341744/2014-06-09-js-bluebird"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

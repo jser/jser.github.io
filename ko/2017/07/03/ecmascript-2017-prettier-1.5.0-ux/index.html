@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-07-03 JS: ECMAScript 2017, Prettier 1.5.0, UX의 성능 측정 지표 - JSer.info</title>
+    <meta name="description" content="JSer.info #338 - ECMAScript 2017가 정식 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="ECMAScript,Prettier,performance,browser" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-07-03T14:14:08+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="Prettier" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #338 - ECMAScript 2017가 정식 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-07-03 JS: ECMAScript 2017, Prettier 1.5.0, UX의 성능 측정 지표">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #338 - ECMAScript 2017가 정식 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-07-03T14:14:08+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="Prettier">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="browser">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/">2017-07-03 JS: ECMAScript 2017, Prettier 1.5.0, UX의 성능 측정 지표</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年07月03日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-07-03-ecmascript-2017-prettier-1.5.0-ux.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-07-03-ecmascript-2017-prettier-1.5.0-ux.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #338 - ECMAScript 2017가 정식 릴리즈됐습니다.</p>
+
+<blockquote>
+<p>ECMA-262 8th edition - ECMAScript® 2017 Language Specification<br>
+-- <a href="http://ecma-international.org/news/index.html" title="Ecma latest news">Ecma latest news</a></p>
+</blockquote>
+
+<ul>
+<li><a href="http://ecma-international.org/publications/standards/Ecma-262.htm" title="Standard ECMA-262">Standard ECMA-262</a></li>
+</ul>
+
+<p>ES2017에는 async/await, shared memory and atomic, <code>Object.entires</code> / <code>Object.values</code>, <code>String#padStart</code> / <code>String#padEnd</code>, <code>Object.getOwnPropertyDescriptors()</code>이나 함수 인자나 매개변수 끝에 콤마(Trailing commas) 허용 등이 추가됐습니다.</p>
+
+<p>상세한 내용은 아래 웹사이트를 참고하시길 바랍니다.</p>
+
+<ul>
+<li><a href="http://exploringjs.com/es2016-es2017/pt_es2017.html" title="III ECMAScript 2017">III ECMAScript 2017</a></li>
+</ul>
+
+<p>책정 중인 향후 버전(ES2018~)에 대한Proposal은 아래 문서에 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/tc39/proposals" title="tc39/proposals: Tracking ECMAScript Proposals">tc39/proposals: Tracking ECMAScript Proposals</a></li>
+<li><a href="https://github.com/babel/proposals" title="babel/proposals: (WIP) Tracking the status of Babel&#39;s implementation of TC39 proposals">babel/proposals: (WIP) Tracking the status of Babel&#39;s implementation of TC39 proposals</a>
+
+<ul>
+<li>Babel의 대응 여부</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<p>코드 포맷팅 도구인 Prettier 1.5.0이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/prettier/prettier/releases/tag/1.5.0" title="Release 1.5.0: GraphQL, CSS-in-JS &amp;amp; JSON · prettier/prettier">Release 1.5.0: GraphQL, CSS-in-JS &amp; JSON · prettier/prettier</a></li>
+</ul>
+
+<p>GraphQL, CSS in JS, JSON을 대응하고 CSS나 TypeScript, JSX 관련 버그가 수정됐습니다.</p>
+
+<hr>
+
+<p><a href="https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics">Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers</a>에는  사용자 경험에 영향을 주는 성능 측정 항목에 관해 작성돼 있습니다.</p>
+
+<p>단순히 <code>DOMContentLoaded</code>나 <code>load</code> 시간만으론 사용자 경험을 측정할 수 없는 문제가 있습니다.<br>
+때문에 First Paint / First Meaningful Paing / Time to Interactive(TTI) / Longtasks 등의 측정 항목과 그 의미에 대해 소개합니다.</p>
+
+<p>이 글과 관련한 Google I/O 발표 영상이 있으니 함께 보시길 바랍니다.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6Ljq-Jn-EgU?ecver=1" frameborder="0" allowfullscreen></iframe>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-1-5-0-graphql-css-in-js-json-prettier-prettier">Release 1.5.0: GraphQL, CSS-in-JS &amp; JSON · prettier/prettier</h2>
+
+<p><a href="https://github.com/prettier/prettier/releases/tag/1.5.0" title="Release 1.5.0: GraphQL, CSS-in-JS &amp; JSON · prettier/prettier">github.com/prettier/prettier/releases/tag/1.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>prettier 1.5.0이 릴리즈됐습니다.<br>
+GraphQL, CSS in JS, JSON을 대응하고 CSS나 TypeScript, JSX 관련 버그가 수정됐습니다.</p>
+
+<ul>
+<li><a href="https://medium.com/geckoboard-under-the-hood/adding-a-new-layout-strategy-to-prettier-8d33084c0f99" title="Adding a new layout strategy to Prettier – Geckoboard: Under-the-Hood – Medium">Adding a new layout strategy to Prettier – Geckoboard: Under-the-Hood – Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v7-0-0-beta-16-babel-babylon">Release v7.0.0-beta.16 · babel/babylon</h2>
+
+<p><a href="https://github.com/babel/babylon/releases/tag/v7.0.0-beta.16" title="Release v7.0.0-beta.16 · babel/babylon">github.com/babel/babylon/releases/tag/v7.0.0-beta.16</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">AST</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Babylon 7.0.0 beta16이 릴리즈됐습니다.<br>
+TypeScript 파서가 추가됐고 BigInt(Stage 2)을 지원합니다.</p>
+
+<ul>
+<li><a href="https://github.com/babel/babylon/pull/523" title="TypeScript parser by andy-ms · Pull Request #523 · babel/babylon">TypeScript parser by andy-ms · Pull Request #523 · babel/babylon</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ecma-latest-news">Ecma latest news</h2>
+
+<p><a href="http://ecma-international.org/news/index.html" title="Ecma latest news">ecma-international.org/news/index.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">news</span></p></p>
+
+<p>&quot;ECMA-262 8th edition - ECMAScript® 2017 Language Specification&quot; ES2017가 GA에서 승이되어 정식으로 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="http://ecma-international.org/publications/standards/Ecma-262.htm" title="Standard ECMA-262">Standard ECMA-262</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-34-webkit">Release Notes for Safari Technology Preview 34 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7760/release-notes-for-safari-technology-preview-34/" title="Release Notes for Safari Technology Preview 34 | WebKit">webkit.org/blog/7760/release-notes-for-safari-technology-preview-34/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 34가 릴리즈됐습니다.<br>
+<code>RTCRtpTransceiver#addTransceiver</code>을 지원하고 트랙 단위로 단방향 통신을 사용할 수 있도록 변경됐습니다. 또, W3C Secure Contexts을 구현했으며 SRI를 시험적으로 지원하는 등 다양한 변경 사항이 있습니다.</p>
+
+<ul>
+<li><a href="http://qiita.com/tomoyukilabs/items/59267f25c9dbd43d5ecb" title="Safari TP 34에서는 새로운 단방향 WebRTC 순서를 사용할 수 있어서 시도해봤다 - Qiita">Safari TP 34에서는 새로운 단방향 WebRTC 순서를 사용할 수 있어서 시도해봤다 - Qiita</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="leveraging-the-performance-metrics-that-most-affect-user-experience-web-google-developers">Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics" title="Leveraging the Performance Metrics that Most Affect User Experience  |  Web  |  Google Developers">developers.google.com/web/updates/2017/06/user-centric-performance-metrics</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p>사용자 경험에 대한 영향 판단할 수 있는 성능 지표에 관해 이야기합니다.<br>
+로드 시간만으로는 경험을 측정할 수 없기 없습니다. 때문에 First Paint / First Meaningful Paing / Time to Interactive / Longtasks 지표를 이용해 이것이 의미하는 바와 측정하는 방법에 대해 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/yosuke_furukawa/you-need-to-know-ssr" title="You Need to know SSR // Speaker Deck">You Need to know SSR // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h2 id="chrome-60-devtools-qiita">Chrome 60 DevTools의 새기능 / 변경사항 - Qiita(일본어)</h2>
+
+<p><a href="http://qiita.com/kyoshidajp/items/e3f9be02a7ccd00aa7d7" title="Chrome 60 DevTools の新機能/変更点 - Qiita">qiita.com/kyoshidajp/items/e3f9be02a7ccd00aa7d7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span></p></p>
+
+<p>Chrome 60의 개발자 도구를 소개합니다.</p>
+
+<hr>
+
+<h2 id="nytimes-kyt-starting-a-new-js-app-build-test-and-run-advanced-apps-with-kyt">NYTimes/kyt: Starting a new JS app? Build, test and run advanced apps with kyt 🔥</h2>
+
+<p><a href="https://github.com/nytimes/kyt" title="NYTimes/kyt: Starting a new JS app? Build, test and run advanced apps with kyt 🔥">github.com/nytimes/kyt</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>JavaScript 애플리케이션 툴 킷 kyt 입니다.<br>
+Babel/webpack / Jest / Stylelint / ESlint / proto 등의 셋업이 한번에 할 수 있는 도구입니다.</p>
+
+<hr>
+
+<h2 id="supercharged-live-stream-blog-code-splitting-web-google-developers">Supercharged Live Stream Blog: Code Splitting  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/06/supercharged-codesplit" title="Supercharged Live Stream Blog: Code Splitting  |  Web  |  Google Developers">developers.google.com/web/updates/2017/06/supercharged-codesplit</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">article</span> <span class="jser-tag">plugin</span> <span class="jser-tag">video</span></p></p>
+
+<p>Code Splitting 개념과 이를 수행하는 Babel 플러그인을 만드는 과정을 소개하는 스크린 캐스트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="building-m-uber-engineering-a-high-performance-web-app-for-the-global-market-uber-engineering-blog">Building m.uber: Engineering a High-Performance Web App for the Global Market - Uber Engineering Blog</h2>
+
+<p><a href="https://eng.uber.com/m-uber/" title="Building m.uber: Engineering a High-Performance Web App for the Global Market - Uber Engineering Blog">eng.uber.com/m-uber/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">mobile</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Uber의 모바일 최적화에 대해 작성돼 있습니다. <br>
+기본적으로 React를 사용하지만 mobile에서는 Preact로 바꿔 적용하고 서버 사이드 렌더링이나 초기 bundle 크기를 줄이기 위해 Code split 이용합니다. 또 의존 라이브러리가 없는 작은 사이즈의 Just를 사용하고 SW나 IndexedDB를 이용해 캐시합니다. 또, 문제 조금 더 쉽게 찾아내기 위한 에러 핸들링 방법도 소개합니다.</p>
+
+<ul>
+<li><a href="https://github.com/angus-c/just" title="angus-c/just: A library of dependency-free utilities that do just do one thing.">angus-c/just: A library of dependency-free utilities that do just do one thing.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="graphql-network-communication-framework">GraphQL Network Communication Framework</h2>
+
+<p><a href="http://graphql-io.com/" title="GraphQL Network Communication Framework">graphql-io.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>클라이언트와 서버 간 커뮤니테이션이 가능한 GraphQL의 프레임워크입니다.<br>
+Apollo/WebSocket을 기반으로 개발됐습니다.</p>
+
+<hr>
+
+<h2 id="html-standard">HTML Standard</h2>
+
+<p><a href="https://html.spec.whatwg.org/dev/" title="HTML Standard">html.spec.whatwg.org/dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">WHATWG</span> <span class="jser-tag">spec</span></p></p>
+
+<p>WHATWG HTML 사양의 Developer&#39;s Edition 입니다.<br>
+브라우저 벤더를 위한 정보는 삭제하고 웹 개발자에 초점을 맞춰 정보를 정리한 HTML 사양서 입니다.</p>
+
+<ul>
+<li><a href="https://momdo.github.io/html/dev/" title="HTML Standard 일본어 버전">HTML Standard 일본어 버전</a></li>
+<li><a href="https://github.com/whatwg/html/issues/1488#issuecomment-310450737" title="Review on utilization of \&amp;#x60;w-nodev\&amp;#x60; annotation · Issue #1488 · whatwg/html">Review on utilization of `w-nodev` annotation · Issue #1488 · whatwg/html</a></li>
+<li><a href="http://momdo.hatenablog.jp/entry/20170702/1498999477" title="WHATWG HTML Standard Developer Edition 이야기 - 물속의 피">WHATWG HTML Standard Developer Edition 이야기 - 물속의 피</a></li>
+<li><a href="http://html5doctor.com/html5-for-web-developers/" title="HTML5 for Web Developers | HTML5 Doctor">HTML5 for Web Developers | HTML5 Doctor</a></li>
+</ul>
+
+<hr>
+
+<h2 id="babel-proposals-wip-tracking-the-status-of-babels-implementation-of-tc39-proposals">babel/proposals: (WIP) Tracking the status of Babel&#39;s implementation of TC39 proposals</h2>
+
+<p><a href="https://github.com/babel/proposals" title="babel/proposals: (WIP) Tracking the status of Babel&#39;s implementation of TC39 proposals">github.com/babel/proposals</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">babel</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>ECMAScript proposal에 대한 Babel의 구현 현황에 대해 정리돼 있는 문서입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="roman01la-js-memory-usage-data-structures-memory-usage-in-javascript">roman01la/js-memory-usage: Data Structures Memory Usage in JavaScript</h2>
+
+<p><a href="https://github.com/roman01la/js-memory-usage" title="roman01la/js-memory-usage: Data Structures Memory Usage in JavaScript">github.com/roman01la/js-memory-usage</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">정리</span> <span class="jser-tag">performance</span></p></p>
+
+<p>JavaScript의 데이터 구조 별 / 라이브러리 별 메로리 사용량이 정리돼 있는 저장소 입니다. List / Array / Map / Set이 JavaScript / ImmutableJS / ClojureScript / GopherJS / Reason 등 여러가지 구현체와 비교돼 있습니다.</p>
+
+<hr>
+
+<h2 id="pinterest-esprint-fast-eslint-runner">pinterest/esprint: Fast eslint runner</h2>
+
+<p><a href="https://github.com/pinterest/esprint" title="pinterest/esprint: Fast eslint runner">github.com/pinterest/esprint</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>ESLint를 parallel하게 수행할 수 있는 도구입니다.</p>
+
+<hr>
+
+<h2 id="anvilresearch-webcrypto-w3c-web-cryptography-api-for-node-js">anvilresearch/webcrypto: W3C Web Cryptography API for Node.js</h2>
+
+<p><a href="https://github.com/anvilresearch/webcrypto" title="anvilresearch/webcrypto: W3C Web Cryptography API for Node.js">github.com/anvilresearch/webcrypto</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">security</span> <span class="jser-tag">library</span></p></p>
+
+<p>Web Cryptography API를 대응한 Node.js의 polyfill(ponyfill) 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="coast-team-netflux-javascript-client-and-server-side-transport-api-based-on-webrtc-websocket">coast-team/netflux: JavaScript client and server side transport API based on WebRTC &amp; WebSocket</h2>
+
+<p><a href="https://github.com/coast-team/netflux" title="coast-team/netflux: JavaScript client and server side transport API based on WebRTC &amp; WebSocket">github.com/coast-team/netflux</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebRTC</span> <span class="jser-tag">WebSocket</span> <span class="jser-tag">node.js</span> <span class="jser-tag">browser</span></p></p>
+
+<p>WebRTC, WebSocket을 기반으로 구현한 P2P 라이브러리입니다.<br>
+브라우저, Node.js로 데이터를 주고 받을 수 있습니다.</p>
+
+<hr>
+
+<h2 id="onetapinc-chromy-chromy-is-a-library-for-operating-headless-chrome">OnetapInc/chromy: Chromy is a library for operating headless chrome. 🍺🍺🍺</h2>
+
+<p><a href="https://github.com/OnetapInc/chromy" title="OnetapInc/chromy: Chromy is a library for operating headless chrome. 🍺🍺🍺">github.com/OnetapInc/chromy</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>Headless Chrome을 Nightmare.js 처럼 조작할 수 있는 API를 제공하는 라이브러리입니다.<br>
+Chrome DevTools Protocol을 사용해 테스트를 위한 처리를 주고받습니다.</p>
+
+<hr>
+
+<h2 id="dollarshaveclub-study-a-simple-progressive-client-server-ab-testing-library">dollarshaveclub/study: A Simple, progressive, client/server AB testing library ⚡️</h2>
+
+<p><a href="https://github.com/dollarshaveclub/study" title="dollarshaveclub/study: A Simple, progressive, client/server AB testing library ⚡️">github.com/dollarshaveclub/study</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>A/B 테스팅 라이브러리입니다.<br>
+universal로 동작하고 storage driver로 데이터의 저장소를 지정할 수 있습니다.</p>
+
+<hr>
+
+<h2 id="egoist-dom-dom-jsx-to-actual-dom">egoist/dom-dom: JSX to actual DOM.</h2>
+
+<p><a href="https://github.com/egoist/dom-dom" title="egoist/dom-dom: JSX to actual DOM.">github.com/egoist/dom-dom</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">jsx</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p></p>
+
+<p><code>document</code> API를 사용해 JSX를 DOM 객체로 변환하는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="yahoo-mendel-build-toolchain-for-experimentation-on-isomorphic-web-applications-with-tree-inheritance-and-multivariate-support">yahoo/mendel: Build toolchain for experimentation on isomorphic web applications with tree-inheritance and multivariate support.</h2>
+
+<p><a href="https://github.com/yahoo/mendel" title="yahoo/mendel: Build toolchain for experimentation on isomorphic web applications with tree-inheritance and multivariate support.">github.com/yahoo/mendel</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">설계</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>코드의 플래그가 아닌 규칙 파일 기준으로 프로젝트 구조를 관리할 수 있는 도구입니다.<br>
+시험적인 기능을 A / B 테스트 하기 쉽게 하기 위한 프레임워크입니다.<br>
+플래그 기반은 기술적 부채가 쌓이기 쉽고 야후에서 지속가능성에 대한 조사 결과 디자인된 라이브러리입니다.</p>
+
+<ul>
+<li><a href="https://github.com/yahoo/mendel/blob/master/docs/Design.md" title="mendel/Design.md at master · yahoo/mendel">mendel/Design.md at master · yahoo/mendel</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jaredpalmer-formik-forms-in-react-without-tears">jaredpalmer/formik: Forms in React, without tears</h2>
+
+<p><a href="https://github.com/jaredpalmer/formik" title="jaredpalmer/formik: Forms in React, without tears">github.com/jaredpalmer/formik</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>React 용의 폼 라이브러리입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-07-03-ecmascript-2017-prettier-1.5.0-ux.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["ECMAScript","Prettier","performance","browser"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>ECMAScript</li>
+                
+                <li>Prettier</li>
+                
+                <li>performance</li>
+                
+                <li>browser</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/07/03/ecmascript-2017-prettier-1.5.0-ux/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

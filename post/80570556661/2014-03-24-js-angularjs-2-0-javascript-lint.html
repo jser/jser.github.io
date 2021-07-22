@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-03-24のJS: AngularJS 2.0、JavaScript Lintツールの現状と未来 - JSer.info</title>
+    <meta name="description" content="JSer.info #167 - 以前からちょこちょこDesign docsが公開されていましたが、AngularJS 2.0 | AngularJSではAngularJS2.0をどのような方針で開発するかが書かれています。">
+    
+    <meta name="keywords" content="AngularJS,Lint,Tools,JavaScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2014-03-24T21:44:28+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="AngularJS" property="article:tag">
+      
+      <meta content="Lint" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #167 - 以前からちょこちょこDesign docsが公開されていましたが、AngularJS 2.0 | AngularJSではAngularJS2.0をどのような方針で開発するかが書かれています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2014-03-24のJS: AngularJS 2.0、JavaScript Lintツールの現状と未来">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #167 - 以前からちょこちょこDesign docsが公開されていましたが、AngularJS 2.0 | AngularJSではAngularJS2.0をどのような方針で開発するかが書かれています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2014-03-24T21:44:28+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="AngularJS">
+
+<meta property="article:tag" content="Lint">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="JavaScript">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">2014-03-24のJS: AngularJS 2.0、JavaScript Lintツールの現状と未来</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年03月24日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-03-24-2014-03-24-js-angularjs-2-0-javascript-lint.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2014-03-24-2014-03-24-js-angularjs-2-0-javascript-lint.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #167 - 以前からちょこちょこ<a href="http://stepped.dodgson.org/?date=200907" title="Design docs" target="_blank">Design docs</a>が公開されていましたが、<a href="http://blog.angularjs.org/2014/03/angular-20.html" title="AngularJS 2.0 | AngularJS" target="_blank">AngularJS 2.0 | AngularJS</a>ではAngularJS2.0をどのような方針で開発するかが書かれています。</p>
+
+<p>ES6ベース+<a href="https://github.com/google/traceur-compiler" title="Traceur" target="_blank">Traceur</a>(+独自拡張)で書いていくことや、<code>Object.observe</code> を使った変更検知の導入や機能のモジュール化などが挙げられています。</p>
+
+<p>自分も、ES6+<a href="https://github.com/google/traceur-compiler" title="Traceur" target="_blank">Traceur</a>で少し書いてみましたが、後方互換的な変換は出来ない機能もありますが、思っていたよりも色々対応されてたので書き方が変わる部分もある感じはしました。</p>
+
+<p>ES6は今できることのシンタックスシュガー的な構文等も結構多いので、その辺を取り入れると見た目は結構変わりそうです。</p>
+
+<ul><li><a href="http://efcl.info/2014/0323/res3750/" title="ECMAScript6についてes6featuresで学んだ | Web scratch" target="_blank">ECMAScript6についてes6featuresで学んだ | Web scratch</a></li>
+</ul><p>また<a href="https://docs.google.com/document/d/1uhs-a41dp2z0NLs-QiXYY-rqLGhgjmTf4iwBad2myzY/edit" title="Angular v2.0 and ES6 Traceur - Google ドライブ" target="_blank">Angular v2.0 and ES6 Traceur</a>でも書かれていますが、Traceurの拡張構文であるアノテーションと<a href="http://vojtajina.github.io/assert/" title="Assert.js" target="_blank">Assert.js</a>を使ったりするようなので、Angular v2.0のCoreコード自体は<a href="https://github.com/google/traceur-compiler" title="Traceur" target="_blank">Traceur</a>に依存した感じになる雰囲気です。</p>
+
+<hr><p><a href="http://www.slideshare.net/mischah/js-linting-en" title="The state of JavaScript Linting - English version" target="_blank">The state of JavaScript Linting - English version</a>ではJSHint、ESLintを中心にJavaScriptのLintツールの現状と未来について書かれています。</p>
+
+<p><a href="http://www.jshint.com/blog/jshint-3-plans/" title="JSHint 3 plans" target="_blank">JSHint 3 plans</a>でスタイル関連のLintは削除されるが、かわりに<a href="https://github.com/mdevils/node-jscs/issues/102" title="node-jscs" target="_blank">node-jscs</a>が同様のチェック機能を提供することや、最近でてきた<a href="http://eslint.org/" title="ESLint" target="_blank">ESLint</a>の特徴などについてまとまっています。</p>
+
+<hr><p>先週も言っていましたが、<a href="http://speakingjs.com/es5/" title="Speaking JavaScript" target="_blank">Speaking JavaScript</a>のウェブ版が無料で公開されました。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://www.mozilla.jp/firefox/28.0/releasenotes/" title="Firefox 28.0 リリースノート">
+<p class="jser-sitelink"><strong>Firefox 28.0 リリースノート</strong></p><footer><cite><a href="http://www.mozilla.jp/firefox/28.0/releasenotes/" title="Firefox 28.0 リリースノート" target="_blank">www.mozilla.jp/firefox/28.0/releasenotes/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firefox 28 リリース。</p>
+
+<p>VP9/Opusのサポート、spdy/3の実装、<code>File</code>コンストラクタの実装等</p>
+
+<ul><li><a href="https://developer.mozilla.org/ja/docs/Mozilla/Firefox/Releases/28" target="_blank">Firefox 28 for developers - Mozilla | MDN</a></li>
+<li><a href="http://hyper-text.org/archives/2014/03/firefox_28_release.shtml" target="_blank">Firefox 28 が正式リリース、Flexbox によるマルチラインレイアウトが可能に | WWW WATCH</a></li>
+<li><a href="https://hacks.mozilla.org/2013/12/split-console-pretty-print-minified-js-and-more-firefox-developer-tools-episode-28/" target="_blank">Split console, pretty-print minified JS and more – Firefox Developer Tools Episode 28 ✩ Mozilla Hacks – the Web developer blog</a></li>
+</ul><blockquote cite="http://facebook.github.io/react/blog/2014/03/21/react-v0.10.html" title="React | React v0.10">
+<p class="jser-sitelink"><strong>React | React v0.10</strong></p><footer><cite><a href="http://facebook.github.io/react/blog/2014/03/21/react-v0.10.html" title="React | React v0.10" target="_blank">facebook.github.io/react/blog/2014/03/21/react-v0.10.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">DOM</span></p>
+
+<p>React v0.10リリース</p>
+
+<blockquote cite="http://blog.jetbrains.com/webstorm/2014/03/webstorm-8-rc/" title="WebStorm 8.0 Release Candidate | JetBrains WebStorm Blog">
+<p class="jser-sitelink"><strong>WebStorm 8.0 Release Candidate | JetBrains WebStorm Blog</strong></p><footer><cite><a href="http://blog.jetbrains.com/webstorm/2014/03/webstorm-8-rc/" title="WebStorm 8.0 Release Candidate | JetBrains WebStorm Blog" target="_blank">blog.jetbrains.com/webstorm/2014/03/webstorm-8-rc/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>WebStorm 8.0 RCリリース。</p>
+
+<p>Gruntコンソール(Gruntのタスク一覧や実行結果のコンソール)の追加</p>
+
+<blockquote cite="https://github.com/cujojs/when/releases/tag/3.0.0" title="Release 3.0.0 · cujojs/when">
+<p class="jser-sitelink"><strong>Release 3.0.0 · cujojs/when</strong></p><footer><cite><a href="https://github.com/cujojs/when/releases/tag/3.0.0" title="Release 3.0.0 · cujojs/when" target="_blank">github.com/cujojs/when/releases/tag/3.0.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Promises/A+ の実装であるwhen.js 3.0.0リリース。</p>
+
+<p>抜本的に書き換えてパフォーマンスの改善、APIの追加、ES6 Promise shimとして使えるモジュールの追加。</p>
+
+<ul><li><a href="https://twitter.com/cujojs/status/365856710520344577" target="_blank">Twitter / cujojs: when.js 2.3.0: promise.tap(), &#8230;</a></li>
+<li><a href="https://github.com/cujojs/when/blob/master/docs/api.md#upgrading-to-30-from-2x" target="_blank">when/docs/api.md at master · cujojs/when</a></li>
+</ul><h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://blog.angularjs.org/2014/03/angular-20.html" title="AngularJS 2.0 | AngularJS">
+<p class="jser-sitelink"><strong>AngularJS 2.0 | AngularJS</strong></p><footer><cite><a href="http://blog.angularjs.org/2014/03/angular-20.html" title="AngularJS 2.0 | AngularJS" target="_blank">blog.angularjs.org/2014/03/angular-20.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>AngularJS2.0の開発方針について。</p>
+
+<p>モバイルアプリを重視、ES6+traceurで書いていく、データバインディングの変更検知の仕組みの変更、より多くの機能をオプショナルに、DI.js + ES6等</p>
+
+<ul><li><a href="http://wazanova.jp/items/1203" target="_blank">Angular 2.0 - ワザノバ | wazanova</a></li>
+<li><a href="http://pirosikick.hateblo.jp/entry/2014/03/23/005345" title="Angular2.0のDI - pirosikick's diary" target="_blank">Angular2.0のDI - pirosikick&#8217;s diary</a></li>
+</ul><blockquote cite="http://amasad.me/2014/03/16/why-im-excited-about-objectobserve/" title="Why I'm Excited About Object.observe">
+<p class="jser-sitelink"><strong>Why I&#8217;m Excited About Object.observe</strong></p><footer><cite><a href="http://amasad.me/2014/03/16/why-im-excited-about-objectobserve/" title="Why I'm Excited About Object.observe" target="_blank">amasad.me/2014/03/16/why-im-excited-about-objectobserve/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>ES7で予定されてる/V8でデフォルト有効になったObject.observeについて。</p>
+
+<ul><li><a href="http://d.hatena.ne.jp/jovi0608/20140320/1395294325" target="_blank">Object.observe()とNode.jsのイベントループの関係 - ぼちぼち日記</a></li>
+<li><a href="http://nekman.se/object-observe/" target="_blank">Object.observe | nekman</a></li>
+</ul><blockquote cite="http://p-baleine.hatenablog.com/entry/2014/03/12/190000" title="JavaScript Promise ... イカした詳細 - くじら公園">
+<p class="jser-sitelink"><strong>JavaScript Promise &#8230; イカした詳細 - くじら公園</strong></p><footer><cite><a href="http://p-baleine.hatenablog.com/entry/2014/03/12/190000" title="JavaScript Promise ... イカした詳細 - くじら公園" target="_blank">p-baleine.hatenablog.com/entry/2014/03/12/190000</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">翻訳</span></p>
+
+<p><a href="http://mattgreer.org/articles/promises-in-wicked-detail/" target="_blank">http://mattgreer.org/articles/promises-in-wicked-detail/</a> の翻訳。</p>
+
+<p>Promises/A+を実装しながらPromisesについて学ぶ</p>
+
+<p><a href="http://p-baleine.hatenablog.com/entry/2014/03/14/085536" title="Promiseアンチパターン - くじら公園" target="_blank">Promiseアンチパターン - くじら公園</a> の方も翻訳されています。</p>
+
+<blockquote cite="http://blog.koba04.com/post/2014/03/23/browserify-in-backbone-marionette-project/" title="browserify in Backbone.Marionette project - blog.koba04.com">
+<p class="jser-sitelink"><strong>browserify in Backbone.Marionette project - blog.koba04.com</strong></p><footer><cite><a href="http://blog.koba04.com/post/2014/03/23/browserify-in-backbone-marionette-project/" title="browserify in Backbone.Marionette project - blog.koba04.com" target="_blank">blog.koba04.com/post/2014/03/23/browserify-in-backbone-marionette-project/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span><span class="jser-tag">Grunt</span><span class="jser-tag">backbone.js</span><span class="jser-tag">設定</span></p>
+
+<p>Browserify + Marionetteのプロジェクト構成について。 grunt-browserifyを使ったビルドの分割によるビルド時間の短縮、aliasMappingsによるパスの短縮、サンプルプロジェクト</p>
+
+<ul><li><a href="http://aeflash.com/2014-03/a-year-with-browserify.html" title="A Year with Browserify - ÆFLASH" target="_blank">A Year with Browserify - ÆFLASH</a></li>
+</ul><h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="http://www.slideshare.net/domenicdenicola/es6-in-real-life" title="ES6 in Real Life">
+<p class="jser-sitelink"><strong>ES6 in Real Life</strong></p><footer><cite><a href="http://www.slideshare.net/domenicdenicola/es6-in-real-life" title="ES6 in Real Life" target="_blank">www.slideshare.net/domenicdenicola/es6-in-real-life</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>ArrowFunction、class syntaxの紹介。</p>
+
+<p>またES6のブラウザの実装状況や対応するshimやtranspilerについて。</p>
+
+<ul><li><a href="https://github.com/lukehoban/es6features" target="_blank">lukehoban/es6features</a></li>
+</ul><blockquote cite="http://www.slideshare.net/mischah/js-linting-en" title="The state of JavaScript Linting - English version">
+<p class="jser-sitelink"><strong>The state of JavaScript Linting - English version</strong></p><footer><cite><a href="http://www.slideshare.net/mischah/js-linting-en" title="The state of JavaScript Linting - English version" target="_blank">www.slideshare.net/mischah/js-linting-en</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Tools</span><span class="jser-tag">スライド</span></p>
+
+<p>JavaScriptのLintツールについてまとまってるスライド。  JSのLintツールの歴史、JSHint/JSHint/ESLintの開発スタイル、機能的な特徴、オプション、検出可能なルールの紹介等</p>
+
+<blockquote cite="http://barcelonajs.org/history" title="BarcelonaJS">
+<p class="jser-sitelink"><strong>BarcelonaJS</strong></p><footer><cite><a href="http://barcelonajs.org/history" title="BarcelonaJS" target="_blank">barcelonajs.org/history</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">動画</span><span class="jser-tag">JavaScript</span></p>
+
+<p>Barcelona.JSでの動画とスライド。</p>
+
+<p>Ember/Marionete/Angular/API Blueprint</p>
+
+<blockquote cite="http://www.youtube.com/playlist?list=PL055Epbe6d5bab7rZ3i83OtMmD-d9uq2K" title="Fluent Conference 2014 - YouTube">
+<p class="jser-sitelink"><strong>Fluent Conference 2014 - YouTube</strong></p><footer><cite><a href="http://www.youtube.com/playlist?list=PL055Epbe6d5bab7rZ3i83OtMmD-d9uq2K" title="Fluent Conference 2014 - YouTube" target="_blank">www.youtube.com/playlist?list=PL055Epbe6d5bab7rZ3i83OtMmD-d9uq2K</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">イベント</span><span class="jser-tag">動画</span></p>
+
+<p>O&#8217;Reilly Fluent Conference 2014の動画が公開された</p>
+
+<ul><li><a href="http://fluentconf.com/fluent2014" target="_blank">Fluent 2014 - O&#8217;Reilly Conferences, March 11 - 13, 2014, San Francisco, CA</a></li>
+</ul><h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="https://bugsnag.com/platforms/javascript" title="Javascript error monitoring - Bugsnag">
+<p class="jser-sitelink"><strong>Javascript error monitoring - Bugsnag</strong></p><footer><cite><a href="https://bugsnag.com/platforms/javascript" title="Javascript error monitoring - Bugsnag" target="_blank">bugsnag.com/platforms/javascript</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">webservice</span></p>
+
+<p>ウェブサイトでのJavaScriptのエラー収集/解析サービス</p>
+
+<blockquote cite="http://www.sache.in/" title="Sache: Find Sass and Compass Extensions for your next project">
+<p class="jser-sitelink"><strong>Sache: Find Sass and Compass Extensions for your next project</strong></p><footer><cite><a href="http://www.sache.in/" title="Sache: Find Sass and Compass Extensions for your next project" target="_blank">www.sache.in/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span><span class="jser-tag">webservice</span></p>
+
+<p>SassとかCompassのライブラリ/mix-inとかの集積地。</p>
+
+<p><code>sache.json</code> でメタ情報を書いておけばURLを登録できる</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="http://www.youtube.com/watch?v=WKHWazblpbc" title="▶ InstaBuster: JavaScript testing with LightTable &amp; Buster.JS - YouTube">
+<p class="jser-sitelink"><strong>▶ InstaBuster: JavaScript testing with LightTable &amp; Buster.JS - YouTube</strong></p><footer><cite><a href="http://www.youtube.com/watch?v=WKHWazblpbc" title="▶ InstaBuster: JavaScript testing with LightTable &amp; Buster.JS - YouTube" target="_blank">www.youtube.com/watch?v=WKHWazblpbc</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">BusterJS</span><span class="jser-tag">testing</span></p>
+
+<p>Light Table上でBuster.JSでのテスト結果をインライン表示するプラグイン。</p>
+
+<p>テストコードにそのまま結果が表示されていて面白い</p>
+
+<ul><li><a href="https://github.com/busterjs/lt-instabuster" target="_blank">busterjs/lt-instabuster</a></li>
+</ul><blockquote cite="http://appendto.com/2014/02/l33t-literals-javascript/" title="l33t literals in JavaScript - appendTo">
+<p class="jser-sitelink"><strong>l33t literals in JavaScript - appendTo</strong></p><footer><cite><a href="http://appendto.com/2014/02/l33t-literals-javascript/" title="l33t literals in JavaScript - appendTo" target="_blank">appendto.com/2014/02/l33t-literals-javascript/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>オブジェクトをドットで繋いで書くと、プロパティが存在してない場合にエラーになるかもしれないので、その辺を安全に取得するためのライブラリについて</p>
+
+<ul><li><a href="https://github.com/nicholascloud/l33teral" target="_blank">nicholascloud/l33teral</a></li>
+</ul><h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://www.amazon.co.jp/o/ASIN/4048915118/amazon0abac-22/ref=nosim" title="Amazon: プログラミング言語Dart [大型本]: Chris Buckett, あんどうやすし, 粟納裕貴, 勝又雅史, 川俣千恵子, 植田大貴, 井関正也, 水野あゆみ">
+<p class="jser-sitelink"><strong>Amazon: プログラミング言語Dart [大型本]: Chris Buckett, あんどうやすし, 粟納裕貴, 勝又雅史, 川俣千恵子, 植田大貴, 井関正也, 水野あゆみ</strong></p><footer><cite><a href="http://www.amazon.co.jp/o/ASIN/4048915118/amazon0abac-22/ref=nosim" title="Amazon: プログラミング言語Dart [大型本]: Chris Buckett, あんどうやすし, 粟納裕貴, 勝又雅史, 川俣千恵子, 植田大貴, 井関正也, 水野あゆみ" target="_blank">www.amazon.co.jp/o/ASIN/4048915118/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">dart</span><span class="jser-tag">book</span></p>
+
+<p>2014年3月28日発売</p>
+
+<p><a href="http://www.manning.com/buckett/" target="_blank">http://www.manning.com/buckett/</a> の翻訳本。</p>
+
+<blockquote cite="http://www.manning.com/meeks/" title="Manning: D3.js in Action">
+<p class="jser-sitelink"><strong>Manning: D3.js in Action</strong></p><footer><cite><a href="http://www.manning.com/meeks/" title="Manning: D3.js in Action" target="_blank">www.manning.com/meeks/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span><span class="jser-tag">book</span></p>
+
+<p>D3.js のAction本</p>
+
+<blockquote cite="http://speakingjs.com/es5/" title="Speaking JavaScript">
+<p class="jser-sitelink"><strong>Speaking JavaScript</strong></p><footer><cite><a href="http://speakingjs.com/es5/" title="Speaking JavaScript" target="_blank">speakingjs.com/es5/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">book</span></p>
+
+<p>Speaking JavaScriptのオンライン版が無料で公開。</p>
+
+<ul><li><a href="http://speakingjs.com/" target="_blank">Speaking JavaScript</a></li>
+</ul>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-03-24-2014-03-24-js-angularjs-2-0-javascript-lint.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["AngularJS","Lint","Tools","JavaScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>AngularJS</li>
+                
+                <li>Lint</li>
+                
+                <li>Tools</li>
+                
+                <li>JavaScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/80570556661/2014-03-24-js-angularjs-2-0-javascript-lint"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

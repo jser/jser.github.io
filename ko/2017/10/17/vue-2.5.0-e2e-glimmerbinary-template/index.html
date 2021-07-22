@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-10-17 JS: Vue 2.5.0, E2E 테스트 프레임워크, Glimmer의 Binary Template - JSer.info</title>
+    <meta name="description" content="JSer.info #353 - Vue 2.5.0이 릴리즈 됐습니다.">
+    
+    <meta name="keywords" content="Vue,E2E,Glimmer,Template" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-10-17T09:54:58+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Vue" property="article:tag">
+      
+      <meta content="E2E" property="article:tag">
+      
+      <meta content="Glimmer" property="article:tag">
+      
+      <meta content="Template" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #353 - Vue 2.5.0이 릴리즈 됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-10-17 JS: Vue 2.5.0, E2E 테스트 프레임워크, Glimmer의 Binary Template">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #353 - Vue 2.5.0이 릴리즈 됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-10-17T09:54:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Vue">
+
+<meta property="article:tag" content="E2E">
+
+<meta property="article:tag" content="Glimmer">
+
+<meta property="article:tag" content="Template">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/">2017-10-17 JS: Vue 2.5.0, E2E 테스트 프레임워크, Glimmer의 Binary Template</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年10月17日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-10-17-vue-2.5.0-e2e-glimmerbinary-template.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-10-17-vue-2.5.0-e2e-glimmerbinary-template.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #353 - Vue 2.5.0이 릴리즈 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/vuejs/vue/releases/tag/v2.5.0">Release v2.5.0 Level E · vuejs/vue</a></li>
+<li><a href="https://medium.com/the-vue-point/vue-2-5-released-14bd65bf030b">Vue 2.5 released – The Vue Point – Medium</a></li>
+<li><a href="https://gist.github.com/yyx990803/9bdff05e5468a60ced06c29c39114c6b" title="Vue 2.5 release details">Vue 2.5 release details</a></li>
+</ul>
+
+<p>전부터 예고(<a href="https://medium.com/the-vue-point/upcoming-typescript-changes-in-vue-2-5-e9bd7e2ecf08" title="Upcoming TypeScript Changes in Vue 2.5 – The Vue Point – Medium">Upcoming TypeScript Changes in Vue 2.5 – The Vue Point – Medium</a>)된 TypeScript 관련 타입이 개선됐습니다.<br>
+또, React 16에 도입된 <a href="https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html#introducing-error-boundaries" title="Error Boundaries">Error Boundaries</a>와 같이 에러를 잡을 수 있는 <code>errorCaptured</code> hook이 추가 됐습니다.</p>
+
+<hr>
+
+<p>E2E 테스트 프레임워크인 <a href="http://devexpress.github.io/testcafe/blog/testcafe-v0-18-0-released.html" title="TestCafe v0.18.0">TestCafe v0.18.0</a>이 릴리즈 됐습니다.</p>
+
+<p>Angular를 대응한 <a href="https://github.com/DevExpress/testcafe-angular-selectors" title="testcafe-angular-selectors">testcafe-angular-selectors</a>와 <code>t.getBrowserConsoleMessages</code> API가 추가됐습니다.<br>
+<code>t.getBrowserConsoleMessages</code>는 테스트를 실행한 브라우저 콘솔에 출력된 정보를 취득할 수 있는 API로, 라이브러리 등을 실행했을 때 deprecated warning이 발생 시 테스트를 실패하도록 작성하는 등의 경우에 사용할 수 있습니다.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">{</span>
+    <span class="nl">error</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">Cannot access the 'db' database. Wrong credentials.</span><span class="dl">"</span><span class="p">,</span> <span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">],</span> <span class="c1">// error messages</span>
+    <span class="nx">warn</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">The setTimeout property is deprecated</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">],</span>                <span class="c1">// warning messages</span>
+    <span class="nx">log</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">[09:12:08] Logged in</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">[09:25:43] Changes saved</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">],</span>      <span class="c1">// log messages</span>
+    <span class="nx">info</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">The application was updated since your last visit.</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">]</span>    <span class="c1">// info messages</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr>
+
+<p>이어서 E2E 테스트 프레임워크인 Cypress가 OSS로 공개됐습니다.<br>
+Cypress는 Time Travel, Automatic waiting 등의 기능을 제공하는 E2E 테스트 프레임워크입니다. 특히 Time Travel은 디버깅을 한결 수월하게 합니다.<br>
+또, 동명의 서비스인 <a href="https://www.cypress.io/">cypress.io</a> 대쉬보드와 연동도 가능합니다.</p>
+
+<ul>
+<li><a href="https://www.cypress.io/blog/2017/10/10/cypress-is-now-public-beta/#Key-features" title="Cypress.io | JavaScript End to End Testing | Cypress is now public beta">Cypress.io | JavaScript End to End Testing | Cypress is now public beta</a></li>
+<li><a href="https://github.com/cypress-io/cypress" title="cypress-io/cypress: Cypress is a test runner that helps you write automated tests in the browser.">cypress-io/cypress: Cypress is a test runner that helps you write automated tests in the browser.</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://emberjs.com/blog/2017/10/10/glimmer-progress-report.html" title="Ember.js - Glimmer.js Progress Report">Ember.js - Glimmer.js Progress Report</a>에는 독립적으로 사용할 수 있게 된 템플릿 엔진 <a href="https://glimmerjs.com/" title="Glimmer">Glimmer</a>의 향후 변경에 대해 작성돼 있습니다.</p>
+
+<p>태그를 <code>&lt;Button /&gt;</code> 처럼 Capital 스타일로 작성하도록 변경되고 요소의 프로퍼티와 속성을 <code>@</code>로 구별할 수 있도록 개선되며 또, Portal 지원하는 등 다양한 변경 내용이 소개돼 있습니다. <br>
+이 중에서도 장기적으로 Binary Templates이라고 불리는 구조를 도입하는 것에 대해 작성돼 있는데 주목해볼만 합니다.</p>
+
+<p>Glimmer 는 템플릿의 컴파일과 런타임, 두 가지의 역할을 갖고 있습니다.<br>
+이번 변경에서 템플릿을 (최종적으로) 바이너리로 출력하고 런타임은 이 바이너리를 불러들여 DOM을 조립해 그릴 수 있도록 한다는 내용이 언급돼 있습니다.</p>
+
+<p><a href="https://www.linkedin.com/pulse/glimmers-optimizing-compiler-chad-hietala/" title="Glimmer&amp;#39;s Optimizing Compiler | Chad Hietala | Pulse | LinkedIn">Glimmer&#39;s Optimizing Compiler | Chad Hietala | Pulse | LinkedIn</a>에는 그 Glimmer VM 구조에 관해 작성돼 있습니다.</p>
+
+<p><strong>현재 Glimmer</strong> 는 템플릿을 JSON 형식으로 컴파일하고 런타임에서 Opcode와 정수로 표현된 템플릿 정보를 만들어 이 정보를 바탕으로 실제 DOM을 구축합니다.</p>
+
+<p>템플릿:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;h1&gt;</span>Hello World<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div>
+<p>컴파일러가 템플릿을 JSON 형식의 중간 표현(IR)로 변환합니다(현재의 Glimmer VM이 컴파일하는 것은 이 JSON 표현까지 입니다).</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"open-element"</span><span class="p">,</span><span class="w"> </span><span class="s2">"h1"</span><span class="p">,</span><span class="w"> </span><span class="p">[]],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hello World"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"close-element"</span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>런타임에서 읽어 Opcode와 정수로 표현된 템플릿 정보를 만듭니다.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// OpCode</span>
+<span class="kd">const</span> <span class="nx">Program</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="kd">const</span> <span class="nx">ConstantsPool</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">strings</span><span class="p">:</span> <span class="p">[...</span> <span class="err">‘</span><span class="nx">h1</span><span class="err">’</span><span class="p">,</span> <span class="err">‘</span><span class="nx">Hello</span> <span class="nx">World</span><span class="err">’</span><span class="p">]</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>마지막에 런타임이 템플릿 정보를 바탕으로 DOM을 생성 및 조립합니다.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">APPEND_OPCODES</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">Op</span><span class="p">.</span><span class="nx">OpenElement</span><span class="p">,</span> <span class="p">(</span><span class="nx">vm</span><span class="p">,</span> <span class="p">{</span> <span class="na">op1</span><span class="p">:</span> <span class="nx">tag</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">vm</span><span class="p">.</span><span class="nx">elements</span><span class="p">().</span><span class="nx">openElement</span><span class="p">(</span><span class="nx">vm</span><span class="p">.</span><span class="nx">constants</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="nx">tag</span><span class="p">));</span>
+<span class="p">});</span>
+</code></pre></div>
+<p><strong>미래의 Glimmer</strong> 의 Binary Template에서는 컴파일러가 템플릿을 바이너리 형식(<code>.gbx</code>라는 파일 형식)으로 컴파일 합니다.런타임은 바이너리를 ArrayBuffer](<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer</a> &quot;ArrayBuffer&quot;)로 읽어 템플릿 정보를 만들어 DOM을 생성 및 조립하며 파일 크기와 파싱 속도 등에 개선이 있을 것으로 기대하고 있습니다.<br>
+한편, HTML이나 JavaScript에는 바이너리를 저장할 수 없기 때문에 바이너리 파일을 <code>link rel=prefetch</code>나 HTTP/2 Push 등을 이용해 먼저 불러드릴 수 있는 방안도 함께 고민이 필요합니다.</p>
+
+<ul>
+<li><a href="https://github.com/glimmerjs/glimmer-vm/pull/631" title="[Breaking] Introduce Bundle Compiler by chadhietala · Pull Request #631 · glimmerjs/glimmer-vm">[Breaking] Introduce Bundle Compiler by chadhietala · Pull Request #631 · glimmerjs/glimmer-vm</a></li>
+<li><a href="https://github.com/glimmerjs/glimmer-vm/blob/b87c7c030ebe2f7acad7716674a29d9244381b01/guides/11-glossary.md#opcode">glimmer-vm/11-glossary.md at b87c7c030ebe2f7acad7716674a29d9244381b01 · glimmerjs/glimmer-vm</a></li>
+</ul>
+
+<p>많은 템플릿 엔진은 JSON이나 JavaScript 형식으로 템플릿을 컴파일합니다.<br>
+웹 애플리케이션의 사이즈가 점점 커지게 된 현재엔 JavaScript 파일의 파싱 시 시간이나 파일 사이즈가 동작 시간에 병목을 주는 요인 중 하나가 됐습니다(특히 모바일 디바이스에서는 영향이 큽니다).</p>
+
+<ul>
+<li><a href="https://medium.com/reloading/javascript-start-up-performance-69200f43b201" title="JavaScript Start-up Performance – reloading – Medium">JavaScript Start-up Performance – reloading – Medium</a></li>
+</ul>
+
+<p>이에 대해 바이너리 형식의 파일을 사용하는 것으로 파싱 시간이나 파일 사이즈를 줄일 수 있게 됩니다.<br>
+이 접근법과 관련한 기술로써 <a href="http://webassembly.org/" title="WebAssembly">WebAssembly</a>나 ECMAScript의 Stage 1 Proposal인 Binary AST 등이 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/syg/ecmascript-binary-ast/" title="syg/ecmascript-binary-ast: Binary AST proposal for ECMAScript">syg/ecmascript-binary-ast: Binary AST proposal for ECMAScript</a></li>
+<li><a href="https://yoric.github.io/post/binary-ast-engineering-newsletter-1/" title="JavaScript Binary AST Engineering Newsletter #1 · Il y a du thé renversé au bord de la table !">JavaScript Binary AST Engineering Newsletter #1 · Il y a du thé renversé au bord de la table !</a></li>
+</ul>
+
+<p>Glimmer의 Binary Template는 유저랜드(Userland)로 바이너리 접근법을 실현하고자 한다고 생각합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="testcafe-v0-18-0-released-angular-selectors-using-multiple-reporters-etc-testcafe">TestCafe v0.18.0 Released - Angular Selectors, Using Multiple Reporters, etc | TestCafe</h2>
+
+<p><a href="http://devexpress.github.io/testcafe/blog/testcafe-v0-18-0-released.html" title="TestCafe v0.18.0 Released - Angular Selectors, Using Multiple Reporters, etc | TestCafe">devexpress.github.io/testcafe/blog/testcafe-v0-18-0-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">E2E</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TestCafe v0.18.0이 릴리즈 됐습니다.<br>
+Angular Selector 지원하고 복수의 reporter를 지정해 출력 가능하도록 변경됐습니다. 그리고 Firefox와 Chrome에서 깨끗한 프로파일(Clean profiles)을 사용하도록 개선됐고 <code>t.getBrowserConsoleMessages</code>로 콘솔에 출력된 내용을 취득할 수 있도록 변경되는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="announcing-typescript-2-6-rc-typescript">Announcing TypeScript 2.6 RC | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2017/10/12/announcing-typescript-2-6-rc/" title="Announcing TypeScript 2.6 RC | TypeScript">blogs.msdn.microsoft.com/typescript/2017/10/12/announcing-typescript-2-6-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 2.6 RC이 릴리즈 됐습니다.<br>
+<code>--strictFunctionTypes</code> 플래그가 추가 됐고 <code>// @ts-ignore</code>로 에러를 무력화하는 코멘트 지원합니다. 또, CLI에서 다국어 대응하는 <code>--locale</code> 플래그 가 추가됐으며 <code>tsc --watch</code>의 속도 개선이 이뤄졌습니다.</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/TypeScript/wiki/What&#x27;s-new-in-TypeScript#typescript-26" title="What&amp;amp;#39;s new in TypeScript · Microsoft/TypeScript Wiki">What&#39;s new in TypeScript · Microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v2-5-0-level-e-vuejs-vue">Release v2.5.0 Level E · vuejs/vue</h2>
+
+<p><a href="https://github.com/vuejs/vue/releases/tag/v2.5.0" title="Release v2.5.0 Level E · vuejs/vue">github.com/vuejs/vue/releases/tag/v2.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue 2.5.0이 릴리즈 됐습니다.<br>
+<code>errorCaptured</code> hook으로 에러를 핸들링할 수 있도록 변경됐습니다. 그리고 TypeScript의 타입이 개선(비호환 변경) 됐고 <code>v-on</code>에 <code>.exact</code> modifier가 추가 됐습니다.</p>
+
+<ul>
+<li><a href="https://gist.github.com/yyx990803/9bdff05e5468a60ced06c29c39114c6b" title="Vue 2.5 release details">Vue 2.5 release details</a></li>
+<li><a href="https://medium.com/the-vue-point/upcoming-typescript-changes-in-vue-2-5-e9bd7e2ecf08" title="Upcoming TypeScript Changes in Vue 2.5 – The Vue Point – Medium">Upcoming TypeScript Changes in Vue 2.5 – The Vue Point – Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="eslint-v4-9-0-released-eslint-pluggable-javascript-linter">ESLint v4.9.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2017/10/eslint-v4.9.0-released" title="ESLint v4.9.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2017/10/eslint-v4.9.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint 4.9.0이 릴리즈 됐습니다.<br>
+<code>--fix</code>에서 dry-run을 실행할 수 있는 <code>--fix-dry-run</code> 옵션이 추가됐습니다.</p>
+
+<hr>
+
+<h2 id="eloquent-javascript-third-edition">Eloquent JavaScript Third Edition</h2>
+
+<p><a href="https://eloquentjavascript.net/3rd_edition/" title="Eloquent JavaScript Third Edition">eloquentjavascript.net/3rd_edition/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">book</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">news</span></p></p>
+
+<p>Eloquent JavaScrip 세번째 판에 대한 Crowdfunding이 시작 됐습니다.</p>
+
+<hr>
+
+<h2 id="prosemirror-1-0">ProseMirror 1.0</h2>
+
+<p><a href="http://marijnhaverbeke.nl/blog/prosemirror-1.html" title="ProseMirror 1.0">marijnhaverbeke.nl/blog/prosemirror-1.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ProseMirror 1.0이 릴리즈 됐습니다.<br>
+ProseMirror는 보다 좋은 WYSIWYG-style 에디터를 설치할 수 있는 코어 라이브러리로, ProseMirror 자체는 특정 문서 형식에 의존하지 않는 것이 특징입니다.<br>
+1.x 부터는 안정 버전과 RFC 프로세스를 닮은 방식으로 개발한다고 이야기합니다.</p>
+
+<hr>
+
+<h2 id="release-v3-7-0-webpack-webpack">Release v3.7.0 · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/releases/tag/v3.7.0" title="Release v3.7.0 · webpack/webpack">github.com/webpack/webpack/releases/tag/v3.7.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack v3.7.0이 릴리즈 됐습니다.<br>
+<code>CommonChunkPlugin</code> 플러그인에 <code>deepChildren</code> 옵션이 추가됐으며 ES modules chunk graph의 리팩터링으로 성능이 개선 됐습니다.</p>
+
+<p><a href="https://github.com/webpack/webpack/pull/5764" title="Added deepChildren support from ArcEglos&amp;amp;#39; pull request by ljcrapo · Pull Request #5764 · webpack/webpack">Added deepChildren support from ArcEglos&#39; pull request by ljcrapo · Pull Request #5764 · webpack/webpack</a></p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/tree/master/examples/common-chunk-grandchildren" title="webpack/examples/common-chunk-grandchildren at master · webpack/webpack">webpack/examples/common-chunk-grandchildren at master · webpack/webpack</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="ember-js-glimmer-js-progress-report">Ember.js - Glimmer.js Progress Report</h2>
+
+<p><a href="https://emberjs.com/blog/2017/10/10/glimmer-progress-report.html" title="Ember.js - Glimmer.js Progress Report">emberjs.com/blog/2017/10/10/glimmer-progress-report.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Glimmer.js에 관한 상황이 정리돼 있습니다.<br>
+태그를 <code>&lt;Button /&gt;</code> 처럼 Capital 스타일로 작성하도록 변경되고 요소의 프로퍼티와 속성을 <code>@</code>로 구별할 수 있도록 개선되며 Portal 지원하는 등 다양한 변경 내용이 소개돼 있습니다. <br>
+또, 템플릿을 파이너리로 컴파일하여 Binary Templates 지원 예정 소식과 SSR에 대한 내용도 소개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://www.linkedin.com/pulse/glimmers-optimizing-compiler-chad-hietala/" title="Glimmer&amp;amp;#39;s Optimizing Compiler | Chad Hietala | Pulse | LinkedIn">Glimmer&#39;s Optimizing Compiler | Chad Hietala | Pulse | LinkedIn</a></li>
+</ul>
+
+<hr>
+
+<h2 id="cypress-io-javascript-end-to-end-testing-cypress-is-now-public-beta">Cypress.io | JavaScript End to End Testing | Cypress is now public beta</h2>
+
+<p><a href="https://www.cypress.io/blog/2017/10/10/cypress-is-now-public-beta/" title="Cypress.io | JavaScript End to End Testing | Cypress is now public beta">www.cypress.io/blog/2017/10/10/cypress-is-now-public-beta/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">browser</span> <span class="jser-tag">library</span></p></p>
+
+<p>E2E 테스트 프레임워크인 Cypress가 오픈 소스로 공개 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/cypress-io/cypress" title="cypress-io/cypress: Cypress is a test runner that helps you write automated tests in the browser.">cypress-io/cypress: Cypress is a test runner that helps you write automated tests in the browser.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="dependency-inversion-with-redux-thunk-typescript-dave-l-medium">Dependency Inversion with Redux-Thunk &amp; Typescript – Dave L. – Medium</h2>
+
+<p><a href="https://medium.com/@david.losert_73564/dependency-inversion-with-redux-thunk-typescript-e09cebabdc1f" title="Dependency Inversion with Redux-Thunk &amp; Typescript – Dave L. – Medium">medium.com/@david.losert_73564/dependency-inversion-with-redux-thunk-typescript-e09cebabdc1f</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>redux-thunk의 <code>thunk.withExtraArgument(deps)</code>를 사용해 의존 관계 역전 원칙(DIP)을 적용하는 방법에 대해 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-63-web-google-developers">What&#39;s New In DevTools (Chrome 63)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/10/devtools-release-notes" title="What&#39;s New In DevTools (Chrome 63)  |  Web  |  Google Developers">developers.google.com/web/updates/2017/10/devtools-release-notes</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 63 개발자 도구에 관해 작성돼 있습니다.<br>
+Audits 패널에서 보안 취약성 정보를 제공하며 Workspaces 2.0에 대해 소개돼 있습니다. 또, remote debugging가 복수의 클라이언트 동시 접속에 대응하는 등 다양한 변경 사항이 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v2.5.0" title="Release 2.5.0 · GoogleChrome/lighthouse">Release 2.5.0 · GoogleChrome/lighthouse</a></li>
+</ul>
+
+<hr>
+
+<h2 id="npm-task-running-techniques-netscape-medium">NPM Task Running Techniques – Netscape – Medium</h2>
+
+<p><a href="https://medium.com/netscape/npm-task-running-techniques-15fe5b697f15" title="NPM Task Running Techniques – Netscape – Medium">medium.com/netscape/npm-task-running-techniques-15fe5b697f15</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span> <span class="jser-tag">article</span></p></p>
+
+<p>npm-run-all을 사용한 npm-run-scripts의 실행 관리와 <code>wait-on</code>을 사용한 서버가 동작하기를 기다렸다 커멘드를 입력하는 방법에 대해 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="node-js-a-tale-of-two-bugs">Node.js - a tale of two bugs</h2>
+
+<p><a href="https://dev.to/mikeralphson/nodejs---a-tale-of-two-bugs-18c" title="Node.js - a tale of two bugs">dev.to/mikeralphson/nodejs---a-tale-of-two-bugs-18c</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">issue</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js 7.x 이후에 성능 저하를 발견하고 어떻게 디버깅하고 재현 했는지 소개되어 있습니다.<br>
+문제의 원인은 V8의 <code>Error.captureStackTrace</code>에서 발생했으며 Node.js 8.7.0에서 수정될 예정입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="the-productive-developer-guide-to-react">The productive developer guide to React</h2>
+
+<p><a href="https://www.slideshare.net/mauricedb/the-productive-developer-guide-to-react-80642342" title="The productive developer guide to React">www.slideshare.net/mauricedb/the-productive-developer-guide-to-react-80642342</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">slide</span></p></p>
+
+<p>React를 사용한 개발에 관한 슬라이드입니다.<br>
+입문적인 내용으로 React의 장점과 문제점 create-react-app나 Redux, 라우팅 등에 대해 이야기합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="googlechrome-confluence-service-and-api-for-web-api-confluence-metrics-for-web-platform-health">GoogleChrome/confluence: Service and API for Web API Confluence: Metrics for web platform health</h2>
+
+<p><a href="https://github.com/GoogleChrome/confluence" title="GoogleChrome/confluence: Service and API for Web API Confluence: Metrics for web platform health">github.com/GoogleChrome/confluence</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">WebPlatformAPI</span></p></p>
+
+<p>각 브라우저 고유의 API 수나 삭제된 API 수, Ship에 실패한 API 수, API Velocity 등을 시각화 해주는 사이트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="dt-fe-number-precision-1k-tiny-fast-lib-for-doing-addition-subtraction-multiplication-and-division-operations-precisely">dt-fe/number-precision: 🚀1K tiny &amp; fast lib for doing addition, subtraction, multiplication and division operations precisely</h2>
+
+<p><a href="https://github.com/dt-fe/number-precision" title="dt-fe/number-precision: 🚀1K tiny &amp; fast lib for doing addition, subtraction, multiplication and division operations precisely">github.com/dt-fe/number-precision</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>부동소수점 연산 시 사용할 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="spireteam-whitelister-simple-basic-filtering-and-validation-tool-for-node-js">SpireTeam/whitelister: Simple, basic filtering and validation tool for Node.js.</h2>
+
+<p><a href="https://github.com/SpireTeam/whitelister" title="SpireTeam/whitelister: Simple, basic filtering and validation tool for Node.js.">github.com/SpireTeam/whitelister</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>의존 라이브러리 없이 작성된 필터링 / 검증 라이브러리입니다.<br>
+기본적으로 결과를 Promise로 반환하며 <code>sync</code> 메서드를 이용해 동기적으로 처리할 수 있습니다.<br>
+규칙을 위반한 경우엔 커스텀 에러를 발생하게 디자인돼 있습니다.</p>
+
+<hr>
+
+<h2 id="planttheidea-fast-equals-a-blazing-fast-equality-comparison-either-shallow-or-deep">planttheidea/fast-equals: A blazing fast equality comparison, either shallow or deep</h2>
+
+<p><a href="https://github.com/planttheidea/fast-equals" title="planttheidea/fast-equals: A blazing fast equality comparison, either shallow or deep">github.com/planttheidea/fast-equals</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>deep-equal, shallow-equal를 제공하는 라이브러리입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="atomic-design-by-brad-frost">Atomic Design by Brad Frost</h2>
+
+<p><a href="http://atomicdesign.bradfrost.com/" title="Atomic Design by Brad Frost">atomicdesign.bradfrost.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GUI</span> <span class="jser-tag">CSS</span> <span class="jser-tag">book</span></p></p>
+
+<p>Atomic Design를 주제로 한 서적입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-10-17-vue-2.5.0-e2e-glimmerbinary-template.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Vue","E2E","Glimmer","Template"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Vue</li>
+                
+                <li>E2E</li>
+                
+                <li>Glimmer</li>
+                
+                <li>Template</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/10/17/vue-2.5.0-e2e-glimmerbinary-template/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

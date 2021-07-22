@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-02-24: Vite v2, Babel 7.13.0(설정 공통화), WHATWG Streams 입문 가이드 - JSer.info</title>
+    <meta name="description" content="JSer.info #528 - 개발 환경 도구 Vite 2.0 릴리스.">
+    
+    <meta name="keywords" content="Tools,node.js,TypeScript,Firefox,security" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2021-02-24T12:07:37+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #528 - 개발 환경 도구 Vite 2.0 릴리스." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-02-24: Vite v2, Babel 7.13.0(설정 공통화), WHATWG Streams 입문 가이드">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #528 - 개발 환경 도구 Vite 2.0 릴리스.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-02-24T12:07:37+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="security">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/">2021-02-24: Vite v2, Babel 7.13.0(설정 공통화), WHATWG Streams 입문 가이드</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年02月24日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-02-24-vite-v2-babel-7.13.0-whatwg-streams.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-02-24-vite-v2-babel-7.13.0-whatwg-streams.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #528 - 개발 환경 도구 Vite 2.0 릴리스.</p>
+
+<ul>
+<li><a href="https://dev.to/yyx990803/announcing-vite-2-0-2f0a">Announcing Vite 2.0 - DEV Community 👩‍💻👨‍💻</a></li>
+</ul>
+
+<p><a href="https://vitejs.dev/">Vite</a> 2.0은 특정 프레임워크에 의존하지 않으며, <a href="https://github.com/vitejs/vite/tree/main/packages/create-app">다양한 프레임워크에 대응한 템플릿</a>이 준비돼 있다.</p>
+
+<p><a href="https://github.com/preactjs/wmr">Preact의 WMR</a>에 영감을 받아 개발된 Rollup 인터페이스를 확장한 플러그인을 지원하고 CSS를 다루는 방식이 개선됐다.<br>
+또, 시험적으로 <a href="https://vitejs.dev/guide/ssr.html">SSR</a> 지원이 추가됐다.</p>
+
+<p>이와 함께 1.x에서의 마이그레이션 가이드도 공개됐다.</p>
+
+<ul>
+<li><a href="https://vitejs.dev/guide/migration.html#config-options-change">Migration from v1 | Vite</a></li>
+</ul>
+
+<hr>
+
+<p>Babel 7.13.0 릴리스.</p>
+
+<ul>
+<li><a href="https://babeljs.io/blog/2021/02/22/7.13.0">7.13.0 Released: Records and Tuples, granular compiler assumptions, and top-level targets · Babel</a></li>
+</ul>
+
+<p>Babel 설정 시 plugins이나 presets 내에서 중복해서 설정 했던 값을 한번에 다룰 수 있는 <code>targets</code>와 <code>assumptions</code> 지원이 추가됐다.</p>
+
+<ul>
+<li><code>targets</code>: 지원하는 브라우저 정보를 기입하는 옵션
+-<code>assumptions</code>:  사양의 엣지케이스를 무시하고 보다 작은 코드를 출력하기 위한 옵션</li>
+</ul>
+
+<p><code>assumptions</code>는 각 plugins이나 presets에서 <code>loose</code>로 설정 했었던 것을 정리한 옵션이다.<br>
+그 외로는 ES Proposal Stage 2의 Records와 Tuples 지원, Flow의 <code>this</code> 파라메터 지원, 타입스크립트 4.2 지원 등이 추가됐다.<br>
+또, <code>@babel/runtime</code>이 Node.js의 <code>exports</code> 필드에 대응됐고 <code>useESModules</code> 옵션은 비권장 됐다.</p>
+
+<hr>
+
+<p><a href="https://web.dev/streams/">Streams—The definitive guide</a>에는 WHATWG Stream에 대한 설명이 자세히 작성돼 있다.</p>
+
+<p>Stream의 기본적인 컨셉, 구조, <code>ReadableStream</code>/ <code>WritableStream</code> / <code>TransformStream</code>의 사용법, <code>pipeTo</code>로 연결하는 방법을 다루고 있다.<br>
+또, Fetch API, Text Encoding, Compression, File System API, Web Sockets 등 Stream을 지원하고 있는 API도 소개한다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="announcing-vite-2-0-dev-community">Announcing Vite 2.0 - DEV Community 👩‍💻👨‍💻</h2>
+
+<p><a href="https://dev.to/yyx990803/announcing-vite-2-0-2f0a" title="Announcing Vite 2.0 - DEV Community 👩‍💻👨‍💻">dev.to/yyx990803/announcing-vite-2-0-2f0a</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>특정 프레임워크에 의존하지 않는 개발 환경 도구 Vite 2.0 릴리스.<br>
+공식 템플릿을 제공하여 Vue와 React 등을 지원, WMR에 영감을 받아 개발된 Rollup 인터페이스를 확장한 플러그인 지원, CSS를 다루는 방식 개선.<br>
+또, 실험적으로 SSR도 지원한다.</p>
+
+<ul>
+<li><a href="https://vitejs.dev/guide/migration.html#config-options-change" title="Migration from v1 | Vite">Migration from v1 | Vite</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v15-9-0-current-node-js">Node v15.9.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v15.9.0/" title="Node v15.9.0 (Current) | Node.js">nodejs.org/en/blog/release/v15.9.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 15.9.0 릴리스.<br>
+<code>fs/promises</code>에 <code>watch()</code> 추가, <code>fs.watch</code>가 AbortSignal을 지원, <code>timers/promises</code>에서 <code>setInterval</code>을 async iterator로 다룰 수 있도록 개선.</p>
+
+<hr>
+
+<h2 id="release-3-9-0-2021-02-19-zloirock-core-js">Release 3.9.0 - 2021.02.19 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v3.9.0" title="Release 3.9.0 - 2021.02.19 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v3.9.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>core-js 3.9.0 릴리스.<br>
+ES Proposal Stage 1의 <code>Array#findLast()</code>, <code>Array#findLastIndex()</code> 지원.</p>
+
+<hr>
+
+<h2 id="release-v2-0-0-svg-svgo">Release v2.0.0 · svg/svgo</h2>
+
+<p><a href="https://github.com/svg/svgo/releases/tag/v2.0.0" title="Release v2.0.0 · svg/svgo">github.com/svg/svgo/releases/tag/v2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>SVG 최적화 도구인 SVGO 2.0 릴리스.<br>
+설정 파일의 서식 변경, CLI에서 json config를 inline으로 전달할 수 없도록 변경, Node.js API 변경.<br>
+또, 브라우저 용 bundle이 패키지에 포함됐다.</p>
+
+<hr>
+
+<h2 id="release-v1-0-0-rc-1-video-dev-hls-js">Release v1.0.0-rc.1 · video-dev/hls.js</h2>
+
+<p><a href="https://github.com/video-dev/hls.js/releases/tag/v1.0.0-rc.1" title="Release v1.0.0-rc.1 · video-dev/hls.js">github.com/video-dev/hls.js/releases/tag/v1.0.0-rc.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HLS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>hls.js 1.0.0 RC1 릴리스.<br>
+비호환 변경 사항으로 API 일부 변경, Promise를 의존하는 방식으로 수정됐다.<br>
+Low-Latency HLS지원, 실험적으로 IMSC1의 기본적인 기능을 지원한다.</p>
+
+<hr>
+
+<h2 id="release-v5-24-0-webpack-webpack">Release v5.24.0 · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/releases/tag/v5.24.0" title="Release v5.24.0 · webpack/webpack">github.com/webpack/webpack/releases/tag/v5.24.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack 5.24.0 릴리스.<br>
+Concatenation하는 모듈을 탐색할 때의 성능 개선.</p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/pull/12745" title="improve performance of finding modules for concatenation by sokra · Pull Request #12745 · webpack/webpack">improve performance of finding modules for concatenation by sokra · Pull Request #12745 · webpack/webpack</a></li>
+</ul>
+
+<hr>
+
+<h2 id="7-13-0-released-records-and-tuples-granular-compiler-assumptions-and-top-level-targets-babel">7.13.0 Released: Records and Tuples, granular compiler assumptions, and top-level targets · Babel</h2>
+
+<p><a href="https://babeljs.io/blog/2021/02/22/7.13.0" title="7.13.0 Released: Records and Tuples, granular compiler assumptions, and top-level targets · Babel">babeljs.io/blog/2021/02/22/7.13.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Babel 7.13.0 릴리스.<br>
+<code>targets</code> 설정을 Top-Level에 하여 각 플러그인이 그 설정을 이용할 수 있도록 개선, 사양의 엣지케이스를 무시하고 보다 작은 코드를 출력하는 <code>assumptions</code> 옵션 추가<br>
+ES Proposal Stage 2의 Records와 Tuples 지원, Flow의 <code>this</code> 인자 지원, TypeScript 4.2 지원.<br>
+또, <code>@babel/runtime</code>이 Node.js의 <code>exports</code> 필드에 대응한다.</p>
+
+<hr>
+
+<h2 id="a-fabulous-february-firefox-86-mozilla-hacks-the-web-developer-blog">A Fabulous February Firefox — 86! - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2021/02/a-fabulous-february-firefox-86/" title="A Fabulous February Firefox — 86! - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2021/02/a-fabulous-february-firefox-86/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 86 릴리스.<br>
+ETP의 Strict Mode에서 State Partitioning 도입. Dev Tools의 <code>iframe</code> inspection 개선.<br>
+prefix 없이 <code>:autofill</code> CSS 의사 클래스 지원, <code>Intl.DisplayNames</code>를 기본적으로 활성화.<br>
+또, 다른 도메인에서 페이지를 불러왔을 때 <code>Window.name</code>이 빈 문자열이 되도록 변경됐다.</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/86.0/releasenotes/" title="Firefox 86.0, See All New Features, Updates and Fixes">Firefox 86.0, See All New Features, Updates and Fixes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/86" title="Firefox 86 for developers - Mozilla | MDN">Firefox 86 for developers - Mozilla | MDN</a></li>
+<li><a href="https://github.com/mdn/browser-compat-data/pull/9129" title="Note Window.name privacy behavior in Firefox 86+ by Rumyra · Pull Request #9129 · mdn/browser-compat-data">Note Window.name privacy behavior in Firefox 86+ by Rumyra · Pull Request #9129 · mdn/browser-compat-data</a></li>
+</ul>
+
+<hr>
+
+<h2 id="announcing-typescript-4-2-typescript">Announcing TypeScript 4.2 | TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-2/" title="Announcing TypeScript 4.2 | TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-4-2/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 4.2 릴리스.<br>
+Tuple Types에서 Rest Element 지원, Type Alias의 타입 추론 개선 ,오브젝트가 아니라 오퍼랜드에 대한 <code>in</code> 연산자 검사 추가, <code>noPropertyAccessFromIndexSignature</code> 옵션 추가, <code>abstract new</code> 지원.</p>
+
+<hr>
+
+<h2 id="february-2021-security-releases-node-js">February 2021 Security Releases | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/vulnerability/february-2021-security-releases/" title="February 2021 Security Releases | Node.js">nodejs.org/en/blog/vulnerability/february-2021-security-releases/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>Node.js 보안 업데이트로 10.x, 12.x, 14.x, 15.x가 각각 릴리스 됐다.<br>
+HTTP2의 unknownProtocol를 사용한 DoS 대응, <code>--inspect</code> 시의 DNS rebinding 수정, OpenSSL 보안 개선.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="interview-with-ryan-dahl-node-js-deno-creator-by-evrone">Interview with Ryan Dahl, Node.js &amp; Deno creator by Evrone</h2>
+
+<p><a href="https://evrone.com/ryan-dahl-interview" title="Interview with Ryan Dahl, Node.js &amp;amp; Deno creator by Evrone">evrone.com/ryan-dahl-interview</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">Interview</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">opinion</span></p></p>
+
+<p>Node.js와 Deno 개발자인 Ryan Dahl 인터뷰 기사<br>
+JavaScript / TypeScript, Deno 설계, 프로그래밍 언어의 특성과 문제 영역, 오픈소스에 관해 이야기한다.</p>
+
+<hr>
+
+<h2 id="understanding-z-index-in-css">Understanding Z-Index in CSS</h2>
+
+<p><a href="https://ishadeed.com/article/understanding-z-index/" title="Understanding Z-Index in CSS">ishadeed.com/article/understanding-z-index/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>CSS의 <code>z-index</code>에 대해 그림과 함께 시각적으로 학습할 수 있는 튜토리얼.<br>
+스택 컨텍스트, 스캑 컨텍스트를 만드는 속성, <code>z-index</code>와의 관계에 대해 설명한다.</p>
+
+<hr>
+
+<h2 id="using-abortcontroller-as-an-alternative-for-removing-event-listeners-css-tricks">Using AbortController as an Alternative for Removing Event Listeners | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/using-abortcontroller-as-an-alternative-for-removing-event-listeners/" title="Using AbortController as an Alternative for Removing Event Listeners | CSS-Tricks">css-tricks.com/using-abortcontroller-as-an-alternative-for-removing-event-listeners/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 88부터 <code>addEventListener</code>가 Abort Signal에 대응했기 때문에 <code>removeEventListener</code>를 사용하지 않고 AbortController를 이용해서도 이벤트 리스너를 삭제할 수 있다.</p>
+
+<hr>
+
+<h2 id="listify-a-javascript-array">Listify a JavaScript Array</h2>
+
+<p><a href="https://kentcdodds.com/blog/listify-a-java-script-array" title="Listify a JavaScript Array">kentcdodds.com/blog/listify-a-java-script-array</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>Intl.ListFormat</code>를 사용하여 &quot;A, B, and C&quot;와 같은 문자를 각 언어 대응해서 표현을 작성할 수 있다.</p>
+
+<hr>
+
+<h2 id="introducing-state-partitioning-mozilla-hacks-the-web-developer-blog">Introducing State Partitioning - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2021/02/introducing-state-partitioning/" title="Introducing State Partitioning - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2021/02/introducing-state-partitioning/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Firefox 86에서 ETP Strict 모드에서 활성화 되는 State Partitioning에 대해 소개.<br>
+Cookie의 보존도 사이트 별로 doubled key가 되며, 3rd party cookie 등도 분리된다.<br>
+SSO 등을 망가뜨리지 않도록 하기 위한 opener를 사용한 휴리스탁한 회피 방법과 Storage Access API에 대해서도 다루고 있다.</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Privacy/State_Partitioning" title="State Partitioning - Mozilla | MDN">State Partitioning - Mozilla | MDN</a></li>
+<li><a href="https://blog.mozilla.org/security/2021/02/23/total-cookie-protection/" title="Firefox 86 Introduces Total Cookie Protection - Mozilla Security Blog">Firefox 86 Introduces Total Cookie Protection - Mozilla Security Blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="streams-the-definitive-guide">Streams—The definitive guide</h2>
+
+<p><a href="https://web.dev/streams/" title="Streams—The definitive guide">web.dev/streams/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WHATWG</span> <span class="jser-tag">stream</span> <span class="jser-tag">article</span></p></p>
+
+<p>WHATWG Streams 설명 글.<br>
+컨셉, 구조 <code>ReadableStream</code> / <code>WritableStream</code> / <code>TransformStream</code> 사용 방법과 <code>pipeTo</code>와의 연계.<br>
+Fetch API, Text Encoding, Compression, File System API, Web Sockets 등 Stream을 지원하고 있는 API도 함께 소개.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="w3c-browser-statuses-implementation-support-information-of-web-technologies-on-main-desktop-and-mobile-browsers">w3c/browser-statuses: Implementation support information of Web technologies on main desktop and mobile browsers</h2>
+
+<p><a href="https://github.com/w3c/browser-statuses" title="w3c/browser-statuses: Implementation support information of Web technologies on main desktop and mobile browsers">github.com/w3c/browser-statuses</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">library</span></p></p>
+
+<p>Can I Use, Chrome Platform Status, MDN, WebKit Feature Status 데이터를 정규화한 데이터 세트.<br>
+API 별 브라우저나 폴리필 지원 현황을 취급할 수 있는 라이브러리.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="thomasaribart-json-schema-to-ts-infer-ts-types-from-json-schemas">ThomasAribart/json-schema-to-ts: Infer TS types from JSON schemas 📝</h2>
+
+<p><a href="https://github.com/ThomasAribart/json-schema-to-ts" title="ThomasAribart/json-schema-to-ts: Infer TS types from JSON schemas 📝">github.com/ThomasAribart/json-schema-to-ts</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JSON</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>JSON Schema로 부터 TypeScript을 추론하는 라이브러리.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-02-24-vite-v2-babel-7.13.0-whatwg-streams.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Tools","node.js","TypeScript","Firefox","security"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Tools</li>
+                
+                <li>node.js</li>
+                
+                <li>TypeScript</li>
+                
+                <li>Firefox</li>
+                
+                <li>security</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/02/24/vite-v2-babel-7.13.0-whatwg-streams/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

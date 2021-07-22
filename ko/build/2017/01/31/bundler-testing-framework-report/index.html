@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状 - JSer.info</title>
+    <meta name="description" content="JSer.infoでは不定期でレポートという形で、特定のテーマに関する状況をまとめています。">
+    
+    <meta name="keywords" content="webpack,bundler,testing,report" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-01-31T10:12:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="report" property="article:section">
+      
+    
+    
+      
+      <meta content="webpack" property="article:tag">
+      
+      <meta content="bundler" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="report" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/01/31/bundler-testing-framework-report/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.infoでは不定期でレポートという形で、特定のテーマに関する状況をまとめています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/01/31/bundler-testing-framework-report/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.infoでは不定期でレポートという形で、特定のテーマに関する状況をまとめています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-01-31T10:12:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="webpack">
+
+<meta property="article:tag" content="bundler">
+
+<meta property="article:tag" content="testing">
+
+<meta property="article:tag" content="report">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/01/31/bundler-testing-framework-report/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/01/31/bundler-testing-framework-report/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/01/31/bundler-testing-framework-report/">JSerレポート #1 Bundlerの未来、テスティングフレームワークの現状</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年01月31日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-01-31-bundler-testing-framework-report.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg"/></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-01-31-bundler-testing-framework-report.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/01/31/bundler-testing-framework-report/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/01/31/bundler-testing-framework-report/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        
+        <aside class="post-content-toc">
+            <h2 class="post-content-toc-title">レポートサマリ</h2>
+            <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#bundler-1">Bundler #1</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#webpack-2">webpack 2</a></li>
+<li class="toc-entry toc-h2"><a href="#fusebox">Fusebox</a></li>
+<li class="toc-entry toc-h2"><a href="#rollup">Rollup</a></li>
+<li class="toc-entry toc-h2"><a href="#browserify">Browserify</a></li>
+<li class="toc-entry toc-h2"><a href="#es-modules">ES modules</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#testing-framework-3">Testing Framework #3</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#mocha-contributor">MochaがContributorを募集</a></li>
+<li class="toc-entry toc-h2"><a href="#sinon-js-2-0">Sinon.js 2.0へ向けて</a></li>
+<li class="toc-entry toc-h2"><a href="#2016-javascript-rising-stars">2016 JavaScript Rising Stars</a></li>
+<li class="toc-entry toc-h2"><a href="#ava-will-introduce-magic-assert">AVA will introduce Magic assert</a></li>
+</ul>
+</li>
+</ul>
+        </aside>
+        
+        <p>JSer.infoでは不定期でレポートという形で、特定のテーマに関する状況をまとめています。</p>
+
+<ul>
+<li><a href="https://github.com/jser/report" title="jser/report">jser/report</a></li>
+</ul>
+
+<p>レポートなどの更新情報を知りたい方は<a href="https://jser.info/rss/">RSS</a>や<a href="https://twitter.com/jser_info">Twitter@jser_info</a>をフォローしてみてください。</p>
+
+<h1 id="bundler-1"><a href="https://github.com/jser/report/issues/1" title="Next Bundler #1">Bundler #1</a></h1>
+
+<p>JavaScriptのコードはモジュールに分けて開発することが一般的です。<br>
+ブラウザにおいて、一つずつ<code>&lt;script&gt;</code>タグでモジュールをロードするのはラウンドトリップやコネクションの問題が発生します。</p>
+
+<p>そのため、多くの場合ブラウザ向けのコードはモジュールをまとめた(bundleした)ファイルを作成して配信します。</p>
+
+<ul>
+<li><a href="http://teppeis.hatenablog.com/entry/2015/05/es6-modules-and-http2" title="ES6 ModulesはHTTP/2によってconcat無しで使えるようになるのか - teppeis blog">ES6 ModulesはHTTP/2によってconcat無しで使えるようになるのか - teppeis blog</a></li>
+<li><a href="http://qiita.com/uctakeoff/items/ce8da368d020273c6064" title="レトロエンジニアのための近代Webフロントエンド事情 - Qiita">レトロエンジニアのための近代Webフロントエンド事情 - Qiita</a></li>
+</ul>
+
+<p>その際にモジュールの依存関係などを解決しながらファイルをまとめる&quot;bundler&quot;と呼ばれるツールの動きについてのレポートです。</p>
+
+<h2 id="webpack-2">webpack 2</h2>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/releases/tag/v2.2.0" title="Release v2.2.0 · webpack/webpack">Release v2.2.0 · webpack/webpack</a></li>
+</ul>
+
+<p>webpack 2が正式にリリースされています。</p>
+
+<ul>
+<li><a href="https://jser.info/2017/01/24/webpack-2-javascript-2016-js-star/" title="2017-01-24のJS: webpack 2正式リリース、JavaScriptの開発環境設定、2016 JS Stars - JSer.info">2017-01-24のJS: webpack 2正式リリース、JavaScriptの開発環境設定、2016 JS Stars - JSer.info</a>で紹介しました。</li>
+</ul>
+
+<p>webpack 2のドキュメントは <a href="https://webpack.js.org/">webpack.js.org/</a> の新しいサイトの方にまとめられています。</p>
+
+<p><a href="https://webpack.js.org/guides/migrating/" title="Migrating from v1 to v2">Migrating from v1 to v2</a>にマイグレーションガイドがあります。</p>
+
+<p>一部設定の名前が変更されていたり、<code>json-loader</code>がデフォルトとなっていたり既存のconfigを変更する参考になると思います。</p>
+
+<p>今後の機能追加や改善については、投票ツールを通じて決定していくようです。<br>
+(投票の重み付けに利用されている<a href="http://azu.github.io/slide/2017/t_wada_sushi/OpenCollective.html" title="Open Collective">Open Collectiveについてのスライド</a>を書いたので、併せてみるといいかもしれません)</p>
+
+<ul>
+<li><a href="https://webpack.js.org/vote/">https://webpack.js.org/vote/</a></li>
+</ul>
+
+<p>投票のサイトを見ると今のところ次の開発候補としてはScope Hoisting(Rollupインスパイアな最適化)、Typescript周りの改善などが上がっているようです。</p>
+
+<h2 id="fusebox"><a href="http://fuse-box.org/" title="Fusebox">Fusebox</a></h2>
+
+<p><a href="http://fuse-box.org/" title="Fusebox">Fusebox</a>という新しいBundlerツールが登場しました。<br>
+実際に試してみると、初回のビルドと再ビルド(<code>.fusebox</code>のキャッシュあり)どちらも高速です。</p>
+
+<ul>
+<li><a href="https://jser.info/2017/01/04/postcss-chrome-fusebox/" title="2017-01-04のJS: PostCSS概要、Chrome開発者ツール、FuseBox - JSer.info">2017-01-04のJS: PostCSS概要、Chrome開発者ツール、FuseBox - JSer.info</a> で紹介しました。</li>
+</ul>
+
+<p>基本的に設定はJavaScriptのコードとして書くようになっていて、<code>node</code>で実行するだけです。</p>
+
+<p>また、webpackのように設定としてentryポイントを設定するのではなく、ビルドの設定をする<code>FuseBox.init</code>と実際にbudnleするものを決める<code>fuse.bundle</code>メソッドで分かれています。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">const</span> <span class="nx">FuseBox</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">fusebox</span><span class="dl">"</span><span class="p">).</span><span class="nx">FuseBox</span>
+<span class="kd">let</span> <span class="nx">fuse</span> <span class="o">=</span> <span class="nx">FuseBox</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="na">homeDir</span><span class="p">:</span> <span class="dl">"</span><span class="s2">src/</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">globals</span><span class="p">:</span> <span class="p">{</span> <span class="na">default</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myLib</span><span class="dl">"</span><span class="p">},</span>
+    <span class="na">outFile</span><span class="p">:</span> <span class="dl">"</span><span class="s2">./out.js</span><span class="dl">"</span>
+<span class="p">});</span>
+
+<span class="nx">fuse</span><span class="p">.</span><span class="nx">bundle</span><span class="p">(</span><span class="dl">"</span><span class="s2">&gt;index.js</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div>
+<p>そのためコードとして設定を書くgulpとは相性がいいため、公式のサンプルでもgulp内に書いている例を見かけます。</p>
+
+<ul>
+<li><a href="https://github.com/fuse-box/angular2-example/blob/master/gulpfile.js" title="angular2-example/gulpfile.js at master · fuse-box/angular2-example">angular2-example/gulpfile.js at master · fuse-box/angular2-example</a></li>
+</ul>
+
+<h2 id="rollup"><a href="https://github.com/rollup/rollup" title="Rollup">Rollup</a></h2>
+
+<p>大きな変化はありませんが、Rollupは順調に開発中です。<br>
+次のIssueも併せてみると面白いかもしれません。</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/sample-framework-boot/pull/10#issuecomment-272632548" title="Use minified version of React by gaearon · Pull Request #10 · GoogleChrome/sample-framework-boot">Use minified version of React by gaearon · Pull Request #10 · GoogleChrome/sample-framework-boot</a></li>
+</ul>
+
+<h2 id="browserify"><a href="https://github.com/substack/node-browserify" title="browserify">Browserify</a></h2>
+
+<p>Browserify自体を機能追加/改善するアップデートはあまり積極的に行われていません。<br>
+@substack以外にPRをマージするOwnerがいないことに起因しています。</p>
+
+<p><a href="https://github.com/substack/node-browserify/graphs/contributors"><img src="https://cloud.githubusercontent.com/assets/19714/22461846/515bb70a-e7ee-11e6-9651-648f65a2a8c8.png" alt="node-browserify 2017-01-31 19-47-37"></a></p>
+
+<p>元々本体に多くの機能があるわけではなく依存するパッケージに機能が分散しています。<br>
+しかし、その依存のアップデートが滞りがちです。<br>
+Issue/PRにはNode.js v6&gt;=で追加されたDeprecated Warningや依存するパッケージのDeprecated Warningを解消する些細なものが多く並んでいます。</p>
+
+<ul>
+<li><a href="https://github.com/substack/node-browserify/pulls">https://github.com/substack/node-browserify/pulls</a></li>
+<li><a href="https://github.com/nodejs/node/issues/9531" title="buffer: discuss future direction of Buffer constructor API · Issue #9531 · nodejs/node">buffer: discuss future direction of Buffer constructor API · Issue #9531 · nodejs/node</a></li>
+</ul>
+
+<p>先日、<a href="https://github.com/substack/node-browserify/blob/master/changelog.markdown#1400" title="14.0.0">14.0.0</a>がリリースされました。<br>
+このリリースでは、Browserifyが利用する<code>buffer</code>のpolyfillである<a href="https://github.com/feross/buffer" title="feross/buffer">feross/buffer</a>がアップデートされています。<br>
+<code>TypedArray</code>を使う実装になったため、bufferを含んだコードを変換した場合に、IE10以下では動かなくなります。</p>
+
+<p>IE10以下でも動くようにしたい場合は、古い<a href="https://github.com/feross/buffer" title="feross/buffer">feross/buffer</a>を利用する必要があります。</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm <span class="nb">install </span>buffer@4 <span class="nt">--save</span>
+<span class="nv">$ </span>browserify <span class="nt">-r</span> buffer/:buffer main.js <span class="o">&gt;</span> bundle.js
+</code></pre></div>
+<h2 id="es-modules">ES modules</h2>
+
+<p>MSEdgeと<a href="https://lists.webkit.org/pipermail/webkit-dev/2016-December/028564.html">WebKit</a>にES modules(<code>&lt;script type=&quot;module&quot;&gt;</code>)が実装されています。</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/7265/release-notes-for-safari-technology-preview-21/" title="Release Notes for Safari Technology Preview 21 | WebKit">Release Notes for Safari Technology Preview 21 | WebKit</a></li>
+</ul>
+
+<p>ES modulesとNode.js modulesについては細かな挙動の違いなどが存在します。<br>
+詳しくは次の記事を読むと良いです。</p>
+
+<ul>
+<li><a href="https://blog.hospodarets.com/native-ecmascript-modules-new-features">Native ECMAScript modules: the new features and differences from Webpack modules</a></li>
+<li><a href="https://blog.hospodarets.com/native-ecmascript-modules-the-first-overview#browsers-support">Native ECMAScript modules - the first overview</a></li>
+</ul>
+
+<p>webpack 2やrollupなどはES modulesのコードを直接扱うようになっています。<br>
+ES modulesのブラウザ実装が進むにつれ、ES modulesを扱うツールなども増えてくることが予想されます。<br>
+Bundlerはそこへ直接関係するツールであるため、今後の動きに注目していく必要があります。</p>
+
+<hr>
+
+<h1 id="testing-framework-3"><a href="https://github.com/jser/report/issues/3" title="Testing Framework #3">Testing Framework #3</a></h1>
+
+<p>JavaScriptのテスティングフレームワーク周りのレポートです。</p>
+
+<h2 id="mocha-contributor"><a href="https://github.com/mochajs/mocha">Mocha</a>がContributorを募集</h2>
+
+<blockquote>
+<p>Mocha needs YOU!<br>
+-- <a href="https://github.com/mochajs/mocha#mocha-needs-you">https://github.com/mochajs/mocha#mocha-needs-you</a></p>
+</blockquote>
+
+<p>Mochaのメンテナンスリソースが足りていないため協力を募集する内容がREADMEにかかれています。<br>
+IssueやPull Requestのレビューをしてくれる人やMochaへのテストの追加などをコントリビューションを募集しています。</p>
+
+<p>詳しくは<a href="https://github.com/mochajs/mocha/projects" title="Projects · mochajs/mocha">Projects</a>を見るかGitterでやり取りすると良さそうです。</p>
+
+<ul>
+<li><a href="https://gitter.im/mochajs/mocha" title="mochajs/mocha - Gitter">mochajs/mocha - Gitter</a></li>
+</ul>
+
+<h2 id="sinon-js-2-0">Sinon.js 2.0へ向けて</h2>
+
+<p><a href="http://sinonjs.org/" title="Sinon.JS">Sinon.JS</a> が2.0向けての作業が進められています。<br>
+タスクについては次のIssueで管理されています。</p>
+
+<ul>
+<li><a href="https://github.com/sinonjs/sinon/issues/966" title="Sinon 2.0 Release · Issue #966 · sinonjs/sinon">Sinon 2.0 Release · Issue #966 · sinonjs/sinon</a></li>
+</ul>
+
+<blockquote>
+<p>The much fabled 2.0 release, that will split Sinon.JS into more modules, tidy up the api, simplify all the dependency boilerplate by using Browserify. <br>
+-- <a href="https://github.com/sinonjs/sinon/milestone/5" title="2.0 Milestone">2.0 Milestone</a></p>
+</blockquote>
+
+<p>とあるように、(CommonJS)モジュールとして管理されていなかったのを大きくリファクタリングし、それぞれがモジュール化されています。<br>
+残りのタスクにはドキュメント系となっているため、そこまで遠くない日に2.0がリリースされるかもしれません。<br>
+プレリリース版は既に公開されています。</p>
+
+<ul>
+<li><a href="https://github.com/sinonjs/sinon/releases" title="Releases · sinonjs/sinon">Releases · sinonjs/sinon</a></li>
+</ul>
+
+<h2 id="2016-javascript-rising-stars"><a href="https://risingstars2016.js.org/" title="2016 JavaScript Rising Stars">2016 JavaScript Rising Stars</a></h2>
+
+<p>JavaScriptに関するツールやライブラリのStar増加率をまとめたサイトにおいて、<a href="https://risingstars2016.js.org/#test-framework" title="#8Testing Frameworks">Testing Frameworks</a>についてもまとめられています。<br>
+2016年は<a href="https://github.com/avajs/ava" title="AVA">AVA</a>と<a href="http://facebook.github.io/jest/" title="Jest">Jest</a>のStar数が伸びているようです。</p>
+
+<h2 id="ava-will-introduce-magic-assert">AVA will introduce Magic assert</h2>
+
+<p>テストフレームワークの<a href="https://github.com/avajs/ava" title="AVA">AVA</a>は<a href="https://github.com/power-assert-js/power-assert" title="power-assert">power-assert</a>を内部的に利用しテスト結果を表示することができます。<br>
+現在、そのテスト結果の表示をより分かりやすくしようと<code>magic-assert</code>という名前で開発がされています。</p>
+
+<ul>
+<li><a href="https://github.com/avajs/ava/issues/1155" title="Magic assert · Issue #1155 · avajs/ava">Magic assert · Issue #1155 · avajs/ava</a></li>
+</ul>
+
+<p><img src="https://cloud.githubusercontent.com/assets/697676/21117268/9459421a-c0c1-11e6-80e6-bb2ce6be7c76.png" alt="magic-assert"></p>
+
+<hr>
+
+<p>JSer.infoでは不定期でレポートという形で、特定のテーマに関する状況をまとめています。</p>
+
+<ul>
+<li><a href="https://github.com/jser/report" title="jser/report">jser/report</a></li>
+</ul>
+
+<p>レポートなどの更新情報を知りたい方は<a href="https://jser.info/rss/">RSS</a>や<a href="https://twitter.com/jser_info">Twitter@jser_info</a>をフォローしてみてください。</p>
+
+<p><a href="https://twitter.com/jser_info" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jser_info</a><br>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?&#39;http&#39;:&#39;https&#39;;if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+&#39;://platform.twitter.com/widgets.js&#39;;fjs.parentNode.insertBefore(js,fjs);}}(document, &#39;script&#39;, &#39;twitter-wjs&#39;);</script></p>
+
+<p><a href='https://feedly.com/i/subscription/feed%2Fhttps%3A%2F%2Fjser.info%2Frss%2F' target='blank'><img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a></p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg"/></span>
+        <a class="btn edit-on-github"
+           href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-01-31-bundler-testing-framework-report.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg"/></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">こちら</a>から</span>
+        </nav>
+        
+        <nav class="tags"
+             id="js-post-tags"
+             data-post-tags='["webpack","bundler","testing","report"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"/></span>タグ:</span>
+            <ul>
+                
+                <li>webpack</li>
+                
+                <li>bundler</li>
+                
+                <li>testing</li>
+                
+                <li>report</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/01/31/bundler-testing-framework-report/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/01/31/bundler-testing-framework-report/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function(w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function(u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("//b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("//platform.twitter.com/widgets.js");
+        a("//widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

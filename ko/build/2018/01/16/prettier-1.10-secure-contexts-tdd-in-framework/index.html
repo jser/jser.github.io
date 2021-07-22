@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-01-16のJS: Prettier 1.10、Secure Contexts、TDD in Framework - JSer.info</title>
+    <meta name="description" content="JSer.info #366 - コード整形ツールのPrettier 1.10がリリースされました。">
+    
+    <meta name="keywords" content="prettier,https,TDD" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-01-16T10:50:34+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="prettier" property="article:tag">
+      
+      <meta content="https" property="article:tag">
+      
+      <meta content="TDD" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #366 - コード整形ツールのPrettier 1.10がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-01-16のJS: Prettier 1.10、Secure Contexts、TDD in Framework">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #366 - コード整形ツールのPrettier 1.10がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-01-16T10:50:34+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="prettier">
+
+<meta property="article:tag" content="https">
+
+<meta property="article:tag" content="TDD">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">2018-01-16のJS: Prettier 1.10、Secure Contexts、TDD in Framework</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年01月16日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-01-16-prettier-1.10-secure-contexts-tdd-in-framework.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-01-16-prettier-1.10-secure-contexts-tdd-in-framework.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #366 - コード整形ツールの<a href="https://prettier.io/" title="Prettier">Prettier</a> 1.10がリリースされました。</p>
+
+<ul>
+<li><a href="https://prettier.io/blog/2018/01/10/1.10.0.html" title="Prettier 1.10: One Year of Prettier 🎂 · Prettier">Prettier 1.10: One Year of Prettier 🎂 · Prettier</a></li>
+</ul>
+
+<p>Vue Single File Components(<code>.vue</code>)のサポート、<a href="https://prettier.io/docs/en/plugins.html">Plugin API</a>のサポートが行われています。</p>
+
+<p>Plugin APIは、<a href="https://github.com/prettier/prettier/pull/3349">Pythonサポート</a>や<a href="https://github.com/prettier/prettier/issues/3503" title="Prettier 2.0">Prettier 2.0</a>の議論の中でコンポーネントの分離をする流れで開発されました。</p>
+
+<ul>
+<li><a href="https://github.com/prettier/prettier/issues/3511" title="Use a monorepo and separate out Prettier’s components · Issue #3511 · prettier/prettier">Use a monorepo and separate out Prettier’s components · Issue #3511 · prettier/prettier</a></li>
+</ul>
+
+<p>現在このAPIを使ってPython、PHP、Swiftのサポートが開発中となっています。</p>
+
+<ul>
+<li><a href="https://github.com/prettier/prettier-python">prettier/prettier-python: Prettier Python Plugin</a></li>
+<li><a href="https://github.com/prettier/prettier-php">prettier/prettier-php: Prettier PHP Plugin</a></li>
+<li><a href="https://github.com/prettier/prettier-swift">prettier/prettier-swift: Prettier Swift Plugin</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://blog.mozilla.org/security/2018/01/15/secure-contexts-everywhere/" title="Secure Contexts Everywhere | Mozilla Security Blog">Secure Contexts Everywhere | Mozilla Security Blog</a>という記事では、今後のFirefoxでサポートする新しいウェブプラットフォームAPIなどはSecure Contextsでのみ動作する方針について書かれています。</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts" title="Secure contexts">Secure contexts</a>は大雑把にいうとHTTPS/TLSで配信されているコンテンツの実行コンテキストのことで、<code>window.isSecureContext</code>で判定できます。<br>
+(localhostもSecure Contextなので開発時は問題ありません)</p>
+
+<p>たとえば、このサイトはHTTPSで配信しているのでSecure Contextsでのコンテンツと判断されます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">origin</span><span class="p">);</span> <span class="c1">// =&gt; "https://jser.info/"</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">isSecureContext</span><span class="p">);</span> <span class="c1">// =&gt; true</span>
+</code></pre></div>
+<p>今後Firefoxで新しい機能(JavaScript、CSS、HTTP、メディアフォーマットなど)をサポートする際にはSecure Contextsを必須にすることについて書かれています。</p>
+
+<blockquote>
+<p>Web-exposed means that the feature is observable from a web page or server, whether through JavaScript, CSS, HTTP, media formats, etc. A feature can be anything from an extension of an existing IDL-defined object, a new CSS property, a new HTTP response header, to bigger features such as WebVR.</p>
+</blockquote>
+
+<p>その機能が使えるかどうかの判定は、今までどおり<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/%40supports" title="@supports">@supports</a>やFeature Detectをすることが推奨されています。<br>
+また、すでにある機能の値の追加は例外になるケース(実装が複雑となるため)などについても書かれています。</p>
+
+<p>他のブラウザなども含めSecure Contextsを必須とするAPIなどについては次のページに纏められています。</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts/features_restricted_to_secure_contexts" title="Features restricted to secure contexts - Web security | MDN">Features restricted to secure contexts - Web security | MDN</a></li>
+<li><a href="https://permission.site/" title="permission.site">permission.site</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-2-5-0-qunitjs-qunit">Release 2.5.0 · qunitjs/qunit</h2>
+
+<p><a href="https://github.com/qunitjs/qunit/releases/tag/2.5.0" title="Release 2.5.0 · qunitjs/qunit">github.com/qunitjs/qunit/releases/tag/2.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>QUnit 2.5.0リリース。<br>
+<code>assert.rejects</code>の追加、<code>QUnit.onUnhandledRejection</code>の追加など</p>
+
+<hr>
+
+<h2 id="node-v9-4-0-current-node-js">Node v9.4.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v9.4.0/" title="Node v9.4.0 (Current) | Node.js">nodejs.org/en/blog/release/v9.4.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v9.4.0リリース。<br>
+npm 5.6.0へアップデート、zlibモジュールで<code>ArrayBuffer</code>をサポートなど</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-47-webkit">Release Notes for Safari Technology Preview 47 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8060/release-notes-for-safari-technology-preview-47/" title="Release Notes for Safari Technology Preview 47 | WebKit">webkit.org/blog/8060/release-notes-for-safari-technology-preview-47/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 47リリース。<br>
+Storage Access APIの実験的サポート、Service Workerの改善、Web InspectorのCanvasタブをデフォルトで有効化など</p>
+
+<ul>
+<li><a href="https://github.com/whatwg/html/issues/3338" title="Proposal: Storage Access API · Issue #3338 · whatwg/html">Proposal: Storage Access API · Issue #3338 · whatwg/html</a></li>
+</ul>
+
+<hr>
+
+<h2 id="prettier-1-10-one-year-of-prettier-prettier">Prettier 1.10: One Year of Prettier 🎂 · Prettier</h2>
+
+<p><a href="https://prettier.io/blog/2018/01/10/1.10.0.html" title="Prettier 1.10: One Year of Prettier 🎂 · Prettier">prettier.io/blog/2018/01/10/1.10.0.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Prettier 1.10リリース。<br>
+Vue Single File Componentsのサポート、Prettier Plugin APIの追加。<br>
+Python、PHP、Swiftをプラグインでサポート。</p>
+
+<hr>
+
+<h2 id="announcing-storybook-3-3-storybook-medium">Announcing Storybook 3.3 – Storybook – Medium</h2>
+
+<p><a href="https://medium.com/storybookjs/announcing-storybook-3-3-9972c4bc87ac" title="Announcing Storybook 3.3 – Storybook – Medium">medium.com/storybookjs/announcing-storybook-3-3-9972c4bc87ac</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Storybook 3.3リリース。<br>
+Angularプロジェクトをサポート、viewportのシミュレート、storyshotsでのテスト改善など</p>
+
+<hr>
+
+<h2 id="release-v0-63-0-facebook-flow">Release v0.63.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.63.0" title="Release v0.63.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.63.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flow 0.63.0リリース。<br>
+Strict modeでは関数の引数を<code>const</code>として扱うように</p>
+
+<hr>
+
+<h2 id="secure-contexts-everywhere-mozilla-security-blog">Secure Contexts Everywhere | Mozilla Security Blog</h2>
+
+<p><a href="https://blog.mozilla.org/security/2018/01/15/secure-contexts-everywhere/" title="Secure Contexts Everywhere | Mozilla Security Blog">blog.mozilla.org/security/2018/01/15/secure-contexts-everywhere/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">security</span> <span class="jser-tag">news</span> <span class="jser-tag">WebPlatformAPI</span></p></p>
+
+<p>Firefoxは今後に新しい機能(JavaScript、CSS、HTTP、フォーマットなど)に利用する際にはSecure Contexts(HTTPS)を必須にする方針について。<br>
+新しいCSS color keywordのような既存部分の変更については例外とする場合があることについてなど</p>
+
+<hr>
+
+<h2 id="release-v6-0-0-epoberezkin-ajv">Release v6.0.0 · epoberezkin/ajv</h2>
+
+<p><a href="https://github.com/epoberezkin/ajv/releases/tag/v6.0.0" title="Release v6.0.0 · epoberezkin/ajv">github.com/epoberezkin/ajv/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JSON</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>JSON Schema Validatorのajv 6.0.0リリース。<br>
+JSON Schema Draft-07をサポート</p>
+
+<ul>
+<li><a href="http://json-schema.org/draft-07/json-schema-release-notes.html" title="JSON Schema Draft-07 Release Notes">JSON Schema Draft-07 Release Notes</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="but-really-what-is-a-javascript-test-kentcdodds">But really, what is a JavaScript test? – kentcdodds</h2>
+
+<p><a href="https://blog.kentcdodds.com/but-really-what-is-a-javascript-test-46fe5f3fad77" title="But really, what is a JavaScript test? – kentcdodds">blog.kentcdodds.com/but-really-what-is-a-javascript-test-46fe5f3fad77</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptにおけるテストとはどうやって動くものかについて。<br>
+ifとthrowを使ったものから<code>assert</code>を使ったもの、テストフレームワークを使った構造化など順を追って見ていく話</p>
+
+<hr>
+
+<h2 id="introducing-immer-immutability-the-easy-way-michel-weststrate-medium">Introducing Immer: Immutability the easy way – Michel Weststrate – Medium</h2>
+
+<p><a href="https://medium.com/@mweststrate/introducing-immer-immutability-the-easy-way-9d73d8f71cb3" title="Introducing Immer: Immutability the easy way – Michel Weststrate – Medium">medium.com/@mweststrate/introducing-immer-immutability-the-easy-way-9d73d8f71cb3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>Immutableにオブジェクトを更新する<code>immer</code>について。<br>
+Proxyなどを使い実際に変更された場合にのみ、オブジェクト自身を更新する仕組みをもち、また開発中は自動で<code>Object.freeze</code>を適応する<br>
+ReduxのReducerのようなパターンをMutableなAPIで書ける。</p>
+
+<ul>
+<li><a href="https://egghead.io/lessons/redux-simplify-creating-immutable-data-trees-with-immer" title="Simplify Creating Immutable Data Trees With Immer from @mweststrate on @eggheadio">Simplify Creating Immutable Data Trees With Immer from @mweststrate on @eggheadio</a></li>
+</ul>
+
+<hr>
+
+<h2 id="http-2">HTTP/2 の内幕</h2>
+
+<p><a href="http://www.ibm.com/developerworks/jp/web/library/wa-http2-under-the-hood/index.html" title="HTTP/2 の内幕">www.ibm.com/developerworks/jp/web/library/wa-http2-under-the-hood/index.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP2</span> <span class="jser-tag">article</span></p></p>
+
+<p>HTTP/2の歴史や特徴などの概要を簡単にまとめた記事</p>
+
+<hr>
+
+<h2 id="web-google-developers">低帯域幅と高レイテンシの理解  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/fundamentals/performance/poor-connectivity/?hl=ja" title="低帯域幅と高レイテンシの理解  |  Web  |  Google Developers">developers.google.com/web/fundamentals/performance/poor-connectivity/?hl&#x3D;ja</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p>ネットワークの帯域やレイテンシのシミュレートするツールやlie-fiと呼ばれる問題のあるネットワークの問題について。<br>
+Service Workerを使ったネットワークタイムアウトについて</p>
+
+<hr>
+
+<h2 id="learn-tdd-in-react">Learn TDD in React</h2>
+
+<p><a href="http://learntdd.in/react/" title="Learn TDD in React">learntdd.in/react/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">E2E</span> <span class="jser-tag">article</span></p></p>
+
+<p>Cypressを使ったE2Eテストを書いてからコンポーネントの実装を行う方法についてのチュートリアル。<br>
+<code>data-test</code>属性を使ってのテストコンポーネントの指定、機能の実装などについて</p>
+
+<ul>
+<li><a href="http://learntdd.in/vue/" title="Learn TDD in Vue">Learn TDD in Vue</a></li>
+</ul>
+
+<hr>
+
+<h2 id="what-s-new-in-vue-devtools-4-0-the-vue-point-medium">What’s new in Vue Devtools 4.0 – The Vue Point – Medium</h2>
+
+<p><a href="https://medium.com/the-vue-point/whats-new-in-vue-devtools-4-0-9361e75e05d0" title="What’s new in Vue Devtools 4.0 – The Vue Point – Medium">medium.com/the-vue-point/whats-new-in-vue-devtools-4-0-9361e75e05d0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vue DevTools 4.0の変更点について。<br>
+コンポーネントのデータ編集、アイテムの追加や削除、Quick Edit、エディタで開く、イベントフィルターの改善など</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="how-to-read-the-ecmascript-specification">How to Read the ECMAScript Specification</h2>
+
+<p><a href="https://timothygu.me/es-howto/" title="How to Read the ECMAScript Specification">timothygu.me/es-howto/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">document</span></p></p>
+
+<p>ECMAScriptの仕様書の読み方についてのドキュメント</p>
+
+<hr>
+
+<h2 id="2017-javascript-rising-stars">2017 JavaScript Rising Stars</h2>
+
+<p><a href="https://risingstars.js.org/2017/en/" title="2017 JavaScript Rising Stars">risingstars.js.org/2017/en/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span> <span class="jser-tag">まとめ</span></p></p>
+
+<p>2017年のJavaScript関連におけるStarの増加率でのランキングまとめ</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="react-studio">React Studio</h2>
+
+<p><a href="https://reactstudio.com/" title="React Studio">reactstudio.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">GUI</span> <span class="jser-tag">software</span> <span class="jser-tag">mac </span></p></p>
+
+<p>Reactを使ったサイトを作るGUIエディタ。ページ間の遷移なども扱える。</p>
+
+<hr>
+
+<h2 id="russellgoldenberg-scrollama-scrollytelling-with-intersectionobserver">russellgoldenberg/scrollama: Scrollytelling with IntersectionObserver.</h2>
+
+<p><a href="https://github.com/russellgoldenberg/scrollama" title="russellgoldenberg/scrollama: Scrollytelling with IntersectionObserver.">github.com/russellgoldenberg/scrollama</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>IntersectionObserverを使ったスクロールでのクラスの付け外しなどを行えるライブラリ。<br>
+スクロールでデザインが変わるパターンの実装補助ライブラリ</p>
+
+<hr>
+
+<h2 id="nervjs-nerv-a-blazing-fast-react-alternative-compatible-with-ie8-and-react-16">NervJS/nerv: A blazing fast React alternative, compatible with IE8 and React 16.</h2>
+
+<p><a href="https://github.com/NervJS/nerv" title="NervJS/nerv: A blazing fast React alternative, compatible with IE8 and React 16.">github.com/NervJS/nerv</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>ReactライクなAPIをもつライブラリ。ファイルサイズや小さくしつつReactとの互換性をもつことを目的にしている。また、IE8をサポートしていて、devToolsやReduxとの連携するパッケージも用意されている。</p>
+
+<ul>
+<li><a href="https://github.com/NervJS/nerv/issues/10#issuecomment-356913486" title="What&amp;amp;#39;s the tradeoff? · Issue #10 · NervJS/nerv">What&#39;s the tradeoff? · Issue #10 · NervJS/nerv</a></li>
+</ul>
+
+<hr>
+
+<h2 id="zouhir-jarvis-a-very-intelligent-browser-based-webpack-dashboard">zouhir/jarvis: A very intelligent browser based Webpack dashboard</h2>
+
+<p><a href="https://github.com/zouhir/jarvis" title="zouhir/jarvis: A very intelligent browser based Webpack dashboard">github.com/zouhir/jarvis</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">Tools</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>webpackのダッシュボードプラグイン。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="react">React本格入門 導入からテストまで高速で描写するための開発手法（穴井宏幸 柴田和祈 石井直矢 三宮肇）｜翔泳社の本</h2>
+
+<p><a href="http://www.shoeisha.co.jp/book/detail/9784798153353" title="React本格入門 導入からテストまで高速で描写するための開発手法（穴井宏幸 柴田和祈 石井直矢 三宮肇）｜翔泳社の本">www.shoeisha.co.jp/book/detail/9784798153353</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年02月19日発売<br>
+Reactに関する書籍。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-01-16-prettier-1.10-secure-contexts-tdd-in-framework.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["prettier","https","TDD"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>prettier</li>
+                
+                <li>https</li>
+                
+                <li>TDD</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/01/16/prettier-1.10-secure-contexts-tdd-in-framework/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

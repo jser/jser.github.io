@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-01-02のJS: npmのパッケージ名のルール変更、gulp 4.0.0プレリリース、Babel 7の変更予定 - JSer.info</title>
+    <meta name="description" content="JSer.info #364 - The npm Blog — New Package Moniker rulesという記事では、npmが受け付けるパッケージ名のルールが変更されたことについて書かれています。">
+    
+    <meta name="keywords" content="npm,gulp,babel" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2018-01-02T20:38:53+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="gulp" property="article:tag">
+      
+      <meta content="babel" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/01/02/npm-gulp-4.0.0-babel-7/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #364 - The npm Blog — New Package Moniker rulesという記事では、npmが受け付けるパッケージ名のルールが変更されたことについて書かれています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-01-02のJS: npmのパッケージ名のルール変更、gulp 4.0.0プレリリース、Babel 7の変更予定">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/01/02/npm-gulp-4.0.0-babel-7/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #364 - The npm Blog — New Package Moniker rulesという記事では、npmが受け付けるパッケージ名のルールが変更されたことについて書かれています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-01-02T20:38:53+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="gulp">
+
+<meta property="article:tag" content="babel">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/01/02/npm-gulp-4.0.0-babel-7/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/01/02/npm-gulp-4.0.0-babel-7/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/01/02/npm-gulp-4.0.0-babel-7/">2018-01-02のJS: npmのパッケージ名のルール変更、gulp 4.0.0プレリリース、Babel 7の変更予定</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年01月02日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-01-02-npm-gulp-4.0.0-babel-7.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-01-02-npm-gulp-4.0.0-babel-7.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/01/02/npm-gulp-4.0.0-babel-7/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/01/02/npm-gulp-4.0.0-babel-7/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #364 - <a href="http://blog.npmjs.org/post/168978377570/new-package-moniker-rules" title="The npm Blog — New Package Moniker rules">The npm Blog — New Package Moniker rules</a>という記事では、npmが受け付けるパッケージ名のルールが変更されたことについて書かれています。</p>
+
+<p>今までは、パッケージ名の<code>.</code>, <code>_</code>, <code>-</code>の違いを区別し、別のパッケージであるものとして受け付けていました。<br>
+しかし、これからは<code>.</code>, <code>_</code>, <code>-</code>は含められますが、それらの違いを区別しなくなりました</p>
+
+<p>たとえば、<code>react-native</code>というパッケージが公開されている場合に、次のような名前のパッケージは公開(publish)できなくなります。</p>
+
+<ul>
+<li><code>reactnative</code></li>
+<li><code>react_native</code></li>
+<li><code>react.native</code></li>
+</ul>
+
+<p>この変更によりパッケージ名に使える名前は減りますが、代わりに現在はScoped module(<code>@user/package</code>)として名前空間を分けることができます。そのためScoped moduleを使ってパッケージを公開するで、引き続き一意な名前で公開できます。</p>
+
+<hr>
+
+<p><a href="https://github.com/gulpjs/gulp/releases/tag/v4.0.0" title="Release v4.0.0 · gulpjs/gulp">gulp 4.0.0</a>がプレリリースされています。<br>
+次のように<code>@next</code>を指定することでインストールできます。</p>
+<div class="highlight"><pre><code class="language-" data-lang="">npm install gulp@next
+</code></pre></div>
+<ul>
+<li><a href="https://github.com/gulpjs/gulp/blob/v4.0.0/CHANGELOG.md" title="gulp/CHANGELOG.md at v4.0.0 · gulpjs/gulp">gulp/CHANGELOG.md at v4.0.0 · gulpjs/gulp</a></li>
+</ul>
+
+<p><code>gulp.reset</code>の削除、<code>gulp.task</code>の引数の変更。<br>
+<code>gulp.series</code>と<code>gulp.parallel</code>、<code>gulp.tree</code>、<code>gulp.registry</code>の追加。</p>
+
+<p>今までは、<code>gulp.task</code>の第二引数で依存のTaskを定義していました。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">,</span> <span class="p">[</span><span class="dl">'</span><span class="s1">del</span><span class="dl">'</span><span class="p">],</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// default task code here</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>gulp 4.0.0からは、<code>gulp.series</code>などを使い依存を含めたTaskを定義します。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">,</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="dl">'</span><span class="s1">del</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// default task code here</span>
+<span class="p">}));</span>
+</code></pre></div>
+<p>詳しくはドキュメントが公開されています。</p>
+
+<ul>
+<li><a href="https://github.com/gulpjs/gulp/tree/master/docs" title="gulp/docs at master · gulpjs/gulp">gulp/docs at master · gulpjs/gulp</a></li>
+</ul>
+
+<p>現在このドキュメントの更新なども行われていて、gulp 4の正式リリースはこのドキュメントの修正やマイグレーションガイドなどが用意できたら行うようです。</p>
+
+<ul>
+<li><a href="https://github.com/gulpjs/gulp/issues/1486">[Notice] gulp 4 release process · Issue #1486 · gulpjs/gulp</a></li>
+<li><a href="https://github.com/gulpjs/gulp/milestone/5">gulp 4 - latest tag Milestone</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://babeljs.io/blog/2017/12/27/nearing-the-7.0-release" title="Nearing the 7.0 Release · Babel">Nearing the 7.0 Release · Babel</a>という記事ではリリースが近づいてきているBabel 7の変更点について書かれています。</p>
+
+<p>Babelプラグインの最新のECMAScript仕様への追従や<code>@babel/*</code>へのScoped moduleへの変更、ECMAScript Proposalに関するパッケージ名のルール変更などについて書かれています。</p>
+
+<p>また、前回の<a href="https://babeljs.io/blog/2017/09/12/planning-for-7.0" title="Planning for 7.0 · Babel">Planning for 7.0 · Babel</a>から変更点についても書かれています。<br>
+当初は<a href="https://github.com/babel/babel/issues/5276" title="Deprecate env option in .babelrc">Deprecate env option in .babelrc</a>のように<code>env</code>オプションを非推奨とする予定でしたが、この変更は撤回されています。<br>
+併せて、今までは<code>class MyArray extends Array{}</code>のようなビルトインオブジェクトの継承は動かない変換が行われていましたが、<a href="https://github.com/babel/babel/pull/7020" title="Add support for extending builtins by nicolo-ribaudo · Pull Request #7020 · babel/babel">Add support for extending builtins</a>によってサポートされるようになります。</p>
+
+<ul>
+<li><a href="http://speakingjs.com/es5/ch28.html" title="Chapter 28. Subclassing Built-ins">Chapter 28. Subclassing Built-ins</a>
+
+<ul>
+<li>ES5ではビルトインオブジェクトの継承について書かれている</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="the-npm-blog-new-package-moniker-rules">The npm Blog — New Package Moniker rules</h2>
+
+<p><a href="http://blog.npmjs.org/post/168978377570/new-package-moniker-rules" title="The npm Blog — New Package Moniker rules">blog.npmjs.org/post/168978377570/new-package-moniker-rules</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">news</span> <span class="jser-tag">security</span></p></p>
+
+<p>npmにパッケージをpublishする際のルールが変更された。<br>
+パッケージ名に含まれる<code>.</code>、<code>-</code>、<code>_</code>の違いによる区別をしなくなった。<br>
+<code>react-native</code>と<code>react.native</code>を同じものとして扱い、タイプミスを狙った類似パッケージの公開を防止する目的。</p>
+
+<ul>
+<li><a href="https://www.npmjs.com/package/validate-npm-package-name" title="validate-npm-package-name">validate-npm-package-name</a></li>
+</ul>
+
+<hr>
+
+<h2 id="introducing-hyperapp-1-0-jorge-bucaran-medium">Introducing Hyperapp 1.0 🎉 – Jorge Bucaran – Medium</h2>
+
+<p><a href="https://medium.com/@JorgeBucaran/introducing-hyperapp-1-0-dbf4229abfef" title="Introducing Hyperapp 1.0 🎉 – Jorge Bucaran – Medium">medium.com/@JorgeBucaran/introducing-hyperapp-1-0-dbf4229abfef</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>hyperapp 1.0.0リリース。</p>
+
+<ul>
+<li><a href="https://github.com/hyperapp/hyperapp/releases/tag/1.0.0" title="Release 1.0.0 · hyperapp/hyperapp">Release 1.0.0 · hyperapp/hyperapp</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v4-0-0-gulpjs-gulp">Release v4.0.0 · gulpjs/gulp</h2>
+
+<p><a href="https://github.com/gulpjs/gulp/releases/tag/v4.0.0" title="Release v4.0.0 · gulpjs/gulp">github.com/gulpjs/gulp/releases/tag/v4.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>gulp 4.0.0プレリリース。<br>
+<code>npm install gulp@next</code>でインストールできるように。<br>
+<code>gulp.reset</code>、<code>gulp.task</code>の第三引数の削除。<br>
+<code>gulp.series</code>と<code>gulp.parallel</code>、<code>gulp.tree</code>、<code>gulp.registry</code>の追加。<br>
+<code>gulp</code>と<code>gulp-cli</code>の分離など</p>
+
+<ul>
+<li><a href="https://github.com/gulpjs/gulp/blob/v4.0.0/CHANGELOG.md" title="gulp/CHANGELOG.md at v4.0.0 · gulpjs/gulp">gulp/CHANGELOG.md at v4.0.0 · gulpjs/gulp</a></li>
+<li><a href="https://github.com/gulpjs/gulp/issues/1486" title="\[Notice\] gulp 4 release process · Issue #1486 · gulpjs/gulp">[Notice] gulp 4 release process · Issue #1486 · gulpjs/gulp</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-js-ember-2-18-and-3-0-beta-released">Ember.js - Ember 2.18 and 3.0 Beta Released</h2>
+
+<p><a href="https://emberjs.com/blog/2018/01/01/ember-2-18-released.html" title="Ember.js - Ember 2.18 and 3.0 Beta Released">emberjs.com/blog/2018/01/01/ember-2-18-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Ember 2.1.8と3.0βリリース。<br>
+Ember 3.0ではIE 9, 10のサポート終了、2.xで非推奨となった機能の削除され、それらは<code>ember-2-legacy</code>アドオンにポートされる。</p>
+
+<ul>
+<li><a href="https://github.com/emberjs/rfcs/blob/master/text/0252-browser-support-changes.md" title="rfcs/0252-browser-support-changes.md at master · emberjs/rfcs">rfcs/0252-browser-support-changes.md at master · emberjs/rfcs</a></li>
+<li><a href="https://www.emberjs.com/blog/2017/10/03/the-road-to-ember-3-0.html" title="Ember.js - The Road to Ember 3.0">Ember.js - The Road to Ember 3.0</a></li>
+<li><a href="https://github.com/emberjs/ember-2-legacy" title="emberjs/ember-2-legacy">emberjs/ember-2-legacy</a></li>
+</ul>
+
+<hr>
+
+<h2 id="neutrino-releasing-v8-eli-perelman-medium">Neutrino: Releasing v8 🎉 – Eli Perelman – Medium</h2>
+
+<p><a href="https://medium.com/@eliperelman/neutrino-releasing-v8-a643f356f410" title="Neutrino: Releasing v8 🎉 – Eli Perelman – Medium">medium.com/@eliperelman/neutrino-releasing-v8-a643f356f410</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>JavaScriptの開発環境セットアップツールのNeutrino v8.0.0リリース。<br>
+モジュールを<code>@neutrinojs</code>のScoped moduleへ移行、<code>@neutrinojs/library</code>などのコアミドルウェアの追加、複数ページのアプリへの対応など</p>
+
+<ul>
+<li><a href="https://neutrino.js.org/migration-guide#neutrino-v7-to-v8" title="Migration Guide · Neutrino">Migration Guide · Neutrino</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="performance-calendar-performance-insurance">Performance Calendar » Performance insurance</h2>
+
+<p><a href="https://calendar.perfplanet.com/2017/performance-insurance/" title="Performance Calendar » Performance insurance">calendar.perfplanet.com/2017/performance-insurance/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span></p></p>
+
+<p>パフォーマンス関係のツール紹介記事。<br>
+ファイルサイズチェック、ファイル分割チェック、LightHouse、モニタリングサービスなど</p>
+
+<hr>
+
+<h2 id="christmas-gifts-for-your-future-self-testing-the-web-platform-24-ways">Christmas Gifts for Your Future Self: Testing the Web Platform ◆ 24 ways</h2>
+
+<p><a href="https://24ways.org/2017/testing-the-web-platform/" title="Christmas Gifts for Your Future Self: Testing the Web Platform ◆ 24 ways">24ways.org/2017/testing-the-web-platform/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span> <span class="jser-tag">browser</span></p></p>
+
+<p>ウェブ標準におけるテストについて。<br>
+Web Platform Testsでのテストの見かた、コントリビュート方法やテストの書き方についてなど</p>
+
+<ul>
+<li><a href="https://wpt.fyi/" title="web-platform-tests dashboard">web-platform-tests dashboard</a></li>
+</ul>
+
+<hr>
+
+<h2 id="nearing-the-7-0-release-babel">Nearing the 7.0 Release · Babel</h2>
+
+<p><a href="https://babeljs.io/blog/2017/12/27/nearing-the-7.0-release" title="Nearing the 7.0 Release · Babel">babeljs.io/blog/2017/12/27/nearing-the-7.0-release</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">article</span></p></p>
+
+<p>Babel 7の変更予定について</p>
+
+<hr>
+
+<h2 id="resizeobserver-element-query-blog-jxck-io">ResizeObserver による変更検知と Element Query | blog.jxck.io</h2>
+
+<p><a href="https://blog.jxck.io/entries/2017-12-30/resize-observer-and-element-query.html" title="ResizeObserver による変更検知と Element Query | blog.jxck.io">blog.jxck.io/entries/2017-12-30/resize-observer-and-element-query.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>ResizeObserverについての解説記事。<br>
+要素のリサイズを監視するObserver API</p>
+
+<hr>
+
+<h2 id="profiling-adventure-qiita">Profiling adventure - Qiita</h2>
+
+<p><a href="https://qiita.com/martinheidegger/items/5a5c40770ef6f47a92b2" title="Profiling adventure - Qiita">qiita.com/martinheidegger/items/5a5c40770ef6f47a92b2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">performance</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsで<code>perf_hooks</code>を使ったプロファイル、Node.jsの<code>--prof</code>フラグを使ったより詳細なダンプデータのとり方。<br>
+また<code>--inspect-brk</code>を使いChromeの開発者ツールを使ってのデバッグについて</p>
+
+<hr>
+
+<h2 id="javascript">JavaScript のスレッド並列実行環境</h2>
+
+<p><a href="http://nhiroki.jp/2017/12/10/javascript-parallel-processing" title="JavaScript のスレッド並列実行環境">nhiroki.jp/2017/12/10/javascript-parallel-processing</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptにおけるスレッド関係の機構について。<br>
+タスクキュー、Web Workerのモデル、スレッド間のメッセージング、データのコピーと移譲(Transferable)、SharedArrayBuffer、Agentの共有メモリモデル。 Worklet/Tasklet、Web Locks、Thread APIについて</p>
+
+<hr>
+
+<h2 id="getting-started-with-jest-and-puppeteer-noteworthy-the-journal-blog">Getting Started with Jest and Puppeteer – Noteworthy — The Journal Blog</h2>
+
+<p><a href="https://blog.usejournal.com/getting-started-with-jest-and-puppeteer-7cf6c59a2cae" title="Getting Started with Jest and Puppeteer – Noteworthy — The Journal Blog">blog.usejournal.com/getting-started-with-jest-and-puppeteer-7cf6c59a2cae</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">E2E</span> <span class="jser-tag">testing</span></p></p>
+
+<p>JestとPuppeteerを使ったテストの設定や書き方について</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="tbfleming-cib-clang-running-in-browser-wasm">tbfleming/cib: clang running in browser (wasm)</h2>
+
+<p><a href="https://github.com/tbfleming/cib/" title="tbfleming/cib: clang running in browser (wasm)">github.com/tbfleming/cib/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">Clang</span> <span class="jser-tag">C++</span></p></p>
+
+<p><code>clang</code>と<code>clang-format</code>をJavaScriptにコンパイルし、ブラウザ上で<code>clang</code>を使ってC++をWebAssemblyへコンパイルして実行するデモ</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="anseki-leader-line-draw-a-leader-line-in-your-web-page">anseki/leader-line: Draw a leader line in your web page.</h2>
+
+<p><a href="https://github.com/anseki/leader-line" title="anseki/leader-line: Draw a leader line in your web page.">github.com/anseki/leader-line</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">SVG</span> <span class="jser-tag">library</span></p></p>
+
+<p>指定要素同士を矢印で繋いだり、指定要素への矢印とキャプションを描画できるライブラリ。</p>
+
+<hr>
+
+<h2 id="whoeverest-wsrun-command-runner-for-yarn-workspaces-dependency-aware">whoeverest/wsrun: Command runner for Yarn workspaces. Dependency aware.</h2>
+
+<p><a href="https://github.com/whoeverest/wsrun" title="whoeverest/wsrun: Command runner for Yarn workspaces. Dependency aware.">github.com/whoeverest/wsrun</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Yarn workspace向けのツール。<br>
+lerna runのようにそれぞれのパッケージに対してコマンドを実行できる</p>
+
+<hr>
+
+<h2 id="keithamus-sort-package-json-sort-an-object-or-package-json-based-on-the-well-known-package-json-keys">keithamus/sort-package-json: Sort an Object or package.json based on the well-known package.json keys</h2>
+
+<p><a href="https://github.com/keithamus/sort-package-json" title="keithamus/sort-package-json: Sort an Object or package.json based on the well-known package.json keys">github.com/keithamus/sort-package-json</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span></p></p>
+
+<p><code>package.json</code>のフィールドをソートするツール</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript">JavaScript のスレッド並列実行環境</h2>
+
+<p><a href="http://nhiroki.jp/2017/12/10/javascript-parallel-processing" title="JavaScript のスレッド並列実行環境">nhiroki.jp/2017/12/10/javascript-parallel-processing</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">webworker</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>JavaScriptにおけるWebWorkerやSharedWorker、Workletなどのスレッドの仕組みについてや違いについて。<br>
+また検討されているWeb Locks APIやThread APIについて</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-01-02-npm-gulp-4.0.0-babel-7.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["npm","gulp","babel"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>npm</li>
+                
+                <li>gulp</li>
+                
+                <li>babel</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/01/02/npm-gulp-4.0.0-babel-7/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/01/02/npm-gulp-4.0.0-babel-7/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

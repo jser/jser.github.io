@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-08-08のJS: Storybook 3.2、core-js 2.5.0、Flow Lint - JSer.info</title>
+    <meta name="description" content="JSer.info #343 - React Componentの開発環境ツールであるStorybook 3.2がリリースされました。">
+    
+    <meta name="keywords" content="Storybook,polyfill,ECMAScript,Flow" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-08-08T09:18:58+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Storybook" property="article:tag">
+      
+      <meta content="polyfill" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="Flow" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #343 - React Componentの開発環境ツールであるStorybook 3.2がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-08-08のJS: Storybook 3.2、core-js 2.5.0、Flow Lint">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #343 - React Componentの開発環境ツールであるStorybook 3.2がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-08-08T09:18:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Storybook">
+
+<meta property="article:tag" content="polyfill">
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="Flow">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">2017-08-08のJS: Storybook 3.2、core-js 2.5.0、Flow Lint</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年08月08日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-08-08-storybook-3.2-core-js-2.5.0-flow-lint.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-08-08-storybook-3.2-core-js-2.5.0-flow-lint.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #343 - React Componentの開発環境ツールであるStorybook 3.2がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/storybooks/storybook/releases/tag/v3.2.0" title="Release v3.2.0 · storybooks/storybook">Release v3.2.0 · storybooks/storybook</a></li>
+</ul>
+
+<p>3.2からはVueのコンポーネントをサポートやメニューの階層表示をサポート、<code>onDeviceUI</code>のオプションをサポートなどが行われています。</p>
+
+<ul>
+<li><a href="https://medium.com/storybookjs/introducing-storybook-for-vue-940f222541c5" title="Introducing: Storybook for Vue 🎉 – Storybook – Medium">Introducing: Storybook for Vue 🎉 – Storybook – Medium</a></li>
+<li><a href="https://speakerdeck.com/kazupon/vue-on-storybook" title="Vue on Storybook // Speaker Deck">Vue on Storybook // Speaker Deck</a></li>
+</ul>
+
+<p><a href="https://www.npmjs.com/package/@storybook/react" title="@storybook/react">@storybook/react</a>の代わりに<a href="https://www.npmjs.com/package/@storybook/vue" title="@storybook/vue">@storybook/vue</a>を使うことでVueのコンポーネントをプレビュー環境で確認できるようになります。</p>
+
+<hr>
+
+<p><a href="https://babeljs.io/docs/usage/polyfill/" title="babel-polyfill">babel-polyfill</a>などからも使われているpolyfillライブラリのcore-js 2.5.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/releases/tag/v2.5.0" title="Release 2.5.0 - 2017.08.05 · zloirock/core-js">Release 2.5.0 - 2017.08.05 · zloirock/core-js</a></li>
+</ul>
+
+<p><a href="https://github.com/rwaldron/tc39-notes/tree/master/es8/2017-07">2017年7月に行われたTC39のMeeting</a>の内容を反映した更新が行われています。</p>
+
+<ul>
+<li><a href="https://ecmascript-daily.github.io/ecmascript/2017/07/28/ecmascript-proposals-status" title="ECMAScript proposal updates @ 2017-07 | ECMAScript Daily">ECMAScript proposal updates @ 2017-07 | ECMAScript Daily</a>
+
+<ul>
+<li>2017年7月のミーティングで変更があったProposalのまとめ</li>
+</ul></li>
+</ul>
+
+<p><code>Promise#finally</code>、<code>Promise.try</code>、<code>Array#flatten</code>、<code>Array#flatMap</code>の追加。 Collectionの<code>of</code>/<code>from</code>静的メソッドの追加、<code>Math</code>のProposalの追加、DOM collectionのiterable対応の更新などが行われています。</p>
+
+<hr>
+
+<p><a href="https://medium.com/flow-type/linting-in-flow-7709d7a7e969" title="Linting in Flow – Flow – Medium">Linting in Flow – Flow – Medium</a>という記事では、Flow 0.52で追加されたFlowlintについて解説されています。</p>
+
+<ul>
+<li><a href="https://flow.org/en/docs/linting/" title="Linting Overview | Flow">Linting Overview | Flow</a></li>
+</ul>
+
+<p>Flowに内蔵されているLinting Frameworkで、ESLintなどのようにルール毎にSeverity Levelsが設定できるようになっています。また、<a href="https://flow.org/en/docs/linting/flowlint-comments/" title="Flowlint Comments">Flowlint Comments</a>を使うことで、コメントで部分的にルールを無効することもできるようになっています。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">import</span> <span class="nx">type</span> <span class="p">{</span>
+  <span class="c1">// flowlint untyped-type-import:off</span>
+  <span class="nx">Foo</span><span class="p">,</span>
+  <span class="nx">Bar</span><span class="p">,</span>
+  <span class="nx">Baz</span><span class="p">,</span>
+  <span class="c1">// flowlint untyped-type-import:error</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./untyped.js</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div>
+<p>まだ自分で<a href="https://flow.org/en/docs/linting/rule-reference/" title="Lint Rule">Lint Rule</a>を追加する方法は書かれていませんが、今後のドキュメントを整備していくようです。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v3-2-0-storybooks-storybook">Release v3.2.0 · storybooks/storybook</h2>
+
+<p><a href="https://github.com/storybooks/storybook/releases/tag/v3.2.0" title="Release v3.2.0 · storybooks/storybook">github.com/storybooks/storybook/releases/tag/v3.2.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Storybook 3.2.0リリース。<br>
+Vueのサポート、メニューの階層表示をサポート、<code>onDeviceUI</code>のオプションをサポートなど</p>
+
+<ul>
+<li><a href="https://medium.com/storybookjs/introducing-storybook-for-vue-940f222541c5" title="Introducing: Storybook for Vue 🎉 – Storybook – Medium">Introducing: Storybook for Vue 🎉 – Storybook – Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="testcafe-v0-17-0-released-testcafe">TestCafe v0.17.0 Released | TestCafe</h2>
+
+<p><a href="http://devexpress.github.io/testcafe/blog/testcafe-v0-17-0-released.html" title="TestCafe v0.17.0 Released | TestCafe">devexpress.github.io/testcafe/blog/testcafe-v0-17-0-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">browser</span> <span class="jser-tag">testing</span></p></p>
+
+<p>TestCafe v0.17.0リリース<br>
+<code>testcafe-browser-provider-electron</code>の追加、<code>-c</code>オプションでConcurrentなテストを実行できるように、Automatic waitの仕組みを改善など</p>
+
+<hr>
+
+<h2 id="release-v3-0-0-sinonjs-sinon">Release v3.0.0 · sinonjs/sinon</h2>
+
+<p><a href="https://github.com/sinonjs/sinon/releases/tag/v3.0.0" title="Release v3.0.0 · sinonjs/sinon">github.com/sinonjs/sinon/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Sinon.js 3.0.0リリース。<br>
+Deprecatedとなっていたメソッドを削除、Fake XHR/Fake Serverはniseモジュールへ移動された。<br>
+<code>format.setFormatter</code>の追加など</p>
+
+<ul>
+<li><a href="http://sinonjs.org/releases/v3.0.0/migrating-to-3.0/" title="Migrating to v3.0 - Sinon.JS">Migrating to v3.0 - Sinon.JS</a></li>
+<li><a href="https://github.com/sinonjs/nise" title="sinonjs/nise: Fake XHR and fake server">sinonjs/nise: Fake XHR and fake server</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-6-1">V8 JavaScript Engine: V8 Release 6.1</h2>
+
+<p><a href="https://v8project.blogspot.com/2017/08/v8-release-61.html" title="V8 JavaScript Engine: V8 Release 6.1">v8project.blogspot.com/2017/08/v8-release-61.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 6.1リリース。<br>
+<code>Map</code>/<code>Set</code>/<code>Object#isPrototypeOf()</code>/<code>Reflect.construct</code>のパフォーマンス改善。<br>
+asm.jsのコードを検証してからwasmへコンパイルするようになるなど</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2017/08/chrome-61-deprecations" title="Deprecations and Removals in Chrome 61  |  Web  |  Google Developers">Deprecations and Removals in Chrome 61  |  Web  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h2 id="workspaces-in-yarn-yarn-blog">Workspaces in Yarn | Yarn Blog</h2>
+
+<p><a href="https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/" title="Workspaces in Yarn | Yarn Blog">yarnpkg.com/blog/2017/08/02/introducing-workspaces/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">npm</span></p></p>
+
+<p>lernaのようなmonorepo管理の仕組みであるyarn workspaceについての紹介。<br>
+オプションで有効化できる実験的な機能。リポジトリ内の複数のパッケージを管理して、それぞれのパッケージが依存するモジュールはsymlinkで解決できる。</p>
+
+<hr>
+
+<h2 id="glamorous-v4-is-here-kent-c-dodds-medium">Glamorous v4 is here 💄 🎉 🎊 – Kent C. Dodds – Medium</h2>
+
+<p><a href="https://medium.com/@kentcdodds/glamorous-v4-is-here-c678fe02a39a" title="Glamorous v4 is here 💄 🎉 🎊 – Kent C. Dodds – Medium">medium.com/@kentcdodds/glamorous-v4-is-here-c678fe02a39a</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>CSS in JSなライブラリのglamorous v4リリース。<br>
+<code>theme</code>引数の削除、<code>useDisplayNameInClassName</code>の削除。<br>
+<code>withProps</code>、<code>propsAreCssOverrides</code>、<code>shouldClassNameUpdate</code>のサポートなど</p>
+
+<ul>
+<li><a href="https://github.com/paypal/glamorous/releases/tag/v4.0.0" title="Release v4.0.0 · paypal/glamorous">Release v4.0.0 · paypal/glamorous</a></li>
+<li><a href="https://github.com/paypal/glamorous/blob/master/other/codemods/README.md" title="glamorous/README.md at master · paypal/glamorous">glamorous/README.md at master · paypal/glamorous</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-2-5-0-2017-08-05-zloirock-core-js">Release 2.5.0 - 2017.08.05 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v2.5.0" title="Release 2.5.0 - 2017.08.05 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v2.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>core-js 2.5.0リリース。<br>
+<code>Promise#finally</code>、<code>Promise.try</code>、<code>Array#flatten</code>、<code>Array#flatMap</code>の追加。<br>
+Collectionの<code>of</code>/<code>from</code>静的メソッドの追加、<code>Math</code>のProposalの追加、DOM collectionのiterable対応の更新、ProposalのStage対応など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="javascript-qiita">JavaScriptフレームワーク選定の議論 - Qiita</h2>
+
+<p><a href="http://qiita.com/azu/items/2921f62127b8d3a1aa03" title="JavaScriptフレームワーク選定の議論 - Qiita">qiita.com/azu/items/2921f62127b8d3a1aa03</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">opinion</span></p></p>
+
+<p>JavaScriptのフレームワーク選定やTypeScript/Flowといった言語の選択について。 それぞれのカテゴリにどのような選択肢があり、どのように選択していくのかについて</p>
+
+<hr>
+
+<h2 id="this-in-javascript-zell-liew">This in JavaScript | Zell Liew</h2>
+
+<p><a href="https://zellwk.com/blog/this/" title="This in JavaScript | Zell Liew">zellwk.com/blog/this/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptの<code>this</code>についての解説。<br>
+グローバル、オブジェクト、メソッド、関数、Arrow Function、イベントハンドラなどにおける<code>this</code>について。<br>
+また<code>this</code>をバインドする<code>bind</code>について</p>
+
+<hr>
+
+<h2 id="babel-preset-env-2-0-mediba-creator-engineer-blog"><a href="mailto:babel-preset-env@2.0">babel-preset-env@2.0</a> を試した -トランスパイル環境をスケールさせていく- | mediba Creator × Engineer Blog</h2>
+
+<p><a href="http://ceblog.mediba.jp/post/163780014387/babel-preset-env-v2" title="babel-preset-env@2.0 を試した -トランスパイル環境をスケールさせていく- | mediba Creator × Engineer Blog">ceblog.mediba.jp/post/163780014387/babel-preset-env-v2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">plugin</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>現在αリリースされているbabel-preset-env 2.0αについて。 静的解析した結果のpolyfillだけを読み込む<code>&quot;useBuiltIns&quot;: &quot;usage&quot;</code>の解説と挙動について。</p>
+
+<hr>
+
+<h2 id="linting-in-flow-flow-medium">Linting in Flow – Flow – Medium</h2>
+
+<p><a href="https://medium.com/flow-type/linting-in-flow-7709d7a7e969" title="Linting in Flow – Flow – Medium">medium.com/flow-type/linting-in-flow-7709d7a7e969</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">article</span></p></p>
+
+<p>Flow 0.52.0で追加されたFlow linterについての解説。<br>
+ESLintのように<code>.flowconfig</code>やコメントでルール毎に有効/無効/エラーレベルの制御できる。</p>
+
+<ul>
+<li><a href="https://github.com/facebook/flow/blob/v0.52.0/Changelog.md" title="flow/Changelog.md at v0.52.0 · facebook/flow">flow/Changelog.md at v0.52.0 · facebook/flow</a></li>
+<li><a href="https://flow.org/en/docs/linting/" title="Linting Overview | Flow">Linting Overview | Flow</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="component-test-speaker-deck">component test // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/bokuweb/component-test" title="component test // Speaker Deck">speakerdeck.com/bokuweb/component-test</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">UI</span> <span class="jser-tag">slide</span></p></p>
+
+<p>ビジュアルリグレッションツールのreg-suitについてのスライド。<br>
+スナップショットとして保存した画像同士を比較しリグレッションを検知する。<br>
+プラグインでスナップショットの保存先や通知先を変更できる。</p>
+
+<ul>
+<li><a href="https://reg-viz.github.io/reg-suit/" title="reg-suit">reg-suit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="get-ready-a-new-v8-is-coming-node-js-performance-is-changing-nearform">Get ready: A new V8 is coming, Node.js performance is changing. | nearForm</h2>
+
+<p><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/" title="Get ready: A new V8 is coming, Node.js performance is changing. | nearForm">www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span></p></p>
+
+<p>V8のバージョンごとの典型的なケースにおけるパフォーマンスについて。TurboFunによる最適化の違い。<br>
+try-catch、<code>delete</code>と<code>undefined</code>の代入、<code>argumetns</code>の渡し方の違い、bind、forループ、オブジェクトの生成などのケースいおける比較</p>
+
+<hr>
+
+<h2 id="speaker-deck">真のコンポーネント粒度を求めて // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/takazudo/zhen-falsekonponentoli-du-woqiu-mete" title="真のコンポーネント粒度を求めて // Speaker Deck">speakerdeck.com/takazudo/zhen-falsekonponentoli-du-woqiu-mete</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">slide</span></p></p>
+
+<p>CSSとコンポーネントについてのスライド。<br>
+OOCSSやBEMにおけるコンポーネント、Atomic Designにおけるコンポーネントの粒度と抽象化、抽象化を避けたECSSコンポーネントなどについて</p>
+
+<hr>
+
+<h2 id="javascript-speaker-deck">複雑なJavaScriptアプリケーションに立ち向かうためのアーキテクチャ // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/shinpeim/fu-za-najavascriptapurikesiyonnili-tixiang-kautamefalseakitekutiya" title="複雑なJavaScriptアプリケーションに立ち向かうためのアーキテクチャ // Speaker Deck">speakerdeck.com/shinpeim/fu-za-najavascriptapurikesiyonnili-tixiang-kautamefalseakitekutiya</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">slide</span> <span class="jser-tag">設計</span></p></p>
+
+<p>見通しが悪いものを分割統治する話。<br>
+プレゼンテーションとドメインの分離(MV*)、モデルをレイヤー分けについて。<br>
+レイヤードアーキテクチャのコンセプトとしてのクリーンアーキテクチャやCQRSについて。<br>
+また具体的な実装についてなど</p>
+
+<ul>
+<li><a href="http://azu.github.io/slide/2016/react-meetup/large-scale-javascript.html" title="複雑なJavaScriptアプリケーションを考えながら作る話">複雑なJavaScriptアプリケーションを考えながら作る話</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="the-critical-request-css-tricks">The Critical Request | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/the-critical-request/" title="The Critical Request | CSS-Tricks">css-tricks.com/the-critical-request/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p></p>
+
+<p>クリティカルリクエストについて。<br>
+開発者ツールでリクエストのPriorityを見る方法、またPriorityはどのように付けられているか。<br>
+First meaningful paintを妨害するリクエストの見つけ方、Priorityを<code>rel=preload</code>を使っての管理について</p>
+
+<hr>
+
+<h2 id="stackblitz">StackBlitz</h2>
+
+<p><a href="https://stackblitz.com/" title="StackBlitz">stackblitz.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webservice</span> <span class="jser-tag">editor</span></p></p>
+
+<p>VSCodeを使ったオンラインIDE、コードシェアサービス。<br>
+Hot reloading、npmモジュールの管理、書いたコードの公開などができる</p>
+
+<ul>
+<li><a href="https://medium.com/@ericsimons/stackblitz-online-vs-code-ide-for-angular-react-7d09348497f4" title="StackBlitz — Online VS Code IDE for Angular &amp;amp;amp; React ⚡">StackBlitz — Online VS Code IDE for Angular &amp; React ⚡</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="deepsweet-hocs-a-collection-of-higher-order-components-for-react">deepsweet/hocs: A collection of Higher-Order Components for React</h2>
+
+<p><a href="https://github.com/deepsweet/hocs" title="deepsweet/hocs: A collection of Higher-Order Components for React">github.com/deepsweet/hocs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>React用のHigh Order Componentを集めたライブラリ。<br>
+Propsの除外、LifeCycleのhook、debounce、throttleなど</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="node-js-8-the-right-way-oreilly-media">Node.js 8 the Right Way - O&#39;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/9781680501957.do" title="Node.js 8 the Right Way - O&#39;Reilly Media">shop.oreilly.com/product/9781680501957.do</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017年10月発売<br>
+Node.js v8についての書籍</p>
+
+<hr>
+
+<h2 id="html-css-javascript-heydon-pickering-b-amazon">インクルーシブHTML+CSS &amp; JavaScript 多様なユーザーニーズに応えるフロントエンドデザインパターン | Heydon Pickering, 太田良典, 伊原力也, 株式会社Bスプラウト |本 | 通販 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4862463878" title="インクルーシブHTML+CSS &amp; JavaScript 多様なユーザーニーズに応えるフロントエンドデザインパターン | Heydon Pickering, 太田良典, 伊原力也, 株式会社Bスプラウト |本 | 通販 | Amazon">www.amazon.co.jp/dp/4862463878</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017年9月29日発売<br>
+Inclusive Design Patternsについての翻訳本</p>
+
+<ul>
+<li><a href="https://www.smashingmagazine.com/inclusive-design-patterns/" title="Meet “Inclusive Front-End Design Patterns”, A New Smashing Book – Smashing Magazine">Meet “Inclusive Front-End Design Patterns”, A New Smashing Book – Smashing Magazine</a></li>
+</ul>
+
+<hr>
+
+<h2 id="javascript-es2017-pod-nextpublishing">最新JavaScript開発～ES2017対応モダンプログラミング | 電子書籍とプリントオンデマンド（POD） | NextPublishing（ネクストパブリッシング）</h2>
+
+<p><a href="http://nextpublishing.jp/book/8958.html" title="最新JavaScript開発～ES2017対応モダンプログラミング | 電子書籍とプリントオンデマンド（POD） | NextPublishing（ネクストパブリッシング）">nextpublishing.jp/book/8958.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>ES2017についてチュートリアルガイド</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-08-08-storybook-3.2-core-js-2.5.0-flow-lint.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Storybook","polyfill","ECMAScript","Flow"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Storybook</li>
+                
+                <li>polyfill</li>
+                
+                <li>ECMAScript</li>
+                
+                <li>Flow</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/08/08/storybook-3.2-core-js-2.5.0-flow-lint/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

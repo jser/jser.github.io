@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-08-23のJS: Web Audio APIの変更点、AngularJS 2 RC5のNgModule、Property-based Testing - JSer.info</title>
+    <meta name="description" content="JSer.info #293 - What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog（翻訳）という記事では、ここ1年でのWeb Audio APIの変更点について書かれています。">
+    
+    <meta name="keywords" content="WebAudioAPI,Angular2,Testing" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-08-23T09:38:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="WebAudioAPI" property="article:tag">
+      
+      <meta content="Angular2" property="article:tag">
+      
+      <meta content="Testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #293 - What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog（翻訳）という記事では、ここ1年でのWeb Audio APIの変更点について書かれています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-08-23のJS: Web Audio APIの変更点、AngularJS 2 RC5のNgModule、Property-based Testing">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #293 - What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog（翻訳）という記事では、ここ1年でのWeb Audio APIの変更点について書かれています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-08-23T09:38:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="WebAudioAPI">
+
+<meta property="article:tag" content="Angular2">
+
+<meta property="article:tag" content="Testing">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">2016-08-23のJS: Web Audio APIの変更点、AngularJS 2 RC5のNgModule、Property-based Testing</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年08月23日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-08-23-web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-08-23-web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #293 - <a href="https://hacks.mozilla.org/2016/08/whats-new-in-web-audio-2/">What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog</a>（<a href="https://dev.mozilla.jp/2016/08/whats-new-in-web-audio-2/">翻訳</a>）という記事では、ここ1年でのWeb Audio APIの変更点について書かれています。</p>
+
+<p><code>DynamicsCompressorNode</code>の仕様変更やライフサイクルメソッド(<code>suspend()</code>,<code>resume()</code>,<code>close()</code>)の追加、<code>disconnect()</code>の多重定義の追加など仕様的な変更についてまとめられています。</p>
+
+<hr>
+
+<p><a href="http://blog.bokuweb.me/entry/angular2_rc5" title="Angular2 RC5への更新とステート管理の変更、power-assertによるテストまで試す - undefined">Angular2 RC5への更新とステート管理の変更、power-assertによるテストまで試す - undefined</a>という記事では、<a href="https://ng2-info.github.io/2016/08/angular-2-rc-5/" title="Angular 2 RC5">Angular 2 RC5</a>で追加された<a href="http://ng2-info.github.io/2016/07/preparing-for-ngmodule/" title="NgModule">NgModule</a>を使った開発やテストについて書かれています。</p>
+
+<p>また<a href="https://vsavkin.com/managing-state-in-angular-2-applications-caf78d123d02" title="Tackling State — Angular 2">Tackling State — Angular 2</a>で紹介されているようなステート管理をどうやるかについても書かれています。</p>
+
+<hr>
+
+<p><a href="https://medium.com/javascript-inside/generative-testing-in-javascript-f91432247c27" title="Generative Testing in JavaScript — JavaScript Inside — Medium">Generative Testing in JavaScript — JavaScript Inside — Medium</a>という記事ではJavaScriptでのProperty-based testingについて書かれています。</p>
+
+<p>Haskellの<a href="https://wiki.haskell.org/Introduction_to_QuickCheck1" title="QuickCheck">QuickCheck</a>などが有名で、JavaScriptにも<a href="https://github.com/jsverify/jsverify" title="jsverify">jsverify</a>や<a href="https://github.com/leebyron/testcheck-js" title="testcheck-js">testcheck-js</a>などの類似するライブラリがあったりします。</p>
+
+<p>この記事ではProperty-based testingというどういうテスト手法なのかやよく見るユニットテストとはどう違うのかなどについて書かれています。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v6-4-0-current-node-js">Node v6.4.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v6.4.0/" title="Node v6.4.0 (Current) | Node.js">nodejs.org/en/blog/release/v6.4.0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node v6.4.0リリース</p>
+
+<hr>
+
+<h2 id="release-v0-31-0-facebook-flow">Release v0.31.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.31.0" title="Release v0.31.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.31.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Flow 0.31.0リリース。</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-release-11-webkit">Release Notes for Safari Technology Preview Release 11 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/6883/release-notes-for-safari-technology-preview-release-11/" title="Release Notes for Safari Technology Preview Release 11 | WebKit">webkit.org/blog/6883/release-notes-for-safari-technology-preview-release-11/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Safari Technology Preview Release 11リリース。<br>
+<code>class extends null</code>の挙動をES2016準拠に、<code>DOMTokenList.replace()</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="webvr-1-0-available-in-firefox-nightly">WebVR 1.0 available in Firefox Nightly</h2>
+
+<p><a href="https://blog.mozvr.com/webvr-1-0-available-in-firefox-nightly/" title="WebVR 1.0 available in Firefox Nightly">blog.mozvr.com/webvr-1-0-available-in-firefox-nightly/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">VR</span></p>
+
+<p>WebVR 1.0 APIがFirefoxのNightlyで利用できるように</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="what-s-new-in-web-audio-mozilla-hacks-the-web-developer-blog">What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/08/whats-new-in-web-audio-2/" title="What’s new in Web Audio? ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/08/whats-new-in-web-audio-2/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">audio</span></p>
+
+<p>ここ1年のWeb Audio APIの変更点について</p>
+
+<ul>
+<li><a href="https://dev.mozilla.jp/2016/08/whats-new-in-web-audio-2/" title="What’s new in Web Audio? | Mozilla Developer Street (modest)">What’s new in Web Audio? | Mozilla Developer Street (modest)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="generative-testing-in-javascript-javascript-inside-medium">Generative Testing in JavaScript — JavaScript Inside — Medium</h2>
+
+<p><a href="https://medium.com/javascript-inside/generative-testing-in-javascript-f91432247c27" title="Generative Testing in JavaScript — JavaScript Inside — Medium">medium.com/javascript-inside/generative-testing-in-javascript-f91432247c27</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>JavaScriptでのProperty-based Testingについて。<br>
+そもそもどのようなアプローチのテスト手法なのかやtestcheck-jsなどの既存のライブラリについて</p>
+
+<ul>
+<li><a href="https://github.com/leebyron/testcheck-js" title="testcheck-js">testcheck-js</a></li>
+<li><a href="https://github.com/jsverify/jsverify" title="jsverify/jsverify: Property-based testing for JavaScript. Like QuickCheck.">jsverify/jsverify: Property-based testing for JavaScript. Like QuickCheck.</a></li>
+<li><a href="http://unexpected.js.org/unexpected-check/" title="unexpected-check">unexpected-check</a></li>
+</ul>
+
+<hr>
+
+<h2 id="performance-mark-web-scratch">performance.markでパフォーマンス計測する | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2016/08/15/performance.mark/" title="performance.markでパフォーマンス計測する | Web Scratch">efcl.info/2016/08/15/performance.mark/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span></p>
+
+<p><code>performance.mark</code>などのAPIを使ってある区間の処理時間を計測する方法や、パフォーマンスロガーの作り方などについて</p>
+
+<hr>
+
+<h2 id="angular2-rc5-power-assert-undefined">Angular2 RC5への更新とステート管理の変更、power-assertによるテストまで試す - undefined</h2>
+
+<p><a href="http://blog.bokuweb.me/entry/angular2_rc5" title="Angular2 RC5への更新とステート管理の変更、power-assertによるテストまで試す - undefined">blog.bokuweb.me/entry/angular2_rc5</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">testing</span></p>
+
+<p>AngularJS 2 RC5で導入されたNgModuleについてや、ステート管理について。<br>
+また、<code>NgModule</code>を使ったテストについて</p>
+
+<ul>
+<li><a href="https://ng2-info.github.io/2016/08/angular-2-rc-5/" title="Angular 2 RC.5がリリースされました · Angular2 Info">Angular 2 RC.5がリリースされました · Angular2 Info</a></li>
+<li><a href="http://ng2-info.github.io/2016/07/preparing-for-ngmodule/" title="NgModule導入について · Angular2 Info">NgModule導入について · Angular2 Info</a></li>
+</ul>
+
+<hr>
+
+<h2 id="vue-js-2-0-features-qiita">Vue.js 2.0のFeaturesを訳してみる - Qiita</h2>
+
+<p><a href="http://qiita.com/prismrism/items/66a9dfc31139326911d8" title="Vue.js 2.0のFeaturesを訳してみる - Qiita">qiita.com/prismrism/items/66a9dfc31139326911d8</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">翻訳</span></p>
+
+<p>Vue.js 2.0の変更点についての訳</p>
+
+<hr>
+
+<h2 id="writing-a-javascript-framework-execution-timing-beyond-settimeout-risingstack">Writing a JavaScript Framework - Execution timing, beyond setTimeout | @RisingStack</h2>
+
+<p><a href="http://blog.risingstack.com/writing-a-javascript-framework-execution-timing-beyond-settimeout/" title="Writing a JavaScript Framework - Execution timing, beyond setTimeout | @RisingStack">blog.risingstack.com/writing-a-javascript-framework-execution-timing-beyond-settimeout/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>JavaScriptの非同期実行に関する記事。<br>
+ECMAScript、HTML、Node.jsそれぞれのjob queueの仕組みについて。<br>
+それらを使ってどのようにレンダリングのイベントループを実装するかについて</p>
+
+<hr>
+
+<h2 id="the-cost-of-small-modules-read-the-tea-leaves">The cost of small modules | Read the Tea Leaves</h2>
+
+<p><a href="https://nolanlawson.com/2016/08/15/the-cost-of-small-modules/" title="The cost of small modules | Read the Tea Leaves">nolanlawson.com/2016/08/15/the-cost-of-small-modules/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browserify</span> <span class="jser-tag">webpack</span></p>
+
+<p>Browserifyやwebpack、rollupなどのモジュール数とロード時間の相関関係について。 browserifyはrequireをエミュレート、rollupなどはインライン化するなどの特徴が現れてる</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="css-for-software-engineers-for-css-developers-speaker-deck">CSS for Software Engineers for CSS Developers // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/csswizardry/css-for-software-engineers-for-css-developers" title="CSS for Software Engineers for CSS Developers // Speaker Deck">speakerdeck.com/csswizardry/css-for-software-engineers-for-css-developers</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">設計</span> <span class="jser-tag">thought</span></p>
+
+<p>CSSにおけるSOLIDの原則のような開発指針についてのスライド。<br>
+DRY、単一責任の原則、関心の分離、Immutability、Open/Closed、直交性など</p>
+
+<ul>
+<li><a href="https://vimeo.com/177216958" title="Harry Roberts | CSS for Software Engineers for CSS Developers | CSS Day 2016 on Vimeo">Harry Roberts | CSS for Software Engineers for CSS Developers | CSS Day 2016 on Vimeo</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-progressive-framework-google">The Progressive Framework - Google スライド</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1WnYsxRMiNEArT3xz7xXHdKeH1C-jT92VxmptghJb5Es/present#slide=id.p" title="The Progressive Framework - Google スライド">docs.google.com/presentation/d/1WnYsxRMiNEArT3xz7xXHdKeH1C-jT92VxmptghJb5Es/present#slide=id.p</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">スライド</span></p>
+
+<p>Vue.js 2.0についてのスライド<br>
+規模や状況に応じてツール/フレームワークを選ぶべきという話。<br>
+Vue.js 2.0は段階を踏んで使えるよという話</p>
+
+<hr>
+
+<h2 id="keynote">Keynote</h2>
+
+<p><a href="http://henryzoo.com/babel-plugin-slides/assets/player/KeynoteDHTMLPlayer.html#0" title="Keynote">henryzoo.com/babel-plugin-slides/assets/player/KeynoteDHTMLPlayer.html#0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">plugin</span> <span class="jser-tag">スライド</span></p>
+
+<p>Babel pluginについてのスライド。<br>
+どのような仕組みで変換されているのかをDOM APIとの対比しながら見ていく話</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="siddharthkp-auto-install-install-dependencies-as-you-code">siddharthkp/auto-install: Install dependencies as you code</h2>
+
+<p><a href="https://github.com/siddharthkp/auto-install" title="siddharthkp/auto-install: Install dependencies as you code">github.com/siddharthkp/auto-install</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span></p>
+
+<p>コードの変更を監視して自動的に<code>npm install</code>してくれるツール</p>
+
+<hr>
+
+<h2 id="waud-waud-web-audio-library">waud/waud: Web Audio Library</h2>
+
+<p><a href="https://github.com/waud/waud" title="waud/waud: Web Audio Library">github.com/waud/waud</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">audio</span> <span class="jser-tag">library</span></p>
+
+<p>Web Audio APIを使った音を再生するライブラリ。<br>
+Audio Spriteやbase64、iOSなどの再生にインタラクションが必要な物への対応など</p>
+
+<hr>
+
+<h2 id="andywer-npm-launch-minimalistic-task-runner-on-steroids">andywer/npm-launch: 🚀 Minimalistic task runner on steroids!</h2>
+
+<p><a href="https://github.com/andywer/npm-launch" title="andywer/npm-launch: 🚀 Minimalistic task runner on steroids!">github.com/andywer/npm-launch</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>npm run-scriptの表記と互換性があるTask Runnerツール。<br>
+コメントが書けるJSONまたはNode.jsスクリプトで書ける</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="a-book-apart-practical-svg">A Book Apart, Practical SVG</h2>
+
+<p><a href="https://abookapart.com/products/practical-svg" title="A Book Apart, Practical SVG">abookapart.com/products/practical-svg</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">book</span></p>
+
+<p>SVGについての書籍</p>
+
+<hr>
+
+<h2 id="javascript-webgl">書籍情報―JavaScriptとWebGLによる 画像処理プログラミング</h2>
+
+<p><a href="http://www.kohgakusha.co.jp/books/detail/978-4-7775-1958-3" title="書籍情報―JavaScriptとWebGLによる 画像処理プログラミング">www.kohgakusha.co.jp/books/detail/978-4-7775-1958-3</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span> <span class="jser-tag">book</span></p>
+
+<p>WebGLでの画像処理についての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-08-23-web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["WebAudioAPI","Angular2","Testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>WebAudioAPI</li>
+                
+                <li>Angular2</li>
+                
+                <li>Testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/08/23/web-audio-apiangularjs-2-rc5ngmoduleproperty-based-testing/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

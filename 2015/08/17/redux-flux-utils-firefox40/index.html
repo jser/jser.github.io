@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-08-17のJS: Redux 1.0.0、flux-utils、Firefox 40 - JSer.info</title>
+    <meta name="description" content="JSer.info #241 - Fluxのように単方向データの流れを行うフレームワークであるRedux 1.0.0がリリースされました。">
+    
+    <meta name="keywords" content="flux,library,firefox" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2015-08-17T20:21:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="flux" property="article:tag">
+      
+      <meta content="library" property="article:tag">
+      
+      <meta content="firefox" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2015/08/17/redux-flux-utils-firefox40/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #241 - Fluxのように単方向データの流れを行うフレームワークであるRedux 1.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2015-08-17のJS: Redux 1.0.0、flux-utils、Firefox 40">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2015/08/17/redux-flux-utils-firefox40/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #241 - Fluxのように単方向データの流れを行うフレームワークであるRedux 1.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2015-08-17T20:21:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="flux">
+
+<meta property="article:tag" content="library">
+
+<meta property="article:tag" content="firefox">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/08/17/redux-flux-utils-firefox40/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/08/17/redux-flux-utils-firefox40/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/08/17/redux-flux-utils-firefox40/">2015-08-17のJS: Redux 1.0.0、flux-utils、Firefox 40</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年08月17日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-08-17-redux-flux-utils-firefox40.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2015/2015-08-17-redux-flux-utils-firefox40.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/08/17/redux-flux-utils-firefox40/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/08/17/redux-flux-utils-firefox40/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #241 - Fluxのように単方向データの流れを行うフレームワークである<a href="https://github.com/rackt/redux" title="Redux">Redux</a> 1.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/rackt/redux/releases/tag/v1.0.0" title="Release v1.0.0 · rackt/redux">Release v1.0.0 · rackt/redux</a></li>
+</ul>
+
+<p>Reduxのコンセプトについては作者が以前<a href="https://medium.com/@dan_abramov/the-evolution-of-flux-frameworks-6c16ad26bb31" title="The Evolution of Flux Frameworks — Medium">The Evolution of Flux Frameworks — Medium</a>という記事で書いています。</p>
+
+<p>ざっくり書くと、Stateを管理するコンテナ(reduxオブジェクト)を提供することでFluxのActionCreatorとStoreにあたるものをただの関数として書けるようにして、状態の変化が予測できるようにすることを目的としています。</p>
+
+<p>ドキュメントや<a href="http://amagitakayosi.hatenablog.com/entry/2015/07/30/000000" title="人気のFluxフレームワークReduxをさわってみた - マルシテイアは月の上">人気のFluxフレームワークReduxをさわってみた - マルシテイアは月の上</a>などを見てみると特徴や、どういう制約を元に作られているのかが分かるかもしれません。</p>
+
+<ul>
+<li><a href="http://rackt.github.io/redux/" title="Read Me | Redux">Read Me | Redux</a></li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/ThreePrinciples.html" title="Three Principles | Redux">Three Principles | Redux</a></li>
+</ul>
+
+<p>また同時期に、今まで他のFluxフレームワークのようにStoreやActionCreatorに関する機能を提供してなかった<a href="https://github.com/facebook/flux" title="facebook/flux">facebook/flux</a>に<a href="https://github.com/facebook/flux/blob/master/docs/Flux-Utils.md" title="Flux Utils">Flux Utils</a>という形でそれらの機能が提供されるようになりました。</p>
+
+<p>以下に簡単にどういう機能が提供されているかについてまとめてあります。</p>
+
+<ul>
+<li><a href="https://gist.github.com/azu/e0274b703ef97226b0db" title="flux-utilsについて">flux-utilsについて</a></li>
+</ul>
+
+<p><a href="https://facebook.github.io/immutable-js/" title="Immutable.js">Immutable.js</a>を使っているなどの特徴もありますが、その中でも<code>ReduceStore</code>のstateを受け取り変更したstateを返す<code>reduce</code>メソッドが副作用のないただの関数であるべきと書かれているように、Reduxと似た概念を提供していることがわかります。</p>
+
+<blockquote>
+<p>This method should be pure and have no side-effects.</p>
+</blockquote>
+
+<p>これらは互いに影響を受けているような気がするので、<a href="https://twitter.com/dan_abramov">Redux作者</a>と<a href="https://twitter.com/fisherwebdev">Flux作者</a>の会話を見てみると面白いかもしれません。</p>
+
+<ul>
+<li><a href="https://gist.github.com/gaearon/d77ca812015c0356654f" title="Combining Stateless Stores">Combining Stateless Stores</a></li>
+</ul>
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/fisherwebdev">@fisherwebdev</a> <a href="https://twitter.com/goatslacker">@goatslacker</a> <a href="https://twitter.com/alexeyraspopov">@alexeyraspopov</a> Also, with Store-is-function pattern, you can easily keep modularity by delegating to &quot;substores&quot;</p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/606155287024795648">June 3, 2015</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<hr>
+
+<p><a href="http://www.mozilla.jp/firefox/40.0/releasenotes/" title="Firefox 40">Firefox 40</a>がリリースされました。</p>
+
+<p>開発者ツールのPerformanceツールが改善され、<a href="https://developer.mozilla.org/en-US/docs/Tools/Performance/Waterfall">Waterfall</a> view、<a href="https://developer.mozilla.org/en-US/docs/Tools/Performance/Call_Tree">Call Tree</a> view、<a href="https://developer.mozilla.org/en-US/docs/Tools/Performance/Flame_Chart">Flame Chart</a> viewなどに対応しています。</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2015/06/new-performance-tools-in-firefox-developer-edition-40/" title="New Performance Tools in Firefox Developer Edition 40 ✩ Mozilla Hacks – the Web developer blog">New Performance Tools in Firefox Developer Edition 40 ✩ Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/40" title="Firefox 40 for developers - Mozilla | MDN">Firefox 40 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<p>また同時に<a href="http://www.mozilla.jp/firefox/38.2.0/releasenotes/" title="延長サポート版 (ESR)">延長サポート版(ESR)</a>としてFirefox 38.2.0がリリースされています</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v1-0-0-rackt-redux">Release v1.0.0 · rackt/redux</h2>
+
+<p><a href="https://github.com/rackt/redux/releases/tag/v1.0.0" title="Release v1.0.0 · rackt/redux">github.com/rackt/redux/releases/tag/v1.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Flux</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Redux 1.0.0リリース。<br>
+Stateを管理するコンテナを提供することでFluxのActionCreatorとStoreにあたるものをただの関数として書けるようにし、単方向データの流れを行うライブラリ。</p>
+
+<hr>
+
+<h2 id="1-1-release">1.1 Release</h2>
+
+<p><a href="http://blog.polymer-project.org/announcements/2015/08/13/1.1-release/" title="1.1 Release">blog.polymer-project.org/announcements/2015/08/13/1.1-release/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Polymer 1.1リリース。<br>
+コンポーネントとグローバルスコープでStyleを共有する仕組みの追加など</p>
+
+<ul>
+<li><a href="http://qiita.com/laco0416/items/51a3f7863602c1d35e8a" title="Polymer 1.1 リリース - Qiita">Polymer 1.1 リリース - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="mozillazine-jp-blog-archive-firefox-40">MozillaZine.jp » Blog Archive » Firefox 40 がリリースされた</h2>
+
+<p><a href="http://mozillazine.jp/?p=4868" title="MozillaZine.jp » Blog Archive » Firefox 40 がリリースされた">mozillazine.jp/?p=4868</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firefox 40リリース。<br>
+<code>return</code>に書かれた到達できないコードへの警告がコンソールへ出るように開発者ツールの改善、Web Audio APIの仕様追従、Web Animations APIの仕様追従など</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/40/Site_Compatibility" title="Firefox 40 サイト互換性情報 - Mozilla | MDN">Firefox 40 サイト互換性情報 - Mozilla | MDN</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/40" title="Firefox 40 for developers - Mozilla | MDN">Firefox 40 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="4-0-is-the-new-1-0-node-javascript-medium">4.0 is the new 1.0 — Node &amp; JavaScript — Medium</h2>
+
+<p><a href="https://medium.com/node-js-javascript/4-0-is-the-new-1-0-386597a3436d" title="4.0 is the new 1.0 — Node &amp; JavaScript — Medium">medium.com/node-js-javascript/4-0-is-the-new-1-0-386597a3436d</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">歴史</span></p>
+
+<p>Node.js 4.0がio.jsとのマージが完了したバージョンとしてリリースされる予定。</p>
+
+<hr>
+
+<h2 id="browserify-dependencies-in-depth-teji-tech-blog">Browserify dependencies in depth! | TEJI TECH BLOG</h2>
+
+<p><a href="http://www.tejitak.com/blog/?p=1468" title="Browserify dependencies in depth! | TEJI TECH BLOG">www.tejitak.com/blog/?p=1468</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span></p>
+
+<p>Browserifyでの依存関係の解決パターンについて。<br>
+依存するモジュールのバージョンが複数ある場合の問題についての色々なアプローチ</p>
+
+<hr>
+
+<h2 id="es6-in-depth-modules-mozilla-hacks-the-web-developer-blog">ES6 In Depth: Modules ✩ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2015/08/es6-in-depth-modules/" title="ES6 In Depth: Modules ✩ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2015/08/es6-in-depth-modules/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6 modulesのimport/exportの多様な構文のそれぞれの動作についての解説。<br>
+Moduleの仕様を分解してみた時にLoadingについてはECMAScriptでは未定義であること、構文的にstaticであることなどについて書かれている</p>
+
+<hr>
+
+<h2 id="es6-coding-style-es6-coding-style-en-md-at-master-gf-web-es6-coding-style">es6-coding-style/es6-coding-style-en.md at master · gf-web/es6-coding-style</h2>
+
+<p><a href="https://github.com/gf-web/es6-coding-style/blob/master/es6-coding-style-en.md" title="es6-coding-style/es6-coding-style-en.md at master · gf-web/es6-coding-style">github.com/gf-web/es6-coding-style/blob/master/es6-coding-style-en.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6コーディングスタイルガイド。<br>
+Destructuringの使いすぎへの注意、ES5での書き方をES6の機能でキレイに書けるケースについて比較、moduleの<code>*</code>や<code>as</code>について書かれている。</p>
+
+<hr>
+
+<h2 id="flux-utils">flux-utilsについて</h2>
+
+<p><a href="https://gist.github.com/azu/e0274b703ef97226b0db" title="flux-utilsについて">gist.github.com/azu/e0274b703ef97226b0db</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Facebookのfluxモジュールに追加されたutilsについて。<br>
+今まではDispatcherのみだったがStoreやReact Componentと連携するためのContainerなどが提供されたことについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="mvc-flux-speaker-deck">フロントエンドMVCとFlux // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/sangotaro/hurontoendomvctoflux" title="フロントエンドMVCとFlux // Speaker Deck">speakerdeck.com/sangotaro/hurontoendomvctoflux</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">スライド</span></p>
+
+<p>Fluxとはどういうものなのかについてのスライド。<br>
+MVCと何が違って何が違わないのかがわかりやすく書かれている。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="mdast-markdown-processor-powered-by-plug-ins">mdast - markdown processor powered by plug-ins</h2>
+
+<p><a href="http://mdast.js.org/" title="mdast - markdown processor powered by plug-ins">mdast.js.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Markdown</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Markdownパーサであるmdastのサイト。<br>
+プラグインを使ってMarkdownからHTMLへの変換、Lintなど様々なことができる</p>
+
+<hr>
+
+<h2 id="perf-rocks">Perf.Rocks</h2>
+
+<p><a href="http://perf.rocks/" title="Perf.Rocks">perf.rocks/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">まとめ</span></p>
+
+<p>ウェブパフォーマンスについての記事やツール、人、スライド、動画、書籍などについてのまとめ</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="relay-a-javascript-framework-for-building-data-driven-react-applications">Relay | A JavaScript framework for building data-driven React applications</h2>
+
+<p><a href="https://facebook.github.io/relay/" title="Relay | A JavaScript framework for building data-driven React applications">facebook.github.io/relay/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">facebook</span></p>
+
+<p>GraphQLを使ったデータのやりとりをするフレームワーク。<br>
+Relay.QLなどES6 template literalが前提になった作りになっていて面白い。</p>
+
+<ul>
+<li><a href="https://facebook.github.io/react/blog/2015/08/11/relay-technical-preview.html" title="Relay Technical Preview | React">Relay Technical Preview | React</a></li>
+</ul>
+
+<hr>
+
+<h2 id="patrick-steele-idem-morphdom">patrick-steele-idem/morphdom</h2>
+
+<p><a href="https://github.com/patrick-steele-idem/morphdom" title="patrick-steele-idem/morphdom">github.com/patrick-steele-idem/morphdom</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p>
+
+<p>Virutal DOMではなくDOMを使ってdiff/patchをしてDOM Nodeを置き換えるライブラリ。<br>
+<code>virtual-dom</code>と比較したベンチマークも書かれている。</p>
+
+<hr>
+
+<h2 id="jamesshore-quixote">jamesshore/quixote</h2>
+
+<p><a href="https://github.com/jamesshore/quixote" title="jamesshore/quixote">github.com/jamesshore/quixote</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>mochaなどと組み合わせて使えるCSSのユニットテスト向けのassertionライブラリ</p>
+
+<hr>
+
+<h2 id="scottcorgan-immu">scottcorgan/immu</h2>
+
+<p><a href="https://github.com/scottcorgan/immu" title="scottcorgan/immu">github.com/scottcorgan/immu</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Immutable Objectを扱うライブラリ。<br>
+Object.definePropertyやObject.freezeを使ってArrayやObjectの変更を防止したオブジェクトを作成する</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="designing-for-performance-by-lara-callender-hogan">Designing for Performance by Lara Callender Hogan</h2>
+
+<p><a href="http://designingforperformance.com/" title="Designing for Performance by Lara Callender Hogan">designingforperformance.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">book</span></p>
+
+<p>ブラウザのパフォーマンスについての書籍。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-08-17-redux-flux-utils-firefox40.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["flux","library","firefox"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>flux</li>
+                
+                <li>library</li>
+                
+                <li>firefox</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/08/17/redux-flux-utils-firefox40/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/08/17/redux-flux-utils-firefox40/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

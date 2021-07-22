@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2012-10-21のJS: Meteor 0.5.0 、AngularJSがTestacularに移行、alt属性のベストプラクティス - JSer.info</title>
+    <meta name="description" content="JSer.info #93 - Webアプリケーション用フレームワークのMeteor 0.5.0がリリースされました。AngularJSではテストの実行にjs-test-driverを使っていましたが、Nodeで書かれてたtest runnerのTestacularに切り替えが完了しJsTestDriver-fr...">
+    
+    <meta name="keywords" content="test,mvc,debug" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2012-10-21T22:17:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="test" property="article:tag">
+      
+      <meta content="mvc" property="article:tag">
+      
+      <meta content="debug" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/34024677162">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #93 - Webアプリケーション用フレームワークのMeteor 0.5.0がリリースされました。AngularJSではテストの実行にjs-test-driverを使っていましたが、Nodeで書かれてたtest runnerのTestacularに切り替えが完了しJsTestDriver-fr..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2012-10-21のJS: Meteor 0.5.0 、AngularJSがTestacularに移行、alt属性のベストプラクティス">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/34024677162">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #93 - Webアプリケーション用フレームワークのMeteor 0.5.0がリリースされました。AngularJSではテストの実行にjs-test-driverを使っていましたが、Nodeで書かれてたtest runnerのTestacularに切り替えが完了しJsTestDriver-fr...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2012-10-21T22:17:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="test">
+
+<meta property="article:tag" content="mvc">
+
+<meta property="article:tag" content="debug">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/34024677162">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/34024677162">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/34024677162">2012-10-21のJS: Meteor 0.5.0 、AngularJSがTestacularに移行、alt属性のベストプラクティス</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2012年10月21日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-10-21-2012-10-21-js-meteor-0-5-0.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2012-10-21-2012-10-21-js-meteor-0-5-0.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/34024677162">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/34024677162"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #93 - <span class="st">Webアプリケーション用フレームワークのMeteor 0.5.0がリリースされました。</span></p>
+<p><span class="st"><a href="http://angularjs.org/" target="_blank">AngularJS</a></span><span class="st">ではテストの実行に</span><a href="http://code.google.com/p/js-test-driver/" target="_blank">js-test-driver</a>を使っていましたが、Nodeで書かれてたtest runnerの<a href="http://vojtajina.github.com/testacular/" target="_blank">Testacular</a>に切り替えが完了し<a href="https://plus.google.com/+AngularJS/posts/44VHjmyuvXD" target="_blank">JsTestDriver-free!</a>になったそうです。</p>
+<p>こういう時alt属性はどうすればいいの的な時の手引きになりそうな<a href="http://momdo.s35.xrea.com/web-html-test/spec/WD-html-alt-techniques-20120329.html" target="_blank">HTML5: 有用な代替テキストを提供するためのテクニック</a>が公開されました。</p>
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="Meteor">
+<p class="jser-sitelink"><strong>Meteor</strong><br/><a href="http://www.meteor.com/blog/2012/10/17/meteor-050-authentication-user-accounts-new-screencast" title="Meteor" target="_blank">http://www.meteor.com/blog/2012/10/17/meteor-050-authentication-user-accounts-new-screencast</a></p>
+</blockquote>
+<p>Meteor 0.5.0 リリース</p>
+</div>
+<div>
+<blockquote title="YUI 3.7.3  Windows 8 Apps and IE 10 - YUI Blog">
+<p class="jser-sitelink"><strong>YUI 3.7.3 – Windows 8 Apps and IE 10 - YUI Blog</strong><br/><a href="http://www.yuiblog.com/blog/2012/10/17/yui-3-7-3-windows-8-apps-and-ie-10/" title="YUI 3.7.3  Windows 8 Apps and IE 10 - YUI Blog" target="_blank">http://www.yuiblog.com/blog/2012/10/17/yui-3-7-3-windows-8-apps-and-ie-10/</a></p>
+</blockquote>
+<p>YUI 3.7.3 リリース。<br/> WInRT関係のモジュールを追加</p>
+</div>
+<div>
+<blockquote title="RequireJS 2.1.1 Released ~ James Burke">
+<p class="jser-sitelink"><strong>RequireJS 2.1.1 Released ~ James Burke</strong><br/><a href="http://jrburke.com/2012/10/14/requirejs-2.1.1-released/" title="RequireJS 2.1.1 Released ~ James Burke" target="_blank">http://jrburke.com/2012/10/14/requirejs-2.1.1-released/</a></p>
+</blockquote>
+<p>RequireJS 2.1.1リリース</p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="State of YUI Compressor - YUI Blog">
+<p class="jser-sitelink"><strong>State of YUI Compressor - YUI Blog</strong><br/><a href="http://www.yuiblog.com/blog/2012/10/16/state-of-yui-compressor/" title="State of YUI Compressor - YUI Blog" target="_blank">http://www.yuiblog.com/blog/2012/10/16/state-of-yui-compressor/</a></p>
+</blockquote>
+<p>YUI CompressorからUglifyJS、CSSMinベースのツールへ移行<br/> <a href="https://github.com/yui/yuglify" target="_blank">https://github.com/yui/yuglify</a><br/> YUI CompressorはGithubで公開</p>
+</div>
+<div>
+<blockquote title="HTML5: 有用な代替テキストを提供するためのテクニック">
+<p class="jser-sitelink"><strong>HTML5: 有用な代替テキストを提供するためのテクニック</strong><br/><a href="http://momdo.s35.xrea.com/web-html-test/spec/WD-html-alt-techniques-20120329.html" title="HTML5: 有用な代替テキストを提供するためのテクニック" target="_blank">http://momdo.s35.xrea.com/web-html-test/spec/WD-html-alt-techniques-20120329.html</a></p>
+</blockquote>
+<p>W3Cのimg要素のalt属性についてのベストプラクティスについての文章翻訳.<br/> altの使い方の例等を紹介してる via <a href="http://d.hatena.ne.jp/momdo/20121018/p1" target="_blank">img要素のalt属性に何を入れるべきか？ - 血統の森+はてな</a></p>
+</div>
+<div>
+<blockquote title="JavaScriptパフォーマンスベストプラクティス - 読み書きプログラミング ブログ">
+<p class="jser-sitelink"><strong>JavaScriptパフォーマンスベストプラクティス - 読み書きプログラミング ブログ</strong><br/><a href="http://d.hatena.ne.jp/nextliteracy/20121017/1350438943" title="JavaScriptパフォーマンスベストプラクティス - 読み書きプログラミング ブログ" target="_blank">http://d.hatena.ne.jp/nextliteracy/20121017/1350438943</a></p>
+</blockquote>
+<p>Nokia Developer Wikiからの翻訳<br/> Efficient JavaScriptとかいろんなところから引っ張ってきた感じ</p>
+<ul><li><a href="http://d.hatena.ne.jp/nextliteracy/archive?word=Nokia+Developer" target="_blank">「Nokia Developer」の検索結果一覧 - 読み書きプログラミング ブログ</a></li>
+</ul></div>
+<div>
+<blockquote title="JavaScript QUnit - kozy.heteml.jp">
+<p class="jser-sitelink"><strong>JavaScript QUnit - kozy.heteml.jp</strong><br/><a href="http://kozy.heteml.jp/pukiwiki/JavaScript%2520QUnit/index.html" title="JavaScript QUnit - kozy.heteml.jp" target="_blank">http://kozy.heteml.jp/pukiwiki/JavaScript%2520QUnit/index.html</a></p>
+</blockquote>
+<p>QUnitのメソッドや設定の解説等</p>
+</div>
+<div>
+<blockquote title="DailyJS: Totally Testacular">
+<p class="jser-sitelink"><strong>DailyJS: Totally Testacular</strong><br/><a href="http://dailyjs.com/2012/10/18/testacular/" title="DailyJS: Totally Testacular" target="_blank">http://dailyjs.com/2012/10/18/testacular/</a></p>
+</blockquote>
+<p>AngularJSがTest RunnerをJsTestDriverからTestacularに移行完了.<br/> Testacularの概要紹介</p>
+<p><a href="http://javascriptjabber.com/032-jsj-angular-js/" target="_blank">032 JSJ Angular.js</a>のポッドキャストでもTestacularについてAngularJSの人たちがゲストで話している。<br/>JsTestDriverより安定して早くが目標としてありましたが、 16,000ほどのユニットテストを2-4秒程度で実行できているそうです。</p>
+</div>
+<div>
+<blockquote title="Support for performance.timing in Firebug | Software is hard">
+<p class="jser-sitelink"><strong>Support for performance.timing in Firebug | Software is hard</strong><br/><a href="http://www.softwareishard.com/blog/firebug/support-for-performance-timing-in-firebug/" title="Support for performance.timing in Firebug | Software is hard" target="_blank">http://www.softwareishard.com/blog/firebug/support-for-performance-timing-in-firebug/</a></p>
+</blockquote>
+<p>Firebugが Navigation Timing APIのタイムライン的なビジュアル表示をサポート。<br/> performance.timing を評価するとでる.</p>
+<p><a href="http://yuroyoro.hatenablog.com/entry/2012/10/02/213340" target="_blank">Navigation Timing APIでブラウザの処理時間を可視化するツール作った - ( ꒪⌓꒪) ゆるよろ日記</a>とか近そうな感じ。</p>
+</div>
+<div>
+<blockquote title="Web Performance: When millisecond resolution just isnt enough - IEBlog - Site Home - MSDN Blogs">
+<p class="jser-sitelink"><strong>Web Performance: When millisecond resolution just isn’t enough - IEBlog - Site Home - MSDN Blogs</strong><br/><a href="http://blogs.msdn.com/b/ie/archive/2012/10/19/web-performance-when-millisecond-resolution-just-isn-t-enough.aspx" title="Web Performance: When millisecond resolution just isnt enough - IEBlog - Site Home - MSDN Blogs" target="_blank">http://blogs.msdn.com/b/ie/archive/2012/10/19/web-performance-when-millisecond-resolution-just-isn-t-enough.aspx</a></p>
+</blockquote>
+<p>Date.now()とperformance.now()の違い。<br/> iframe等複数のコンテキストが絡む計測ではperformance.now()は相対的にも単純に計測できる</p>
+</div>
+<div>
+<blockquote title="依存するモジュールも解決できる Node/AMD (サーバ／クライアント) 共通化モジュールを書く :: kumatch's blogspot">
+<p class="jser-sitelink"><strong>依存するモジュールも解決できる Node/AMD (サーバ／クライアント) 共通化モジュールを書く :: kumatch&#8217;s blogspot</strong><br/><a href="http://kumatchs.blogspot.com/2012/10/nodeamd.html" title="依存するモジュールも解決できる Node/AMD (サーバ／クライアント) 共通化モジュールを書く :: kumatch's blogspot" target="_blank">http://kumatchs.blogspot.com/2012/10/nodeamd.html</a></p>
+</blockquote>
+<p>node/browser両方で使えるモジュール定義の方法について<br/> <a href="http://waka.hatenablog.com/entry/2011/11/27/215627" target="_blank">http://waka.hatenablog.com/entry/2011/11/27/215627</a></p>
+</div>
+<div>
+<blockquote title="Lazy Property Access | Blog | SitePen">
+<p class="jser-sitelink"><strong>Lazy Property Access | Blog | SitePen</strong><br/><a href="http://www.sitepen.com/blog/2012/10/19/lazy-property-access/" title="Lazy Property Access | Blog | SitePen" target="_blank">http://www.sitepen.com/blog/2012/10/19/lazy-property-access/</a></p>
+</blockquote>
+<p>definePropertyを使ったlazy propertyの簡単な解説</p>
+</div>
+<div>
+<blockquote title="Categorizing values in JavaScript | Adobe Developer Connection">
+<p class="jser-sitelink"><strong>Categorizing values in JavaScript | Adobe Developer Connection</strong><br/><a href="http://www.adobe.com/devnet/html5/articles/categorizing-values-in-javascript.html" title="Categorizing values in JavaScript | Adobe Developer Connection" target="_blank">http://www.adobe.com/devnet/html5/articles/categorizing-values-in-javascript.html</a></p>
+</blockquote>
+<p>JavaScriptの型とかについて</p>
+</div>
+<div>
+<blockquote title="［技術ドキュメント］HTML5 Security Cheat Sheet v0.1をリリースしました | にーまるどっとこむ。">
+<p class="jser-sitelink"><strong>［技術ドキュメント］HTML5 Security Cheat Sheet v0.1をリリースしました | にーまるどっとこむ。</strong><br/><a href="http://blog.2maru.com/archives/1849" title="［技術ドキュメント］HTML5 Security Cheat Sheet v0.1をリリースしました | にーまるどっとこむ。" target="_blank">http://blog.2maru.com/archives/1849</a></p>
+</blockquote>
+<p>OWASPのHTML5 Security Cheat Sheet 日本語訳</p>
+</div>
+<div>
+<blockquote title="見えてきた「ECMAScript 6」。JavaScriptの生みの親が書く「Harmony of Dreams Come True」 － Publickey">
+<p class="jser-sitelink"><strong>見えてきた「ECMAScript 6」。JavaScriptの生みの親が書く「Harmony of Dreams Come True」 － Publickey</strong><br/><a href="http://www.publickey1.jp/blog/12/javascriptecmascript_6harmony_of_dreams_come_true.html" title="見えてきた「ECMAScript 6」。JavaScriptの生みの親が書く「Harmony of Dreams Come True」 － Publickey" target="_blank">http://www.publickey1.jp/blog/12/javascriptecmascript_6harmony_of_dreams_come_true.html</a></p>
+</blockquote>
+<p>ES6の機能についてで実装されてるものなどに関しての紹介記事の訳<br/> <a href="http://www.infoq.com/presentations/State-JavaScript" target="_blank">http://www.infoq.com/presentations/State-JavaScript</a><br/> 発表(<a href="http://www.infoq.com/presentations/State-JavaScript" target="_blank">動画</a>+<a href="http://brendaneich.github.com/Strange-Loop-2012/" target="_blank">スライド</a>)ではもう少し色々紹介されている</p>
+</div>
+<div class="site-genre ui-sortable"></div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="Plunker">
+<p class="jser-sitelink"><strong>Plunker</strong><br/><a href="http://plnkr.co/" title="Plunker" target="_blank">http://plnkr.co/</a></p>
+</blockquote>
+<p>jsFiddle的なウェブサービス。<br/> 任意のファイル名を付けられたり、リアルタイムで編集を共有したり、コメントなども付けられる</p>
+</div>
+<div>
+<blockquote title="CSSOとgrunt-csso | MOL">
+<p class="jser-sitelink"><strong>CSSOとgrunt-csso | MOL</strong><br/><a href="http://t32k.me/mol/log/csso-and-grunt-csso/" title="CSSOとgrunt-csso | MOL" target="_blank">http://t32k.me/mol/log/csso-and-grunt-csso/</a></p>
+</blockquote>
+<p>CSSの構造を分析してマージや削除をする圧縮ツール</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="fent/randexp.js">
+<p class="jser-sitelink"><strong>fent/randexp.js</strong><br/><a href="https://github.com/fent/randexp.js" title="fent/randexp.js" target="_blank">https://github.com/fent/randexp.js</a></p>
+</blockquote>
+<p>正規表現にマッチするランダムな文字列を生成するライブラリ</p>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-10-21-2012-10-21-js-meteor-0-5-0.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["test","mvc","debug"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>test</li>
+                
+                <li>mvc</li>
+                
+                <li>debug</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/34024677162">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/34024677162"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

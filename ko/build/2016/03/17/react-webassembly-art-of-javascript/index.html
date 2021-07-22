@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近のJavaScriptツール/ライブラリ - JSer.info</title>
+    <meta name="description" content="JSer.info #270 - React v15.0 RC2がリリースされています。RC2はRC1で見つかったバグやSVGに関する変更がrevertされています。">
+    
+    <meta name="keywords" content="React,WebAssembly,JavaScript" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2016-03-17T22:03:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="WebAssembly" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2016/03/17/react-webassembly-art-of-javascript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #270 - React v15.0 RC2がリリースされています。RC2はRC1で見つかったバグやSVGに関する変更がrevertされています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近のJavaScriptツール/ライブラリ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2016/03/17/react-webassembly-art-of-javascript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #270 - React v15.0 RC2がリリースされています。RC2はRC1で見つかったバグやSVGに関する変更がrevertされています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-03-17T22:03:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="WebAssembly">
+
+<meta property="article:tag" content="JavaScript">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/03/17/react-webassembly-art-of-javascript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/03/17/react-webassembly-art-of-javascript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/03/17/react-webassembly-art-of-javascript/">2016-03-17のJS: React.js v15.0 RC、WebAssembly、最近のJavaScriptツール/ライブラリ</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年03月17日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-03-17-react-webassembly-art-of-javascript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-03-17-react-webassembly-art-of-javascript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/03/17/react-webassembly-art-of-javascript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/03/17/react-webassembly-art-of-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #270 - <a href="https://facebook.github.io/react/blog/2016/03/16/react-v15-rc2.html" title="React v15.0 Release Candidate 2">React v15.0 RC2</a>がリリースされています。<br>
+RC2は<a href="https://github.com/facebook/react/issues/6246">RC1で見つかったバグ</a>やSVGに関する変更がrevertされています。</p>
+
+<p>RC1を含め変更点については下記の記事にまとまっているので、Reactを使っている人は見ておくといいかと思います。</p>
+
+<ul>
+<li><a href="http://blog.koba04.com/post/2016/03/09/react-js-v15-changes/" title="React.js v15.0 changes - blog.koba04.com">React.js v15.0 changes - blog.koba04.com</a></li>
+</ul>
+
+<hr>
+
+<p>MSEdge(<a href="https://github.com/microsoft/chakracore" title="ChakraCore">ChakraCore</a>)、Firefox、Chrome(V8)からそれぞれ<a href="http://webassembly.github.io/" title="WebAssembly">WebAssembly</a>を試験的にサポートしたというアナウンスがされています。</p>
+
+<ul>
+<li><a href="http://v8project.blogspot.jp/2016/03/experimental-support-for-webassembly.html">V8 JavaScript Engine: Experimental support for WebAssembly in V8</a></li>
+<li><a href="https://hacks.mozilla.org/2016/03/a-webassembly-milestone/">A WebAssembly Milestone: Experimental Support in Multiple Browsers ★ Mozilla Hacks – the Web developer blog</a> (<a href="https://www.mozilla.jp/blog/entry/10539/">翻訳</a>)</li>
+<li><a href="https://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments/">Previewing WebAssembly experiments in Microsoft Edge | Microsoft Edge Dev Blog</a></li>
+</ul>
+
+<p>WebKitは、特にアナウンスはありませんが<a href="https://webkit.org/status/#specification-webassembly" title="WebKit Feature Status | WebKit">ステータスは開発中</a>で<a href="http://trac.webkit.org/browser/trunk/Source/JavaScriptCore/wasm">テスト実装</a>をしています。</p>
+
+<hr>
+
+<p><a href="https://medium.com/javascript-and-opinions/state-of-the-art-javascript-in-2016-ab67fc68eb0b" title="State of the Art JavaScript in 2016 — JavaScript and Opinions — Medium">State of the Art JavaScript in 2016 — JavaScript and Opinions — Medium</a>という記事では最近のライブラリやツールの定番的なものについてまとめられています。</p>
+
+<blockquote>
+<p>If you don’t need it, don’t use it</p>
+</blockquote>
+
+<p>という一言が表しているように、全ての人がこれらを必要になるわけでもないということも書かれています。</p>
+
+<p>最近は、このようなツールを使う流れから<a href="http://www.2ality.com/2016/02/js-fatigue-fatigue.html" title="JavaScript fatigue">JavaScript fatigue fatigue </a>が話題となったりしていました。</p>
+
+<blockquote>
+<p>Don’t try to know everything</p>
+</blockquote>
+
+<p>全てを試す必要はなかったり、<a href="https://medium.com/javascript-inside/learn-the-concepts-part-1-418952d968cb">ツールを使わないでReactを始める方法</a>など色々なやり方や意見もあったりします。</p>
+
+<p>自分なりに疲れないやり方で行うのがいいと思います。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-5-0">V8 JavaScript Engine: V8 Release 5.0</h2>
+
+<p><a href="http://v8project.blogspot.com/2016/03/v8-release-50.html" title="V8 JavaScript Engine: V8 Release 5.0">v8project.blogspot.com/2016/03/v8-release-50.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>V8 5.0リリース。<br>
+RegExp Unicode flagのサポート、RegExpのwell-known symbolsをサポート、<code>Object.keys()</code>やrest parameterの速度改善など</p>
+
+<hr>
+
+<h2 id="release-v6-7-0-babel-babel">Release v6.7.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/releases/tag/v6.7.0" title="Release v6.7.0 · babel/babel">github.com/babel/babel/releases/tag/v6.7.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Babel v6.7.0リリース。<br>
+async/await周りのバグ修正、内部的な変更してAST上に存在したキャッシュをWeakMapベースで保存するように変更。</p>
+
+<hr>
+
+<h2 id="node-changelog-md-at-v5-8-0-nodejs-node">node/CHANGELOG.md at v5.8.0 · nodejs/node</h2>
+
+<p><a href="https://github.com/nodejs/node/blob/v5.8.0/CHANGELOG.md" title="node/CHANGELOG.md at v5.8.0 · nodejs/node">github.com/nodejs/node/blob/v5.8.0/CHANGELOG.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node.js 5.8.0リリース。<br>
+<code>path.normalize</code>のレグレッションを修正、<code>util.format</code>のパフォーマンス改善。</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/5585" title="Node 5.7.1 path.normalize broken · Issue #5585 · nodejs/node">Node 5.7.1 path.normalize broken · Issue #5585 · nodejs/node</a></li>
+<li><a href="https://github.com/nodejs/node/pull/5360" title="util: improve util.format performance by evanlucas · Pull Request #5360 · nodejs/node">util: improve util.format performance by evanlucas · Pull Request #5360 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v5-9-0-stable-node-js">Node v5.9.0 (Stable) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v5.9.0/" title="Node v5.9.0 (Stable) | Node.js">nodejs.org/en/blog/release/v5.9.0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node.js 5.9.0リリース。<br>
+<code>vm</code>モジュールのメモリ使用量の削減、<code>zlib</code>モジュールがconcatenated archivesをサポート</p>
+
+<hr>
+
+<h2 id="release-v1-5-0-testem-testem">Release v1.5.0 · testem/testem</h2>
+
+<p><a href="https://github.com/testem/testem/releases/tag/v1.5.0" title="Release v1.5.0 · testem/testem">github.com/testem/testem/releases/tag/v1.5.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p>
+
+<p>testem v1.5.0リリース。<br>
+複数のTest Pageを指定するとparallel実行できるように、Mochaのテストにかかった時間を表示できるようになるなど</p>
+
+<hr>
+
+<h2 id="react-js-v15-0-changes-blog-koba04-com">React.js v15.0 changes - blog.koba04.com</h2>
+
+<p><a href="http://blog.koba04.com/post/2016/03/09/react-js-v15-changes/" title="React.js v15.0 changes - blog.koba04.com">blog.koba04.com/post/2016/03/09/react-js-v15-changes/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React.js v15.0 RCの変更点まとめ</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="a-webassembly-milestone-experimental-support-in-multiple-browsers-mozilla-hacks-the-web-developer-blog">A WebAssembly Milestone: Experimental Support in Multiple Browsers ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2016/03/a-webassembly-milestone/" title="A WebAssembly Milestone: Experimental Support in Multiple Browsers ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2016/03/a-webassembly-milestone/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">status</span></p>
+
+<p>WebAssemblyの仕様、ブラウザの実装のステータスについて。<br>
+最初のbinary formatドラフト仕様がでており、Firefox、Chrome、ChackraCoreのNightlyで試験的な実装がされている。</p>
+
+<ul>
+<li><a href="http://v8project.blogspot.jp/2016/03/experimental-support-for-webassembly.html" title="V8 JavaScript Engine: Experimental support for WebAssembly in V8">V8 JavaScript Engine: Experimental support for WebAssembly in V8</a></li>
+<li><a href="https://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments/" title="Previewing WebAssembly experiments in Microsoft Edge | Microsoft Edge Dev Blog">Previewing WebAssembly experiments in Microsoft Edge | Microsoft Edge Dev Blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-service-workers-push-mozilla-developer-street-modest">Firefox 開発ツールを使った Service Workers と Push のデバッグ | Mozilla Developer Street (modest)</h2>
+
+<p><a href="https://dev.mozilla.jp/2016/03/debugging-service-workers-and-push-with-firefox-devtools/" title="Firefox 開発ツールを使った Service Workers と Push のデバッグ | Mozilla Developer Street (modest)">dev.mozilla.jp/2016/03/debugging-service-workers-and-push-with-firefox-devtools/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">ServiceWorker</span></p>
+
+<p>FirefoxでのService WorkerとPush Notificationsのデバッグについて。<br>
+<code>about:debugging</code>というデバッグのダッシュボード画面についても書かれている</p>
+
+<hr>
+
+<h2 id="state-of-the-art-javascript-in-2016-javascript-and-opinions-medium">State of the Art JavaScript in 2016 — JavaScript and Opinions — Medium</h2>
+
+<p><a href="https://medium.com/javascript-and-opinions/state-of-the-art-javascript-in-2016-ab67fc68eb0b" title="State of the Art JavaScript in 2016 — JavaScript and Opinions — Medium">medium.com/javascript-and-opinions/state-of-the-art-javascript-in-2016-ab67fc68eb0b</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p>
+
+<p>最近のJavaScriptにおける主流となったライブラリやツールについて。<br>
+React、Redux、Babel、ESLint、npm、webpack、mochaなどのテストツールなどや人について</p>
+
+<blockquote>
+<p>If you don’t need it, don’t use it</p>
+</blockquote>
+
+<p>と書かれているように全てに対するベストではないという話も書かれている</p>
+
+<hr>
+
+<h2 id="learning-react-without-using-react-part-1-javascript-inside-medium">Learning React Without Using React Part 1 — JavaScript Inside — Medium</h2>
+
+<p><a href="https://medium.com/javascript-inside/learn-the-concepts-part-1-418952d968cb" title="Learning React Without Using React Part 1 — JavaScript Inside — Medium">medium.com/javascript-inside/learn-the-concepts-part-1-418952d968cb</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">tutorial</span></p>
+
+<p>ツールなどは使わないで学ぶReactのチュートリアル。</p>
+
+<hr>
+
+<h2 id="webpack-ftw">Webpack FTW!!!!</h2>
+
+<p><a href="https://k94n.com/webpack-ftw" title="Webpack FTW!!!!">k94n.com/webpack-ftw</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span></p>
+
+<p>webpackはどんなことができるのかというのをわかりやすく簡単に紹介してる</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/k9ordon/webpack-ftw" title="Webpack FTW // Speaker Deck">Webpack FTW // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h2 id="c-javascript-ecmascript-1-2-it">特集：C#×JavaScript：ECMAScriptの最新情報を得るには (1/2) - ＠IT</h2>
+
+<p><a href="http://www.atmarkit.co.jp/ait/articles/1603/11/news042.html" title="特集：C#×JavaScript：ECMAScriptの最新情報を得るには (1/2) - ＠IT">www.atmarkit.co.jp/ait/articles/1603/11/news042.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span></p>
+
+<p>ECMAScriptの仕様策定のプロセスやリソースがどこにあるかがまとまってる記事</p>
+
+<hr>
+
+<h2 id="jest-javascript-unit-testing-performance">Jest | &quot;JavaScript Unit Testing Performance&quot;</h2>
+
+<p><a href="http://facebook.github.io/jest/blog/2016/03/11/javascript-unit-testing-performance.html" title="Jest | &quot;JavaScript Unit Testing Performance&quot;">facebook.github.io/jest/blog/2016/03/11/javascript-unit-testing-performance.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">performance</span></p>
+
+<p>テストフレームワークのJestが実行時間を改善するためにやっていることについて</p>
+
+<hr>
+
+<h2 id="javascript-proposal-for-weak-references-weakref">JavaScript Proposal for weak references: WeakRef</h2>
+
+<p><a href="https://ponyfoo.com/articles/weakref" title="JavaScript Proposal for weak references: WeakRef">ponyfoo.com/articles/weakref</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">proposal</span></p>
+
+<p><code>WeakRef</code> Proposalについての解説。<br>
+WeakMapと同じようにWeakな扱いだが、WeakMapと違いGCで回収された時に呼ばれる<code>executor</code>を指定できる。(WeakMap/Setは回収されたタイミングを知ることができない)</p>
+
+<ul>
+<li><a href="https://github.com/tc39/proposal-weakrefs/blob/master/specs/weakrefs.md" title="proposal-weakrefs/weakrefs.md at master · tc39/proposal-weakrefs">proposal-weakrefs/weakrefs.md at master · tc39/proposal-weakrefs</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-js-buffer-api-changes-medium">Node.js Buffer API Changes — Medium</h2>
+
+<p><a href="https://medium.com/@jasnell/node-js-buffer-api-changes-3c21f1048f97" title="Node.js Buffer API Changes — Medium">medium.com/@jasnell/node-js-buffer-api-changes-3c21f1048f97</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span></p>
+
+<p>Node.js v6で予定されているBuffer APIの変更についての解説</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="fluent-conference-2016-san-francisco-ca-youtube">Fluent Conference 2016 (San Francisco, CA) - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=9UYoKyuFXrM&amp;list=PL055Epbe6d5bQubu5EWf_kUNA3ef_qbmL" title="Fluent Conference 2016 (San Francisco, CA) - YouTube">www.youtube.com/watch?v=9UYoKyuFXrM&amp;list=PL055Epbe6d5bQubu5EWf_kUNA3ef_qbmL</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">動画 </span></p>
+
+<p>Fluent Conference 2016の動画が公開された</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="postcss-parts-a-searchable-catalog-of-postcss-plugins">PostCSS.parts | A searchable catalog of PostCSS plugins</h2>
+
+<p><a href="http://postcss.parts/" title="PostCSS.parts | A searchable catalog of PostCSS plugins">postcss.parts/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PostCSS</span> <span class="jser-tag">検索</span></p>
+
+<p>PostCSSのカタログサイト</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="introducing-inversifyjs-2-0">Introducing InversifyJS 2.0</h2>
+
+<p><a href="http://blog.wolksoftware.com/introducing-inversify-2" title="Introducing InversifyJS 2.0">blog.wolksoftware.com/introducing-inversify-2</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p>
+
+<p>Inversion of control (IoC)コンテナーのTypeScript向けライブラリ</p>
+
+<hr>
+
+<h2 id="rajasegar-compack-an-awesome-bundler-for-web-components">rajasegar/compack: An awesome bundler for Web Components</h2>
+
+<p><a href="https://github.com/rajasegar/compack" title="rajasegar/compack: An awesome bundler for Web Components">github.com/rajasegar/compack</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">Tools</span></p>
+
+<p>Web Componentsのscaffoldingとbundleするツール</p>
+
+<hr>
+
+<h2 id="eanplatter-enclave-a-simpler-way-to-compile-react-applications-http-enclave-js-org">eanplatter/enclave: A simpler way to compile React applications <a href="http://enclave.js.org">http://enclave.js.org</a></h2>
+
+<p><a href="https://github.com/eanplatter/enclave" title="eanplatter/enclave: A simpler way to compile React applications http://enclave.js.org">github.com/eanplatter/enclave</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">babel</span> <span class="jser-tag">Tools</span></p>
+
+<p><code>npm install</code>して<code>npm start</code>するだけで、React+Babelな環境を動かせるブートストラップ的なツール</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-03-17-react-webassembly-art-of-javascript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","WebAssembly","JavaScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>WebAssembly</li>
+                
+                <li>JavaScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/03/17/react-webassembly-art-of-javascript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/03/17/react-webassembly-art-of-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

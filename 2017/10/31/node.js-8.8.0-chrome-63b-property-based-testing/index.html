@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-10-30のJS: Node.js 8.8.0、Chrome 63β、Property-Based Testing - JSer.info</title>
+    <meta name="description" content="JSer.info #355 - Node.js v8.8.0がリリースされました。">
+    
+    <meta name="keywords" content="Node.js,Chrome,Testing" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-10-31T00:23:18+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="Testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #355 - Node.js v8.8.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-10-30のJS: Node.js 8.8.0、Chrome 63β、Property-Based Testing">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #355 - Node.js v8.8.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-10-31T00:23:18+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="Testing">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">2017-10-30のJS: Node.js 8.8.0、Chrome 63β、Property-Based Testing</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年10月31日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-10-30-node.js-8.8.0-chrome-63b-property-based-testing.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-10-30-node.js-8.8.0-chrome-63b-property-based-testing.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #355 - Node.js v8.8.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v8.8.0/" title="Node v8.8.0 (Current) | Node.js">Node v8.8.0 (Current) | Node.js</a></li>
+</ul>
+
+<p><a href="https://nodejs.org/api/http2.html"><code>http2</code>モジュール</a>がデフォルトで有効化、モジュールのhookを処理を扱えるコマンドライン引数として<code>--loader</code>がサポートされています。</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/pull/15445" title="module: resolve and instantiate loader pipeline hooks by guybedford · Pull Request #15445 · nodejs/node">module: resolve and instantiate loader pipeline hooks by guybedford · Pull Request #15445 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<p>Chrome 63βがリリースされました。</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2017/10/chrome-63-beta-dynamic-module-imports_27.html" title="Chromium Blog: Chrome 63 Beta: Dynamic module imports, async iterators and generators, Device Memory API, and permissions UI changes">Chromium Blog: Chrome 63 Beta: Dynamic module imports, async iterators and generators, Device Memory API, and permissions UI changes</a></li>
+</ul>
+
+<p>Dynamic import、Async iterator、Device Memory API、<code>Promise#finally</code>のサポートなど<br>
+また、プッシュ通知などの許可ダイアログの変更が行われています。</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/fundamentals/push-notifications/permission-ux" title="Permission UX  |  Web Fundamentals  |  Google Developers">Permission UX  |  Web Fundamentals  |  Google Developers</a></li>
+</ul>
+
+<p>EventTargetのコールバックに不正な値を渡した場合に<code>TypeError</code>を投げるような仕様追従、印刷時に<code>beforeprint</code>と<code>afterprint</code>イベントに対応、非推奨となっていた<code>/deep/</code>の削除など</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2017/10/remove-shadow-piercing" title="Removing ::shadow and /deep/ in Chrome 63  |  Web  |  Google Developers">Removing ::shadow and /deep/ in Chrome 63  |  Web  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.slideshare.net/garbles/propertybased-testing-for-godly-tests" title="Property-Based Testing for Godly Tests">Property-Based Testing for Godly Tests</a>というスライドでは、<a href="https://github.com/leebyron/testcheck-js" title="testcheck-js">testcheck-js</a>を使ったProperty-Based Testingについて書かれています。</p>
+
+<p>Example-Based Test、Fizz Test、Property-Based Testのカバーできる範囲の違いや特徴について紹介しています。<br>
+HaskellのQuickCheckなどが有名ですが、Property-Based Testではテストする値の範囲を指定し、その範囲から自動生成された値を使ったテストを行います。<br>
+そのため、特定の値を固定値として指定するExample-Based Testよりも、Property-Based Testのカバーできる範囲は広いという話などが書かれています。一方、その仕組みのため速くはない点などについて書かれています。</p>
+
+<p>また、Flowの型定義からのテスト範囲の自動生成についてなどについても書かれています。</p>
+
+<ul>
+<li><a href="https://medium.com/@gabescholz/randomized-testing-in-javascript-without-lifting-a-finger-8d616d7048af" title="Randomized Testing in JavaScript Without Lifting a Finger">Randomized Testing in JavaScript Without Lifting a Finger</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v8-8-0-current-node-js">Node v8.8.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v8.8.0/" title="Node v8.8.0 (Current) | Node.js">nodejs.org/en/blog/release/v8.8.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 8.8.0リリース。<br>
+http2モジュールがデフォルトで有効化、モジュールのhookを処理を扱えるコマンドライン引数として<code>--loader</code>の追加など</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/pull/15445" title="module: resolve and instantiate loader pipeline hooks by guybedford · Pull Request #15445 · nodejs/node">module: resolve and instantiate loader pipeline hooks by guybedford · Pull Request #15445 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-6-3">V8 JavaScript Engine: V8 Release 6.3</h2>
+
+<p><a href="https://v8project.blogspot.com/2017/10/v8-release-63.html" title="V8 JavaScript Engine: V8 Release 6.3">v8project.blogspot.com/2017/10/v8-release-63.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 6.3リリース。<br>
+パフォーマンス改善、<code>import()</code>、<code>Promise#finally</code>、Aynsc iteratorのサポートなど</p>
+
+<hr>
+
+<h2 id="release-0-23-0-avajs-ava">Release 0.23.0 · avajs/ava</h2>
+
+<p><a href="https://github.com/avajs/ava/releases/tag/v0.23.0" title="Release 0.23.0 · avajs/ava">github.com/avajs/ava/releases/tag/v0.23.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>AVA 0.23.0リリース。<br>
+<code>NODE_ENV=test</code>を設定するように、<code>snapshotLocation</code>を<code>pacakge.json</code>に書くことでsnapshotファイルの保存場所を指定できるように</p>
+
+<hr>
+
+<h2 id="release-2-4-0-fuse-box-fuse-box">Release 2.4.0 · fuse-box/fuse-box</h2>
+
+<p><a href="https://github.com/fuse-box/fuse-box/releases/tag/v2.4.0" title="Release 2.4.0 · fuse-box/fuse-box">github.com/fuse-box/fuse-box/releases/tag/v2.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>FuseBox 2.4.0 リリース。<br>
+Quantum上でのUglify-esのサポート、Vue周りの対応改善、CLIをAPIとして使えるように</p>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-63-beta-dynamic-module-imports-async-iterators-and-generators-device-memory-api-and-permissions-ui-changes">Chromium Blog: Chrome 63 Beta: Dynamic module imports, async iterators and generators, Device Memory API, and permissions UI changes</h2>
+
+<p><a href="https://blog.chromium.org/2017/10/chrome-63-beta-dynamic-module-imports_27.html" title="Chromium Blog: Chrome 63 Beta: Dynamic module imports, async iterators and generators, Device Memory API, and permissions UI changes">blog.chromium.org/2017/10/chrome-63-beta-dynamic-module-imports_27.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 63 Betaリリース。<br>
+Dynamic import、Async iterator、Device Memory API、Promise#finallyの実装、プッシュ通知などの許可ダイアログの変更など。<br>
+また、EventTargetの仕様追従、印刷時に<code>beforeprint</code>と<code>afterprint</code>イベントを発火するように、<code>/deep/</code>の削除など</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2017/10/devtools-release-notes" title="What&amp;amp;#39;s New In DevTools (Chrome 63)  |  Web  |  Google Developers">What&#39;s New In DevTools (Chrome 63)  |  Web  |  Google Developers</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/push-notifications/permission-ux" title="Permission UX  |  Web Fundamentals  |  Google Developers">Permission UX  |  Web Fundamentals  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="saying-goodbye-to-firebug-mozilla-hacks-the-web-developer-blog">Saying Goodbye to Firebug ★ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2017/10/saying-goodbye-to-firebug/" title="Saying Goodbye to Firebug ★ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2017/10/saying-goodbye-to-firebug/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firebug</span> <span class="jser-tag">歴史</span> <span class="jser-tag">firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">addon</span></p></p>
+
+<p>FirebugはFirefox57で開発は終了し、Firefoxの開発者ツールが代替となる。<br>
+FirebugからFirefoxの開発者ツールへのマイグレーションガイドも公開されている。また、Firebugの歴史について。</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Migrating_from_Firebug" title="Migrating from Firebug - Firefox Developer Tools | MDN">Migrating from Firebug - Firefox Developer Tools | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="microsoft-napa-js-javascript-plaid-engineer-blog">MicrosoftのNapa.jsでJavaScriptをマルチスレッド化する | PLAID engineer blog</h2>
+
+<p><a href="http://tech.plaid.co.jp/js_multi_threading/" title="MicrosoftのNapa.jsでJavaScriptをマルチスレッド化する | PLAID engineer blog">tech.plaid.co.jp/js_multi_threading/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>マルチプロセスのWorkerを扱うことができるnapajaについて。<br>
+どのようなモチベーションや構造になっているかについて。<br>
+Zoneというワーカーのまとめ役やデータのやり取りの方法についてなど</p>
+
+<hr>
+
+<h2 id="html-web-component-using-vanilla-javascript-ayush-gupta-full-stack-web-developer">HTML Web Component using Vanilla JavaScript – Ayush Gupta – Full Stack Web Developer</h2>
+
+<p><a href="http://ayushgp.github.io/html-web-components-using-vanilla-js/" title="HTML Web Component using Vanilla JavaScript – Ayush Gupta – Full Stack Web Developer">ayushgp.github.io/html-web-components-using-vanilla-js/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Web Components入門記事。<br>
+<code>&lt;user-card /&gt;</code>というデータを取得して表示する要素を例にCustom Elementのライフサイクル、template要素、ShadowDOMについて紹介している</p>
+
+<hr>
+
+<h2 id="state-of-modules-in-javascript-blog-sitepen">State of Modules in JavaScript - Blog | SitePen</h2>
+
+<p><a href="https://www.sitepen.com/blog/2017/10/26/state-of-modules-in-javascript/" title="State of Modules in JavaScript - Blog | SitePen">www.sitepen.com/blog/2017/10/26/state-of-modules-in-javascript/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">module</span></p></p>
+
+<p>ES moduleについての解説記事。<br>
+import/exportやdynamic import、Node.jsやwebpackなどのbundlerでの扱いについてなど</p>
+
+<hr>
+
+<h2 id="unpopular-metrics-about-js-bundlers-andrea-giammarchi-medium">Unpopular Metrics about JS Bundlers – Andrea Giammarchi – Medium</h2>
+
+<p><a href="https://medium.com/@WebReflection/unpopular-metrics-about-js-bundlers-a3c56ea5390d" title="Unpopular Metrics about JS Bundlers – Andrea Giammarchi – Medium">medium.com/@WebReflection/unpopular-metrics-about-js-bundlers-a3c56ea5390d</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">module</span> <span class="jser-tag">article</span></p></p>
+
+<p>小さなbundleツールである<code>asbundle</code>について。 rollupより機能的にも小さくシンプル。ES moduleをbundleするだけのような機能を持っている</p>
+
+<ul>
+<li><a href="https://github.com/WebReflection/asbundle" title="WebReflection/asbundle: A minimalistic CommonJS bundler">WebReflection/asbundle: A minimalistic CommonJS bundler</a></li>
+</ul>
+
+<hr>
+
+<h2 id="can-you-afford-it-real-world-web-performance-budgets-infrequently-noted">Can You Afford It?: Real-world Web Performance Budgets – Infrequently Noted</h2>
+
+<p><a href="https://infrequently.org/2017/10/can-you-afford-it-real-world-web-performance-budgets/" title="Can You Afford It?: Real-world Web Performance Budgets – Infrequently Noted">infrequently.org/2017/10/can-you-afford-it-real-world-web-performance-budgets/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">article</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span></p></p>
+
+<p>初回ロードのTime-to-Interactive (TTI)が5秒以下、それ以降は2秒以下というPerformance Budgetsを元にそれを満たすための配分について。<br>
+これ満たすための考え方や技術的な手法、補助するツールなどについて</p>
+
+<ul>
+<li><a href="https://www.mitsue.co.jp/knowledge/blog/frontend/201612/16_1413.html" title="WebサイトのPerformance Budgetとは | フロントエンドBlog | ミツエーリンクス">WebサイトのPerformance Budgetとは | フロントエンドBlog | ミツエーリンクス</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="chrome-dev-summit-2017-youtube">Chrome Dev Summit 2017 - YouTube</h2>
+
+<p><a href="http://www.youtube.com/playlist?list=PLNYkxOF6rcICUD5nBfRdAR6Fveosnqa5m" title="Chrome Dev Summit 2017 - YouTube">www.youtube.com/playlist?list&#x3D;PLNYkxOF6rcICUD5nBfRdAR6Fveosnqa5m</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">イベント</span> <span class="jser-tag">video</span></p></p>
+
+<p>Chrome Dev Summit 2017の動画まとめ</p>
+
+<hr>
+
+<h2 id="vue-js-typescript">とにかく楽してVue.jsでTypeScriptを使いたい</h2>
+
+<p><a href="https://www.slideshare.net/sakura_pr/vuejstype-script-81228009" title="とにかく楽してVue.jsでTypeScriptを使いたい">www.slideshare.net/sakura_pr/vuejstype-script-81228009</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Vue</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Vue 2.5のTypeScriptサポートについてのスライド。<br>
+JavaScriptで書かれたVueアプリケーションをTypeScriptに移行する手順について</p>
+
+<hr>
+
+<h2 id="redux-from-twitter-hype-to-production-by-jenya-terpil">Redux. From twitter hype to production by Jenya Terpil</h2>
+
+<p><a href="http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production#/" title="Redux. From twitter hype to production by Jenya Terpil">slides.com/jenyaterpil/redux-from-twitter-hype-to-production#/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Reduxの動作フローについてのスライド。<br>
+アニメーション画像によってView-&gt;Action-&gt;Reducer-&gt;Stateの流れについてを可視化している。</p>
+
+<hr>
+
+<h2 id="property-based-testing-for-godly-tests">Property-Based Testing for Godly Tests</h2>
+
+<p><a href="https://www.slideshare.net/garbles/propertybased-testing-for-godly-tests" title="Property-Based Testing for Godly Tests">www.slideshare.net/garbles/propertybased-testing-for-godly-tests</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Property-Based Testingについてのスライド。<br>
+Example-Based Test、Fizz Test、<br>
+Property-Based Testのカバーできる範囲の違いや特徴について。<br>
+<code>testcheck</code>を使ったテストやFlowの型定義からの自動生成についてなど</p>
+
+<ul>
+<li><a href="https://github.com/unbounce/babel-plugin-transform-flow-to-gen" title="unbounce/babel-plugin-transform-flow-to-gen: Flow + Babel + TestCheck &amp;#x3D;&amp;#x3D; QuickCheck in JavaScript">unbounce/babel-plugin-transform-flow-to-gen: Flow + Babel + TestCheck == QuickCheck in JavaScript</a></li>
+<li><a href="https://github.com/leebyron/testcheck-js" title="leebyron/testcheck-js: Generative testing for JavaScript">leebyron/testcheck-js: Generative testing for JavaScript</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="webpackmonitor-webpackmonitor-a-tool-for-monitoring-webpack-optimization-metrics-through-the-development-process">webpackmonitor/webpackmonitor: A tool for monitoring webpack optimization metrics through the development process</h2>
+
+<p><a href="https://github.com/webpackmonitor/webpackmonitor" title="webpackmonitor/webpackmonitor: A tool for monitoring webpack optimization metrics through the development process">github.com/webpackmonitor/webpackmonitor</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>webpackのstats.json結果をビジュアライズしてくれるツール。</p>
+
+<hr>
+
+<h2 id="state-of-vue-js-report-monterail">State of Vue.js Report · Monterail</h2>
+
+<p><a href="https://www.monterail.com/state-of-vuejs-report" title="State of Vue.js Report · Monterail">www.monterail.com/state-of-vuejs-report</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">PDF</span></p></p>
+
+<p>Vueに関する80ページほどのレポート。Vue自体の状況、アンケートベースのレポート、利用してる企業のケーススタディなどについて書かれている</p>
+
+<hr>
+
+<h2 id="apollo-client-2-0-apollo-graphql">Apollo Client 2.0 – Apollo GraphQL</h2>
+
+<p><a href="https://dev-blog.apollodata.com/apollo-client-2-0-5c8d0affcec7" title="Apollo Client 2.0 – Apollo GraphQL">dev-blog.apollodata.com/apollo-client-2-0-5c8d0affcec7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Apollo Client 2.0について</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="vitalets-websocket-as-promised-promise-based-api-for-websockets">vitalets/websocket-as-promised: Promise-based API for WebSockets</h2>
+
+<p><a href="https://github.com/vitalets/websocket-as-promised" title="vitalets/websocket-as-promised: Promise-based API for WebSockets">github.com/vitalets/websocket-as-promised</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span> <span class="jser-tag">WebSocket</span> <span class="jser-tag">library</span></p></p>
+
+<p>PromiseベースのWebSocketライブラリ。</p>
+
+<hr>
+
+<h2 id="nicojs-node-install-local-installs-npm-yarn-packages-locally-without-symlink-exactly-the-same-as-your-production-installation-no-compromises">nicojs/node-install-local: Installs npm/yarn packages locally without symlink. Exactly the same as your production installation, no compromises.</h2>
+
+<p><a href="https://github.com/nicojs/node-install-local" title="nicojs/node-install-local: Installs npm/yarn packages locally without symlink. Exactly the same as your production installation, no compromises.">github.com/nicojs/node-install-local</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">yarn</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>npm5やyarnはローカルのパッケージをsymlinkでインストールしてしまうため、symlinkに対応してないツールなどが動作しなくなる。<br>
+通常のパッケージと同じようにディレクトリにインストールすることができるツール</p>
+
+<hr>
+
+<h2 id="softvar-awesome-web-storage-everything-you-need-to-know-about-client-side-storage">softvar/awesome-web-storage: Everything you need to know about Client-side Storage.</h2>
+
+<p><a href="https://github.com/softvar/awesome-web-storage" title="softvar/awesome-web-storage: Everything you need to know about Client-side Storage.">github.com/softvar/awesome-web-storage</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">document</span></p></p>
+
+<p>Web Storageについてのまとめたドキュメント。<br>
+cookie、localStorage、sessionStorageについての比較、関連ライブラリ、ツールなどについて</p>
+
+<hr>
+
+<h2 id="feimosi-frameworks-code-comparison-code-comparison-of-modern-frameworks-based-on-react-angular-and-vue-js">feimosi/frameworks-code-comparison: Code comparison of modern frameworks, based on React, Angular and Vue.js</h2>
+
+<p><a href="https://github.com/feimosi/frameworks-code-comparison" title="feimosi/frameworks-code-comparison: Code comparison of modern frameworks, based on React, Angular and Vue.js">github.com/feimosi/frameworks-code-comparison</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">React</span> <span class="jser-tag">Vue</span> <span class="jser-tag">library</span></p></p>
+
+<p>Angular, React, Vueのコンポーネントで共通して行う処理の扱い方について比較したリポジトリ。<br>
+それぞれのライブラリごとの短い解説とコードスニペットを紹介してる。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="angular-development-with-typescript-yakov-fain-anton-moiseev-9781617295348-amazon-com-books">Angular Development with Typescript: Yakov Fain, Anton Moiseev: 9781617295348: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Angular-Development-Typescript-Yakov-Fain/dp/1617295345" title="Angular Development with Typescript: Yakov Fain, Anton Moiseev: 9781617295348: Amazon.com: Books">www.amazon.com/Angular-Development-Typescript-Yakov-Fain/dp/1617295345</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年5月30日発売<br>
+AngularとTypeScriptについての本</p>
+
+<hr>
+
+<h2 id="amazon-com-typescript-2-0-cookbook-ebook-shiv-shankar-kushwaha-kindle-store">Amazon.com: TypeScript 2.0 Cookbook eBook: Shiv Shankar Kushwaha: Kindle Store</h2>
+
+<p><a href="https://www.amazon.com/TypeScript-Cookbook-Shiv-Shankar-Kushwaha-ebook/dp/B01CR5GCXY" title="Amazon.com: TypeScript 2.0 Cookbook eBook: Shiv Shankar Kushwaha: Kindle Store">www.amazon.com/TypeScript-Cookbook-Shiv-Shankar-Kushwaha-ebook/dp/B01CR5GCXY</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年8月発売<br>
+TypeScriptクックブック</p>
+
+<ul>
+<li><a href="https://www.packtpub.com/web-development/typescript-20-cookbook" title="TypeScript 2.0 Cookbook | PACKT Books">TypeScript 2.0 Cookbook | PACKT Books</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-10-30-node.js-8.8.0-chrome-63b-property-based-testing.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","Chrome","Testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>Chrome</li>
+                
+                <li>Testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/10/31/node.js-8.8.0-chrome-63b-property-based-testing/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

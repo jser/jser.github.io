@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-01-18: Snowpack 3.0, Front-End Performance Checklist, State of JS 2020 - JSer.info</title>
+    <meta name="description" content="JSer.info #523 - Snowpack v3.0가 릴리스됐다.">
+    
+    <meta name="keywords" content="Tools,TypeScript,browser,WebComponents,Vue" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2021-01-18T11:02:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="WebComponents" property="article:tag">
+      
+      <meta content="Vue" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #523 - Snowpack v3.0가 릴리스됐다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-01-18: Snowpack 3.0, Front-End Performance Checklist, State of JS 2020">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #523 - Snowpack v3.0가 릴리스됐다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-01-18T11:02:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="WebComponents">
+
+<meta property="article:tag" content="Vue">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/">2021-01-18: Snowpack 3.0, Front-End Performance Checklist, State of JS 2020</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年01月18日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-01-18-snowpack-3.0-front-end-performance-checklist-state-of-js-2020.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-01-18-snowpack-3.0-front-end-performance-checklist-state-of-js-2020.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #523 - <a href="https://www.snowpack.dev/posts/2021-01-13-snowpack-3-0">Snowpack v3.0</a>가 릴리스됐다.</p>
+
+<p>Snowpack 3.0에서는 Pre-bundled <a href="https://www.snowpack.dev/guides/streaming-imports">Streaming Imports</a>라는 기능을 opt-in으로 이용 가능하다.<br>
+옵션으로 활성화하면 로컬에서 bundle한 파일이 아닌 <a href="https://www.skypack.dev/">Skypack</a>을 통해 ESM(ECMAScript Modules)를 불러올 수 있다.<br>
+한번 가져온 ESM은 캐시되어 이후 오프라인에서도 사용 가능하다.<br>
+또, 이 구조로 가져온 패키지의 버전은 <code>snowpack.deps.json</code>라는 파일에서 관리할 수 있다.</p>
+
+<p>그 외로는 esbuild를 사용한 bundle 최적화 지원, snowpack을 JavaScript에서 다룰 수 있는 API 갱신 등이 포함됐다.</p>
+
+<ul>
+<li><a href="https://www.snowpack.dev/guides/optimize-and-bundle">Optimize &amp; Bundle for Production</a></li>
+<li><a href="https://www.snowpack.dev/reference/javascript-interface">JavaScript API</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.smashingmagazine.com/2021/01/front-end-performance-2021-free-pdf-checklist/">Front-End Performance Checklist 2021 — Smashing Magazine</a></p>
+
+<p>프런트엔드 성능과 관련해 폭넓게 정리돼 있다.<br>
+체크리스트 방식으로 성능 관련 내용이 정리돼 있으며 요약 버전 PDF도 제공한다.</p>
+
+<ul>
+<li><a href="https://www.dropbox.com/s/34noajrbm324iai/performance-checklist-1.4.pdf?dl=0">performance-checklist-1.4.pdf</a></li>
+</ul>
+
+<p>PDF와 달리 문서에는 각 체크 항목에 대해 상세한 설명이 작성돼 있다.</p>
+
+<hr>
+
+<p>JavaScript 개발자 대상으로 진행되는 설문인 State of JS 2020 결과가 공개됐다.</p>
+
+<ul>
+<li><a href="https://2020.stateofjs.com/en-US/">State of JS 2020</a> (<a href="https://2020.stateofjs.com/ja-JP/">일본어</a>)</li>
+</ul>
+
+<p>ECMAScript 언어 기능, 라이브러리, 도구, 에디터, 리소스 등 각 항목별 인지도, 만족도, 흥미, 사용 여부 등을 설문해 결과를 정리한다.<br>
+설문를 제공한 응답자 속성에 대해서는 <a href="https://2020.stateofjs.com/en-US/demographics/">Demographics</a>에, 응답 결과 JSON 데이터는 <a href="https://www.kaggle.com/sachag/state-of-js">State of JS | Kaggle</a>에 공개돼 있다.</p>
+
+<hr>
+
+<h2 id="part-30005809613e1f53">공지사항</h2>
+
+<p>2021년 1월 16일에 JSer.info 10주년을 맞이하여 기념글을 작성했다.</p>
+
+<ul>
+<li><a href="https://jser.info/2021/01/16/jser-10th/">JSer.info 10주년: JavaScript 정보를 모으고 쓰고 정리하는 방법、書き方、まとめ方 - JSer.info</a>(일본어)</li>
+</ul>
+
+<p>올해도 잘 부탁한다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="snowpack-v3-0">Snowpack v3.0</h2>
+
+<p><a href="https://www.snowpack.dev/posts/2021-01-13-snowpack-3-0" title="Snowpack v3.0">www.snowpack.dev/posts/2021-01-13-snowpack-3-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Snowpack 3.0 릴리스.<br>
+Streaming Imports 지원, esbuild를 사용한 bundle 최적화 지원, JavaScript API 변경 등.</p>
+
+<hr>
+
+<h2 id="release-v6-0-0-karma-runner-karma">Release v6.0.0 · karma-runner/karma</h2>
+
+<p><a href="https://github.com/karma-runner/karma/releases/tag/v6.0.0" title="Release v6.0.0 · karma-runner/karma">github.com/karma-runner/karma/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>Karma 6.0.0 릴리스.<br>
+<code>customFileHandlers</code>와 <code>customScriptTypes</code> 삭제, 부정확한 옵션 설정 시 에러가 발생하도록 개선.</p>
+
+<hr>
+
+<h2 id="node-v15-6-0-current-node-js">Node v15.6.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v15.6.0/" title="Node v15.6.0 (Current) | Node.js">nodejs.org/en/blog/release/v15.6.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 15.6.0 릴리스. <br>
+<code>child_process</code>에 <code>overlapped</code> 옵션 추가, <code>.fork</code>에서 AbortSinal에 대응.<br>
+<code>crypto</code> 모듈에 <code>randomUUID</code> 메서드 추가, X509Certificate API 지원.<br>
+<code>server.listen</code>에서 AbortSignal 지원, <code>http.Agent</code>의 <code>scheduling</code> 옵션에 LIFO 알고리즘 추가.</p>
+
+<hr>
+
+<h2 id="announcing-typescript-4-2-beta-typescript">Announcing TypeScript 4.2 Beta | TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-2-beta/" title="Announcing TypeScript 4.2 Beta | TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-4-2-beta/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 4.2 Beta 릴리스.<br>
+Tuple Types에서 Rest Element 지원, Type Alias 타입 추론 개선, template literal types 개선.<br>
+<code>noPropertyAccessFromIndexSignature</code> 옵션 추가, <code>abstract new</code> 지원.<br>
+또, <code>--explainFiles</code> 시 특정 파일이 왜 포함됐는지 그 이유를 출력하도록 변경.</p>
+
+<hr>
+
+<h2 id="adobe-flash-player-end-of-life">Adobe Flash Player End of Life</h2>
+
+<p><a href="https://www.adobe.com/products/flashplayer/end-of-life.html" title="Adobe Flash Player End of Life">www.adobe.com/products/flashplayer/end-of-life.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flash</span> <span class="jser-tag">browser</span> <span class="jser-tag">news</span></p></p>
+
+<p>Adobe Flash Player가 2021년 1월 12로 지원 종료.</p>
+
+<hr>
+
+<h2 id="announcing-scala-js-1-4-0-scala-js">Announcing Scala.js 1.4.0 - Scala.js</h2>
+
+<p><a href="https://www.scala-js.org/news/2021/01/12/announcing-scalajs-1.4.0/" title="Announcing Scala.js 1.4.0 - Scala.js">www.scala-js.org/news/2021/01/12/announcing-scalajs-1.4.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">scala</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Scala.js 1.4.0 릴리스.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="reflections-for-2020-2021-the-vue-point">Reflections for 2020-2021 | The Vue Point</h2>
+
+<p><a href="https://blog.vuejs.org/posts/hello-2021.html" title="Reflections for 2020-2021 | The Vue Point">blog.vuejs.org/posts/hello-2021.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vue의 2020년 회고와 2021년 기대 내용이 대해 정리돼 있다.<br>
+Vue 2에서 3로의 마이그레이션 도구, Vue CLI의 webpack 5 대응, Vue 3의 IE 11 대응, Vue 2.7의 릴리스 등을 예정하고 있다.</p>
+
+<ul>
+<li><a href="https://github.com/vuejs/vue/projects/6" title="Roadmap">Roadmap</a></li>
+</ul>
+
+<hr>
+
+<h2 id="front-end-performance-checklist-2021-smashing-magazine">Front-End Performance Checklist 2021 — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2021/01/front-end-performance-2021-free-pdf-checklist/" title="Front-End Performance Checklist 2021 — Smashing Magazine">www.smashingmagazine.com/2021/01/front-end-performance-2021-free-pdf-checklist/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>프런트엔드 성능 체크리스트.<br>
+요약 버전 PDF와 상세한 설명이 포함된 문서로 구성된 글이다.<br>
+총 77 개 항목으로 정리돼 있으며 성능 문화, 지표 설정 및 수집, 다양한 성능 관련 팁을 소개한다.</p>
+
+<hr>
+
+<h2 id="deno-in-2020">Deno in 2020</h2>
+
+<p><a href="https://deno.land/posts/deno-in-2020" title="Deno in 2020">deno.land/posts/deno-in-2020</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">article</span></p></p>
+
+<p>Deno의 2020년 변경 사항 요약과 2021년 로드맵 소개.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="state-of-js-2020">State of JS 2020</h2>
+
+<p><a href="https://2020.stateofjs.com/en-US/" title="State of JS 2020">2020.stateofjs.com/en-US/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">アンケート</span></p></p>
+
+<p>JavaScript 개발자 설문 State of JS 2020 결과가 공개됐다.<br>
+언어, 라이브러리, 도구, 에디터, 리소스 등 각 항목 별로 인지도, 만족도, 흥미, 사용 여부 등을 설문 조사한 결과.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="znck-vue-developer-experience-a-collection-of-tools-for-vue-ecosystem">znck/vue-developer-experience: A collection of tools for vue ecosystem.</h2>
+
+<p><a href="https://github.com/znck/vue-developer-experience" title="znck/vue-developer-experience: A collection of tools for vue ecosystem.">github.com/znck/vue-developer-experience</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">Tools</span> <span class="jser-tag">VSCode</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>Vue와 관련한 도구나 VSCode 플러그인 다루는 저장소.<br>
+정적 해석 도구, 파서, AST 헬퍼, VSCode 용 플러그인 등이 포함돼 있다.</p>
+
+<hr>
+
+<h2 id="imolorhe-altair-a-beautiful-feature-rich-graphql-client-for-all-platforms">imolorhe/altair: ✨⚡️ A beautiful feature-rich GraphQL Client for all platforms.</h2>
+
+<p><a href="https://github.com/imolorhe/altair" title="imolorhe/altair: ✨⚡️ A beautiful feature-rich GraphQL Client for all platforms.">github.com/imolorhe/altair</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">EmEditor</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>GraphQL 클라이언트 IDE.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="egoist-tsup-bundle-your-typescript-library-with-no-config-powered-by-esbuild">egoist/tsup: Bundle your TypeScript library with no config, powered by esbuild.</h2>
+
+<p><a href="https://github.com/egoist/tsup" title="egoist/tsup: Bundle your TypeScript library with no config, powered by esbuild.">github.com/egoist/tsup</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>esbuild 기반의 TypeScript 코드를 bundle해 esm,cjs,iife 형식의 코드를 출력하는 도구.</p>
+
+<hr>
+
+<h2 id="tw-in-js-twind-the-smallest-fastest-most-feature-complete-tailwind-in-js-solution-in-existence">tw-in-js/twind: The smallest, fastest, most feature complete Tailwind-in-JS solution in existence.</h2>
+
+<p><a href="https://github.com/tw-in-js/twind" title="tw-in-js/twind: The smallest, fastest, most feature complete Tailwind-in-JS solution in existence.">github.com/tw-in-js/twind</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Tailwind CSS를 CSS-in-JS으로 다룰 수 있도록 하는 라이브러리와 도구.<br>
+Template Literal를 사용한 클래스 생성 API, SSR 용으로 CSS 파일 작성, 빌드 없이 Tailwind 클래스를 사용할 수 있는 shim 라이브러리 제공.</p>
+
+<hr>
+
+<h2 id="tomeraberbach-grfn-a-tiny-400b-utility-that-executes-a-dependency-graph-of-async-functions-as-concurrently-as-possible">TomerAberbach/grfn: 🦅 A tiny (~400B) utility that executes a dependency graph of async functions as concurrently as possible.</h2>
+
+<p><a href="https://github.com/TomerAberbach/grfn" title="TomerAberbach/grfn: 🦅 A tiny (~400B) utility that executes a dependency graph of async functions as concurrently as possible.">github.com/TomerAberbach/grfn</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Promise를 사용해 개발한 비동기 처리의 조작 흐름을 관리하는 라이브러리.<br>
+디버깅 용 조작 흐름에 대한 다이어그램을 생성하는 기능을 제공한다.</p>
+
+<hr>
+
+<h2 id="natemoo-re-microsite-a-fast-opinionated-static-site-generator-powered-by-snowpack-build-simple-static-sites-with-fool-proof-performance-by-leveraging-automatic-partial-hydration">natemoo-re/microsite: A fast, opinionated static site generator powered by Snowpack. Build simple static sites with fool-proof performance by leveraging automatic partial hydration.</h2>
+
+<p><a href="https://github.com/natemoo-re/microsite" title="natemoo-re/microsite: A fast, opinionated static site generator powered by Snowpack. Build simple static sites with fool-proof performance by leveraging automatic partial hydration.">github.com/natemoo-re/microsite</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">React</span></p></p>
+
+<p>Snowpack과 Preact를 사용한 Next.js와 같은 디렉터리 구조 및 규칙을 갖는 정적 사이트 생성기</p>
+
+<hr>
+
+<h2 id="github-jtml-write-html-in-javascript-using-template-tags">github/jtml: Write HTML in JavaScript, using template-tags.</h2>
+
+<p><a href="https://github.com/github/jtml" title="github/jtml: Write HTML in JavaScript, using template-tags.">github.com/github/jtml</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">HTML</span> <span class="jser-tag">library</span> <span class="jser-tag">WebComponents</span></p></p>
+
+<p>GitHub의 lit-html에서 영감을 받아 개발된 템플릿 렌더링 라이브러리<br>
+WHAWG HTML에 제안 중인 Template Parts 구현을 포한하고 있다.</p>
+
+<hr>
+
+<h2 id="catalyst">Catalyst</h2>
+
+<p><a href="https://github.github.io/catalyst/" title="Catalyst">github.github.io/catalyst/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Github</span> <span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span></p></p>
+
+<p>GitHub에서 공개한 Web Components 라이브러리.<br>
+Custom Element 등록, Stimulus에 영감을 받은 <code>data-action</code> 속성을 사용한 이벤트 리스너, Custom Element 내에서 HTML 요소를 결합하는 쿼리 기능을 제공한다.</p>
+
+<ul>
+<li><a href="https://github.blog/2018-09-06-removing-jquery-from-github-frontend/" title="Removing jQuery from GitHub.com frontend - The GitHub Blog">Removing jQuery from GitHub.com frontend - The GitHub Blog</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="javascript-it-kindle-amazon">JavaScript［완전］입문 | 야나이 마사카즈 | 컴퓨터・IT | Kindle 스토어 | Amazon(일본어)</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/B08PKHSVFZ/" title="JavaScript［완전］입문 | 야나이 마사카즈 | 컴퓨터・IT | Kindle 스토어 | Amazon">www.amazon.co.jp/dp/B08PKHSVFZ/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2021년 2월 4일에 출간 예정인 JavaScript 입문서</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-01-18-snowpack-3.0-front-end-performance-checklist-state-of-js-2020.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Tools","TypeScript","browser","WebComponents","Vue"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Tools</li>
+                
+                <li>TypeScript</li>
+                
+                <li>browser</li>
+                
+                <li>WebComponents</li>
+                
+                <li>Vue</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/01/18/snowpack-3.0-front-end-performance-checklist-state-of-js-2020/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

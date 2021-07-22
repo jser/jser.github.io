@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-12-26のJS: Service Worker in MSEdge/Safari、Jest 22、jQuery UIとMobileの統合 - JSer.info</title>
+    <meta name="description" content="JSer.info #363 - MSEdge(Insider build)とSafari(Technology Preview)でそれぞれService Workerが実装されたことについてのブログが公開されました。">
+    
+    <meta name="keywords" content="ServiceWorker,jest,jQuery" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2017-12-26T18:55:06+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="ServiceWorker" property="article:tag">
+      
+      <meta content="jest" property="article:tag">
+      
+      <meta content="jQuery" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #363 - MSEdge(Insider build)とSafari(Technology Preview)でそれぞれService Workerが実装されたことについてのブログが公開されました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-12-26のJS: Service Worker in MSEdge/Safari、Jest 22、jQuery UIとMobileの統合">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #363 - MSEdge(Insider build)とSafari(Technology Preview)でそれぞれService Workerが実装されたことについてのブログが公開されました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-12-26T18:55:06+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="ServiceWorker">
+
+<meta property="article:tag" content="jest">
+
+<meta property="article:tag" content="jQuery">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">2017-12-26のJS: Service Worker in MSEdge/Safari、Jest 22、jQuery UIとMobileの統合</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年12月26日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-12-25-service-worker-in-msedgesafari-jest-22-jquery-uimobile.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-12-25-service-worker-in-msedgesafari-jest-22-jquery-uimobile.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #363 - MSEdge(Insider build)とSafari(Technology Preview)でそれぞれService Workerが実装されたことについてのブログが公開されました。</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/msedgedev/2017/12/19/service-workers-going-beyond-page/">Service Workers: Going beyond the page - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</a></li>
+<li><a href="https://webkit.org/blog/8042/release-notes-for-safari-technology-preview-46/">Release Notes for Safari Technology Preview 46 | WebKit</a></li>
+</ul>
+
+<p>これによりモダンブラウザにはService Workerが実装されることになります。</p>
+
+<p class="ciu_embed" data-feature="serviceworkers" data-periods="future_1,current,past_1,past_2">
+  <a href="http://caniuse.com/#feat=serviceworkers">Can I Use serviceworkers?</a> Data on support for the serviceworkers feature across the major browsers from caniuse.com.
+</p>
+
+<p>MSEdgeとSafariどちらもまだ実験的なビルドでの公開なので、正常に動かないケースもあるようです。<br>
+その場合はそれぞれのIssue Trackerに報告することが推奨されています。</p>
+
+<ul>
+<li>MSEdge: <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/?page=1&q=Service%20Worker" title="Microsoft Edge issue tracker - Microsoft Edge Development">Microsoft Edge issue tracker - Microsoft Edge Development</a></li>
+<li>Safari: <a href="https://bugs.webkit.org/buglist.cgi?quicksearch=Service%20Worker" title="Bug List">Bug List</a></li>
+</ul>
+
+<hr>
+
+<p>Jest 22がリリースされました。</p>
+
+<ul>
+<li><a href="http://facebook.github.io/jest/blog/2017/12/18/jest-22.html" title="Jest 22: Refinements &amp;amp; Custom Runners · Jest">Jest 22: Refinements &amp; Custom Runners · Jest</a></li>
+</ul>
+
+<p>Node.js 4のサポート終了、Custom Runnerのコアとなる<a href="https://github.com/facebook/jest/tree/master/packages/jest-worker" title="jest-worker">jest-worker</a>が公開されました。<br>
+Jestは元々<a href="https://github.com/rvagg/node-worker-farm" title="node-worker-farm">node-worker-farm</a>を使い、テストの並列実行を行っていましたが、その役目を<a href="https://github.com/facebook/jest/tree/master/packages/jest-worker" title="jest-worker">jest-worker</a>に置き換えていました。</p>
+
+<ul>
+<li><a href="https://github.com/facebook/jest/pull/4497" title="Initial version of jest-worker by mjesun · Pull Request #4497 · facebook/jest">Initial version of jest-worker by mjesun · Pull Request #4497 · facebook/jest</a></li>
+</ul>
+
+<p>そして、Jestを並列実行処理の基盤として使えるCustom RunnerがJest 22で正式に公開されています。<br>
+これにより、Jestの上で<a href="https://github.com/rogeliog/jest-runner-mocha" title="jest-runner-mocha">jest-runner-mocha</a>や<a href="https://github.com/jest-community/jest-runner-eslint" title="jest-runner-eslint">jest-runner-eslint</a>のように別のテストフレームワークやLint処理などを並列実行できるようになっています。</p>
+
+<p>詳しくは次の動画を見てください。</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NtjyeojAOBs" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+
+<p>またテスト結果のフォーマッタの変更、<code>--detectLeaks</code>の追加、Babel 7のサポートなどが行われています。</p>
+
+<hr>
+
+<p><a href="http://blog.jqueryui.com/2017/12/the-future-of-jquery-ui-and-jquery-mobile/" title="The Future of jQuery UI and jQuery Mobile | jQuery UI Blog">The Future of jQuery UI and jQuery Mobile | jQuery UI Blog</a>では、jQuery UIとjQuery Mobileのプロジェクト統合について書かれています。</p>
+
+<p><a href="https://github.com/jquery/jquery-mobile" title="jquery-mobile">jquery-mobile</a>は<a href="https://github.com/jquery/jquery-ui" title="jquery-ui">jquery-ui</a>に依存していますが、今までチームやリポジトリは別々にありました。<br>
+今回、<a href="https://github.com/scottgonzalez" title="scottgonzalez">@scottgonzalez</a>がjQuery UIプロジェクトのリーダを辞めることになり、現在jQuery Mobileのプロジェクトリーダである<a href="https://github.com/arschmitz" title="arschmitz">@arschmitz</a>がjQuery UIプロジェクトも見ることになりました。<br>
+jQuery MobileはUIに依存しているため、重複や無駄を避けるために2つのプロジェクトを統合したチームにしていく方針について書かれています。</p>
+
+<p>また合わせて協力者を募集するため<a href="https://jqueryui-dev.slack.com/">https://jqueryui-dev.slack.com/</a>のslackチームを作り、意見を募集しています。<br>
+(<a href="http://bit.ly/2Btf6pu">http://bit.ly/2Btf6pu</a>からslackチームにjoinできる)</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-46-webkit">Release Notes for Safari Technology Preview 46 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8042/release-notes-for-safari-technology-preview-46/" title="Release Notes for Safari Technology Preview 46 | WebKit">webkit.org/blog/8042/release-notes-for-safari-technology-preview-46/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">ServiceWorker</span></p></p>
+
+<p>Safari Technology Preview Release 46リリース。<br>
+Service Workerがデフォルトで有効化、<code>--useBigInt</code>フラグつきBigIntの実装、<code>img</code>要素の<code>decoding</code>属性のサポートなど</p>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-v6-4">V8 JavaScript Engine: V8 release v6.4</h2>
+
+<p><a href="https://v8project.blogspot.com/2017/12/v8-release-64.html" title="V8 JavaScript Engine: V8 release v6.4">v8project.blogspot.com/2017/12/v8-release-64.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 v6.4リリース。<br>
+パフォーマンス、メモリ使用量の改善。named captureなどの正規表現Proposalの実装と有効化、<code>import.meta.url</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="release-webpack-cli-v-2-0-0-webpack-webpack-cli">Release Webpack-CLI V.2.0.0 · webpack/webpack-cli</h2>
+
+<p><a href="https://github.com/webpack/webpack-cli/releases/tag/v.2.0.0" title="Release Webpack-CLI V.2.0.0 · webpack/webpack-cli">github.com/webpack/webpack-cli/releases/tag/v.2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack-cli 2.0.0リリース。<br>
+<code>add</code>コマンド、<code>serve</code>コマンドの追加など</p>
+
+<hr>
+
+<h2 id="release-v2-0-0-karma-runner-karma">Release v2.0.0 · karma-runner/karma</h2>
+
+<p><a href="https://github.com/karma-runner/karma/releases/tag/v2.0.0" title="Release v2.0.0 · karma-runner/karma">github.com/karma-runner/karma/releases/tag/v2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Karma v2.0.0リリース。<br>
+Node.js 4未満のサポート終了、エラー表示の改善など</p>
+
+<hr>
+
+<h2 id="eslint-v4-14-0-released-eslint-pluggable-javascript-linter">ESLint v4.14.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2017/12/eslint-v4.14.0-released" title="ESLint v4.14.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2017/12/eslint-v4.14.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint 4.14.0リリース。<br>
+パーサ向けにScope解析のhookポイントが追加された。</p>
+
+<hr>
+
+<h2 id="jest-22-refinements-custom-runners-jest">Jest 22: Refinements &amp; Custom Runners · Jest</h2>
+
+<p><a href="http://facebook.github.io/jest/blog/2017/12/18/jest-22.html" title="Jest 22: Refinements &amp; Custom Runners · Jest">facebook.github.io/jest/blog/2017/12/18/jest-22.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Jest 22リリース。<br>
+Node.js 4のサポート終了、カスタムRunnerのコアとなる<code>jest-worker</code>の公開。<br>
+テスト結果のフォーマッタの変更、<code>--detectLeaks</code>の追加、Babel 7のサポート、MITライセンスに変更など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="javascript-1">【連載記事】JavaScriptでプログラミングを学ぶ　その1：基礎と文法</h2>
+
+<p><a href="https://sbfl.net/blog/2017/12/14/javascript-programming-1/" title="【連載記事】JavaScriptでプログラミングを学ぶ　その1：基礎と文法">sbfl.net/blog/2017/12/14/javascript-programming-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>プログラミングを学んだことない人向けのJavaScript入門連載。</p>
+
+<hr>
+
+<h2 id="use-a-render-prop-componentdidblog">Use a Render Prop! – componentDidBlog</h2>
+
+<p><a href="https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce" title="Use a Render Prop! – componentDidBlog">cdb.reacttraining.com/use-a-render-prop-50de598f11ce</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>Reactの子コンポーネントと値やロジックを共有するパターンとしてのrender propsについて</p>
+
+<ul>
+<li><a href="https://github.com/reactjs/reactjs.org/pull/355" title="Add doc about Render Props by mjackson · Pull Request #355 · reactjs/reactjs.org">Add doc about Render Props by mjackson · Pull Request #355 · reactjs/reactjs.org</a></li>
+</ul>
+
+<hr>
+
+<h2 id="react">React 🎄</h2>
+
+<p><a href="https://react.holiday/" title="React 🎄">react.holiday/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>アドベントカレンダー形式のReactチュートリアル</p>
+
+<hr>
+
+<h2 id="service-workers-going-beyond-the-page-microsoft-edge-dev-blogmicrosoft-edge-dev-blog">Service Workers: Going beyond the page - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</h2>
+
+<p><a href="https://blogs.windows.com/msedgedev/2017/12/19/service-workers-going-beyond-page/" title="Service Workers: Going beyond the page - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog">blogs.windows.com/msedgedev/2017/12/19/service-workers-going-beyond-page/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">ServiceWorker</span> <span class="jser-tag">article</span></p></p>
+
+<p>MSEdgeのService Workerが実装された。<br>
+Service Workerの基本的な使い方やService Workerの制限について書かれている。</p>
+
+<hr>
+
+<h2 id="the-future-of-jquery-ui-and-jquery-mobile-jquery-ui-blog">The Future of jQuery UI and jQuery Mobile | jQuery UI Blog</h2>
+
+<p><a href="http://blog.jqueryui.com/2017/12/the-future-of-jquery-ui-and-jquery-mobile/" title="The Future of jQuery UI and jQuery Mobile | jQuery UI Blog">blog.jqueryui.com/2017/12/the-future-of-jquery-ui-and-jquery-mobile/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">UI</span> <span class="jser-tag">mobile</span> <span class="jser-tag">article</span> <span class="jser-tag">opinion</span></p></p>
+
+<p>jQuery MobileはjQuery UIに依存しているが、今までは別々のチーム/リポジトリとなっていた。<br>
+重複などの無駄があるため、チームを統合し、停滞しているプロジェクトを改善していく指針が公開された。<br>
+あわせてSlackチャンネルを開設して協力者を募集している。</p>
+
+<hr>
+
+<h2 id="preloading-modules-web-google-developers">Preloading modules  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/12/modulepreload" title="Preloading modules  |  Web  |  Google Developers">developers.google.com/web/updates/2017/12/modulepreload</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">module</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>&lt;link rel=&quot;modulepreload&quot;&gt;</code>について。<br>
+<code>&lt;link rel=&quot;preload&quot;&gt;</code>との違い、モジュールの依存関係はフラットにすべてのファイルを定義するべきかについて</p>
+
+<hr>
+
+<h2 id="idiomatic-redux-using-reselect-selectors-for-encapsulation-and-performance-marks-dev-blog">Idiomatic Redux: Using Reselect Selectors for Encapsulation and Performance · Mark&#39;s Dev Blog</h2>
+
+<p><a href="http://blog.isquaredsoftware.com/2017/12/idiomatic-redux-using-reselect-selectors/" title="Idiomatic Redux: Using Reselect Selectors for Encapsulation and Performance · Mark&#39;s Dev Blog">blog.isquaredsoftware.com/2017/12/idiomatic-redux-using-reselect-selectors/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span> <span class="jser-tag">React</span></p></p>
+
+<p>reselectを使ったパフォーマンスの最適化について。<br>
+reselectはstateからstateを作るライブラリで、入力に対してメモ化が行われている。<br>
+これを使いReduxのstateからアプリケーションに適切な形へstateを変換させる例について紹介している</p>
+
+<hr>
+
+<h2 id="es6-modules-deterministic-google">ES6 Modules のエラー処理を決定的(deterministic)にした話 - Google ドキュメント</h2>
+
+<p><a href="https://docs.google.com/document/d/1Wuc2LVLb2Ii-itnA4sKw_KndJGvZ4mvdfw0POm5qcs4/edit#" title="ES6 Modules のエラー処理を決定的(deterministic)にした話 - Google ドキュメント">docs.google.com/document/d/1Wuc2LVLb2Ii-itnA4sKw_KndJGvZ4mvdfw0POm5qcs4/edit#</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">module</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">article</span> <span class="jser-tag">ECMAScript</span></p></p>
+
+<p>ES Modules(仕様)のエラーがネットワークに依存したものとなっていて、毎回異なるエラーになる問題があった。<br>
+エラーが毎回同じ結果となるように、仕様をどのように修正していったかについて。</p>
+
+<hr>
+
+<h2 id="dom-shadow-dom-hayato-io">ブラウザのしくみ: データ構造とアルゴリズムと雰囲気で理解する DOM と Shadow DOM — hayato.io</h2>
+
+<p><a href="https://hayato.io/2017/dom/" title="ブラウザのしくみ: データ構造とアルゴリズムと雰囲気で理解する DOM と Shadow DOM — hayato.io">hayato.io/2017/dom/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">WebComponents</span></p></p>
+
+<p>DOMやShadow DOMの構造や実装についての解説記事。<br>
+Shadow DOMの登場によってDOMはツリーのツリー(Super Tree)となっている。<br>
+その場合におけるCSSセレクタのマッチングやイベントパスについてなどをChromeの実装と合わせて解説している。</p>
+
+<hr>
+
+<h2 id="lint-the-web-forward-with-sonarwhal-24-ways">Lint the Web Forward With Sonarwhal ◆ 24 ways</h2>
+
+<p><a href="https://24ways.org/2017/lint-the-web-forward-with-sonarwhal/" title="Lint the Web Forward With Sonarwhal ◆ 24 ways">24ways.org/2017/lint-the-web-forward-with-sonarwhal/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">web </span> <span class="jser-tag">Tools</span> <span class="jser-tag">article</span></p></p>
+
+<p>Sonarwhalを使ったウェブサイトのLintについての記事。<br>
+Sonarwhalの基本的な使い方や設定について解説している</p>
+
+<hr>
+
+<h2 id="testing-angular-2-and-continuous-integration-with-jest-semaphore">Testing Angular 2 and Continuous Integration with Jest - Semaphore</h2>
+
+<p><a href="https://semaphoreci.com/community/tutorials/testing-angular-2-and-continuous-integration-with-jest" title="Testing Angular 2 and Continuous Integration with Jest - Semaphore">semaphoreci.com/community/tutorials/testing-angular-2-and-continuous-integration-with-jest</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Angular</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Jestを使ったAngularのテストについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="pwa-nikkei-high-performance-pwa-speaker-deck">日経電子版 サイト高速化とPWA対応 / nikkei-high-performance-pwa // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/sisidovski/nikkei-high-performance-pwa" title="日経電子版 サイト高速化とPWA対応 / nikkei-high-performance-pwa // Speaker Deck">speakerdeck.com/sisidovski/nikkei-high-performance-pwa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">slide</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p></p>
+
+<p>ウェブサイトのパフォーマンス改善についてのスライド。<br>
+アセットの配信の最適化、Resource Hintsでのpreload。<br>
+SpeedCurveを使ってのモニタリングやファイルサイズのチェック。<br>
+Service Workerでのキャッシュやデバッグなどについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="amsul-react-performance-helpers-to-debug-and-record-component-render-performance">amsul/react-performance: Helpers to debug and record component render performance 🚀</h2>
+
+<p><a href="https://github.com/amsul/react-performance" title="amsul/react-performance: Helpers to debug and record component render performance 🚀">github.com/amsul/react-performance</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">performance</span></p></p>
+
+<p>React 16で動く<code>react-addons-perf</code>のようなものを目指すライブラリ。<br>
+Reactコンポーネントのプロファイルを取れるライブラリ。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="responsively-retrofitting-retrofitting-web-sites-with-html5-and-css3-christopher-schmitt-9781449364205-amazon-com-books">Responsively Retrofitting: Retrofitting Web Sites with HTML5 and CSS3: Christopher Schmitt: 9781449364205: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Responsively-Retrofitting-Sites-HTML5-CSS3/dp/1449364209" title="Responsively Retrofitting: Retrofitting Web Sites with HTML5 and CSS3: Christopher Schmitt: 9781449364205: Amazon.com: Books">www.amazon.com/Responsively-Retrofitting-Sites-HTML5-CSS3/dp/1449364209</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">HTML</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年8月25日発売<br>
+既存のレガシーなウェブサイトをモバイル向けにリニューアルする方法についてを扱う書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-12-25-service-worker-in-msedgesafari-jest-22-jquery-uimobile.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["ServiceWorker","jest","jQuery"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>ServiceWorker</li>
+                
+                <li>jest</li>
+                
+                <li>jQuery</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/12/26/service-worker-in-msedgesafari-jest-22-jquery-uimobile/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

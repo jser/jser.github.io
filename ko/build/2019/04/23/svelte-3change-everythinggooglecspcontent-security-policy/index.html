@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-04-23のJS: Svelte 3(Change Everything)、GoogleでのCSP(Content Security Policy)導入ステップ - JSer.info</title>
+    <meta name="description" content="JSer.info #432 - コンパイル前提のUIコンポーネントフレームワークであるSvelte 3リリースされました。">
+    
+    <meta name="keywords" content="Svelte,CSP,security" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2019-04-23T10:35:41+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Svelte" property="article:tag">
+      
+      <meta content="CSP" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #432 - コンパイル前提のUIコンポーネントフレームワークであるSvelte 3リリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-04-23のJS: Svelte 3(Change Everything)、GoogleでのCSP(Content Security Policy)導入ステップ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #432 - コンパイル前提のUIコンポーネントフレームワークであるSvelte 3リリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-04-23T10:35:41+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Svelte">
+
+<meta property="article:tag" content="CSP">
+
+<meta property="article:tag" content="security">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">2019-04-23のJS: Svelte 3(Change Everything)、GoogleでのCSP(Content Security Policy)導入ステップ</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年04月23日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2019/2019-04-23-svelte-3change-everythinggooglecspcontent-security-policy.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2019/2019-04-23-svelte-3change-everythinggooglecspcontent-security-policy.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #432 - コンパイル前提のUIコンポーネントフレームワークであるSvelte 3リリースされました。</p>
+
+<ul>
+<li><a href="https://svelte.dev/blog/svelte-3-rethinking-reactivity">Svelte 3: Rethinking reactivity</a></li>
+</ul>
+
+<p>3.0.0の<a href="https://github.com/sveltejs/svelte/blob/master/CHANGELOG.md#300">CHANGELOGには&quot;Everything&quot;</a>としか書かれていませんが、<br>
+今までの仕組みを大幅に書き換えたバージョンとなっています。</p>
+
+<p>テンプレートの構文、コンポーネントで利用できるAPI、ステートを変更したときにUIを更新するために変更検知の仕組み(Reactiveな仕組み)が変更されています。<br>
+今までは、コンポーネントのステートを <code>set</code> APIなどを使ってUIに反映していました。</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p&gt;</span>{count} doubled is {double}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">on:click=</span><span class="s">"set({ count: count + 1 })"</span><span class="nt">&gt;</span>+1<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+        <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="na">count</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">};</span>
+        <span class="p">},</span>
+        <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">doubled</span><span class="p">:</span> <span class="p">({</span> <span class="nx">count</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">count</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<p>Svelte 3からは、次のように変更を検知したい文を<code>$</code>ラベル(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label">JavaScriptのラベル</a>)でアノテーションします。このラベルで指定した変数などの値が変更されるとUIが更新されるコードがコンパイル時に生成されます。<br>
+(<code>$$invalidate</code>という更新を通知する処理が生成コードには含まれるようになります。)</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p&gt;</span>{count} doubled is {doubled}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">on:click=</span><span class="s">"{() =&gt; count += 1}"</span><span class="nt">&gt;</span>+1<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nl">$</span><span class="p">:</span> <span class="nx">doubled</span> <span class="o">=</span> <span class="nx">count</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="kd">function</span> <span class="nx">handleClick</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">count</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<p>この宣言的なReactivityについては次のドキュメントやRFCを見るのが良さそうです。</p>
+
+<ul>
+<li><a href="https://svelte.dev/tutorial/reactive-declarations">Reactivity / Declarations • Svelte Tutorial</a></li>
+<li><a href="https://github.com/sveltejs/rfcs/blob/master/text/0003-reactive-declarations.md">rfcs/0003-reactive-declarations.md at master · sveltejs/rfcs</a></li>
+</ul>
+
+<p>ものすごく簡単にまとめると、<code>@observable</code>のような<a href="https://github.com/tc39/proposal-decorators">​まだ策定中のDecorator構文</a>ではなく、既にある<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label">label文</a>と<code>$</code>というラベルを使って、コンパイル時に変数などをObservableを作り出すという手法のようです。</p>
+
+<p>この他にも<a href="https://svelte.dev/blog/write-less-code">Write less code</a>に寄せた変更などが多く含まれているため詳細は公式サイトを読むのがよさそうです。</p>
+
+<ul>
+<li><a href="https://svelte.dev/">Svelte • Cybernetically enhanced web apps</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation">Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck</a>というスライドでは、Googleの主要なドメインにおけるCSP(Content Security Policy)の導入状態などについて書かれています。</p>
+
+<p>Google domainでCSPがどの程度導入されているかのカバレッジや60%以上のXSSはCSPでブロックできている点について。<br>
+また、CSP導入の4つのLevelと導入ステップ、ホワイリストの問題とnonce-based CSP、CSPとデプロイのトレードオフについてなど。<br>
+CSPのディレクティブ(設定)によってはevalやinline codeなどが利用できないため、CSP対応のリファクタリング手法やステップについて書かれています。</p>
+
+<p>このスライドでも紹介されているホワイリストの問題とnonce-based CSPについては次の記事も参照するとよさそうです。</p>
+
+<ul>
+<li><a href="https://inside.pixiv.blog/kobo/5137" title="Content Security Policy Level 3におけるXSS対策 - pixiv inside">Content Security Policy Level 3におけるXSS対策 - pixiv inside</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="alibaba-rax-v1-0-released-the-fastest-way-to-build-universal-application">alibaba/rax: [ v1.0 released] The fastest way to build universal application.</h2>
+
+<p><a href="https://github.com/alibaba/rax" title="alibaba/rax: \[ v1.0 released\] The fastest way to build universal application.">github.com/alibaba/rax</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ReactライクなAPIを持つUniversalなViewライブラリであるRax 1.0.0リリース。<br>
+Hooks APIにも対応している。</p>
+
+<hr>
+
+<h2 id="release-v5-0-0-sindresorhus-np">Release v5.0.0 · sindresorhus/np</h2>
+
+<p><a href="https://github.com/sindresorhus/np/releases/tag/v5.0.0" title="Release v5.0.0 · sindresorhus/np">github.com/sindresorhus/np/releases/tag/v5.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm publishするnp 5.0.0リリース。<br>
+2要素認証を新しく公開するパッケージに関しては自動で有効化、公開に失敗したときのロールバック処理の改善など</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-80-webkit">Release Notes for Safari Technology Preview 80 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8825/release-notes-for-safari-technology-preview-80/" title="Release Notes for Safari Technology Preview 80 | WebKit">webkit.org/blog/8825/release-notes-for-safari-technology-preview-80/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 80リリース。<br>
+ResizeObserverのサポート、<code>window.open</code>の第二引数で<code>noreferrer</code>のサポート、<code>contentWindow</code>のサポートなど。<br>
+またLegacy Safari Extensionsのサポート終了など</p>
+
+<hr>
+
+<h2 id="blog-next-js-8-1-next-js">Blog - Next.js 8.1 | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/next-8-1" title="Blog - Next.js 8.1 | Next.js">nextjs.org/blog/next-8-1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">AMP</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 8.1リリース。<br>
+AMPサポートが追加された。<br>
+コンポーネント内でAMPとの処理分岐でのhybrid対応、<code>next export</code>でAMPでの出力とバリデーション</p>
+
+<hr>
+
+<h2 id="release-10-0-0-beta-0-reconcilertron-developit-preact">Release 10.0.0-beta.0 Reconcilertron · developit/preact</h2>
+
+<p><a href="https://github.com/developit/preact/releases/tag/10.0.0-beta.0" title="Release 10.0.0-beta.0 Reconcilertron · developit/preact">github.com/developit/preact/releases/tag/10.0.0-beta.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Preact 10.0.0-beta.0リリース。<br>
+<code>Fragments</code>の安定化、条件分岐を含む描画のパフォーマンス改善、コンポーネントの上下関係を考慮した更新処理を行うように修正など</p>
+
+<hr>
+
+<h2 id="svelte-3-rethinking-reactivity">Svelte 3: Rethinking reactivity</h2>
+
+<p><a href="https://svelte.dev/blog/svelte-3-rethinking-reactivity" title="Svelte 3: Rethinking reactivity">svelte.dev/blog/svelte-3-rethinking-reactivity</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>コンパイル前提のUIフレームワークであるSvelte 3リリース。<br>
+今までの仕組みを書き直したため、テンプレート構文、API、ウェブサイトが変更されている。<br>
+変更検知の仕組みが大きく変わり、<code>set</code> APIではなく、reactiveな変数を<code>$:</code>で宣言しコンパイル時に変更を追跡するコードを生成する方法に変更された</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="typescript-typescript-javascript-gfx-hub-web">TypeScript再入門「がんばらないTypeScript」で、JavaScriptを“柔らかい”静的型付き言語に（gfx執筆） - エンジニアHub｜若手Webエンジニアのキャリアを考える！</h2>
+
+<p><a href="https://employment.en-japan.com/engineerhub/entry/2019/04/16/103000" title="TypeScript再入門「がんばらないTypeScript」で、JavaScriptを“柔らかい”静的型付き言語に（gfx執筆） - エンジニアHub｜若手Webエンジニアのキャリアを考える！">employment.en-japan.com/engineerhub/entry/2019/04/16/103000</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>ゆるい型付けの設定で始めるTypeScriptについて。</p>
+
+<hr>
+
+<h2 id="a-horrifying-globalthis-polyfill-in-universal-javascript-mathias-bynens">A horrifying globalThis polyfill in universal JavaScript · Mathias Bynens</h2>
+
+<p><a href="https://mathiasbynens.be/notes/globalthis" title="A horrifying globalThis polyfill in universal JavaScript · Mathias Bynens">mathiasbynens.be/notes/globalthis</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>globalThis</code>のpolyfillとその動作原理についての解説。</p>
+
+<hr>
+
+<h2 id="experimental-node-js-testing-the-new-performance-hooks">Experimental Node.js: testing the new performance hooks</h2>
+
+<p><a href="https://blog.logrocket.com/experimental-node-js-testing-the-new-performance-hooks-31fcdd2a747e" title="Experimental Node.js: testing the new performance hooks">blog.logrocket.com/experimental-node-js-testing-the-new-performance-hooks-31fcdd2a747e</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsの<code>perf_hooks</code>の使い方についての記事。<br>
+モジュールのロード時間やURLへのリクエスト時間を計測を例に紹介している</p>
+
+<hr>
+
+<h2 id="the-perfect-unit-test">The perfect unit test</h2>
+
+<p><a href="https://javascriptplayground.com/the-perfect-javascript-unit-test/" title="The perfect unit test">javascriptplayground.com/the-perfect-javascript-unit-test/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Unit Testの書き方について。<br>
+テストケース名の書き方、テストをSetup、コード実行、Assertの3つのステップに分解して書くことについて</p>
+
+<hr>
+
+<h2 id="a-realworld-comparison-of-front-end-frameworks-with-benchmarks-2019-update">A RealWorld Comparison of Front-End Frameworks with Benchmarks (2019 update)</h2>
+
+<p><a href="https://medium.freecodecamp.org/a-realworld-comparison-of-front-end-frameworks-with-benchmarks-2019-update-4be0d3c78075" title="A RealWorld Comparison of Front-End Frameworks with Benchmarks (2019 update)">medium.freecodecamp.org/a-realworld-comparison-of-front-end-frameworks-with-benchmarks-2019-update-4be0d3c78075</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span> <span class="jser-tag">benchmark</span></p></p>
+
+<p>&quot;RealWorld&quot;というベンチマークアプリの各JavaScriptフレームワークなどの実装を比較した記事。<br>
+パフォーマンス、出力されたコードのファイルサイズ、Line of Code(LOC)でそれぞれを比較した結果をまとめている</p>
+
+<ul>
+<li><a href="https://github.com/gothinkster/realworld" title="gothinkster/realworld: &amp;amp;quot;The mother of all demo apps&amp;amp;quot; — Exemplary fullstack Medium.com clone powered by React, Angular, Node, Django, and many more 🏅">gothinkster/realworld: &quot;The mother of all demo apps&quot; — Exemplary fullstack Medium.com clone powered by React, Angular, Node, Django, and many more 🏅</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="content-security-policy-a-successful-mess-between-hardening-and-mitigation-speaker-deck">Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation" title="Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck">speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSP</span> <span class="jser-tag">browser</span> <span class="jser-tag">security</span> <span class="jser-tag">slide</span></p></p>
+
+<p>GoogleにおけるCSPについてのスライド。Google domainのCSPのカバレッジや60%以上のXSSはCSPでブロックできている。<br>
+CSP導入の4つのLevelと導入ステップ、ホワイリストの問題とnonce-based CSP、CSPとデプロイのトレードオフについてなど。<br>
+CSP対応のリファクタリング手法などについて</p>
+
+<ul>
+<li><a href="https://inside.pixiv.blog/kobo/5137" title="Content Security Policy Level 3におけるXSS対策 - pixiv inside">Content Security Policy Level 3におけるXSS対策 - pixiv inside</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="isinputpending-facebooks-first-browser-api-contribution-facebook-code">isInputPending: Facebook&#39;s first browser API contribution - Facebook Code</h2>
+
+<p><a href="https://code.fb.com/developer-tools/isinputpending-api/" title="isInputPending: Facebook&#39;s first browser API contribution - Facebook Code">code.fb.com/developer-tools/isinputpending-api/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span></p></p>
+
+<p><code>navigator.scheduling.isInputPending()</code>を使いユーザーの操作中は、キューにためた処理を実行しないように制御する方法について。<br>
+ロード処理が完了するまでユーザーが操作できない時間であるFirst Input Delay (FID) を軽減する手法について</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2018/05/first-input-delay" title="First Input Delay  |  Web  |  Google Developers">First Input Delay  |  Web  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="do-you-really-know-how-a-lockfile-works-for-yarn-and-npm-packages-snyk">Do you really know how a lockfile works for yarn and npm packages? | Snyk</h2>
+
+<p><a href="https://snyk.io/blog/making-sense-of-package-lock-files-in-the-npm-ecosystem/" title="Do you really know how a lockfile works for yarn and npm packages? | Snyk">snyk.io/blog/making-sense-of-package-lock-files-in-the-npm-ecosystem/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">yarn</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>yarnの<code>yarn.lock</code>、npmの<code>package-lock.json</code>が実際にどのように動いているのかについて。<br>
+アプリケーションとライブラリのロックファイルについて</p>
+
+<hr>
+
+<h2 id="stryker-mutator-stryker-mutation-testing-for-javascript-and-friends">stryker-mutator/stryker: Mutation testing for JavaScript and friends</h2>
+
+<p><a href="https://github.com/stryker-mutator/stryker" title="stryker-mutator/stryker: Mutation testing for JavaScript and friends">github.com/stryker-mutator/stryker</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">C#</span> <span class="jser-tag">scala</span></p></p>
+
+<p>Mutation testingライブラリ。<br>
+テストコードをテストするためのフレームワーク。<br>
+mochaやjestなど各種テストフレームワークと連携して動作する。</p>
+
+<ul>
+<li><a href="https://github.com/stryker-mutator/stryker-handbook#readme" title="stryker-mutator/stryker-handbook: A comprehensive guide to the stryker ecosystem">stryker-mutator/stryker-handbook: A comprehensive guide to the stryker ecosystem</a></li>
+<li><a href="https://github.com/stryker-mutator/stryker/tree/master/packages/core#readme" title="stryker/packages/core at master · stryker-mutator/stryker">stryker/packages/core at master · stryker-mutator/stryker</a></li>
+<li><a href="https://stryker-mutator.io/blog/2017-01-17/introduction-to-mutation-testing" title="Blog - Stryker Mutator">Blog - Stryker Mutator</a></li>
+</ul>
+
+<hr>
+
+<h2 id="lancedikson-bowser-a-browser-detector">lancedikson/bowser: a browser detector</h2>
+
+<p><a href="https://github.com/lancedikson/bowser" title="lancedikson/bowser: a browser detector">github.com/lancedikson/bowser</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">library</span></p></p>
+
+<p>User-Agentを元にブラウザ名やバージョンなどを構造的なデータとして取得できるライブラリ</p>
+
+<hr>
+
+<h2 id="sindresorhus-file-type-detect-the-file-type-of-a-buffer-uint8array-arraybuffer">sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array/ArrayBuffer</h2>
+
+<p><a href="https://github.com/sindresorhus/file-type" title="sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array/ArrayBuffer">github.com/sindresorhus/file-type</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Content sniffingをしてファイルの種類を判定するNode.jsライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="front-end-developer-handbook-2019-learn-the-entire-javascript-css-and-html-development-practice">Front-end Developer Handbook 2019 - Learn the entire JavaScript, CSS and HTML development practice!</h2>
+
+<p><a href="https://frontendmasters.com/books/front-end-handbook/2019/" title="Front-end Developer Handbook 2019 - Learn the entire JavaScript, CSS and HTML development practice!">frontendmasters.com/books/front-end-handbook/2019/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span> <span class="jser-tag">links</span></p></p>
+
+<p>フロントエンド開発についての概要や技術項目ごとのリソースをまとめた電子書籍の2019年版</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2019/2019-04-23-svelte-3change-everythinggooglecspcontent-security-policy.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Svelte","CSP","security"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Svelte</li>
+                
+                <li>CSP</li>
+                
+                <li>security</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

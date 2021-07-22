@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-05-25のJS: IEの単体アプリとしてのサポート終了、WebContainers、User-Agent Client Hints - JSer.info</title>
+    <meta name="description" content="JSer.info #541 - Windows 10においてのInternet Explorer(IE)の単体のアプリとしてサポートが2022年6月15日で終了されることがアナウンスされました。">
+    
+    <meta name="keywords" content="node.js,Chrome,Tools,CSS,React" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2021-05-25T11:50:27+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2021/05/25/ie-webcontainers-user-agent-client-hints/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #541 - Windows 10においてのInternet Explorer(IE)の単体のアプリとしてサポートが2022年6月15日で終了されることがアナウンスされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-05-25のJS: IEの単体アプリとしてのサポート終了、WebContainers、User-Agent Client Hints">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2021/05/25/ie-webcontainers-user-agent-client-hints/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #541 - Windows 10においてのInternet Explorer(IE)の単体のアプリとしてサポートが2022年6月15日で終了されることがアナウンスされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-05-25T11:50:27+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="CSS">
+
+<meta property="article:tag" content="React">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/05/25/ie-webcontainers-user-agent-client-hints/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/05/25/ie-webcontainers-user-agent-client-hints/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/05/25/ie-webcontainers-user-agent-client-hints/">2021-05-25のJS: IEの単体アプリとしてのサポート終了、WebContainers、User-Agent Client Hints</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年05月25日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-05-25-ie-webcontainers-user-agent-client-hints.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2021/2021-05-25-ie-webcontainers-user-agent-client-hints.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/05/25/ie-webcontainers-user-agent-client-hints/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/05/25/ie-webcontainers-user-agent-client-hints/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #541 - Windows 10においてのInternet Explorer(IE)の単体のアプリとしてサポートが2022年6月15日で終了されることがアナウンスされました。</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/">The future of Internet Explorer on Windows 10 is in Microsoft Edge | Windows Experience Blog</a></li>
+<li><a href="https://blogs.windows.com/japan/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/">Internet Explorer は Microsoft Edge へ – Windows 10 の Internet Explorer 11 デスクトップアプリは 2022 年 6 月 15 日にサポート終了 - Windows Blog for Japan</a></li>
+<li><a href="https://blogs.windows.com/japan/2021/05/19/internet-explorer-11-desktop-app-retirement-faq/">「Internet Explorer 11 デスクトップ アプリケーションのサポート終了」の発表に関連する FAQ - Windows Blog for Japan</a></li>
+</ul>
+
+<p>2022年6月15日以降は、IEのデスクトップアプリケーション(<code>iexplore.exe</code>)を利用しようとするとMicrosoft Edge(MSEdge)が代わりに起動します。<br>
+MSEdgeにはIEモードが搭載されており、MSEdgeの設定を変更することでIEのレンダリングエンジンであるMSHTML (Trident)が使えるようになるようです。</p>
+
+<ul>
+<li><a href="https://support.microsoft.com/ja-jp/office/microsoft-edge-%e3%81%ae-internet-explorer-%e3%83%a2%e3%83%bc%e3%83%89-6604162f-e38a-48b2-acd2-682dbac6f0de?ui=ja-JP&rs=ja-JP&ad=JP">Microsoft Edge の Internet Explorer モード - Office サポート</a></li>
+</ul>
+
+<p>また、このIEモードではMSEdgeのF12開発者ツールと接続できないため、代わりに<code>IEChooser.exe</code>を使ったデバッグができるようになっています。</p>
+
+<ul>
+<li><a href="https://jpdsi.github.io/blog/internet-explorer-microsoft-edge/ie-mode-faq/">IE モードのよくあるご質問 | Japan Developer Support Internet Team Blog</a></li>
+</ul>
+
+<p>このIEモード(MSHTML)のサポート自体は今回のアナウンスとは関係なく、 2029年までサポートされる予定となっています。</p>
+
+<hr>
+
+<p>WebContainersというブラウザ上でNode.jsのランタイムを動かす仕組みがstackblitzで公開されています。</p>
+
+<ul>
+<li><a href="https://blog.stackblitz.com/posts/introducing-webcontainers/">Introducing WebContainers: Run Node.js natively in your browser</a></li>
+</ul>
+
+<p>Node.jsのランタイムをブラウザで動かし、ブラウザ自体をSandboxとしてNode.jsのコードをセキュアに実行するための仕組みとなっています。あくまでブラウザの中で動かす仕組みであるため、ネイティブアドオンは対応せずCORSなどブラウザの制約の中で動作します。</p>
+
+<p><a href="https://github.com/stackblitz/webcontainer-core">stackblitz/webcontainer-core</a>ではキーコンセプトが解説されています。<br>
+Virtual FSとNetworkingを実装し、各プロセスをWorkerとして起動してメッセージングすることでマルチプロセスのサポートしています。POSIXなシェルとしてjshという実装と、npm/yarnクライアントとしてturboという実装を持っています。</p>
+
+<p>現在はオープンソースではありませんが、将来的に<a href="https://news.ycombinator.com/item?id=27225150">コア部分はオープンソースとして公開</a>する予定となっています。</p>
+
+<hr>
+
+<p>ChromeにおけるUA文字列を扱う <code>navigator.userAgent</code>, <code>navigator.appVersion</code>, <code>navigator.platform</code> を非推奨とするロードマップが更新されています。</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html">Chromium Blog: Update on User-Agent String Reduction in Chrome</a></li>
+</ul>
+
+<p>Chrome 92で非推奨の警告をだすようになり、段階的にUA文字列から情報を削り、UA文字列化を固定化していく予定のロードマップが公開されています。</p>
+
+<p><code>navigator.userAgent</code>の代替となる仕組みとして、UA Client Hintsがありロードマップの記事とあわせて、UA Client Hintsへの移行方法についての記事も公開されています。</p>
+
+<ul>
+<li><a href="https://web.dev/migrate-to-ua-ch/">Migrate to User-Agent Client Hints</a></li>
+<li><a href="https://github.com/GoogleChromeLabs/uach-retrofill">GoogleChromeLabs/uach-retrofill: This snippet illustrates how to reconstruct the legacy navigator.userAgent string value from the modern navigator.userAgentData values.</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="recoil-0-3-0-recoil">Recoil 0.3.0 | Recoil</h2>
+
+<p><a href="https://recoiljs.org/blog/2021/05/14/0.3.0-released/" title="Recoil 0.3.0 | Recoil">recoiljs.org/blog/2021/05/14/0.3.0-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Recoil 0.3.0リリース。<br>
+RecoilRootに<code>override</code>オプションの追加、selectorに<code>GetCallback</code>を追加。<br>
+次の0.4で<code>snapshot.retain()</code>していないsnapshotを使うと例外が発生するようになる</p>
+
+<hr>
+
+<h2 id="the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge-windows-experience-blog">The future of Internet Explorer on Windows 10 is in Microsoft Edge | Windows Experience Blog</h2>
+
+<p><a href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/" title="The future of Internet Explorer on Windows 10 is in Microsoft Edge | Windows Experience Blog">blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span> <span class="jser-tag">news</span> <span class="jser-tag">MSEdge</span></p></p>
+
+<p>IE11のデスクトップアプリケーションとしてのサポートは2022年6月15日で終了し、MSEdgeのIEモードで引き続き2029年までサポートする予定。</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/japan/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/" title="Internet Explorer は Microsoft Edge へ – Windows 10 の Internet Explorer 11 デスクトップアプリは 2022 年 6 月 15 日にサポート終了 - Windows Blog for Japan">Internet Explorer は Microsoft Edge へ – Windows 10 の Internet Explorer 11 デスクトップアプリは 2022 年 6 月 15 日にサポート終了 - Windows Blog for Japan</a></li>
+<li><a href="https://blogs.windows.com/japan/2021/05/19/internet-explorer-11-desktop-app-retirement-faq/" title="「Internet Explorer 11 デスクトップ アプリケーションのサポート終了」の発表に関連する FAQ - Windows Blog for Japan">「Internet Explorer 11 デスクトップ アプリケーションのサポート終了」の発表に関連する FAQ - Windows Blog for Japan</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v7-5-0-googlechrome-lighthouse">Release v7.5.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v7.5.0" title="Release v7.5.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v7.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lighthouse 7.5.0リリース。<br>
+Source Mapベースのファイルツリーを可視化するTreemap表示の追加、新しいCLSへの対応を追加など</p>
+
+<hr>
+
+<h2 id="node-v16-2-0-current-node-js">Node v16.2.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v16.2.0/" title="Node v16.2.0 (Current) | Node.js">nodejs.org/en/blog/release/v16.2.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v16.2.0リリース。<br>
+<code>import.meta.resolve</code>が<code>URL</code>オブジェクトをサポート、Workerが作成された際にtriggerされる<code>worker</code>イベントを<code>process</code>に追加など</p>
+
+<hr>
+
+<h2 id="release-v10-0-0-typestrong-ts-node">Release v10.0.0 · TypeStrong/ts-node</h2>
+
+<p><a href="https://github.com/TypeStrong/ts-node/releases/tag/v10.0.0" title="Release v10.0.0 · TypeStrong/ts-node">github.com/TypeStrong/ts-node/releases/tag/v10.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScriptのコンパイルをRuntime時に行うts-node 10.0.0リリース。<br>
+<code>--script-mode</code>の挙動をデフォルト化し、古い挙動を再現する<code>--cwd-mode</code>を追加。<br>
+Node.js 10のサポート終了、<code>--show-config</code>の追加、<code>--transpiler</code>オプションでSWCを使ったtrasnpileに対応など。<br>
+またウェブサイトが更新されている。</p>
+
+<ul>
+<li><a href="https://typestrong.org/ts-node/docs/transpilers/" title="Third-party transpilers | ts-node">Third-party transpilers | ts-node</a></li>
+<li><a href="https://typestrong.org/ts-node/" title="ts-node | ts-node">ts-node | ts-node</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="chromium-blog-update-on-user-agent-string-reduction-in-chrome">Chromium Blog: Update on User-Agent String Reduction in Chrome</h2>
+
+<p><a href="https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html" title="Chromium Blog: Update on User-Agent String Reduction in Chrome">blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>ChromeのUser-Agent固定化のロードマップ。<br>
+Chrome 92で<code>navigator.userAgent</code>などのdeprecated化、reduced UA stringをオプトインで導入、デフォルト化など7段階でのマイグレーションフェーズについて</p>
+
+<ul>
+<li><a href="https://www.chromium.org/updates/ua-reduction" title="User-Agent Reduction - The Chromium Projects">User-Agent Reduction - The Chromium Projects</a></li>
+</ul>
+
+<hr>
+
+<h2 id="introducing-firefoxs-new-site-isolation-security-architecture-mozilla-hacks-the-web-developer-blog">Introducing Firefox&#039;s new Site Isolation Security Architecture - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2021/05/introducing-firefox-new-site-isolation-security-architecture/" title="Introducing Firefox&amp;#039;s new Site Isolation Security Architecture - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2021/05/introducing-firefox-new-site-isolation-security-architecture/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>FirefoxのSite Isolationのアーキテクチャについての記事。<br>
+eTLDベースのSiteごとにプロセス分け、メモリを相互に分離した状態でリソースをロードすることで、Spectreなどのサイドチャネル攻撃を防止する。<br>
+また、サブフレームもトップレベルが異なるSiteなら、別プロセスで読むこむようになっている。</p>
+
+<hr>
+
+<h2 id="the-humble-img-element-and-core-web-vitals-smashing-magazine">The Humble &lt;img&gt; Element And Core Web Vitals — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2021/04/humble-img-element-core-web-vitals/" title="The Humble &amp;lt;img&amp;gt; Element And Core Web Vitals — Smashing Magazine">www.smashingmagazine.com/2021/04/humble-img-element-core-web-vitals/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Image</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>&lt;img&gt;</code>についてLCP、CLS、FIDのメトリクスに関する最適化の仕方についてのガイド</p>
+
+<hr>
+
+<h2 id="introducing-webcontainers-run-node-js-natively-in-your-browser">Introducing WebContainers: Run Node.js natively in your browser</h2>
+
+<p><a href="https://blog.stackblitz.com/posts/introducing-webcontainers/" title="Introducing WebContainers: Run Node.js natively in your browser">blog.stackblitz.com/posts/introducing-webcontainers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">browser</span> <span class="jser-tag">webworker</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsをブラウザで動かすWebContainersについて。<br>
+Node.jsのランタイムをブラウザで動かし、ブラウザ自体をSandboxとしてNode.jsのコードをセキュアに実行するための仕組み。<br>
+Virtual FSとNetworkingを実装し、各プロセスをWorkerとして起動してメッセージングすることでマルチプロセスのサポートしている。<br>
+POSIXなシェルとしてjshという実装と、npm/yarnクライアントとしてturboという実装を持っている</p>
+
+<ul>
+<li><a href="https://github.com/stackblitz/webcontainer-core" title="stackblitz/webcontainer-core">stackblitz/webcontainer-core</a></li>
+<li><a href="https://www.youtube.com/watch?v=5F9qH-ea5Qk" title="AngularAir - StackBlitz with Eric Simons and Dominic Elm - YouTube">AngularAir - StackBlitz with Eric Simons and Dominic Elm - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h2 id="migrate-to-user-agent-client-hints">Migrate to User-Agent Client Hints</h2>
+
+<p><a href="https://web.dev/migrate-to-ua-ch/" title="Migrate to User-Agent Client Hints">web.dev/migrate-to-ua-ch/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span> <span class="jser-tag">privacy</span></p></p>
+
+<p><code>navigator.userAgent</code>などがDeprecatedとなり固定化されるため、その代わりとなるUser-Agent Client Hintsについて。<br>
+JavaScriptのAPIとしての<code>navigator.userAgentData</code>と<code>navigator.userAgentData.getHighEntropyValues</code>。<br>
+HTTPヘッダUA Client Hintを扱う<code>Accept-CH</code>と<code>Sec-CH-UA-*</code>について。<br>
+また、Client HintからレガシーなUA文字列を作成するライブラリについてなど</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html" title="Chromium Blog: Update on User-Agent String Reduction in Chrome">Chromium Blog: Update on User-Agent String Reduction in Chrome</a></li>
+<li><a href="https://github.com/GoogleChromeLabs/uach-retrofill" title="GoogleChromeLabs/uach-retrofill: This snippet illustrates how to reconstruct the legacy navigator.userAgent string value from the modern navigator.userAgentData values.">GoogleChromeLabs/uach-retrofill: This snippet illustrates how to reconstruct the legacy navigator.userAgent string value from the modern navigator.userAgentData values.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="renaming-n-api-to-node-api-this-post-was-contributed-by-the-by-node-js-may-2021-medium">Renaming N-API to Node-API. This post was contributed by the… | by Node.js | May, 2021 | Medium</h2>
+
+<p><a href="https://nodejs.medium.com/renaming-n-api-to-node-api-27aa8ca30ed8" title="Renaming N-API to Node-API. This post was contributed by the… | by Node.js | May, 2021 | Medium">nodejs.medium.com/renaming-n-api-to-node-api-27aa8ca30ed8</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsのネイティブアドオン用のAPIの名前をN-APIをNode-APIへ変更するという話。<br>
+変更のモチベーションについて解説している</p>
+
+<ul>
+<li><a href="https://nodejs.medium.com/renaming-n-api-to-node-api-27aa8ca30ed8" title="Renaming N-API to Node-API. This post was contributed by the… | by Node.js | May, 2021 | Medium">Renaming N-API to Node-API. This post was contributed by the… | by Node.js | May, 2021 | Medium</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="javascript">オリジナルのJavaScriptライブラリを公開しよう</h2>
+
+<p><a href="https://zenn.dev/yusuke99/books/fcd96342f5cb1b468799" title="オリジナルのJavaScriptライブラリを公開しよう">zenn.dev/yusuke99/books/fcd96342f5cb1b468799</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">Github</span> <span class="jser-tag">Actions</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>JavaScriptのライブラリをnpmに公開するチュートリアル。<br>
+ライブラリの実装とテスト、npmへの公開、GitHub ActionsでのCIからpublish、Scoped Packagesについてなど</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="argyleink-transition-css-drop-in-css-transitions">argyleink/transition.css: Drop-in CSS transitions</h2>
+
+<p><a href="https://github.com/argyleink/transition.css" title="argyleink/transition.css: Drop-in CSS transitions">github.com/argyleink/transition.css</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">library</span></p></p>
+
+<p>いろいろなCSS transitionを集めたCSSライブラリ</p>
+
+<hr>
+
+<h2 id="dom-events">DOM Events</h2>
+
+<p><a href="https://domevents.dev/" title="DOM Events">domevents.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">event</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>DOMイベントの流れをBubbling、Capture、Passiveなどのオプションごとに動きを可視化できるツール</p>
+
+<hr>
+
+<h2 id="rtk-incubator-rtk-query-experimental-data-fetching-and-caching-addon-for-redux-toolkit">rtk-incubator/rtk-query: Experimental data fetching and caching addon for Redux Toolkit</h2>
+
+<p><a href="https://github.com/rtk-incubator/rtk-query" title="rtk-incubator/rtk-query: Experimental data fetching and caching addon for Redux Toolkit">github.com/rtk-incubator/rtk-query</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">library</span> <span class="jser-tag">React</span></p></p>
+
+<p>Redux Toolkitを使うデータ取得と状態管理をするQueryライブラリ。<br>
+宣言的なAPIの定義、データの取得、キャッシュやリトライ、Prefetching、React Hooks、Open APIから自動生成などに対応している。<br>
+将来的にはRedux Toolkitに同梱することを目標にしている。</p>
+
+<hr>
+
+<h2 id="ngneat-variabless-js-css-a-match-made-in-heaven">ngneat/variabless: JS &amp; CSS - A Match Made in Heaven 💎</h2>
+
+<p><a href="https://github.com/ngneat/variabless" title="ngneat/variabless: JS &amp;amp; CSS - A Match Made in Heaven 💎">github.com/ngneat/variabless</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>JavaScriptからCSS Variablesの定義を含んだCSSを生成するツール</p>
+
+<hr>
+
+<h2 id="web-worker-meets-worker-threads-threads-js">Web worker meets worker threads - threads.js</h2>
+
+<p><a href="https://threads.js.org/" title="Web worker meets worker threads - threads.js">threads.js.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">webworker</span></p></p>
+
+<p>ブラウザのWeb WorkerとNode.jsの<code>worker_threads</code>を使ったWorker管理ライブラリ。<br>
+async functionとObservablesの対応、thread pools、webpack向けのpluginを持っている</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-05-25-ie-webcontainers-user-agent-client-hints.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","Chrome","Tools","CSS","React"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>Chrome</li>
+                
+                <li>Tools</li>
+                
+                <li>CSS</li>
+                
+                <li>React</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/05/25/ie-webcontainers-user-agent-client-hints/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/05/25/ie-webcontainers-user-agent-client-hints/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

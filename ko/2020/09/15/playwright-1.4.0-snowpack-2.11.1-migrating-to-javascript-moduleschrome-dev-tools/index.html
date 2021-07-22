@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2020-09-15: playwright 1.4.0, snowpack 2.11.1, Migrating to JavaScript modules(Chrome Dev Tools) - JSer.info</title>
+    <meta name="description" content="JSer.info #505 - playwright 1.4.0 릴리스.">
+    
+    <meta name="keywords" content="playwright,snowpack,modules" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2020-09-15T11:59:01+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="playwright" property="article:tag">
+      
+      <meta content="snowpack" property="article:tag">
+      
+      <meta content="modules" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #505 - playwright 1.4.0 릴리스." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2020-09-15: playwright 1.4.0, snowpack 2.11.1, Migrating to JavaScript modules(Chrome Dev Tools)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #505 - playwright 1.4.0 릴리스.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2020-09-15T11:59:01+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="playwright">
+
+<meta property="article:tag" content="snowpack">
+
+<meta property="article:tag" content="modules">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/">2020-09-15: playwright 1.4.0, snowpack 2.11.1, Migrating to JavaScript modules(Chrome Dev Tools)</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2020年09月15日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2020/2020-09-15-playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2020/2020-09-15-playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #505 - playwright 1.4.0 릴리스.</p>
+
+<p>단일 API로 Chrome, Firefox, WebKit을 자동화할 수 있는 크로스 브라우저 웹 자동화 라이브러리 playwright 1.4.0 릴리스.</p>
+
+<ul>
+<li><a href="https://github.com/microsoft/playwright/releases/tag/v1.4.0">Release v1.4.0 · microsoft/playwright</a></li>
+</ul>
+
+<p>playwright 1.4에서는 의존하는 브라우저가 Chromium 86 / Firefox 80 / WebKit 14 기반으로 각각 갱신됐다.<br>
+API는 <code>elementHandle.waitForElementState()</code>와 <code>elementHandle.waitForSelector()</code> 등이 추가됐다.<br>
+그 외 실험적 기능으로 영상 녹화 기능이 추가됐다.</p>
+
+<p>또, 함께 <a href="https://github.com/microsoft/playwright-cli">Playwright CLI</a>가 정식 릴리스됐다.</p>
+
+<p><a href="https://github.com/microsoft/playwright-cli">Playwright CLI</a>는 조작을 기록하고 재생하는 코드 생성, 요소 Inspect, 스크린샷, PDF 생성 등을 할 수 있는 커맨드 라인 도구다.</p>
+
+<hr>
+
+<p>프런트엔드 용 빌드 도구인 Snowpack 2.11.1 릴리스.</p>
+
+<ul>
+<li><a href="https://github.com/pikapkg/snowpack/releases/tag/snowpack%402.11.1">Release snowpack@2.11.1 · pikapkg/snowpack</a></li>
+</ul>
+
+<p><a href="https://github.com/pikapkg/snowpack/tree/master/plugins/plugin-optimize">@snowpack/plugin-optimize</a>라고 하는 최적화 플러그인이 추가됐다.<br>
+<a href="https://github.com/pikapkg/snowpack/tree/master/plugins/plugin-optimize">@snowpack/plugin-optimize</a>는 <a href="https://github.com/evanw/esbuild">esbuild</a>로 JavaScript를, <a href="https://github.com/css/csso">CSSO</a>로 CSS를, <a href="https://github.com/kangax/html-minifier">HTMLMinifier</a>로 HTML을 각각 압축한다. 이와 함께 <a href="https://developers.google.com/web/updates/2017/12/modulepreload"><code>&lt;link rel=&quot;modulepreload&quot;&gt;</code></a>를 사용한 미리 가져오기에 대응하고 있다.</p>
+
+<p>그 외로 <code>build --watch</code>에서 HMR / Livereload를 대응하고 <code>@snowpack/plugin-webpack</code>에서도 HTML을 압축하는 변경이 포함됐다.</p>
+
+<hr>
+
+<p><a href="https://developers.google.com/web/updates/2020/09/migrating-to-js-modules">DevTools architecture refresh: Migrating to JavaScript modules  |  Web</a></p>
+
+<p>위 글에는 Chrome Dev Tools의 기반 코드를 ES Modules로 이전한 배경과 과정이 정리돼 있다.</p>
+
+<p>Chrome Dev Tools(원래는 WebKit)는 ES Modules가 책정되기 전부터 개발돼 왔기 때문에 독자적인 모듈 구조를 가지고 있었다.<br>
+표준화된 ES Modules의 장점 등을 고려하여 어떻게 자체 구조에서 ES Modules로 이전했는지 소개돼 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="node-v14-10-0-current-node-js">Node v14.10.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v14.10.0/" title="Node v14.10.0 (Current) | Node.js">nodejs.org/en/blog/release/v14.10.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 14.10.0 릴리스.<br>
+무작위 integer를 반환하는 <code>crypto.randomInt()</code> 추가, <code>performance.eventLoopUtilization()</code>가 추가됐다.</p>
+
+<hr>
+
+<h2 id="release-2-0-0-2020-09-10-serverless-serverless">Release 2.0.0 (2020-09-10) · serverless/serverless</h2>
+
+<p><a href="https://github.com/serverless/serverless/releases/tag/v2.0.0" title="Release 2.0.0 (2020-09-10) · serverless/serverless">github.com/serverless/serverless/releases/tag/v2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">serverless</span></p></p>
+
+<p>Serverless Framework인 serverless 2.0 릴리스.<br>
+Node.js 10 미만 지원 종료, <code>slss</code>의 alias 삭제, AWS <code>httoApi</code>의 <code>timeout</code> 설정 삭제.</p>
+
+<hr>
+
+<h2 id="release-v1-4-0-denoland-deno">Release v1.4.0 · denoland/deno</h2>
+
+<p><a href="https://github.com/denoland/deno/releases/tag/v1.4.0" title="Release v1.4.0 · denoland/deno">github.com/denoland/deno/releases/tag/v1.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno 1.4.0 릴리스.<br>
+WebSocket API 구현, <code>Deno.systemMemoryInfo()</code>가 추가.<br>
+또, 불안정 기능으로 <code>deno run --watch</code>, <code>deno test --coverage</code>가 추가됐다.</p>
+
+<hr>
+
+<h2 id="release-snowpack-2-11-1-pikapkg-snowpack">Release <a href="mailto:snowpack@2.11.1">snowpack@2.11.1</a> · pikapkg/snowpack</h2>
+
+<p><a href="https://github.com/pikapkg/snowpack/releases/tag/snowpack%402.11.1" title="Release snowpack@2.11.1 · pikapkg/snowpack">github.com/pikapkg/snowpack/releases/tag/snowpack%402.11.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">bundler</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>snowpack 2.11.1 릴리스.<br>
+esbuild 등을 기반으로 한 <code>@snowpack/plugin-optimize</code> 추가, <code>build --watch</code>에서 HMR/Livereload 대응.<br>
+또, <code>@snowpack/plugin-webpack</code>에서도 HTML을 압축하도록 변경됐다.</p>
+
+<hr>
+
+<h2 id="ten1seven-what-input-a-global-utility-for-tracking-the-current-input-method-mouse-pointer-keyboard-or-touch">ten1seven/what-input: A global utility for tracking the current input method (mouse/pointer, keyboard or touch).</h2>
+
+<p><a href="https://github.com/ten1seven/what-input" title="ten1seven/what-input: A global utility for tracking the current input method (mouse/pointer, keyboard or touch).">github.com/ten1seven/what-input</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">browser</span> <span class="jser-tag">DOM</span></p></p>
+
+<p>사용자의 입력 상태를 트래킹하는 라이브러리.<br>
+현재 입력 상태가 mouse, keyboard, touch 인지 판정한다.</p>
+
+<hr>
+
+<h2 id="release-v1-4-0-microsoft-playwright">Release v1.4.0 · microsoft/playwright</h2>
+
+<p><a href="https://github.com/microsoft/playwright/releases/tag/v1.4.0" title="Release v1.4.0 · microsoft/playwright">github.com/microsoft/playwright/releases/tag/v1.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>playwright 1.4.0 릴리스.<br>
+playwright-cli 정식 릴리스, Chromium 86 / Firefox 80 / WebKit 14 으로 각각 갱신.<br>
+<code>elementHandle.waitForElementState()</code>와 <code>elementHandle.waitForSelector()</code>가 추가됐다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="avif-has-landed-jakearchibald-com">AVIF has landed - JakeArchibald.com</h2>
+
+<p><a href="https://jakearchibald.com/2020/avif-has-landed/" title="AVIF has landed - JakeArchibald.com">jakearchibald.com/2020/avif-has-landed/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Image</span> <span class="jser-tag">article</span></p></p>
+
+<p>AV1 video에서 유래한 이미지 포맷인 AVIF 소개.<br>
+jpeg, WebP, AVIF의 크기와 화질 비교.<br>
+AVIF의 인코딩과 디코딩 시간, 프로그래시브하게 출력할 수 없는 특징 등이 소개 돼 있다.</p>
+
+<ul>
+<li><a href="https://reachlightspeed.com/blog/using-the-new-high-performance-avif-image-format-on-the-web-today/" title="How to Use AVIF: The New Next-Gen Image Compression Format — Lightspeed">How to Use AVIF: The New Next-Gen Image Compression Format — Lightspeed</a></li>
+</ul>
+
+<hr>
+
+<h2 id="devtools-architecture-refresh-migrating-to-javascript-modules-web">DevTools architecture refresh: Migrating to JavaScript modules  |  Web</h2>
+
+<p><a href="https://developers.google.com/web/updates/2020/09/migrating-to-js-modules" title="DevTools architecture refresh: Migrating to JavaScript modules  |  Web">developers.google.com/web/updates/2020/09/migrating-to-js-modules</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">article</span> <span class="jser-tag">refacoring</span></p></p>
+
+<p>Chrome Dev Tools의 기반 코드를 독자 모듈 시스템에서 ES Modules로 이전한 배경과 과정.<br>
+표준 ES Modules의 이점, 이전 전략, export / import 단계적 적용.<br>
+또, 기술적인 부채로 인해서 초기 예상한 몇 주 보다 시간이 더 많이 소요 된 점이 소개돼 있다. </p>
+
+<hr>
+
+<h2 id="leading-trim-the-future-of-digital-typesetting-by-ethan-wang-microsoft-design-aug-2020-medium">Leading-Trim: The Future of Digital Typesetting | by Ethan Wang | Microsoft Design | Aug, 2020 | Medium</h2>
+
+<p><a href="https://medium.com/microsoft-design/leading-trim-the-future-of-digital-typesetting-d082d84b202" title="Leading-Trim: The Future of Digital Typesetting | by Ethan Wang | Microsoft Design | Aug, 2020 | Medium">medium.com/microsoft-design/leading-trim-the-future-of-digital-typesetting-d082d84b202</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS <code>leading-trim</code> 속성 소개.</p>
+
+<hr>
+
+<h2 id="a-practical-guide-to-the-web-cryptography-api-dev-community">A Practical Guide to the Web Cryptography API - DEV Community 👩‍💻👨‍💻</h2>
+
+<p><a href="https://dev.to/voraciousdev/a-practical-guide-to-the-web-cryptography-api-4o8n" title="A Practical Guide to the Web Cryptography API - DEV Community 👩‍💻👨‍💻">dev.to/voraciousdev/a-practical-guide-to-the-web-cryptography-api-4o8n</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Web Cryptography API의 기본적인 사용 방법 소개.<br>
+Encryption, Decryption, 전송과 저장에 대해 다루고 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="type-challenges-type-challenges-collection-of-typescript-type-challenges-with-online-judge">type-challenges/type-challenges: Collection of TypeScript type challenges with online judge</h2>
+
+<p><a href="https://github.com/type-challenges/type-challenges" title="type-challenges/type-challenges: Collection of TypeScript type challenges with online judge">github.com/type-challenges/type-challenges</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>TypeScript의 타입 정의 문제에 도전할 수 있는 문제 모음.</p>
+
+<hr>
+
+<h2 id="microsoft-fluidframework-library-for-building-distributed-real-time-collaborative-web-applications">microsoft/FluidFramework: Library for building distributed, real-time collaborative web applications</h2>
+
+<p><a href="https://github.com/microsoft/FluidFramework" title="microsoft/FluidFramework: Library for building distributed, real-time collaborative web applications">github.com/microsoft/FluidFramework</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>분산형 실시간 협업을 위한 웹 애플리케이션 프레임워크.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="brahmosjs-brahmos-super-charged-javascript-library-with-modern-react-api-and-native-templates">brahmosjs/brahmos: Super charged JavaScript library with modern React API and native templates.</h2>
+
+<p><a href="https://github.com/brahmosjs/brahmos" title="brahmosjs/brahmos: Super charged JavaScript library with modern React API and native templates.">github.com/brahmosjs/brahmos</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">jsx</span> <span class="jser-tag">library</span> <span class="jser-tag">babel</span></p></p>
+
+<p>React와 같은 API와 JSX로 코드를 작성할 수 있는 UI 라이브러리.<br>
+Babel plugin으로 JSX를 Tagged Template Literal로 변환하고 lit-html와 같은 형태로 렌더링한다.</p>
+
+<hr>
+
+<h2 id="cookie-universal-packages-cookie-universal-at-master-microcipcip-cookie-universal">cookie-universal/packages/cookie-universal at master · microcipcip/cookie-universal</h2>
+
+<p><a href="https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal" title="cookie-universal/packages/cookie-universal at master · microcipcip/cookie-universal">github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>브라우저와 Node.js에서 동작하는 Cookie 조작 라이브러리.</p>
+
+<hr>
+
+<h2 id="microsoft-playwright-cli-cli-for-common-playwright-actions-record-and-generate-playwright-code-inspect-selectors-and-take-screenshots">microsoft/playwright-cli: CLI for common Playwright actions. Record and generate Playwright code, inspect selectors and take screenshots.</h2>
+
+<p><a href="https://github.com/microsoft/playwright-cli" title="microsoft/playwright-cli: CLI for common Playwright actions. Record and generate Playwright code, inspect selectors and take screenshots.">github.com/microsoft/playwright-cli</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">browser</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Playwright의 CLI 도구.<br>
+조작을 기록하고 재생하는 코드 생성, 요소의 Inspect, 스크린샷, PDF 생성 등의 기능 제공.</p>
+
+<hr>
+
+<h2 id="ngneat-edit-in-place-a-flexible-and-unopinionated-edit-in-place-library-for-angular-applications">ngneat/edit-in-place: A flexible and unopinionated edit in place library for Angular applications</h2>
+
+<p><a href="https://github.com/ngneat/edit-in-place" title="ngneat/edit-in-place: A flexible and unopinionated edit in place library for Angular applications">github.com/ngneat/edit-in-place</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Angular</span></p></p>
+
+<p>클릭하면 즉시 편집 모드로 전환되는 즉, edit in place 기능을 제공하는 Angular 용 라이브러리.</p>
+
+<hr>
+
+<h2 id="sabljakovich-mongoose-execution-time-mongoose-plugin-for-measuring-and-logging-query-execution-time">sabljakovich/mongoose-execution-time: Mongoose plugin for measuring and logging query execution time</h2>
+
+<p><a href="https://github.com/sabljakovich/mongoose-execution-time" title="sabljakovich/mongoose-execution-time: Mongoose plugin for measuring and logging query execution time">github.com/sabljakovich/mongoose-execution-time</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MongoDB</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>mongoose에서 질의(query) 실행 시간을 로그 출력하는 라이브러리.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="javascript-for-data-science">JavaScript for Data Science</h2>
+
+<p><a href="https://js4ds.org/" title="JavaScript for Data Science">js4ds.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>데이터 과학자를 대상으로 한 JavaScript 입문서.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2020/2020-09-15-playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["playwright","snowpack","modules"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>playwright</li>
+                
+                <li>snowpack</li>
+                
+                <li>modules</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2020/09/15/playwright-1.4.0-snowpack-2.11.1-migrating-to-javascript-moduleschrome-dev-tools/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.info 소개</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20: Node.js 16.5.0(WHATWG Stream), npm 7.20.0(`npm pkg`), Ember 4 로드맵</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06: TypeScript 4.4 Beta, immutable-js 4.0.0-rc.13, petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29: ES2021 공개, Storybook 6.3, styled-components의 구조</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22: undici 4.0.0 (HTTP클라이언트), Next.js 11, Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15: React 18 α 릴리스, Deno 1.11(Docker Images), Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08: Lighthouse 8.0.0(스코어 계산 변경), Vue 3.1(@vue/compat), Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01: Jest 27, vanilla-extract 1.0.0, Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

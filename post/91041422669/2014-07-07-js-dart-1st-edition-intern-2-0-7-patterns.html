@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-07-07のJS: Dart 1st Edition、Intern 2.0、7 Patterns to Refactor - JSer.info</title>
+    <meta name="description" content="JSer.info #182 - Googleが主に開発してるDart言語のEcma標準仕様となるStandard ECMA-408の1st editionが公開されました。">
+    
+    <meta name="keywords" content="Dart,JavaScript,testing" />
+    
+    <meta name="author" content="azu">
+    
+      <meta content="2014-07-07T21:24:00+09:00" property="article:published_time">
+      <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Dart" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #182 - Googleが主に開発してるDart言語のEcma標準仕様となるStandard ECMA-408の1st editionが公開されました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2014-07-07のJS: Dart 1st Edition、Intern 2.0、7 Patterns to Refactor">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #182 - Googleが主に開発してるDart言語のEcma標準仕様となるStandard ECMA-408の1st editionが公開されました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2014-07-07T21:24:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/14/firefox-90-npm-audit-access-guide/">
+
+<meta property="og:see_also" content="https://jser.info/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">
+
+
+
+
+
+<meta property="article:tag" content="Dart">
+
+<meta property="article:tag" content="JavaScript">
+
+<meta property="article:tag" content="testing">
+
+
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src='/public/js/autotrack.custom.js'></script>
+<script async>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-2184335-9', 'auto');
+    ga('send', 'pageview');
+    // autotrack plugin
+    ga('require', 'eventTracker');
+    ga('require', 'outboundLinkTracker');
+    ga('require', 'maxScrollTracker');
+    ga('require', 'pageVisibilityTracker');
+    // Add _blank
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll("a[href^='http']:not([href*='jser.info'])"));
+        // add _blank and track
+        links.forEach(function (link) {
+            if (!link.target) {
+                link.target = "_blank";
+            }
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+             alt="Fork me on GitHub"
+             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">2014-07-07のJS: Dart 1st Edition、Intern 2.0、7 Patterns to Refactor</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年07月07日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-07-07-2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2014-07-07-2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #182 - Googleが主に開発してる<a href="https://www.dartlang.org/" title="Dart" target="_blank">Dart</a>言語のEcma標準仕様となる<a href="http://www.ecma-international.org/publications/standards/Ecma-408.htm" title="Standard ECMA-408" target="_blank">Standard ECMA-408</a>の1st editionが公開されました。</p>
+
+<p>DartはECMAScript(JavaScript)と同じくEcmaで標準化作業が進められていて、
+<a href="http://www.ecma-international.org/memento/TC52.htm" title="TC52" target="_blank">TC52</a>(Technical Committee 52)でDartの仕様策定しています。
+(ECMAScript は <a href="http://www.ecma-international.org/memento/TC39.htm" title="TC39" target="_blank">TC39</a>)</p>
+
+<p>この辺のEcmaに関する用語は以下の記事が分かりやすいです。</p>
+
+<ul><li><a href="http://www.2ality.com/2011/06/ecmascript.html" title="A JavaScript glossary: ECMAScript, TC39, etc." target="_blank">A JavaScript glossary: ECMAScript, TC39, etc.</a></li>
+</ul><p>Info Qの<a href="http://www.infoq.com/news/2014/07/ecma-dart-google" title="Ecma Standardizes Dart" target="_blank">Ecma Standardizes Dart</a>によるとDart1.3相当が1st editionの仕様となっているそうです(現在のstableは 1.5.3)</p>
+
+<hr><p>JavaScriptテストフレームワークの<a href="http://theintern.io/" title="Intern" target="_blank">Intern</a> 2.0がリリースされました。</p>
+
+<ul><li><a href="http://www.sitepen.com/blog/2014/07/01/intern-2-0-released/" title="Intern 2.0 released | Blog | SitePen" target="_blank">Intern 2.0 released | Blog | SitePen</a></li>
+<li><a href="https://github.com/theintern/intern/releases/tag/2.0.0" title="Release 2.0.0 · theintern/intern" target="_blank">Release 2.0.0 · theintern/intern</a></li>
+</ul><p>主な変更点を見るとSeleniumまわりの対応が色々と改善されています。</p>
+
+<ul><li>WebDriverを扱う<a href="https://github.com/admc/wd" title="WD.js" target="_blank">WD.js</a>から、エラーレポート等を改善した<a href="http://theintern.github.io/leadfoot/" title="Leadfoot" target="_blank">Leadfoot</a>に変更</li>
+<li>SaourceLabを扱うのに<a href="https://github.com/bermi/sauce-connect-launcher" title=" sauce-connect-launcher" target="_blank">sauce-connect-launcher</a>から<a href="http://theintern.github.io/digdug/" title="Dig Dug" target="_blank">Dig Dug</a>に変更</li>
+<li><a href="http://www.browserstack.com/" title="Cross Browser Testing Tool. 300+ Browsers, Mobile, Real IE." target="_blank">BrowserStack</a></li>
+<li><a href="http://testingbot.com/" title="Selenium Testing in the cloud - Run your cross browser tests in our online Selenium Grid" target="_blank">TestingBot</a></li>
+<li>CommonJS code coverage</li>
+</ul><hr><p><a href="http://journal.crushlovely.com/post/88286828068/7-patterns-to-refactor-javascript-applications-value" title="Crush &amp; Lovely — 7 Patterns to Refactor JavaScript Applications: Value Objects" target="_blank">Crush &amp; Lovely — 7 Patterns to Refactor JavaScript Applications: Value Objects</a> という連載記事では、データモデルを扱うパターンについて書かれています。</p>
+
+<p>それぞれの記事にサンプル的な繋がりはないですが、よく有りそうな状況を元にサンプルコードとテストと共にパターンが紹介されていて面白い記事だと思います。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://news.dartlang.org/2014/07/ecma-approves-1st-edition-of-dart.html" title="Dart News &amp; Updates: Ecma approves the 1st edition of the Dart language specification">
+<p class="jser-sitelink"><strong>Dart News &amp; Updates: Ecma approves the 1st edition of the Dart language specification</strong></p><footer><cite><a href="http://news.dartlang.org/2014/07/ecma-approves-1st-edition-of-dart.html" title="Dart News &amp; Updates: Ecma approves the 1st edition of the Dart language specification" target="_blank">news.dartlang.org/2014/07/ecma-approves-1st-edition-of-dart.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">dart</span><span class="jser-tag">spec</span></p>
+
+<p>ECMA-408 DartのECMA仕様 1st editionがリリースされた</p>
+
+<ul><li><a href="http://www.ecma-international.org/publications/standards/Ecma-408.htm" target="_blank">Standard ECMA-408</a></li>
+<li><a href="http://www.infoq.com/news/2014/07/ecma-dart-google" title="Ecma Standardizes Dart" target="_blank">Ecma Standardizes Dart</a></li>
+</ul><blockquote cite="http://www.sitepen.com/blog/2014/07/01/intern-2-0-released/" title="Intern 2.0 released | Blog | SitePen">
+<p class="jser-sitelink"><strong>Intern 2.0 released | Blog | SitePen</strong></p><footer><cite><a href="http://www.sitepen.com/blog/2014/07/01/intern-2-0-released/" title="Intern 2.0 released | Blog | SitePen" target="_blank">www.sitepen.com/blog/2014/07/01/intern-2-0-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">ReleaseNote</span><span class="jser-tag">library</span></p>
+
+<p>全部入りな感じのJavaScriptテストフレームワーク Intern 2.0リリース。</p>
+
+<p>CommonJSのコードカバレッジサポート、
+BrowserStack/TestingBotのサポート、WD.jsの代わりにLeadfootの利用や速度の向上など</p>
+
+<ul><li><a href="https://github.com/theintern/intern/releases/tag/2.0.0" target="_blank">Release 2.0.0 · theintern/intern</a></li>
+<li><a href="https://theintern.github.io/leadfoot/" target="_blank">Leadfoot docs: Index</a></li>
+<li><a href="http://theintern.github.io/digdug/" target="_blank">Dig Dug docs: Index</a></li>
+</ul><h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://blog.jquery.com/2014/07/03/dont-use-jquery-latest-js/" title="Don’t Use jquery-latest.js | Official jQuery Blog">
+<p class="jser-sitelink"><strong>Don’t Use jquery-latest.js | Official jQuery Blog</strong></p><footer><cite><a href="http://blog.jquery.com/2014/07/03/dont-use-jquery-latest-js/" title="Don’t Use jquery-latest.js | Official jQuery Blog" target="_blank">blog.jquery.com/2014/07/03/dont-use-jquery-latest-js/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span></p>
+
+<p>CDNのjquery-latest.jsを本番環境で使わないでという話と、今後jquery-latest.jsはjQuery 1.11.1に固定されるため、<strong>latest</strong>でもなくなる</p>
+
+<ul><li><a href="http://hyper-text.org/archives/2014/07/dont_use_jquery_latest_js.shtml" target="_blank">jQuery 公式 Blog 「jquery-latest.js を使用するのをやめろ」 | WWW WATCH</a></li>
+</ul><blockquote cite="http://journal.crushlovely.com/post/88286828068/7-patterns-to-refactor-javascript-applications-value" title="Crush &amp; Lovely — 7 Patterns to Refactor JavaScript Applications: Value Objects">
+<p class="jser-sitelink"><strong>Crush &amp; Lovely — 7 Patterns to Refactor JavaScript Applications: Value Objects</strong></p><footer><cite><a href="http://journal.crushlovely.com/post/88286828068/7-patterns-to-refactor-javascript-applications-value" title="Crush &amp; Lovely — 7 Patterns to Refactor JavaScript Applications: Value Objects" target="_blank">journal.crushlovely.com/post/88286828068/7-patterns-to-refactor-javascript-applications-value</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">API</span><span class="jser-tag">design</span><span class="jser-tag">Promises</span><span class="jser-tag">testing</span></p>
+
+<p>JavaScriptの問題の分離をするAPIデザインとテストについての連載。</p>
+
+<p>"7 Patterns to Refactor Fat ActiveRecord Models" が元ネタで、それぞれについてサンプルコードとテストが書いてあって丁寧に解説されてる</p>
+
+<ul><li><a href="http://blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/" target="_blank">7 Patterns to Refactor Fat ActiveRecord Models - Code Climate Blog</a></li>
+</ul><blockquote cite="http://postd.cc/css-will-change-property/" title="CSS will-changeプロパティについて知っておくべきこと | POSTD">
+<p class="jser-sitelink"><strong>CSS will-changeプロパティについて知っておくべきこと | POSTD</strong></p><footer><cite><a href="http://postd.cc/css-will-change-property/" title="CSS will-changeプロパティについて知っておくべきこと | POSTD" target="_blank">postd.cc/css-will-change-property/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">CSS</span><span class="jser-tag">animation</span></p>
+
+<p>GPUを使うためのtranslate3dというハックではなくwill-changeというそれようのプロパティについての話。</p>
+
+<p>予め変化するものをブラウザに伝える事で最適化しする。
+変化後に削除しておく必要がある。</p>
+
+<p>CSS animationのチラツキの軽減とハードウェアアクセラレーションの活用</p>
+
+<blockquote cite="http://www.html5rocks.com/en/tutorials/developertools/chrome-35/" title="DevTools Digest - Chrome 35: Updates to the Developer Tools in Chrome 35 - HTML5 Rocks">
+<p class="jser-sitelink"><strong>DevTools Digest - Chrome 35: Updates to the Developer Tools in Chrome 35 - HTML5 Rocks</strong></p><footer><cite><a href="http://www.html5rocks.com/en/tutorials/developertools/chrome-35/" title="DevTools Digest - Chrome 35: Updates to the Developer Tools in Chrome 35 - HTML5 Rocks" target="_blank">www.html5rocks.com/en/tutorials/developertools/chrome-35/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span><span class="jser-tag">debug</span><span class="jser-tag">Tools</span></p>
+
+<p>Chrome35でのDevToolsについて。</p>
+
+<p>ネットワークパネルのフィルタリング、Shadow DOMの編集、CodeMirror 4.0へのアップでと、ヒープスナップショットの改善等</p>
+
+<blockquote cite="http://sadah.hatenablog.com/entry/2014/06/30/211944" title="CSS Font Loading Module Level 3を試してみた - console.blog(self);">
+<p class="jser-sitelink"><strong>CSS Font Loading Module Level 3を試してみた - console.blog(self);</strong></p><footer><cite><a href="http://sadah.hatenablog.com/entry/2014/06/30/211944" title="CSS Font Loading Module Level 3を試してみた - console.blog(self);" target="_blank">sadah.hatenablog.com/entry/2014/06/30/211944</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span><span class="jser-tag">fonts</span></p>
+
+<p>CSS Font loadingについての詳しい解説。</p>
+
+<p>FOUTとの関係や、実装状況、基本的なAPIの使い方、Web Fontを読み込んでからCanvasで描画するサンプル等</p>
+
+<blockquote cite="http://toddmotto.com/web-components-concepts-shadow-dom-imports-templates-custom-elements/" title="Web Components and concepts, ShadowDOM, imports, templates, custom elements">
+<p class="jser-sitelink"><strong>Web Components and concepts, ShadowDOM, imports, templates, custom elements</strong></p><footer><cite><a href="http://toddmotto.com/web-components-concepts-shadow-dom-imports-templates-custom-elements/" title="Web Components and concepts, ShadowDOM, imports, templates, custom elements" target="_blank">toddmotto.com/web-components-concepts-shadow-dom-imports-templates-custom-elements/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span></p>
+
+<p>WebComponentsの構成要素について。</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="https://speakerdeck.com/mizchi/oqian-zi-fen-tifalsepeziyauigaben-dang-nisu-itosi-tutenfalse" title="お前自分ちのページャUIが本当に速いと思ってんの？ // Speaker Deck">
+<p class="jser-sitelink"><strong>お前自分ちのページャUIが本当に速いと思ってんの？ // Speaker Deck</strong></p><footer><cite><a href="https://speakerdeck.com/mizchi/oqian-zi-fen-tifalsepeziyauigaben-dang-nisu-itosi-tutenfalse" title="お前自分ちのページャUIが本当に速いと思ってんの？ // Speaker Deck" target="_blank">speakerdeck.com/mizchi/oqian-zi-fen-tifalsepeziyauigaben-dang-nisu-itosi-tutenfalse</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">DOM</span><span class="jser-tag">performance</span><span class="jser-tag">スライド</span></p>
+
+<p>テンプレートエンジンとデータバインドによるDOMの書き換え方の違いについてのスライド。</p>
+
+<p>リストビューとデータバインドでの差分描画のアプローチ、無限スクロールでのページャについて</p>
+
+<h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="http://jsmodules.io/" title="JavaScript Modules">
+<p class="jser-sitelink"><strong>JavaScript Modules</strong></p><footer><cite><a href="http://jsmodules.io/" title="JavaScript Modules" target="_blank">jsmodules.io/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span><span class="jser-tag">module</span></p>
+
+<p>ES6 moduleの使い方についてまとまってるサイト。</p>
+
+<p>Node/CommonJSスタイルとの比較についても書かれている</p>
+
+<ul><li><a href="http://jsmodules.io/cjs.html" target="_blank">Porting from CommonJS</a></li>
+</ul><h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="https://github.com/krasimir/deb.js" title="krasimir/deb.js">
+<p class="jser-sitelink"><strong>krasimir/deb.js</strong></p><footer><cite><a href="https://github.com/krasimir/deb.js" title="krasimir/deb.js" target="_blank">github.com/krasimir/deb.js</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">debug</span><span class="jser-tag">library</span></p>
+
+<p><code>Function.prototype</code> にデバッグ用のダンプ関数を追加して、コンソールに関数の詳細情報を表示するライブラリとChrome拡張</p>
+
+<blockquote cite="https://theintern.github.io/leadfoot/" title="Leadfoot docs: Index">
+<p class="jser-sitelink"><strong>Leadfoot docs: Index</strong></p><footer><cite><a href="https://theintern.github.io/leadfoot/" title="Leadfoot docs: Index" target="_blank">theintern.github.io/leadfoot/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webdriver</span><span class="jser-tag">library</span></p>
+
+<p>WebDriver APIを使ったライブラリ。</p>
+
+<p>WD.jsと互換性を持ったAPIも用意されているが、将来的に互換レイヤーは削除される</p>
+
+<blockquote cite="https://github.com/bahmutov/next-update" title="bahmutov/next-update">
+<p class="jser-sitelink"><strong>bahmutov/next-update</strong></p><footer><cite><a href="https://github.com/bahmutov/next-update" title="bahmutov/next-update" target="_blank">github.com/bahmutov/next-update</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">console</span><span class="jser-tag">Tools</span></p>
+
+<p>node moduleのdependenciesを一時的にアップデートした状態でテストを走らせて、問題なくアップデートできるかを確認するコマンドラインツール</p>
+
+<ul><li><a href="http://hail2u.net/blog/software/node-next-update.html" target="_blank">Node.jsパッケージ: next-update - Weblog - Hail2u.net</a></li>
+</ul><h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://eloquentjavascript.net/2nd_edition/preview/" title="Eloquent JavaScript">
+<p class="jser-sitelink"><strong>Eloquent JavaScript</strong></p><footer><cite><a href="http://eloquentjavascript.net/2nd_edition/preview/" title="Eloquent JavaScript" target="_blank">eloquentjavascript.net/2nd_edition/preview/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">book</span></p>
+
+<p>Eloquent JavaScript第二版のプレビュー版</p>
+
+<blockquote cite="http://shop.oreilly.com/product/9780992279455.do" title="AngularJS: Novice to Ninja - O'Reilly Media">
+<p class="jser-sitelink"><strong>AngularJS: Novice to Ninja - O&#8217;Reilly Media</strong></p><footer><cite><a href="http://shop.oreilly.com/product/9780992279455.do" title="AngularJS: Novice to Ninja - O'Reilly Media" target="_blank">shop.oreilly.com/product/9780992279455.do</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span><span class="jser-tag">book</span></p>
+
+<p>2014年9月発売</p>
+
+<p>Angularについての書籍。</p>
+
+<p>データバインディング、TDD、モジュール、ディレクティブ、SPA</p>
+
+<blockquote cite="http://www.oreilly.co.jp/books/9784873116877/" title="O'Reilly Japan - プログラミング HTML5 Canvas">
+<p class="jser-sitelink"><strong>O&#8217;Reilly Japan - プログラミング HTML5 Canvas</strong></p><footer><cite><a href="http://www.oreilly.co.jp/books/9784873116877/" title="O'Reilly Japan - プログラミング HTML5 Canvas" target="_blank">www.oreilly.co.jp/books/9784873116877/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">canvas</span><span class="jser-tag">book</span></p>
+
+<p>2014年07月19日 発売</p>
+
+<p>Core HTML5 Canvasの翻訳本</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-07-07-2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Dart","JavaScript","testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Dart</li>
+                
+                <li>JavaScript</li>
+                
+                <li>testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/91041422669/2014-07-07-js-dart-1st-edition-intern-2-0-7-patterns"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title">JSer.info Sponsors</h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれているひとたちです。
+
+</p>
+<div class="sponsors-list">
+    <!-- Sponsor for https://github.com/sponsors/azu -->
+    <div class="sponsors-listItem">
+        <a href="https://twitter.com/cybozu" title="Cybozu, Inc." target="_blank" rel="noopener">
+            <img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"/>
+        </a>
+    </div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt=""
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+           target='blank'>
+            <img id='feedlyFollow'
+                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
+                 alt=''
+                 width='28'
+                 height='28'
+                 loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <a class="social-icon__slack"
+           href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+           target='blank'>
+            <img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"/>
+            SlackにRSSを追加する
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/">JSer.infoについて</a></li>
+                <li><a class="page-link" href="https://jser.info/support/">Support</a></li>
+                <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
+                       data-size="large"
+                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2021/07/20/node.js-16.5.0whatwg-stream-npm-7.20.0npm-pkg-ember-4/">2021-07-20のJS: Node.js 16.5.0(WHATWG Stream)、npm 7.20.0(`npm pkg`)、Ember 4のロードマップ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14のJS: Firefox 90、npm auditの問題、Access Guide</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/07/06/typescript-4.4-beta-immutable-js-4.0.0-rc.13-petite-vue/">2021-07-06のJS: TypeScript 4.4 Beta、immutable-js 4.0.0-rc.13、petite-vue</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/29/es2021-storybook-6.3-styled-components/">2021-06-29のJS: ES2021公開、Storybook 6.3、styled-componentsの仕組み</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/22/undici-4.0.0http-next.js-11-safari-15-beta/">2021-06-22のJS: undici 4.0.0(HTTPクライアント)、Next.js 11、Safari 15 Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/15/react-18-a-deno-1.11docker-images-plotly.js-2.0/">2021-06-15のJS: React 18 αリリース、Deno 1.11(Docker Images)、Plotly.js 2.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/06/08/lighthouse-8.0.0-vue-3.1vuecompat-mocha-v9.0.0/">2021-06-08のJS: Lighthouse 8.0.0(スコア計算の変更)、Vue 3.1(@vue/compat)、 Mocha v9.0.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2021/05/31/jest-27-vanilla-extract-1.0.0-learn-css/">2021-06-01のJS: Jest 27、vanilla-extract 1.0.0、Learn CSS</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a 
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-category="Slack"
+    ga-event-action="click"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
