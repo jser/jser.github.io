@@ -13,21 +13,36 @@ tags:
 
 ---
 
-JSer.info #550 - - [Easier browser debugging with Developer Tools integration in Visual Studio Code - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2021/07/16/easier-debugging-developer-tools-in-visual-studio-code/)
+JSer.info #550 - vscode-js-debugはVSCodeからブラウザのデバッガーに接続し、JavaScriptをデバッグするVSCode拡張です。
+このvscode-js-debugがVScodeにbundleされるようになっています。
+
+- [Easier browser debugging with Developer Tools integration in Visual Studio Code - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2021/07/16/easier-debugging-developer-tools-in-visual-studio-code/)
 - [microsoft/vscode-js-debug: The VS Code JavaScript debugger](https://github.com/microsoft/vscode-js-debug)
-  - [Official page for Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol/)
+
+vscode-js-debugは、ChromeやMSEdgeなどのブラウザのデバッガーに接続できます。
+仕組みとして[Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol/)(DAP)という、開発ツール(VScodeなど)とデバッガー(ブラウザやNodeなど)を中継するAdapterを利用しています。
+
+DAPは[Language Server Protocol](https://microsoft.github.io/language-server-protocol/)(LSP)似た形のもので、開発ツールと各種言語の中継となるプロトコルを定めています。
+開発ツールなどはDAPをサポートすれば、各種言語向けのデバッグ機能を再開発しなくて済むようになっています。
 
 ----
 
-- [Privacy Sandbox Timeline](https://privacysandbox.com/timeline/)
-  - [Google releases a timeline for Privacy Sandbox rollout in Chrome](https://www.xda-developers.com/google-chrome-privacy-sandbox-floc-timeline/)
+[Privacy Sandbox Timeline](https://privacysandbox.com/timeline/)というサイトでGoogleのPrivacy Sandboxと呼ばれるthird-party cookiesを廃止するためのProposal集に関するロードマップが公開されています。
 
+Privacy Sandboxの各Proposalごとにどのようなスケジュールで、実装やテストをしていくかの予定が公開されています。
 
 ---
 
-- [ブラウザの作り方 - Speaker Deck](https://speakerdeck.com/keiya01/burauzafalsezuo-rifang?slide=23)
+[ちいさな Web ブラウザを作ってみよう](https://browserbook.shift-js.info/)では、Rustでウェブブラウザを作りつつ、ブラウザのレンダリングの仕組みやセキュリティについて学習する教材が公開されています。
+
+現時点ではWIP(Working In Progress)な章もありますが、小さなブラウザをつくりつつブラウザの内部構造について学ぶのが目的となっています。
+
+同じようにRustでブラウザを作って学ぶチュートリアルとしてLet's build a browser engine!が有名です。
+興味がある人は読んでみると良いかもしれません。
+
 - [Let's build a browser engine! Part 1: Getting started](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
-- [ちいさな Web ブラウザを作ってみよう](https://browserbook.shift-js.info/)
+	- [ブラウザの作り方 - Speaker Deck](https://speakerdeck.com/keiya01/burauzafalsezuo-rifang)
+	- [「Let's build a browser engine!」を読んでRustで簡易レンダリングエンジンを作った - dackdive's blog](https://dackdive.hateblo.jp/entry/2021/02/23/113522)
 
 
 ----
