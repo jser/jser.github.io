@@ -1,5 +1,5 @@
 ---
-title: "2021-08-03のJS: "
+title: "2021-08-03のJS: Yarn 3.0、Chrome 93 beta、cross origin iframeでのalert/prompt/confirmを削除"
 author: "azu"
 layout: post
 date : 2021-08-03T03:38:52.177Z
