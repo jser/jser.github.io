@@ -46,7 +46,6 @@ Origin TrialとしてCOEPの導入をより手軽にするための[`Cross-Origi
 Chrome 92では、cross originのiframe内から`window.{alert, prompt, confirm}`が利用できなくなりました。
 
 - [1065085 - Implement window.{alert, prompt, confirm} removal from cross-origin iframes - chromium](https://bugs.chromium.org/p/chromium/issues/detail?id=1065085)
-- [Remove alert(), confirm(), and prompt for cross origin iframes - Chrome Platform Status](https://www.chromestatus.com/feature/5148698084376576)
 
 この問題への対処方法として、次のような方法があげられています。
 
