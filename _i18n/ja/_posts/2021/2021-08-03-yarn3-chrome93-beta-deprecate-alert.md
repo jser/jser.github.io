@@ -36,7 +36,7 @@ Chrome 93 betaがリリースされました。
 Origin TrialとしてCOEPの導入をより手軽にするための[`Cross-Origin-Embedder-Policy：credentialless`](https://github.com/WICG/credentiallessness)、[URL Handlers](https://web.dev/pwa-url-handler/)の追加などが含まれています。
 また、 `AbortSignal.abort()`メソッドのサポート、Stage 3のError causeと`Object.hasOwn`のサポートも含まれています。
 
-ダークモード対応などではCSSの`prefers-color-scheme` media queryを使い、ユーザーエージェントがどのcolor schemeを優先するかを判定していました。しかし、CSSではページロード後となるため、ページロード時にその判定ができるようにClient Hint Headerの`Sec-CH-Prefers-Color-Scheme`が追加されています。
+ダークモード対応などではCSSの`prefers-color-scheme` media queryを使い、ユーザーエージェントがどのcolor schemeを優先するかを判定していました。しかし、CSSではページロード後となるため、ページロード時にその判定ができるようにClient Hint Headerの[`Sec-CH-Prefers-Color-Scheme`](https://web.dev/user-preference-media-features-headers/)が追加されています。
 また、`navigator.userAgent`や`User-Agent`ヘッダの後継となる、User-Agent Client Hintsに関するAPIやヘッダの変更も含まれています。
 
 - [Migrate to User-Agent Client Hints](https://web.dev/migrate-to-ua-ch/)
