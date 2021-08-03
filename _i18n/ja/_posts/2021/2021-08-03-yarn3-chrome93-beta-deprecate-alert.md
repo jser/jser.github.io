@@ -13,7 +13,59 @@ tags:
 
 ---
 
-JSer.info #551
+JSer.info #551 - Yarn 3.0がリリースされました。
+
+- [Yarn 3.0 🚀🤖 Performances, ESBuild, Better Patches, ... - DEV Community 👩‍💻👨‍💻](https://dev.to/arcanis/yarn-3-0-performances-esbuild-better-patches-e07)
+- [berry/CHANGELOG.md at master · yarnpkg/berry](https://github.com/yarnpkg/berry/blob/master/CHANGELOG.md#300)
+
+Node.js 10のサポート終了、`.pnp.cjs`にリネーム、`@yarnpkg/pnpify`を3つのパッケージに分解などの変更を含んでいます。
+
+- `@yarnpkg/sdks`: [Editor SDKs](https://yarnpkg.com/getting-started/editor-sdks)
+- `@yarnpkg/pnpify`: PnPと互換性のないツールを実行するツール
+- `@yarnpkg/nm`: `node_modules` linker
+
+また、 `exports`フィールドのサポート、[pnpm](https://pnpm.io/)ライクなハードリンクのサポート、シェル構文のサポート改善、 ESBuildでのbundleをサポートする`@yarnpkg/esbuild-plugin-pnp`の追加なども含まれています。
+
+
+----
+
+Chrome 93 betaがリリースされました。
+
+- [Chromium Blog: Chrome 93: Multi-Screen Window Placement, PWAs as URL Handlers, and More](https://blog.chromium.org/2021/07/chrome-93-multi-screen-window-placement.html)
+
+Origin TrialとしてCOEPの導入をより手軽にするための[`Cross-Origin-Embedder-Policy：credentialless`](https://github.com/WICG/credentiallessness)、[URL Handlers](https://web.dev/pwa-url-handler/)の追加などが含まれています。
+また、 `AbortSignal.abort()`メソッドのサポート、Stage 3のError causeと`Object.hasOwn`のサポートも含まれています。
+
+ダークモード対応などではCSSの`prefers-color-scheme` media queryを使い、ユーザーエージェントがどのcolor schemeを優先するかを判定していました。しかし、CSSではページロード後となるため、ページロード時にその判定ができるようにClient Hint Headerの`Sec-CH-Prefers-Color-Scheme`が追加されています。
+また、`navigator.userAgent`や`User-Agent`ヘッダの後継となる、User-Agent Client Hintsに関するAPIやヘッダの変更も含まれています。
+
+- [Migrate to User-Agent Client Hints](https://web.dev/migrate-to-ua-ch/)
+
+---
+
+Chrome 92では、cross originのiframe内から`window.{alert, prompt, confirm}`が利用できなくなりました。
+
+- [1065085 - Implement window.{alert, prompt, confirm} removal from cross-origin iframes - chromium](https://bugs.chromium.org/p/chromium/issues/detail?id=1065085)
+- [Remove alert(), confirm(), and prompt for cross origin iframes - Chrome Platform Status](https://www.chromestatus.com/feature/5148698084376576)
+
+この問題への対処方法として、次のような方法があげられています。
+
+- Chrome 96(12月)まで有効な[Reverse Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/2541156089743802369)を有効化する
+- ダイアログUIを自作する方法
+- [postMessageを使って親ドキュメントでダイアログを出す方法](https://stackoverflow.com/questions/68492434/javascript-dialogs-alert-confirm-and-prompt-in-cross-origin-iframe-does-n)
+
+この影響で、CodePenなどのiframeを使ってコードを実行する環境、Google Apps Scriptをウェブサイトとして公開しているケース、Salesforceの一部機能などが動かなくなるなどの影響が出ています。
+いくつかのウェブサイトで影響があったため、Chromeでは[2021年8月15日まで無効化](https://bugs.chromium.org/p/chromium/issues/detail?id=1065085#c41)されています。(Reverse Origin Trialのための猶予期間)
+
+他のブラウザもこの仕様に追従する予定となっています。
+
+- [Remove alert(), confirm(), and prompt for cross origin iframes - Chrome Platform Status](https://www.chromestatus.com/feature/5148698084376576)
+- [Proposal: Disallow cross-origin iframes usage of window.{alert, confirm, prompt} · Issue #5407 · whatwg/html](https://github.com/whatwg/html/issues/5407)
+
+詳しくは次のページも参照してください。
+
+- [Cross Origin iframe からの alert/confirm/prompt 呼び出しの無効化 | blog.jxck.io](https://blog.jxck.io/entries/2021-08-02/3rd-party-iframe-dialog.html)
+
 
 ----
 
@@ -37,7 +89,7 @@ Tagコンポーネントの追加、`Disclosures`と`Popover`のPanel内に`Butt
 
 Yarn 3.0リリース。
 Node.js 10のサポート終了、`.pnp.cjs`にリネーム、`@yarnpkg/pnpify`を3つのパッケージに分解など。
-`exports`フィールドのサポート、pnpライクなハードリンクのサポート、シェル構文のサポート改善、 ESBuildのサポートなど
+`exports`フィールドのサポート、pnpmライクなハードリンクのサポート、シェル構文のサポート改善、 ESBuildのサポートなど
 
 - [berry/CHANGELOG.md at master · yarnpkg/berry](https://github.com/yarnpkg/berry/blob/master/CHANGELOG.md#300 "berry/CHANGELOG.md at master · yarnpkg/berry")
 
