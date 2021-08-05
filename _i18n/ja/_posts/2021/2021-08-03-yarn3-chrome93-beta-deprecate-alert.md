@@ -49,12 +49,12 @@ Chrome 92では、cross originのiframe内から`window.{alert, prompt, confirm}
 
 この問題への対処方法として、次のような方法があげられています。
 
-- Chrome 96(12月)まで有効な[Reverse Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/2541156089743802369)を有効化する
+- <del>Chrome 96(12月)まで有効な</del>[Reverse Origin Trial](https://developer.chrome.com/origintrials/#/view_trial/2541156089743802369)を有効化する
 - ダイアログUIを自作する方法
 - [postMessageを使って親ドキュメントでダイアログを出す方法](https://stackoverflow.com/questions/68492434/javascript-dialogs-alert-confirm-and-prompt-in-cross-origin-iframe-does-n)
 
 この影響で、CodePenなどのiframeを使ってコードを実行する環境、Google Apps Scriptをウェブサイトとして公開しているケース、[Salesforceの一部機能](https://help.salesforce.com/articleView?id=000362676&language=en_US&mode=1&type=1)などが動かなくなるなどの影響が出ています。
-いくつかのウェブサイトで影響があったため、Chromeでは[2021年8月15日まで無効化](https://bugs.chromium.org/p/chromium/issues/detail?id=1065085#c41)されています。(Reverse Origin Trialのための猶予期間)
+いくつかのウェブサイトで影響があったため、Chromeでは<del>[2021年8月15日まで無効化](https://bugs.chromium.org/p/chromium/issues/detail?id=1065085#c41)されています。(Reverse Origin Trialのための猶予期間)</del>[2022年1月まで延期](https://bugs.chromium.org/p/chromium/issues/detail?id=1065085#c72)されています。
 
 他のブラウザもこの仕様に追従する予定となっています。
 
