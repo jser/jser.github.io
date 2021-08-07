@@ -195,7 +195,7 @@ ElectronとWindowsのWebView2のアーキテクチャ的な違いについて。
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">GraphQL</span> <span class="jser-tag">article</span></p>
 
 GraphQLクライアントライブラリのurqlについて。
-レスポンスをキャッシュの仕組みとキャッシュを履きする仕組みについて
+レスポンスをキャッシュの仕組みとキャッシュを破棄する仕組みについて
 
 
 ----
