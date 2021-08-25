@@ -13,16 +13,31 @@ tags:
 
 ---
 
-JSer.info #554 - - [Release v4.0.0 · mdn/browser-compat-data](https://github.com/mdn/browser-compat-data/releases/tag/v4.0.0)
+JSer.info #554 - MDNなどが利用するブラウザ実装の互換データを管理している `@mdn/browser-compat-data` 4.0.0がリリースされました。
+
+- [Release v4.0.0 · mdn/browser-compat-data](https://github.com/mdn/browser-compat-data/releases/tag/v4.0.0)
+
+互換リストにDenoのデータが追加されています。
+
 - [Deno on MDN | Deno Blog](https://deno.com/blog/deno-on-mdn)
 
-----
-
-- [The State Of Mobile First and Desktop First - Ahmad Shadeed](https://ishadeed.com/article/the-state-of-mobile-first-and-desktop-first/)
+スキーマに`preview`と`accepts_flags`の追加、XPathとXSLTのデータが不完全であるため削除などの変更も含まれています・
 
 ----
 
-- [From Create-React-App to Next | Kitty Giraudel](https://kittygiraudel.com/2021/08/24/from-cra-to-next/)
+[The State Of Mobile First and Desktop First - Ahmad Shadeed](https://ishadeed.com/article/the-state-of-mobile-first-and-desktop-first/)という記事では、CSSを書くときにMobileとDesktop向けのどちらを先に書くかについて書かれています。
+
+MobileとDesktopのどちらかを先に書いて、もう一方をMedia Queryで上書きしたときのコード量や拡張性の違いについて比較しています。
+また、ベースに加えてMobileとDesktopの対応をそれぞれ書いた場合の難しい点についても書かれています。
+発展としてFlexboxやCSS Grid、Container Queriesなどの新しいCSS機能を使うことでより簡単に書けるようになっている話なども含まれています。
+
+----
+
+[From Create-React-App to Next | Kitty Giraudel](https://kittygiraudel.com/2021/08/24/from-cra-to-next/)という記事では[Create React App](https://github.com/facebook/create-react-app)(CRA)から[Next.js](https://nextjs.org/)への移行をどのようにしたかについて書かれています。
+
+`<head>`やスタイリングなどの項目ごとに、CRAからNext.jsにどのように移植したのかが書かれています。
+また移行後に`<Link>`以外はどちらの環境でも実行できたため、移行の動作確認として両方の環境で動かしてテストする方法についても書かれています。
+
 
 
 ----
