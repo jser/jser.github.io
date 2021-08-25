@@ -75,17 +75,6 @@ Mocha 9.1.0リリース。
 
 ----
 
-## Testing | Next.js
-[nextjs.org/docs/testing](https://nextjs.org/docs/testing "Testing | Next.js")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">document</span></p>
-
-Next.jsにおけるテストについてのドキュメント。
-Cypressを使ったE2EテストとJest + React Testing Libraryを使ったテストの方法について紹介している。
-
-- [Delba de Oliveira on Twitter: &amp;quot;We&#039;ve just released the first iteration of the Next.js Testing Docs: https://t.co/jhe7zSigt3 🧪 We wanted to provide a starting point for those looking to set up Next.js with 3 commonly used testing tools: @cypress\_io, @fbjest and React @TestingLib.&amp;quot; / Twitter](https://twitter.com/delba_oliveira/status/1427307677709967362 "Delba de Oliveira on Twitter: &amp;amp;quot;We&amp;#039;ve just released the first iteration of the Next.js Testing Docs: https://t.co/jhe7zSigt3 🧪 We wanted to provide a starting point for those looking to set up Next.js with 3 commonly used testing tools: @cypress\_io, @fbjest and React @TestingLib.&amp;amp;quot; / Twitter")
-
-----
-
 ## Release v4.0.0 · mdn/browser-compat-data
 [github.com/mdn/browser-compat-data/releases/tag/v4.0.0](https://github.com/mdn/browser-compat-data/releases/tag/v4.0.0 "Release v4.0.0 · mdn/browser-compat-data")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">mdn</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
@@ -191,6 +180,17 @@ Create-React-Appで書かれていたアプリをNext.jsに移行した話。
 
 DOM/HTMLのassertionライブラリ。
 HTML文字列を比較したテストができる。
+
+----
+
+## Testing | Next.js
+[nextjs.org/docs/testing](https://nextjs.org/docs/testing "Testing | Next.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">document</span></p>
+
+Next.jsにおけるテストについてのドキュメント。
+Cypressを使ったE2EテストとJest + React Testing Libraryを使ったテストの方法について紹介している。
+
+- [Delba de Oliveira on Twitter: &amp;quot;We&#039;ve just released the first iteration of the Next.js Testing Docs: https://t.co/jhe7zSigt3 🧪 We wanted to provide a starting point for those looking to set up Next.js with 3 commonly used testing tools: @cypress\_io, @fbjest and React @TestingLib.&amp;quot; / Twitter](https://twitter.com/delba_oliveira/status/1427307677709967362 "Delba de Oliveira on Twitter: &amp;amp;quot;We&amp;#039;ve just released the first iteration of the Next.js Testing Docs: https://t.co/jhe7zSigt3 🧪 We wanted to provide a starting point for those looking to set up Next.js with 3 commonly used testing tools: @cypress\_io, @fbjest and React @TestingLib.&amp;amp;quot; / Twitter")
 
 
 ----
