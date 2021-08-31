@@ -68,15 +68,6 @@ Node.js 16.8.0リリース。
 
 ----
 
-## unjs/unplugin: Unified plugin system for Vite, Rollup, and Webpack
-[github.com/unjs/unplugin](https://github.com/unjs/unplugin "unjs/unplugin: Unified plugin system for Vite, Rollup, and Webpack")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">rollup</span> <span class="jser-tag">webpack</span> <span class="jser-tag">plugin</span> <span class="jser-tag">library</span></p>
-
-Vite/Rollup/webpack pluginを同じコードから作成するライブラリ
-
-
-----
-
 ## Announcing TypeScript 4.4 | TypeScript
 [devblogs.microsoft.com/typescript/announcing-typescript-4-4/](https://devblogs.microsoft.com/typescript/announcing-typescript-4-4/ "Announcing TypeScript 4.4 | TypeScript")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
@@ -233,6 +224,14 @@ Node.js(mjs,cjs)、ブラウザ(ESM、UMD)向けのビルドを一括ででき�
 
 Schemaを定義してバリデーションができるbuilderライブラリ。
 作成したSchemaオブジェクトはTypeScriptの型としても利用できる。
+
+----
+
+## unjs/unplugin: Unified plugin system for Vite, Rollup, and Webpack
+[github.com/unjs/unplugin](https://github.com/unjs/unplugin "unjs/unplugin: Unified plugin system for Vite, Rollup, and Webpack")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">rollup</span> <span class="jser-tag">webpack</span> <span class="jser-tag">plugin</span> <span class="jser-tag">library</span></p>
+
+Vite/Rollup/webpack pluginを同じコードから作成するライブラリ
 
 
 ----
