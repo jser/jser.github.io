@@ -13,10 +13,43 @@ tags:
 
 ---
 
-JSer.info #555 - - [Announcing TypeScript 4.4 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-4/)
-- [Why lab and field data can be different (and what to do about it)](https://web.dev/lab-and-field-data-differences/)
-- [Gotta pack 'em all! | Packemon](https://packemon.dev/)
+JSer.info #555 - TypeScript 4.4が正式にリリースされました。
 
+- [Announcing TypeScript 4.4 | TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-4/)
+
+Control Flow Analysisの改善、Index SignaturesにSymbolやTemplate Stringを利用できるようになっています。
+また、Catch節のデフォルトを`unknown`型にする`useUnknownInCatchVariables`オプションと
+optionalと`undefined`値の区別をする`exactOptionalPropertyTypes`オプションの追加されています。
+
+`useUnknownInCatchVariables`は`strict`オプションが有効の場合は自動的にONとなります。
+一方で、`exactOptionalPropertyTypes`は`strict`オプションとは別途設定が必要になります。
+
+また、ES Proposal Stage 3の[class static block](https://github.com/tc39/proposal-class-static-block#ecmascript-class-static-initialization-blocks)がサポートされています。
+その他には、`tsc --help`の表示を改善、ビルドパフォーマンスの改善も含まれています。
+
+----
+
+[Why lab and field data can be different (and what to do about it)](https://web.dev/lab-and-field-data-differences/)という記事では、[PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)などに表示される"lab data"と"field data"の違いについて解説しています。
+
+Lab dataは、ネットワークは実行環境を固定したSynthetic モニタリングのデータとなっています。
+一方のField dataは、[Chrome User Experience Report](https://developers.google.com/web/tools/chrome-user-experience-report)で収集されたChromeユーザーのRUMデータを元にしています。
+
+この2つのデータの違い、どのようなケースで値に違いがでるかなどを解説しています。
+実際のユーザーの体験に近いのはField dataであるため、まずはField dataをみることや、2つのデータに違いがある場合には最適化の余地があることを示していることなどについて書かれています。
+
+---
+
+[Packemon](https://packemon.dev/)はnpmで公開するパッケージ向けのビルドツールです。
+
+Node.js(mjs,cjs)、ブラウザ(ESM、UMD)向けのビルドを一括でできるようになっています。
+
+Node.js 12+からサポートされたECMAScript Modules(ESM)では、利用できないNode.jsのAPIやimport時のファイル拡張子が必須となるなどのCommonJSとの違いがあります。ビルド時に、[Babelを使ったESM向けのコード変換](https://github.com/milesj/packemon/tree/master/packages/babel-plugin-cjs-esm-interop)やESMで利用できない機能をビルド時にチェックなども行います。
+
+- [Node.jsライブラリ/ツールをESMに移行する[Node.js 12+]](https://zenn.dev/azu/scraps/8251dab75562c8)
+- [Pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)
+
+その他には`packemon validate`といったパッケージのメタデータのバリデーションなどができるコマンドなども持っています。
+似たツールとしては[Microbundle](https://github.com/developit/microbundle)がありますが、packemonはパッケージ公開を補助するツールも持つといった違いがあります。
 
 ----
 
