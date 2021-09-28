@@ -58,7 +58,7 @@ WebWorkerにはDOM APIなどがないため、そのままサードパーティ�
 そのため、次のような仕組みでDOM APIなどを含むサードパーティスクリプトをWorker内で雨後しています。
 
 1. Worker内でのDOM操作を[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)する
-2. DOM操作をコマンドにして同期XHRで通信
+2. DOM操作をコマンドにして同期XHRで通信([Worker内では同期XHRが利用](https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests#example_synchronous_http_request_from_a_worker)できます)
 3. この通信をService Workerでインターセプトしてコマンドを取得
 4. コマンドを元にService Workerとメインスレッドで非同期にやりとりしてDOM操作の結果を取得
 5. DOM操作の結果を元のWorkerに返す
