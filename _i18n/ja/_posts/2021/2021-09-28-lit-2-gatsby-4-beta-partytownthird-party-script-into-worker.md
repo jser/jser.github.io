@@ -13,16 +13,62 @@ tags:
 
 ---
 
-JSer.info #559 - - [Announcing Lit 2 stable release – Lit](https://lit.dev/blog/2021-09-21-announcing-lit-2/)
+JSer.info #559 - Web Componentsを扱うライブラリであるLit 2がリリースされました。
+
+- [Announcing Lit 2 stable release – Lit](https://lit.dev/blog/2021-09-21-announcing-lit-2/)
+- [Lit 2.0 Release Livestream - YouTube](https://www.youtube.com/watch?v=nfb779XIhsU)
+
+Lit 2は今までLitElement 2.xとlit-html 1.xという別々のパッケージになったものを統合していて、`lit`という新しいパッケージ担っています。
+
+classベースのDirectives API、非同期Directives、Reactive Controllersの追加されています。
+要素全体に対して影響を与えられるElement expressions、タグ名などに変数を使えるStatic expressionsなども追加されています。
+また、実験的にSSRのサポートなども追加されています。
+
+LitElement 2.xとlit-html 1.xからアップグレードガイドも公開されています。
+
+- [Upgrade guide – Lit](https://lit.dev/docs/releases/upgrade/)
 
 ----
+
+Gatsby 4のベータ版がリリースされています。
 
 - [Introducing Gatsby 4 | Gatsby](https://www.gatsbyjs.com/gatsby-4/)
 
+[rendering mode](https://v4.gatsbyjs.com/docs/conceptual/rendering-options/)として、HTMLの生成を実際にアクセスするときまで遅延するDeferred Static Generation(DSG)のサポート、SSRのサポートが追加されています。
+
+[Deferred Static Generation](https://v4.gatsbyjs.com/docs/reference/rendering-options/deferred-static-generation/)(DSG)はNext.jsの[Incremental Static Regeneration](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration)(ISR)と似ていて、初回のリクエストがきた段階で始めてビルドを開始することで、めったにアクセスされないコンテンツを含むようなサイトでのデプロイにかかるビルド時間を短縮する仕組みです。
+DSGではデプロイ時にデータのスナップショットを作り、リクエスト時にスナップショットからコンテンツであるHTMLを生成して返します。そのため、DSGはISRとは、リクエスト時に異なりサーバから外部リソースを再取得するのではなく、あくまでデプロイ時に作成されたスナップショットを参照してビルドするようになっています。
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">While DSG may look similar on the surface, what Gatsby does is that it takes a snapshot of the data at initial build time and creates lightweight render engines that are capable of building a page on demand. However, all data was already sourced at initial build time!</p>&mdash; Sid (@chatsidhartha) <a href="https://twitter.com/chatsidhartha/status/1442352346441281540?ref_src=twsrc%5Etfw">September 27, 2021</a></blockquote>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+その他にはparallel queryでのビルド時間の改善なども含まれています。
+あわせてv3からのマイグレーションガイドも公開されています。
+
+- [Migrating from v3 to v4 | Gatsby](https://v4.gatsbyjs.com/docs/reference/release-notes/migrating-from-v3-to-v4/)
+
 ----
 
+PartytownはサードパーティスクリプトをWebWorkerで動かし、サードパーティスクリプトによるメインスレッドのブロッキングを避ける目的のライブラリです。
+
 - [BuilderIO/partytown: Relocate resource intensive third-party scripts off of the main thread and into a web worker. 🎉](https://github.com/BuilderIO/partytown)
+
+WebWorkerにはDOM APIなどがないため、そのままサードパーティスクリプトをWorkerで動かすとエラーとなります。
+そのため、次のような仕組みでDOM APIなどを含むサードパーティスクリプトをWorker内で雨後しています。
+
+1. Worker内でのDOM操作をProxyする
+2. DOM操作をコマンドにして同期XHRで通信
+3. この通信をService Workerでインターセプトしてコマンドを取得
+4. コマンドを元にService Workerとメインスレッドで非同期にやりとりしてDOM操作の結果を取得
+5. DOM操作の結果を元のWorkerに返す
+
+これによって、Worker内で動作しているサードパーティスクリプトから見れば同期的にAPIを使えているように見えるため、コードの変更なしに動作しています。
+
+詳しい仕組みについては記事も公開されているので、こちらを参照してください。
+
 - [Introducing Partytown 🎉: Run Third-Party Scripts From a Web Worker - DEV Community 👩‍💻👨‍💻](https://dev.to/adamdbradley/introducing-partytown-run-third-party-scripts-from-a-web-worker-2cnp)
+
 
 
 ----
