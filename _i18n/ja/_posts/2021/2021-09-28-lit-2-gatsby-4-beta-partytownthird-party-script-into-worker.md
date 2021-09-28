@@ -57,7 +57,7 @@ PartytownはサードパーティスクリプトをWebWorkerで動かし、サ�
 WebWorkerにはDOM APIなどがないため、そのままサードパーティスクリプトをWorkerで動かすとエラーとなります。
 そのため、次のような仕組みでDOM APIなどを含むサードパーティスクリプトをWorker内で雨後しています。
 
-1. Worker内でのDOM操作をProxyする
+1. Worker内でのDOM操作を[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)する
 2. DOM操作をコマンドにして同期XHRで通信
 3. この通信をService Workerでインターセプトしてコマンドを取得
 4. コマンドを元にService Workerとメインスレッドで非同期にやりとりしてDOM操作の結果を取得
