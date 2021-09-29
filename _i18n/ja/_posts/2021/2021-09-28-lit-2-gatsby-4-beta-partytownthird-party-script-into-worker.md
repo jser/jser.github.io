@@ -55,7 +55,7 @@ PartytownはサードパーティスクリプトをWebWorkerで動かし、サ�
 - [BuilderIO/partytown: Relocate resource intensive third-party scripts off of the main thread and into a web worker. 🎉](https://github.com/BuilderIO/partytown)
 
 WebWorkerにはDOM APIなどがないため、そのままサードパーティスクリプトをWorkerで動かすとエラーとなります。
-そのため、次のような仕組みでDOM APIなどを含むサードパーティスクリプトをWorker内で雨後しています。
+そのため、次のような仕組みでDOM APIなどを含むサードパーティスクリプトをWorker内で動かしています。
 
 1. Worker内でのDOM操作を[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)する
 2. DOM操作をコマンドにして同期XHRで通信([Worker内では同期XHRが利用](https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests#example_synchronous_http_request_from_a_worker)できます)
