@@ -13,18 +13,47 @@ tags:
 
 ---
 
-JSer.info #562 - - [Announcing Parcel v2!](https://parceljs.org/blog/v2/)
+JSer.info #562 - ビルドツールのParcel v2がリリースされました。
+
+- [Announcing Parcel v2!](https://parceljs.org/blog/v2/)
+
+Parcelは設定なしで動作することを目的にしているため、v1ではプラグインの仕組みは薄い形になっていました。
+Parcel v2ではプラグインの仕組みを刷新し、様々なケースに対応できるようになっています。
+
+- [Plugins](https://parceljs.org/features/plugins/)
+
+また、Tree Shakingをデフォルト化、[SWC](https://github.com/swc-project/swc)ベースのJavaScriptコンパイラに変更、ModernとLegacyビルドの出し分け、Image optimizerの追加されています。
+その他にも、bundleのインライン化、ライブラリ向けのビルドのサポート、C++やRustでコアモジュールの一部を書き直し、ビルドパフォーマンスの改善なども含まれています。
+
+Parcel v1からマイグレーションについてのドキュメントも公開されています。
+
 - [Migration](https://parceljs.org/getting-started/migration/)
 
 ----
 
+Node.js 17.0.0がリリースされました。
+
 - [Node v17.0.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v17.0.0/)
 - [Node.js 17 is here!. This blog was written by Bethany… | by Node.js | Node.js Collection | Oct, 2021 | Medium](https://medium.com/the-node-js-collection/node-js-17-is-here-8dba1e14e382)
-- [Release v8.0.0 · npm/cli](https://github.com/npm/cli/releases/tag/v8.0.0)
 
-----
+Nodeの奇数バージョンはLTSとはなりませんが、`Current`バージョンが17.xとなります。
+現在のNodeのLTSは12と14ですが、2021-10-26にNode 16がLTSに追加されます。
 
-- [Nuxt - Introducing Nuxt 3 Beta](https://nuxtjs.org/announcements/nuxt3-beta/)
+- [Releases | Node.js](https://nodejs.org/en/about/releases/)
+
+Node.js 17では、`readline`モジュールのPromise対応、OpenSSL 3.0へのアップデート、V8 9.5へアップデート、npm 8.0.0へのアップデート、スタックトレースにNodeバージョンを表示などの変更が含まれています。
+またウェブ標準の`strcturedClone()`と`DOMException`をサポートが追加されています。
+
+[structuredClone()](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)は`postMessage`などで内部的に使われていた(DOMを含む)オブジェクトの複製のメカニズムを関数として公開した仕様です。
+最近、WHATWG HTMLの仕様に追加され、[Firefox](https://bugzilla.mozilla.org/show_bug.cgi?id=1722576)や[Deno](https://deno.com/blog/v1.13#support-for-self.structuredclone())で実装され、[Chrome](https://bugs.chromium.org/p/chromium/issues/detail?id=1233571)、[Safari](https://bugs.webkit.org/show_bug.cgi?id=228331)、[core-js](https://github.com/zloirock/core-js/issues/969)で実装が進められています。
+
+- [Expose structuredClone by surma · Pull Request #3414 · whatwg/html](https://github.com/whatwg/html/pull/3414)
+
+この`structuredClone()`は`JSON.parse`/`JSON.strinfigy`がサポートしていないオブジェクト(MapやRegExpなど)もサポートしていため、DOM以外の部分でも有用です。
+
+- [構造化複製アルゴリズムを使ったオブジェクトのディープコピー](https://zenn.dev/petamoriken/articles/ad1e943d8d113c)
+
+`structuredClone()`で複製ができない場合は`DOMException`を例外として投げる仕様であるため、`DOMException`も合わせて実装されています。
 
 
 ----
