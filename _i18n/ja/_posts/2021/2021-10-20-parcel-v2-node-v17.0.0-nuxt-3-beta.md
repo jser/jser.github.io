@@ -44,7 +44,7 @@ Nodeの奇数バージョンはLTSとはなりませんが、`Current`バージ�
 Node.js 17では、`readline`モジュールのPromise対応、OpenSSL 3.0へのアップデート、V8 9.5へアップデート、npm 8.0.0へのアップデート、スタックトレースにNodeバージョンを表示などの変更が含まれています。
 またウェブ標準の`strcturedClone()`と`DOMException`をサポートが追加されています。
 
-[structuredClone()](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)は`postMessage`などで内部的に使われていた(DOMを含む)オブジェクトの複製のメカニズムを関数として公開した仕様です。
+[structuredClone()](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)は`postMessage`などで内部的に使われていた(DOMを含む)オブジェクトの複製のメカニズムを関数として公開したメソッドです。
 最近、WHATWG HTMLの仕様に追加され、[Firefox](https://bugzilla.mozilla.org/show_bug.cgi?id=1722576)や[Deno](https://deno.com/blog/v1.13#support-for-self.structuredclone())で実装され、[Chrome](https://bugs.chromium.org/p/chromium/issues/detail?id=1233571)、[Safari](https://bugs.webkit.org/show_bug.cgi?id=228331)、[core-js](https://github.com/zloirock/core-js/issues/969)で実装が進められています。
 
 - [Expose structuredClone by surma · Pull Request #3414 · whatwg/html](https://github.com/whatwg/html/pull/3414)
