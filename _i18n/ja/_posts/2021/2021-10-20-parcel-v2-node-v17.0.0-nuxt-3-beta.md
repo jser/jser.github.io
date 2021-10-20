@@ -55,6 +55,11 @@ Node.js 17では、`readline`モジュールのPromise対応、OpenSSL 3.0への
 
 `structuredClone()`で複製ができない場合は`DOMException`を例外として投げる仕様であるため、`DOMException`も合わせて実装されています。
 
+Node 17にはNode 16の変更点も含まれるので、その他の変更は次の記事を参照してください。
+
+- [2021-04-27のJS: Node.js 16.0.0、Chrome 91 beta、Prisma(Ready for production) - JSer.info](https://jser.info/2021/04/27/node.js-16.0.0-chrome-91-beta-prismaready-for-production/)
+- [Node.js v17 の主な変更点 - 別にしんどくないブログ](https://shisama.hatenablog.com/entry/2021/10/20/114721)
+
 
 ----
 
