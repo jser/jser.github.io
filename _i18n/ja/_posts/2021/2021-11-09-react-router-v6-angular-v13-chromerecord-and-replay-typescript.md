@@ -29,7 +29,7 @@ Angular 13がリリースされました。
 
 - [Angular v13 is now Available. We’re back with the brand new release… | by Mark Thompson (@marktechson) | Nov, 2021 | Angular Blog](https://blog.angular.io/angular-v13-is-now-available-cce66f7bc296)
 
-IvyがデフォルトとなったためView Engineを削除されています。
+Ivyがデフォルトとなったため、View Engineが削除されています。
 Angular Package Format(APF)が`exports`フィールドのサポートが追加されています。
 また、IE 11のサポートが終了されています。
 AngularでのIEサポートはAngular 12までとなり、Angular 12は2022年11月12日までサポートされます。
