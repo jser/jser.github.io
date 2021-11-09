@@ -52,7 +52,7 @@ AngularでのIEサポートはAngular 12までとなり、Angular 12は2022年11
 - [インクリメンタルに新しい技術を取り入れる方法。TypeScriptへの移行を例にしたプロセス](https://tech.plaid.co.jp/karte-blocks-incremental-development/)
 - [Etsy’s Journey to TypeScript - Code as Craft](https://codeascraft.com/2021/11/08/etsys-journey-to-typescript/)
 
-ゆるい型をつけてから段階的に厳しくしていく方法と最初から厳密な型をつけていくというアプローチの違いがあるので、合わせて読んでみると面白いと思います。
+ゆるい型をつけてから段階的に厳しくしていく方法と最初から厳密な型をつけていくというアプローチをそれぞれ扱っているで、合わせて読んでみると面白いと思います。
 
 ----
 
