@@ -23,7 +23,7 @@ import名に対する`type` modifierのサポート、ES ProposalのPrivate Fiel
 
 [TypeScript 4.5 Beta](https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-beta/)で追加されていたNode.jsのESMサポートについては4.6以降に延期となっています。
 
----
+----
 
 React 18のbetaがリリースされています。
 
