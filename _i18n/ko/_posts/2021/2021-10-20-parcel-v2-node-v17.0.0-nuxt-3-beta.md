@@ -3,7 +3,7 @@ title: "2021-10-20: Parcel v2, Node v17.0.0, Nuxt 3 beta"
 author: "azu"
 translator: U-Yeong Ju
 layout: post
-date : 2021-10-20T03:47:20.958Z
+date: 2021-10-20T03:47:20.958Z
 category: JSer
 tags:
 - React
