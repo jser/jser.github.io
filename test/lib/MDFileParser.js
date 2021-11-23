@@ -1,11 +1,16 @@
 // LICENSE : MIT
 "use strict";
 var fs = require("fs");
+var assert = require("assert");
 var fm = require('front-matter');
+
 function MDFileParser(file) {
     this.file = file;
-    this.parsedTree = fm(fs.readFileSync(file, "utf-8"));
+    const fileContent = fs.readFileSync(file, "utf-8");
+    assert(fileContent.startsWith("---"), "should start front matter, but this file does not start with --- " + file);
+    this.parsedTree = fm(fileContent);
 }
+
 MDFileParser.prototype.getCategories = function () {
     var cats = [];
     if (this.parsedTree.attributes["categories"]) {
