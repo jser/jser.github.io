@@ -46,7 +46,8 @@ Next.jsなどのようにReactをベースにしたフレームワークにな�
 
 - [Remix | Philosophy](https://remix.run/docs/en/v1/guides/philosophy)
 
-また、このサーバ側をfly.ioやCloudflare WorkersなどのEdgeで動かせるようになっています。
+基本的にサーバ側が必要となるため、[サーバ側のコード](https://github.com/remix-run/remix/tree/main/packages/remix-server-runtime)もあわせて公開されています。
+このサーバ側は公式のホスティングサービス以外にも、fly.ioやCloudflare WorkersなどのEdgeで動かせるようになっています。
 
 ----
 
