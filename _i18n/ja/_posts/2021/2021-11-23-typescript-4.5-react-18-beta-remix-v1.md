@@ -35,13 +35,13 @@ React 18の機能開発はこれで完了として、正式版のリリースに
 
 ----
 
-ReactベースのウェブフレームワークであるRemix v1リリースされています。
+Reactベースのウェブフレームワークである[Remix](https://github.com/remix-run/remix) v1リリースされています。
 
 - [Remix v1 | Remix](https://remix.run/blog/remix-v1)
 
 Next.jsなどのようにReactをベースにしたフレームワークになっていて、CLI、ルーティング、ライフサイクルメソッド、React Hooksなどを提供します。
 他のものとの違いとしてSSR(Server Side Rendering)やSSG(Static Site Generator)ではなく、クライアントサーバモデルを基本としています。
-サーバが返すデータをフィルターし、クライアントに転送するデータを最小化する目的の`loader`関数などを持っています。
+サーバがデータを返す際に必要なデータが残るようにフィルターし、クライアントに転送するデータを最小化する目的の`loader`関数などを持っています。
 どのような目的を持って作られているかについては次のページにまとめられています。
 
 - [Remix | Philosophy](https://remix.run/docs/en/v1/guides/philosophy)
