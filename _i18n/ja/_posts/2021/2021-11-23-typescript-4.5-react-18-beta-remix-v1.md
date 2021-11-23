@@ -13,7 +13,40 @@ tags:
 
 ---
 
-JSer.info #567
+JSer.info #567 - TypeScript 4.5が正式リリースされました。
+
+- [Announcing TypeScript 4.5 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-5/)
+
+TypeScriptがビルトインで持つ`lib`の型定義を`package.json`の`dependencies`を使ってロックできるようになっています。
+`Awaited`型の追加、Top-Level awaitに対応した`module: es2022`のサポート、Condition Typesにおいて一部末尾最適化するようになる変更も含まれています。
+import名に対する`type` modifierのサポート、ES ProposalのPrivate Field Presence Checks、Import Assertionsのサポートなども追加されています。
+
+[TypeScript 4.5 Beta](https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-beta/)で追加されていたNode.jsのESMサポートについては4.6以降に延期となっています。
+
+---
+
+React 18のbetaがリリースされています。
+
+- [React 18 is now in beta · Discussion #112 · reactwg/react-18](https://github.com/reactwg/react-18/discussions/112)
+- [The Plan for React 18 – React Blog](https://reactjs.org/blog/2021/06/08/the-plan-for-react-18.html)
+
+[useSyncExternalStore](https://github.com/reactwg/react-18/discussions/86)/[useId](https://github.com/reactwg/react-18/discussions/111)/[useInsertionEffect](https://github.com/reactwg/react-18/discussions/110)のAPIがそれぞれ追加されています。
+React 18の機能開発はこれで完了として、正式版のリリースに向けて残りはドキュメントやエラーの改善などを行うようです。
+
+----
+
+ReactベースのウェブフレームワークであるRemix v1リリースされています。
+
+- [Remix v1 | Remix](https://remix.run/blog/remix-v1)
+
+Next.jsなどのようにReactをベースにしたフレームワークになっていて、CLI、ルーティング、ライフサイクルメソッド、React Hooksなどを提供します。
+他のものとの違いとしてSSR(Server Side Rendering)やSSG(Static Site Generator)ではなく、クライアントサーバモデルを基本としています。
+サーバが返すデータをフィルターし、クライアントに転送するデータを最小化する目的の`loader`関数などを持っています。
+どのような目的を持って作られているかについては次のページにまとめられています。
+
+- [Remix | Philosophy](https://remix.run/docs/en/v1/guides/philosophy)
+
+また、このサーバ側をfly.ioやCloudflare WorkersなどのEdgeで動かせるようになっています。
 
 ----
 
