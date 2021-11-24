@@ -126,7 +126,7 @@ Chromeの開発者ツールのパフォーマンスタブの読み方の図解
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p>
 
 Atomic CSSについて。
-事前生成 + PruneのTaildinwのアプローチ、オンデマンド生成のTailwindCSSについて。
+事前生成 + PurgeのTailWindのアプローチ、オンデマンド生成のWindi CSSについて。
 また、Atomic CSSエンジンのUnoCSSを作っているという話。
 
 
