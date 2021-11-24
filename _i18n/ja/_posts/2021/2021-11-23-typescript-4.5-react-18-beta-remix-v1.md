@@ -40,7 +40,7 @@ Reactベースのウェブフレームワークである[Remix](https://github.c
 - [Remix v1 | Remix](https://remix.run/blog/remix-v1)
 
 Next.jsなどのようにReactをベースにしたフレームワークになっていて、CLI、ルーティング、ライフサイクルメソッド、React Hooksなどを提供します。
-他のものとの違いとしてSSR(Server Side Rendering)やSSG(Static Site Generator)ではなく、クライアントサーバモデルを基本としています。
+他のものとの違いとしてSSG(Static Site Generator)ではなく、クライアントサーバモデルを基本としています。
 サーバがデータを返す際に必要なデータが残るようにフィルターし、クライアントに転送するデータを最小化する目的の`loader`関数などを持っています。
 どのような目的を持って作られているかについては次のページにまとめられています。
 
