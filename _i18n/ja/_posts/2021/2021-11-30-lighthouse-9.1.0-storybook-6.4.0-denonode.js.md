@@ -13,18 +13,30 @@ tags:
 
 ---
 
-JSer.info #568 - - [Release v9.1.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v9.1.0)
+JSer.info #568 - Lighthouse 9.1.0がリリースされました。
+
+- [Release v9.1.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v9.1.0)
+
+Next.js向けのStack Packが追加されたため、Next.jsのアプリに対するAuditが追加されています。
+
+- [feat: Add Stack Pack for Next.js by kyliau · Pull Request #66 · GoogleChrome/lighthouse-stack-packs](https://github.com/GoogleChrome/lighthouse-stack-packs/pull/66)
 
 ----
+
+Storybook 6.4.0がリリースされました。
 
 - [Release v6.4.0 · storybookjs/storybook](https://github.com/storybookjs/storybook/releases/tag/v6.4.0)
-- [storybook/addons/interactions at next · storybookjs/storybook](https://github.com/storybookjs/storybook/tree/next/addons/interactions)
-- [storybookjs/eslint-plugin-storybook: Official ESLint plugin for Storybook](https://github.com/storybookjs/eslint-plugin-storybook)
+
+[Storybook Addon Interactions](https://github.com/storybookjs/storybook/tree/next/addons/interactions)でInteractionsタブが追加され、インタラクション操作のシミュレートとデバッグができるようになっています。
+また、Storybook向けのESLintプラグインである[storybookjs/eslint-plugin-storybook](https://github.com/storybookjs/eslint-plugin-storybook)が公開されています。
 
 ----
 
+Denoでは、現在[Node.js compability mode](https://deno.land/manual@v1.16.3/npm_nodejs/compatibility_mode)が開発されており、今後この互換性を上げていく方針となっています。
+
 - [Improve Node Compat Mode · Issue #12577 · denoland/deno](https://github.com/denoland/deno/issues/12577)
-- [Deno のこれまでとこれから JSConf JP 2021](https://kt3k.github.io/talk_jsconfjp2021/#1)
+
+[Deno のこれまでとこれから JSConf JP 2021](https://kt3k.github.io/talk_jsconfjp2021/#1)という発表では、このNode.js互換モードの開発がなぜ進められているのかについて話されています。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/fC4oZJmvfI0?start=9735" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
