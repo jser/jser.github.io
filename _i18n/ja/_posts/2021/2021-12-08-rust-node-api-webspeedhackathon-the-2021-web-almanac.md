@@ -13,11 +13,29 @@ tags:
 
 ---
 
-JSer.info #569 - - [Rust + Node-APIでクロスプラットフォーム向けnpmパッケージを公開する - 別にしんどくないブログ](https://shisama.hatenablog.com/entry/2021/12/03/054437)
+JSer.info #569 - [Rust + Node-APIでクロスプラットフォーム向けnpmパッケージを公開する - 別にしんどくないブログ](https://shisama.hatenablog.com/entry/2021/12/03/054437)という記事では、Rustでnapi-rsを使って書いたコードをNode.jsから利用する方法について書かれています。
+
+パッケージとして公開する場合、Node.jsのNode-APIを使うためネイティブモジュールとしてインストール必要があります。
+その場合に、インストール後に`postinstall`でバイナリをダウンロード/ビルドするのではなく、`optionalDependencies`を使ってアーキテクチャごとのパッケージをインストールできるようにする方法についても紹介されています。
+
+---
+
+[#WebSpeedHackathon](https://twitter.com/search?f=realtime&q=%0A%23WebSpeedHackathon)の2021年版が開催されています。
+
 - [重いサイトを軽くしろ！年末年始は #WebSpeedHackathon 2021 に挑戦しよう | CyberAgent Developers Blog](https://developers.cyberagent.co.jp/blog/archives/32747/)
 - [CyberAgentHack/web-speed-hackathon-2021](https://github.com/CyberAgentHack/web-speed-hackathon-2021)
+
+重たいウェブサイトのパフォーマンスを改善するハッカソン教材として作られたアプリケーションです。
+2022/1/3まで開催されていて、スコアはGitHub Actionsで計測する仕組みも公開されています。
+ウェブサイトのパフォーマンス改善に興味がある人は触ってみると面白いかもしれません。
+
+---
+
+HTTP Archiveのデータをもとにウェブの状態をまとめたWeb Almanacの2021年版が公開されています。
+
 - [The 2021 Web Almanac](https://almanac.httparchive.org/en/2021/)
 
+ブラウザのテクノロジーやウェブの状態を確認できるレポートで、全24章から構成されています。
 
 ----
 
