@@ -25,7 +25,7 @@ JSer.info #569 - [Rust + Node-APIでクロスプラットフォーム向けnpm�
 - [重いサイトを軽くしろ！年末年始は #WebSpeedHackathon 2021 に挑戦しよう | CyberAgent Developers Blog](https://developers.cyberagent.co.jp/blog/archives/32747/)
 - [CyberAgentHack/web-speed-hackathon-2021](https://github.com/CyberAgentHack/web-speed-hackathon-2021)
 
-重たいウェブサイトのパフォーマンスを改善するハッカソン教材として作られたアプリケーションです。
+重たいウェブサイトのパフォーマンスを改善するハッカソンの題材として作られたアプリケーションです。
 2022/1/3まで開催されていて、スコアはGitHub Actionsで計測する仕組みも公開されています。
 ウェブサイトのパフォーマンス改善に興味がある人は触ってみると面白いかもしれません。
 
