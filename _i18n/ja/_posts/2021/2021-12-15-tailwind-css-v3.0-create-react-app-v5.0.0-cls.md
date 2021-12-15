@@ -76,7 +76,7 @@ puppeteer 13.0.0リリース。
 
 Safari Technology Preview 136リリース。
 `contain: paint`、`revert-layer`、`flex-basis: content`のサポート。
-`Temporal.Instant`の実装、WebExtensionのManigest V3をサポートなど
+`Temporal.Instant`の実装、WebExtensionのManifest V3をサポートなど
 
 
 ----
