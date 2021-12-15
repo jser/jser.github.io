@@ -13,18 +13,35 @@ tags:
 
 ---
 
-JSer.info #570 - - [Tailwind CSS v3.0 – Tailwind CSS](https://tailwindcss.com/blog/tailwindcss-v3)
+JSer.info #570 - Tailwind CSS v3.0がリリースされました。
+
+- [Tailwind CSS v3.0 – Tailwind CSS](https://tailwindcss.com/blog/tailwindcss-v3)
+
+指定したクラス名から対応するクラスを生成するJust-in-Time Modeのエンジンが刷新されています。
+またBox Shadow Colorの追加、CSS Scroll Snapのサポート、Multi-column layoutのサポートなどが行われています。
+その他には実験的にRTLとLTR modifiersのサポート、開発用のビルドが不要なCDNがサポートされています。
+
+
+- [Installation: Play CDN - Tailwind CSS](https://tailwindcss.com/docs/installation/play-cdn)
 
 ----
+
+Create React App 5.0 がリリースされました。
 
 - [Release v5.0.0 · facebook/create-react-app](https://github.com/facebook/create-react-app/releases/tag/v5.0.0)
 
+webpack 5、Jest 27、ESLint 8、PostCSS 8へのアップデートが含まれています。
+また、tailwind.config.jsのサポート、依存のバージョン固定を削除、Node 10と12のサポート終了なども含まれています。
+
 ----
 
+BuzzFeedのCLSを改善するという連載記事が公開されています。
 
 - [Improving CLS at BuzzFeed — Part 1 | BuzzFeed Tech](https://tech.buzzfeed.com/improving-cumulative-layout-shift-at-buzzfeed-part-1-8b7ead2381dd)
 - [Improving CLS at BuzzFeed — Part 2 | BuzzFeed Tech](https://tech.buzzfeed.com/improving-cumulative-layout-shift-at-buzzfeed-part-2-2a846adeb097)
 - [Improving CLS at BuzzFeed — Part 3 | BuzzFeed Tech](https://tech.buzzfeed.com/improving-cumulative-layout-shift-at-buzzfeed-part-3-3a36240861e4)
+
+RUMとSynthetic MonitingでのCLSスコアのモニタリング、RUMのログからCLSを発生させている要素の特定と修正、サードパーティの埋め込みコンテンツによるCLSの改善などについて書かれています。
 
 
 ----
