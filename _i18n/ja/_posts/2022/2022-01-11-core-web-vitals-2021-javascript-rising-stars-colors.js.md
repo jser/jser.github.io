@@ -13,7 +13,13 @@ tags:
 
 ---
 
-JSer.info #574 - - [Improving Core Web Vitals, A Smashing Magazine Case Study](https://www.smashingmagazine.com/2021/12/core-web-vitals-case-study-smashing-magazine/)
+JSer.info #574 - [Improving Core Web Vitals, A Smashing Magazine Case Study](https://www.smashingmagazine.com/2021/12/core-web-vitals-case-study-smashing-magazine/)という記事では、Smashing MagazineのCore Web Vitals(LCP/FID/CLS)のスコアをどのように改善していったかについて書かれています。
+
+Core Web VitalsはGoogle検索の指標に使われています。
+また、Google Search Consoleでは、グローバルなChromeユーザーからのCore Web Vitalsのスコアを確認でき、この値は[Chrome User Experience Report ](https://developers.google.com/web/tools/chrome-user-experience-report)のデータを元にしています。
+
+サイトのLCPの改善をしたところ、なぜかGoogle Search Consoleの結果は改善されないという問題を掘り下げていったというないようになっています。
+Smashing Magazineはグローバルなサイトであり、Google Search Consoleのスコアはグローバルなデータをまとめたものとなるため、ユーザーが多い特定の国でスコアが悪いと、全体のスコアにも影響がある点について書かれています。
 
 ----
 
