@@ -18,18 +18,37 @@ JSer.info #574 - [Improving Core Web Vitals, A Smashing Magazine Case Study](htt
 Core Web VitalsはGoogle検索の指標に使われています。
 また、Google Search Consoleでは、グローバルなChromeユーザーからのCore Web Vitalsのスコアを確認でき、この値は[Chrome User Experience Report ](https://developers.google.com/web/tools/chrome-user-experience-report)のデータを元にしています。
 
-サイトのLCPの改善をしたところ、なぜかGoogle Search Consoleの結果は改善されないという問題を掘り下げていったというないようになっています。
+サイトのLCPの改善をしたところ、なぜかGoogle Search Consoleの結果は改善されなかったという問題を掘り下げていったというないようになっています。
 Smashing Magazineはグローバルなサイトであり、Google Search Consoleのスコアはグローバルなデータをまとめたものとなるため、ユーザーが多い特定の国でスコアが悪いと、全体のスコアにも影響がある点について書かれています。
 
 ----
 
+2021年のGitHub Star数でのランキングをまとめたJavaScript Rising Starsが公開されています。
+
 - [2021 JavaScript Rising Stars](https://risingstars.js.org/2021/en)
-- [JavaScript ライジングスター 2021](https://risingstars.js.org/2021/ja)
+- 日本語訳: [JavaScript ライジングスター 2021](https://risingstars.js.org/2021/ja)
+
+GitHub Starは実際の人気の利用数とは必ずしも一致はしませんが、
+それぞれのカテゴリごとに解説も書かれているので読んでみるとよさそうです。
 
 ----
 
-- [colorsなどのnpmパッケージに悪意あるコードが含まれている問題について](https://zenn.dev/azu/articles/d56615b2e11ad1)
+[colorsなどのnpmパッケージに悪意あるコードが含まれている問題について](https://zenn.dev/azu/articles/d56615b2e11ad1)という記事では、`colors`というnpmパッケージにDoS攻撃のコードが含まれたものがpatchバージョンとして公開された問題について書かれています。
 
+npmでは[leftpadと呼ばれる問題](https://web.archive.org/web/20160323000303/https://medium.com/@azerbike/i-ve-just-liberated-my-modules-9045c06be67c)をきっかけに、パッケージのOwnerであっても公開後24時間経過するとその公開を取り下げるには問い合わせが必要になっています。(細かな条件が2020年に追加されています)
+
+- [npm Blog Archive: changes to npm’s unpublish policy](https://blog.npmjs.org/post/141905368000/changes-to-npms-unpublish-policy)
+- [npm Blog Archive: Changes to npm Unpublish Policy - January 2020](https://blog.npmjs.org/post/190553543620/changes-to-npmunpublish-policy-january-2020.html)
+
+また、npmやyarnなどでロックファイルがデフォルトとなっているため、既存のプロジェクトではバージョンが固定でき、影響範囲がleftpadの時に比べて小さくなっています。
+一方で、`colors`を新規インストールした際やアップデートした際に、問題があるpatchバージョンがsemverによって選択されてしまう問題があります。
+
+この記事では、npmパッケージの直接的/間接的依存のチェック方法やYarnの`resolutions`、npm 8.3+の`overrides`での明示的なバージョン固定方法について書かれています。
+
+現時点(2022-01-11)では、問題のあった`colors`のバージョンはnpmによって取り消されています。
+今後のcolors.jsについては、次のIssueを参照してください。
+
+- [(Semi-Official) Status Update · Issue #317 · Marak/colors.js](https://github.com/Marak/colors.js/issues/317)
 
 ----
 
