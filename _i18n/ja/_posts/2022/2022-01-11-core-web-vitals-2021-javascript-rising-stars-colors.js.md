@@ -18,7 +18,7 @@ JSer.info #574 - [Improving Core Web Vitals, A Smashing Magazine Case Study](htt
 Core Web VitalsはGoogle検索の指標に使われています。
 また、Google Search Consoleでは、グローバルなChromeユーザーからのCore Web Vitalsのスコアを確認でき、この値は[Chrome User Experience Report ](https://developers.google.com/web/tools/chrome-user-experience-report)のデータを元にしています。
 
-サイトのLCPの改善をしたところ、なぜかGoogle Search Consoleの結果は改善されなかったという問題を掘り下げていったというないようになっています。
+サイトのLCPの改善をしたところ、なぜかGoogle Search Consoleの結果は改善されなかったという問題を掘り下げていったという内容になっています。
 Smashing Magazineはグローバルなサイトであり、Google Search Consoleのスコアはグローバルなデータをまとめたものとなるため、ユーザーが多い特定の国でスコアが悪いと、全体のスコアにも影響がある点について書かれています。
 
 ----
