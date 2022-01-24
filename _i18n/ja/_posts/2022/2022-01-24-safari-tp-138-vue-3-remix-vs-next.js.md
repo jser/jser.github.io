@@ -19,6 +19,10 @@ JSer.info #576 - Safari Technology Preview 138がリリースされました。
 
 Safariの開発者ツールであるWeb InspectorのElement TabにCascade Layersのサポートなどの機能が追加されています。
 また、CSSの`:focus-visible`、Media Queryの`resolution`、CSS Containmentをデフォルトで有効化されています。
+
+- [No, Apple Did Not Crowdfund :focus-visible in Safari – Eric’s Archived Thoughts](https://meyerweb.com/eric/thoughts/2022/01/24/no-apple-did-not-crowdfund-focus-visible-in-safari/)
+  - WebKitに`:focus-visible`が実装された経緯
+
 そのほかには、Service Workerの`NavigationPreloadManager`を有効化、Service Workerを経由したファイルダウンロードできなかった問題の修正などが含まれています。
 
 ----
