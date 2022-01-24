@@ -13,7 +13,53 @@ tags:
 
 ---
 
-JSer.info #576
+JSer.info #576 - Safari Technology Preview 138がリリースされました。
+
+- [Release Notes for Safari Technology Preview 138 | WebKit](https://webkit.org/blog/12176/release-notes-for-safari-technology-preview-138/)
+
+Safariの開発者ツールであるWeb InspectorのElement TabにCascade Layersのサポートなどの機能が追加されています。
+また、CSSの`:focus-visible`、Media Queryの`resolution`、CSS Containmentをデフォルトで有効化されています。
+そのほかには、Service Workerの`NavigationPreloadManager`を有効化、Service Workerを経由したファイルダウンロードできなかった問題の修正などが含まれています。
+
+----
+
+Vue 3が2022年2月7日に`vue`のデフォルトバージョンとなることが発表されました。
+
+- [Vue 3 as the New Default | The Vue Point](https://blog.vuejs.org/posts/vue-3-as-the-new-default.html)
+
+現在(2022-01-24)は、`vue`パッケージの`latest`は2.x系となっています。
+
+```
+$ npm info vue
+
+vue@2.6.14 | MIT | deps: none | versions: 368
+Reactive, component-oriented view layer for modern web interfaces.
+https://github.com/vuejs/vue#readme
+
+keywords: vue
+
+dist
+.tarball: https://registry.npmjs.org/vue/-/vue-2.6.14.tgz
+.shasum: e51aa5250250d569a3fbad3a8a5a687d6036e235
+.integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
+.unpackedSize: 3.0 MB
+
+maintainers:
+- posva <posva13@gmail.com>
+- yyx990803 <yyx990803@gmail.com>
+
+dist-tags:
+beta: 3.2.0-beta.8  csp: 1.0.28-csp     latest: 2.6.14      next: 3.2.29
+
+published 7 months ago by posva <posva13@gmail.com>
+```
+
+2022年2月7日に、`vue`の`latest`が3.xへと変更されます。
+そのため、`npm install vue` などのようにバージョン指定せずにインストールした場合は、`vue@3`がインストールされるようになります。
+
+この変更に合わせて、ウェブサイトやGitHubの<https://github.com/vuejs>のリポジトリ名なども変更する予定となっています。
+
+
 
 ----
 
