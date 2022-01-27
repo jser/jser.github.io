@@ -128,7 +128,7 @@ Service Workerの`NavigationPreloadManager`を有効化、Service Workerを経�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">news</span></p>
 
 2022年2月7日にVue 3が`vue@next`から`vue@latest`へと変更され、`vue`パッケージのStableバージョンとなる。
-この変更に合わせてCDNでのlastestの参照先、ドキュメント、GitHubリポジトリも変更される。
+この変更に合わせてCDNでのlatestの参照先、ドキュメント、GitHubリポジトリも変更される。
 
 
 ----
