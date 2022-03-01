@@ -1,5 +1,5 @@
 ---
-title: "2022-03-01のJS: Redux ToolKit 1.8.0、Node.js 17.6.0、CSS Cascade Layers"
+title: "2022-03-01のJS: Redux Toolkit 1.8.0、Node.js 17.6.0、CSS Cascade Layers"
 author: "azu"
 layout: post
 date : 2022-02-28T12:49:04.690Z
