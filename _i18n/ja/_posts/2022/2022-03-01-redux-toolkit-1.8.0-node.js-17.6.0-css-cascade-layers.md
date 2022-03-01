@@ -105,12 +105,12 @@ StreamにIterator helperの`map`などをメソッドを追加すると壊れる
 
 ----
 
-## Release v1.8.0-rc.0 · reduxjs/redux-toolkit
-[github.com/reduxjs/redux-toolkit/releases/tag/v1.8.0-rc.0](https://github.com/reduxjs/redux-toolkit/releases/tag/v1.8.0-rc.0 "Release v1.8.0-rc.0 · reduxjs/redux-toolkit")
+## Release v1.8.0 · reduxjs/redux-toolkit
+[reduxjs/redux-toolkit/releases/tag/v1.8.0](https://github.com/reduxjs/redux-toolkit/releases/tag/v1.8.0)
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Redux Toolkit v1.8.0-rc.0リリース。
-`@rtk-incubator/action-listener-middleware`パッケージを追加、`configureStore`の型定義の改善など
+新しい非同期Middlewareとして`createListenerMiddleware`を追加、`configureStore`の型定義の改善など
 
 - [New experimental &amp;quot;action listener middleware&amp;quot; package available · Discussion #1648 · reduxjs/redux-toolkit](https://github.com/reduxjs/redux-toolkit/discussions/1648 "New experimental &amp;amp;quot;action listener middleware&amp;amp;quot; package available · Discussion #1648 · reduxjs/redux-toolkit")
 
