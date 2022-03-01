@@ -24,7 +24,7 @@ JSer.info #581 - Redux Toolkit 1.8.0がリリースされました。
 `createListenerMiddleware`は[redux-saga](https://github.com/redux-saga/redux-saga)や[redux-observable](https://redux-observable.js.org/)など同じく非同期処理を扱うためのMiddlewareです。
 シンプルな`dispatch`や`getState`などのAPIや、redux-sagaをインスパイアした`take`や[Temporal](https://docs.temporal.io/docs/typescript/workflows#condition)をインスパイアした`condition`など複雑なタスクを扱うAPIも持っています。
 
-次の動画で、この新しい`createListenerMiddleware`がどのように作られたのかを紹介しています。
+次の動画で、この`createListenerMiddleware`がどのように作られたのかを紹介しています。
 
 - [Redux Insights: the Redux Toolkit &quot;action listener&quot; middleware - YouTube](https://www.youtube.com/watch?v=D5WOry6gw9c)
 - [New experimental &quot;action listener middleware&quot; package available · Discussion #1648 · reduxjs/redux-toolkit](https://github.com/reduxjs/redux-toolkit/discussions/1648)
