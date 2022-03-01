@@ -13,17 +13,57 @@ tags:
 
 ---
 
-JSer.info #581 - - [Release v1.8.0 · reduxjs/redux-toolkit](https://github.com/reduxjs/redux-toolkit/releases/tag/v1.8.0)
+JSer.info #581 - Redux ToolKit 1.8.0がリリースされました。
+
+- [Release v1.8.0 · reduxjs/redux-toolkit](https://github.com/reduxjs/redux-toolkit/releases/tag/v1.8.0)
+
+1.8.0では、新しい非同期Middlewareとして`createListenerMiddleware`が追加されています。
+
+- [createListenerMiddleware | Redux Toolkit](https://redux-toolkit.js.org/api/createListenerMiddleware)
+
+`createListenerMiddleware`は[redux-saga](https://github.com/redux-saga/redux-saga)や[redux-observable](https://redux-observable.js.org/)など同じく非同期処理を扱うためのMiddlewareです。
+シンプルな`dispatch`や`getState`などのAPIや、redux-sagaをインスパイアした`take`や[Temporal](https://docs.temporal.io/docs/typescript/workflows#condition)をインスパイアした`condition`など複雑なタスクを扱うAPIも持っています。
+
+次の動画でこの新しい`createListenerMiddleware`がどのように作られたのかを紹介しています。
+
+- [Redux Insights: the Redux Toolkit &quot;action listener&quot; middleware - YouTube](https://www.youtube.com/watch?v=D5WOry6gw9c)
+- [New experimental &quot;action listener middleware&quot; package available · Discussion #1648 · reduxjs/redux-toolkit](https://github.com/reduxjs/redux-toolkit/discussions/1648)
 
 ---
 
+Node.js 17.6.0がリリースされました。
+
 - [Node v17.6.0 (Current) | Node.js](https://nodejs.org/en/blog/release/v17.6.0/)
-- [stream: add map method to Readable: by benjamingr · Pull Request #40815 · nodejs/node](https://github.com/nodejs/node/pull/40815)
+
+[Node v17.5.0](https://nodejs.org/en/blog/release/v17.5.0/)でStreaｍに対して現在Stage 2のECMAScript Proposalである[Iterator Helpers](https://github.com/tc39/proposal-iterator-helpers)が実装されていました。
+しかし、仕様に準拠した実装をした場合に[mongoose](https://github.com/Automattic/mongoose/issues/11377)などのモジュールが動かなくなるリグレッションが発生したため、[仕様への準拠を一部revert](https://github.com/nodejs/node/pull/41931)しています。
+
+- [Regression in Node 17.5, Assigning a function to prototype of an Object results in a TypeError: Cannot assign to read only property 'x' of object 'y' at Object.<anonymous> · Issue #41926 · nodejs/node](https://github.com/nodejs/node/issues/41926)
+
+具体的にはIterator Helperの仕様では、`map`などのメソッドは[`{ [[Writable]]: false, [[Enumerable]]: false, [[Configurable]]: false }`](https://tc39.es/proposal-iterator-helpers/#sec-iterator.prototype)で実装されることなっています。
+
+この場合、次のようにStreamの`prototype.map`を上書きしようとする、`Writable`が`false`であるため、例外が発生してできません。
+
+```js
+// [Writable]]: falseでは書き込めない
+ReadableStream.prototype.map = function(fn) { // 例外が発生する
+  // ..
+};
+```
+
+mongooseなどで、このような代入が存在したため、[`[[Writable]]: false`を`[[Writable]]: true`にする変更(revert)](https://github.com/nodejs/node/pull/41931)がNode.js 17.6.0に含まれています。(BREAKING CHANGEとなってしまったため)
+
+- [fix Node.js 17.5 compatibility by benjamingr · Pull Request #11381 · Automattic/mongoose](https://github.com/Automattic/mongoose/pull/11381)
+  - mongoose側での修正
 
 ----
 
-- [A Complete Guide to CSS Cascade Layers | CSS-Tricks - CSS-Tricks](https://css-tricks.com/css-cascade-layers/)
+[A Complete Guide to CSS Cascade Layers | CSS-Tricks - CSS-Tricks](https://css-tricks.com/css-cascade-layers/)という記事では、Chrome/Edge 99+、Firefox 97+、Safari Technology Preview 133で実装されている CSS Cascade Layers について紹介されています。
 
+CSSでは、UA、`!important`、[詳細度](https://developer.mozilla.org/ja/docs/Web/CSS/Specificity)などによってどのスタイルが当たるかの[Cascadingの仕様](https://drafts.csswg.org/css-cascade/#cascading)があります。
+この仕様に[Cascade Layers](https://www.w3.org/TR/css-cascade-5/#layering)というものが追加され、各ブラウザでの実装が進んでいます。
+
+この記事では、Cascade Layersの基本的な使い方、Important layers、Layerの優先度、sub layerについてなど書かれています。
 
 ----
 
