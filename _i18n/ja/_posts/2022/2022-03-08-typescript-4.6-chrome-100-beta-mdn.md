@@ -40,7 +40,7 @@ Chrome 100がUA文字列を削減する前の最後のバージョンとなり�
 - [Chromium Blog: User-Agent Reduction Origin Trial and Dates](https://blog.chromium.org/2021/09/user-agent-reduction-origin-trial-and-dates.html)
 - [Migrate to User-Agent Client Hints](https://web.dev/migrate-to-ua-ch/)
 
-その他には、マルチスクリーン時にどこにWindowを表示するかを指定d系るMulti-Screen Window Placement APIの追加などが行われています。
+その他には、マルチスクリーン時にどこにWindowを表示するかを指定できるMulti-Screen Window Placement APIの追加などが行われています。
 
 - [Managing several displays with the Multi-Screen Window Placement API](https://web.dev/multi-screen-window-placement/)
 
