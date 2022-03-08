@@ -13,19 +13,45 @@ tags:
 
 ---
 
-JSer.info #582 - - [Announcing TypeScript 4.6 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/)
+JSer.info #582 - TypeScript 4.6がリリースされました。
+
+- [Announcing TypeScript 4.6 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/)
+
+TypeScript 4.6では型推論の改善が行われています。
+また、`--target es2022`のサポート、`checkJs`が有効時のJavaScriptの構文エラーのチェックが改善されています。
+
+次の4.7では、[TypeScript 4.5](https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-rc/)で保留となっていたNode.js ESMの対応を進める予定となっています。
+
 - [TypeScript 4.7 Iteration Plan · Issue #48027 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/48027)
 
 ---
 
+Chrome 100 betaがリリースされました。
+
 - [Chromium Blog: Chrome 100 Beta: Reduced User-Agent Strings, Multi-Screen Window Placement, and More](https://blog.chromium.org/2022/03/chrome-100-beta-reduced-user-agent.html)
+
+バージョンが`100`と3桁となるため、ChromeとFirefoxで問題が起きるサイトがあることが予想されています。
+
+- [Version 100 in Chrome and Firefox - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2022/02/version-100-in-chrome-and-firefox/)
+
+また、Chrome 100 betaではUser-Agent文字列を削減していくフェーズ3に入りました。
+Chrome 100がUA文字列を削減する前の最後のバージョンとなり、101から段階的にUA文字列を削減していくフェーズになります。
+
 - [Chromium Blog: User-Agent Reduction Origin Trial and Dates](https://blog.chromium.org/2021/09/user-agent-reduction-origin-trial-and-dates.html)
+- [Migrate to User-Agent Client Hints](https://web.dev/migrate-to-ua-ch/)
+
+その他には、マルチスクリーン時にどこにWindowを表示するかを指定d系るMulti-Screen Window Placement APIの追加などが行われています。
+
+- [Managing several displays with the Multi-Screen Window Placement API](https://web.dev/multi-screen-window-placement/)
 
 ---
 
-- [A new year, a new MDN - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2022/03/a-new-year-a-new-mdn/)
-- [MDN Web Docs](https://developer.mozilla.org/en-US/)
+[MDN Web Docs](https://developer.mozilla.org)(MDN)のデザインやロゴなどが刷新されています。
+また、MDN Plusというサブスクリプションで通知や追加コンテンツなどを得られる有料機能を公開することが予定されています。
 
+詳細は次の記事で解説されています。
+
+- [A new year, a new MDN - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2022/03/a-new-year-a-new-mdn/)
 
 ----
 
