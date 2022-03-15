@@ -19,16 +19,50 @@ JSer.info #583 - React 18 RCがリリースされました。
 
 React 18 RCではIEのサポートが終了しています。
 
-ReactDOMの`render` APIをDeprecatedとし、`createRoot` APIの利用を推奨するようになっています。
+ReactDOMの`render` APIをDeprecatedとし、`createRoot` APIの利用が推奨となっています。
 SSR APIの`renderToNodeStream`を非推奨化し、Suspenseをサポートした`renderToPipeableStream`と`renderToReadableStream`が追加されています。
 
-`setState`のステート更新を自動的にバッジ処理するようにし、オプトアウト用の`flushSync`APIを追加。
+setStateなどのステート更新を自動的にバッジ処理するようにし、React 17の挙動を再現するための`flushSync`APIが追加されています。
 また、ReduxなどのReact外でステート管理するライブラリ向けに`userId`/`useSyncExternalStore`/`useInsertionEffect` APIを追加。
-開発時は`<StrictMode>`でunmountとmountでの再マウントをテストするように挙動を変更。
-`global.IS_REACT_ACT_ENVIRONMENT`でテスト環境かどうかを設定できるように。
+
+その他には、開発時の`<StrictMode>`ではunmountとmountでの再マウントをテストするように挙動を変更されています。`global.IS_REACT_ACT_ENVIRONMENT`でテスト環境かどうかを判定するように変更されています。
+
+---
+
+playwright 1.20.0がリリースされました。
 
 - [Release v1.20.0 · microsoft/playwright](https://github.com/microsoft/playwright/releases/tag/v1.20.0)
-- [New WebKit Features in Safari 15.4 | WebKit](https://webkit.org/blog/12445/new-webkit-features-in-safari-15-4/)
+
+playwright 1.20.0では、スクリーンショットAPIにアニメーションの無効化、特定の箇所を隠す`mask`オプションの追加されています。
+`expect().toMatchSnapshot()`がanomymouse snapshotsのサポート、`maxDiffPixels`と`maxDiffPixelRatio`オプションの追加されています。
+また、テストファイルのテストケースごとに並列化をする`fullyParallel`モードのオプションが追加されています。
+
+----
+
+[New WebKit Features in Safari 15.4 | WebKit](https://webkit.org/blog/12445/new-webkit-features-in-safari-15-4/)では、Safari 15.4の変更点についてまとめられています。
+
+かなり色々な機能追加がありますが、主に次のような変更が含まれています。
+
+- `<dialog>`要素のサポート
+- CSSの`:has()`擬似クラス
+- Cascade Layers
+- CSS Containmentのサポート。
+- Viewport Unitsとして`lvh`や`svh`などのサポート
+- `:focus-visible`擬似クラスのサポート
+- `calc()`でのmath functionのサポート
+- 非標準な`-webkit-` prefixをいくつかのCSSプロパティから削除
+- BroadcastChannelのサポート
+- `window.scroll`の`scroll-behavior`プロパティのサポート
+- `structuredClone` APIのサポート
+- File System Access APIのサポート
+- ES2022の`at()`メソッドと`Object.hasOwn()`メソッドのサポート
+- Stage 3のProposalである`findLast()`メソッドのサポート
+- `Intl`の実装を仕様に準拠するように更新
+- Web App Manifestの対応改善
+- `navigationPreload`のサポートなど
+- `requestVideoFrameCallback()`のサポート
+- CSP Lv3のサポート改善
+- XSS Auditorの削除
 
 
 ----
