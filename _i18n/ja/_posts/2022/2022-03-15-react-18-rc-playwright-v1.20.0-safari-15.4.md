@@ -56,7 +56,7 @@ playwright 1.20.0では、スクリーンショットAPIにアニメーション
 - `structuredClone` APIのサポート
 - File System Access APIのサポート
 - ES2022の`at()`メソッドと`Object.hasOwn()`メソッドのサポート
-- Stage 3のProposalである`findLast()`メソッドのサポート
+- Stage 3のECMAScript Proposalである`findLast()`メソッドのサポート
 - `Intl`の実装を仕様に準拠するように更新
 - Web App Manifestの対応改善
 - `navigationPreload`のサポートなど
