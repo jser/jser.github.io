@@ -124,7 +124,7 @@ JobスケジューラーのBree 8.0.0リリース。
 playwright v1.20.0リリース。
 スクリーンショットAPIにアニメーションの無効化、特定の箇所を隠す`mask`オプションの追加。
 `expect().toMatchSnapshot()`がanomymouse snapshotsのサポート、`maxDiffPixels`と`maxDiffPixelRatio`オプションの追加。
-テストの設定に`fullyParallel`モートを追加など
+テストの設定にテストケースごとの並列化もする`fullyParallel`モードを追加など
 
 
 ----
