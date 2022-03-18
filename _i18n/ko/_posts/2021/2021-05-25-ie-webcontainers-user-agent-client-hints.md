@@ -50,7 +50,7 @@ Chrome에서 UA 문자열을 다루는 `navigator.userAgent`, `navigator.appVers
 
 - [Chromium Blog: Update on User-Agent String Reduction in Chrome](https://blog.chromium.org/2021/05/update-on-user-agent-string-reduction.html)
 
-Chrome 92에서 사용시 비권장 경고를 노출하며 단꼐적으로 UA 문자열에서 정보를 삭제하고 UA 문자열을 고정 시키는 과정을 담은 로드맵 공개 됐다.
+Chrome 92에서 사용시 비권장 경고를 노출하며 단계적으로 UA 문자열에서 정보를 삭제하고 UA 문자열을 고정 시키는 과정을 담은 로드맵 공개 됐다.
 
 `navigator.userAgent` 대체할 구조로 UA Client Hints가 있으며, 로드맵과 함께 UA Client Hints으로 이전하는 방법을 소개하는 글도 함께 공개 됐다.
 
