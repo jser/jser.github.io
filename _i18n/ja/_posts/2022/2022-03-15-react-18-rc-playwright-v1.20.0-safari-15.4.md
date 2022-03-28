@@ -23,7 +23,7 @@ ReactDOMの`render` APIをDeprecatedとし、`createRoot` APIの利用が推奨�
 SSR APIの`renderToNodeStream`を非推奨化し、Suspenseをサポートした`renderToPipeableStream`と`renderToReadableStream`が追加されています。
 
 setStateなどのステート更新を自動的にバッジ処理するようにし、React 17の挙動を再現するための`flushSync`APIが追加されています。
-また、ReduxなどのReact外でステート管理するライブラリ向けに`userId`/`useSyncExternalStore`/`useInsertionEffect` APIを追加。
+また、ReduxなどのReact外でステート管理するライブラリ向けに`useId`/`useSyncExternalStore`/`useInsertionEffect` APIを追加。
 
 その他には、開発時の`<StrictMode>`ではunmountとmountでの再マウントをテストするように挙動を変更されています。`global.IS_REACT_ACT_ENVIRONMENT`でテスト環境かどうかを判定するように変更されています。
 
