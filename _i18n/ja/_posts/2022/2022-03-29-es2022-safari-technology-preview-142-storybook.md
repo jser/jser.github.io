@@ -13,14 +13,40 @@ tags:
 
 ---
 
-JSer.info #585 - - [Release ES2022 Candidate March 2022 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2022-candidate-2022-03)
-- [Release ES Intl 2022 Candidate · tc39/ecma402](https://github.com/tc39/ecma402/releases/tag/es2022-candidate)
-- [Decorators (sans metadata) to stage 3, per 2022.03.28 TC39 · tc39/proposals@eced71d](https://github.com/tc39/proposals/commit/eced71d59d7c34e0f173fdec6b6fb477fc2e0371)
+JSer.info #585 - ECMAScript 2022のリリース候補版となる仕様書が公開されました。
+合わせて、ECMAScript Internationalization APIのES2022のリリース候補版が公開されています。
 
+- [Release ES2022 Candidate March 2022 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2022-candidate-2022-03)
+- [Release ES Intl 2022 Candidate · tc39/ecma402](https://github.com/tc39/ecma402/releases/tag/es2022-candidate)
+
+6月のEcma InternationalでのGA(総会)で承認されたタイミングで、ES2022が正式にリリースされる予定です。
+Normative(仕様の変更、Proposalを仕様にマージ)な変更は次のページにまとめてあります。
+
+- [ES2021...ES2022 Normative changes: https://github.com/tc39/ecma262/compare/es2021...es2022-candidate-2022-03](https://gist.github.com/azu/a33211926e3de8bff8de83d6783c55eb)
+
+次のProposalが、それぞれES2022に含まれる予定です。
+
+- Class Fields
+    - [tc39/proposal-class-fields](https://github.com/tc39/proposal-class-fields) private/public
+    - [Ergonomic brand checks for Private Fields](https://github.com/tc39/proposal-private-fields-in-in)
+- [Class static initialization blocks](https://github.com/tc39/proposal-class-static-block)
+- [Error Cause](https://github.com/tc39/proposal-error-cause)
+- [RegExp Match Indices](https://github.com/tc39/proposal-regexp-match-indices)
+- [Top-level `await` proposal](https://github.com/tc39/proposal-top-level-await)
+- [Object.hasOwn](https://github.com/tc39/proposal-accessible-object-hasownproperty)
+- [String/Array.at()](https://github.com/tc39/proposal-relative-indexing-method)
 
 ---
 
+Safari Technology Preview 142がリリースされました。
+
 - [Release Notes for Safari Technology Preview 142 | WebKit](https://webkit.org/blog/12522/release-notes-for-safari-technology-preview-142/)
+
+CSS Subgrid/CSS Container Queries/CSS Motion Pathをデフォルトで有効化されています。
+ES Proposal Stage3の[ShadowRealm](https://github.com/tc39/proposal-shadowrealm)をデフォルトで有効化されています。
+また、以前実装がありましたがその後削除された[SharedWorker](https://developer.mozilla.org/ja/docs/Web/API/SharedWorker)の実装が改めて進められています。
+そのほかには、WebKitがProposalを出している3Dコンテンツを表示する`<model>`要素の実験的な実装が含まれています。
+
 - [explainers/README.md at main · WebKit/explainers](https://github.com/WebKit/explainers/blob/main/model/README.md)
 
 
