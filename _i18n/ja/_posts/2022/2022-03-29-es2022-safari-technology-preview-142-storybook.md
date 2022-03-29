@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #585 - ECMAScript 2022のリリース候補版となる仕様書が公開されました。
+JSer.info #585 - ECMAScript 2022のリリース候補版となる仕様書のドラフトが公開されました。
 合わせて、ECMAScript Internationalization APIのES2022のリリース候補版が公開されています。
 
 - [Release ES2022 Candidate March 2022 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2022-candidate-2022-03)
