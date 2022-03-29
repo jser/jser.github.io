@@ -36,6 +36,8 @@ Normative(仕様の変更、Proposalを仕様にマージ)な変更は次のペ�
 - [Object.hasOwn](https://github.com/tc39/proposal-accessible-object-hasownproperty)
 - [String/Array.at()](https://github.com/tc39/proposal-relative-indexing-method)
 
+ES2022に対応した書籍だと、[JavaScript for impatient programmers](https://exploringjs.com/impatient-js/index.html)が[既に対応済み](https://exploringjs.com/impatient-js/ch_new-javascript-features.html#new-in-es2022)で、[JavaScript Primer](https://jsprimer.net/)が[対応中](https://github.com/asciidwango/js-primer/issues/1337)となっています。
+
 ---
 
 Safari Technology Preview 142がリリースされました。
