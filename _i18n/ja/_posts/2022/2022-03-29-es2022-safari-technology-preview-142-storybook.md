@@ -44,7 +44,7 @@ Safari Technology Preview 142がリリースされました。
 
 CSS Subgrid/CSS Container Queries/CSS Motion Pathがデフォルトで有効化されています。
 ECMAScript Proposal Stage3の[ShadowRealm](https://github.com/tc39/proposal-shadowrealm)をデフォルトで有効化されています。
-また、以前実装がありましたがその後削除された[SharedWorker](https://developer.mozilla.org/ja/docs/Web/API/SharedWorker)の実装が改めて進められています。
+また、以前実装がありましたがその後削除された[SharedWorker](https://developer.mozilla.org/ja/docs/Web/API/SharedWorker)の実装が再度進められています。
 そのほかには、WebKitがProposalを出している3Dコンテンツを表示する`<model>`要素の実験的な実装が含まれています。
 
 - [explainers/README.md at main · WebKit/explainers](https://github.com/WebKit/explainers/blob/main/model/README.md)
