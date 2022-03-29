@@ -36,6 +36,8 @@ Normative(仕様の変更、Proposalを仕様にマージ)な変更は次のペ�
 - [Object.hasOwn](https://github.com/tc39/proposal-accessible-object-hasownproperty)
 - [String/Array.at()](https://github.com/tc39/proposal-relative-indexing-method)
 
+ES2022に対応するツールだと、[Babel](https://babeljs.io/docs/en/plugins-list#es2022)、[TypeScript 4.6](https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/)、[ESLint v8.9.0](https://eslint.org/blog/2022/02/eslint-v8.9.0-released)、[esbuild v0.14.24](https://github.com/evanw/esbuild/releases/v0.14.24)などが対応済みです。
+
 ES2022に対応する書籍だと、[JavaScript for impatient programmers](https://exploringjs.com/impatient-js/index.html)が[既に対応済み](https://exploringjs.com/impatient-js/ch_new-javascript-features.html#new-in-es2022)で、[JavaScript Primer](https://jsprimer.net/)が[対応中](https://github.com/asciidwango/js-primer/issues/1337)となっています。
 
 ---
