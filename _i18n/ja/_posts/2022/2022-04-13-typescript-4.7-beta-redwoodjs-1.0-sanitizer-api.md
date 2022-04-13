@@ -13,17 +13,42 @@ tags:
 
 ---
 
-JSer.info #587 - - [Announcing TypeScript 4.7 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7-beta/)
+JSer.info #587 - TypeScript 4.7 Betaがリリースされました。
+
+- [Announcing TypeScript 4.7 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7-beta/)
+
+TypeScript 4.5 Betaで導入されNightlyでテストされていた、Node.jsのECMAScript Moduleサポートを再び有効化されています。
+これに関連して`package.json`の`exports`フィールドのサポート、`"module": "nodenext"`、`.mts`/`cts`の拡張子のサポートが追加されています。
+また、Node.jsではファイルがモジュールかどうかは`package.json`の`module`フィールドなどによって暗黙的に異なります。
+そのため、ファイルがモジュールかどうかを判定方法を制御できる`moduleDetection`オプションも追加して、強制的(`force`)にモジュールとして認識させることもできるようになっています。
+
+- [Add moduleDetection compiler flag to allow for changing how modules are parsed by weswigham · Pull Request #47495 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/pull/47495)
+
+型推論の改善として、Compuatedプロパティに対するコントロールフロー解析の改善、オブジェクトにおける関数の型推論の改善が含まれています。
+
+Genericsの型を指定したaliasを定義できる Instantiation Expressionsをサポート。
+
+```ts
+const ErrorMap = Map<string, Error>;
+```
+
+- [Add moduleDetection compiler flag to allow for changing how modules are parsed by weswigham · Pull Request #47495 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/pull/47495)
+
+`infer`に対する`extends`での推論条件の追加をサポート、型が共変(`in`)/反変(`out`)/不変(`in out`)なのかを指定できるアノテーションを追加されています。
+
+- [Optional variance annotations by ahejlsberg · Pull Request #48240 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/pull/48240)
+
+モジュール解決持の探索方法をカスタマイズする`moduleSuffixes`オプションの追加、`import type`とReference Commentで`resolution-mode`を指定できるようになっています。
 
 ----
 
-- [Announcing RedwoodJS 1.0 and 587M Funding](https://tom.preston-werner.com/2022/04/04/redwood-v1-and-funding.html)
-- [Redwood 1.0.0-rc.final is Available 🚀 - Announcements / Releases and Upgrade Guides - RedwoodJS Community]
-(https://community.redwoodjs.com/t/redwood-1-0-0-rc-final-is-available/2902)
+[Making of: The Sanitizer API (Nullcon 2022) - Google スライド](https://docs.google.com/presentation/d/1eLmIZkY7auD8xT-Q6AzBKM_ASFHH8Z5fMyfeoSbSH-k/view#slide=id.g82761e80df_0_1948)というスライドでは、[HTML Sanitizer API](https://wicg.github.io/sanitizer-api/)という策定中/実装中のウェブ標準について紹介されています。
 
----
+信頼できないHTML文字列のインジェクトするときに、そのHTML文字列をサニタイズしてXSSを防止するためのAPIです。
+最初は、HTML文字列をサニタイズしてHTML文字列を返すAPIとして進められていました、HTMLのパースモードの違いなどからパイパスする方法があることが発見されました。(HTML文字列という文字列のフラグメントに対するサニタイズは安全にはできないと分かった)
 
-- [Making of: The Sanitizer API (Nullcon 2022) - Google スライド](https://docs.google.com/presentation/d/1eLmIZkY7auD8xT-Q6AzBKM_ASFHH8Z5fMyfeoSbSH-k/view#slide=id.g82761e80df_0_1948)
+そのため、`innerHTML`とよく似た`setHTML`という新しいAPIが策定され、このAPIにsanitizerを渡す形に変更された話が書かれています。
+
 - [Sanitizer API creating mock context-element can cause XSS when used in different context · Issue #42 · WICG/sanitizer-api](https://github.com/WICG/sanitizer-api/issues/42)
 - [1669945 - Sanitizer bypass if the sanitized markup is assigned to srcdoc](https://bugzilla.mozilla.org/show_bug.cgi?id=1669945)
 
