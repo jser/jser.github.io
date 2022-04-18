@@ -13,19 +13,39 @@ tags:
 
 ---
 
-JSer.info #588 - - [facebook/lexical: Lexical is an extensible text editor framework that provides excellent reliability, accessibility and performance.](https://github.com/facebook/lexical)
+JSer.info #588 - Lexicalというテキストエディタを作るためのJavaScriptフレームワークが公開されました。
+
+- [facebook/lexical: Lexical is an extensible text editor framework that provides excellent reliability, accessibility and performance.](https://github.com/facebook/lexical)
+
+エディタの状態をdouble-bufferingで管理して、状態の変更をdiff/patchで表示に反映させる仕組みを持っている。
+またcontentEditableを使っているが、外部からの変更をMutationObserverで監視し、エディタの状態を更新している。
+
+Lexicalは同じくFacebookが作成している[Draft.js](https://draftjs.org/)の後継となるライブラリで、APIの互換性はありませんが、今後マイグレーションガイドを作成していく予定とのことです。
+
+- [Add Draft JS to Lexical migration documentation · Issue #1641 · facebook/lexical](https://github.com/facebook/lexical/issues/1641)
 
 ----
+
+React DOMのテストライブラリであるReact Testing Library v13.1.0がリリースされました。
 
 - [Release v13.1.0 · testing-library/react-testing-library](https://github.com/testing-library/react-testing-library/releases/tag/v13.1.0)
-  - [testing-library/react-testing-library: 🐐 Simple and complete React DOM testing utilities that encourage good testing practices.](https://github.com/testing-library/react-testing-library)
+
+React Testing Library v13.1.0では、`renderHook`というAPIが追加されています。
+このAPIは、React Hooksのテストをするためのもので、[`@testing-library/react-hooks`](https://github.com/testing-library/react-hooks-testing-library)の実装を元にしています。
+
+詳しい経緯は次のPRで書かれていますが、[`@testing-library/react-hooks`](https://github.com/testing-library/react-hooks-testing-library)はReact 18の対応が難しい部分があったため、`renderHook`というシンプルなAPIが`@testing-library/react`へと実装されました。
+
 - [feat: Add `renderHook` by eps1lon · Pull Request #991 · testing-library/react-testing-library](https://github.com/testing-library/react-testing-library/pull/991)
-- [testing-library/react-hooks-testing-library: 🐏 Simple and complete React hooks testing utilities that encourage good testing practices.](https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support)
+
+そのため、今後`@testing-library/react-hooks`は非推奨する予定となっています。
+
+- https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support
 
 ----
 
-- [Building a dialog component](https://web.dev/building-a-dialog-component/)
+[Building a dialog component](https://web.dev/building-a-dialog-component/)という記事では`<dialog>`要素を使ったダイアログコンポーネントの作成について書かれています。
 
+`inert`属性、`autofocus`属性、CSSの`overscroll-behavior`プロパティなど、関連するアクセシビリティの機能などについても書かれているので、興味がある人は読んでみると良さそうです。
 
 ----
 
