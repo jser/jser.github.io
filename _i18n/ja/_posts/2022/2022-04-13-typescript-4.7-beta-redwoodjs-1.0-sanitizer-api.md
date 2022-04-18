@@ -24,7 +24,7 @@ TypeScript 4.5 Betaで導入されNightlyでテストされていた、Node.js�
 
 - [Add moduleDetection compiler flag to allow for changing how modules are parsed by weswigham · Pull Request #47495 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/pull/47495)
 
-型推論の改善として、Compuatedプロパティに対するコントロールフロー解析の改善、オブジェクトにおける関数の型推論の改善が含まれています。
+型推論の改善として、Computedプロパティに対するコントロールフロー解析の改善、オブジェクトにおける関数の型推論の改善が含まれています。
 
 Genericsの型を指定したaliasを定義できる Instantiation Expressionsをサポート。
 
@@ -38,7 +38,7 @@ const ErrorMap = Map<string, Error>;
 
 - [Optional variance annotations by ahejlsberg · Pull Request #48240 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/pull/48240)
 
-モジュール解決持の探索方法をカスタマイズする`moduleSuffixes`オプションの追加、`import type`とReference Commentで`resolution-mode`を指定できるようになっています。
+モジュール解決時の探索方法をカスタマイズする`moduleSuffixes`オプションの追加、`import type`とReference Commentで`resolution-mode`を指定できるようになっています。
 
 ----
 
