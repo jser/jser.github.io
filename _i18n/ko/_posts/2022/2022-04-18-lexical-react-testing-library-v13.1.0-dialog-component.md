@@ -1,5 +1,5 @@
 ---
-title: "2022-04-18のJS: Lexical、React Testing Library v13.1.0、Dialog component 작성"
+title: "2022-04-18: Lexical, React Testing Library v13.1.0, Dialog component 작성"
 author: "azu"
 translator: Daewon Seo
 layout: post
