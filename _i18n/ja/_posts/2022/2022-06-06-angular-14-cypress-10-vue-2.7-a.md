@@ -13,16 +13,38 @@ tags:
 
 ---
 
-JSer.info #595 - - [Angular v14 is now available!. We are excited to announce the release… | by Emma Twersky | Jun, 2022 | Angular Blog](https://blog.angular.io/angular-v14-is-now-available-391a6db736af)
+JSer.info #595 - Angular 14がリリースされました。
+
+- [Angular v14 is now available!. We are excited to announce the release… | by Emma Twersky | Jun, 2022 | Angular Blog](https://blog.angular.io/angular-v14-is-now-available-391a6db736af)
+
+プレビュー機能としてstandalone componentsの追加されています。
+
+- [Angular - Getting started with standalone components](https://angular.io/guide/standalone-components)
+
+また、Angular Formsの型付けの改善、エラーメッセージをproduction buildではエラーコードのみに変更しファイルサイズの削減など。
+その他には、TypeScript 4.7のサポート、Angular CLIの改善などが含まれています。
 
 ---
+
+Cypress 10がリリースされました。
 
 - [Announcing Cypress 10 with Component Testing Beta!](https://cypress.io/blog/2022/06/01/cypress-10-release/)
 
+Cypress 10ではCypress Appが刷新されています。
+また、Component Testの仕組みが追加されています。
+
+- [Writing Your First Component Test | Cypress Documentation](https://docs.cypress.io/guides/component-testing/writing-your-first-component-test#Component-vs-End-to-End-in-a-Nutshell)
+
 ---
+
+Vue 2.xの最終minorリリースとなる予定の Vue.js 2.7αが公開されています。
 
 - [vue/CHANGELOG.md at main · vuejs/vue](https://github.com/vuejs/vue/blob/main/CHANGELOG.md#270-alpha1-2022-05-31)
 
+Composition APIのフルサポート、ESMビルドに`ref`などのnamed exportを追加などが含まれています。
+
+このVue 2.7が正式リリースされてから、18ヶ月後にVue 2.xはEOLとなる予定です。
+現時点では、Vue 2.xは2023年末にEOLの予定となっています。
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Vue 2 end of life at the end of 2023 <a href="https://twitter.com/hashtag/vuejs?src=hash&amp;ref_src=twsrc%5Etfw">#vuejs</a> <a href="https://t.co/luvk1lt3U6">pic.twitter.com/luvk1lt3U6</a></p>&mdash; Filip Rakowski 🇺🇦 (@filrakowski) <a href="https://twitter.com/filrakowski/status/1532281407942365184?ref_src=twsrc%5Etfw">June 2, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
