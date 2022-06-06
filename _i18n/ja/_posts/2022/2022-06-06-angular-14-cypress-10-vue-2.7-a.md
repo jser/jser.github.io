@@ -17,7 +17,7 @@ JSer.info #595 - Angular 14がリリースされました。
 
 - [Angular v14 is now available!. We are excited to announce the release… | by Emma Twersky | Jun, 2022 | Angular Blog](https://blog.angular.io/angular-v14-is-now-available-391a6db736af)
 
-プレビュー機能としてstandalone componentsの追加されています。
+プレビュー機能としてstandalone componentsが追加されています。
 
 - [Angular - Getting started with standalone components](https://angular.io/guide/standalone-components)
 
