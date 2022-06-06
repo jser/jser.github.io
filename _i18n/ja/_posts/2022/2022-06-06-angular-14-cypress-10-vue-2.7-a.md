@@ -46,7 +46,8 @@ Composition APIのフルサポート、ESMビルドに`ref`などのnamed export
 このVue 2.7が正式リリースされてから、18ヶ月後にVue 2.xはEOLとなる予定です。
 現時点では、Vue 2.xは2023年末にEOLの予定となっています。
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Vue 2 end of life at the end of 2023 <a href="https://twitter.com/hashtag/vuejs?src=hash&amp;ref_src=twsrc%5Etfw">#vuejs</a> <a href="https://t.co/luvk1lt3U6">pic.twitter.com/luvk1lt3U6</a></p>&mdash; Filip Rakowski 🇺🇦 (@filrakowski) <a href="https://twitter.com/filrakowski/status/1532281407942365184?ref_src=twsrc%5Etfw">June 2, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Vue 2 end of life at the end of 2023 <a href="https://twitter.com/hashtag/vuejs?src=hash&amp;ref_src=twsrc%5Etfw">#vuejs</a> <a href="https://t.co/luvk1lt3U6">pic.twitter.com/luvk1lt3U6</a></p>&mdash; Filip Rakowski 🇺🇦 (@filrakowski) <a href="https://twitter.com/filrakowski/status/1532281407942365184?ref_src=twsrc%5Etfw">June 2, 2022</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 ----
