@@ -55,16 +55,6 @@ Composition APIのフルサポート、ESMビルドに`ref`などのnamed export
 
 ----
 
-## jridgewell/trace-mapping: Trace the original position through a source map
-[github.com/jridgewell/trace-mapping](https://github.com/jridgewell/trace-mapping "jridgewell/trace-mapping: Trace the original position through a source map")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">sourcemap</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
-
-source-mapパッケージと互換性のあるAPIを提供するライブラリ。
-source-mapパッケージとは異なりWebAssemblyを利用せずに書かれている。
-
-
-----
-
 ## Node v18.3.0 (Current) | Node.js
 [nodejs.org/en/blog/release/v18.3.0/](https://nodejs.org/en/blog/release/v18.3.0/ "Node v18.3.0 (Current) | Node.js")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
@@ -187,6 +177,15 @@ npmパッケージの代替パッケージを検索できるサービス
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## jridgewell/trace-mapping: Trace the original position through a source map
+[github.com/jridgewell/trace-mapping](https://github.com/jridgewell/trace-mapping "jridgewell/trace-mapping: Trace the original position through a source map")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">sourcemap</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+source-mapパッケージと互換性のあるAPIを提供するライブラリ。
+source-mapパッケージとは異なりWebAssemblyを利用せずに書かれている。
 
 ----
 
