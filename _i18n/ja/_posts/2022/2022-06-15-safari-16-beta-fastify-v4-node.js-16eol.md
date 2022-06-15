@@ -13,17 +13,36 @@ tags:
 
 ---
 
-JSer.info #596 - - [Safari 16 Beta Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari-release-notes/safari-16-release-notes)
+JSer.info #596 - Safari 16 betaのリリースノートと変更点についての記事が公開されています。
+
+- [Safari 16 Beta Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari-release-notes/safari-16-release-notes)
 - [News from WWDC22: WebKit Features in Safari 16 Beta | WebKit](https://webkit.org/blog/12824/news-from-wwdc-webkit-features-in-safari-16-beta/)
 
+プッシュ通知をPush APIがサポートされます。
+
+- [Meet Web Push | WebKit](https://webkit.org/blog/12945/meet-web-push/)
+
+CSSのContainer Queries、Subgrid、`overscroll-behavior`プロパティのサポートが追加されています。
+また、Shared Workerのサポート、Formの`requestSubmit()`メソッドをサポートも追加されています。
+
 ----
+
+Node.jsのウェブアプリケーションフレームワークであるFastify v4がリリースされました。
 
 - [Fastify v4 GA. After two years we are excited to… | by Fastify | Jun, 2022 | Medium](https://medium.com/@fastifyjs/fastify-v4-ga-59f2103b5f0e)
 - [Release v4.0.0 · fastify/fastify](https://github.com/fastify/fastify/releases/tag/v4.0.0)
 
+Fastify  4.0.0では挙動の一貫性がなかった部分が破壊的な変更として修正されています。
+また、Fastify 3.xは2023年6月30日にEOL(End Of Life)となることが発表されています。
+
 ----
 
-[Bringing forward the End-of-Life Date for Node.js 16 | Node.js](https://nodejs.org/en/blog/announcements/nodejs16-eol/)
+Node.js 16 LTSのEOLは2024年4月の予定でしたが、2023年9月11日へと短縮されています。
+
+- [Bringing forward the End-of-Life Date for Node.js 16 | Node.js](https://nodejs.org/en/blog/announcements/nodejs16-eol/)
+
+これは、Node.js 16が利用するOpenSSL1.1.1のEOLが2023年9月11日となっているためです。
+そのため、Node.js 16のEOLは7ヶ月短縮され、2023年9月11日までとなる予定です。
 
 ----
 
