@@ -147,7 +147,7 @@ Array의 filter / map / some / every / reduce / flatMap 메서드나 for of 등,
 
 ----
 
-## JavaScript의 미디어타입과 RFC 9239 | blog.jxck.io(일본��)
+## JavaScript의 미디어타입과 RFC 9239 | blog.jxck.io(일본어)
 [blog.jxck.io/entries/2022-05-31/text-javascript.html](https://blog.jxck.io/entries/2022-05-31/text-javascript.html "JavaScript のメディアタイプと RFC 9239 | blog.jxck.io")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
 
