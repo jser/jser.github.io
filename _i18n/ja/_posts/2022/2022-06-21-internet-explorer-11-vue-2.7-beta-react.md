@@ -13,16 +13,38 @@ tags:
 
 ---
 
-JSer.info #597 - - [Internet Explorer 11 has retired and is officially out of support—what you need to know | Windows Experience Blog](https://blogs.windows.com/windowsexperience/2022/06/15/internet-explorer-11-has-retired-and-is-officially-out-of-support-what-you-need-to-know/)
-- [ライフサイクルに関する FAQ - Internet Explorer および Microsoft Edge | Microsoft Docs](https://docs.microsoft.com/ja-jp/lifecycle/faq/internet-explorer-microsoft-edge)
+JSer.info #597 - エンタープライズやWindows Serverなどの特定のOSを除いたWindow OSでのInternet Explorer 11のサポートが2022年6月15日で終了されました。
+
+- [Internet Explorer 11 has retired and is officially out of support—what you need to know | Windows Experience Blog](https://blogs.windows.com/windowsexperience/2022/06/15/internet-explorer-11-has-retired-and-is-officially-out-of-support-what-you-need-to-know/)
+
+サポート終了となったOSでIEのアプリケーションを開くと、MSEdgeにリダイレクトされるようになっていきます。
+また、MSEdgeのIEモード(下位互換モード)は、2029 年までサポートされる予定となっています。
+
+- [ライフサイクルに関する FAQ - Internet Explorer および Microsoft Edge | Microsoft Docs](https://docs.microsoft.com/lifecycle/faq/internet-explorer-microsoft-edge)
 
 ----
+
+Vue 2系の最終マイナーバージョンとなるVue 2.7のbeta版がリリースされました。
 
 - [Vue 2.7 is Now in Beta! | The Vue Point](https://blog.vuejs.org/posts/vue-2-7-beta.html)
 
+Vue 3からのバックポートとして`defineComponent()`、`h()`、`useSlot()`、`useAttrs()`、`useCssModules()`のサポートが追加されています。
+またESMビルドにはnamed exportとして提供されることについてや、Vue 3との動作の違いについてなども書かれています。
+
+Vue 2.7の正式リリースは、6月末を予定していて、リリースされてから18ヶ月後の2023年末にサポートが終了される予定となっています。
+
 ----
 
-- [Notes on maintaining an internal React component library | Gabe's blog](https://www.gabe.pizza/notes-on-component-libraries/)
+[Notes on maintaining an internal React component library | Gabe's blog](https://www.gabe.pizza/notes-on-component-libraries/)という記事では、社内でのReactコンポーネントライブラリを作成する場合について書かれています。
+
+どのようにコンポーネントを設計すれば、正しく使われるコンポーネントが作れるのかについて書かれています。
+間違った使われ方をしないような設計やメジャーアップデート時にcodemodでのマイグレーション、ビジュアルリグレッションテストなどについて書かれています。
+
+また、PublicなStorybookを検索できるコンポーネント百科事典がStorybookによって公開されています。
+これもあわせてみてみると良いかもしれません。
+
+- [Component Encyclopedia | Storybook](https://storybook.js.org/showcase)
+- [Component Encyclopedia](https://storybook.js.org/blog/component-encyclopedia/)
 
 
 ----
