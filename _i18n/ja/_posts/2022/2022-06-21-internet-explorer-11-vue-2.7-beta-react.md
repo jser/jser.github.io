@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #597 - エンタープライズやWindows Serverなどの特定のOSを除いたWindow OSでのInternet Explorer 11のサポートが2022年6月15日で終了されました。
+JSer.info #597 - エンタープライズやWindows Serverなどの特定のOSを除いて、Internet Explorer 11のサポートが2022年6月15日で終了されました。
 
 - [Internet Explorer 11 has retired and is officially out of support—what you need to know | Windows Experience Blog](https://blogs.windows.com/windowsexperience/2022/06/15/internet-explorer-11-has-retired-and-is-officially-out-of-support-what-you-need-to-know/)
 
