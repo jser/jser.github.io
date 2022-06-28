@@ -39,7 +39,7 @@ TypeScript 4.8 Betaがリリースされました。
 
 ---
 
-[CodeMirror](https://codemirror.net/) 6は、`@codemirror/next`として開発されていましたが、6が`codemirror`のStableバージョンへと変更されました。
+[CodeMirror](https://codemirror.net/) 6は、`@codemirror/next`として開発されていましたが、`codemirror`のStableバージョンが6へと変更されました。
 
 - [CodeMirror 6.0](https://marijnhaverbeke.nl/blog/codemirror-6.html)
 
