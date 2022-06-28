@@ -33,10 +33,24 @@ TypeScript 4.8 Betaがリリースされました。
 
 - [Announcing TypeScript 4.8 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-8-beta/)
 
+`unknown`などに関係するコントロールフロー分析の改善、Template String Typesでの`infer`の改善が行われています。
+また、`--build`/`-watch`/`--incremental`におけるビルドパフォーマンスの改善、オブジェクトリテラルや配列リテラルを`==`や`===`で比較した場合にエラーとなるように変更されています。
+そのほかには、Binding patternの型推論の改善、`--watch`の安定性の改善などが含まれます。
+
 ---
 
+[CodeMirror](https://codemirror.net/) 6は、`@codemirror/next`として開発されていましたが、6が`codemirror`のStableバージョンへと変更されました。
+
 - [CodeMirror 6.0](https://marijnhaverbeke.nl/blog/codemirror-6.html)
-- [CodeMirror](https://codemirror.net/)
+
+これによって、`npm install codemirror`で6がインストールされるようになります。
+CodeMirror 6は、CodeMirrorを一から書き直しているため、CodeMirror 5以前とは互換性はありません。
+CodeMirror 5からのマイグレーションガイドは次のページで公開されています。
+
+- [CodeMirror 5 to 6 Migration Guide](https://codemirror.net/docs/migration/)
+
+また、CodeMirror 6はコアがパッケージとして分かれているため、`codemirror/codemirror`というリポジトリはありません。今までのCodeMirror 5以前が`codemirror/codemirror`というリポジトリでしたが、今回の6がStableとなったことで`codemirror/codemirror5`というリポジトリ名にリネームされました。
+
 - [codemirror/codemirror5: In-browser code editor (version 5, legacy)](https://github.com/codemirror/codemirror5)
 
 
