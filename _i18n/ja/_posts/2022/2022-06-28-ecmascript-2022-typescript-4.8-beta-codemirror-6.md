@@ -13,14 +13,23 @@ tags:
 
 ---
 
-JSer.info #598 - - [Ecma International approves new standards - Ecma International](https://www.ecma-international.org/news/ecma-international-approves-new-standards-5/)
-- [JavaScript Primer 4.0.0: ECMAScript 2022に対応したJS本 | Web Scratch](https://efcl.info/2022/06/19/jsprimer-4/)
-- [Release v4.0.0: ES2022 · asciidwango/js-primer](https://github.com/asciidwango/js-primer/releases/tag/v4.0.0)
+JSer.info #598 - ECMAScript 2022が、2022-06のEcma International GA(総会)で承認され、正式にリリースあれました。
+
+- [Ecma International approves new standards - Ecma International](https://www.ecma-international.org/news/ecma-international-approves-new-standards-6/)
+
+ES2022では、クラスにPublic/Privateクラスフィールド、Top-Level await、StringとArrayに`at()`、Error Causeなどが追加されています。追加された機能については、次の記事で解説されています。
+
 - [Ecma International approves ECMAScript 2022: What’s new?](https://2ality.com/2022/06/ecmascript-2022.html)
 - [正式仕様リリース！ JavaScriptの最新仕様ES2022で追加された「全」新機能](https://zenn.dev/tonkotsuboy_com/articles/es2022-whats-new)
 
+また、同じくJavaScriptの入門書である[jsprimer](https://jsprimer.net/)もES2022に対応しています。
+
+- [JavaScript Primer 4.0.0: ECMAScript 2022に対応したJS本 | Web Scratch](https://efcl.info/2022/06/19/jsprimer-4/)
+- [Release v4.0.0: ES2022 · asciidwango/js-primer](https://github.com/asciidwango/js-primer/releases/tag/v4.0.0)
 
 ----
+
+TypeScript 4.8 Betaがリリースされました。
 
 - [Announcing TypeScript 4.8 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-8-beta/)
 
