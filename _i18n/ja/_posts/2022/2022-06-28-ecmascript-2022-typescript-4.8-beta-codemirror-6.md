@@ -61,7 +61,7 @@ CodeMirror 5からのマイグレーションガイドは次のページで公�
 ----
 
 ## Ecma International approves new standards - Ecma International
-[www.ecma-international.org/news/ecma-international-approves-new-standards-5/](https://www.ecma-international.org/news/ecma-international-approves-new-standards-5/ "Ecma International approves new standards - Ecma International")
+[www.ecma-international.org/news/ecma-international-approves-new-standards-6/](https://www.ecma-international.org/news/ecma-international-approves-new-standards-6/ "Ecma International approves new standards - Ecma International")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
 
 ECMAScript 2022、ECMAScript 2022 Internationalization APIが正式にリリースされた。
