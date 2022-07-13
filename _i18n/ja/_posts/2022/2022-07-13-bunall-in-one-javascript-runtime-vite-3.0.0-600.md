@@ -19,6 +19,8 @@ JSer.info #600 - [Bun](https://bun.sh/)というZig言語とJavaScriptCore(WebKi
 
 Bunは"all-in-one JavaScript runtime"とあるように、TypeScript/JSXのTranspiler/Bundler/Task Runerを同梱し、npm互換のパッケージマネージャーやNode-API(N-API)互換の実装、FetchなどのWeb APIの実装をもっています。
 
+Denoと似ている立ち位置のRuntimeですが、Node.js互換のAPIや`package.json`を扱えるnpm互換の実装を持つことで、Node.jsを置き換えて利用できることが意識されています。
+
 Bunのロードマップは次のIssueで公開されています。
 
 - [Bun's Roadmap · Issue #159 · oven-sh/bun](https://github.com/oven-sh/bun/issues/159)
@@ -39,7 +41,40 @@ Vite 3.0.0がリリースされました。
 
 ----
 
-600th
+## 600回目の更新
+
+この投稿で、JSer.infoは600回目の更新となります。
+500回目の更新からは大体2年でした。
+
+- [JSer.info 500回目の更新 - Slackワークスペース作成、コラボレータ募集、10年に向けて - JSer.info](https://jser.info/2020/08/11/500/)
+
+JSer.infoのslackワークスペースでは、気になるものを投稿したり、更新作業をやったりしています。
+気になるものをメモ書きで投稿するぐらいの場所として扱うぐらいでいいと思います。
+質問とかあったら調べて答える気もします。
+
+JSer.infoのslackワークスペースは、次のリンクからだれでも自由に参加できます。
+
+- [JSer.info slackに参加する](https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A)
+
+また、[GitHub Sponsors](https://github.com/sponsors/azu)での支援も引き続き募集しています。
+
+<iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="225" width="600" style="border: 0;"></iframe>
+
+- 参考: [初めてでもわかる、GitHub Sponsorsでオープンソースを支援する方法](https://zenn.dev/azu/articles/c48ad63e20ad75)
+
+JavaScript周りも新しいツールとかがまた続々と出てきている気がします(特に最近はEdgeを意識したものが多い印象)。
+今回公開された[Bun](https://bun.sh/)も、作者が週80-90時間ぐらいを1年かけて作っているそうです。
+こういう労力を結構かけて作られるものが増えている感じはします。
+
+新しいツールが出てもウェブ標準互換やNode.js互換や[CDN Edgeでの互換性](https://wintercg.org/)などの互換性は強く意識されている感じはします。そのため、完全に全く新しい知識を必要とするものは意外と少なくて、既存のものに対して何かフラストレーションがあり、それを置き換えるために新しいツールとして作りながら既存との互換性を意識するといった形式が多い気がします(Bunの場合はフラストレーションが"速度"で、それを置き換える形で進化してきた)。
+
+一方でGoogle Chromeが巨大となりウェブ標準のCentralization問題や、AppleはSafari以外のブラウザを許容しないこと対する問題なども起きています。
+
+- [What willwould a Chromium-only Web look like?](https://www.mnot.net/blog/2022/06/22/chromium-only)
+- [Open Web Advocacy](https://open-web-advocacy.org/)
+
+色々な物事が大きくなっている感覚はありますが、それを小さな視点から見ていくのがJSer.infoなのかなと思いました。
+
 
 ----
 
