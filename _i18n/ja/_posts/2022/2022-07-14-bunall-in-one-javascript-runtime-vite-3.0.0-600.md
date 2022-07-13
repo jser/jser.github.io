@@ -2,7 +2,7 @@
 title: "2022-07-14のJS: Bun(all-in-one JavaScript runtime)、Vite 3.0.0、600回目の更新"
 author: "azu"
 layout: post
-date : 2022-07-13T13:42:15.191Z
+date : 2022-07-13T15:00:00.011Z
 category: JSer
 tags:
 - Tools
@@ -102,16 +102,6 @@ Node.js 14/16/18のセキュリティリリース。
 
 ----
 <h1 class="site-genre">アーティクル</h1>
-
-----
-
-## 縦書きHTMLにおける文字の向きはどのように定まるか - ドワンゴ教育サービス開発者ブログ
-[blog.nnn.dev/entry/2022/07/01/180000](https://blog.nnn.dev/entry/2022/07/01/180000 "縦書きHTMLにおける文字の向きはどのように定まるか - ドワンゴ教育サービス開発者ブログ")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">fonts</span> <span class="jser-tag">article</span></p>
-
-縦書きHTMLの表示についての記事。
-CSSの`writing-mode`と`text-orientation`での文字の向きの扱い、フォントとVertical_Orientationごとの表示の差異、ブラウザの実装の差異などについて
-
 
 ----
 
