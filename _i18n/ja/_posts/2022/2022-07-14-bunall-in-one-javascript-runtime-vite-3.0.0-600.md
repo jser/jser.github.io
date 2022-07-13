@@ -33,7 +33,7 @@ Bunのロードマップは次のIssueで公開されています。
 
 Vite 3.0.0がリリースされました。
 
-- [Vite 3.0 is out! | Vite](https://vitejs.dev/blog/announcing-vite3.html#upgrades-to-vite-core)
+- [Vite 3.0 is out! | Vite](https://vitejs.dev/blog/announcing-vite3.html)
 - [vite/CHANGELOG.md at v3.0.0 · vitejs/vite](https://github.com/vitejs/vite/blob/v3.0.0/packages/vite/CHANGELOG.md)
 
 デフォルトのビルドターゲットをESMとDynamic Import/`import.meta`をサポートしてるブラウザに変更、オプションの変更や削除、デフォルトportを`5173`に変更されています。
