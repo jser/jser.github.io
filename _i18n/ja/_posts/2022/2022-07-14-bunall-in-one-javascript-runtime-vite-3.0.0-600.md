@@ -69,7 +69,7 @@ JavaScript周りも新しいツールとかがまた続々と出てきている�
 新しいツールが出てもウェブ標準互換やNode.js互換や[CDN Edgeでの互換性](https://wintercg.org/)などの互換性は強く意識されている感じはします。
 そのため、完全に全く新しい知識を必要とするものは意外と少なくて、既存のものに対して何かフラストレーションがあり、それを置き換えるために新しいツールとして作りながら既存との互換性を意識するといった形式が多い気がします(Bunの場合はフラストレーションが"速度"で、それを置き換えることを目標にして進化してきた)。
 
-一方でGoogle Chromeが巨大となりウェブ標準のCentralization問題や、AppleはSafari以外のブラウザを許容しないこと対する反発の強まりといった問題なども起きています。
+一方でGoogle Chromeが巨大となりウェブ標準のCentralization問題や、AppleのiOS/iPadでWebKit以外のブラウザエンジンを許容しないこと対する反発の高まりといった問題なども起きています。
 
 - [What willwould a Chromium-only Web look like?](https://www.mnot.net/blog/2022/06/22/chromium-only)
 - [Open Web Advocacy](https://open-web-advocacy.org/)
