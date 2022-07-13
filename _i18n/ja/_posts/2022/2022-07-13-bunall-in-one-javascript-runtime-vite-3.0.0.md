@@ -13,15 +13,31 @@ tags:
 
 ---
 
-JSer.info #600 - - [oven-sh/bun: Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one.](https://github.com/oven-sh/bun)
-- [Bun is a fast all-in-one JavaScript runtime](https://bun.sh/)
+JSer.info #600 - [Bun](https://bun.sh/)というZig言語とJavaScriptCore(WebKitのJavaScriptエンジン)を使って書かれたJavaScript Runtimeが公開されました。
+
+- [oven-sh/bun: Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one.](https://github.com/oven-sh/bun)
+
+Bunは"all-in-one JavaScript runtime"とあるように、TypeScript/JSXのTranspiler/Bundler/Task Runerを同梱し、npm互換のパッケージマネージャーやNode-API(N-API)互換の実装、FetchなどのWeb APIの実装をもっています。
+
+Bunのロードマップは次のIssueで公開されています。
+
+- [Bun's Roadmap · Issue #159 · oven-sh/bun](https://github.com/oven-sh/bun/issues/159)
+
+また、Bunをどのように作ったかについては、次の動画でインタビューに答えています。
+
+- [NextJS Was Too Slow...So He Made Bun??! Jarred Sumner & The Story Of Bun - YouTube](https://www.youtube.com/watch?v=rL4qpniIR7o)
 
 ----
+
+Vite 3.0.0がリリースされました。
 
 - [Vite 3.0 is out! | Vite](https://vitejs.dev/blog/announcing-vite3.html#upgrades-to-vite-core)
 - [vite/CHANGELOG.md at v3.0.0 · vitejs/vite](https://github.com/vitejs/vite/blob/v3.0.0/packages/vite/CHANGELOG.md)
 
----
+デフォルトのビルドターゲットをESMとDynamic Import/`import.meta`をサポートしてるブラウザに変更、オプションの変更や削除、デフォルトportを`5173`に変更されています。
+また、minifyに利用する`terser`パッケージへの依存をオプショナルへ変更、`import.meta.glob`の仕様変更、Wasmファイルのimport方法の変更などが含まれています。
+
+----
 
 600th
 
