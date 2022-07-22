@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #598 - ECMAScript 2022が、2022-06のEcma International GA(総会)で承認され、正式にリリースあれました。
+JSer.info #598 - ECMAScript 2022が、2022-06のEcma International GA(総会)で承認され、正式にリリースされました。
 
 - [Ecma International approves new standards - Ecma International](https://www.ecma-international.org/news/ecma-international-approves-new-standards-6/)
 
