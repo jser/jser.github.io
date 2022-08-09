@@ -13,16 +13,39 @@ tags:
 
 ---
 
-JSer.info #604 - - [Chromium Blog: Chrome 105 Beta: Custom Highlighting, Fetch Upload Streaming, and More](https://blog.chromium.org/2022/08/chrome-105-beta-custom-highlighting.html)
+JSer.info #604 - Chrome 105 Betaがリリースされました。
+
+- [Chromium Blog: Chrome 105 Beta: Custom Highlighting, Fetch Upload Streaming, and More](https://blog.chromium.org/2022/08/chrome-105-beta-custom-highlighting.html)
+
+Chrome 105 betaでは、Custom Highlight APIの実装、Container Queryの実装、`:has`擬似クラスの実装、Fetch Upload Streamingの実装などが追加されています。
+また、`navigator.mediaDevices.getDisplayMedia`に`systemAudio`オプションの追加、HTML Sanitizer APIの追加、`import.meta.resolve()`メソッドの追加、`Response.json()`メソッドの追加なども行われています。
+
+非推奨だったWebSQLがSecure Context以外では利用できなくなるようになり、Cookieのドメイン属性に非Ascii文字のサポートが非推奨となるといった変更も行われています。
+
+----
+
+npm 8.16.0がリリースされました。
+
 - [Release v8.16.0 · npm/cli](https://github.com/npm/cli/releases/tag/v8.16.0)
 
-----
+npm 8.16.0では`npm query`というCSSセレクタライクなクエリで依存関係を検索できるコマンドが追加されています。
+
+たとえば、次のコマンドでは`license`フィールドが`MIT`のパッケージを一覧できます。
+
+```
+npm query "[license=MIT]"
+```
+
+詳細は次の記事やRFCを参照してください。
 
 - [Introducing the new npm Dependency Selector Syntax | GitHub Changelog](https://github.blog/changelog/2022-08-03-introducing-the-new-npm-dependency-selector-syntax/)
+- [rfcs/0000-dependency-selector-syntax.md at 3d5b2130504139bdc8a3b599923aa07d2ff79c96 · npm/rfcs](https://github.com/npm/rfcs/blob/3d5b2130504139bdc8a3b599923aa07d2ff79c96/accepted/0000-dependency-selector-syntax.md)
 
 ----
 
-- [Everything You Need to Know About JavaScript Import Maps - Honeybadger Developer Blog](https://www.honeybadger.io/blog/import-maps/)
+[Everything You Need to Know About JavaScript Import Maps - Honeybadger Developer Blog](https://www.honeybadger.io/blog/import-maps/)という記事では、Import Mapsについて解説されています。
+
+Import Mapsの使い方、動的なImport Mapsの作り方、ファイル名のハッシュとキャッシュ、同じモジュールの複数バージョンの利用、CDNの利用などについて紹介されています。
 
 
 ----
