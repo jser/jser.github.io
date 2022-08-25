@@ -13,12 +13,17 @@ tags:
 
 ---
 
-JSer.info #606 - - [Oven: the company behind Bun](https://oven.sh/)
+JSer.info #606 - [Bun](https://bun.sh/)を開発する[@jarredsumner](https://twitter.com/jarredsumner)を中心にOvenという会社が設立され、資金調達が行われました。
+
+- [Oven: the company behind Bun](https://oven.sh/)
+
+Ovenの今後のロードマップとして、Bunを動かすエッジサーバのホスティング、Node.js向けに書かれたフレームワークのサポートの改善、半年以内にStable版を出すことを目標にしているそうです。
 
 ----
 
-- [Using :has() as a CSS Parent Selector and much more | WebKit](https://webkit.org/blog/13096/css-has-pseudo-class/)
+[Using :has() as a CSS Parent Selector and much more | WebKit](https://webkit.org/blog/13096/css-has-pseudo-class/)という記事では、CSSの`:has()`擬似クラスについて紹介されています。
 
+[:has()](https://developer.mozilla.org/ja/docs/Web/CSS/:has)はいわゆる親セレクターとしての利用方法がよく知られていますが、それ以外にもGridの利用、`>`との違い、sibling combinators(`~`と`+`)との組み合わせなどについても紹介されています。
 
 ----
 
