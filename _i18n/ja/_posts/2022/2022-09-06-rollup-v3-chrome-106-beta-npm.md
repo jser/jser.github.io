@@ -13,18 +13,34 @@ tags:
 
 ---
 
-JSer.info #608 - - [[v3.0 Release branch] by lukastaegert · Pull Request #4549 · rollup/rollup](https://github.com/rollup/rollup/pull/4549)
+JSer.info #608 - Rollup 3.0のプレリリース版が公開されています。
+
+- [[v3.0 Release branch] by lukastaegert · Pull Request #4549 · rollup/rollup](https://github.com/rollup/rollup/pull/4549)
+
+
+Rollup 3.0では、Node.js 12のサポート終了、ブラウザ向けのパッケージを`@rollup/browser`に分離、非推奨のメソッドの削除。 `output.interop`に`compat`を追加、`--bundleConfigAsCjs`フラグの追加などが予定されています。
 
 ----
+
+Chrome 106 Betaが公開されました。
 
 - [Chromium Blog: Chrome 106 Beta: New CSS Features, WebCodecs and WebXR Improvements, and More](https://blog.chromium.org/2022/09/chrome-106-beta-new-css-features.html)
 
+Origin Trialsとしてiframeの`anonymous`属性、Pop-Up APIの追加されています。
+Android WebViewでのClient Hintsをサポート、CSSの単位として`ic`をサポート、`Intl.NumberFormat` v3 APIをサポート、`WebCodecs`の`dequeue`イベントのサポートなども含まれています。
+また、破壊的な変更としてCookieのドメイン属性の非ASCII文字を削除、HTTP/2 Pushのサポートの削除なども含まれています。
+
 ----
 
+[Open Source Security Foundation](https://openssf.org/blog/2022/09/01/npm-best-practices-for-the-supply-chain/)からnpmでのパッケージ公開のセキュリティについてのベストプラクティスのドキュメントが公開されています。
+
 - [package-manager-best-practices/npm.md at main · ossf/package-manager-best-practices](https://github.com/ossf/package-manager-best-practices/blob/main/published/npm.md)
-- [npm Best Practices for the Supply-Chain - Open Source Security Foundation](https://openssf.org/blog/2022/09/01/npm-best-practices-for-the-supply-chain/)
+
+また、JavaScriptのライブラリをnpmへパッケージとして公開に関するガイドが公開されています。
+
 - [frehner/modern-guide-to-packaging-js-library: A guide to help ensure your JavaScript library is the most compatible, fast, and efficient library you can make.](https://github.com/frehner/modern-guide-to-packaging-js-library)
 
+こちらも合わせて読んでみると良いかもしれません。
 
 ----
 
