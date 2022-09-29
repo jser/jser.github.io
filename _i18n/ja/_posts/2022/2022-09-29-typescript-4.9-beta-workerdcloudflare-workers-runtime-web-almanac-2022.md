@@ -13,18 +13,43 @@ tags:
 
 ---
 
-JSer.info #611 - - [Announcing TypeScript 4.9 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-9-beta/)
+JSer.info #611 - TypeScript 4.9 betaがリリースされました。
+
+- [Announcing TypeScript 4.9 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-4-9-beta/)
+
+型キャストはせずに型の一致をチェックできる`satisfies`演算子の追加、`in`演算子での型の絞り込みの改善、`== NaN`をコンパイルエラーに変更などが行われています。
+
+`satisfies`演算子については次の記事が詳しいです。
+
+- [Typescript’s new ‘satisfies’ operator | by Cefn Hoile | Aug, 2022 | Medium](https://medium.com/@cefn/typescript-satisfies-6ba52e74cb2f)
+
+また、`--watch`でのファイル監視のデフォルトを`useFsEvents`に変更、`exports`フィールドの`typeVersions`の優先度を修正なども含まれています。
 
 ----
+
+Cloudflare Workersのruntimeであるworkerdがオープンソースとして公開されました。
 
 - [Introducing workerd: the Open Source Workers runtime](https://blog.cloudflare.com/workerd-open-source-workers-runtime/)
-- [Release v3.0.0-next.1 · cloudflare/miniflare](https://github.com/cloudflare/miniflare/releases/tag/v3.0.0-next.1)
 - [cloudflare/workerd](https://github.com/cloudflare/workerd)
 
+これに合わせて、Miniflare 3.0.0がαリリースされ、JSを使って実装していた部分もworkerdを使うものになっています。
+
+- [Release v3.0.0-next.1 · cloudflare/miniflare](https://github.com/cloudflare/miniflare/releases/tag/v3.0.0-next.1)
+
+これによってローカルでの開発時と本番の動作が異なるケースが少なくなっていきそうです。
+
 ----
+
+HTTP Archiveのデータを元にしたウェブのステータスをまとめたレポートであるWeb Almanacの2022年版が公開されました。
 
 - [The 2022 Web Almanac](https://almanac.httparchive.org/en/2022/)
 
+HTML/CSS/JSを初めてとして、アクセシビリティ/セキュリティ/サードパーティなど幅広いデータについて書かれています。
+
+2021年版は日本語にも翻訳されており、電子書籍として読むこともできます。
+
+- [2021 Web Almanac](https://almanac.httparchive.org/ja/2021/)
+- <https://cdn.httparchive.org/almanac/ebooks/web_almanac_2021_ja.pdf>
 
 ----
 
