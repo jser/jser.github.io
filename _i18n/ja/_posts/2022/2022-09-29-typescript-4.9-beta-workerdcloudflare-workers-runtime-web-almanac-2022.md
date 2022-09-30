@@ -117,7 +117,7 @@ CSS `:dir`の有効化、`InputEvent.isComposing`のサポート、Scroll To Tex
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
 
 lexical v0.5.0リリース。
-NotionライクなDraggable Blocksのサポート、LexicalTablePluginの安定化、Shdow Rootの対応など。
+NotionライクなDraggable Blocksのサポート、LexicalTablePluginの安定化、Shadow Rootの対応など。
 一部のAPIには破壊的な変更も含まれている
 
 
