@@ -13,17 +13,42 @@ tags:
 
 ---
 
-JSer.info #613 - - [Release v3.0.0 · rollup/rollup](https://github.com/rollup/rollup/releases/tag/v3.0.0)
-- [rollup.js](https://rollupjs.org/guide/en/#migration)
+JSer.info #613 - Rollup 3.0.0がリリースされました。
+
+- [Release v3.0.0 · rollup/rollup](https://github.com/rollup/rollup/releases/tag/v3.0.0)
+- [rollup.js#migration](https://rollupjs.org/guide/en/#migration)
+
+破壊的な変更として、プラグインのAPIの変更、オプションの変更が行われています。
+また、デフォルトで`import()`を維持するように変更、chunkのアルゴリズムの変更なども含まれています。
+そのほかには、デフォルトでNode.jsのESMサポートとの相互運用性を改善するために`output.interop`/`output.exports`/`output.esModule`デフォルト値が変更されています。
+
+加えて、ECMAScript Proposal Stage 3の[Import Assertions](https://github.com/tc39/proposal-import-assertions)のサポートも追加されています。
 
 ---
+
+VueテンプレートのIDEサポートなどを提供するVolar 1.0がリリースされました。
 
 - [Volar 1.0 "Nika" Released! | The Vue Point](https://blog.vuejs.org/posts/volar-1.0.html)
 
+`<template lang="pug">`のbuilt-inサポートを終了しプラグイン化されています。
+`vue-tsc`が`--watch`と`--declaration --emitDeclarationOnly`をサポートしています。
+また、コアモジュールがVueなどのフレームワークに依存しなくなるなり、サンプルとして[Svelte Langauge Server Example](https://github.com/johnsoncodehk/volar/tree/master/examples)が公開されています。
+
 ---
+
+HTMLとCSSで書いたコードをSVG画像へと変換するSatoriというライブラリが公開されています。
 
 - [vercel/satori: Enlightened library to convert HTML and CSS to SVG](https://github.com/vercel/satori)
 
+OGP(OG)イメージのために、コンテンツに基づいた画像を生成することが増えています。
+Puppeteerなどを利用すればHTMLとCSSで書いたデザインから画像(スクリーンショット)を再生することはできました。
+しかし、ブラウザプロセスを立ち上げると時間がかかったりリソースの消費も大きいです。
+
+そのため、SatoriではFlexboxのレイアウトエンジンを実装として知られる[Yoga](https://yogalayout.com/)のWasmビルト版を使い、HTMLとCSSのサブセットからSVGを生成しています。
+
+次の記事で詳しい解説が書かれています。
+
+- [Introducing OG Image Generation: Fast, dynamic social card images at the Edge – Vercel](https://vercel.com/blog/introducing-vercel-og-image-generation-fast-dynamic-social-card-images)
 
 ----
 
