@@ -20,7 +20,7 @@ JSer.info #613 - Rollup 3.0.0がリリースされました。
 
 破壊的な変更として、プラグインのAPIの変更、オプションの変更が行われています。
 また、デフォルトで`import()`を維持するように変更、chunkのアルゴリズムの変更なども含まれています。
-そのほかには、デフォルトでNode.jsのESMサポートとの相互運用性を改善するために`output.interop`/`output.exports`/`output.esModule`デフォルト値が変更されています。
+そのほかには、デフォルトでNode.jsのESMサポートとの相互運用性を改善するために`output.interop`/`output.exports`/`output.esModule`オプションのデフォルト値が変更されています。
 
 基本的には`__esModule`というNode.jsが考慮しない(ESMとCJSの総合運用性のために使われていた)プロパティを減らす方向になっています。詳しい変更内容は次のPRを参照すると良さそうです。
 
