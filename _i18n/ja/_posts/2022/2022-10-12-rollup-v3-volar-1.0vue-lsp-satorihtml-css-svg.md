@@ -44,7 +44,7 @@ OGP(OG)イメージのために、コンテンツに基づいた画像を生成�
 Puppeteerなどを利用すればHTMLとCSSで書いたデザインから画像(スクリーンショット)を再生することはできました。
 しかし、ブラウザプロセスを立ち上げると時間がかかったりリソースの消費も大きいです。
 
-そのため、SatoriではFlexboxのレイアウトエンジンを実装として知られる[Yoga](https://yogalayout.com/)のWasmビルト版を使い、HTMLとCSSのサブセットからSVGを生成しています。
+そのため、SatoriではFlexboxのレイアウトエンジンを実装として知られる[Yoga](https://yogalayout.com/)のWasmビルド版を使い、HTMLとCSSのサブセットを実装しSVGを生成しています。
 
 次の記事で詳しい解説が書かれています。
 
