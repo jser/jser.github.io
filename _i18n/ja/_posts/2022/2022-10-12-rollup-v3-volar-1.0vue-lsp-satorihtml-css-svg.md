@@ -22,6 +22,10 @@ JSer.info #613 - Rollup 3.0.0がリリースされました。
 また、デフォルトで`import()`を維持するように変更、chunkのアルゴリズムの変更なども含まれています。
 そのほかには、デフォルトでNode.jsのESMサポートとの相互運用性を改善するために`output.interop`/`output.exports`/`output.esModule`デフォルト値が変更されています。
 
+基本的には`__esModule`というNode.jsが考慮しない(ESMとCJSの総合運用性のために使われていた)プロパティを減らす方向になっています。詳しい変更内容は次のPRを参照すると良さそうです。
+
+- [[v3.0] Improve interop defaults by lukastaegert · Pull Request #4611 · rollup/rollup](https://github.com/rollup/rollup/pull/4611)
+
 加えて、ECMAScript Proposal Stage 3の[Import Assertions](https://github.com/tc39/proposal-import-assertions)のサポートも追加されています。
 
 ---
