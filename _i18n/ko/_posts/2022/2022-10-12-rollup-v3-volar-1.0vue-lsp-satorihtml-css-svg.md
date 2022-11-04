@@ -159,7 +159,7 @@ Docker Image 작성, Gracefull Shutdown 대응, 불필요한 정보를 삭제하
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">VSCode</span> <span class="jser-tag">Extension</span> <span class="jser-tag">article</span></p>
 
 Volar 1.0 릴리스.
-<template lang=“pug”>의 built-in 지원을 종료하고 플러그인 화.
+&lt;template lang=“pug”&gt;의 built-in 지원을 종료하고 플러그인 화.
 `vue-tsc`에서 `--watch`와 `--declaration --emitDeclarationOnly` 지원.
 코어 모듈이 Vue 등의 특정 프레임워크를 의존하지 않도록 개선.
 
