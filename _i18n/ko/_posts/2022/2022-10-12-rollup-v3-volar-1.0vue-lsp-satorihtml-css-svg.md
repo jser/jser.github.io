@@ -84,11 +84,12 @@ ESLint v8.25.0 릴리스.
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Chrome 107 beta 릴리스.
+
 * `grid-template`에서 transition 지원
 * Screen Capture API 개선
 * Resource Timing에 `renderBlockingStatus` 추가
 * Permissions policy의 origin 지정에 * 을 사용할 수 있도록 개선
-* <form> 요소에서 `rel` 속성 지원
+* &lt;form&gt; 요소에서 `rel` 속성 지원
 * Origin Trials로서 Declarative PendingBeacon API, Permissions policy의 unload 지원
 * `Expect-CT` HTTP 헤더 삭제
 
@@ -133,7 +134,7 @@ Ember는 메이저 릴리스(비호환 변경)를 최대한 적게 한다는 방
 
 ----
 
-## IIntl.Segmenter로 일문 개행을 개선해 보자(일본어)
+## Intl.Segmenter로 일문 개행을 개선해 보자(일본어)
 [zenn.dev/notfounds/articles/58c465d4029dc1](https://zenn.dev/notfounds/articles/58c465d4029dc1 "Intl.Segmenter로 일문 개행을 개선해 보자")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">article</span></p>
 
