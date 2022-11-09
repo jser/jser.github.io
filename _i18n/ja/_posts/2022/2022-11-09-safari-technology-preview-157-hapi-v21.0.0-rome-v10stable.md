@@ -13,17 +13,33 @@ tags:
 
 ---
 
-JSer.info #617 - - [Release Notes for Safari Technology Preview 157 | WebKit](https://webkit.org/blog/13575/release-notes-for-safari-technology-preview-157/)
+JSer.info #617 - Safari Technology Preview 157がリリースされました。
+
+- [Release Notes for Safari Technology Preview 157 | WebKit](https://webkit.org/blog/13575/release-notes-for-safari-technology-preview-157/)
+
+CSSの`@font-feature-settings`のサポート、ES2022のclass static initialization blocksのサポート、[WebCodecs API](https://developer.mozilla.org/en-US/docs/Web/API/WebCodecs_API)のサポートが改善されています。
+[`Sec-Fetch-Site` HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-Fetch-Site)ヘッダのサポート、Aレコードを使ったthird-party CNAME Cloakingに対するCookieの7日間制限を実装なども含まれています。
+
+- [Cap cookie lifetimes to 7 days for responses from third party IP addresses by whsieh · Pull Request #5347 · WebKit/WebKit](https://github.com/WebKit/WebKit/pull/5347)
 
 ---
+
+Node.jsのウェブアプリケーションフレームワークであるhapi v21.0.0がリリースされました。
 
 - [Release v21.0.0 · hapijs/hapi](https://github.com/hapijs/hapi/releases/tag/v21.0.0)
 - [21.0.0 Release Notes · Issue #4386 · hapijs/hapi](https://github.com/hapijs/hapi/issues/4386)
 
+Node.js 12のサポート終了、JSONPのサポート終了し、Node.js 18のサポートの追加など。
+またhapiのプラグインなどはhapi v20+以上のみをサポートするようになる変更も含まれています。
+
 ---
+
+Rome v10がリリースされました。
 
 - [Announcing Rome v10 — first stable release of our fast linter and formatter for JavaScript and TypeScript](https://rome.tools/blog/2022/11/08/rome-10.html)
 
+Rustに書き換えてからの初のStableリリースとなるバージョンで、0.10.0から10.0.0へとバージョンが上がっています。
+Stableの機能としてPrettierライクなFormatterとESLintライクなルールを含むLinterが利用できるようになっています。
 
 ----
 
