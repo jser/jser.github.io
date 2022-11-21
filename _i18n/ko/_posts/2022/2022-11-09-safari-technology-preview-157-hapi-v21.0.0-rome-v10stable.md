@@ -137,7 +137,7 @@ Node.js 보안 업데이트가 각 버전마다 갱신됐다.
 
 
 ----
-<h1 class="site-genre">기사</h1>
+<h1 class="site-genre">읽을거리</h1>
 
 ----
 
