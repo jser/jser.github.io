@@ -1,5 +1,5 @@
 ---
-title: "2022-11-09のJS: Safari Technology Preview 157、hapi v21.0.0、Rome v10(Stable)"
+title: "2022-11-09: Safari Technology Preview 157, hapi v21.0.0, Rome v10(Stable)"
 author: "azu"
 translator: rewrite0w0(Oh TaeJun)
 layout: post
