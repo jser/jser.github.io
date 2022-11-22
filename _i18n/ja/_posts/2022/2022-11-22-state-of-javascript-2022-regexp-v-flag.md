@@ -13,14 +13,24 @@ tags:
 
 ---
 
-JSer.info #619 - 
+JSer.info #619 - 毎年行われているJavaScript開発者向けのアンケートである State of JavaScript 2022 が開催されています。
 
 - [State of JavaScript 2022](https://survey.devographics.com/survey/state-of-js/2022)
 
+言語機能やフレームワークなどについてのアンケートをとっていて、2022年12月15日まで受付けています。
+
+過去の結果については次のページで公開されています。
+
+- [The State of JS 2021](https://2021.stateofjs.com/en-US/)
+- [State of JS 2020](https://2020.stateofjs.com/en-US/)
+
+
 ---
 
-- [ECMAScript proposal: RegExp flag `/v` makes character classes and character class escapes more powerful](https://2ality.com/2022/11/regexp-v-flag.html)
+[ECMAScript proposal: RegExp flag `/v` makes character classes and character class escapes more powerful](https://2ality.com/2022/11/regexp-v-flag.html)という記事では、現在ECMAScript Proposal Stage 3の[RegExp `v` flag](https://github.com/tc39/proposal-regexp-v-flag)について解説されています。
 
+正規表現の`v`フラグは、正規表現に集合操作と構文を追加するProposalになっています。
+記事では、`v`フラグを利用した際の文字クラスとUnicode Property Escape、文字クラスの集合操作、case-insensitiveマッチの改善について解説されています。
 
 ----
 
