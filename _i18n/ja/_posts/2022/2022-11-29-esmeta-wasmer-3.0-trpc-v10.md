@@ -165,6 +165,14 @@ JSConf JP 2022の動画とスライドのまとめ
 
 アノテーションしたRustのコードからTypeScript/Swift/Kotlinの型定義を生成できるツール
 
+----
+
+
+## hyperstackjs · Hyperstack is a modern full-stack Node.js web framework for the pragmatic programmer
+[hyperstackjs.io/](https://hyperstackjs.io/ "hyperstackjs · Hyperstack is a modern full-stack Node.js web framework for the pragmatic programmer")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">server</span></p>
+
+Node.jsのウェブアプリケーションフレームワーク
 
 ----
 <h1 class="site-genre">書籍関係</h1>
@@ -176,15 +184,6 @@ JSConf JP 2022の動画とスライドのまとめ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">functional</span> <span class="jser-tag">book</span></p>
 
 JavaScriptでの関数型プログラミングについての書籍
-
-
-----
-
-## hyperstackjs · Hyperstack is a modern full-stack Node.js web framework for the pragmatic programmer
-[hyperstackjs.io/](https://hyperstackjs.io/ "hyperstackjs · Hyperstack is a modern full-stack Node.js web framework for the pragmatic programmer")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">server</span></p>
-
-Node.jsのウェブアプリケーションフレームワーク
 
 
 ----
