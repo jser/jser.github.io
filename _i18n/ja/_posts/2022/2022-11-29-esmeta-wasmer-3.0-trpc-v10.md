@@ -13,18 +13,35 @@ tags:
 
 ---
 
-JSer.info #620 - - [es-meta/esmeta: ECMAScript Specification (ECMA-262) Metalanguage](https://github.com/es-meta/esmeta)
+JSer.info #620 - [ESMeta](https://github.com/es-meta/esmeta)というECMAScript Specification Metalanguageツールが公開されています。
+
+- [es-meta/esmeta: ECMAScript Specification (ECMA-262) Metalanguage](https://github.com/es-meta/esmeta)
+
+主に[ECMAScriptの仕様](https://tc39.es/ecma262/)を扱う人向けのツールです。
+ECMAScriptの言語/仕様書のパーサとインタープリタを実装することで、仕様書から自動的にECMAScriptの処理系を生成するメタ的なツールです。
+仕様書のアルゴリズムをステップ実行したり、デバッガーでBreak Pointを貼ったり、仕様書における内部状態を可視化できるデバッグ機能も実装されています。
 
 ----
+
+WebAssemblyの処理系であるWasmer 3.0がリリースされました。
 
 - [Announcing Wasmer 3.0](https://wasmer.io/posts/announcing-wasmer-3.0)
 - [wasmer/migration_to_3.0.0.md at master · wasmerio/wasmer · GitHub](https://github.com/wasmerio/wasmer/blob/master/docs/migration_to_3.0.0.md)
 
+Wasmer 3.0では、WAPMパッケージを実行できる`wasmer run`コマンドの追加、`MemoryView`の追加。
+Zigのクロスコンパイル機能を使ってWindow/Linux/macOSの実行ファイルを作成できるようになっています。
+
 ----
 
-- [Announcing tRPC v10 | tRPC](https://trpc.io/blog/announcing-trpc-10)
-- [Migrate from v9 to v10 | tRPC](https://trpc.io/docs/migrate-from-v9-to-v10)
+TypeScriptを使ったAPIレイヤーを定義する tRPC v10 がリリースされました。
 
+- [Announcing tRPC v10 | tRPC](https://trpc.io/blog/announcing-trpc-10)
+
+主に型の利用方法を改善する目的でRouterの定義方法、`inferRouterInputs`と`inferRouterOutputs`の型定義を追加、Middlewareのシグネチャの変更などが行われています。
+
+マイグレーションガイドとマイグレーションツールも併せて公開されています。
+
+- [Migrate from v9 to v10 | tRPC](https://trpc.io/docs/migrate-from-v9-to-v10)
 
 ----
 
