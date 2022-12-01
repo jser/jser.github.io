@@ -1,5 +1,5 @@
 ---
-title: "2022-11-29のJS: ESMeta、Wasmer 3.0、tRPC v10"
+title: "2022-11-29: ESMeta, Wasmer 3.0, tRPC v10"
 author: "azu"
 translator: rewrite0w0(Oh TaeJun)
 layout: post
