@@ -148,7 +148,7 @@ Node.jsでのESMと`exports`フィールドについての解説
 
 ## JSConf JP 2022 公開資料・Twitterリンクまとめ
 [zenn.dev/yumemi\_inc/articles/2022-11-27-jsconf-jp-2022](https://zenn.dev/yumemi_inc/articles/2022-11-27-jsconf-jp-2022 "JSConf JP 2022 公開資料・Twitterリンクまとめ")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Conference</span> <span class="jser-tag">slire</span> <span class="jser-tag">video</span></p>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Conference</span> <span class="jser-tag">slide</span> <span class="jser-tag">video</span></p>
 
 JSConf JP 2022の動画とスライドのまとめ
 
