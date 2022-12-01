@@ -110,7 +110,7 @@ AWS Lambda, Node.js 18 지원.
 [zenn.dev/0kate/articles/83e48c177ff709](https://zenn.dev/0kate/articles/83e48c177ff709 "Wasm은 왜 시큐어한가?")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">article</span> <span class="jser-tag">security</span></p>
 
-Wasmer 구현을 보며, WebAssembly 세큐리티 기능이 어떻게 실현되는가
+Wasmer 구현을 보며, WebAssembly 시큐리티 기능이 어떻게 실현되는가
 
 
 ----
