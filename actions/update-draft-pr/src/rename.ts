@@ -35,6 +35,10 @@ JSer.info #$1 - ${headline}
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1`);
     console.log("# replaced");
     console.log(replacedContent);
