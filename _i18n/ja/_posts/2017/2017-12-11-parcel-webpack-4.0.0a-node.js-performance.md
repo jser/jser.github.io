@@ -65,6 +65,10 @@ BREAKING CHANGEとしてはNode.js 4のサポート終了、新しいプラグ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -64,6 +64,10 @@ Pluginの仕様がstableとなり、ESLintの[Governance Model](http://eslint.or
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

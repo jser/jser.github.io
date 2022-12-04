@@ -55,6 +55,10 @@ Reduxのコンセプトについては作者が以前[The Evolution of Flux Fram
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

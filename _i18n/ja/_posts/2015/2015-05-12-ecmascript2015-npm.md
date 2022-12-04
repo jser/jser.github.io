@@ -29,6 +29,10 @@ npmの変更点については[The npm Blog](http://blog.npmjs.org/ "The npm Blo
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

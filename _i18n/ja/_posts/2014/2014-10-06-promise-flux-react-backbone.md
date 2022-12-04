@@ -72,6 +72,10 @@ Fluxアーキテクチャの`Dispatcher -> Store -> View -> ...`という流れ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

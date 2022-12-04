@@ -59,6 +59,10 @@ Safari 13.1からサードパーティクッキーを完全にブロックする
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

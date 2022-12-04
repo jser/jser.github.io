@@ -56,6 +56,10 @@ Web Audio APIはAudioNodeが基本的に使い捨てであったり、`setTimeou
 
 -----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

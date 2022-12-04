@@ -53,6 +53,10 @@ Node.js 12+からサポートされたECMAScript Modules(ESM)では、利用で�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

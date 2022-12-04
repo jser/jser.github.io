@@ -53,6 +53,10 @@ Babelとは構造や目的も異なるので、興味がある人はためして
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

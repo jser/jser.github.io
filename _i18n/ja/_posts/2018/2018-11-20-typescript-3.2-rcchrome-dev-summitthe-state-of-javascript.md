@@ -43,6 +43,10 @@ JSer.info #410 - TypeScript 3.2 RCがリリースされました。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -50,6 +50,10 @@ Import Mapsの使い方、動的なImport Mapsの作り方、ファイル名の�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

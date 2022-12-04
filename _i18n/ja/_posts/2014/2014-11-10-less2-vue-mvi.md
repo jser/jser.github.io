@@ -51,6 +51,10 @@ React/Flux(要素的には別々ですが)はリアクティブプログラミ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

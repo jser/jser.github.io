@@ -72,6 +72,10 @@ webpackのCLIを作り変えているもので、`init`や`migrate`などのサ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

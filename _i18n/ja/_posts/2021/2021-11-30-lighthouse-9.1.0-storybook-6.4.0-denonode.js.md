@@ -43,6 +43,10 @@ Denoでは、現在[Node.js compability mode](https://deno.land/manual@v1.16.3/n
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -44,6 +44,10 @@ Chrome Dev Tools(元はWebKit)は、ES Modulesが策定される前から書か�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

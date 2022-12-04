@@ -49,6 +49,10 @@ Vue 2.7の正式リリースは、6月末を予定していて、リリースさ
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

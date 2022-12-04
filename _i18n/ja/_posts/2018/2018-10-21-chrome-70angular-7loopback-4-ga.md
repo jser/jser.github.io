@@ -50,6 +50,10 @@ Node.jsのAPIフレームワークの[LoopBack 4](https://v4.loopback.io/) GA (G
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

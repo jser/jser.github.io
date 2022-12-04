@@ -50,6 +50,10 @@ ES6のコードをES5へ変換するツールである[6to5](https://6to5.org/ "
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

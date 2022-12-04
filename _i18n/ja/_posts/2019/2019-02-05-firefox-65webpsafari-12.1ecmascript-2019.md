@@ -60,6 +60,10 @@ ECMAScript 2019は2019年6月ごろにリリース予定のため、1月の段�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

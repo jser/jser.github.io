@@ -58,6 +58,10 @@ Vue 3のリリーススケジュールや提案されているRFCなどのステ
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

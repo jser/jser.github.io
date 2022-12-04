@@ -54,6 +54,10 @@ Rustや[wasm-pack](https://rustwasm.github.io/wasm-pack/book/)を使った開発
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

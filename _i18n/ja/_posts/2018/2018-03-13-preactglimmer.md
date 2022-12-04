@@ -40,6 +40,10 @@ Preact(3kb)とGlimmer.js(30kb)ではファイルサイズに差があります�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -40,6 +40,10 @@ Reactから始める開発という形なので、npmなどの関連するツー
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

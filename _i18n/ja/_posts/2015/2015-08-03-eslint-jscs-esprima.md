@@ -81,6 +81,10 @@ JSer.infoは週一ですが、[realtime.jser.info](http://realtime.jser.info/)�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

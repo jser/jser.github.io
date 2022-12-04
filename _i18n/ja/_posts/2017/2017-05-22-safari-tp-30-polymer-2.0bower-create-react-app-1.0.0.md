@@ -79,6 +79,10 @@ webpack 2、ランタイムエラーの表示、Service Workerの対応、Jest 2
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

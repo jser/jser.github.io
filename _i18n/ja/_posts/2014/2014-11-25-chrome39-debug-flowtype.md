@@ -52,6 +52,10 @@ Flowは同じくFacebookが公開してる[Hack](https://code.facebook.com/posts
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

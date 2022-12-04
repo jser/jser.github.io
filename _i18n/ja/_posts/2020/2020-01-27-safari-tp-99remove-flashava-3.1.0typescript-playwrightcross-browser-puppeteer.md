@@ -39,6 +39,10 @@ Puppeteerのクロスブラウザ版を目指すplaywrightが公開されてい�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

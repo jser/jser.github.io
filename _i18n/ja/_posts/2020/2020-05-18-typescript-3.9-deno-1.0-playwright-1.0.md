@@ -64,6 +64,10 @@ Playwrightでは、`waitForTime`のような時間ではなく、`waitForEvent`�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

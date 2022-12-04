@@ -37,6 +37,10 @@ Node.js 8.xのサポートを終了し、`CLIEngine`クラスは非推奨とな�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

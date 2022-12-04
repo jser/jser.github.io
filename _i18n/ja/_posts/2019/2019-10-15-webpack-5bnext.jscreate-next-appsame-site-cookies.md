@@ -57,6 +57,10 @@ Same-Site Cookiesは`SameSite=None`と設定することで無効化できます
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -69,6 +69,10 @@ TypeScriptには元々soft privateとしての`private`修飾子がありまし�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

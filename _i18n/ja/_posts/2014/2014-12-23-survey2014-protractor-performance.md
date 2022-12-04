@@ -42,6 +42,10 @@ Protractorも同じように[WebDriverJS](https://code.google.com/p/selenium/wik
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

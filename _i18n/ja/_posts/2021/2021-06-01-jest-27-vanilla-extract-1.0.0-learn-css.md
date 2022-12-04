@@ -50,6 +50,10 @@ Box Model、セレクタ、詳細度、CSSの単位などの基本的な概念�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

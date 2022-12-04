@@ -38,6 +38,10 @@ C++で実装しなおした[LibSass](http://sass-lang.com/libsass "LibSass")がR
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

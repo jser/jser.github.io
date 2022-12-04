@@ -49,6 +49,10 @@ Sass等がプリプロセスと呼ばれるのに対して、プリプロセス�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

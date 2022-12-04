@@ -63,6 +63,10 @@ Chromium 85、V8 8.5、Node.js 12.16へアップデートされています。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

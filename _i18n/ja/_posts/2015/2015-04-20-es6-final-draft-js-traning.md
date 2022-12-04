@@ -47,6 +47,10 @@ DOM操作、DOMイベント、非同期処理、PromiseとFetch API、bowerを�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -75,6 +75,10 @@ CSS3のときに仕様がModuleへ分解され、それぞれのModuleはLevel 3
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

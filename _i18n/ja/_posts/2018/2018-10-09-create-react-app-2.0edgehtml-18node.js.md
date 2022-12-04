@@ -42,6 +42,10 @@ Express、Hapi、Koaなどの利用率や好み、使い続けるかについて
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

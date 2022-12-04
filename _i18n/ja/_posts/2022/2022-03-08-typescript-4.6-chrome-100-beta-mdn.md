@@ -55,6 +55,10 @@ Chrome 100がUA文字列を削減する前の最後のバージョンとなり�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

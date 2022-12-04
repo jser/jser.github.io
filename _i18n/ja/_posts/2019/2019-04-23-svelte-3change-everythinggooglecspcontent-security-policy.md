@@ -47,12 +47,12 @@ Svelte 3からは、次のように変更を検知したい文を`$`ラベル([J
 <button on:click="{() => count += 1}">+1</button>
 
 <script>
-	let count = 0;
-	$: doubled = count * 2;
+    let count = 0;
+    doubled = count * 2;
 
-	function handleClick() {
-		count += 1;
-	}
+    function handleClick() {
+        count += 1;
+    }
 </script>
 ```
 
@@ -79,6 +79,10 @@ CSPのディレクティブ(設定)によってはevalやinline codeなどが利
 このスライドでも紹介されているホワイリストの問題とnonce-based CSPについては次の記事も参照するとよさそうです。
 
 - [Content Security Policy Level 3におけるXSS対策 - pixiv inside](https://inside.pixiv.blog/kobo/5137 "Content Security Policy Level 3におけるXSS対策 - pixiv inside")
+
+----
+
+{% include inline-support.html %}
 
 ----
 

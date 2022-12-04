@@ -62,6 +62,10 @@ Node.js 8.3.0がリリースされました。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

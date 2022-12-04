@@ -50,6 +50,10 @@ Facebookのproductionでテストした結果、bundleサイズが最大30%削�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

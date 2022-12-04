@@ -49,6 +49,10 @@ JavaScript Primer 2.0では、ES2020で追加された`String.prototype.matchAll
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

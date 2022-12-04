@@ -67,6 +67,10 @@ FirefoxもこれらのAPIのうちいくつかに関しては`harmful`という�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

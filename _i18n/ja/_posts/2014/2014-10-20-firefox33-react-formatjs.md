@@ -56,6 +56,10 @@ JavaScriptを使った国際化については以下の話が面白いです。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -68,6 +68,10 @@ Chrome 92では、cross originのiframe内から`window.{alert, prompt, confirm}
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

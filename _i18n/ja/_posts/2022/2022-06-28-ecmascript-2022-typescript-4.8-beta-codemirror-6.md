@@ -56,6 +56,10 @@ CodeMirror 5からのマイグレーションガイドは次のページで公�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

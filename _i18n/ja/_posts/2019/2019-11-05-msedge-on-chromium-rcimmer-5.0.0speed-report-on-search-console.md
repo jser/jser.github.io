@@ -46,6 +46,10 @@ Google Search ConsoleにSpeed Reportが試験的に追加されました。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -46,6 +46,10 @@ Reactを使ったアプリの作成について丁寧に書かれていて、参
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

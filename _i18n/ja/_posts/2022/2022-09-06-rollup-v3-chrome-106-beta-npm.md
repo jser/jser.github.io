@@ -44,6 +44,10 @@ Android WebViewでのClient Hintsをサポート、CSSの単位として`ic`を�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

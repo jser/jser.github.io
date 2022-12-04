@@ -27,6 +27,10 @@ Ovenの今後のロードマップとして、Bunを動かすエッジサーバ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

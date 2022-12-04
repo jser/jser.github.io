@@ -48,6 +48,10 @@ MSEdgeというブラウザ自体(ブランド)は維持されますが、中身
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

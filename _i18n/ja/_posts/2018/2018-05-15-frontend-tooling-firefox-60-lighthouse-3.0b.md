@@ -57,6 +57,10 @@ Google I/Oの発表でもLighthouseを扱った内容は多いのであわせて
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

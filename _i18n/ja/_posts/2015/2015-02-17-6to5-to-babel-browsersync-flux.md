@@ -38,6 +38,10 @@ LiveReload的な機能を持っている開発用のローカルサーバを立�
 
 -----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -40,6 +40,10 @@ XHTMLやHTML4.01など古い仕様からくる非推奨な書き方をどのよ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -76,6 +76,10 @@ ECMAScriptのStage 3 Proposalである[Optional Chaining](https://github.com/tc3
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

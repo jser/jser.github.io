@@ -49,6 +49,10 @@ React Testing Library v13.1.0では、`renderHook`というAPIが追加されて
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

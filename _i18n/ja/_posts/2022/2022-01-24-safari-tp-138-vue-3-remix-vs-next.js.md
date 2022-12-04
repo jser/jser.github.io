@@ -67,6 +67,10 @@ published 7 months ago by posva <posva13@gmail.com>
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

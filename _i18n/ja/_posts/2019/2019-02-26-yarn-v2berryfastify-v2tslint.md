@@ -54,6 +54,10 @@ TSLintは2019年中には非推奨となり(今すぐではないです)、今�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

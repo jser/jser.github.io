@@ -49,6 +49,10 @@ CatchJSの記事では、同様の調査からウェブサイトのエラーに�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

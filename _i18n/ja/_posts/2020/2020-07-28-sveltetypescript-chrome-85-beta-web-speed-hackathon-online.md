@@ -47,6 +47,10 @@ Chrome 85に含まれるJavaScriptのアップデートはV8のブログの方�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -54,6 +54,10 @@ GraphQL、CSS in JS、JSONの対応、CSSやTypeScript、JSX周りバグ修正�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
