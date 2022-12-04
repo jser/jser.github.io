@@ -36,6 +36,10 @@ Addy Osmani氏によるChrome開発者ツールの新しい機能の紹介がさ
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

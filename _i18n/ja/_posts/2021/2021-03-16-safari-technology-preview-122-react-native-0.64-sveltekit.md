@@ -52,6 +52,10 @@ AOTによる事前コンパイルでfootprintを最適化してアプリの起�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

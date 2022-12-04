@@ -67,6 +67,10 @@ JSON.parse(JSON.stringify(-0)) === -0; // => true
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

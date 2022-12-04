@@ -53,6 +53,10 @@ Babel 7.11.0がリリースされました。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

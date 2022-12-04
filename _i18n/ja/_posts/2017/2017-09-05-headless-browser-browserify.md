@@ -52,6 +52,10 @@ Browserifyに意見がある人はこのIssueに書くとよさそうです。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

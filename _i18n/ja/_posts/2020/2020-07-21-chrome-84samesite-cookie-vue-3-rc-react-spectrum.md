@@ -63,6 +63,10 @@ Adobeからデザインシステム向けのReactフレームワークが公開�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

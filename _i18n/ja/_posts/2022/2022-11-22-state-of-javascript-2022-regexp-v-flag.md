@@ -34,6 +34,10 @@ JSer.info #619 - 毎年行われているJavaScript開発者向けのアンケ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

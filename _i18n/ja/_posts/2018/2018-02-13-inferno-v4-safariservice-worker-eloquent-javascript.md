@@ -42,6 +42,10 @@ JavaScriptやプログラミングについてを学ぶ書籍です。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

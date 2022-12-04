@@ -61,6 +61,10 @@ JavaScriptとhigh-level layers APIで機械学習を行えるため、初めて�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

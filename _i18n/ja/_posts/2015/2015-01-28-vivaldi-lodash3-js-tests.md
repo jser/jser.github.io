@@ -48,6 +48,10 @@ JavaScriptのテストと言っても色々な役割を持つ組み合わせで�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

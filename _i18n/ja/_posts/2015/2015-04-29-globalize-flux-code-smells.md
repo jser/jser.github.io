@@ -48,6 +48,10 @@ JSer.info #225 - [CLDR](http://cldr.unicode.org/ "CLDR - Unicode Common Locale D
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -43,6 +43,10 @@ JSer.info #233 - ECMAScript 2015(aka. ES6)がEcma標準として承認されま�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

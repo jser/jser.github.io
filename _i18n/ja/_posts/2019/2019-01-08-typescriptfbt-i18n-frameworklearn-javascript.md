@@ -38,6 +38,10 @@ ES2015なども含めた基本的なJavaScriptの書き方について練習問�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

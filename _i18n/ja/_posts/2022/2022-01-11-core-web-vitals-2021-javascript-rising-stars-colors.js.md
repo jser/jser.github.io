@@ -52,6 +52,10 @@ npmでは[leftpadと呼ばれる問題](https://web.archive.org/web/201603230003
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

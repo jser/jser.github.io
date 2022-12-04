@@ -59,6 +59,10 @@ Yarn 2のPnP/npm 7/ESMのサポート、webpack 5をopt-inでサポートして�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

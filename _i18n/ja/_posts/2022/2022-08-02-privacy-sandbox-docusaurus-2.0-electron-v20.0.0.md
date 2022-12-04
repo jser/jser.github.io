@@ -44,6 +44,10 @@ Chromium 104、[Node v16.15.0](https://nodejs.org/en/blog/release/v16.15.0/)、V
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

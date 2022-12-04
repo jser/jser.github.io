@@ -60,6 +60,10 @@ Tweet数を参考にしたり、直接言及できるので役立てて貰えれ
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

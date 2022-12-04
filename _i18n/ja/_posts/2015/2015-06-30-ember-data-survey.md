@@ -43,6 +43,10 @@ ES6を使った事があるかや興味のあるES6の機能、興味のある�
 
 -----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -63,6 +63,10 @@ Node 17にはNode 16の変更点も含まれるので、その他の変更は次
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

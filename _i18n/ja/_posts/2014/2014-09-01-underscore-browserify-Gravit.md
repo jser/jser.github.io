@@ -48,6 +48,10 @@ CommonJSとは何かという所からBrowserifyの基本的な使い方、Commo
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

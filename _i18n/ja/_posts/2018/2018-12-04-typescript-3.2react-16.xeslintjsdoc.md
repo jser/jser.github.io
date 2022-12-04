@@ -82,6 +82,10 @@ JS Foundationでの開発を引き継ぐには手続きが煩雑になること�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -55,6 +55,10 @@ TypeScriptという言語、tsconfigの設定、型定義の扱い方などに�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

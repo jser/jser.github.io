@@ -49,6 +49,10 @@ MDNはあらゆる機能に関する網羅性を持ったデータに対して�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

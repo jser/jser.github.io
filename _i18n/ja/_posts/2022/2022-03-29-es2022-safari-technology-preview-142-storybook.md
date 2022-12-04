@@ -57,6 +57,10 @@ ECMAScript Proposal Stage3の[ShadowRealm](https://github.com/tc39/proposal-shad
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

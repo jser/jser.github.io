@@ -69,6 +69,10 @@ npm v7の変更予定としてパフォーマンスの改善、GitHubのPRから
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -56,6 +56,10 @@ Vue.jsのコード自体に興味がある人は読んでみると面白いか�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

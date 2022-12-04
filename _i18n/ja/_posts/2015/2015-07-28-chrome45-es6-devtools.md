@@ -36,6 +36,10 @@ Chrome 45ではArrow Functionや`Array.of`や`Array.from`、`Object.assign`等�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

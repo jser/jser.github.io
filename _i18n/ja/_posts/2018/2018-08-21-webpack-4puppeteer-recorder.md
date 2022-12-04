@@ -42,6 +42,10 @@ JSer.info #397 - [webpack 4.0 to 4.16: Did you know? – webpack – Medium](htt
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

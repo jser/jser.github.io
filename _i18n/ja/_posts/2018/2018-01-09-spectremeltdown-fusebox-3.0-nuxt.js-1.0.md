@@ -59,6 +59,10 @@ Node.js 8.0.0未満のサポートを終了。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

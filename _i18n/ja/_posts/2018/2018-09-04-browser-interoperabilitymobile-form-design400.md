@@ -46,6 +46,10 @@ YES/NOの答えがあるものから、答えがないものまで質問は自�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

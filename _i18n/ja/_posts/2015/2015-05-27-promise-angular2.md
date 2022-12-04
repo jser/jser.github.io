@@ -32,6 +32,10 @@ Promiseの動作フローの解説、おかしな書き方とそれを修正し�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

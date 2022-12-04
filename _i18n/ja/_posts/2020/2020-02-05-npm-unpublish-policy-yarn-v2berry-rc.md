@@ -52,6 +52,10 @@ Yarn 2の変更点についても紹介されていて、デフォルトでCache
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

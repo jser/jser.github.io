@@ -59,6 +59,10 @@ Chrome 92で非推奨の警告をだすようになり、段階的にUA文字列
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

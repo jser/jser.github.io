@@ -80,6 +80,10 @@ console.log("moment:set:"+ moment(date20170101).month(0).month()); // => 0
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

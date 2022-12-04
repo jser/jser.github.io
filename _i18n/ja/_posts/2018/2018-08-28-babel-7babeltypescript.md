@@ -66,6 +66,10 @@ Babel 7では[TypeScriptのコードをパース](https://github.com/babel/babyl
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

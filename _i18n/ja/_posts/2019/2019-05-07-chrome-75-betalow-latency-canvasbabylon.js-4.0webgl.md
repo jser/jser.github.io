@@ -48,6 +48,10 @@ Visual Scene Inspectorが追加され[inspector](https://doc.babylonjs.com/featu
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

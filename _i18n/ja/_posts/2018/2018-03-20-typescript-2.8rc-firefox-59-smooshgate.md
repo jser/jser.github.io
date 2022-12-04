@@ -57,6 +57,10 @@ Firefox Nightlyに`Array.prototype.flatten`が実験的に実装したところ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

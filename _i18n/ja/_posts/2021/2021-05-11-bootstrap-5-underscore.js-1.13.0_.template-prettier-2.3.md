@@ -57,6 +57,10 @@ JavaScriptの変数やプロパティへの代入における一貫性の修正�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

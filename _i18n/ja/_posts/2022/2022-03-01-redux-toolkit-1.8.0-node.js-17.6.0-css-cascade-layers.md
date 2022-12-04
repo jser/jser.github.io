@@ -67,6 +67,10 @@ CSSでは、UA、`!important`、[詳細度](https://developer.mozilla.org/ja/doc
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

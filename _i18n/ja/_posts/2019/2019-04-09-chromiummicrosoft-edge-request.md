@@ -49,6 +49,10 @@ Node.jsのHTTPライブラリとして著名な[request](https://github.com/requ
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -51,6 +51,10 @@ Template Literal Typesは型定義の表現をかなり強力にするため、D
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

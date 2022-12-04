@@ -42,6 +42,10 @@ Qtでは[QtWebEngine](http://qt-project.org/wiki/QtWebEngine "QtWebEngine")と�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

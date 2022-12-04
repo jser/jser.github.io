@@ -47,6 +47,10 @@ IE11でのWebDriverのサポートや開発者ツールのアップデートが�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

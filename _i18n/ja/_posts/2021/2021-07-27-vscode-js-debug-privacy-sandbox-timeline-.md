@@ -47,6 +47,10 @@ Privacy Sandboxの各Proposalごとにどのようなスケジュールで、実
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -67,6 +67,10 @@ TypeScript向けのESLintプラグインであるtypescript-eslint 3.0.0がリ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

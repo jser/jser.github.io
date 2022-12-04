@@ -56,6 +56,10 @@ AngularでのIEサポートはAngular 12までとなり、Angular 12は2022年11
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

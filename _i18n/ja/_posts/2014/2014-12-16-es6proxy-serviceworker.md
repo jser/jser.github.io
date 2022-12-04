@@ -32,6 +32,10 @@ template要素、HTML Imports、Shadow DOM、Custom Elementsといった構成�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

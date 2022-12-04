@@ -47,6 +47,10 @@ GitHubから公開されている GitHub’s Advisory Database のデータに�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -62,6 +62,10 @@ jQuery MobileはUIに依存しているため、重複や無駄を避けるた�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

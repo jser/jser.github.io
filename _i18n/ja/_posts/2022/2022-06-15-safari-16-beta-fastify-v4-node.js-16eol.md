@@ -46,6 +46,10 @@ Node.js 16 LTSのEOLは2024年4月の予定でしたが、2023年9月11日へと
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

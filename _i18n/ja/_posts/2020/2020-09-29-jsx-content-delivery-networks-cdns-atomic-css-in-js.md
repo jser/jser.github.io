@@ -90,6 +90,10 @@ Atomic CSS-in-JSの例としてFacebookのStylexを紹介しています。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

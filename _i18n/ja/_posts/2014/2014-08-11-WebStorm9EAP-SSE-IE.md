@@ -54,6 +54,10 @@ Server Sent Eventsは名前の通り、既存のHTTP上でサーバからのPush
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

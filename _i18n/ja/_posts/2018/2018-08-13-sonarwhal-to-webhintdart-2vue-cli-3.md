@@ -46,6 +46,10 @@ webpackを使ったビルドや[Hot Module Replacement](https://webpack.js.org/c
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

@@ -58,6 +58,10 @@ Vue自体のコードベースをTypeScriptに書き直し、クラスベース�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

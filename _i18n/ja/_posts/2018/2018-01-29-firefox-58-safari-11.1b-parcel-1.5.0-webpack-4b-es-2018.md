@@ -90,6 +90,10 @@ Proposalの解説は次の記事にまとめられています。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

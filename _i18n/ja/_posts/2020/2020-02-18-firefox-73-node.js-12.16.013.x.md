@@ -55,6 +55,10 @@ Node.js 12.16.0がリリースされました。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

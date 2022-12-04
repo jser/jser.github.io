@@ -75,6 +75,10 @@ Node.jsで扱うモジュールとは異なる点や、`<script type="module">`�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

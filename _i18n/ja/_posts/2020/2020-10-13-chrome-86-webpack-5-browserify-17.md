@@ -65,6 +65,10 @@ shimライブラリの`events`、`path`、`stream`、`util`をNode.js 10+互換�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

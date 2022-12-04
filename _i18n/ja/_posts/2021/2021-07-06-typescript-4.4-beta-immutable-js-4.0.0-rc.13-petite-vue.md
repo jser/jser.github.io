@@ -50,6 +50,10 @@ ES Modulesとしてimportして利用できるようになっていて、Vueに�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

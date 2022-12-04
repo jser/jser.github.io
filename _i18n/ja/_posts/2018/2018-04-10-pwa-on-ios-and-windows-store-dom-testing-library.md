@@ -38,6 +38,10 @@ Windows StoreでのPWAについては次の記事で解説されています。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

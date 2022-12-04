@@ -55,6 +55,10 @@ Pika CDNで読み込めるのは`package.json`の`module`フィールドに対�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

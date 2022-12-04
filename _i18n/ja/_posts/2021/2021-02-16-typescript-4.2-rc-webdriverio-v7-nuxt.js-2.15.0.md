@@ -63,6 +63,10 @@ Nuxt.js 2.15.0がリリースされています。
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

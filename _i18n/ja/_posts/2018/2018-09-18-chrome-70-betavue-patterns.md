@@ -66,6 +66,10 @@ CSSを使った縦組みの実装について書かれています。ブラウ�
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----

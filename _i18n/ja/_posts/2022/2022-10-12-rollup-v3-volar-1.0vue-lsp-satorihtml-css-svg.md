@@ -56,6 +56,10 @@ Puppeteerなどを利用すればHTMLとCSSで書いたデザインから画像(
 
 ----
 
+{% include inline-support.html %}
+
+----
+
 <h1 class="site-genre">ヘッドライン</h1>
 
 ----
