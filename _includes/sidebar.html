@@ -8,52 +8,63 @@
     {% capture rss_url %}{{site.url}}{{ site.baseurl }}/rss/{% endcapture %}
     <div class="social-icons">
         <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
-            <img src="/public/svg/twitter.svg" alt=""
-                 width='28'
-                 height='28'
-                 loading="lazy">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
         </a>
         <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
-            <img src="/public/svg/github.svg" alt=""
-                 width='28'
-                 height='28'
-                 loading="lazy">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
         </a>
         <a class="social-icon__rss" href="{{ rss_url }}" title="RSS Feed">
-            <img src="/public/svg/feed.svg" alt="" width='28'
-                 height='28'
-                 loading="lazy">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
         </a>
         <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2F{{ rss_url | uri_escape }}'
-           target='blank'>
-            <img id='feedlyFollow'
-                 src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png'
-                 alt=''
-                 width='28'
-                 height='28'
-                 loading="lazy">
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
         </a>
     </div>
     {% if site.lang == "ja" %}
     <div class="slack-bar">
         <details>
-            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
-
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
             <p>次のコマンドでSlack上でJSer.infoのRSSフィードを購読できます</p>
 
             <pre><code>/feed subscribe {{ rss_url }}</code></pre>
 
-            <a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B' target='blank'>
-                📝 Slack に RSS フィードを追加する
-            </a>
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
         </details>
     </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
     {% endif %}
     <nav>
         <div class="search-bar">
             <div class="search-and-submit">
                 <form class="search-box" method="get" action="https://www.google.co.jp/search">
-                    <input type="search" name="q" placeholder="Enter Search"/>
+                    <input type="search" name="q" placeholder="Enter Search" />
                     <input type="hidden" name="q" value="site:jser.info">
                     <button type="submit">
                         <span class="drawic drawic-search"></span>
@@ -67,8 +78,7 @@
                 <li><a class="page-link" href="{{ site.url }}/about/">{% t titles.about %}</a></li>
                 <li><a class="page-link" href="{{ site.url }}/support/">Support</a></li>
                 <li><a class="github-button" href="https://github.com/sponsors/azu" data-icon="octicon-heart"
-                       data-size="large"
-                       aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
+                        data-size="large" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a></li>
                 <script async defer src="https://buttons.github.io/buttons.js"></script>
             </ul>
         </div>
