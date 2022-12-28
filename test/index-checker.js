@@ -6,6 +6,7 @@ var categoryChecker = require("./category-checker");
 var translatorChecker = require("./translator-checker");
 var authorChecker = require("./author-checker");
 var fileNameChecker = require("./filename-checker");
+var translatedTitleChecker = require("./translated-title-checker.js");
 
 function check(checker) {
     var resultsError = checker();
@@ -21,7 +22,7 @@ function check(checker) {
     return resultsError.length > 0 ? FAIL_STATUS : SUCCESS_STATUS;
 }
 
-[fileNameChecker, categoryChecker, translatorChecker, authorChecker].map(check).forEach(function (status) {
+[fileNameChecker, categoryChecker, translatorChecker, authorChecker, translatedTitleChecker].map(check).forEach(function (status) {
     if (status === FAIL_STATUS) {
         process.exit(FAIL_STATUS);
     }

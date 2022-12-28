@@ -14,14 +14,15 @@ module.exports = function validateTranslator() {
     const parsedFiles = translatedFiles.map(function (filePath) {
         return new MDFileParser(filePath);
     });
-    var translatorWarningFiles = parsedFiles.filter(function (parser) {
-        var translator = parser.getTranslator();
-        return translator == null || translator.length === 0;
-    }).map(function (checker) {
-        return checker.file;
-    });
-    return translatorWarningFiles.map(function (filePath) {
-        return new Error('Error : "Not found `translator` meta field" @ ' + filePath + '\n' +
-            'Add "translator: <Your Name>" to yaml header.');
-    });
+    const translatedWarningFiles = parsedFiles.flatMap(function (parser) {
+        const title = parser.getTitle();
+        if (/のJS/.test(title)) {
+            return [new Error("should strip 'のJS' from title: " + title + " in " + parser.file)];
+        }
+        // if (/、/.test(title)) {
+        //     return [new Error("should replace '、' with ',': " + title + " in " + parser.file + "\n\n" + title.replaceAll("、", ","))];
+        // }
+        return []
+    })
+    return translatedWarningFiles;
 };

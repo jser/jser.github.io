@@ -1,5 +1,5 @@
 ---
-title: "2015-04-20のJS: ECMAScript6 최종 draft, JavaScript 트레이닝"
+title: "2015-04-20: ECMAScript6 최종 draft, JavaScript 트레이닝"
 author: azu
 layout: post
 date : 2015-04-20T22:12
