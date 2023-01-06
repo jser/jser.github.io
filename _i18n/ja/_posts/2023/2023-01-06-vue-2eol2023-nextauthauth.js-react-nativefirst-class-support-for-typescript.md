@@ -111,6 +111,14 @@ Node.js v18.13.0リリース。
 lerna v6.4.0リリース。
 `lerna watch`コマンドの追加など
 
+----
+
+## Auth.js
+[authjs.dev/](https://authjs.dev/ "Auth.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAuthentication</span> <span class="jser-tag">OAuth</span> <span class="jser-tag">library</span></p>
+
+NextAuthはAuth.jsとなり、Next.js以外にもSvelteKitやSolidStartなどをサポートするようになった。
+
 
 ----
 
@@ -164,15 +172,6 @@ Qwikシリーズの翻訳記事
 
 2023年1月26日 発売。
 Node.jsでのCLIやアプリケーション開発についての書籍
-
-
-----
-
-## Auth.js
-[authjs.dev/](https://authjs.dev/ "Auth.js")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAuthentication</span> <span class="jser-tag">OAuth</span> <span class="jser-tag">library</span></p>
-
-NextAuthはAuth.jsとなり、Next.js以外にもSvelteKitやSolidStartなどをサポートするようになった。
 
 
 ----
