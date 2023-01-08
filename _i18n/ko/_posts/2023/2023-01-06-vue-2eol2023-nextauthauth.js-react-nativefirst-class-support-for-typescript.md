@@ -1,5 +1,5 @@
 ---
-title: "2023-01-06: Vue 2의 EOL은 2023년말, NextAuth는 Auth.js에, React Native에 First-class Support for TypeScript"
+title: "2023-01-06: Vue 2의 EOL은 2023년 말까지, NextAuth는 Auth.js에, React Native에 First-class Support for TypeScript"
 author: "azu"
 translator: rewrite0w0(Oh TaeJun)
 layout: post
