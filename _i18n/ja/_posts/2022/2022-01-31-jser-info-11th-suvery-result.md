@@ -3,7 +3,7 @@ title: "JSer.info 11周年アンケート結果の公開"
 author: azu
 layout: post
 date : 2022-01-31T15:23
-category: 雑記
+category: Article
 tags:
     - JSer
 

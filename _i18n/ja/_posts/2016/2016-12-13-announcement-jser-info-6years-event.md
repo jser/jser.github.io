@@ -3,7 +3,7 @@ title: "2017年1月15日(日)に JSer.info 6周年 && 300回目記念イベン�
 author: azu
 layout: post
 date : 2016-12-13T09:26
-category: 雑記
+category: Article
 tags:
     - イベント
     - JSer

@@ -3,7 +3,7 @@ title: "PhantomJSの開発が終了しリポジトリがアーカイブ化され
 author: azu
 layout: post
 date : 2018-06-11T22:31
-category: 雑記
+category: Article
 tags:
     - PhantomJS
     - JavaScript

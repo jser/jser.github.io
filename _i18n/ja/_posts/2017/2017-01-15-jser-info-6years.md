@@ -3,7 +3,7 @@ title: "JSer.info 6周年記念イベントを開催しました"
 author: azu
 layout: post
 date : 2017-01-15T20:36
-category: 雑記
+category: Article
 tags:
     - イベント
 

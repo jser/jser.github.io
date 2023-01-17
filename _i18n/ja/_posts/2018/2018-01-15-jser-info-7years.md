@@ -3,7 +3,7 @@ title: "JSer.infoを開始してから7年が経ちました"
 author: azu
 layout: post
 date : 2018-01-15T09:00
-category: 雑記
+category: Article
 tags:
     - JSer
 

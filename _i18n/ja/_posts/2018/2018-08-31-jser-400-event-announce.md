@@ -3,7 +3,7 @@ title: "2018年9月22日(土)に JSer.info 400回目記念イベントを開催�
 author: azu
 layout: post
 date : 2018-08-31T22:15
-category: 雑記
+category: Article
 tags:
     - イベント
     - JSer.info

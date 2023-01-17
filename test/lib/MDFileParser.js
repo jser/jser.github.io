@@ -30,7 +30,7 @@ class MDFileParser {
     }
     
     getTranslator() {
-        return this.parsedTree.attributes["translator"];
+gi        return this.parsedTree.attributes["translator"];
     }
     
     getTitle() {

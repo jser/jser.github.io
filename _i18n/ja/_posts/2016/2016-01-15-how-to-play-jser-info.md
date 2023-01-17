@@ -3,7 +3,7 @@ title: "JSer.infoの遊び方"
 author: azu
 layout: post
 date : 2016-01-15T10:01
-category: 雑記
+category: Article
 tags:
     - JSer
 
