@@ -67,7 +67,7 @@ Babelやcore-jsのように少人数のメンテナーと多くのユーザー�
 
 - [Babel is used by millions, so why are we running out of money? · Babel](https://babeljs.io/blog/2021/05/10/funding-update)
 
-このサイトも[💚JSer.info Sponsor](https://github.com/sponsors/azu)などのSponsorsとして財政的に支援することはできます。
+このサイトも[💚JSer.info Sponsor](https://github.com/sponsors/azu)などのSponsorsとして財政的に支援できます。
 
 ---
 
