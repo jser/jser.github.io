@@ -70,6 +70,9 @@ Babelやcore-jsのように少人数のメンテナーと多くのユーザー�
 
 ---
 
+Node.jsをWebブラウザ上で動作させて、Playgroundなどに利用できるWebContainersのAPIとパッケージが公開されています。
+[Svelte Tutorial](https://learn.svelte.dev/tutorial/welcome-to-svelte)などで利用されている事例が紹介されています。
+
 - [WebContainers - Dev environments. In your web app. | WebContainers](https://webcontainers.io/)
 
 
