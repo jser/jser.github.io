@@ -13,14 +13,58 @@ tags:
 
 ---
 
-JSer.info #631 - - [What's new in Lighthouse 10 - Chrome Developers](https://developer.chrome.com/blog/lighthouse-10-0/)
+JSer.info #631 - LightHouse 10がリリースされました。
+
+- [What's new in Lighthouse 10 - Chrome Developers](https://developer.chrome.com/blog/lighthouse-10-0/)
 - [Release v10.0.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v10.0.0)
+
+LightHouse 10では、スコアからTTIが削除され、CLSにスコアが移行されています。
+また、AuditとしてBFCacheの検証、ペースト禁止の検証の追加されています。
+その他には、LightHouseのJSON出力の構造が変更されています。
+
+関連する内容として、[CrUX History API](https://developer.chrome.com/docs/crux/history-api/)というChrome User Experience Report (CrUX) の履歴データを取得するAPIがリリースされています。
+特定のページのWeb Vitalsの値のデータを1週間単位で取得できます。
+
 - [Introducing historical web performance data via the CrUX History API - Chrome Developers](https://developer.chrome.com/en/blog/chrome-ux-report-history-api/)
 
 ---
 
+core-js 3.28.0がリリースされました。
+
 - [Release 3.28.0 - 2023.02.14 · zloirock/core-js](https://github.com/zloirock/core-js/releases/tag/v3.28.0)
+
+core-js 3.28.0では、[2023-01のTC 39 Meetingsの結果](https://ecmascript-daily.github.io/ecmascript/2023/02/03/ecmascript-proposal-update)を反映した変更が含まれています。
+
+- Stage4となったChange Array by copy proposalをStableに移動
+- Stage3の`JSON.parse` source text access、`ArrayBuffer.prototype.transfer`、Explicit Resource Managementを追加
+- Stage 2のSymbol Predicatesを実装
+- Stage 1の`Number.range`を`Iterator.range`に変更
+
+また、core-jsの歴史、財政的な支援の募集や今後の方針についての記事も公開されています。
+
 - [core-js/2023-02-14-so-whats-next.md at master · zloirock/core-js · GitHub](https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md)
+
+オープンソースのメンテナンスと財政的な話については[Working in Public](https://press.stripe.com/working-in-public)という書籍がよくまとまっています。
+Babelやcore-jsのように少人数のメンテナーと多くのユーザーというように比率が大きく異なるプロジェクトは、スタジアムモデルという形に分類されて紹介されています。
+
+また、ソフトウェアはほぼ無料で配布できるため、利用者の数は増え続け、メンテナンスにかかる費用が高くなるという問題が知られています。
+（オープンソース）ソフトウェアを購入する動機は減っている一方で、その社会的価値は劇的に上昇していて、多くの人やサイトやオープンソースソフトウェアに依存しています。
+そのため、オープンソースコードはメンテナンスが必要な公共インフラストラクチャの一種であるという話もされています。
+
+オープンソースへ財政的な支援をする個人や企業は増えています。
+一方でソフトウェアの依存関係は膨大になっているため、どのように支援すればいいかわからない問題も指摘されています。
+
+📝 依存関係から自動的に分配するサービスもあります。
+
+- [thanks.dev – open source funding platform](https://thanks.dev/home)
+- [StackAid - Fund all your open source dependencies](https://www.stackaid.us/)
+
+また、特定の人へのSponsorは「寄付」の概念と混同されやすいですが、どちらかというそのクリエイターの将来の仕事に対する期待、関心に紐づくので、サブスクリプションのようなものという話もあります。そのため、特定のプロジェクトに対するSponsorではなく、特定の人に対するSponsorという文化的な変化も起きているという話が紹介されていました。
+
+この本の出版後なので含まれていませんが、Babelでも同様の話がされていたので、興味があるひとは読むと良いかもしれません。
+
+- [Babel is used by millions, so why are we running out of money? · Babel](https://babeljs.io/blog/2021/05/10/funding-update)
+
 
 ---
 
