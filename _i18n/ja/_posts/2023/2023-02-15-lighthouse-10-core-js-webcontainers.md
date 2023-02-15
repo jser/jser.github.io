@@ -1,5 +1,5 @@
 ---
-title: "2023-02-15のJS: Lighthouse 10、core-js、WebContainers"
+title: "2023-02-15のJS: Lighthouse 10、core-jsとオープンソースの財政的な支援、WebContainers"
 author: "azu"
 layout: post
 date : 2023-02-15T04:33:33.465Z
