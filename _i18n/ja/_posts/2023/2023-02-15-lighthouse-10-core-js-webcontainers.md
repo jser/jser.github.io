@@ -19,7 +19,7 @@ JSer.info #631 - LightHouse 10がリリースされました。
 - [Release v10.0.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v10.0.0)
 
 LightHouse 10では、スコアからTTIが削除され、CLSにスコアが移行されています。
-また、AuditとしてBFCacheの検証、ペースト禁止の検証の追加されています。
+また、AuditとしてBFCacheの検証、ペースト禁止の検証が追加されています。
 その他には、LightHouseのJSON出力の構造が変更されています。
 
 関連する内容として、[CrUX History API](https://developer.chrome.com/docs/crux/history-api/)というChrome User Experience Report (CrUX) の履歴データを取得するAPIがリリースされています。
