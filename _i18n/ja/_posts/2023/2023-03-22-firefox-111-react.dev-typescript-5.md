@@ -124,16 +124,6 @@ ECMAScript Stage 3のDecoratorを実装、`const` type perameterの追加、`tsc
 
 ----
 
-## total-typescript/ts-reset: A &#039;CSS reset&#039; for TypeScript, improving types for common JavaScript API&#039;s
-[github.com/total-typescript/ts-reset](https://github.com/total-typescript/ts-reset "total-typescript/ts-reset: A &#039;CSS reset&#039; for TypeScript, improving types for common JavaScript API&#039;s")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p>
-
-TypeScriptのlibsの型定義を上書きする型定義ライブラリ。
-`JSON.parse`が`any`ではなく`unknown`を返すように変更したり、`.includes()`や`.has()`の型を厳密にするなどしている
-
-
-----
-
 ## styled-components/xstyled: A utility-first CSS-in-JS framework built for React. 💅👩‍🎤⚡️
 [github.com/styled-components/xstyled](https://github.com/styled-components/xstyled "styled-components/xstyled: A utility-first CSS-in-JS framework built for React. 💅👩‍🎤⚡️")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">news</span></p>
@@ -141,16 +131,6 @@ TypeScriptのlibsの型定義を上書きする型定義ライブラリ。
 xstyledがstyled-componentsのorganizationに移管された
 
 - [Evan Jacobs on Twitter: &amp;quot;Excited to announce that xstyled is now part of the styled-components organization and we will begin to cross-pollinate improvements in the near future! Thank you so much @neoziro! https://t.co/uPk4sR9QsS&amp;quot; / Twitter](https://twitter.com/probablyup/status/1632385154814558210 "Evan Jacobs on Twitter: &amp;amp;quot;Excited to announce that xstyled is now part of the styled-components organization and we will begin to cross-pollinate improvements in the near future! Thank you so much @neoziro! https://t.co/uPk4sR9QsS&amp;amp;quot; / Twitter")
-
-----
-
-## anymaniax/orval: orval is able to generate client with appropriate type-signatures (TypeScript) from any valid OpenAPI v3 or Swagger v2 specification, either in yaml or json formats. 🍺
-[github.com/anymaniax/orval](https://github.com/anymaniax/orval "anymaniax/orval: orval is able to generate client with appropriate type-signatures (TypeScript) from any valid OpenAPI v3 or Swagger v2 specification, either in yaml or json formats. 🍺")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">OpenAPI</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">React</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p>
-
-OpenAPI SpecからAPIクライアントやモックサーバなどのコードを生成するツール。
-
-- [OpenAPIからコードを自動生成！『Orval』のメリットと選定理由](https://zenn.dev/hrbrain/articles/3ca5d37dd0b80e "OpenAPIからコードを自動生成！『Orval』のメリットと選定理由")
 
 ----
 <h1 class="site-genre">アーティクル</h1>
@@ -192,6 +172,27 @@ V8とRustで書かれているJavaScriptランタイム。
 
 ----
 <h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+
+## total-typescript/ts-reset: A &#039;CSS reset&#039; for TypeScript, improving types for common JavaScript API&#039;s
+[github.com/total-typescript/ts-reset](https://github.com/total-typescript/ts-reset "total-typescript/ts-reset: A &#039;CSS reset&#039; for TypeScript, improving types for common JavaScript API&#039;s")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p>
+
+TypeScriptのlibsの型定義を上書きする型定義ライブラリ。
+`JSON.parse`が`any`ではなく`unknown`を返すように変更したり、`.includes()`や`.has()`の型を厳密にするなどしている
+
+
+----
+
+## anymaniax/orval: orval is able to generate client with appropriate type-signatures (TypeScript) from any valid OpenAPI v3 or Swagger v2 specification, either in yaml or json formats. 🍺
+[github.com/anymaniax/orval](https://github.com/anymaniax/orval "anymaniax/orval: orval is able to generate client with appropriate type-signatures (TypeScript) from any valid OpenAPI v3 or Swagger v2 specification, either in yaml or json formats. 🍺")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">OpenAPI</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">React</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p>
+
+OpenAPI SpecからAPIクライアントやモックサーバなどのコードを生成するツール。
+
+- [OpenAPIからコードを自動生成！『Orval』のメリットと選定理由](https://zenn.dev/hrbrain/articles/3ca5d37dd0b80e "OpenAPIからコードを自動生成！『Orval』のメリットと選定理由")
 
 ----
 
