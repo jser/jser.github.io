@@ -44,10 +44,10 @@ TypeScriptはsemverではないですが、メジャーアップデートと言�
 今まではECMAScript Stage 1相当のDecoratorでしたが、Stage 3のDecoratorがサポートされるようになりました。
 `const` type parameterの追加、`tsconfig.json`で複数の`extends`に対応、enumとunion型の改善も行われています。
 
-また、`--moduleResolution bundler`の追加と関連するオプションの追加、`exports`フィールのConditionを指定できる`--customConditions`の追加。
+また、`--moduleResolution bundler`の追加と関連するオプションの追加、`exports`フィールドのConditionを指定できる`--customConditions`の追加。
 `import`時に`type`修飾子を削除しそれ以外を残す`--verbatimModuleSyntax`オプションの追加、JSDocで`@satisfies`をサポートなども含まれています。
 
-TypeScriptの内部的な変更としてTypeScriptのコードベースをnamespaceからmoudleに移行し、パフォーマンス/メモリ/パッケージサイズの改善されています。
+TypeScriptの内部的な変更としてTypeScriptのコードベースをnamespaceからmoduleに移行し、パフォーマンス/メモリ/パッケージサイズの改善されています。
 namespaceからの以降については記事も公開されています。
 
 - [TypeScript's Migration to Modules - TypeScript](https://devblogs.microsoft.com/typescript/typescripts-migration-to-modules/)
