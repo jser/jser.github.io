@@ -1,5 +1,5 @@
 ---
-title: "2023-04-06のJS: Rome v12、ES2023 RC、TypeScript 5で追加されたオプション"
+title: "2023-04-07のJS: Rome v12、ES2023 RC、TypeScript 5で追加されたオプション"
 author: "azu"
 layout: post
 date : 2023-04-06T15:01:39.093Z
