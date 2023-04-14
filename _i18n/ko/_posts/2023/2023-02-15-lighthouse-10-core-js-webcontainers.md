@@ -211,7 +211,7 @@ Prerender한 경우 `navigationStart`는 사전실행 타이밍이기 되기에,
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
 
 Storybook 7의 TypeScript 자료형에 대해.
-`StroyObj` 타입이나 `satisfies` 연산자를 사용해 export 하는 컴포넌트 정의에 자료형을 붙이는 글
+`StoryObj` 타입이나 `satisfies` 연산자를 사용해 export 하는 컴포넌트 정의에 자료형을 붙이는 글
 
 
 ----
