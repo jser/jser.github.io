@@ -210,7 +210,7 @@ Prerenderした場合の`navigationStart`は事前実行のタイミングとな
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
 
 Storybook 7でのTypeScriptの型について。
-`StroyObj`タイプや`satisfies`演算子を使ってexportするコンポーネントの定義に型を付ける話
+`StoryObj`タイプや`satisfies`演算子を使ってexportするコンポーネントの定義に型を付ける話
 
 
 ----
