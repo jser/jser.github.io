@@ -48,6 +48,16 @@ bundle exec jekyll build
 npm test
 ```
 
+## Deploy
+
+- developブランチにマージすると自動でデプロイされます
+- 手動の場合は次のコマンドでデプロイできます
+
+```
+bundle exec jekyll build
+npx gh-pages -d _site --branch master --no-history
+```
+
 ## Contributing
 
 サイト記事上部の **Edit on GitHub** 又は 下部の **この記事へ修正リクエストをする** から修正を送れます。
