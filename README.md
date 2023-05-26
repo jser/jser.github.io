@@ -55,6 +55,7 @@ npm test
 
 ```
 bundle exec jekyll build
+npm run build
 npx gh-pages -d _site --branch master --no-history
 ```
 
