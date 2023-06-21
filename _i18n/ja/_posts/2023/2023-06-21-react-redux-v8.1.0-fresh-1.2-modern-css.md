@@ -13,15 +13,29 @@ tags:
 
 ---
 
-JSer.info #648 - - [Release v8.1.0 · reduxjs/react-redux](https://github.com/reduxjs/react-redux/releases/tag/v8.1.0)
+JSer.info #648 - React-Redux v8.1.0リリースされました。
+開発モードでは`useSelector`が同じ入力に対して同じ結果を返すかをチェックする仕組みが追加されています。
+selectorを同じ入力で2回呼び出し、異なる参照の場合は警告を出す仕組みになっています。
+[React v18.0](https://react.dev/blog/2022/03/29/react-v18#new-strict-mode-behaviors)で追加されたStrict modeとよく似た挙動になっています。
+
+- [Release v8.1.0 · reduxjs/react-redux](https://github.com/reduxjs/react-redux/releases/tag/v8.1.0)
 
 ---
+
+Deno向けのウェブフレームワークであるFresh 1.2がリリースされました。
 
 - [Fresh 1.2 – welcoming a full-time maintainer, sharing state between islands, limited npm support, and more](https://deno.com/blog/fresh-1.2)
 
+メインメンテナーがPreactの[Marvin Hagemeister](https://github.com/marvinhagemeister)となりフルタイムでメンテナンスするようになるそうです。
+Sigalsをhydrateできるように、`npm:`識別子の対応、HEADハンドラーの追加されています。
+また、`islands/`のサブディレクトリのサポート、プラグインが非同期処理に対応なども行われています。
+
 ---
 
-- [Modern CSS For Dynamic Component-Based Architecture | Modern CSS Solutions](https://moderncss.dev/modern-css-for-dynamic-component-based-architecture/)
+[Modern CSS For Dynamic Component-Based Architecture | Modern CSS Solutions](https://moderncss.dev/modern-css-for-dynamic-component-based-architecture/)という記事では、モダンなCSSを使ったコンポーネントベースのアーキテクチャについて紹介されています。
+
+`@layer`を使ったLayout、`:has()`やCustom Propertiesを使ったVariantsの実装、
+`@container style()`を使ったスタイルの条件分岐、Container QueryとMedia Queryによるブレークポイントでのデバイスサイズ出し分けの違いについてなど書かれています。
 
 
 ----
