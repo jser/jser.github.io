@@ -80,7 +80,7 @@ Node.js 14のサポート終了、CJSの出力は廃止しESMのみをサポー�
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Ember 5.0リリース。
-Emberではメジャーアップデートは機能追加をせず、破壊的変更のみを行う。
+Emberではメジャーアップデートで機能追加をせず、破壊的変更のみを行う。
 `AutoLocation`の削除、`@ember/error`パッケージの削除、`Ember.String`の削除など
 
 
@@ -190,7 +190,7 @@ JavaScriptのダウンロード、実行のコスト。
 Code SplittingやDynamic Importなどの最適化。
 Islands ArchitectureのPartial Hydration、QwikのResumalable Hydration、ReactのSelective Hydationについて。
 
-- [The Cost Of JavaScript in 2023 - Speaker Deck](https://speakerdeck.com/addyosmani/the-cost-of-javascript-in-2023?slide=31 "The Cost Of JavaScript in 2023 - Speaker Deck")
+- [The Cost Of JavaScript in 2023 - Speaker Deck](https://speakerdeck.com/addyosmani/the-cost-of-javascript-in-2023 "The Cost Of JavaScript in 2023 - Speaker Deck")
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
