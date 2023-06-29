@@ -13,18 +13,43 @@ tags:
 
 ---
 
-JSer.info #649 - - [Announcing Svelte 4](https://svelte.dev/blog/svelte-4)
-- [Svelte 4 migration guide • Docs • Svelte](https://svelte.dev/docs/v4-migration-guide)
+JSer.info #649 - Svelte 4がリリースされました。
+
+- [Announcing Svelte 4](https://svelte.dev/blog/svelte-4)
 - [Release svelte@4.0.0 · sveltejs/svelte](https://github.com/sveltejs/svelte/releases/tag/svelte%404.0.0)
 
+Node.js 14のサポート終了、CJSの出力は廃止しESMのみをサポートするように、Custom Elementsの対応を`tag`オプションから`customElement`オプションに変更といった変更が含まれている。
+また、生成するファイルサイズの削減、ウェブサイトのドキュメントを刷新なども行われています。
+
+マイグレーションガイドと`npx svelte-migrate@latest svelte-4`というマイグレーションツールが公開されています。
+
+- [Svelte 4 migration guide • Docs • Svelte](https://svelte.dev/docs/v4-migration-guide)
+
 ---
+
+Ember 5.0リリースされました。
 
 - [Ember 5.0 Released](https://blog.emberjs.com/ember-5-0-released/)
 
+Emberではメジャーアップデートで機能追加をせず、破壊的変更のみを行うため、機能追加はありません。
+非推奨となっていた`AutoLocation`の削除、`@ember/error`パッケージの削除、`Ember.String`の削除など行われています。
+
 ---
 
+The Cost Of JavaScriptの2023年版の動画とスライドが公開されています。
+
 - [The Cost Of JavaScript - 2023 - YouTube](https://www.youtube.com/watch?v=ZKH3DLT4BKw)
-- [The Cost Of JavaScript in 2023 - Speaker Deck](https://speakerdeck.com/addyosmani/the-cost-of-javascript-in-2023?slide=31)
+- [The Cost Of JavaScript in 2023 - Speaker Deck](https://speakerdeck.com/addyosmani/the-cost-of-javascript-in-2023)
+
+JavaScriptのダウンロード、実行のコストについて話されていて、Code SplittingやDynamic Importなどの最適化について紹介されています。
+また、最近発展してきたIslands ArchitectureのPartial Hydration、QwikのResumalable Hydration、ReactのSelective Hydationについても紹介されています。
+
+過去のThe Cost Of JavaScriptについては、次のページを参照してください。
+
+- [The Cost Of JavaScript In 2018. Update: The Cost Of JavaScript In 2019… | by Addy Osmani | Medium](https://medium.com/@addyosmani/the-cost-of-javascript-in-2018-7d8950fbb5d4)
+- [The cost of JavaScript in 2019 · V8](https://v8.dev/blog/cost-of-javascript-2019)
+
+また、実際のウェブサイトの統計的なデータに関しては[Web Almanac](https://almanac.httparchive.org/ja/2022/)の[JavaScript](https://almanac.httparchive.org/en/2022/javascript)の章などを参照すると良いと思います。
 
 
 ----
