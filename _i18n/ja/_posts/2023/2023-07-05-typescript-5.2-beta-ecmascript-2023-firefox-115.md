@@ -185,7 +185,7 @@ Web Workerのサポート、entryの`filename`オプションのサポート、H
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p>
 
 Firefox 115リリース。
-macOS 10.14以下、Windows7/8/8.1がサポートされる最後のバージョンとなる。
+macOS 10.12/10.13/10.14、Windows7/8/8.1がサポートされる最後のバージョンとなる。
 `contenteditable`におけるノード分割と結合の挙動を他のブラウザと揃えるように変更。
 ` Array.fromAsync()`のサポート、ES2023の`Array.toReversed()`/`.toSorted()`/`.toSpliced()`/`.with()`のサポート。
 `Response.json()`、`URL.canParse()`のサポートなど。
