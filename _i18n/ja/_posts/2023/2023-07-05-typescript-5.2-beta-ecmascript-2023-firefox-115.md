@@ -13,7 +13,79 @@ tags:
 
 ---
 
-JSer.info #650
+JSer.info #650 - TypeScript 5.2 Betaがリリースされました。
+
+- [Announcing TypeScript 5.2 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-2-beta/)
+
+Stage 3 ProposalのExplicit Resource Management(`using`宣言)のサポート、同じくStage 3のDecorator Metadataのサポートされています。
+また、Tupleにおけるラベルありなしの組み合わせの制限を削除、配列のUnion型の扱いの改善なども含まれています。
+
+---
+
+ECMAScript 2023がecma GAで承認されたため、正式にリリースされました。
+
+- [Ecma International approves new standards - Ecma International](https://www.ecma-international.org/news/ecma-international-approves-new-standards-at-the-125th-general-assembly-27-june-2023/)
+- [Release ES2023 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2023)
+
+主な変更点は次のとおりです。
+
+- [Hashbang Grammar](https://github.com/tc39/proposal-hashbang)の対応
+- 対応ブラウザ: [モダンブラウザ全部](https://caniuse.com/mdn-javascript_grammar_hashbang_comments)
+
+```js
+#!test
+// #! as single line comment
+```
+
+
+- [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy)
+- 対応ブラウザ: モダンブラウザ全部
+  - Firefox 115でサポート
+
+```js
+const sequence = [1, 2, 3];
+sequence.toReversed(); // => [3, 2, 1]
+sequence; // => [1, 2, 3]
+
+const outOfOrder = new Uint8Array([3, 1, 2]);
+outOfOrder.toSorted(); // => Uint8Array [1, 2, 3]
+outOfOrder; // => Uint8Array [3, 1, 2]
+
+const correctionNeeded = [1, 1, 3];
+correctionNeeded.with(1, 2); // => [1, 2, 3]
+correctionNeeded; // => [1, 1, 3]
+```
+
+- [Array.prototype.findLast and Array.prototype.findLastIndex](https://github.com/tc39/proposal-array-find-from-last)
+- 対応ブラウザ: [モダンブラウザ全部](https://caniuse.com/?search=Array.prototype.findLast)
+
+```js
+const array = [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }];
+array.findLastIndex(n => n.value % 2 === 1); // => 2
+array.findLast(n => n.value % 2 === 1); // => { value: 3 }
+```
+
+- [Symbols as WeakMap keys](https://github.com/tc39/proposal-symbols-as-weakmap-keys)
+- 対応ブラウザ: [Firefox以外](https://caniuse.com/mdn-javascript_builtins_weakmap_symbol_as_keys)
+
+
+```js
+const map = new WeakMap();
+const s = Symbol("desc");
+map.set(s, {})
+map.get(s); // => {}
+```
+
+
+
+---
+
+- [Firefox 115.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/115.0/releasenotes/)
+
+
+----
+
+{% include inline-support.html %}
 
 ----
 
