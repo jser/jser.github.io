@@ -76,12 +76,16 @@ map.set(s, {})
 map.get(s); // => {}
 ```
 
-
-
 ---
+
+Firefox 115がリリースされました。
 
 - [Firefox 115.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/115.0/releasenotes/)
 
+macOS 10.14以下、Windows7/8/8.1がサポートされる最後のバージョンとなります
+`contenteditable`におけるノード分割と結合の挙動を他のブラウザと揃えるように変更。
+`Array.fromAsync()`のサポート、ES2023の`Array.toReversed()`/`.toSorted()`/`.toSpliced()`/`.with()`のサポート。
+`Response.json()`、`URL.canParse()`のサポートなどが追加されています。
 
 ----
 
