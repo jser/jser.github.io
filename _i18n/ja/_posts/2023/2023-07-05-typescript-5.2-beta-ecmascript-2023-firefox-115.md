@@ -29,7 +29,7 @@ ECMAScript 2023がecma GAで承認されたため、正式にリリースされ�
 
 主な変更点は次のとおりです。
 
-- [Hashbang Grammar](https://github.com/tc39/proposal-hashbang)の対応
+- Proposal: [Hashbang Grammar](https://github.com/tc39/proposal-hashbang)
 - 対応ブラウザ: [モダンブラウザ全部](https://caniuse.com/mdn-javascript_grammar_hashbang_comments)
 
 ```js
@@ -38,7 +38,7 @@ ECMAScript 2023がecma GAで承認されたため、正式にリリースされ�
 ```
 
 
-- [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy)
+- Proposal: [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy)
 - 対応ブラウザ: モダンブラウザ全部
   - Firefox 115でサポート
 
@@ -56,7 +56,7 @@ correctionNeeded.with(1, 2); // => [1, 2, 3]
 correctionNeeded; // => [1, 1, 3]
 ```
 
-- [Array.prototype.findLast and Array.prototype.findLastIndex](https://github.com/tc39/proposal-array-find-from-last)
+- Proposal: [Array.prototype.findLast and Array.prototype.findLastIndex](https://github.com/tc39/proposal-array-find-from-last)
 - 対応ブラウザ: [モダンブラウザ全部](https://caniuse.com/?search=Array.prototype.findLast)
 
 ```js
@@ -65,7 +65,7 @@ array.findLastIndex(n => n.value % 2 === 1); // => 2
 array.findLast(n => n.value % 2 === 1); // => { value: 3 }
 ```
 
-- [Symbols as WeakMap keys](https://github.com/tc39/proposal-symbols-as-weakmap-keys)
+- Proposal: [Symbols as WeakMap keys](https://github.com/tc39/proposal-symbols-as-weakmap-keys)
 - 対応ブラウザ: [Firefox以外](https://caniuse.com/mdn-javascript_builtins_weakmap_symbol_as_keys)
 
 
