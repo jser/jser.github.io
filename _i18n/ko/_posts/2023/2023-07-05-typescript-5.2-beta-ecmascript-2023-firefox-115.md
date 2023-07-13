@@ -103,9 +103,9 @@ macOS 10.12/10.13/10.14, Windows7/8/8.1 지원되는 마지막 버전입니다.
 [github.com/pixijs/pixijs/releases/tag/v8.0.0-alpha.0](https://github.com/pixijs/pixijs/releases/tag/v8.0.0-alpha.0 "Release v8.0.0-alpha.0 · pixijs/pixijs")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">game</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
 
-PixiJS v8.0.0-alpha.0リリース.
-WebGPUレンダラーとWebGLレンダラーの書き直し, 変更されたものだけ更新するリアクティブレンダラー, 高度なBlendモードをの追加など.
-初期化方法を非同期に変更, Graphics APIの刷新など
+PixiJS v8.0.0-alpha.0 출시リリース.
+WebGPU 렌더러와 WebGL 렌더러 재작성, 변경된 것만 갱신하는 리엑티브 렌더러, 수준 높은 Blend 모드 추가.
+초기화 방법을 비동기로 변경, Graphics API 리뉴얼
 
 
 ----
