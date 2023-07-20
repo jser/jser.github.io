@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #652 - Node.jsの[node:vm](https://nodejs.org/api/vm.html)モジュールはSandbox(信用できないコードの実行環境)としては利用できませんが、[vm2](https://github.com/patriksimek/vm2)は`node:vm`をラップしてSandboxを提供するモジュールでした。
+JSer.info #652 - Node.jsの[node:vm](https://nodejs.org/api/vm.html)モジュールはSandbox(信用できないコードの実行環境)としては[利用できません](https://snyk.io/blog/security-concerns-javascript-sandbox-node-js-vm-module/)が、[vm2](https://github.com/patriksimek/vm2)は`node:vm`をラップしてSandboxを提供するモジュールでした。
 
 今回、`vm2`の仕組み的に修正できないSandboxに関する脆弱性が発見されたため、メンテナンスを終了することが宣言されています。脆弱性の詳細はまだ公開されていませんが、Sandboxを破ることができる脆弱性で、[PoCは8月ごろ](https://github.com/patriksimek/vm2/issues/533#issuecomment-1632482080)に公開される予定です。
 
@@ -30,6 +30,7 @@ Sandbox機能が欲しい場合は、QuickJSをWebAssemblyにコンパイルし�
 
 こういったSandboxにはどのようなアプローチがあるかは、次の記事が面白いと思います。
 
+- [How to build a plugin system on the web and also sleep well at night | Figma Blog](https://www.figma.com/ja/blog/how-we-built-the-figma-plugin-system/)
 - [Sandboxing and Workload Isolation · Fly](https://fly.io/blog/sandboxing-and-workload-isolation/)
 
 ---
