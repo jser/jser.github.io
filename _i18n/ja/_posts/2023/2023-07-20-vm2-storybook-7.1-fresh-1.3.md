@@ -25,7 +25,7 @@ Sandbox機能が欲しい場合は、QuickJSをWebAssemblyにコンパイルし�
 
 - [Use `quickjs-emscripten` instead of `vm2` to execute PAC file code by TooTallNate · Pull Request #224 · TooTallNate/proxy-agents](https://github.com/TooTallNate/proxy-agents/pull/224)
 
-`vm2`は`node:vm`上で実行するコードがホスト環境に抜けられないようにパッチで塞いでいくアプローチをとっていました。(📝 `node:vm`を使ったことがある人向けの話。contextとして渡すオブジェクトにProxyを使い、特定のプロパティを参照できなくするなど)
+`vm2`は`node:vm`上で実行するコードからホスト環境を参照できないようにパッチで塞いでいくアプローチをとっていました。(📝 `node:vm`を使ったことがある人向けの話。contextとして渡すオブジェクトにProxyを使い、特定のプロパティを参照できなくするなど)
 これは軽量ですが、塞げない穴が出てきたり抜け漏れが出やすいアプローチです。
 
 こういったSandboxにはどのようなアプローチがあるかは、次の記事が面白いと思います。
