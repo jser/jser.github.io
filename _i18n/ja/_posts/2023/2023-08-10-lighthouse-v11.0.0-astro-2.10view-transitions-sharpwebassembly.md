@@ -18,7 +18,7 @@ JSer.info #655 - Lighthouse v11.0.0がリリースされました。
 - [Release v11.0.0 · GoogleChrome/lighthouse](https://github.com/GoogleChrome/lighthouse/releases/tag/v11.0.0)
 
 Node.js 16のサポート終了、デフォルトでは使われてなかった`resource-summary`/`service-worker`/`first-contentful-paint-3g`のAuditを削除などの変更が含まれます。
-また、[INP](https://web.dev/inp/)のAuditをStableへと移行されています。
+また、[INP](https://web.dev/inp/)のAuditがStableへと移行されています。
 
 ---
 
