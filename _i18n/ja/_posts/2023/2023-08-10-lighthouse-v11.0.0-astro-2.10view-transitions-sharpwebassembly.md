@@ -174,7 +174,7 @@ CSSの`contain-intrinsic-size: inherit`のサポート、`liner(...)` timing fun
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">Image</span> <span class="jser-tag">article</span></p>
 
 C++で書かれたNative Addonの画像処理ライブラリであるsharpをWebContainersで利用できるようにWebAssemblyへコンパイルする話。
-emnapiを使ったNode APIの移植、libvipsをWasmへコンパイル。起動の同期処理化するためにしたEmscripten修正などについて
+emnapiを使ったNode APIの移植、libvipsをWasmへコンパイル、起動時の処理を同期的にするためにEmscriptenをどのように修正したかについて。
 
 
 ----
