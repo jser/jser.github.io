@@ -13,17 +13,47 @@ tags:
 
 ---
 
-JSer.info #661 - - [Remix v2 | Remix](https://remix.run/blog/remix-v2)
+JSer.info #661 - Remix v2がリリースされました。
+
+- [Release v2.0.0 · remix-run/remix](https://github.com/remix-run/remix/releases/tag/remix%402.0.0)
+- [Remix v2 | Remix](https://remix.run/blog/remix-v2)
+
+React 17のサポート終了、Node.js 14/16のサポート終了されています。
+
+オプションやデフォルトの動作の変更が含まれますが、
+V1からの移行は`v2_*`フラグを使うことで機能を一つずつ有効化して移行できるようになっています。
+
 - [Upgrading to v2 | Remix](https://remix.run/docs/en/main/start/v2)
 
+ルーティングのディレクトリ構造のデフォルトがFlat Routesに変更されています。
+
+- [Flat Routes · remix-run/remix · Discussion #4482](https://github.com/remix-run/remix/discussions/4482)
+
+2.0.0では`v2_*`フラグの削除、`remix.config.js`の設定やコマンドの変更などが含まれています。
+
 ---
+
+Safari 17.0がリリースされました。
 
 - [WebKit Features in Safari 17.0 | WebKit](https://webkit.org/blog/14445/webkit-features-in-safari-17-0/)
 - [Safari 17 Release Notes | Apple Developer Documentation](https://developer.apple.com/documentation/safari-release-notes/safari-17-release-notes)
 
+かなり多くの変更が含まれています。
+
+- HTMLでは、`<search>`要素の対応、`popover`属性の対応
+- CSSでは、`font-size-adjust`、`text-transform`、`@counter-style`、`image-set()`の対応
+- JavaScriptでは、Storage API、正規表現の`v`フラグ(ES2024)、Stage 3のSet Operationsの対応
+- 画像では、JPEG XL/HEIC/AV1コーデックのサポート
+
+また、実験的なフラグの管理方法や開発者ツールの変更なども含まれています。
+
 ---
 
+[TypeScript Origins: The Documentary - YouTube](https://www.youtube.com/watch?v=U6s2pdxebSo)というTypeScriptという言語でもありツールがどのように作られたかドキュメンタリー動画が公開されています。
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/U6s2pdxebSo?si=X3RsrXXWRZQbyT9K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+オープンソース、他のツールやライブラリとの親和性に対するアプローチなど、TypeScriptがどのように広がってきてかについて語られています。
 
 ----
 
