@@ -162,6 +162,17 @@ const renamePattern = (originalFilePath: string, content: string) => {
     });
 };
 
+function updateContentDate(newContent: string) {
+    const datePattern = /^date\s?:\s(\d{4}-\d{2}-\d{2}.*)$/;
+    if (!datePattern.test(newContent)) {
+        return newContent;
+    }
+    return newContent.replace(datePattern, (_all, _) => {
+        const now = new Date();
+        return `date: ${now.toISOString()}`;
+    });
+}
+
 export const rename = async (payload: {
     owner: string;
     repo: string;
@@ -216,11 +227,15 @@ export const rename = async (payload: {
                     const newContent = newTitle
                         ? replaceContentTitle(content, newTitle)
                         : content;
+                    const updatedContentDate = updateContentDate(newContent);
                     return {
                         newFileName: newTitle
                             ? renameFilePathWithNewTitle(fileName, newTitle)
                             : renamePattern(fileName, content),
-                        newContent: embedHeadline({ content: newContent, headline: payload.headline })
+                        newContent: embedHeadline({
+                            content: updatedContentDate,
+                            headline: payload.headline
+                        })
                     };
                 }
             });
