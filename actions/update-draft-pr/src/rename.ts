@@ -163,7 +163,7 @@ const renamePattern = (originalFilePath: string, content: string) => {
 };
 
 function updateContentDate(newContent: string) {
-    const datePattern = /^date\s?:\s(\d{4}-\d{2}-\d{2}.*)$/;
+    const datePattern = /date\s?:\s(\d{4}-\d{2}-\d{2}.*)/;
     if (!datePattern.test(newContent)) {
         return newContent;
     }
