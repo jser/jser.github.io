@@ -2,7 +2,7 @@
 title: "2023-11-16のJS: Angular v17、Prettier 3.1、Node.js v21.2.0"
 author: "azu"
 layout: post
-date: 2023-11-16T12:14:04.892Z
+date: 2023-11-16T12:22:34.462Z
 category: JSer
 tags:
 - Tools
@@ -13,16 +13,38 @@ tags:
 
 ---
 
-JSer.info #669 - - [Introducing Angular v17. Last month marked the 13th anniversary… | by Minko Gechev | Nov, 2023 | Angular Blog](https://blog.angular.io/introducing-angular-v17-4d7033312e4b)
+JSer.info #669 - Angular v17リリースがリリースされました。
+
+- [Introducing Angular v17. Last month marked the 13th anniversary… | by Minko Gechev | Nov, 2023 | Angular Blog](https://blog.angular.io/introducing-angular-v17-4d7033312e4b)
 - [Release v17.0.0 · angular/angular](https://github.com/angular/angular/releases/tag/17.0.0)
 
+Node.js 16のサポート終了、[ドキュメントサイト](https://angular.dev/)の刷新、`@if`や`@for`などのbuilt-in control flowが追加されています。
+新しいプロジェクトでのSSRにおけるhydrationがデフォルトで有効に、`ng serve`と`ng build`にViteとesbuildを利用するようになるといった変更も含まれています。
+
 ----
+
+Prettier 3.1がリリースされました。
 
 - [Prettier 3.1: New experimental ternaries formatting and Angular control flow syntax! · Prettier](https://prettier.io/blog/2023/11/13/3.1.0.html)
 
+`--experimental-ternaries`で三項演算子の新しい整形ルールを試せるようになり、フィードバックを募集していています。
+
+- [A curious case of the ternaries · Prettier](https://prettier.io/blog/2023/11/13/curious-ternaries)
+
+Babel 7.23.0でサポートされたSource Phase Imports/Deferred Import Evaluation/Optional Chaining Assignmentsの構文をサポート、Angular 17で追加されたcontrol flow構文のサポートなどが追加されています。
+
 ----
 
+Node.js v21.2.0リリースされました。
+
 - [Node v21.2.0 (Current) | Node.js](https://nodejs.org/blog/release/v21.2.0)
+
+`__dirname`と`__filename`にESM版である`import.meta.dirname`と`import.meta.filename`が追加されています。`import.meta`の中身はECMAScriptでは定義されておらず、ホスト環境(ブラウザ/Node.js/Bun/Deno)などがそれぞれ定義しています。
+これらの定義をまとめる場所として[import.meta Registry](https://github.com/wintercg/import-meta-registry/tree/main)があります。
+
+- [wintercg/import-meta-registry: A registry for import.meta properties](https://github.com/wintercg/import-meta-registry/tree/main)
+
+また、`fs/promises`にスタックトレースを追加、`navigator.language`/`navigator.platform`を追加、`--no-experimental-global-navigator`フラグを追加なども行われています。
 
 
 ----
