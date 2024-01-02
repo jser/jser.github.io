@@ -11,5 +11,3 @@ group :jekyll_plugins do
    gem 'jekyll-multiple-languages-plugin'
    gem "jekyll-paginate"
 end
-
-gem "webrick", "~> 1.8"
