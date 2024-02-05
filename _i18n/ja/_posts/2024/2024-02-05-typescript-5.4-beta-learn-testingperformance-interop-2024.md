@@ -2,7 +2,7 @@
 title: "2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024"
 author: "azu"
 layout: post
-date: 2024-02-05T07:00:08.915Z
+date: 2024-02-05T07:09:35.304Z
 category: JSer
 tags:
 - browser
@@ -13,22 +13,38 @@ tags:
 
 ---
 
-JSer.info #679 - - [Announcing TypeScript 5.4 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-4-beta/)
+JSer.info #679 - TypeScript 5.4 Betaがリリースされました。
+
+- [Announcing TypeScript 5.4 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-4-beta/)
+
+クロージャーにおけるNarrowing結果の改善、`NoInfer` Utility Typeが追加されています。
+また、ES2024の`Object.groupBy`/`Map.groupBy`をサポート、Import Attributesのサポートが追加されています。
+そのほかには、`target: "ES3"`や`out`オプションなどを非推奨として、次のTypeScript 5.5で削除されることがアナウンスされています。TypeScript 5.5で削除されるオプションは、次のIssueにまとめられています。
+
 - [Feedback: 5.0 deprecations · Issue #51909 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/51909)
 
 ---
 
+web.dev にテストとパフォーマンスに関する新しいコンテンツが追加されました。
+
 - [Learn Testing  |  web.dev](https://web.dev/learn/testing)
-- [Learn Performance  |  web.dev](https://web.dev/learn/performance?hl=en)
+- [Learn Performance  |  web.dev](https://web.dev/learn/performance)
+
+それぞれテストとパフォーマンスに関する一連の記事をまとめたページとなっています。
 
 ---
 
-- [Interop 2024  |  Blog  |  web.dev](https://web.dev/blog/interop-2024?hl=en)
+ブラウザベンダーや関係者が協力して、ウェブプラットフォーム間の相互運用性に取り組む[Interop 2024](https://wpt.fyi/interop-2024)の開始がアナウンスされました。
+
+- [Interop 2024  |  Blog  |  web.dev](https://web.dev/blog/interop-2024)
 - [The web just gets better with Interop 2024 | WebKit](https://webkit.org/blog/14955/the-web-just-gets-better-with-interop/)
 - [Interop 2024 Launch - Bocoup](https://bocoup.com/blog/interop-2024)
 - [Interop 2024 Launches | Igalia](https://www.igalia.com/2024/interop-2024-launches.html)
 - [Microsoft Edge and Interop 2024 - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2024/02/01/microsoft-edge-and-interop-2024/)
 - [Announcing Interop 2024 - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2024/02/announcing-interop-2024/)
+
+毎年取り組む重点分野が決められていており、今年追加されたものとしてはアクセシビリティ、CSS Nesting、HTTP(S) URLs for WebSocketなどが取り上げられています。
+
 - [Interop 2024がスタート | フロントエンドBlog | ミツエーリンクス](https://www.mitsue.co.jp/knowledge/blog/frontend/202402/02_1152.html)
 
 
