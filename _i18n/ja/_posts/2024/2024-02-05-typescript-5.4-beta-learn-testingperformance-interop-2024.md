@@ -86,7 +86,7 @@ ES2024の`Object.groupBy`/`Map.groupBy`をサポート、Import Attributesのサ
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">GIt</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
 
 husky v9.0.1リリース。
-`husk init`でセットアップを簡略化、git hookの書き方を単純化など
+`husky init`でセットアップを簡略化、git hookの書き方を単純化など
 
 
 ----
@@ -98,7 +98,7 @@ husky v9.0.1リリース。
 [zenn.dev/team\_zenn/articles/zenn-markdown-editor-by-cm6](https://zenn.dev/team_zenn/articles/zenn-markdown-editor-by-cm6 "CodeMirror v6によるZennのMarkdownエディタの作り方")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">article</span> <span class="jser-tag">React</span></p>
 
-CodeMirrot v6でのMarkdownエディタの実装方法について
+CodeMirror v6でのMarkdownエディタの実装方法について
 
 
 ----
@@ -127,7 +127,7 @@ Secure/HttpOnly/Domain/Path/SameSite属性、`__Secure-`/`__Host-` prefix、Same
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">article</span></p>
 
 npmやNode.jsで非推奨のメッセージを通知する方法について。
-パッケージの非推奨化コードレベルの非推奨化、実行時の非推奨化について
+パッケージの非推奨化、コードレベルの非推奨化、実行時の非推奨化について
 
 
 ----
