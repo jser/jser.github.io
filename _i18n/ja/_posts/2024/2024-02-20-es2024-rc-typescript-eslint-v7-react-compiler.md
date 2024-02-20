@@ -2,7 +2,7 @@
 title: "2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler"
 author: "azu"
 layout: post
-date: 2024-02-20T06:11:26.320Z
+date: 2024-02-20T06:26:06.640Z
 category: JSer
 tags:
 - TypeScript
@@ -13,18 +13,37 @@ tags:
 
 ---
 
-JSer.info #681 - - [Release ES2024 Candidate February 2024 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2024-candidate-2024-02)
-- [Editorial: Describe changes in ES2024 by bakkot · Pull Request #3282 · tc39/ecma262](https://github.com/tc39/ecma262/pull/3282)
-- [ECMAScript proposal updates @ 2024-02 | ECMAScript Daily](https://ecmascript-daily.github.io/ecmascript/2024/02/15/ecmascript-proposal-update)
+JSer.info #681 - 2024年6月の正式公開に向けたES2024のリリース候補が公開されました。
+
+- [Release ES2024 Candidate February 2024 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2024-candidate-2024-02)
+
+ES2024では、次のような変更が含まれる予定です。
+
+- [`ArrayBuffer.prototype.resize`](https://github.com/tc39/proposal-resizablearraybuffer)
+- [`ArrayBuffer.prototype.transfer`](https://github.com/tc39/proposal-arraybuffer-transfer)
+- [RegExp `v` flag](https://github.com/tc39/proposal-regexp-v-flag)
+- [`Promise.withResolvers`](https://github.com/tc39/proposal-promise-with-resolvers)
+- [`Object.groupBy`/`Map.groupBy`](https://github.com/tc39/proposal-array-grouping)
+- [`Atomics.waitAsync`](https://github.com/tc39/proposal-atomics-wait-async)
+- [`String.prototype.isWellFormed`/`String.prototype.toWellFormed`](https://github.com/tc39/proposal-is-usv-string)
+
+毎年2月ごろ仕様に取り込むProposalは決まり、6月ごろの[GA 127th meeting](https://ecma-international.org/meeting-calendar/)で最終的な承認を得る予定です。
 
 ---
 
+TypeScript向けのESLintプラグインであるtypescript-eslint v7がリリースされました。
+
 - [Announcing typescript-eslint v7 | typescript-eslint](https://typescript-eslint.io/blog/announcing-typescript-eslint-v7/)
+
+Node.js 16のサポート終了、ESLint Flat Configをサポートする`typescript-eslint`パッケージを追加する変更が含まれています。
+[ESLint v9.0.0](https://eslint.org/blog/2023/10/flat-config-rollout-plans/)でデフォルトとなる予定のESLint Flat Configを利用する場合は、`typescript-eslint`パッケージを利用する必要があります。
+
+- [Getting Started | typescript-eslint](https://typescript-eslint.io/getting-started)
 
 ----
 
-- [React Labs: What We've Been Working On – February 2024 – React](https://react.dev/blog/2024/02/15/react-labs-what-we-have-been-working-on-february-2024)
-
+[React Labs: What We've Been Working On – February 2024 – React](https://react.dev/blog/2024/02/15/react-labs-what-we-have-been-working-on-february-2024)という記事では、React Forgetという名前で知られていたReact Compilerの現状やReact 19へのメジャーアップデートについて書かれています。
+どちらもある程度開発は進んだため、リリースまでの準備を進めていく予定について書かれています。
 
 ----
 
