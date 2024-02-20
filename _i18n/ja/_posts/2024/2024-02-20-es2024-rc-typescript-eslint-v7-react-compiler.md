@@ -27,7 +27,7 @@ ES2024では、次のような変更が含まれる予定です。
 - [`Atomics.waitAsync`](https://github.com/tc39/proposal-atomics-wait-async)
 - [`String.prototype.isWellFormed`/`String.prototype.toWellFormed`](https://github.com/tc39/proposal-is-usv-string)
 
-毎年2月ごろ仕様に取り込むProposalは決まり、6月ごろの[GA 127th meeting](https://ecma-international.org/meeting-calendar/)で最終的な承認を得る予定です。
+毎年2月ごろに仕様へ取り込むProposalが決まり、6月ごろの[GA 127th meeting](https://ecma-international.org/meeting-calendar/)で最終的な承認を得る予定です。
 
 ---
 
