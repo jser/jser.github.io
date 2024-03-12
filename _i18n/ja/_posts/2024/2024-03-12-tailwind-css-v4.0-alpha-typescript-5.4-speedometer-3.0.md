@@ -2,7 +2,7 @@
 title: "2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0"
 author: "azu"
 layout: post
-date: 2024-03-12T02:08:55.777Z
+date: 2024-03-12T02:18:32.384Z
 category: JSer
 tags:
 - nodejs
@@ -13,15 +13,56 @@ tags:
 
 ---
 
-JSer.info #684 - - [Open-sourcing our progress on Tailwind CSS v4.0 - Tailwind CSS](https://tailwindcss.com/blog/tailwindcss-v4-alpha)
+JSer.info #684 - Tailwind CSS v4.0 alphaがリリースされました。
+
+- [Open-sourcing our progress on Tailwind CSS v4.0 - Tailwind CSS](https://tailwindcss.com/blog/tailwindcss-v4-alpha)
+
+OxideというRustで書かれたエンジンを追加、Lightning CSSを組み込むように変更することでパフォーマンスやビルドトインでサポートする構文が改善されています。また、記事ではv4のロードマップについても触れられています。
 
 ---
+
+TypeScript 5.4がリリースされました。
 
 - [Announcing TypeScript 5.4 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-4/)
 
+BetaやRCからの大きな機能的な追加などはありません。
+クロージャーにおけるNarrowing結果の改善、`NoInfer` Utility Typeの追加、
+`--module preserve`の追加が行われています。
+また、ES2024の`Object.groupBy`/`Map.groupBy`をサポート、Import Attributesのサポートが追加されています。
+5.4が`target: "ES3"`や`out`オプションなどの非推奨化されたオプションがサポートされる最後のバージョンとなる予定です。
+これらのオプションは5.5で削除される予定となっています。
+
+- [Feedback: 5.0 deprecations · Issue #51909 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/51909)
+
 ---
 
+ブラウザエンジンのパフォーマンスを測定するためのベンチマークツールであるSpeedometer 3.0がリリースされました。
+
 - [Speedometer 3.0: The Best Way Yet to Measure Browser Performance | WebKit](https://webkit.org/blog/15131/speedometer-3-0-the-best-way-yet-to-measure-browser-performance/)
+
+Speedometerは主にブラウザエンジンの開発者がブラウザのパフォーマンスを測定するベンチマークとして利用されています。
+今回のアップデートで同期と非同期処理の実行時間をより正確に計測、HTTP Archiveやnpmのダウンロード数を元にした利用されているフレームワークの調整などが行われています。
+また、今まではTodoMVCを利用していましtが、Next.js/Nuxt を使ったメディアサイトやグラフィカルなダッシュボード、CodeMirrorとTipTapを使ったエディタなどもテストに追加されています。
+
+Speedometer 3.0のベンチマークでは次のようなフレームワークがテストに含まれています。
+
+- [Angular](https://angular.io/)
+- [Backbone](https://backbonejs.org/)
+- [jQuery](https://jquery.com/)
+- [Lit](https://lit.dev/)
+- [Preact](https://preactjs.com/)
+- [React](https://reactjs.org/)
+- [React+Redux](https://react-redux.js.org/)
+- [Svelte](https://svelte.dev/)
+- [Vue](https://vuejs.org/)
+- [Next.js](https://nextjs.org/)
+- [Nuxt](https://nuxtjs.org/)
+- [Observable Plot](https://observablehq.com/@observablehq/plot)
+- [chart.js](https://www.chartjs.org/)
+- [React stockcharts](https://github.com/rrag/react-stockcharts)
+- [D3](https://d3js.org/)
+- [CodeMirror](https://codemirror.net/)
+- [TipTap](https://www.tiptap.dev/)
 
 
 ----
