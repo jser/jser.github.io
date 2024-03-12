@@ -36,7 +36,7 @@ BetaやRCからの大きな機能的な追加などはありません。
 
 ---
 
-ブラウザエンジンのパフォーマンスを測定するためのベンチマークツールであるSpeedometer 3.0がリリースされました。
+ブラウザエンジンのパフォーマンスを測定するためのベンチマークツールである[Speedometer 3.0](https://browserbench.org/Speedometer3.0/)がリリースされました。
 
 - [Speedometer 3.0: The Best Way Yet to Measure Browser Performance | WebKit](https://webkit.org/blog/15131/speedometer-3-0-the-best-way-yet-to-measure-browser-performance/)
 
@@ -56,7 +56,7 @@ Speedometer 3.0のベンチマークでは次のようなフレームワーク�
 - [Svelte](https://svelte.dev/)
 - [Vue](https://vuejs.org/)
 - [Next.js](https://nextjs.org/)
-- [Nuxt](https://nuxtjs.org/)
+- [Nuxt](https://nuxt.com/)
 - [Observable Plot](https://observablehq.com/@observablehq/plot)
 - [chart.js](https://www.chartjs.org/)
 - [React stockcharts](https://github.com/rrag/react-stockcharts)
