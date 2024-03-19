@@ -2,7 +2,7 @@
 title: "2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest"
 author: "azu"
 layout: post
-date: 2024-03-19T03:22:25.367Z
+date: 2024-03-19T03:23:14.714Z
 category: JSer
 tags:
 - React
@@ -43,7 +43,7 @@ Nuxt 3.11がリリースされました。
 - [Vitest integration · Cloudflare Workers docs](https://developers.cloudflare.com/workers/testing/vitest-integration/)
 
 Vitestはテストを分離したWorkerなどで実行できますが、[Custom Pool](https://vitest.dev/advanced/pool.html)を使うことでテストを実行する環境を独自に定義することができます。
-[@cloudflare/vitest-pool-workers](https://www.npmjs.com/package/@cloudflare/vitest-pool-workers)では、このCustom Poolを使うことでテストコードをMiniflareの環境内で実行することができます。
+[@cloudflare/vitest-pool-workers](https://www.npmjs.com/package/@cloudflare/vitest-pool-workers)では、Miniflareでテストをコードを実行できるCustom Poolが実装されています。
 これによって、ローカルでもCloudflre Workersのテストを実行することができるようになったという話が紹介されています。
 
 ----
