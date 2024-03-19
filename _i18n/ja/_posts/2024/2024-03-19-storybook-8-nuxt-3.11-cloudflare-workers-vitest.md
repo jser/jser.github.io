@@ -2,7 +2,7 @@
 title: "2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest"
 author: "azu"
 layout: post
-date: 2024-03-19T03:23:19.630Z
+date: 2024-03-19T03:24:43.652Z
 category: JSer
 tags:
 - React
