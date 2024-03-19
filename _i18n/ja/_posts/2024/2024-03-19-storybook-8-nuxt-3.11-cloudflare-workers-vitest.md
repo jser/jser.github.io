@@ -33,7 +33,7 @@ Nuxt 3.11がリリースされました。
 - [Nuxt 3.11 · Nuxt Blog](https://nuxt.com/blog/v3-11)
 
 ログ表示の改善、`usePreviewMode`の追加、`appMiddleware`の追加が行われています。
-また、サーバ専用の`.server.vue`とクライアント専用の`.client.vue`というファイル名による定義がサポートされています。
+また、サーバ専用の`.server.vue`とクライアント専用の`.client.vue`というファイル名による定義がページコンポーネントでもサポートされています。
 
 ----
 
@@ -100,7 +100,7 @@ Node.js 21.7.0で追加された`util.styleText`のサポートなど
 
 Nuxt v3.11リリース。
 ログ表示の改善、`usePreviewMode`の追加、`appMiddleware`の追加。
-サーバ専用の`.server.vue`とクライアント専用の`.client.vue`をサポートなど
+サーバ専用の`.server.vue`とクライアント専用の`.client.vue`をページコンポーネントでもサポートなど
 
 
 ----
