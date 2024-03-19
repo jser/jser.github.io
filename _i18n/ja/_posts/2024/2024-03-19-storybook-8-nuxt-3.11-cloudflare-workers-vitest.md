@@ -81,16 +81,6 @@ Storybook 8リリース。
 
 ----
 
-## devongovett/unplugin-parcel-macros
-[github.com/devongovett/unplugin-parcel-macros](https://github.com/devongovett/unplugin-parcel-macros "devongovett/unplugin-parcel-macros")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">parcel</span> <span class="jser-tag">plugin</span> <span class="jser-tag">webpack</span> <span class="jser-tag">rollup</span> <span class="jser-tag">vite</span> <span class="jser-tag">esbuild</span></p>
-
-Parcelのmacroと同じものをwebpack/rollup/Vite/esbuildで利用できるようにするプラグイン。
-import attributesの構文を使いビルド時にマクロ的な処理を行う仕組み
-
-
-----
-
 ## Bun v1.0.31 | Bun Blog
 [bun.sh/blog/bun-v1.0.31](https://bun.sh/blog/bun-v1.0.31 "Bun v1.0.31 | Bun Blog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">ReleaseNote</span></p>
@@ -215,5 +205,11 @@ CSSからReactコンポーネントを作成するツール。
 CSSを書いて、そのCSSからRectコンポーネントを生成する仕組みになっている。
 data属性をPropsとして扱う、`@scope`でスコープを扱うなど
 
-
 ----
+
+## devongovett/unplugin-parcel-macros
+[github.com/devongovett/unplugin-parcel-macros](https://github.com/devongovett/unplugin-parcel-macros "devongovett/unplugin-parcel-macros")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">parcel</span> <span class="jser-tag">plugin</span> <span class="jser-tag">webpack</span> <span class="jser-tag">rollup</span> <span class="jser-tag">vite</span> <span class="jser-tag">esbuild</span></p>
+
+Parcelのmacroと同じものをwebpack/rollup/Vite/esbuildで利用できるようにするプラグイン。
+import attributesの構文を使いビルド時にマクロ的な処理を行う仕組み
