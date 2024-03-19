@@ -2,7 +2,7 @@
 title: "2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest"
 author: "azu"
 layout: post
-date: 2024-03-19T03:13:30.943Z
+date: 2024-03-19T03:21:38.900Z
 category: JSer
 tags:
 - React
@@ -13,18 +13,38 @@ tags:
 
 ---
 
-JSer.info #685 - - [Storybook 8](https://storybook.js.org/blog/storybook-8/)
+JSer.info #685 - Storybook 8.0がリリースされました。
+
+- [Storybook 8](https://storybook.js.org/blog/storybook-8/)
 - [Storybook: UI component explorer for frontend developers](https://storybook.js.org/releases/8.0)
+
+破壊的な変更として、`storiesOf` APIの削除、`*.stories.mdx`の削除、StoryShots addonの削除、Yarn v1のサポート終了などが行われています。
+詳細はマイグレーションガイドを参照してください。
+
+- [Migration guide for Storybook 8.0 • Storybook docs](https://storybook.js.org/docs/migration-guide?ref=storybookblog.ghost.io)
+
+機能追加として、Chromaticとの連携機能の実装、MSWを使ったReact Server Component(RSC)のサポート。
+そのほかには、SWCを使うことでビルドパフォーマンスの改善、`react-docgen`がデフォルトとなるように変更、`react`をpeerDependenciesから除外するなどの変更が行われています。
 
 ---
 
+Nuxt 3.11がリリースされました。
+
 - [Nuxt 3.11 · Nuxt Blog](https://nuxt.com/blog/v3-11)
 
+ログ表示の改善、`usePreviewMode`の追加、`appMiddleware`の追加が行われています。
+また、サーバ専用の`.server.vue`とクライアント専用の`.client.vue`というファイル名による定義がサポートされています。
+
 ----
+
+次の記事では、Vitestを使ったCloudflare Workersのテストについて紹介されています。
 
 - [Improved Cloudflare Workers testing via Vitest and workerd](https://blog.cloudflare.com/workers-vitest-integration/)
 - [Vitest integration · Cloudflare Workers docs](https://developers.cloudflare.com/workers/testing/vitest-integration/)
 
+Vitestはテストを分離したWorkerなどで実行できますが、[Custom Pool](https://vitest.dev/advanced/pool.html)を使うことで、この分離する環境を独自に定義することができます。
+[@cloudflare/vitest-pool-workers](https://www.npmjs.com/package/@cloudflare/vitest-pool-workers)では、このCustom Poolを使うことでテストコードをMiniflareの環境内で実行することができます。
+これによって、ローカルでもCloudflre Workersのテストを実行することができるようになったという話が紹介されています。
 
 ----
 
