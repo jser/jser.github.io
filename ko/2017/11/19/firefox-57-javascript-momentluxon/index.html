@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-11-19 JS: Firefox 57, JavaScript의 비용, moment와 Luxon - JSer.info</title>
+    <meta name="description" content="JSer.info #358 - Firefox 57이 릴리즈 됐습니다.">
+    
+    <meta name="keywords" content="Firefox,Performance,Date,Moment,i18n" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-11-19T19:51:22+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="Performance" property="article:tag">
+      
+      <meta content="Date" property="article:tag">
+      
+      <meta content="Moment" property="article:tag">
+      
+      <meta content="i18n" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/11/19/firefox-57-javascript-momentluxon/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #358 - Firefox 57이 릴리즈 됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-11-19 JS: Firefox 57, JavaScript의 비용, moment와 Luxon">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/11/19/firefox-57-javascript-momentluxon/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #358 - Firefox 57이 릴리즈 됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-11-19T19:51:22+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="Performance">
+
+<meta property="article:tag" content="Date">
+
+<meta property="article:tag" content="Moment">
+
+<meta property="article:tag" content="i18n">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/11/19/firefox-57-javascript-momentluxon/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/11/19/firefox-57-javascript-momentluxon/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/11/19/firefox-57-javascript-momentluxon/">2017-11-19 JS: Firefox 57, JavaScript의 비용, moment와 Luxon</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年11月19日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-11-19-firefox-57-javascript-momentluxon.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-11-19-firefox-57-javascript-momentluxon.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/11/19/firefox-57-javascript-momentluxon/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #358 - Firefox 57이 릴리즈 됐습니다.</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/57.0/releasenotes/">Firefox — Notes (57.0) — Mozilla</a></li>
+<li><a href="https://blog.mozilla.org/blog/2017/11/14/introducing-firefox-quantum/">Introducing the New Firefox: Firefox Quantum - The Mozilla Blog</a></li>
+</ul>
+
+<p><a href="https://medium.com/mozilla-tech/a-quantum-leap-for-the-web-a3b7174b3c12" title="Project Quantum">Project Quantum</a>이라고 불리던 Firefox의 대규모 개선 프로젝트의 첫 릴리즈 버전입니다.<br>
+Quantum CSS(Stylo)라고 불리는 새롭게 개발된 CSS 엔진이 포함된 릴리즈이기 때문에 기존 CSS와 동작(버그 수정을 포함해)이 다른 부분이 있을 수 있습니다.</p>
+
+<p>자세한 내용은 아래 글을 참고해주세요.</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2017/08/inside-a-super-fast-css-engine-quantum-css-aka-stylo/" title="Inside a super fast CSS engine: Quantum CSS (aka Stylo) – Mozilla Hacks – the Web developer blog">Inside a super fast CSS engine: Quantum CSS (aka Stylo) – Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/57" title="Firefox Quantum 57 for developers - Mozilla | MDN">Firefox Quantum 57 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<p><code>PerformanceObserver</code>의 효율성이 개선됐고 Fetch를 abort할 수 있는 <a href="https://developer.mozilla.org/ja/docs/Web/API/AbortController" title="AbortController">AbortController</a>가 대응됐습니다. 또, Windows Firefox의 기본 폰트가 변경됐습니다.</p>
+
+<ul>
+<li><a href="https://www.fxsitecompat.com/ja/docs/2017/japanese-default-fonts-have-been-changed/" title="일본어의 기본 폰트가 변경됐습니다 | Firefox 사이트 호환성 정보">일본어의 기본 폰트가 변경됐습니다 | Firefox 사이트 호환성 정보</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<p><a href="https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e" title="The Cost Of JavaScript – Dev Channel – Medium">The Cost Of JavaScript – Dev Channel – Medium</a>에는 JavaScript 실행 비용에 대해에 대해 작성돼 있습니다.</p>
+
+<p>JavaScript의 비용은 네트워크에서의 로드, 파싱, 컴파일, 실행 순 으로 측정 됩니다.</p>
+
+<p>이때 파싱과 컴파일이 낮은 사양의 디바이스에서는 큰 비율을 차지할 수 있습니다.<br>
+때문에, 같은 사이즈의 JavaScript, 이미지 파일이라 하더라도 실행 또는 렌더링까지의 시간이 다를 수 있습니다.</p>
+
+<p>이러한 측면에 대해 이야기하고 대책 방법 중 대표적인 PRPL 패턴과 Performance Budget에 대해 소개합니다.</p>
+
+<hr>
+
+<p>날짜와 시간을 처리할 수 있는 라이브러리인 <a href="https://github.com/moment/luxon" title="moment/luxon: A library for working with dates and times in JS">moment/luxon: A library for working with dates and times in JS</a>의 알파 버전이 릴리즈됐습니다.</p>
+
+<p>본래 <a href="https://github.com/moment/moment" title="moment">moment</a>-lab 프로젝트에서 시작된 라이브러리로 moment의 문제점 중 하나인 <a href="https://github.com/moment/moment-rfcs/pull/2">mutable</a> 특징을 해결한 라이브러리입니다.</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Wondering about the future of Moment, modularization, etc? We have what we&#39;ll call a &#39;moment-labs&#39; project here: <a href="https://t.co/tFxIq9lEjm">https://t.co/tFxIq9lEjm</a></p>&mdash; moment.js (@momentjs) <a href="https://twitter.com/momentjs/status/918264220663214081?ref_src=twsrc%5Etfw">October 11, 2017</a></blockquote>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Want a smaller, immutable date library for modern browsers? Luxon has officially joined the family! <a href="https://t.co/HSjRuRuZG1">https://t.co/HSjRuRuZG1</a></p>&mdash; moment.js (@momentjs) <a href="https://twitter.com/momentjs/status/923982141704192000?ref_src=twsrc%5Etfw">October 27, 2017</a></blockquote>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="https://moment.github.io/luxon/docs/manual/faq/moment.html" title="For Moment users">For Moment users</a>에도 작성돼 있습니다만 Moment API 와의 호환성은 없습니다.</p>
+
+<p>특징적인 부분은 날짜 / 시간 / 인터벌 조작 / 파싱 / 포맷을 등을 지원한다는 점이며 moment와 다르게 Immutable 한 API로 디자인돼 있다는 것입니다. 또, TimeZone과 Intl을 사용한 국제화에도 대응하고 있습니다.</p>
+
+<p>그리고 Luxon은 네이티브 Date, Moment, Date-fns와 달리 month를 <code>1-indexed</code>한 값으로 다루고 있습니다.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// 2017-01-01</span>
+<span class="kd">const</span> <span class="nx">date20170101</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="dl">"</span><span class="s2">2017-01-01T00:00:00.000Z</span><span class="dl">"</span><span class="p">);</span>
+<span class="c1">// Luxon - 1-index</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">DateTime</span> <span class="p">}</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">luxon</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Luxon:get:</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">DateTime</span><span class="p">.</span><span class="nx">fromJSDate</span><span class="p">(</span><span class="nx">date20170101</span><span class="p">).</span><span class="nx">month</span><span class="p">);</span> <span class="c1">// =&gt; 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Luxon:set:</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">DateTime</span><span class="p">.</span><span class="nx">fromJSDate</span><span class="p">(</span><span class="nx">date20170101</span><span class="p">).</span><span class="kd">set</span><span class="p">({</span> <span class="na">month</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}).</span><span class="nx">month</span><span class="p">);</span> <span class="c1">// =&gt; 1</span>
+<span class="c1">// date-fns - 0-indexed</span>
+<span class="kd">const</span> <span class="p">{</span><span class="nx">getMonth</span><span class="p">,</span> <span class="nx">setMonth</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">date-fns</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">date-fns:get:</span><span class="dl">"</span><span class="o">+</span> <span class="nx">getMonth</span><span class="p">(</span><span class="nx">date20170101</span><span class="p">));</span> <span class="c1">// =&gt; 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">date-fns:set:</span><span class="dl">"</span><span class="o">+</span> <span class="nx">getMonth</span><span class="p">(</span><span class="nx">setMonth</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)));</span> <span class="c1">// =&gt; 0</span>
+<span class="c1">// moment - 0-indexed</span>
+<span class="kd">const</span> <span class="nx">moment</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">moment</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">moment:get:</span><span class="dl">"</span><span class="o">+</span> <span class="nx">moment</span><span class="p">(</span><span class="nx">date20170101</span><span class="p">).</span><span class="nx">month</span><span class="p">());</span> <span class="c1">// =&gt; 0</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">moment:set:</span><span class="dl">"</span><span class="o">+</span> <span class="nx">moment</span><span class="p">(</span><span class="nx">date20170101</span><span class="p">).</span><span class="nx">month</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">month</span><span class="p">());</span> <span class="c1">// =&gt; 0</span>
+</code></pre></div>
+<ul>
+<li><a href="https://runkit.com/azu/5a117a65dcefad0012187983" title="Luxon - data-fns - moment | RunKit">Luxon - data-fns - moment | RunKit</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-v0-59-0-facebook-flow">Release v0.59.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.59.0" title="Release v0.59.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.59.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flow 0.59.0이 릴리즈 됐습니다.<br>
+<code>$ReadOnly&lt;T&gt;</code> utility type이 추가됐고 성능이 개선됐습니다. 또, <code>/* flowlint sketchy-null:error */</code>와 같이 코멘트로 Lint를 활성화할 수 있도록 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="node-v9-2-0-current-node-js">Node v9.2.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v9.2.0/" title="Node v9.2.0 (Current) | Node.js">nodejs.org/en/blog/release/v9.2.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 9.2.0이 릴리즈 됐습니다.<br>
+<code>fs.realpathSync.native</code>와 <code>fs.realpath.native</code> 그리고 <code>process.ppid</code>가 expose 됐습니다.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-44-webkit">Release Notes for Safari Technology Preview 44 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8035/release-notes-for-safari-technology-preview-44/" title="Release Notes for Safari Technology Preview 44 | WebKit">webkit.org/blog/8035/release-notes-for-safari-technology-preview-44/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 44가 릴리즈 됐습니다.<br>
+Payment Request가 기본적으로 활성화 됐고, <code>createImageBitmap()</code> 메서드가 구현됐습니다. 또, OffscreenCanvas의 IDL이 추가됐습니다.</p>
+
+<hr>
+
+<h2 id="introducing-security-alerts-on-github">Introducing security alerts on GitHub</h2>
+
+<p><a href="https://github.com/blog/2470-introducing-security-alerts-on-github" title="Introducing security alerts on GitHub">github.com/blog/2470-introducing-security-alerts-on-github</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">github</span> <span class="jser-tag">security</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ruby</span> <span class="jser-tag">news</span></p></p>
+
+<p>GitHub 저장소에 npm이나 gem의 보안 경보 기능이 추가됐습니다.</p>
+
+<hr>
+
+<h2 id="release-v4-0-0-beta-1-reactjs-redux">Release v4.0.0-beta.1 · reactjs/redux</h2>
+
+<p><a href="https://github.com/reactjs/redux/releases/tag/v4.0.0-beta.1" title="Release v4.0.0-beta.1 · reactjs/redux">github.com/reactjs/redux/releases/tag/v4.0.0-beta.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Redux v4.0.0-beta.1이 릴리즈 됐습니다.<br>
+TypeScript의 재작성이 이뤄졌고 <code>INIT</code>가 랜덤한 값으로 변경됐습니다. 또, IE11 미만 브라우저에 대한 지원이 종료됐으며 Dispatch의 성능이 개선 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/reactjs/redux/issues/1342" title="Redux 4 breaking changes · Issue #1342 · reactjs/redux">Redux 4 breaking changes · Issue #1342 · reactjs/redux</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-notes-57-0-mozilla">Firefox — Notes (57.0) — Mozilla</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/57.0/releasenotes/" title="Firefox — Notes (57.0) — Mozilla">www.mozilla.org/en-US/firefox/57.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 57이 릴리즈 됐습니다.<br>
+CSS엔진의 교체가 이뤄져 일부 동작이 변경됐고 성능이 개선됐으며 <code>watch</code>/<code>unwatch</code> 메서드가 비권장 됐고 <code>PerformanceObserver</code>의 효율성이 개선됐습니다. 그리고 Fetch의 abort를 지원하며<br>
+WebRTC <code>RTCDataChannel</code>의 메시지 파일 크기를 지정할 수 있도록 변경됐습니다.</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/blog/2017/11/14/introducing-firefox-quantum/" title="Introducing the New Firefox: Firefox Quantum - The Mozilla Blog">Introducing the New Firefox: Firefox Quantum - The Mozilla Blog</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/57" title="Firefox Quantum 57 for developers - Mozilla | MDN">Firefox Quantum 57 for developers - Mozilla | MDN</a></li>
+<li><a href="https://www.fxsitecompat.com/ja/versions/57/" title="Firefox 57 사이트 호환성 정보 | Firefox 사이트 호환성 정보">Firefox 57 사이트 호환성 정보 | Firefox 사이트 호환성 정보</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Using_data_channels#Understanding_message_size_limits" title="Using WebRTC data channels - Web APIs | MDN">Using WebRTC data channels - Web APIs | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-2-6-0-googlechrome-lighthouse">Release 2.6.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v2.6.0" title="Release 2.6.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v2.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>lighthouse 2.6.0이 릴리즈됐습니다.<br>
+<code>redirects</code> 검사 도구 추가 됐으며 각 스크립트의 동작 시간을 측정하는 <code>bootup-time</code>, 페이지의 실행 시간을 측정하는 <code>mainthread-work-breakdown</code> 등의 Audit이 추가됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="refactoring-react-components-with-jest-s-snapshot-michael-romani-medium">Refactoring React Components with Jest’s Snapshot – Michael Romani – Medium</h2>
+
+<p><a href="https://medium.com/@mr4227/refactoring-react-components-with-jests-snapshot-7ed1b9d332cc" title="Refactoring React Components with Jest’s Snapshot – Michael Romani – Medium">medium.com/@mr4227/refactoring-react-components-with-jests-snapshot-7ed1b9d332cc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Jest의 snapshot 테스트를 사용한 React 컴포넌트의 리팩터링에 대해 소개돼 있습니다.<br>
+스탭샷을 찍고 테스트를 진행하며 거대한 컴포넌트를 세분화하는 과정을 이야기 합니다.</p>
+
+<hr>
+
+<h2 id="how-redux-works-a-counter-example">How Redux Works: A Counter-Example</h2>
+
+<p><a href="https://daveceddia.com/how-does-redux-work/" title="How Redux Works: A Counter-Example">daveceddia.com/how-does-redux-work/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span></p></p>
+
+<p>Redux로 카운터 앱을 만들어 가며 Redux의 사용법이나 구조에 대해 배울 수 있는 튜토리얼 입니다.</p>
+
+<hr>
+
+<h2 id="the-cost-of-javascript-dev-channel-medium">The Cost Of JavaScript – Dev Channel – Medium</h2>
+
+<p><a href="https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e" title="The Cost Of JavaScript – Dev Channel – Medium">medium.com/dev-channel/the-cost-of-javascript-84009f51e99e</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScript의 실행까지의 비용에 대해 소개돼 있는 글입니다.<br>
+다운로드, 파싱, 실행 과정과 같은 사이즈의 JavaScript, 이미지 파일이라 하더라도 실행 또는 렌더링까지의 비용이 다를 수 있는 점에 대해 소개돼 있습니다. 또, PRPL 패턴, Performance Budget에 관해서 이야기합니다.</p>
+
+<hr>
+
+<h2 id="javascript-the-core-2nd-edition-ds-laboratory">JavaScript. The Core: 2nd Edition – ds.laboratory</h2>
+
+<p><a href="http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/" title="JavaScript. The Core: 2nd Edition – ds.laboratory">dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>ECMAScript / JavaScript의 용어 정의와 각 개념에 대해 소개돼 있습니다.<br>
+ECMAScript의 사양에 가까운 코어한 내용이 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="clean-code-vs-dirty-code-react-best-practices-american-express-engineering-blog">Clean Code vs. Dirty Code: React Best Practices - American Express Engineering Blog</h2>
+
+<p><a href="http://americanexpress.io/clean-code-dirty-code/" title="Clean Code vs. Dirty Code: React Best Practices - American Express Engineering Blog">americanexpress.io/clean-code-dirty-code/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span></p></p>
+
+<p>React를 소재로 클린한 코드에 관해 이야기합니다.<br>
+네이밍과 컴포넌트 분할, 기본 값의 취급 방법 등 좋지 않은 예와 그것을 개선한 예를 이용해 알기 쉽게 작성 돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="react-redux-spa-lancers">React Redux를 사용한 SPA 신규 서비스를 운용하며 얻은 식견과 구현 사례 - 랜서즈(Lancers) 엔지니어 블로그(일본어)</h2>
+
+<p><a href="https://engineer.blog.lancers.jp/2017/11/react-redux-spa-manage-tips/" title="React Redux を用いた SPA 新規サービスを運用して得た知見と実装例 - ランサーズ（Lancers）エンジニアブログ">engineer.blog.lancers.jp/2017/11/react-redux-spa-manage-tips/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">slide</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>React + Redux + Saga를 사용한 프로젝트를 진행하며 알게 된 여러가지 사실에 대해 소개하는 슬라이드 입니다.<br>
+디렉터리 구성이나 기본적인 처리 흐름, HOC를 사용한 컴포넌트 확장, 다이얼로그와 스토리지 등 유즈케이스 별 구현 방법에 관해 이야기합니다.<br>
+또, 테스트, Sentry를 사용한 에러 해석, SEO, API 관리에 대해서도 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="js-kongress-2017-youtube">JS Kongress 2017 - YouTube</h2>
+
+<p><a href="http://www.youtube.com/playlist?list=PL8ajgHZ7PoCt3l5RXoyqVu_r7gYJU0dMx" title="JS Kongress 2017 - YouTube">www.youtube.com/playlist?list&#x3D;PL8ajgHZ7PoCt3l5RXoyqVu_r7gYJU0dMx</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">video</span></p></p>
+
+<p>JS Kongress 2017의 발표 영상이 공개 됐습니다.</p>
+
+<ul>
+<li><a href="https://2017.js-kongress.de/" title="JS Kongress 2017 💻 - The Future of JavaScript, Nov 13-14 2017, Munich">JS Kongress 2017 💻 - The Future of JavaScript, Nov 13-14 2017, Munich</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="what-web-can-do-today">What Web Can Do Today</h2>
+
+<p><a href="https://whatwebcando.today/" title="What Web Can Do Today">whatwebcando.today/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">browser</span></p></p>
+
+<p>사용하고 있는 브라우저가 다양한 Web Platform API 중 무엇무엇을 지원하고 있는지 알려주는 사이트입니다.</p>
+
+<hr>
+
+<h2 id="performance-mark-with-metadata-is-useful-for-real-user-monitoring">`performance.mark` with metadata is useful for Real user monitoring</h2>
+
+<p><a href="https://dev.to/ben/we-welcome-a-wonderful-influx-of-new-members-from-japan-1k0" title="\`performance.mark\` with metadata is useful for Real user monitoring">dev.to/ben/we-welcome-a-wonderful-influx-of-new-members-from-japan-1k0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">browser</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p><code>performance.mark</code> 에 메타데이터로써 FPS를 전달하여 측정하고, 병목을 일으키는 동작을 로깅하여 해석 및 시각화하는 방법에 대해 이야기합니다.</p>
+
+<ul>
+<li><a href="https://github.com/azu/performance-mark-metadata" title="azu/performance-mark-metadata: \&amp;#x60;performance.mark\&amp;#x60; with custom meta data.">azu/performance-mark-metadata: `performance.mark` with custom meta data.</a></li>
+<li><a href="http://efcl.info/2017/11/15/performance.mark-metadata/" title="performance.mark에 메타데이터를 결합시킬 수 있는 라이브러리를 만들었다 | Web Scratch">performance.mark에 메타데이터를 결합시킬 수 있는 라이브러리를 만들었다 | Web Scratch</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h2 id="stereobooster-react-snap-a-zero-configuration-static-pre-renderer-for-single-page-applications">stereobooster/react-snap: A zero-configuration static pre-renderer for Single Page Applications</h2>
+
+<p><a href="https://github.com/stereobooster/react-snap" title="stereobooster/react-snap: A zero-configuration static pre-renderer for Single Page Applications">github.com/stereobooster/react-snap</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">server</span></p></p>
+
+<p>React 애플리케이션을 정적 HTML로 pre-render할 수 있는 라이브러리입니다.<br>
+특별한 설정 없이 create-react-app 구조에 동작하는 것을 목표로 개발됐으며 SSR에서 다루기가 힘든 3rd 파티 스크립트나 WebGL 등을 옵션으로 대처할 수 있도록 디자인돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="moment-luxon-a-library-for-working-with-dates-and-times-in-js">moment/luxon: A library for working with dates and times in JS</h2>
+
+<p><a href="https://github.com/moment/luxon" title="moment/luxon: A library for working with dates and times in JS">github.com/moment/luxon</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>날짜나 시간, 인터벌을 다루는 라이브러리입니다. 날짜 조작 뿐 아니라 파싱 또는 포맷을 지원합니다. Immutable 하며 TimeZone이나 Intl를 사용한 국제화에 대응하고 있습니다. Moment와의 차이를 정리한 문서도 공개돼 있으니 함께 살펴보시길 바랍니다.</p>
+
+<hr>
+
+<h2 id="jaredpalmer-react-fns-browser-apis-turned-into-declarative-react-components-and-hocs">jaredpalmer/react-fns: Browser API&#39;s turned into declarative React components and HoC&#39;s</h2>
+
+<p><a href="https://github.com/jaredpalmer/react-fns" title="jaredpalmer/react-fns: Browser API&#39;s turned into declarative React components and HoC&#39;s">github.com/jaredpalmer/react-fns</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>React의 High Order Component의 컬렉션 라이브러리입니다.<br>
+디바이스의 회전과 동작, 온라인/오프라인, Geo, 미디어 쿼리, 스크롤, 로케일을 다루는 컴포넌트 등이 준비돼 있습니다.</p>
+
+<hr>
+
+<h2 id="goto-bus-stop-tinyify-a-browserify-plugin-that-runs-various-optimizations-so-you-dont-have-to-install-them-all-manually-makes-your-bundles-tiny">goto-bus-stop/tinyify: a browserify plugin that runs various optimizations, so you don&#39;t have to install them all manually. makes your bundles tiny!</h2>
+
+<p><a href="https://github.com/goto-bus-stop/tinyify" title="goto-bus-stop/tinyify: a browserify plugin that runs various optimizations, so you don&#39;t have to install them all manually. makes your bundles tiny!">github.com/goto-bus-stop/tinyify</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">plugin</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Browserify 환경에서 플랫 bundle, unassert, production 빌드, minify 등 다양한 최적화 작업을 한 데 수행하는 플러그인입니다.</p>
+
+<hr>
+
+<h2 id="jaredpalmer-razzle-create-server-rendered-universal-javascript-applications-with-no-configuration">jaredpalmer/razzle: ✨ Create server-rendered universal JavaScript applications with no configuration</h2>
+
+<p><a href="https://github.com/jaredpalmer/razzle" title="jaredpalmer/razzle: ✨ Create server-rendered universal JavaScript applications with no configuration">github.com/jaredpalmer/razzle</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">isomorphic</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Universal한 JavaScript 애플리케이션을 설정 없이 개발을 시작할 수 있는 개발 환경 도구입니다.<br>
+<code>create-react-app</code>와 비슷한 도구지만 React 이 외의 환경에서도 사용할 수 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="pure-react">Pure React</h2>
+
+<p><a href="https://daveceddia.com/pure-react/" title="Pure React">daveceddia.com/pure-react/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">book</span></p></p>
+
+<p>React를 스텝 바이 스텝으로 배울 수 있는 예제 코드를 중심으로 작성됀 도서입니다.</p>
+
+<hr>
+
+<h2 id="manning-vue-js-in-action">Manning | Vue.js in Action</h2>
+
+<p><a href="https://www.manning.com/books/vue-js-in-action" title="Manning | Vue.js in Action">www.manning.com/books/vue-js-in-action</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018년 5월 30일 출간 예정인 Vue를 주제로 한 도서입니다.</p>
+
+<hr>
+
+<h2 id="web-web-db-press-plus-gihyo-jp">초단기! Web 페이지 속도 개선 가이드── 사용성은 「속도」에서 시작된다(WEB+DB PRESS plus 시리즈)｜gihyo.jp … 기술평론사(일본어)</h2>
+
+<p><a href="http://gihyo.jp/magazine/wdpress/plus/978-4-7741-9400-4" title="超速！ Webページ速度改善ガイド ── 使いやすさは「速さ」から始まる（WEB+DB PRESS plusシリーズ）｜gihyo.jp … 技術評論社">gihyo.jp/magazine/wdpress/plus/978-4-7741-9400-4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 11월 23일 출간 예정인 웹페이지의 성능 개선을 주제로 한 도서입니다. 네트워크, 렌더링, 스크립트 항목별 측정 방법과 개선 방법에 대해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="manning-react-native-in-action">Manning | React Native in Action</h2>
+
+<p><a href="https://www.manning.com/books/react-native-in-action" title="Manning | React Native in Action">www.manning.com/books/react-native-in-action</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018년 4월 30일에 출간 예정인 React Native를 주제로한 도서입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-11-19-firefox-57-javascript-momentluxon.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Firefox","Performance","Date","Moment","i18n"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Firefox</li>
+                
+                <li>Performance</li>
+                
+                <li>Date</li>
+                
+                <li>Moment</li>
+                
+                <li>i18n</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/11/19/firefox-57-javascript-momentluxon/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

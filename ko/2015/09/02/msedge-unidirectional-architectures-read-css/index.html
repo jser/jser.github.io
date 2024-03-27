@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-09-02 JS 소식: MSEdge와 asm.js, 단방향 데이터 흐름 아키텍쳐, CSS 스펙문서 읽는법 - JSer.info</title>
+    <meta name="description" content="JSer.info #243 - Windows 10 Build 10532 업데이트를 공개하면서 MSEdge도 업데이트하였습니다.">
+    
+    <meta name="keywords" content="Flux,MVC,MSEdge,CSS,Spec" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2015-09-02T21:38:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Flux" property="article:tag">
+      
+      <meta content="MVC" property="article:tag">
+      
+      <meta content="MSEdge" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="Spec" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2015/09/02/msedge-unidirectional-architectures-read-css/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #243 - Windows 10 Build 10532 업데이트를 공개하면서 MSEdge도 업데이트하였습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2015-09-02 JS 소식: MSEdge와 asm.js, 단방향 데이터 흐름 아키텍쳐, CSS 스펙문서 읽는법">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2015/09/02/msedge-unidirectional-architectures-read-css/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #243 - Windows 10 Build 10532 업데이트를 공개하면서 MSEdge도 업데이트하였습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2015-09-02T21:38:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Flux">
+
+<meta property="article:tag" content="MVC">
+
+<meta property="article:tag" content="MSEdge">
+
+<meta property="article:tag" content="CSS">
+
+<meta property="article:tag" content="Spec">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/09/02/msedge-unidirectional-architectures-read-css/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/09/02/msedge-unidirectional-architectures-read-css/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/09/02/msedge-unidirectional-architectures-read-css/">2015-09-02 JS 소식: MSEdge와 asm.js, 단방향 데이터 흐름 아키텍쳐, CSS 스펙문서 읽는법</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年09月02日</span>
+                
+                <span class="post-translator">Translator: ChoEun</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2015/2015-09-02-msedge-unidirectional-architectures-read-css.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2015/2015-09-02-msedge-unidirectional-architectures-read-css.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2015/09/02/msedge-unidirectional-architectures-read-css/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #243 - Windows 10 <a href="https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/" title="Build 10532">Build 10532</a> 업데이트를 공개하면서 MSEdge도 업데이트하였습니다.</p>
+
+<p>Pointer Lock, Canvas <a href="http://blogs.adobe.com/webplatform/2014/02/24/using-blend-modes-in-html-canvas/" title="blend modes">blend modes</a> 추가, ES6 Classes, asm.js를 기본으로 사용할 수 있으며, Destructuring이나 ES.next <a href="https://github.com/tc39/ecmascript-asyncawait" title="Async Functions">Async Functions</a>를 실험 플래그를 붙여 지원합니다.</p>
+
+<ul>
+<li><a href="http://dev.modern.ie/platform/changelog/10532-pc/" title="Microsoft Edge 10532">Microsoft Edge 10532</a></li>
+<li><a href="https://blogs.windows.com/bloggingwindows/2015/08/27/windows-10-insider-preview-build-10532-for-pc/" title="Windows 10 Insider Preview Build 10532 for PC | Blogging Windows">Windows 10 Insider Preview Build 10532 for PC | Blogging Windows</a></li>
+</ul>
+
+<p>또한, 오픈 미디어 타입 포맷을 개발하는 <a href="http://aomedia.org/" title="Alliance for Open Media">Alliance for Open Media</a>에 Microsoft가 참여하고 있는 것과 관련 있을 거 같지만, MSEdge에서 WebM/Opus/VP9를 구현할 예정이라고 합니다.</p>
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Oh, hai there open media formats! <a href="http://t.co/mdUgKyFvV0">http://t.co/mdUgKyFvV0</a> <a href="http://t.co/PT7srf6J4J">http://t.co/PT7srf6J4J</a> <a href="http://t.co/0tjhZipHaV">http://t.co/0tjhZipHaV</a></p>&mdash; Jacob Rossi (@jacobrossi) <a href="https://twitter.com/jacobrossi/status/638785221593288704">September 1, 2015</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<hr>
+
+<p><a href="http://staltz.com/unidirectional-user-interface-architectures.html" title="André Staltz - Unidirectional User Interface Architectures">André Staltz - Unidirectional User Interface Architectures</a> 기사에서, Flux, Redux, Famous, Elm, Cycle.js의 아키텍쳐에 대해 간결하게 설명하고 있습니다.</p>
+
+<p>각 구성요소에서 어떻게 단방향 데이터 흐름을 돌리고 있는가에 대해 그림과 함께 설명하고 있어 추천하는 글입니다.</p>
+
+<p>Backbone.js 등에 대해 작성한 아래 기사도 함께 보면 재미있습니다.</p>
+
+<ul>
+<li><a href="https://gist.github.com/tily/1362110" title="서버와 클라이언트 양쪽에서 동작하는 대규모 JavaScript 개발을 하기 위해">서버와 클라이언트 양쪽에서 동작하는 대규모 JavaScript개발을 하기 위해</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/" title="기본 이전의 기초지식 - Back to Basics CSS 2015-08-30">기본 이전의 기초지식 - Back to Basics CSS 2015-08-30</a>(<a href="http://techhtml.github.io/TR/">한국어문서</a>) 슬라이드에서, CSS 스펙을 어떻게 읽어야 하는지 설명하고 있습니다.</p>
+
+<p>스펙문서는 어디에 있는지, 스펙문서에 나오는 CSS 기본구문 읽는 법, 기호의 의미 등을 자세히 설명합니다.</p>
+
+<p>CSS 스펙문서를 참조할 때 맞춰 읽으면 좋은 문서입니다.</p>
+
+<hr>
+
+<h2 id="part-65436c48caa">공지</h2>
+
+<p><a href="http://jser.info/2015/08/26/update-logo/" title="JSer.info 로고 및 아이콘을 변경했습니다 - JSer.info">JSer.info 로고 및 아이콘을 변경했습니다</a></p>
+
+<p><img src="https://monosnap.com/file/h3VuimNtmUkbaIr4FO2GhRiooVGetE.png" alt="jser.info"></p>
+
+<p>이미지는 <a href="https://github.com/jser/media" title="jser/media">jser/media</a>에서 자유롭게 인용할 수 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="eslint-v1-3-0-released-eslint-pluggable-javascript-linter">ESLint v1.3.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2015/08/eslint-v1.3.0-released" title="ESLint v1.3.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2015/08/eslint-v1.3.0-released</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint v1.3.0 릴리즈<br>
+<code>SourceCode</code> 객체 API 추가, HTML 포매터 추가, 룰 수정 등</p>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-4-6">V8 JavaScript Engine: V8 Release 4.6</h2>
+
+<p><a href="http://v8project.blogspot.com/2015/08/v8-release-46.html" title="V8 JavaScript Engine: V8 Release 4.6">v8project.blogspot.com/2015/08/v8-release-46.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>V8 4.6 릴리즈<br>
+ES6의 Spread operator, <code>new.target</code> 대응, TypedArray 개선 등</p>
+
+<hr>
+
+<h2 id="release-v2-0-0-rackt-redux">Release v2.0.0 · rackt/redux</h2>
+
+<p><a href="https://github.com/rackt/redux/releases/tag/v2.0.0" title="Release v2.0.0 · rackt/redux">github.com/rackt/redux/releases/tag/v2.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Flux</span> <span class="jser-tag">library</span></p>
+
+<p>Redux 2.0.0 릴리즈<br>
+Hot Reloading에서만 사용하던 <code>getReducer()</code> 제거, <code>compose()</code> 동작 수정 등</p>
+
+<hr>
+
+<h2 id="mocha-history-md-at-master-mochajs-mocha">mocha/HISTORY.md at master · mochajs/mocha</h2>
+
+<p><a href="https://github.com/mochajs/mocha/blob/master/HISTORY.md#230--2015-08-30" title="mocha/HISTORY.md at master · mochajs/mocha">github.com/mochajs/mocha/blob/master/HISTORY.md#230--2015-08-30</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Mocha 2.3.0 릴리즈. 테스트 중 에러가 발생했을 때 자동으로 캐치하지 않고 넘길 수 있는 <code>--allowUncaught</code> 추가, 비동기 테스트만 허가하는 <code>--async-only</code>에서 Promise 동작 수정</p>
+
+<ul>
+<li><a href="https://github.com/mochajs/mocha/pull/1659" title="Added option to allow unhandled exceptions to propagate in the browser by amsul · Pull Request #1659 · mochajs/mocha">Added option to allow unhandled exceptions to propagate in the browser by amsul · Pull Request #1659 · mochajs/mocha</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-version-10532-pc-microsoft-edge-dev">Release version 10532 [PC] : Microsoft Edge Dev</h2>
+
+<p><a href="http://dev.modern.ie/platform/changelog/10532-pc/" title="Release version 10532 \[PC\] : Microsoft Edge Dev">dev.modern.ie/platform/changelog/10532-pc/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Microsoft Edge 10532 릴리즈<br>
+Pointer Lock, Canvas blending modes 지원, asm.js와 ES6 Classes를 기본지원<br>
+또한 Async Function, Destructuring이 플래그 지원 기능으로 추가</p>
+
+<hr>
+
+<h2 id="jsdom-changelog-md-at-6-2-0-tmpvar-jsdom">jsdom/Changelog.md at 6.2.0 · tmpvar/jsdom</h2>
+
+<p><a href="https://github.com/tmpvar/jsdom/blob/6.2.0/Changelog.md" title="jsdom/Changelog.md at 6.2.0 · tmpvar/jsdom">github.com/tmpvar/jsdom/blob/6.2.0/Changelog.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jsdom 6.2.0 릴리즈<br>
+<code>Element.prototype.classList</code> 지원 및 버그 수정</p>
+
+<hr>
+
+<h2 id="release-v1-0-0-the-first-stable-release-2015-08-26-power-assert-js-power-assert">Release v1.0.0: The first stable release (2015-08-26) · power-assert-js/power-assert</h2>
+
+<p><a href="https://github.com/power-assert-js/power-assert/releases/tag/v1.0.0" title="Release v1.0.0: The first stable release (2015-08-26) · power-assert-js/power-assert">github.com/power-assert-js/power-assert/releases/tag/v1.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>assert를 실패했을 때 표시하는 정보량을 늘리는 power-assert 1.0.0 릴리즈</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="andr-staltz-unidirectional-user-interface-architectures">André Staltz - Unidirectional User Interface Architectures</h2>
+
+<p><a href="http://staltz.com/unidirectional-user-interface-architectures.html" title="André Staltz - Unidirectional User Interface Architectures">staltz.com/unidirectional-user-interface-architectures.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">설계</span></p>
+
+<p>Flux, Redux, Famous, Elm, Cycle.js의 아키텍쳐에 대해 간결하게 설명하고 있습니다.<br>
+구성요소, 데이터 흐름, 특징에 대해 간결하게 정리</p>
+
+<hr>
+
+<h2 id="using-requestidlecallback-google-web-updates">Using requestIdleCallback — Google Web Updates</h2>
+
+<p><a href="https://developers.google.com/web/updates/2015/08/27/using-requestidlecallback" title="Using requestIdleCallback — Google Web Updates">developers.google.com/web/updates/2015/08/27/using-requestidlecallback</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Chrome</span></p>
+
+<p>requestIdleCallback에 대해 설명<br>
+Idle 같이 단기간 비동기 콜백을 호출하는 게 가능해, 두번째 인수로 일정 시간 내 반드시 호출하는 <code>timeout</code>을 지정할 수 있다.</p>
+
+<hr>
+
+<h2 id="fizzbuzz">fizzbuzz</h2>
+
+<p><a href="http://ditam.github.io/posts/fizzbuzz.html" title="fizzbuzz">ditam.github.io/posts/fizzbuzz.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">알고리즘</span></p>
+
+<p>JavaScript에서 20종류의 FizzBuzz를 구현</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드 및 동영상</h1>
+
+<hr>
+
+<h2 id="back-to-basics-css-2015-08-30">기본 이전의 기초지식 - Back to Basics CSS 2015-08-30</h2>
+
+<p><a href="http://unformedbuilding.com/slide/back-to-basics-2015-08-30/#/" title="기본 이전의 기초지식 - Back to Basics CSS 2015-08-30">unformedbuilding.com/slide/back-to-basics-2015-08-30/#/</a> <a href="http://techhtml.github.io/TR/">한국어문서</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">spec</span> <span class="jser-tag">슬라이드</span></p>
+
+<p>CSS 스펙 읽는 법에 대한 슬라이드<br>
+스펙에 나오는 구문 읽는 법이나 단위에 대해 설명하고 있다.</p>
+
+<hr>
+
+<h2 id="npm3-speaker-deck">npm3 ❓ // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/watilde/npm3" title="npm3 ❓ // Speaker Deck">speakerdeck.com/watilde/npm3</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">슬라이드</span></p>
+
+<p>npm3에 추가한 기능이나 변경점에 대한 슬라이드</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="thimble-by-mozilla-an-online-code-editor-for-learners-educators">Thimble by Mozilla - An online code editor for learners &amp; educators.</h2>
+
+<p><a href="https://thimble.mozilla.org/" title="Thimble by Mozilla - An online code editor for learners &amp; educators.">thimble.mozilla.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Mozilla</span> <span class="jser-tag">webservice</span> <span class="jser-tag">editor</span></p>
+
+<p>온라인으로 웹사이트를 제작하는 서비스.<br>
+JSFiddle 같은 에디터와 프리뷰, 파일트리를 지원.<br>
+또한 임의의 파일을 업로드한 뒤 HTML로 표현 가능해 편리해보인다.</p>
+
+<hr>
+
+<h2 id="mattdesl-promise-cookbook">mattdesl/promise-cookbook</h2>
+
+<p><a href="https://github.com/mattdesl/promise-cookbook" title="mattdesl/promise-cookbook">github.com/mattdesl/promise-cookbook</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">book</span></p>
+
+<p>Promise 기본 사용방법, 메소드에 대해 설명하고 있는 Cookbook</p>
+
+<hr>
+
+<h2 id="js-org-news">JS.ORG | NEWS</h2>
+
+<p><a href="http://news.js.org/" title="JS.ORG | NEWS">news.js.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">news</span></p>
+
+<p>유저가 제보한 JavaScript 뉴스를 모아둔 사이트</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 툴, 라이브러리</h1>
+
+<hr>
+
+<h2 id="izzimach-react-pixi">Izzimach/react-pixi</h2>
+
+<p><a href="https://github.com/Izzimach/react-pixi" title="Izzimach/react-pixi">github.com/Izzimach/react-pixi</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span></p>
+
+<p>React에서 Pixi.js의 Canvas를 조작할 수 있게하는 라이브러리</p>
+
+<hr>
+
+<h2 id="mysticatea-npm-run-all">mysticatea/npm-run-all</h2>
+
+<p><a href="https://github.com/mysticatea/npm-run-all" title="mysticatea/npm-run-all">github.com/mysticatea/npm-run-all</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p>
+
+<p>npm run-script에 정의한 스크립트의 병렬실행 및 순차실행 등을 보조하는 커맨드라인 도구<br>
+Node 모듈로도 사용 가능하다</p>
+
+<ul>
+<li><a href="http://akabeko.me/blog/2015/08/npm-run-all-and-concurrently/" title="npm-run-all 과 concurrently를 사용해보다 | アカベコマイリ">npm-run-all과 concurrently 사용해보다 | アカベコマイリ</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">서적</h1>
+
+<hr>
+
+<h2 id="amazon-reactive-programming-with-rxjs-untangle-your-asynchronous-javascript-code-sergi-mansilla">Amazon: Reactive Programming with Rxjs: Untangle Your Asynchronous JavaScript Code: Sergi Mansilla</h2>
+
+<p><a href="http://www.amazon.com/dp/1680501291?tag=amazon0abac-22" title="Amazon: Reactive Programming with Rxjs: Untangle Your Asynchronous JavaScript Code: Sergi Mansilla">www.amazon.com/dp/1680501291?tag=amazon0abac-22</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Rx</span> <span class="jser-tag">library</span> <span class="jser-tag">book</span></p>
+
+<p>2016년 3월 25일 발매<br>
+RxJS에서 리액티브 프로그래밍에 대한 서적</p>
+
+<hr>
+
+<h2 id="survivejs-webpack-and-react">SurviveJS - Webpack and React</h2>
+
+<p><a href="http://survivejs.com/" title="SurviveJS - Webpack and React">survivejs.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">React</span> <span class="jser-tag">book</span></p>
+
+<p>Webpack과 React에 대한 서적</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2015/2015-09-02-msedge-unidirectional-architectures-read-css.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Flux","MVC","MSEdge","CSS","Spec"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Flux</li>
+                
+                <li>MVC</li>
+                
+                <li>MSEdge</li>
+                
+                <li>CSS</li>
+                
+                <li>Spec</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2015/09/02/msedge-unidirectional-architectures-read-css/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

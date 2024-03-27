@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-04-29のJS: Firefox29、Promises、ES6へ向けて - JSer.info</title>
+    <meta name="description" content="JSer.info #172 - Firefox 29がリリースされました。UI的にも大きな変更がありますが、ES6 PromisesやSharedWorker、ECMAScript i18n APIの実装など追加されています。特にWebWorker内からconsoleに触れるようになったり、worker周りの変...">
+    
+    <meta name="keywords" content="Firefox,Promises,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2014-04-30T00:50:19+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="Promises" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/84230597159/2014-04-29-js-firefox29-promises-es6">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #172 - Firefox 29がリリースされました。UI的にも大きな変更がありますが、ES6 PromisesやSharedWorker、ECMAScript i18n APIの実装など追加されています。特にWebWorker内からconsoleに触れるようになったり、worker周りの変..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2014-04-29のJS: Firefox29、Promises、ES6へ向けて">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/84230597159/2014-04-29-js-firefox29-promises-es6">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #172 - Firefox 29がリリースされました。UI的にも大きな変更がありますが、ES6 PromisesやSharedWorker、ECMAScript i18n APIの実装など追加されています。特にWebWorker内からconsoleに触れるようになったり、worker周りの変...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2014-04-30T00:50:19+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="Promises">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/84230597159/2014-04-29-js-firefox29-promises-es6">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/84230597159/2014-04-29-js-firefox29-promises-es6">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/84230597159/2014-04-29-js-firefox29-promises-es6">2014-04-29のJS: Firefox29、Promises、ES6へ向けて</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年04月30日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-04-30-2014-04-29-js-firefox29-promises-es6.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2014-04-30-2014-04-29-js-firefox29-promises-es6.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/84230597159/2014-04-29-js-firefox29-promises-es6">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/84230597159/2014-04-29-js-firefox29-promises-es6"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #172 - <a href="http://www.mozilla.org/en-US/firefox/29.0/releasenotes/" title="Firefox — Notes — Mozilla" target="_blank">Firefox 29</a>がリリースされました。
+<a href="http://utaukitune.ldblog.jp/archives/65771046.html" title="歌うキツネ : Firefox 28までと Firefox 29以降の ユーザインタフェース(UI)の違い" target="_blank">UI的にも大きな変更</a>がありますが、ES6 PromisesやSharedWorker、ECMAScript i18n APIの実装など追加されています。
+特にWebWorker内から<code>console</code>に触れるようになったり、worker周りの変更が色々あるみたいです。</p>
+
+<p>またオプションの変更が必要ですが<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables" title="CSS variables" target="_blank">CSS variables</a>の実装等もされています</p>
+
+<ul><li><a href="https://developer.mozilla.org/en-US/Firefox/Releases/29" title="Firefox 29 for developers - Mozilla | MDN" target="_blank">Firefox 29 for developers - Mozilla | MDN</a></li>
+</ul><hr><p>Firefox29、Chrome35で実装されているES6 Promisesのpolyfillである<a href="https://github.com/jakearchibald/es6-promise" title="ES6-Promises" target="_blank">ES6-Promises</a>も1.0.0がリリースされて、結構前にあったES6の仕様変更に追従されています。(ES6 PromisesのAPIの変更はもうないと思います)</p>
+
+<p>また、Angularでは<a href="http://blog.angularjs.org/2014/03/angular-20.html" title="AngularJS 2.0 | AngularJS" target="_blank">2.0</a>に入れるPromisesを使った実装がについてのデザインとDIの仕組みが<a href="https://github.com/angular/deferred" title="Angular 2.0 Deferred/Promise" target="_blank">Angular 2.0 Deferred/Promise</a>で進められています。(1.xでは<a href="https://docs.angularjs.org/api/ng/service/%24q" title="$q" target="_blank">$q</a>というのがそれ)</p>
+
+<ul><li><a href="https://github.com/angular/angular.js/issues/6697" title="Decouple $q in AngularJS 2.0 (and/or switch to bluebird) · Issue #6697 · angular/angular.js" target="_blank">Decouple $q in AngularJS 2.0 (and/or switch to bluebird) · Issue #6697 · angular/angular.js</a></li>
+</ul><p>Node.js 0.12でもV8経由でPromisesが入るので、この機会に触ってみるといいかもしれませんね。</p>
+
+<ul><li><a href="http://www.slideshare.net/shigeki_ohtsu/node-v012tng12" title="Node-v0.12の新機能について" target="_blank">Node-v0.12の新機能について</a></li>
+</ul><p>自分の方でも、ES6 Promiseについて<a href="http://azu.github.io/promises-book/" title="Promises book" target="_blank">Promises book</a>（仮）というものを書いています。</p>
+
+<p>基本的な使い方の部分については大体書いたので、その辺については参考になるかもしれません。</p>
+
+<p>今は最終章を進めてるのでそれが終わったら細かいところを直していきます。
+(結構勢いで書いてる部分も多いので、修正<a href="https://github.com/azu/promises-book/pulls" title="Pull Requests · azu/promises-book" target="_blank">Pull Requests</a>待ってます!)</p>
+
+<ul><li><a href="https://github.com/azu/promises-book/issues/5" title="第4章の内容を決定する · Issue #5 · azu/promises-book" target="_blank">第4章の内容を決定する · Issue #5 · azu/promises-book</a></li>
+</ul><hr><p><a href="http://www.hakkalabs.co/articles/ecmascript-6-at-facebook" title="Regenerator, AST, and ES6 at Facebook" target="_blank">Regenerator, AST, and ES6 at Facebook</a> で公開されている<a href="https://www.youtube.com/watch?v=z_qc4T4BCGc" title="▶ Regenerator, AST, and ES6 at Facebook (Tech Talk by Ben Newman) - YouTube" target="_blank">動画</a>と<a href="http://benjamn.github.io/pivotal-meetup-talk/#/" title="Technical and Social Progress Toward ECMAScript 6 at Facebook" target="_blank">スライド</a>では、JavaScript ASTを使った変換ツール、またそれを社内でどう運用するか等について話されています。</p>
+
+<p>facebookでのJavaScriptにおいて、<a href="http://benjamn.github.io/pivotal-meetup-talk/#/23" title="Technical and Social Progress Toward ECMAScript 6 at Facebook" target="_blank">オレオレクラスとLintツールと解説を用意して</a>運用しても、<a href="http://benjamn.github.io/pivotal-meetup-talk/#/24" title="Technical and Social Progress Toward ECMAScript 6 at Facebook" target="_blank">だれも解説を読まないし、オレオレクラスについて学ぼうとは思わない</a>となった。</p>
+
+<p>そのため、ES5でES6のようなもの(オレオレclass)を書くのではなく、ES6で書いたものをES5に変換して運用した方がよりシンプルで人間やツールにとっても優しい という話など結構踏み込まれた内容が話されています。</p>
+
+<p>また、発表者は<a href="https://github.com/facebook/regenerator" title="regenerator" target="_blank">regenerator</a>の作者でもありますが、そのような難しいサイドプロジェクトをする<a href="http://benjamn.github.io/pivotal-meetup-talk/#/56" title="Motivation" target="_blank">モチベーション</a>や<a href="http://benjamn.github.io/pivotal-meetup-talk/#/60" title="Technical and Social Progress Toward ECMAScript 6 at Facebook" target="_blank">フィードバックを受けやすくする</a>にはどうするか等についても話されていてJavaScript関係なく参考になる話が多いです。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://www.mozilla.org/en-US/mobile/29.0/releasenotes/" title="Firefox — Notes — Mozilla">
+<p class="jser-sitelink"><strong>Firefox — Notes — Mozilla</strong></p><footer><cite><a href="http://www.mozilla.org/en-US/firefox/29.0/releasenotes/" title="Firefox — Notes — Mozilla" target="_blank">www.mozilla.org/en-US/firefox/29.0/releasenotes/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Firefox29リリース。</p>
+
+<p><code>box-sizing</code>がunprefixに、ECMAScript i18n APIの実装、ES6 Promises、SharedWorker、webworkerから扱えるものが増えた、Gamepad APIが有効に</p>
+
+<ul><li><a href="https://developer.mozilla.org/en-US/Firefox/Releases/29" target="_blank">Firefox 29 for developers - Mozilla | MDN</a></li>
+</ul><blockquote cite="http://blog.jqueryui.com/2014/04/jquery-ui-1-11-0-beta-1/" title="jQuery UI 1.11.0-beta.1 | jQuery UI Blog">
+<p class="jser-sitelink"><strong>jQuery UI 1.11.0-beta.1 | jQuery UI Blog</strong></p><footer><cite><a href="http://blog.jqueryui.com/2014/04/jquery-ui-1-11-0-beta-1/" title="jQuery UI 1.11.0-beta.1 | jQuery UI Blog" target="_blank">blog.jqueryui.com/2014/04/jquery-ui-1-11-0-beta-1/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span><span class="jser-tag">UI</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>jQuery UI 1.11.0βリリース</p>
+
+<p>IE7のサポート終了、ワークアラウンドはまだ残ってるけど1.12でコードベースから削除される</p>
+
+<blockquote cite="http://blog.jquery.com/2014/04/18/jquery-1-11-1-rc2-and-2-1-1-rc2-released/" title="jQuery 1.11.1 RC2 and 2.1.1 RC2 Released | Official jQuery Blog">
+<p class="jser-sitelink"><strong>jQuery 1.11.1 RC2 and 2.1.1 RC2 Released | Official jQuery Blog</strong></p><footer><cite><a href="http://blog.jquery.com/2014/04/18/jquery-1-11-1-rc2-and-2-1-1-rc2-released/" title="jQuery 1.11.1 RC2 and 2.1.1 RC2 Released | Official jQuery Blog" target="_blank">blog.jquery.com/2014/04/18/jquery-1-11-1-rc2-and-2-1-1-rc2-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>jQuery 1.11.1 RC2と2.1.1 RC2リリース。</p>
+
+<blockquote cite="https://github.com/yyx990803/vue/releases/tag/v0.10.4" title="Release v0.10.4: Release-v0.10.4 · yyx990803/vue">
+<p class="jser-sitelink"><strong>Release v0.10.4: Release-v0.10.4 · yyx990803/vue</strong></p><footer><cite><a href="https://github.com/yyx990803/vue/releases/tag/v0.10.4" title="Release v0.10.4: Release-v0.10.4 · yyx990803/vue" target="_blank">github.com/yyx990803/vue/releases/tag/v0.10.4</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Vue.js 0.10.4リリース</p>
+
+<blockquote cite="https://github.com/jakearchibald/es6-promise/releases/tag/1.0.0" title="Release 1.0.0 · jakearchibald/es6-promise">
+<p class="jser-sitelink"><strong>Release 1.0.0 · jakearchibald/es6-promise</strong></p><footer><cite><a href="https://github.com/jakearchibald/es6-promise/releases/tag/1.0.0" title="Release 1.0.0 · jakearchibald/es6-promise" target="_blank">github.com/jakearchibald/es6-promise/releases/tag/1.0.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>ES6 Promisesのpolyfillライブラリであるes6-promise 1.0.0リリース。</p>
+
+<p>ES6の仕様に追従した変更として<code>cast</code>がなくなり、<code>resolve</code>を使うようになった</p>
+
+<h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://blogs.msdn.com/b/ie_ja/archive/2014/04/21/whats-new-in-f12-w-windows-8-1-update.aspx" title="Windows 8.1 Update での F12 の新機能 - IEBlog 日本語 - Site Home - MSDN Blogs">
+<p class="jser-sitelink"><strong>Windows 8.1 Update での F12 の新機能 - IEBlog 日本語 - Site Home - MSDN Blogs</strong></p><footer><cite><a href="http://blogs.msdn.com/b/ie_ja/archive/2014/04/21/whats-new-in-f12-w-windows-8-1-update.aspx" title="Windows 8.1 Update での F12 の新機能 - IEBlog 日本語 - Site Home - MSDN Blogs" target="_blank">blogs.msdn.com/b/ie_ja/archive/2014/04/21/whats-new-in-f12-w-windows-8-1-update.aspx</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">IE</span><span class="jser-tag">debug</span><span class="jser-tag">Tools</span></p>
+
+<p>IE11のDevToolsのアップデート内容について。</p>
+
+<p>CSSの変更履歴の表示、SourceMapの対応、デバッグ対象のフィルタリング、メモリリーク等を見つけられるスナップショット機能等</p>
+
+<ul><li><a href="http://qiita.com/sora_h/items/f3ef444fa1c1d8d0e9fd" target="_blank">Chrome/Firefox の JavaScript Debugger でステップ実行時にライブラリ・フレームワークをスキップする - Qiita</a></li>
+<li><a href="http://msdn.microsoft.com/en-US/library/ie/dn255007%28v=vs.85%29#source_maps" target="_blank">Inspect running JavaScript with the Debugger (Windows)</a></li>
+</ul><blockquote cite="http://tatyusa.logdown.com/posts/196064/javascript-period-in-non" title="JavaScriptにおける非同期パターン #翻訳 « Tatyusa's Note">
+<p class="jser-sitelink"><strong>JavaScriptにおける非同期パターン #翻訳 «&#160;Tatyusa&#8217;s Note</strong></p><footer><cite><a href="http://tatyusa.logdown.com/posts/196064/javascript-period-in-non" title="JavaScriptにおける非同期パターン #翻訳 « Tatyusa's Note" target="_blank">tatyusa.logdown.com/posts/196064/javascript-period-in-non</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">翻訳</span></p>
+
+<p><a href="http://bredele.github.io/async/" target="_blank">http://bredele.github.io/async/</a> の翻訳。</p>
+
+<p>非同期処理のパターンについて</p>
+
+<blockquote cite="http://www.nczonline.net/blog/2014/04/22/creating-defensive-objects-with-es6-proxies/" title="Creating defensive objects with ES6 proxies | NCZOnline">
+<p class="jser-sitelink"><strong>Creating defensive objects with ES6 proxies | NCZOnline</strong></p><footer><cite><a href="http://www.nczonline.net/blog/2014/04/22/creating-defensive-objects-with-es6-proxies/" title="Creating defensive objects with ES6 proxies | NCZOnline" target="_blank">www.nczonline.net/blog/2014/04/22/creating-defensive-objects-with-es6-proxies/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>Proxy APIについて。 Proxyを使ってObject.sealやpreventExtensionsみたいなプロパティアクセスの制御</p>
+
+<blockquote cite="http://css-tricks.com/icon-fonts-vs-svg/" title="Inline SVG vs Icon Fonts [CAGEMATCH] | CSS-Tricks">
+<p class="jser-sitelink"><strong>Inline SVG vs Icon Fonts [CAGEMATCH] | CSS-Tricks</strong></p><footer><cite><a href="http://css-tricks.com/icon-fonts-vs-svg/" title="Inline SVG vs Icon Fonts [CAGEMATCH] | CSS-Tricks" target="_blank">css-tricks.com/icon-fonts-vs-svg/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">画像</span><span class="jser-tag">SVG</span><span class="jser-tag">fonts</span></p>
+
+<p>アイコンフォントとインラインSVの比較。</p>
+
+<p>IE+9/Android3+ならSVGを使う方が良いとこの話</p>
+
+<blockquote cite="http://awardwinningfjords.com/2014/04/21/functional-programming-in-javascript-equals-garbage.html" title="Functional Programming in Javascript === Garbage « Thomas Reynolds">
+<p class="jser-sitelink"><strong>Functional Programming in Javascript === Garbage «&#160;Thomas Reynolds</strong></p><footer><cite><a href="http://awardwinningfjords.com/2014/04/21/functional-programming-in-javascript-equals-garbage.html" title="Functional Programming in Javascript === Garbage « Thomas Reynolds" target="_blank">awardwinningfjords.com/2014/04/21/functional-programming-in-javascript-equals-garbage.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">関数型プログラミング</span></p>
+
+<p>JavaScriptで関数型スタイルを取るときに気をつけるべきこと。</p>
+
+<p>Immutableにするためにコピーが必要なこと、末尾最適化がないためトランポリン、関数合成と部分適応について</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="http://www.slideshare.net/shigeki_ohtsu/node-v012tng12" title="Node-v0.12の新機能について">
+<p class="jser-sitelink"><strong>Node-v0.12の新機能について</strong></p><footer><cite><a href="http://www.slideshare.net/shigeki_ohtsu/node-v012tng12" title="Node-v0.12の新機能について" target="_blank">www.slideshare.net/shigeki_ohtsu/node-v012tng12</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">スライド</span></p>
+
+<p>Node.js 0.12についてのスライド。</p>
+
+<p>ES6の機能の追加、Stream3(又stream1,2の問題点)、動機child_process、<code>beforeExit</code>イベント、新しいvmモジュールについて等</p>
+
+<blockquote cite="http://johnkpaul.github.io/presentations/jsconf-br/es6-now/#/" title="ES6 on the front end">
+<p class="jser-sitelink"><strong>ES6 on the front end</strong></p><footer><cite><a href="http://johnkpaul.github.io/presentations/jsconf-br/es6-now/#/" title="ES6 on the front end" target="_blank">johnkpaul.github.io/presentations/jsconf-br/es6-now/#/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span><span class="jser-tag">JavaScript</span><span class="jser-tag">スライド</span></p>
+
+<p>ES6の機能を実際に実行しながら紹介してるスライド。</p>
+
+<p>実際に今使う方法としてTraceur、es6fyについて</p>
+
+<blockquote cite="http://www.slideshare.net/wookieb/callbacks-promises-generators-asynchronous-javascript" title="Callbacks, promises, generators - asynchronous javascript">
+<p class="jser-sitelink"><strong>Callbacks, promises, generators - asynchronous javascript</strong></p><footer><cite><a href="http://www.slideshare.net/wookieb/callbacks-promises-generators-asynchronous-javascript" title="Callbacks, promises, generators - asynchronous javascript" target="_blank">www.slideshare.net/wookieb/callbacks-promises-generators-asynchronous-javascript</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">スライド</span></p>
+
+<p>JavaScriptの非同期処理のスライド。</p>
+
+<p>Async+コールバックのウォーターフォールな書き方。</p>
+
+<p>Promiseを使って行う場合に、コールバックスタイルをPromiseに変換、既存の関数を利用する方法について。</p>
+
+<p>Generator、thunk、coを使った方法に ついてバランスよくまとまってる。</p>
+
+<p>コールバックベースの関数をPublic APIとして用意して、自分orチームに最適な方法を選んで使うという方針についても書かれてる</p>
+
+<blockquote cite="http://www.hakkalabs.co/articles/ecmascript-6-at-facebook" title="Regenerator, AST, and ES6 at Facebook">
+<p class="jser-sitelink"><strong>Regenerator, AST, and ES6 at Facebook</strong></p><footer><cite><a href="http://www.hakkalabs.co/articles/ecmascript-6-at-facebook" title="Regenerator, AST, and ES6 at Facebook" target="_blank">www.hakkalabs.co/articles/ecmascript-6-at-facebook</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">AST</span><span class="jser-tag">動画</span><span class="jser-tag">スライド</span></p>
+
+<p>regeneratorの作者(Facebook社)によるJavaScript ASTによる変換についてのスライド。</p>
+
+<p>ES6 -&gt; ES5の変換の仕組みやfacebook.com内のコードの置き換えた結果やそこから学んだ事について。</p>
+
+<p>変換ツールを運用する際のTipsについても書かれてる。</p>
+
+<p>React、regeneratorの変換、動作の仕組みについて。</p>
+
+<p>また何故このような難しいものをサイドプロジェクトとしてやっているのかについて話されてる。</p>
+
+<ul><li><a href="http://benjamn.github.io/pivotal-meetup-talk/#/" target="_blank">Technical and Social Progress Toward ECMAScript 6 at Facebook</a></li>
+<li><a href="https://github.com/benjamn/pivotal-meetup-talk" title="benjamn/pivotal-meetup-talk" target="_blank">benjamn/pivotal-meetup-talk</a></li>
+</ul><blockquote cite="http://www.confreaks.com/events/mwjs" title="MountainWest JavaScript 2014 Schedule - Confreaks, LLC">
+<p class="jser-sitelink"><strong>MountainWest JavaScript 2014 Schedule - Confreaks, LLC</strong></p><footer><cite><a href="http://www.confreaks.com/events/mwjs" title="MountainWest JavaScript 2014 Schedule - Confreaks, LLC" target="_blank">www.confreaks.com/events/mwjs</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">動画</span><span class="jser-tag">イベント</span></p>
+
+<p>MountainWest JavaScript 2014の動画が公開された。</p>
+
+<p><a href="http://mtnwestjs.org/2014/" target="_blank">http://mtnwestjs.org/2014/</a></p>
+
+<ul><li><a href="https://www.youtube.com/playlist?list=PLVjBwkjgx9fq7x3enYMzgpQkrSvJiI8-X" target="_blank">MountainWest JavaScript 2014 - YouTube</a></li>
+</ul><h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="https://github.com/github/linguist/pull/979" title="dramatically enhance colors for javascript and css by maxogden · Pull Request #979 · github/linguist">
+<p class="jser-sitelink"><strong>dramatically enhance colors for javascript and css by maxogden · Pull Request #979 · github/linguist</strong></p><footer><cite><a href="https://github.com/github/linguist/pull/979" title="dramatically enhance colors for javascript and css by maxogden · Pull Request #979 · github/linguist" target="_blank">github.com/github/linguist/pull/979</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">github</span><span class="jser-tag">JavaScript</span><span class="jser-tag">CSS</span><span class="jser-tag">color</span></p>
+
+<p>GithubのJavaScriptとCSSの色が変更された。</p>
+
+<p>JSConf color と bootstrapc color</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="https://github.com/angular/deferred" title="angular/deferred">
+<p class="jser-sitelink"><strong>angular/deferred</strong></p><footer><cite><a href="https://github.com/angular/deferred" title="angular/deferred" target="_blank">github.com/angular/deferred</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">testing</span><span class="jser-tag">library</span></p>
+
+<p>Promisesを使ったDeferred(主にDIのため)</p>
+
+<p>PromiseMockという同期的にPromise APIのテストをするためのモジュールと、Promiseをモックに置き換えるzoneを提供するPromiseBackendの構成。</p>
+
+<blockquote cite="https://github.com/scottcorgan/lag" title="scottcorgan/lag">
+<p class="jser-sitelink"><strong>scottcorgan/lag</strong></p><footer><cite><a href="https://github.com/scottcorgan/lag" title="scottcorgan/lag" target="_blank">github.com/scottcorgan/lag</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">library</span></p>
+
+<p>underscoreのpromises版みたいなライブラリ。</p>
+
+<blockquote cite="http://mozilla.github.io/nunjucks/" title="Nunjucks">
+<p class="jser-sitelink"><strong>Nunjucks</strong></p><footer><cite><a href="http://mozilla.github.io/nunjucks/" title="Nunjucks" target="_blank">mozilla.github.io/nunjucks/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Mozilla</span><span class="jser-tag">library</span></p>
+
+<p>Mozillaのサービス等で使ってるJavaScriptテンプレートエンジン。</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-04-30-2014-04-29-js-firefox29-promises-es6.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Firefox","Promises","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Firefox</li>
+                
+                <li>Promises</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/84230597159/2014-04-29-js-firefox29-promises-es6">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/84230597159/2014-04-29-js-firefox29-promises-es6"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

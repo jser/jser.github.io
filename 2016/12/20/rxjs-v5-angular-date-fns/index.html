@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2016-12-20のJS: RxJS v5、Angular、date-fns - JSer.info</title>
+    <meta name="description" content="JSer.info #310 - RxJS 5がリリースされました。MicrosoftがメンテナンスしていたReactive-Extensions/RxJS(RxJS 4)を書き直したバージョンで、互換性がある部分はありますがAPIも色々変更されています。">
+    
+    <meta name="keywords" content="Rx,Angular,Date,library" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2016-12-20T10:38:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Rx" property="article:tag">
+      
+      <meta content="Angular" property="article:tag">
+      
+      <meta content="Date" property="article:tag">
+      
+      <meta content="library" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2016/12/20/rxjs-v5-angular-date-fns/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #310 - RxJS 5がリリースされました。MicrosoftがメンテナンスしていたReactive-Extensions/RxJS(RxJS 4)を書き直したバージョンで、互換性がある部分はありますがAPIも色々変更されています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2016-12-20のJS: RxJS v5、Angular、date-fns">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2016/12/20/rxjs-v5-angular-date-fns/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #310 - RxJS 5がリリースされました。MicrosoftがメンテナンスしていたReactive-Extensions/RxJS(RxJS 4)を書き直したバージョンで、互換性がある部分はありますがAPIも色々変更されています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2016-12-20T10:38:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Rx">
+
+<meta property="article:tag" content="Angular">
+
+<meta property="article:tag" content="Date">
+
+<meta property="article:tag" content="library">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="/public/img/github-ribbon.png" alt="Fork me on GitHub" loading="lazy">
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img alt="" src="/public/img/logo.png" width="518" height="172"></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2016/12/20/rxjs-v5-angular-date-fns/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2016/12/20/rxjs-v5-angular-date-fns/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2016/12/20/rxjs-v5-angular-date-fns/">2016-12-20のJS: RxJS v5、Angular、date-fns</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2016年12月20日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt=""></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-12-20-rxjs-v5-angular-date-fns.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt=""></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2016/2016-12-20-rxjs-v5-angular-date-fns.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/12/20/rxjs-v5-angular-date-fns/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/12/20/rxjs-v5-angular-date-fns/" data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #310 - <a href="https://github.com/ReactiveX/rxjs" title="RxJS 5">RxJS 5</a>がリリースされました。<br>
+Microsoftがメンテナンスしていた<a href="https://github.com/Reactive-Extensions/RxJS" title="Reactive-Extensions/RxJS">Reactive-Extensions/RxJS</a>(RxJS 4)を書き直したバージョンで、互換性がある部分はありますがAPIも色々変更されています。</p>
+
+<ul>
+<li><a href="https://github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md#500-2016-12-13" title="rxjs/CHANGELOG.md at master · ReactiveX/rxjs">rxjs/CHANGELOG.md at master · ReactiveX/rxjs</a></li>
+</ul>
+
+<p>v4からv5へのマイグレーションは次のドキュメントにまとめられています。</p>
+
+<ul>
+<li><a href="https://github.com/ReactiveX/rxjs/blob/master/MIGRATION.md" title="Migrating from RxJS 4 to 5">Migrating from RxJS 4 to 5</a></li>
+</ul>
+
+<p>RxJS v5は現在Stage 1の<a href="https://github.com/tc39/proposal-observable" title="ECMAScript Observable">ECMAScript Observable</a> Proposalに準拠した実装です。<br>
+(<a href="https://thefeedbackloop.xyz/tc39-a-process-sketch-stages-0-and-1/" title="Stage 1">Stage 1</a>なので仕様自体が変わる可能性はあります)</p>
+
+<p>また、デバッグのしやすさやパフォーマンスなどが改善され、Rxの特徴と言えるOperatorが整理されています。</p>
+
+<hr>
+
+<p>AngularJS 1.xの最新版である<a href="http://angularjs.blogspot.jp/2016/12/angular-160-released.html" title="AngularJS 1.6.0">AngularJS 1.6.0</a>がリリースされました。</p>
+
+<ul>
+<li><a href="http://angularjs.blogspot.jp/2016/12/angular-160-released.html" title="Angular: Angular 1.6.0 released">Angular: Angular 1.6.0 released</a></li>
+<li><a href="https://github.com/angular/angular.js/blob/master/CHANGELOG.md#160-rainbow-tsunami-2016-12-08" title="1.6.0 rainbow-tsunami (2016-12-08)">1.6.0 rainbow-tsunami (2016-12-08)</a></li>
+</ul>
+
+<p>詳しい変更点は<a href="https://github.com/angular/angular.js/blob/master/CHANGELOG.md#160-rainbow-tsunami-2016-12-08">CHANGELOG</a>にかかれています。<br>
+jqLiteをjQuery 3の挙動に合わせるように変更、<a href="http://angularjs.blogspot.jp/2016/09/angular-16-expression-sandbox-removal.html">Expression Sandboxを削除</a>。<br>
+また、JSONPリクエストはホワイトリストがデフォルトになるなど多数のBreaking Changeが含まれています。</p>
+
+<p>AngularJS 1.xはsemverではありませんが、2.0からはsemverに沿う方針へ変更されています。<br>
+加えて2.0はタイムラインベースのアップデートも行うため、Angaular 2からは半年ごとのmajorアップデートを行います。<br>
+また、3.xは<code>@angular/router</code>がすでにv3を使っていて、バージョンがずれてしまうため、次のメジャーバージョンはv4となるそうです。</p>
+
+<p>詳しくは、次の記事で解説されています。</p>
+
+<ul>
+<li><a href="http://angularjs.blogspot.jp/2016/12/ok-let-me-explain-its-going-to-be.html" title="Angular: Ok... let me explain: it&amp;#39;s going to be Angular 4.0, or just Angular">Angular: Ok... let me explain: it's going to be Angular 4.0, or just Angular</a></li>
+<li><a href="http://www.publickey1.jp/blog/16/angularangular_420173angular.html" title="Angularの次バージョンは「Angular 4」に、2017年3月リリース。今後は単に「Angular」と呼んでほしいと － Publickey">Angularの次バージョンは「Angular 4」に、2017年3月リリース。今後は単に「Angular」と呼んでほしいと － Publickey</a></li>
+</ul>
+
+<p>AngularのLTSについては特に決まっていないようです。</p>
+
+<ul>
+<li><a href="https://github.com/angular/angular/issues/12331" title="Angular LTS version · Issue #12331 · angular/angular">Angular LTS version · Issue #12331 · angular/angular</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://date-fns.org/" title="date-fns - modern JavaScript date utility library">date-fns - modern JavaScript date utility library</a>というライブラリは<a href="http://momentjs.com/" title="Moment.js">Moment.js</a>のように日付周りを扱うutility集ライブラリです。<br>
+<a href="https://lodash.com/" title="Lodash">Lodash</a>のように、それぞれの操作を独立した関数として扱うことが目的の一つとなっています。<br>
+そのため、必要なものだけを読み込んで使うことができます。</p>
+
+<p>また、Moment.jsは基本的にMutableなAPIとなっていますが、date-fnsはImmutableなAPIとなっています。</p>
+
+<ul>
+<li>Moment.jsでもImmutableに扱うAPIの提案がでています</li>
+<li><a href="https://github.com/moment/moment-rfcs/pull/2" title="Support a pseudo-immutable API (first-party Frozen Moment) by butterflyhug · Pull Request #2 · moment/moment-rfcs">Support a pseudo-immutable API (first-party Frozen Moment) by butterflyhug · Pull Request #2 · moment/moment-rfcs</a></li>
+</ul>
+
+<p>まだ開発中の部分もありますが、現在の状況は次にまとめられています。</p>
+
+<ul>
+<li><a href="https://github.com/date-fns/date-fns/issues/275#issuecomment-264934189" title="Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns">Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns</a></li>
+</ul>
+
+<hr>
+
+<h2 id="part-2a003bb4b350ea2b">お知らせ</h2>
+
+<p><a href="https://jser.connpass.com/event/46997/" title="JSer.info 6周年と300回記念イベント - connpass">JSer.info 6周年と300回記念イベント - connpass</a>の抽選結果が発表されています。<br>
+まだ、発表枠があるので何か話したい事がある人は申し込んで見てください。</p>
+
+<ul>
+<li><a href="https://jser.info/2016/12/13/announcement-jser-info-6years-event/" title="2017年1月15日(日)に JSer.info 6周年 &amp;amp;&amp;amp; 300回目記念イベント を開催します - JSer.info">2017年1月15日(日)に JSer.info 6周年 &amp;&amp; 300回目記念イベント を開催します - JSer.info</a></li>
+</ul>
+
+<p>また、当日JavaScript Discussionというコーナーで次の質問ボードを元に議論する時間が設けています。<br>
+質問、聞きたいこと、話したいこと、主張を書き込むことができます。<br>
+当日も時間を取りますが、事前に書いてもらっても問題ありません。</p>
+
+<ul>
+<li><a href="https://app.sli.do/event/bkry5ojl/ask" title="JSer.info 6周年 - JavaScript Discussion">JSer.info 6周年 - JavaScript Discussion</a></li>
+</ul>
+
+<p>気になる質問は <img class="emoji" title=":+1:" alt=":+1:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="20" width="20"> で投票すると上に来るのでテーマとして取り上げやすくなります。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="rxjs-changelog-md-at-master-reactivex-rxjs">rxjs/CHANGELOG.md at master · ReactiveX/rxjs</h2>
+
+<p><a href="https://github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md" title="rxjs/CHANGELOG.md at master · ReactiveX/rxjs">github.com/ReactiveX/rxjs/blob/master/CHANGELOG.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>RxJS 5.0.0リリース</p>
+
+<hr>
+
+<h2 id="jsdom-changelog-md-at-9-9-0-tmpvar-jsdom">jsdom/Changelog.md at 9.9.0 · tmpvar/jsdom</h2>
+
+<p><a href="https://github.com/tmpvar/jsdom/blob/9.9.0/Changelog.md" title="jsdom/Changelog.md at 9.9.0 · tmpvar/jsdom">github.com/tmpvar/jsdom/blob/9.9.0/Changelog.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jsdom 9.9.0リリース。<br>
+<code>document.createCDATASection</code>、<code>node.wholeText</code>のサポート、バグ修正など</p>
+
+<hr>
+
+<h2 id="release-v5-0-0-reactjs-react-redux">Release v5.0.0 · reactjs/react-redux</h2>
+
+<p><a href="https://github.com/reactjs/react-redux/releases/tag/v5.0.0" title="Release v5.0.0 · reactjs/react-redux">github.com/reactjs/react-redux/releases/tag/v5.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React-Redux v5.0.0リリース。<br>
+後方互換性はあるけどメジャーアップデート、<code>connect()</code>のオプションを追加、<code>connectAdvanced()</code>を追加など</p>
+
+<hr>
+
+<h2 id="webpack-2-2-the-release-candidate-webpack-medium">webpack 2.2: The Release Candidate – webpack – Medium</h2>
+
+<p><a href="https://medium.com/webpack/webpack-2-2-the-release-candidate-2e614d05d75f" title="webpack 2.2: The Release Candidate – webpack – Medium">medium.com/webpack/webpack-2-2-the-release-candidate-2e614d05d75f</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span></p>
+
+<p>webpack 2.2.0 RCリリース。<br>
+2.x系初のRCリリースとなってる</p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/releases/tag/v2.2.0-rc.0" title="Release v2.2.0-rc.0 · webpack/webpack">Release v2.2.0-rc.0 · webpack/webpack</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-37-0-facebook-flow">Release v0.37.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.37.0" title="Release v0.37.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.37.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Flow v0.37.0 リリース。<br>
+built-in libの定義を更新、<code>declare module</code>内で<code>import type</code>と<code>import typeof</code>を使えるようになるなど</p>
+
+<hr>
+
+<h2 id="angular-angular-1-6-0-released">Angular: Angular 1.6.0 released</h2>
+
+<p><a href="http://angularjs.blogspot.com/2016/12/angular-160-released.html" title="Angular: Angular 1.6.0 released">angularjs.blogspot.com/2016/12/angular-160-released.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>AngularJS 1.6.0リリース。<br>
+jqLiteをjQuery 3の挙動に合わせるように、expression sandboxを削除。<br>
+また、JSONPリクエストはホワイトリストがデフォルトになるなど多數のBreaking Changeが含まれている</p>
+
+<ul>
+<li><a href="https://github.com/angular/angular.js/blob/master/CHANGELOG.md#160-rainbow-tsunami-2016-12-08" title="angular.js/CHANGELOG.md at master · angular/angular.js">angular.js/CHANGELOG.md at master · angular/angular.js</a></li>
+<li><a href="https://docs.angularjs.org/guide/migration#migrating-from-1-5-to-1-6" title="AngularJS: Developer Guide: Migrating from Previous Versions">AngularJS: Developer Guide: Migrating from Previous Versions</a></li>
+<li><a href="http://angularjs.blogspot.jp/2016/09/angular-16-expression-sandbox-removal.html" title="Angular: Angular 1.6 - Expression Sandbox Removal">Angular: Angular 1.6 - Expression Sandbox Removal</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="angular-ok-let-me-explain-its-going-to-be-angular-4-0-or-just-angular">Angular: Ok... let me explain: it's going to be Angular 4.0, or just Angular</h2>
+
+<p><a href="http://angularjs.blogspot.com/2016/12/ok-let-me-explain-its-going-to-be.html" title="Angular: Ok... let me explain: it's going to be Angular 4.0, or just Angular">angularjs.blogspot.com/2016/12/ok-let-me-explain-its-going-to-be.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span></p>
+
+<p>AngularJSの次のメジャーバージョンは4を予定している話。<br>
+既に<code>@angular/router</code>がv3であるため、合わせるためにv4へあげる。<br>
+2017年3月にリリースする予定</p>
+
+<hr>
+
+<h2 id="performance-calendar-prefer-defer-over-async">Performance Calendar » Prefer DEFER Over ASYNC</h2>
+
+<p><a href="http://calendar.perfplanet.com/2016/prefer-defer-over-async/" title="Performance Calendar » Prefer DEFER Over ASYNC">calendar.perfplanet.com/2016/prefer-defer-over-async/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p>
+
+<p>deferとasync属性について。 どちらもHTMLパースのブロックはしないが、レンダリングのブロックは発生する。<br>
+deferは常にdomInteractiveが起きてから実行するため一定、しかしasyncはダウンロード速度によってはメインと被ることもある。<br>
+メインコンテンツに関係ないレンダリングを行うスクリプトはdefer属性を試すことで、メインのレンダリングが邪魔されずに進むかを確認した方が良いという話。</p>
+
+<hr>
+
+<h2 id="javascript-clean-coding-best-practices-risingstack">JavaScript Clean Coding Best Practices | @RisingStack</h2>
+
+<p><a href="http://blog.risingstack.com/javascript-clean-coding-best-practices-node-js-at-scale/" title="JavaScript Clean Coding Best Practices | @RisingStack">blog.risingstack.com/javascript-clean-coding-best-practices-node-js-at-scale/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p>読みやすいJavaScriptのコードを書くためのプラクティス</p>
+
+<hr>
+
+<h2 id="writing-declaration-files-for-types-typescript">Writing Declaration Files for @types | TypeScript</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/typescript/2016/12/14/writing-dts-files-for-types/" title="Writing Declaration Files for @types | TypeScript">blogs.msdn.microsoft.com/typescript/2016/12/14/writing-dts-files-for-types/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span></p>
+
+<p>TypeSriptのDefinitelyTyped向けに型定義ファイルを書く方法について<br>
+手で書く方法とdts-genを使う方法について</p>
+
+<hr>
+
+<h2 id="vue-js-mvvm-flux-re-ra-ku-day-13-re-ra-ku-tech-blog">実況中継シリーズ Vue.jsで実現するMVVMパターン Fluxアーキテクチャとの距離 - Re.Ra.Ku アドベントカレンダー day 13 - Re.Ra.Ku tech blog</h2>
+
+<p><a href="http://techblog.reraku.co.jp/entry/2016/12/13/080000" title="実況中継シリーズ Vue.jsで実現するMVVMパターン Fluxアーキテクチャとの距離 - Re.Ra.Ku アドベントカレンダー day 13 - Re.Ra.Ku tech blog">techblog.reraku.co.jp/entry/2016/12/13/080000</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MVC</span> <span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>MVVMとFluxのアーキテクチャに似ている部分と異なる部分について</p>
+
+<hr>
+
+<h2 id="survivejs-inferno-blazing-fast-react-like-ui-library-interview-with-dominic-gannaway">SurviveJS - Inferno - Blazing fast, React-like UI library - Interview with Dominic Gannaway</h2>
+
+<p><a href="http://survivejs.com/blog/inferno-interview/" title="SurviveJS - Inferno - Blazing fast, React-like UI library - Interview with Dominic Gannaway">survivejs.com/blog/inferno-interview/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span></p>
+
+<p>ReactライクなVirtual DOMを使ったUIライブラリであるInfernoの特徴について。<br>
+どのような仕組みで動いているのか、Reactなどとの違いについて</p>
+
+<hr>
+
+<h2 id="the-inner-workings-of-virtual-dom-medium">The Inner Workings Of Virtual DOM – Medium</h2>
+
+<p><a href="https://medium.com/@rajaraodv/the-inner-workings-of-virtual-dom-666ee7ad47cf" title="The Inner Workings Of Virtual DOM – Medium">medium.com/@rajaraodv/the-inner-workings-of-virtual-dom-666ee7ad47cf</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">VirtualDOM</span> <span class="jser-tag">React</span></p>
+
+<p>(Preactの)Virtual DOMがどのような処理を経てレンダリングされているのかを追った記事。<br>
+Virtual DOMの最適化処理についてなど</p>
+
+<hr>
+
+<h2 id="cross-browser-html5-form-validation-is-finally-here-now-what-telerik-developer-network">Cross-Browser HTML5 Form Validation is Finally Here! Now What? -Telerik Developer Network</h2>
+
+<p><a href="http://developer.telerik.com/topics/web-development/cross-browser-html5-form-validation-finally-now/" title="Cross-Browser HTML5 Form Validation is Finally Here! Now What? -Telerik Developer Network">developer.telerik.com/topics/web-development/cross-browser-html5-form-validation-finally-now/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>HTML5 Form Validation APIについて。<br>
+WebKitもサポートしたので、すべてのブラウザで利用できるようになった</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="professor-frisby-introduces-composable-functional-javascript-course-by-drboolean-eggheadio">Professor Frisby Introduces Composable Functional JavaScript - Course by @drboolean @eggheadio</h2>
+
+<p><a href="https://egghead.io/courses/professor-frisby-introduces-function-composition" title="Professor Frisby Introduces Composable Functional JavaScript - Course by @drboolean @eggheadio">egghead.io/courses/professor-frisby-introduces-function-composition</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">関数型プログラミング</span></p>
+
+<p>JavaScriptでのFunctionalプログラミングについてのスクリーンキャスト。<br>
+Either的な実装やカリー化などについて解説してる</p>
+
+<hr>
+
+<h2 id="vue-js-fundamentals-youtube">Vue.js Fundamentals - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLwAKR305CRO_1yAao-8aZiQnBqJeyng4O" title="Vue.js Fundamentals - YouTube">www.youtube.com/playlist?list=PLwAKR305CRO_1yAao-8aZiQnBqJeyng4O</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">video</span></p>
+
+<p>Vue.js 2.0のチュートリアル動画</p>
+
+<hr>
+
+<h2 id="ecmascript-latest-and-upcoming-features-speaker-deck">ECMAScript: latest and upcoming features // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/rauschma/ecmascript-latest-and-upcoming-features" title="ECMAScript: latest and upcoming features // Speaker Deck">speakerdeck.com/rauschma/ecmascript-latest-and-upcoming-features</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">slide</span></p>
+
+<p>ES2016/ES2017と今Stage 3であるProposalについての紹介スライド</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="npm-desktop-manager">Npm Desktop Manager</h2>
+
+<p><a href="https://720kb.github.io/ndm/" title="Npm Desktop Manager">720kb.github.io/ndm/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">GUI</span></p>
+
+<p>npmのパッケージを管理するGUIアプリケーション</p>
+
+<hr>
+
+<h2 id="date-fns-date-fns-modern-javascript-date-utility-library">date-fns/date-fns: ⏳ Modern JavaScript date utility library ⌛️</h2>
+
+<p><a href="https://github.com/date-fns/date-fns" title="date-fns/date-fns: ⏳ Modern JavaScript date utility library ⌛️">github.com/date-fns/date-fns</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Date周りの操作を提供するライブラリ。<br>
+lodashのように利用する関数だけを取り出して使えるようにするのが目的となってる</p>
+
+<ul>
+<li><a href="https://github.com/date-fns/date-fns/issues/275#issuecomment-264934189" title="Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns">Add a brief comparison with Moment.js? · Issue #275 · date-fns/date-fns</a></li>
+</ul>
+
+<hr>
+
+<h2 id="simple-statistics-simple-statistics-simple-statistics-for-node-browser-javascript">simple-statistics/simple-statistics: simple statistics for node &amp; browser javascript</h2>
+
+<p><a href="https://github.com/simple-statistics/simple-statistics" title="simple-statistics/simple-statistics: simple statistics for node &amp; browser javascript">github.com/simple-statistics/simple-statistics</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">統計</span></p>
+
+<p>統計的な関数のコレクションライブラリ。<br>
+Pythonのsimplestatisticsのport。</p>
+
+<ul>
+<li><a href="https://github.com/sheriferson/simplestatistics" title="sheriferson/simplestatistics: Simple statistical functions implemented in readable Python.">sheriferson/simplestatistics: Simple statistical functions implemented in readable Python.</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt=""></span>
+        <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2016/2016-12-20-rxjs-v5-angular-date-fns.md"><span class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt=""></span>
+            <a class="btn" href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt=""></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags" data-post-tags='["Rx","Angular","Date","library"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg" alt=""></span>タグ:</span>
+            <ul>
+                
+                <li>Rx</li>
+                
+                <li>Angular</li>
+                
+                <li>Date</li>
+                
+                <li>library</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2016/12/20/rxjs-v5-angular-date-fns/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2016/12/20/rxjs-v5-angular-date-fns/" data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;" loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy"></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width="28" height="28" loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width="28" height="28" loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width="28" height="28" loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href="https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/" target="blank">
+            <img id="feedlyFollow" src="https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png" alt="" width="28" height="28" loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50" loading="lazy"><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href="https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B" target="blank">
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search">
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re" title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE" style="border-width:0" width="88" height="31" src="https://i.creativecommons.org/l/by/4.0/88x31.png" loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a class="ping-show-button" href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A" ga-on="click" ga-event-name="join_slack" target="_blank"><img src="/public/svg/slack.svg" alt="" width="28" height="28"><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-07-20: vm2 개발종료, Storybook 7.1, Fresh 1.3 - JSer.info</title>
+    <meta name="description" content="JSer.info #652 - Node.js의 node:vm 모듈은 Sandbox(신용할 수 없는 코드 실행하는 환경)으로 이용할 수 없습니다만, vm2는 node:vm를 Wrap해서 Sandbox를 제공했던 모듈이었습니다.">
+    
+    <meta name="keywords" content="node.js,security,Tools,ECMAScript,proposal" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-07-20T21:49:40+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="proposal" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/07/20/vm2-storybook-7.1-fresh-1.3/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #652 - Node.js의 node:vm 모듈은 Sandbox(신용할 수 없는 코드 실행하는 환경)으로 이용할 수 없습니다만, vm2는 node:vm를 Wrap해서 Sandbox를 제공했던 모듈이었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-07-20: vm2 개발종료, Storybook 7.1, Fresh 1.3">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/07/20/vm2-storybook-7.1-fresh-1.3/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #652 - Node.js의 node:vm 모듈은 Sandbox(신용할 수 없는 코드 실행하는 환경)으로 이용할 수 없습니다만, vm2는 node:vm를 Wrap해서 Sandbox를 제공했던 모듈이었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-07-20T21:49:40+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="proposal">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/07/20/vm2-storybook-7.1-fresh-1.3/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/07/20/vm2-storybook-7.1-fresh-1.3/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/07/20/vm2-storybook-7.1-fresh-1.3/">2023-07-20: vm2 개발종료, Storybook 7.1, Fresh 1.3</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年07月20日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-07-20-vm2-storybook-7.1-fresh-1.3.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-07-20-vm2-storybook-7.1-fresh-1.3.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/07/20/vm2-storybook-7.1-fresh-1.3/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #652 - Node.js의 <a href="https://nodejs.org/api/vm.html">node:vm</a> 모듈은 Sandbox(신용할 수 없는 코드 실행하는 환경)으로 <a href="https://snyk.io/blog/security-concerns-javascript-sandbox-node-js-vm-module/">이용할 수 없습니다</a>만, <a href="https://github.com/patriksimek/vm2">vm2</a>는 <code>node:vm</code>를 Wrap해서 Sandbox를 제공했던 모듈이었습니다.</p>
+
+<p><code>vm2</code>이 구조적으로 수정할 수 없는 곳에서 Sandbox 취약성이 발견되었기에, 유지보수 종료 선언했습니다. 취약성에 대한 자세한 정보는 아직 공개되어있지 않습니다만, Sandbox를 깨트리는 취약성으로, <a href="https://github.com/patriksimek/vm2/issues/533#issuecomment-1632482080">PoC는 8월즈음</a> 공개될 예정입니다.</p>
+
+<ul>
+<li><a href="https://github.com/patriksimek/vm2/issues/533">Discontinued · Issue #533 · patriksimek/vm2</a></li>
+<li><a href="https://github.com/advisories/GHSA-cchq-frgv-rjh5">vm2 Sandbox Escape vulnerability · CVE-2023-37466 · GitHub Advisory Database</a></li>
+</ul>
+
+<p>Sandbox 기능이 필요하다면, QuickJS를 WebAssembly로 컴파일한 <a href="https://github.com/justjake/quickjs-emscripten">quickjs-emscripten</a>이나 V8의 Isolate를 사용한<a href="https://github.com/laverdet/isolated-vm">isolated-vm</a>로 이행하길 권장하고 있습니다.<br>
+<a href="https://github.com/TooTallNate/proxy-agents">proxy-agents</a>(PAC파일을 평가하기 위해 vm2 이용했었습니다)는 <code>quickjs-emscripten</code>으로 이행했습니다.</p>
+
+<ul>
+<li><a href="https://github.com/TooTallNate/proxy-agents/pull/224">Use <code>quickjs-emscripten</code> instead of <code>vm2</code> to execute PAC file code by TooTallNate · Pull Request #224 · TooTallNate/proxy-agents</a></li>
+</ul>
+
+<p><code>vm2</code>는 <code>node:vm</code> 상에서 실행하는 코드에서 호스트 환경을 참조하지 못하도록 패치로 막는 접근을 취하고 있어습니다.(📝 <code>node:vm</code>를 사용한 적이 있는 사람 대상 이야기. context로 넘겨 객체에 Proxy를 사용, 특정 프로퍼티를 참조하지 못하게 하기 등)<br>
+손쉽지만, 막지 못하는 구멍이 생기거나 빠지는 것이 있었던 접근법이었습니다.</p>
+
+<p>이런 Sandbox에는 어떤 접근법이 있는가에 대해서는 다음 글이 흥미로울 것 입니다.</p>
+
+<ul>
+<li><a href="https://www.figma.com/ja/blog/how-we-built-the-figma-plugin-system/">How to build a plugin system on the web and also sleep well at night | Figma Blog</a></li>
+<li><a href="https://fly.io/blog/sandboxing-and-workload-isolation/">Sandboxing and Workload Isolation · Fly</a></li>
+</ul>
+
+<hr>
+
+<p>Storybook 7.1가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://storybook.js.org/blog/storybook-7-1/">Storybook 7.1</a></li>
+</ul>
+
+<p>Storybook상에서 온보딩 추가, Emotion 등 스타일링 라이브러리 리셋 자동화, Vue 지원 개선이 포함되어있습니다.<br>
+또한 지금까지 커뮤니티에서 개발한 Figma design addon를 코어 Addon으로 관리하기 시작했습니다.</p>
+
+<hr>
+
+<p>Deno의 웹 프레임워크니 Fresh 1.3가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://deno.com/blog/fresh-1.3">Fresh 1.3 – Simplified Route Components and More</a></li>
+</ul>
+
+<p>비동기 루트 컴포넌트 지원, 플러그인이 라우팅이나 미들웨어를 정의할 수 있도록, <code>_500.tsx</code> 에러페이지 지원, ErrorBoundary 지원이 추가되었습니다.<br>
+또한, 파일 하나에서 여러 islands를 export 할 수 있게끔 되었으며, <code>Deno.serve</code> 지원도 추가되었습니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2023-07-ecmascript-daily">ECMAScript proposal updates @ 2023-07 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2023/07/14/ecmascript-proposal-update" title="ECMAScript proposal updates @ 2023-07 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2023/07/14/ecmascript-proposal-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">news</span></p></p>
+
+<p>2023년 7월 TC39 Meeting에서 ECMAScript Proposal 스테이지 변경 정리</p>
+
+<hr>
+
+<h2 id="discontinued-issue-533-patriksimek-vm2">Discontinued · Issue #533 · patriksimek/vm2</h2>
+
+<p><a href="https://github.com/patriksimek/vm2/issues/533" title="Discontinued · Issue #533 · patriksimek/vm2">github.com/patriksimek/vm2/issues/533</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">security</span> <span class="jser-tag">library</span> <span class="jser-tag">issue</span> <span class="jser-tag">news</span></p></p>
+
+<p>Node.js의 <code>vm</code> 모듈을 사용해서 Sandbox 실현했던 <code>vm2</code>가 구조적으로 Sandbox Escape 취약점이 있어, 유지보수가 종료되었다는 공지.<br>
+취약성 PoC는 2023년 8월즈음에 공개하기에, isolated-vm 같은 모듈로 이행하기 권하고 있다.</p>
+
+<ul>
+<li><a href="https://github.com/advisories/GHSA-cchq-frgv-rjh5" title="vm2 Sandbox Escape vulnerability · CVE-2023-37466 · GitHub Advisory Database">vm2 Sandbox Escape vulnerability · CVE-2023-37466 · GitHub Advisory Database</a></li>
+<li><a href="https://github.com/laverdet/isolated-vm" title="laverdet/isolated-vm: Secure &amp;amp;amp; isolated JS environments for nodejs">laverdet/isolated-vm: Secure &amp; isolated JS environments for nodejs</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-18-13-evanw-esbuild">Release v0.18.13 · evanw/esbuild</h2>
+
+<p><a href="https://github.com/evanw/esbuild/releases/tag/v0.18.13" title="Release v0.18.13 · evanw/esbuild">github.com/evanw/esbuild/releases/tag/v0.18.13</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">bundler</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>esbuild v0.18.13 출시.<br>
+<code>DEV: doAnExpensiveCheck()</code> 같은 라벨 지정한 처리를, <code>--drop-label</code>으로 삭제할 수 있도록.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-174-webkit">Release Notes for Safari Technology Preview 174 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/14390/release-notes-for-safari-technology-preview-174/" title="Release Notes for Safari Technology Preview 174 | WebKit">webkit.org/blog/14390/release-notes-for-safari-technology-preview-174/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 174 출시.<br>
+Canvas 자체 설정된 합산 메모리 사용량 제한 삭제.</p>
+
+<ul>
+<li><a href="https://pqina.nl/blog/total-canvas-memory-use-exceeds-the-maximum-limit/" title="Total Canvas Memory Use Exceeds The Maximum Limit - PQINA">Total Canvas Memory Use Exceeds The Maximum Limit - PQINA</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v18-17-0-lts-node-js">Node v18.17.0 (LTS) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v18.17.0" title="Node v18.17.0 (LTS) | Node.js">nodejs.org/en/blog/release/v18.17.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v18.17.0 출시.<br>
+URL 파서 Ada 2.0로 업데이트, <code>URL.canParse</code> 지원, Web Crypto API 사양과 호환성 향상</p>
+
+<hr>
+
+<h2 id="release-1-0-3-kamranahmedse-driver-js">Release 1.0.3 · kamranahmedse/driver.js</h2>
+
+<p><a href="https://github.com/kamranahmedse/driver.js/releases/tag/1.0.3" title="Release 1.0.3 · kamranahmedse/driver.js">github.com/kamranahmedse/driver.js/releases/tag/1.0.3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>사이트 투어해주는 Driver.js 1.0 출시.<br>
+TypeScript으로 재작성, SVG를 페이지 상 올려 하이라이트 표시할 수 있도록 구현 변경, 문서 갱신</p>
+
+<hr>
+
+<h2 id="storybook-7-1">Storybook 7.1</h2>
+
+<p><a href="https://storybook.js.org/blog/storybook-7-1/" title="Storybook 7.1">storybook.js.org/blog/storybook-7-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Storybook 7.1 출시.<br>
+온보딩 추가, Emotion 등 스타일링 라이브러리 리셋 자동화, Vue 지원 개선.<br>
+Figma design addon 코어로 다룸</p>
+
+<hr>
+
+<h2 id="chrome-116-beta-chrome-developers">Chrome 116 beta - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/en/blog/chrome-116-beta/" title="Chrome 116 beta - Chrome Developers">developer.chrome.com/en/blog/chrome-116-beta/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 116 beta 출시.<br>
+CSS Motion Path, <code>display</code>와 <code>content-visibility</code>에 키프레임 애니메이션 지원.<br>
+<code>AbortSignal.any()</code> 지원, Fetch API <code>getReader({mode: &#39;byob&#39;})</code> 지원, Document Picture-in-Picture 지원.<br>
+Permissions Policy Origins에 <code>*</code> wildcard 지정 지원.<br>
+Origin Trial으로 COOP의 <code>restrict-properties</code> 지원, EditContext API 지원</p>
+
+<ul>
+<li><a href="https://github.com/whatwg/fetch/issues/267" title="Use a ReadableStream with byte source (formerly called ReadableByteStream) for .body · Issue #267 · whatwg/fetch">Use a ReadableStream with byte source (formerly called ReadableByteStream) for .body · Issue #267 · whatwg/fetch</a></li>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/API/ReadableStream/getReader" title="ReadableStream.getReader() - Web API | MDN">ReadableStream.getReader() - Web API | MDN</a></li>
+<li><a href="https://github.com/w3c/webappsec-permissions-policy/pull/516" title="Wildcards in Permissions Policy Origins by arichiv · Pull Request #516 · w3c/webappsec-permissions-policy">Wildcards in Permissions Policy Origins by arichiv · Pull Request #516 · w3c/webappsec-permissions-policy</a></li>
+<li><a href="https://github.com/w3c/edit-context" title="w3c/edit-context: EditContext API">w3c/edit-context: EditContext API</a></li>
+</ul>
+
+<hr>
+
+<h2 id="fresh-1-3-simplified-route-components-and-more">Fresh 1.3 – Simplified Route Components and More</h2>
+
+<p><a href="https://deno.com/blog/fresh-1.3" title="Fresh 1.3 – Simplified Route Components and More">deno.com/blog/fresh-1.3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Fresh 1.3 출시.<br>
+비동기 루트 컴포넌트 지원, 플러그인이 라우팅이나 미들웨어 정의할 수 있도록, <code>_500.tsx</code>으로 에러페이지 지원, ErrorBoundary 지원.<br>
+파일 하나에서 여러 islands를 export 할 수 있도록, <code>Deno.serve</code> 지원</p>
+
+<ul>
+<li><a href="https://github.com/denoland/fresh/pull/1388" title="feat: support async route components by marvinhagemeister · Pull Request #1388 · denoland/fresh">feat: support async route components by marvinhagemeister · Pull Request #1388 · denoland/fresh</a></li>
+<li><a href="https://github.com/denoland/fresh/pull/1455" title="feat(server): plugins can add middlewares and routes by deer · Pull Request #1455 · denoland/fresh">feat(server): plugins can add middlewares and routes by deer · Pull Request #1455 · denoland/fresh</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-18-14-evanw-esbuild">Release v0.18.14 · evanw/esbuild</h2>
+
+<p><a href="https://github.com/evanw/esbuild/releases/tag/v0.18.14" title="Release v0.18.14 · evanw/esbuild">github.com/evanw/esbuild/releases/tag/v0.18.14</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">esbuild</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>esbuild v0.18.14 출시.<br>
+CSS Modules 지원의 일환으로, <code>global-css</code> loader와 <code>local-css</code> loader 추가, CSS에서 <code>:local()</code>와 <code>:global()</code> 지원.</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="url-canparse">URL.canParse</h2>
+
+<p><a href="https://davidwalsh.name/url-canparse" title="URL.canParse">davidwalsh.name/url-canparse</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">URL</span> <span class="jser-tag">article</span></p></p>
+
+<p>URL이 paser할 수 있는가 판정하는 <code>URL.canParse</code> 메서드에 대하여</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static" title="URL: canParse() static method - Web APIs | MDN">URL: canParse() static method - Web APIs | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="how-react-18-improves-application-performance-vercel">How React 18 Improves Application Performance – Vercel</h2>
+
+<p><a href="https://vercel.com/blog/how-react-18-improves-application-performance" title="How React 18 Improves Application Performance – Vercel">vercel.com/blog/how-react-18-improves-application-performance</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 18のTransitions, Suspense, Server Components 관련하여</p>
+
+<hr>
+
+<h2 id="security-alert-social-engineering-campaign-targets-technology-industry-employees-the-github-blog">Security alert: social engineering campaign targets technology industry employees - The GitHub Blog</h2>
+
+<p><a href="https://github.blog/2023-07-18-security-alert-social-engineering-campaign-targets-technology-industry-employees/" title="Security alert: social engineering campaign targets technology industry employees - The GitHub Blog">github.blog/2023-07-18-security-alert-social-engineering-campaign-targets-technology-industry-employees/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Github</span> <span class="jser-tag">security</span> <span class="jser-tag">npm</span> <span class="jser-tag">article</span></p></p>
+
+<p>채용담당자나 개발자 사칭, 비밀 레포지토리에 초대, 레포지토리 clone해 설치하면 감염시키는 멀웨어 삽입하는 공격이 증가하고 있다는 이야기.<br>
+マルウェア는 npm install할 때, 다운로드 및 실행되는 구조</p>
+
+<ul>
+<li><a href="https://blog.phylum.io/sophisticated-ongoing-attack-discovered-on-npm/" title="Phylum Discovers Sophisticated Ongoing Attack on NPM">Phylum Discovers Sophisticated Ongoing Attack on NPM</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="coderaiser-putout-pluggable-and-configurable-javascript-linter-and-code-transformer-with-built-in-eslint-and-babel-support-for-js-jsx-typescript-flow-markdown-yaml-and-json-write-declarative-codemods-in-a-simplest-possible-way">coderaiser/putout: 🐊 Pluggable and configurable JavaScript Linter and code transformer with built-in ESLint and Babel support for js, jsx typescript, flow, markdown, yaml and json. Write declarative codemods in a simplest possible way 😏</h2>
+
+<p><a href="https://github.com/coderaiser/putout" title="coderaiser/putout: 🐊 Pluggable and configurable JavaScript Linter and code transformer with built-in ESLint and Babel support for js, jsx typescript, flow, markdown, yaml and json. Write declarative codemods in a simplest possible way 😏">github.com/coderaiser/putout</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Babel와 ESLint를 기반으로 한 codemod 툴킷.<br>
+빌트인 규칙으로 CommonJS to ESM 같은 다수 변환 규칙을 가지고 있으며, 이를 관리하는 구조와 플러그인을 제공한다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-07-20-vm2-storybook-7.1-fresh-1.3.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","security","Tools","ECMAScript","proposal"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>security</li>
+                
+                <li>Tools</li>
+                
+                <li>ECMAScript</li>
+                
+                <li>proposal</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/07/20/vm2-storybook-7.1-fresh-1.3/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

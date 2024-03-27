@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-06-29: Svelte 4, Ember 5.0, The Cost Of JavaScript in 2023 - JSer.info</title>
+    <meta name="description" content="JSer.info #649 - Svelte 4가 출시되었습니다.">
+    
+    <meta name="keywords" content="CSS,Tools,React,TypeScript,editor" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-06-29T09:45:08+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="editor" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #649 - Svelte 4가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-06-29: Svelte 4, Ember 5.0, The Cost Of JavaScript in 2023">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #649 - Svelte 4가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-06-29T09:45:08+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="CSS">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="editor">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/">2023-06-29: Svelte 4, Ember 5.0, The Cost Of JavaScript in 2023</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年06月29日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-06-29-svelte-4-ember-5.0-the-cost-of-javascript-in-2023.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-06-29-svelte-4-ember-5.0-the-cost-of-javascript-in-2023.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #649 - Svelte 4가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/blog/svelte-4">Announcing Svelte 4</a></li>
+<li><a href="https://github.com/sveltejs/svelte/releases/tag/svelte%404.0.0">Release svelte@4.0.0 · sveltejs/svelte</a></li>
+</ul>
+
+<p>Node.js 14 지원 종료, CJS 출력은 사라지고 ESM만 지원, Custom Elements 대응을 <code>tag</code> 옵션에서 <code>customElement</code> 옵션으로 변경이 포함되어있다.<br>
+또한, 생성한 파일 크기 경감, 웹사이트 문서 갱신 등도 있습니다.</p>
+
+<p>마이그레이션 가이드와 <code>npx svelte-migrate@latest svelte-4</code> 마이그레이션 도구가 공개되어 있습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/docs/v4-migration-guide">Svelte 4 migration guide • Docs • Svelte</a></li>
+</ul>
+
+<hr>
+
+<p>Ember 5.0 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://blog.emberjs.com/ember-5-0-released/">Ember 5.0 Released</a></li>
+</ul>
+
+<p>메이저 업데이트로 기능추가없이, 파괴적변경만이 있습니다.<br>
+비권장이 된 <code>AutoLocation</code> 삭제, <code>@ember/error</code> 패키지 삭제, <code>Ember.String</code> 삭제 등도 있습니다.</p>
+
+<hr>
+
+<p>The Cost Of JavaScript 2023년판 영상과 슬라이드가 공개되었습니다.</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ZKH3DLT4BKw">The Cost Of JavaScript - 2023 - YouTube</a></li>
+<li><a href="https://speakerdeck.com/addyosmani/the-cost-of-javascript-in-2023">The Cost Of JavaScript in 2023 - Speaker Deck</a></li>
+</ul>
+
+<p>JavaScript 다운로드, 실행 코스트에 대한 이야기로, Code Splitting나 Dynamic Import 등 최적화에 대해서도 소개중입니다.<br>
+또한, 최근 발전하고 있는 Islands Architecture의 Partial Hydration, Qwik의 Resumalable Hydration, React의 Selective Hydation에 대해서도 다루고 있습니다.</p>
+
+<p>과거 The Cost Of JavaScript는 다음 페이지를 참조해주시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://medium.com/@addyosmani/the-cost-of-javascript-in-2018-7d8950fbb5d4">The Cost Of JavaScript In 2018. Update: The Cost Of JavaScript In 2019… | by Addy Osmani | Medium</a></li>
+<li><a href="https://v8.dev/blog/cost-of-javascript-2019">The cost of JavaScript in 2019 · V8</a></li>
+</ul>
+
+<p>또한, 실제 웹사이트 데이터는 <a href="https://almanac.httparchive.org/ja/2022/">Web Almanac</a>의 <a href="https://almanac.httparchive.org/en/2022/javascript">JavaScript</a>를 참조하시면 좋을 듯 합니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="announcing-svelte-4">Announcing Svelte 4</h2>
+
+<p><a href="https://svelte.dev/blog/svelte-4" title="Announcing Svelte 4">svelte.dev/blog/svelte-4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Svelte</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Svelte 4 출시.<br>
+Node.js 14 지원 종료, CJS 출력은 사라지고 ESM만 지원, Custom Elements를 <code>tag</code> 옵션에서 <code>customElement</code> 옵션으로 변경.<br>
+생성하는 파일 크기 삭감, 웹사이트 문서 갱신</p>
+
+<ul>
+<li><a href="https://svelte.dev/docs/v4-migration-guide" title="Svelte 4 migration guide • Docs • Svelte">Svelte 4 migration guide • Docs • Svelte</a></li>
+<li><a href="https://github.com/sveltejs/svelte/releases/tag/svelte%404.0.0" title="Release svelte@4.0.0 · sveltejs/svelte">Release svelte@4.0.0 · sveltejs/svelte</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-5-0-released">Ember 5.0 Released</h2>
+
+<p><a href="https://blog.emberjs.com/ember-5-0-released/" title="Ember 5.0 Released">blog.emberjs.com/ember-5-0-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Ember 5.0 출시.<br>
+메이저 업데이트이며 기능 추가 없이, 파괴적 변경만 있음.<br>
+<code>AutoLocation</code> 삭제, <code>@ember/error</code> 패키지 삭제, <code>Ember.String</code> 삭제</p>
+
+<hr>
+
+<h2 id="release-v6-14-0-remix-run-react-router">Release v6.14.0 · remix-run/react-router</h2>
+
+<p><a href="https://github.com/remix-run/react-router/releases/tag/react-router%406.14.0" title="Release v6.14.0 · remix-run/react-router">github.com/remix-run/react-router/releases/tag/react-router%406.14.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React Router 6.14.0 출시.<br>
+<code>useSubmit</code>가 JSON와 Text를 지원.</p>
+
+<hr>
+
+<h2 id="release-v0-18-9-evanw-esbuild">Release v0.18.9 · evanw/esbuild</h2>
+
+<p><a href="https://github.com/evanw/esbuild/releases/tag/v0.18.9" title="Release v0.18.9 · evanw/esbuild">github.com/evanw/esbuild/releases/tag/v0.18.9</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>esbuild v0.18.9 출시.<br>
+<code>await using</code> 수정, autoprefixer 같이 CSS의 prefix 자동으로 추가되도록</p>
+
+<hr>
+
+<h2 id="bun-v0-6-10-bun-blog">Bun v0.6.10 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v0.6.10" title="Bun v0.6.10 | Bun Blog">bun.sh/blog/bun-v0.6.10</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bun v0.6.10 출시.<br>
+CommonJS 호환성 개선 webpack 동작되도록, <code>require.main</code> 지원, <code>__esModule</code> 플래그를 해석하도록.<br>
+<code>fs.watch</code> 구현, V8 <code>Error.captureStackTrace</code> 구현.<br>
+<code>bun install</code>할 때에 라이프사이클 스크립트 실행허가하는 패키지를 정의하는 <code>trustedDependencies</code> 필드 지원</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-173-webkit">Release Notes for Safari Technology Preview 173 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/14378/release-notes-for-safari-technology-preview-173/" title="Release Notes for Safari Technology Preview 173 | WebKit">webkit.org/blog/14378/release-notes-for-safari-technology-preview-173/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 173 출시.<br>
+Safari 17에서 도입 예정 기능 이용 가능한 Technology Preview.<br>
+Web Inspector 재설계, 웹애플리케이션을 Dock 추가, JPEG XL 지원, HEIC 지원</p>
+
+<hr>
+
+<h2 id="release-v3-0-0-cloudflare-miniflare">Release v3.0.0 · cloudflare/miniflare</h2>
+
+<p><a href="https://github.com/cloudflare/miniflare/releases/tag/v3.0.0" title="Release v3.0.0 · cloudflare/miniflare">github.com/cloudflare/miniflare/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cloudflare</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>miniflare v3.0.0 출시.<br>
+workerd 이용하도록 되었다.<br>
+CLI가 동봉되어 있지 않게되어 <code>wrangler</code> 경유해 CLI로 이용.<br>
+또한 몇몇 API가 삭제나 변경이 있다.</p>
+
+<ul>
+<li><a href="https://miniflare.dev/get-started/migrating" title="⬆️ Migrating from Version 2 · Miniflare">⬆️ Migrating from Version 2 · Miniflare</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="cyclic-dependency-space-toggles">Cyclic Dependency Space Toggles</h2>
+
+<p><a href="https://kizu.dev/cyclic-toggles/" title="Cyclic Dependency Space Toggles">kizu.dev/cyclic-toggles/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS Variables를 사용해서 로직게이트를 구현하는 방법에 대해서.<br>
+Cyclic Dependency하는 Variables는 무효로하는 사양을 이용해서, Variables에 if문스러운 표현 구현하는 방법에 대해서.<br>
+또한 왜 이런 사양과 구현이 되었는가에 대해서</p>
+
+<hr>
+
+<h2 id="next-js-app-router-update-next-js">Next.js App Router Update | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/june-2023-update" title="Next.js App Router Update | Next.js">nextjs.org/blog/june-2023-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js 최신 동작에 대해.<br>
+App Router의 Stable화, 거대한 애프리케이션 성능 개선, 문서 개선.<br>
+React의 Server Side Component 대응과 Server Actions에 대해</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="2023-06-24-dom-testing-library-phpconfuk-google">2023-06-24 DOM 테스트를 점점 작성하고 싶어지는 Testing Library 세계로 초대 (#phpconfuk) - Google 슬라이드</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1j6sEAs0LF5jPXs_mHxvPreqK-lxEL3OxvQAFyXmxbZc/view#slide=id.g24bcedd6665_0_0" title="2023-06-24 DOM 테스트를 점점 작성하고 싶어지는 Testing Library 세계로 초대 (#phpconfuk) - Google 슬라이드">docs.google.com/presentation/d/1j6sEAs0LF5jPXs_mHxvPreqK-lxEL3OxvQAFyXmxbZc/view#slide&#x3D;id.g24bcedd6665_0_0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">slide</span></p></p>
+
+<p>DOM 테스트 라이브러리 Testing Library 철학에 대해<br>
+DOM를 생성, 테스트 대상을 쿼리로 검색, assertion로 테스트한다.<br>
+쿼리에는 WAI-ARIA Role이나 라벨, Test Id등 지정하는 메서드가 있는가 우선도에 대해.</p>
+
+<ul>
+<li><a href="https://testing-library.com/docs/queries/about/" title="About Queries | Testing Library">About Queries | Testing Library</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-cost-of-javascript-2023-youtube">The Cost Of JavaScript - 2023 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=ZKH3DLT4BKw" title="The Cost Of JavaScript - 2023 - YouTube">www.youtube.com/watch?v&#x3D;ZKH3DLT4BKw</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">video</span> <span class="jser-tag">performance</span></p></p>
+
+<p>JavaScript 코스트에 대한 영상과 슬라이드.<br>
+JavaScript 다운로드, 실행 비용.<br>
+Code Splitting이나 Dynamic Import등 최적화.<br>
+Islands Architecture의 Partial Hydration, Qwik의 Resumalable Hydration, React의 Selective Hydation에 대해.</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/addyosmani/the-cost-of-javascript-in-2023" title="The Cost Of JavaScript in 2023 - Speaker Deck">The Cost Of JavaScript in 2023 - Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="module-federation-streamline-your-microfrontends">Module Federation: streamline your microfrontends</h2>
+
+<p><a href="https://module-federation.io/" title="Module Federation: streamline your microfrontends">module-federation.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MicroFrontend</span> <span class="jser-tag">document</span></p></p>
+
+<p>Microfrontends 개발을 보조하는 Module Federation에 대해 웹사이트가 공개되었다.<br>
+문서나 유스케이스, 사용 방법이나 샘플 프로젝트 등도 공개되어있다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="panda-css-build-modern-websites-using-build-time-and-type-safe-css-in-js">Panda CSS - Build modern websites using build time and type-safe CSS-in-JS</h2>
+
+<p><a href="https://panda-css.com/" title="Panda CSS - Build modern websites using build time and type-safe CSS-in-JS">panda-css.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>CSS in JS 프레임워크.<br>
+TypeScript으로 Type Safe 스타일로 작성도 가능, 도구를 통해 CSS 파일을 출력함으로, 실행할 때는 JS가 없어도 된다.</p>
+
+<hr>
+
+<h2 id="codux-visual-ide-for-react">Codux | Visual IDE for React</h2>
+
+<p><a href="https://www.codux.com/" title="Codux | Visual IDE for React">www.codux.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">editor</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>React 비주얼 에디터.<br>
+GUI에서 컴포넌트 편접이 가능, 코드도 같이 편집할 수 있는 에디터.</p>
+
+<ul>
+<li><a href="https://www.smashingmagazine.com/2023/06/codux-react-visual-editor-improves-developer-experience/" title="Meet Codux: The React Visual Editor That Improves Developer Experience — Smashing Magazine">Meet Codux: The React Visual Editor That Improves Developer Experience — Smashing Magazine</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-06-29-svelte-4-ember-5.0-the-cost-of-javascript-in-2023.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["CSS","Tools","React","TypeScript","editor"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>CSS</li>
+                
+                <li>Tools</li>
+                
+                <li>React</li>
+                
+                <li>TypeScript</li>
+                
+                <li>editor</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/06/29/svelte-4-ember-5.0-the-cost-of-javascript-in-2023/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

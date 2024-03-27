@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-02-14 JS: V8 5.7와 ES2015+의 성능, npm입문, TypeScript 가이드라인 - JSer.info</title>
+    <meta name="description" content="JSer.info #318 - V8 version 5.7이 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="V8,ES2015,npm,TypeScript" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-02-14T11:02:33+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="V8" property="article:tag">
+      
+      <meta content="ES2015" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/02/14/v8-5.7es2015-npm-typescript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #318 - V8 version 5.7이 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-02-14 JS: V8 5.7와 ES2015+의 성능, npm입문, TypeScript 가이드라인">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/02/14/v8-5.7es2015-npm-typescript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #318 - V8 version 5.7이 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-02-14T11:02:33+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="V8">
+
+<meta property="article:tag" content="ES2015">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="TypeScript">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/02/14/v8-5.7es2015-npm-typescript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/02/14/v8-5.7es2015-npm-typescript/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/02/14/v8-5.7es2015-npm-typescript/">2017-02-14 JS: V8 5.7와 ES2015+의 성능, npm입문, TypeScript 가이드라인</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年02月14日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-02-14-v8-5.7es2015-npm-typescript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-02-14-v8-5.7es2015-npm-typescript.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/02/14/v8-5.7es2015-npm-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #318 - V8 version 5.7이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="http://v8project.blogspot.jp/2017/02/v8-release-57.html" title="V8 JavaScript Engine: V8 Release 5.7">V8 JavaScript Engine: V8 Release 5.7</a></li>
+</ul>
+
+<p>Promise와 RegExp 그리고 <a href="http://v8project.blogspot.jp/2016/10/v8-release-55.html" title="version 5.5">version 5.5</a>에서 공개됐었던 async/await의 성능 개선이 이뤄졌습니다. 그리고 WebAssembly가 기본적으로 활성화 되도록 변경됐습니다.</p>
+
+<ul>
+<li><a href="http://v8project.blogspot.jp/2017/01/speeding-up-v8-regular-expressions.html" title="V8 JavaScript Engine: Speeding up V8 Regular Expressions">V8 JavaScript Engine: Speeding up V8 Regular Expressions</a></li>
+<li><a href="https://www.chromestatus.com/feature/5453022515691520" title="WebAssembly - Chrome Platform Status">WebAssembly - Chrome Platform Status</a></li>
+</ul>
+
+<blockquote>
+<p>ES6 code currently is substantially slower than ES<br>
+-- <a href="https://groups.google.com/forum/#!msg/strengthen-js/ojj3TDxbHpQ/5ENNAiUzEgAJ">An update on strong mode</a></p>
+</blockquote>
+
+<p>V8에서는 ES2015 이후의 기능을 충실히 구현하고는 있었지만 성능 최적화는 ES5에 비해 크게 진행되지 않았습니다.<br>
+때문에 네이티브의 ES2015+ 보다 해당 코드를 ES5으로 변환한 경우에 성능이 더 좋은 경우도 있습니다.<br>
+아래 문서에 그러한 경우에 대해 소개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://fhinkel.github.io/six-speed/">fhinkel.github.io/six-speed/</a></li>
+<li><a href="http://qiita.com/mohayonao/items/34e66fd37a66830cf941" title="Babel를 사용했지만 빠르다 - Qiita">Babel를 사용했지만 빠르다 - Qiita</a>(일본어)</li>
+</ul>
+
+<p>그래서 V8에서는 네이티브 ES2015+ 기능의 실행 속도를 개선할 계획을 세우고 있으며 이번에 그 일부분이 반영된 것입니다.</p>
+
+<ul>
+<li><a href="https://docs.google.com/document/d/1EA9EbfnydAmmU_lM8R_uEMQ-U_v4l9zulePSBkeYWmY/edit#heading=h.x1cv1fi5g42q">ES2015 and beyond performance plan</a></li>
+</ul>
+
+<p>(마이크로 벤치 같은)실행 속도만이 아닌 파일 사이즈나 파서 및 컴파일 속도가 성능에 미치는 영향에 관해서는 아래 문서를 읽어보면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://medium.com/dev-channel/javascript-start-up-performance-69200f43b201#.3f965db3p">JavaScript Start-up Performance – Dev Channel – Medium</a></li>
+<li><a href="https://speakerdeck.com/betaorbust/progressive-transpilation-at-netflix-and-the-road-to-running-native-es2015-in-production">Progressive Transpilation at Netflix and the road to running native ES2015 in production // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.impressivewebs.com/npm-for-beginners-a-guide-for-front-end-developers/" title="npm for Beginners: A Guide for Front-end Developers">npm for Beginners: A Guide for Front-end Developers</a>에는 <code>npm</code>에 관해 자세하게 소개 및 설명 돼 있습니다.</p>
+
+<p><code>npm</code>이라는 단어는 웹 사이트, npm registry, npm client 이 세 가지를 가리킨다는 것과 <code>npm</code>의 사용법,  모듈의 설치 방법, 커멘드 사용법, npm과 관련된 도구 등이 자세히 소개돼 있습니다.</p>
+
+<hr>
+
+<p><a href="http://blog.yux3.net/entry/2017/02/05/000805" title="개인적인 TypeScript와 친해지는 가이드라인">개인적인 TypeScript와 친해지는 가이드라인</a>(일본어)라는 문서에는 평소 JavaScript를 사용하고 있는 사람이 TypeScript를 사용하게 될 경우 가져야할 관점이나 자세 그리고 기본 정보 등에 관해 작성돼 있습니다.</p>
+
+<p><code>any</code>를 다루는 방법, 컴파일 옵션, TypeScript 독자적인 키워드나 함께 읽으면 좋을 문서 등이 소개돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-5-7">V8 JavaScript Engine: V8 Release 5.7</h2>
+
+<p><a href="http://v8project.blogspot.com/2017/02/v8-release-57.html" title="V8 JavaScript Engine: V8 Release 5.7">v8project.blogspot.com/2017/02/v8-release-57.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">WebAssembly</span></p><br>
+V8 5.7이 릴리즈됐습니다.<br>
+async/await나 ES2015의 성능이 개선 됐으며 <code>String#padStart</code>, <code>Intl.DateTimeFormat#formatToParts</code>을 지원합니다. 또, wasm가 기본적으로 활성화 되는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="release-v4-3-0-npm-npm">Release v4.3.0 · npm/npm</h2>
+
+<p><a href="https://github.com/npm/npm/releases/tag/v4.3.0" title="Release v4.3.0 · npm/npm">github.com/npm/npm/releases/tag/v4.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p><br>
+npm 4.3.0이 프레스 릴리즈(Press release) 됐습니다.<br>
+<code>--auth-type</code>이 추가됐고 실행 속도가 개선됐습니다.</p>
+
+<hr>
+
+<h2 id="js1k-2017-a-magical-javascript-golfing-competition">JS1k 2017 - A magical JavaScript golfing competition</h2>
+
+<p><a href="http://js1k.com/2017-magic/" title="JS1k 2017 - A magical JavaScript golfing competition">js1k.com/2017-magic/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">이벤트</span></p><br>
+JS1k의 2017년도 모집이 시작됐습니다. JS1k는 1024bytes로 JavaScript의 데모를 만들고 공개하는 컨테스트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="npm-for-beginners-a-guide-for-front-end-developers">npm for Beginners: A Guide for Front-end Developers</h2>
+
+<p><a href="https://www.impressivewebs.com/npm-for-beginners-a-guide-for-front-end-developers/" title="npm for Beginners: A Guide for Front-end Developers">www.impressivewebs.com/npm-for-beginners-a-guide-for-front-end-developers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span></p><br>
+npm의 정의와 사용법을 소개하는 튜토리얼 문서입니다.<br>
+보편적인 패키지 디렉터리 구조, <code>node_modules</code> 디렉터리, npm 커멘드와 옵션에 관해 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="snapshot-testing-the-hard-way-better-world-by-better-software">Snapshot testing the hard way | Better world by better software</h2>
+
+<p><a href="https://glebbahmutov.com/blog/snapshot-testing/" title="Snapshot testing the hard way | Better world by better software">glebbahmutov.com/blog/snapshot-testing/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p><br>
+Jest에는 Snapshot 테스트가 있습니다. 하지만 Jest와 같은 특정 테스트 프레임워크에 의존하지 않고 Snapshot 테스트를 시행하는 방법에 관해 소개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/bahmutov/snap-shot" title="bahmutov/snap-shot: Jest-like snapshot feature for the rest of us, works magically by finding the right caller function">bahmutov/snap-shot: Jest-like snapshot feature for the rest of us, works magically by finding the right caller function</a></li>
+</ul>
+
+<hr>
+
+<h2 id="typescript">개인적인 TypeScript와 친해지는 가이드라인</h2>
+
+<p><a href="http://blog.yux3.net/entry/2017/02/05/000805" title="개인적인 TypeScript와 친해지는 가이드라인">blog.yux3.net/entry/2017/02/05/000805</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">tutorial</span></p><br>
+평소 JavaScript를 사용하고 있는 사람이 TypeScript를 어떻게 바라봐야 하는지 소개하고 있습니다.</p>
+
+<p>전형적인 에러의 의미나, 컴파일 옵션, <code>_</code> prefix나 <code>this</code>에서의 타입 등 TypeScript의 특징적인 부분에 관해 작성돼 있습니다.<br>
+또, TypeScript 특징적인 키워드나 참고되는 문서에 관해서도 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="javascript-start-up-performance-dev-channel-medium">JavaScript Start-up Performance – Dev Channel – Medium</h2>
+
+<p><a href="https://medium.com/@addyosmani/javascript-start-up-performance-69200f43b201" title="JavaScript Start-up Performance – Dev Channel – Medium">medium.com/@addyosmani/javascript-start-up-performance-69200f43b201</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span></p><br>
+JavaScript의 실행 속도에 관해 작성돼 있습니다.<br>
+모바일 같은 저사양의 CPU일 경우 파서와 컴파일 속도가 상대적으로 더 걸리게 됩니다. 따라서 CPU나 메모리 자원이 한정된 디바이스 일 경우 파일사이즈 뿐만 아니라 파서와 컴파일 시간도 더욱 중요해집니다.<br>
+해당 글에는 이러한 사실과 함께 개발자 도구를 사용해 파서나 컴파일 시간을 측정하는 방법, User Timing API, V8의 Code Caching, script의 로드 방법을 최적화 하는 방법 등에 관해 작성돼 있습니다. </p>
+
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1Lq2DD28CGa7bxawVH_2OcmyiTiBn74dvC6vn2essroY/edit#slide&#x3D;id.g1a504e63c9_2_84" title="V8 Stats in Chrome - Google 슬라이드">V8 Stats in Chrome - Google 슬라이드</a></li>
+</ul>
+
+<hr>
+
+<h2 id="service-worker-qiita">이벤트 구동형 서비스 환경에서의 Service Worker - Qiita</h2>
+
+<p><a href="http://qiita.com/nhiroki/items/65efc9e41ec1d928afcd" title="이벤트 구동형 서비스 환경에서의 Service Worker - Qiita">qiita.com/nhiroki/items/65efc9e41ec1d928afcd</a>(일본어)<br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ServiceWorker</span> <span class="jser-tag">역사</span> <span class="jser-tag">opinion</span></p><br>
+Better AppCache에서 시작된 Service Worker가 페이지에 의존하지 않고 생명 주기에 따라 변화하도록 발전하여 fetch 이외에도 이벤트를 핸들링 할 수 있는 기반 기술이 된 과정 즉, Service Worker의 발전 흐름에 관해 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="roundup-vue-js-state-management-libraries-alligator-io">Roundup: Vue.js State Management Libraries ← Alligator.io</h2>
+
+<p><a href="https://alligator.io/vuejs/roundup-state-management-libraries/" title="Roundup: Vue.js State Management Libraries ← Alligator.io">alligator.io/vuejs/roundup-state-management-libraries/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Vue</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p><br>
+Vue.js에서 사용할 수 있는 스테이트 관리 라이브러리를 비교한 글입니다. 각 라이브러리의 특징이나 장점 및 단점 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="advanced-javascript-es2015-template-strings-with-tagged-templates-appendto">Advanced JavaScript ES2015 Template Strings with Tagged Templates | appendTo</h2>
+
+<p><a href="https://appendto.com/2017/02/advanced-javascript-es2015-template-strings-with-tagged-templates/" title="Advanced JavaScript ES2015 Template Strings with Tagged Templates | appendTo">appendto.com/2017/02/advanced-javascript-es2015-template-strings-with-tagged-templates/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">template</span> <span class="jser-tag">article</span></p><br>
+Tagged Template Literal에 관해 설명돼 있는 글입니다. 예제 코드와 함께 태그 함수의 인수가 어떻게 동작하는지 소개합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="progressive-transpilation-at-netflix-and-the-road-to-running-native-es2015-in-production-speaker-deck">Progressive Transpilation at Netflix and the road to running native ES2015 in production // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/betaorbust/progressive-transpilation-at-netflix-and-the-road-to-running-native-es2015-in-production" title="Progressive Transpilation at Netflix and the road to running native ES2015 in production // Speaker Deck">speakerdeck.com/betaorbust/progressive-transpilation-at-netflix-and-the-road-to-running-native-es2015-in-production</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">slide</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">browser</span></p><br>
+Netfilx의 브라우저 용으로 Transpile한 JavaScript를 전달하기 위해 하고 있는 처리에 관해 소개합니다.<br>
+모던한 브라우저는 ES2015를 대응하고 있기 때문에 변환이나 polyfill 등을 제거해 20 ~ 40% 정도 payload 사이즈를 줄일 수 있다고 합니다. 또, 압축 도구와 ES2015를 대응하고 있는지를 판정하는 문제 등에 관해서도 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="ava-casts">AVA Casts</h2>
+
+<p><a href="http://avacasts.com/" title="AVA Casts">avacasts.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">video</span></p><br>
+AVA에 관한 스크린캐스트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="bahmutov-snap-shot-jest-like-snapshot-feature-for-the-rest-of-us-works-magically-by-finding-the-right-caller-function">bahmutov/snap-shot: Jest-like snapshot feature for the rest of us, works magically by finding the right caller function</h2>
+
+<p><a href="https://github.com/bahmutov/snap-shot" title="bahmutov/snap-shot: Jest-like snapshot feature for the rest of us, works magically by finding the right caller function">github.com/bahmutov/snap-shot</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p><br>
+Jest 같은 Snapshot 테스트를 지원하는 테스트 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="mnemonist">Mnemonist</h2>
+
+<p><a href="https://yomguithereal.github.io/mnemonist/" title="Mnemonist">yomguithereal.github.io/mnemonist/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p><br>
+여러가지 데이터 구조를 구현한 JavaScript 라이브러리입니다.<br>
+Queue, Trie, Linked List, Bloom Filter 등이 구현돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="harksys-npmvet-a-simple-cli-tool-for-vetting-npm-package-versions">harksys/npmvet: A simple CLI tool for vetting npm package versions</h2>
+
+<p><a href="https://github.com/harksys/npmvet" title="harksys/npmvet: A simple CLI tool for vetting npm package versions">github.com/harksys/npmvet</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span> <span class="jser-tag">console</span> <span class="jser-tag">npm</span></p><br>
+<code>package.json</code>과 <code>node_modules</code>에 설치돼 있는 패키지의 버전을 비교하고 해당 패키지가 잠겨(lock)있는지 검사할 수 있는 도구입니다. 직접 또는 매번 새롭게 설치되는 CI에서 패키지의 버전을 맞추는데 목적을 두고 있습니다.</p>
+
+<ul>
+<li><a href="https://harksys.com/labs/npm-vet-a-simple-cli-tool-for-checking-npm-package-versions/" title="NPM Vet, a simple CLI tool for checking npm package versions - Hark.">NPM Vet, a simple CLI tool for checking npm package versions - Hark.</a></li>
+<li><a href="https://github.com/mgol/check-dependencies" title="mgol/check-dependencies: Checks if currently installed npm dependencies are installed in the exact same versions that are specified in package.json">mgol/check-dependencies: Checks if currently installed npm dependencies are installed in the exact same versions that are specified in package.json</a></li>
+</ul>
+
+<hr>
+
+<h2 id="simple-statistics">Simple Statistics</h2>
+
+<p><a href="http://simplestatistics.org/" title="Simple Statistics">simplestatistics.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">통계</span> <span class="jser-tag">library</span></p><br>
+sum, sort, quantile, mean 등 통계 용 메서드를 구현 및 제공하는 자바스크립트 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="abrahamjagadeesh-npm-module-stats-get-recursive-file-size-and-dependencies-of-any-npm-module-without-installing-the-module">abrahamjagadeesh/npm-module-stats: Get recursive file size and dependencies of any NPM module without installing the module</h2>
+
+<p><a href="https://github.com/abrahamjagadeesh/npm-module-stats" title="abrahamjagadeesh/npm-module-stats: Get recursive file size and dependencies of any NPM module without installing the module">github.com/abrahamjagadeesh/npm-module-stats</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p><br>
+특정 모듈이 의존하고 있는 각 npm 모듈의 파일 사이즈를 테이블로 정리해 볼 수 있는 도구입니다.</p>
+
+<hr>
+
+<h2 id="davidmfoley-node-trucker-hauls-your-node-js-source-files-around">davidmfoley/node-trucker: Hauls your node.js source files around</h2>
+
+<p><a href="https://github.com/davidmfoley/node-trucker" title="davidmfoley/node-trucker: Hauls your node.js source files around">github.com/davidmfoley/node-trucker</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CoffeeScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">리팩터링</span></p><br>
+JavaScript 파일 간의 의존 관계를 고려해 파일을 이동시킬 수 있는 리팩터링 도구입니다.<br>
+특정 파일을 이동 시키면 해당 파일을 의존하고 있는 각 파일의 import 구문도 함께 수정됩니다.</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-02-14-v8-5.7es2015-npm-typescript.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["V8","ES2015","npm","TypeScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>V8</li>
+                
+                <li>ES2015</li>
+                
+                <li>npm</li>
+                
+                <li>TypeScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/02/14/v8-5.7es2015-npm-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

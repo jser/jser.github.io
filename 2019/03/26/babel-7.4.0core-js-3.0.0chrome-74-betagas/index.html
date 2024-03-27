@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-03-26のJS: Babel 7.4.0とcore-js 3.0.0リリース、Chrome 74 beta、GAS入門 - JSer.info</title>
+    <meta name="description" content="JSer.info #428 - Babel 7.4.0がリリースされました。">
+    
+    <meta name="keywords" content="Babel,core-js,Chrome,GAS" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-03-26T11:18:18+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Babel" property="article:tag">
+      
+      <meta content="core-js" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="GAS" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #428 - Babel 7.4.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-03-26のJS: Babel 7.4.0とcore-js 3.0.0リリース、Chrome 74 beta、GAS入門">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #428 - Babel 7.4.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-03-26T11:18:18+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Babel">
+
+<meta property="article:tag" content="core-js">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="GAS">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">2019-03-26のJS: Babel 7.4.0とcore-js 3.0.0リリース、Chrome 74 beta、GAS入門</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年03月26日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2019/2019-03-26-babel-7.4.0core-js-3.0.0chrome-74-betagas.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2019/2019-03-26-babel-7.4.0core-js-3.0.0chrome-74-betagas.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #428 - Babel 7.4.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/babel/babel/releases/tag/v7.4.0">Release v7.4.0 · babel/babel</a></li>
+</ul>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-3-4-rc/">TypeScript 3.4 RC</a>で追加された<code>readonly</code>などのパースに対応、<br>
+core-js v3にアップデートが行われています。</p>
+
+<p>またECMAScriptのProposalである<a href="https://github.com/tc39/proposal-partial-application">Partial application Syntax</a>(Stage 1)、<a href="https://github.com/tc39/proposal-static-class-features/">Private Static Class Methods</a>(Stage 3)のサポートなども行われています。</p>
+
+<p>ECMAScriptのProposalも含めたpolyfillライブラリである<a href="https://github.com/zloirock/core-js">core-js</a> 3.0.0も合わせてリリースされています。</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/releases/tag/v3.0.0" title="Release 3.0.0 - 2019.03.19 · zloirock/core-js">Release 3.0.0 - 2019.03.19 · zloirock/core-js</a></li>
+<li><a href="https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md" title="core-js/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md at master · zloirock/core-js">core-js/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md at master · zloirock/core-js</a></li>
+<li><a href="https://github.com/zloirock/core-js/blob/master/CHANGELOG.md#300---20190319" title="core-js/CHANGELOG.md at master · zloirock/core-js">core-js/CHANGELOG.md at master · zloirock/core-js</a></li>
+</ul>
+
+<p>ECMAScript仕様への追従、Proposalの対応、<code>Reflect.enumerate</code>や<code>RegExp.escape</code>などのDropされたProposalが削除されています。<br>
+またパッケージを3つ(core-js,pure,bundle)に分けて、公開されるようになっています。</p>
+
+<ul>
+<li><code>core-js</code>: polyfill、グローバルを書き換える</li>
+<li><code>core-js-pure</code>: グローバルを書き換えないpolyfill(<a href="https://ponyfoo.com/articles/polyfills-or-ponyfills">ponyfill</a>)</li>
+<li><code>core-js-bundle</code>: <code>core-js</code>をbundleしたバージョン</li>
+</ul>
+
+<hr>
+
+<p>Chrome 74 betaがリリースされました。合わせてV8 7.4のリリースノートも公開されています。</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2019/03/chrome-74-beta-reducing-unwanted-motion.html">Chromium Blog: Chrome 74 beta: reducing unwanted motion, private class fields, and feature policy API</a></li>
+<li><a href="https://v8.dev/blog/v8-release-74">V8 release v7.4 · V8</a></li>
+<li><a href="https://developers.google.com/web/updates/2019/03/devtools">What&#39;s New In DevTools (Chrome 74)  |  Web  |  Google Developers</a></li>
+</ul>
+
+<p>Chrome 74 betaでは、CSS <code>prefers-reduced-motion: reduce</code>、private class field、Feature PolicyのJavaScript API、<code>Intl.Locale</code>などがサポートされています。<br>
+<code>window.open</code>をunload中に呼び出せなくなるなどの変更も入っています。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v7-4-0-babel-babel">Release v7.4.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/releases/tag/v7.4.0" title="Release v7.4.0 · babel/babel">github.com/babel/babel/releases/tag/v7.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Babel v7.4.0リリース。<br>
+core-js v3にアップデート、Partial application Proposal、Private Static Class Methods Proposalのサポートなど</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/releases/tag/v3.0.0" title="Release 3.0.0 - 2019.03.19 · zloirock/core-js">Release 3.0.0 - 2019.03.19 · zloirock/core-js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-3-0-0-2019-03-19-zloirock-core-js">Release 3.0.0 - 2019.03.19 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v3.0.0" title="Release 3.0.0 - 2019.03.19 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>core-js 3.0.0リリース。<br>
+ECMAScript仕様への追従、Proposalの対応、DropされたProposalなどの機能を削除。<br>
+またパッケージを3つに分類(core-js,pure,bundle)、LiveScriptをJavaScriptに書き換えなど</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md" title="core-js@3, babel and a look into the future">core-js@3, babel and a look into the future</a></li>
+<li><a href="https://github.com/zloirock/core-js/blob/master/CHANGELOG.md#300---20190319" title="core-js/CHANGELOG.md at master · zloirock/core-js">core-js/CHANGELOG.md at master · zloirock/core-js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-66-0-see-all-new-features-updates-and-fixes">Firefox 66.0, See All New Features, Updates and Fixes</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/66.0/releasenotes/" title="Firefox 66.0, See All New Features, Updates and Fixes">www.mozilla.org/en-US/firefox/66.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 66.0リリース。<br>
+メディアの自動再生がデフォルトでブロックされるように、Windows Helloの対応、AV1の有効化など。<br>
+スクリーンシェアをする<code>getDisplayMedia</code> APIの対応、CSS Scroll Anchoringの対応、属性セレクタで大文字小文字を無視する<code>i</code>フラグをサポートなど</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/blog/2019/03/19/todays-firefox-aims-to-reduce-your-online-annoyances/#block-autoplay" title="Today’s Firefox Aims to Reduce Your Online Annoyances - The Mozilla Blog">Today’s Firefox Aims to Reduce Your Online Annoyances - The Mozilla Blog</a></li>
+<li><a href="https://blog.mozilla.org/security/2019/03/19/passwordless-web-authentication-support-via-windows-hello/" title="Passwordless Web Authentication Support via Windows Hello | Mozilla Security Blog">Passwordless Web Authentication Support via Windows Hello | Mozilla Security Blog</a></li>
+<li><a href="https://research.mozilla.org/av1-media-codecs/" title="AV1 is a royalty-free video compression format for the web">AV1 is a royalty-free video compression format for the web</a></li>
+<li><a href="https://hacks.mozilla.org/2019/03/firefox-66-the-sound-of-silence/" title="Firefox 66: The Sound of Silence – Mozilla Hacks – the Web developer blog">Firefox 66: The Sound of Silence – Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://developer.mozilla.org/ja/docs/Mozilla/Firefox/Releases/66" title="Firefox 66 for developers - Mozilla | MDN">Firefox 66 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="llvm-8-0-0-release-notes-llvm-8-documentation">LLVM 8.0.0 Release Notes — LLVM 8 documentation</h2>
+
+<p><a href="http://releases.llvm.org/8.0.0/docs/ReleaseNotes.html#changes-to-the-webassembly-target" title="LLVM 8.0.0 Release Notes — LLVM 8 documentation">releases.llvm.org/8.0.0/docs/ReleaseNotes.html#changes-to-the-webassembly-target</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">LLVM</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>LLVM 8.0.0リリース。<br>
+WebAssembly Targetが&quot;experimental&quot;ではなくなり、デフォルトのTargetとしてサポートされた</p>
+
+<hr>
+
+<h2 id="release-v2-5-0-nuxt-nuxt-js">Release v2.5.0 · nuxt/nuxt.js</h2>
+
+<p><a href="https://github.com/nuxt/nuxt.js/releases/tag/v2.5.0" title="Release v2.5.0 · nuxt/nuxt.js">github.com/nuxt/nuxt.js/releases/tag/v2.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nuxt.js 2.5.0リリース。<br>
+<code>nuxt-ts</code>をインストールしなくてもよくなり、Nuxt.js本体でTypeScriptをサポート。<br>
+Babel 7.4とcore-js 3へのアップデート、<code>.nuxtignore</code>のサポートなど。</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-78-webkit">Release Notes for Safari Technology Preview 78 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8676/release-notes-for-safari-technology-preview-78/" title="Release Notes for Safari Technology Preview 78 | WebKit">webkit.org/blog/8676/release-notes-for-safari-technology-preview-78/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 78リリース。<br>
+Pointer Eventsの有効化、開発者ツールでCPU使用率やエネルギー影響率を見られるようになるなど</p>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-74-beta-reducing-unwanted-motion-private-class-fields-and-feature-policy-api">Chromium Blog: Chrome 74 beta: reducing unwanted motion, private class fields, and feature policy API</h2>
+
+<p><a href="https://blog.chromium.org/2019/03/chrome-74-beta-reducing-unwanted-motion.html" title="Chromium Blog: Chrome 74 beta: reducing unwanted motion, private class fields, and feature policy API">blog.chromium.org/2019/03/chrome-74-beta-reducing-unwanted-motion.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 74 betaリリース。<br>
+CSS <code>prefers-reduced-motion: reduce</code>、private class field、Feature PolicyのJS API、<br>
+<code>Intl.Locale</code>のサポート。<br>
+<code>window.open</code>をunload中に呼び出せなくなるなど</p>
+
+<ul>
+<li><a href="https://www.chromestatus.com/features#browsers.chrome.desktop%3D74" title="Chrome Platform Status">Chrome Platform Status</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-release-v7-4-v8">V8 release v7.4 · V8</h2>
+
+<p><a href="https://v8.dev/blog/v8-release-74" title="V8 release v7.4 · V8">v8.dev/blog/v8-release-74</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 v7.4リリース。<br>
+JIT-lessオプションを追加、WebAssembly Threads、Private class fields、<code>Intl.Locale</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="release-v7-0-0-beta-0-reduxjs-react-redux">Release v7.0.0-beta.0 · reduxjs/react-redux</h2>
+
+<p><a href="https://github.com/reduxjs/react-redux/releases/tag/v7.0.0-beta.0" title="Release v7.0.0-beta.0 · reduxjs/react-redux">github.com/reduxjs/react-redux/releases/tag/v7.0.0-beta.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React-Redux 7βリリース。<br>
+<code>useRedux()</code>のHooks APIをサポート、Batched Updatesの対応、<code>store</code>をPropsとして渡せる機能をテストのために再実装など</p>
+
+<ul>
+<li><a href="https://github.com/reduxjs/react-redux/issues/1177" title="React-Redux Roadmap: v6, Context, Subscriptions, and Hooks · Issue #1177 · reduxjs/react-redux">React-Redux Roadmap: v6, Context, Subscriptions, and Hooks · Issue #1177 · reduxjs/react-redux</a></li>
+</ul>
+
+<hr>
+
+<h2 id="react-training-react-router-v5">React Training: React Router v5</h2>
+
+<p><a href="https://reacttraining.com/blog/react-router-v5/" title="React Training: React Router v5">reacttraining.com/blog/react-router-v5/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React Router 5リリース。<br>
+React 16との互換性改善、bundle済みファイルを配布するように<code>&lt;Route path&gt;</code>が配列を受け取れるように。<br>
+minorアップデートだが、react-router-domとバージョンを合わせるためにmajorアップデートとしてリリースされた。</p>
+
+<ul>
+<li><a href="https://github.com/ReactTraining/react-router/releases/tag/v5.0.0" title="Release v5.0.0 · ReactTraining/react-router">Release v5.0.0 · ReactTraining/react-router</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="es5-to-esnext-here-s-every-feature-added-to-javascript-since-2015">ES5 to ESNext — here’s every feature added to JavaScript since 2015</h2>
+
+<p><a href="https://medium.freecodecamp.org/es5-to-esnext-heres-every-feature-added-to-javascript-since-2015-d0c255e13c6e" title="ES5 to ESNext — here’s every feature added to JavaScript since 2015">medium.freecodecamp.org/es5-to-esnext-heres-every-feature-added-to-javascript-since-2015-d0c255e13c6e</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>ES5からES.nextまでに増えた機能を紹介している記事。<br>
+ES2015, 201, 2017, 2018, 2019(候補)についてそれぞれ追加された構文や機能を紹介している</p>
+
+<hr>
+
+<h2 id="a-complete-guide-to-threads-in-node-js-logrocket">A complete guide to threads in Node.js – LogRocket</h2>
+
+<p><a href="https://blog.logrocket.com/a-complete-guide-to-threads-in-node-js-4fa3898fe74f" title="A complete guide to threads in Node.js – LogRocket">blog.logrocket.com/a-complete-guide-to-threads-in-node-js-4fa3898fe74f</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsの<code>worker_threads</code>モジュールについて。<br>
+基本的な使い方やイベント、threads間でのメモリ共有、<code>MessageChannel</code>を使ってのportでのメッセージング、メインスレッドかの判定などについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="gas-google">ノンプログラマ向けGASレクチャ - Google スライド</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1nHxLlNwNg23j_bp0JBgRhjUQpnm0E_S5OK4VAXiS2y8/edit#slide=id.g54702a7210_0_0" title="ノンプログラマ向けGASレクチャ - Google スライド">docs.google.com/presentation/d/1nHxLlNwNg23j_bp0JBgRhjUQpnm0E_S5OK4VAXiS2y8/edit#slide&#x3D;id.g54702a7210_0_0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">google</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Google Apps Script(GAS)についてのスライド。<br>
+基本的なJavaScriptの書き方や解説、スプレッドシートで動かすスクリプトや外部連携などのGASの使い方について</p>
+
+<ul>
+<li><a href="https://qiita.com/sakaimo/items/4eee96ed254f42ba88c1" title="ノンプログラマ向けのGASレクチャ資料を公開します。 - Qiita">ノンプログラマ向けのGASレクチャ資料を公開します。 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="q-nick-npm-gui-graphic-tool-for-managing-javascript-project-dependencies-in-a-friendly-way">q-nick/npm-gui: Graphic tool for managing javascript project dependencies - in a friendly way.</h2>
+
+<p><a href="https://github.com/q-nick/npm-gui" title="q-nick/npm-gui: Graphic tool for managing javascript project dependencies - in a friendly way.">github.com/q-nick/npm-gui</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">GUI</span> <span class="jser-tag">software</span></p></p>
+
+<p>npmのGUIツール。<br>
+依存のインストール、更新、scriptの実行を行う。<br>
+npm、yarnなどに対応している</p>
+
+<hr>
+
+<h2 id="francisrstokes-hexnut-hexnut-is-a-middleware-based-express-koa-like-framework-for-web-sockets">francisrstokes/hexnut: 🔩 Hexnut is a middleware based, express/koa like framework for web sockets</h2>
+
+<p><a href="https://github.com/francisrstokes/hexnut" title="francisrstokes/hexnut: 🔩 Hexnut is a middleware based, express/koa like framework for web sockets">github.com/francisrstokes/hexnut</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebSocket</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebSocketsをベースにしたExpress/Koaライクなサーバフレームワーク</p>
+
+<hr>
+
+<h2 id="jakearchibald-idb-indexeddb-but-with-promises">jakearchibald/idb: IndexedDB, but with promises</h2>
+
+<p><a href="https://github.com/jakearchibald/idb" title="jakearchibald/idb: IndexedDB, but with promises">github.com/jakearchibald/idb</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">IndexedDB</span> <span class="jser-tag">library</span></p></p>
+
+<p>IndexedDBのPromiseラッパーライブラリ。</p>
+
+<hr>
+
+<h2 id="tomi-fromfrom-a-js-library-written-in-ts-to-transform-sequences-of-data-from-format-to-another">tomi/fromfrom: A JS library written in TS to transform sequences of data from format to another</h2>
+
+<p><a href="https://github.com/tomi/fromfrom/" title="tomi/fromfrom: A JS library written in TS to transform sequences of data from format to another">github.com/tomi/fromfrom/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>LINQインスパイアなデータ変換を扱うライブラリ。<br>
+データ変換処理をメソッドチェーンでパイプライン処理できる。<br>
+Iteratorをベースにした実装となっていて、遅延実行ができる。</p>
+
+<ul>
+<li><a href="https://www.futurice.com/blog/announcing-fromfrom/" title="Announcing fromfrom - a LINQ inspired library to transform sequences of data in JS. — Futurice">Announcing fromfrom - a LINQ inspired library to transform sequences of data in JS. — Futurice</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2019/2019-03-26-babel-7.4.0core-js-3.0.0chrome-74-betagas.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Babel","core-js","Chrome","GAS"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Babel</li>
+                
+                <li>core-js</li>
+                
+                <li>Chrome</li>
+                
+                <li>GAS</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2019/03/26/babel-7.4.0core-js-3.0.0chrome-74-betagas/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

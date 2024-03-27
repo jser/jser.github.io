@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-01-11 JS: Node.js v7.4.0와 npm v4, PhantomJS 2.5.0 Beta, 클린코드 - JSer.info</title>
+    <meta name="description" content="JSer.info #313 - Node v7.4.0이 릴리즈됐습니다.Buffer와 EventEmitter의 성능 개선이 이뤄졌습니다.또, 이번 버전부터 npm의 버전이 v4.0.5로 변경됩니다.">
+    
+    <meta name="keywords" content="Node.js,npm,webkit,PhantomJS" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-01-11T09:36:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="webkit" property="article:tag">
+      
+      <meta content="PhantomJS" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #313 - Node v7.4.0이 릴리즈됐습니다.Buffer와 EventEmitter의 성능 개선이 이뤄졌습니다.또, 이번 버전부터 npm의 버전이 v4.0.5로 변경됩니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-01-11 JS: Node.js v7.4.0와 npm v4, PhantomJS 2.5.0 Beta, 클린코드">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #313 - Node v7.4.0이 릴리즈됐습니다.Buffer와 EventEmitter의 성능 개선이 이뤄졌습니다.또, 이번 버전부터 npm의 버전이 v4.0.5로 변경됩니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-01-11T09:36:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="webkit">
+
+<meta property="article:tag" content="PhantomJS">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/">2017-01-11 JS: Node.js v7.4.0와 npm v4, PhantomJS 2.5.0 Beta, 클린코드</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年01月11日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-01-11-Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-01-11-Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #313 - <a href="https://nodejs.org/en/blog/release/v7.4.0/" title="Node v7.4.0">Node v7.4.0</a>이 릴리즈됐습니다.<br>
+Buffer와 EventEmitter의 성능 개선이 이뤄졌습니다.<br>
+또, 이번 버전부터 npm의 버전이 <a href="https://github.com/npm/npm/releases/tag/v4.0.5" title="v4.0.5">v4.0.5</a>로 변경됩니다.</p>
+
+<ul>
+<li><a href="https://github.com/npm/npm/blob/v4.0.5/CHANGELOG.md" title="npm/CHANGELOG.md at v4.0.5 · npm/npm">npm/CHANGELOG.md at v4.0.5 · npm/npm</a></li>
+</ul>
+
+<p>npm v4에서는 <code>prepublish</code> 라이프 사이클이 <code>prepublishOnly</code>와 <code>prepare</code>로 분할됐습니다.</p>
+
+<ul>
+<li><a href="https://iamakulov.com/notes/all/npm-4-prepublish/" title="npm 4 is splitting the “prepublish” script into “prepublishOnly” and “prepare”">npm 4 is splitting the “prepublish” script into “prepublishOnly” and “prepare”</a></li>
+</ul>
+
+<p>또, <code>npm-shrinkwrap.json</code>에 기본적으로 <code>devDependencies</code>가 포함돼도록 변경 됐습니다.</p>
+
+<ul>
+<li><a href="http://qiita.com/shinout/items/97e4ae21800bbc98f2c0" title="npm shrinkwrap를 운용에서 사용하기 위한 요령 - Qiita">npm shrinkwrap를 운용에서 사용하기 위한 요령 - Qiita</a>(일본어)
+
+<ul>
+<li>npm v3 이하 환경에서의 shrinkwrap 동작에 관해 작성돼 있습니다.</li>
+</ul></li>
+</ul>
+
+<p>그 외에도 비권장 커맨드가 삭제되거나 일부 동작을 변경 및 개선하는 등 다양한 변경 사항이 있습니다. 자세한 내용은 아래 CHANGELOG를 참조해주길 바랍니다.</p>
+
+<ul>
+<li><a href="https://github.com/npm/npm/blob/v4.0.5/CHANGELOG.md" title="npm/CHANGELOG.md at v4.0.5 · npm/npm">npm/CHANGELOG.md at v4.0.5 · npm/npm</a></li>
+<li><a href="https://jser.info/ko/2016/10/24/npm-4.0.0-node.js-v6.9.0-lts-webpack2/" title="2016-10-24 JS: npm 4.0.0, Node.js v6.9.0 (LTS), webpack@2 마이그레이션 - JSer.info">2016-10-24 JS: npm 4.0.0, Node.js v6.9.0 (LTS), webpack@2 마이그레이션 - JSer.info</a></li>
+<li><a href="https://blog.risingstack.com/yarn-vs-npm-node-js-package-managers/" title="Yarn vs npm - The State of Node.js Package Managers | @RisingStack">Yarn vs npm - The State of Node.js Package Managers | @RisingStack</a>
+
+<ul>
+<li>npm v4의 변경 사항에 관해서도 작성돼 있으니 함께 살펴보면 좋을 것 같습니다.</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<p>헤드리스 브라우저 <a href="https://groups.google.com/forum/#!topic/phantomjs/AefOuwkgBh0" title="PhantomJS 2.5.0 Beta">PhantomJS 2.5.0 Beta</a>가 릴리즈됐습니다.</p>
+
+<p>의존하는 QTWebKit이 업데이트 되어 ES2015의 기능을 지원하게 됐습니다.<br>
+QTWebKit에 관한 변경 내용은 아래를 참고해주세요.</p>
+
+<ul>
+<li><a href="https://github.com/annulen/webkit/wiki/Comparison-with-QtWebKit-5.6" title="Comparison with QtWebKit 5.6 · annulen/webkit Wiki">Comparison with QtWebKit 5.6 · annulen/webkit Wiki</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://github.com/ryanmcdermott/clean-code-javascript" title="ryanmcdermott/clean-code-javascript: Clean Code concepts adapted for JavaScript">ryanmcdermott/clean-code-javascript</a>에는 <a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882" title="Clean Code">Clean Code</a>의 내용을 기반으로 한 가이드라인이 작성돼 있습니다.</p>
+
+<p>ES2015 기반으로 작성한 샘플 코드와 함께 읽기 쉽고 재사용 및 리팩터링하기 쉬운 코드에 관해 이야기합니다.</p>
+
+<hr>
+
+<h2 id="part-30005809613e1f53">공지사항</h2>
+
+<p><a href="https://jser.connpass.com/event/46997/" title="JSer.info 6주년과 300회 기념 이벤트">JSer.info 6주년과 300회 기념 이벤트</a>(일본어)는 이번 주말 2017/01/15(日)에 개최합니다(개장은 13:30부터).</p>
+
+<p>행사 입장에 필요한 출입 ID는 connpass의 메시지를 통해 메일로 발송 됐을 것입니다. 한번 확인 부탁드립니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="introducing-inferno-1-0-inferno_js-medium">Introducing Inferno 1.0 – inferno_js – Medium</h2>
+
+<p><a href="https://medium.com/inferno-js/introducing-inferno-1-0-f3da5c4e773b" title="Introducing Inferno 1.0 – inferno\_js – Medium">medium.com/inferno-js/introducing-inferno-1-0-f3da5c4e773b</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Inferno 1.0이 릴리즈됐습니다.<br>
+Inferno가 왜 만들어졌는지 이야기하고 향후 로드맵을 소개합니다.</p>
+
+<hr>
+
+<h2 id="node-v7-4-0-current-node-js">Node v7.4.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v7.4.0/" title="Node v7.4.0 (Current) | Node.js">nodejs.org/en/blog/release/v7.4.0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node.js 7.4.0이 릴리즈됐습니다.<br>
+Buffer, <code>EventEmitter.once</code>의 성능이 개선 됐습니다.</p>
+
+<hr>
+
+<h2 id="release-phantomjs-2-5-0-beta-google">[Release] PhantomJS 2.5.0 Beta - Google 그룹스</h2>
+
+<p><a href="https://groups.google.com/d/topic/phantomjs/AefOuwkgBh0" title="\[Release\] PhantomJS 2.5.0 Beta - Google グループ">groups.google.com/d/topic/phantomjs/AefOuwkgBh0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">webkit</span></p>
+
+<p>PhantomJS 2.5.0β가 릴리즈됐습니다.<br>
+QtWebKit이 업데이트 되어 ES2015와 WebP를 사용할 수 있게 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/annulen/webkit/wiki/Comparison-with-QtWebKit-5.6" title="Comparison with QtWebKit 5.6 · annulen/webkit Wiki">Comparison with QtWebKit 5.6 · annulen/webkit Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="microsoft-edge-build-15002-changelog-microsoft-edge-development">Microsoft Edge build 15002 changelog - Microsoft Edge Development</h2>
+
+<p><a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/changelog/desktop/15002/" title="Microsoft Edge build 15002 changelog - Microsoft Edge Development">developer.microsoft.com/en-us/microsoft-edge/platform/changelog/desktop/15002/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Windows 10 build 15002가 릴리즈 됐습니다.<br>
+MSEdge에서 Flash를 클릭해야만 재생되도록(Click to play) 변경 됐고 Web Payments를 시험적으로 지원하며 CSP 2.0과 WebVR API를 지원합니다. 또, 오리진이 다른 페이지에서의 setTimeout/requestAnimationFrame 호출을 억제하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="es6-arrow-functions-in-depth">ES6 arrow functions in depth</h2>
+
+<p><a href="https://codesi.nz/es6-arrow-functions-in-depth/" title="ES6 arrow functions in depth">codesi.nz/es6-arrow-functions-in-depth/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>Arrow Function관해 세세하게 소개하는 글입니다.<br>
+<code>this</code>의 동작과 암묵적 <code>return</code>에 관해 설명 돼 있습니다.<br>
+또, <code>new</code>가 불가능한 점, <code>new.target</code>나 <code>arguements</code>를 사용할 수 없는 점에 관해서도 이야기합니다.</p>
+
+<hr>
+
+<h2 id="from-sass-to-postcss-by-tyler-gaw">From Sass to PostCSS by Tyler Gaw</h2>
+
+<p><a href="https://tylergaw.com/articles/sass-to-postcss" title="From Sass to PostCSS by Tyler Gaw">tylergaw.com/articles/sass-to-postcss</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span> <span class="jser-tag">CSS</span> <span class="jser-tag">PostCSS</span></p>
+
+<p>Sass였던 환경을 PostCSS로 바꾸기 까지의 일종의 삽질기입니다.<br>
+Sass의 구문과 PostCSS의 확장(cssnext)을 비교합니다.</p>
+
+<hr>
+
+<h2 id="es-proposal-import">ES proposal: import()</h2>
+
+<p><a href="http://www.2ality.com/2017/01/import-operator.html" title="ES proposal: import()">www.2ality.com/2017/01/import-operator.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span></p>
+
+<p>현재 Stage 3의 Proposal인 <code>import()</code>에 관해 설명하는 글입니다.<br>
+dynamic module imports에 관한 사양에 대해 다루고 있습니다.</p>
+
+<hr>
+
+<h2 id="yarn-vs-npm-the-state-of-node-js-package-managers-risingstack">Yarn vs npm - The State of Node.js Package Managers | @RisingStack</h2>
+
+<p><a href="http://blog.risingstack.com/yarn-vs-npm-node-js-package-managers/" title="Yarn vs npm - The State of Node.js Package Managers | @RisingStack">blog.risingstack.com/yarn-vs-npm-node-js-package-managers/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">yarn</span></p>
+
+<p>npm v4와 Yarn에 관해 이야기합니다.<br>
+npm v4에서 추가된 기능을 소개하고 Yarn의 기능이나 lock 파일에 관해 소개합니다.</p>
+
+<hr>
+
+<h2 id="web-animation-in-2017-nothing-new">Web animation in 2017 | Nothing new</h2>
+
+<p><a href="https://birtles.wordpress.com/2017/01/10/web-animation-in-2017/" title="Web animation in 2017 | Nothing new">birtles.wordpress.com/2017/01/10/web-animation-in-2017/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">animation</span> <span class="jser-tag">firefox</span></p>
+
+<p>Web Animation과 관련된 사양의 스테이터스가 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="building-a-custom-tag-input-with-skate-js">Building a custom tag input with Skate.js</h2>
+
+<p><a href="https://hackernoon.com/building-a-custom-tag-input-with-skate-js-fbd4cdf744f" title="Building a custom tag input with Skate.js">hackernoon.com/building-a-custom-tag-input-with-skate-js-fbd4cdf744f</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span></p>
+
+<p>Web Components 프레임워크인 Skate.js를 사용해 태그 입력 컴포넌트를 만드는 과정을 소개합니다.<br>
+값이나 스타일을 정의하는 방법 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="flux-react-8-qiita">Flux를 사용하지 않고 React 컴포넌트 간 커뮤니케이션 하는 8가지 방법 - Qiita(일본어)</h2>
+
+<p><a href="http://qiita.com/kyoshidajp/items/0ddb156d96bb6337f623" title="Flux를 사용하지 않고 React 컴포넌트 간 커뮤니케이션 하는 8가지 방법 - Qiita">qiita.com/kyoshidajp/items/0ddb156d96bb6337f623</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">번역</span></p>
+
+<p>React 컴포넌트 간 값이나 상태를 전달하거나 동기화하는 패턴에 관해 소개하고 있습니다.</p>
+
+<ul>
+<li><a href="http://andrewhfarmer.com/component-communication/">8 no-Flux strategies for React component communication</a>(원문, 영어)</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="ryanmcdermott-clean-code-javascript-clean-code-concepts-adapted-for-javascript">ryanmcdermott/clean-code-javascript: Clean Code concepts adapted for JavaScript</h2>
+
+<p><a href="https://github.com/ryanmcdermott/clean-code-javascript" title="ryanmcdermott/clean-code-javascript: Clean Code concepts adapted for JavaScript">github.com/ryanmcdermott/clean-code-javascript</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">OOP</span></p>
+
+<p>클린코드를 자바스크립트 환경에서 실천하는 가이드 라인입니다.<br>
+읽기 쉬운 코드를 작성하는 방법과 객체 지향 프로그래밍 및 SOLID 실천법 등을 ES2015+ 문법을 사용해 알기 쉽게 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="web">세로 쓰기 Web 보급 위원회(일본어)</h2>
+
+<p><a href="http://tategaki.github.io/" title="세로 쓰기 Web 보급 위원회">tategaki.github.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">browser</span></p>
+
+<p>세로 쓰기 CSS관해 설명돼 있는 사이트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="flow-runtime">Flow Runtime</h2>
+
+<p><a href="https://codemix.github.io/flow-runtime/" title="Flow Runtime">codemix.github.io/flow-runtime/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">babel</span></p>
+
+<p>Flow와 호환되는 런타임 타입 체크 바벨 플러그인입니다.<br>
+Flow로 작성한 코드를 런타임 체크할 수 있습니다.</p>
+
+<hr>
+
+<h2 id="talyssonoc-structure-a-simple-schema-attributes-library-built-on-top-of-modern-javascript">talyssonoc/structure: A simple schema/attributes library built on top of modern JavaScript</h2>
+
+<p><a href="https://github.com/talyssonoc/structure" title="talyssonoc/structure: A simple schema/attributes library built on top of modern JavaScript">github.com/talyssonoc/structure</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>ES2015 classes의 모델에 대응해 스키마를 정의할 수 있는 라이브러입니다.<br>
+작성된 스키마를 바탕으로 값을 검증하거나 직렬화 할 수 있습니다.</p>
+
+<hr>
+
+<h2 id="wheresrhys-fetch-mock-mock-http-requests-made-using-fetch-or-isomorphic-fetch">wheresrhys/fetch-mock: Mock http requests made using fetch (or isomorphic-fetch)</h2>
+
+<p><a href="https://github.com/wheresrhys/fetch-mock" title="wheresrhys/fetch-mock: Mock http requests made using fetch (or isomorphic-fetch)">github.com/wheresrhys/fetch-mock</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Fetch</span> <span class="jser-tag">test</span> <span class="jser-tag">HTTP</span></p>
+
+<p>Fetch API의 목(Mock) 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="danculley-real-dom-a-1k-non-virtual-dom-non-framework-framework-for-simple-apps">danculley/real-dom: A ~1K non-virtual DOM non-framework framework for simple apps</h2>
+
+<p><a href="https://github.com/danculley/real-dom" title="danculley/real-dom: A ~1K non-virtual DOM non-framework framework for simple apps">github.com/danculley/real-dom</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">React</span> <span class="jser-tag">jsx</span></p>
+
+<p>Redux 스러운 State 머신을 다루는 DOM 컴포넌트 라이브러리입니다. 컴포넌트 작성시엔 JSX로도 작성할 수 있습니다.<br>
+약 50줄 정도의 코드로 구현돼 있는 정말 작은 사이즈의 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="xvg">xvg</h2>
+
+<p><a href="https://xvg.now.sh/" title="xvg">xvg.now.sh/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span></p>
+
+<p>SVG path의 아웃라인 및 앵커를 표시하여 디버깅할 수 있도록 하는 Chrome 확장 플러그인입니다.</p>
+
+<hr>
+
+<h2 id="nodekit">NodeKit</h2>
+
+<p><a href="https://nodekit.io/" title="NodeKit">nodekit.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">webkit</span> <span class="jser-tag">Electron</span></p>
+
+<p>Node.js를 iOS/Android/Windows 등의 애플리케이션에 넣어 사용할 수 있도록 하는 프레임워크입니다. <br>
+JavaScript 바인딩에 JavaScriptCore나 ChackraCore를 사용합니다.</p>
+
+<hr>
+
+<h2 id="jlongster-prettier-prettier-is-an-opinionated-javascript-formatter">jlongster/prettier: Prettier is an opinionated JavaScript formatter.</h2>
+
+<p><a href="https://github.com/jlongster/prettier" title="jlongster/prettier: Prettier is an opinionated JavaScript formatter.">github.com/jlongster/prettier</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>탭 사이즈, 한 줄 사이즈 등을 설정해 코드를 일괄 정리할 수 있는 JavaScript 포멧팅 도구입니다.</p>
+
+<ul>
+<li><a href="http://jlongster.com/A-Prettier-Formatter" title="A Prettier JavaScript Formatter">A Prettier JavaScript Formatter</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="oreilly-japan-javascript-3">O&#x27;Reilly Japan - 처음 시작하는 JavaScript 제 3 판(일본어)</h2>
+
+<p><a href="http://www.oreilly.co.jp/books/9784873117836/" title="O&#39;Reilly Japan - 처음 시작하는 JavaScript 제 3 판">www.oreilly.co.jp/books/9784873117836/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+
+<p>2017년 1월 20일에 출간되는 Learning JavaScript의 번역서 입니다.<br>
+ES2015+에 대한 내용이 추가됐습니다.</p>
+
+<ul>
+<li><a href="http://www.marlin-arms.com/support/ljs3/" title="처음 시작하는 JavaScript 제 3 판 서포트 페이지 - 마린 암즈">처음 시작하는 JavaScript 제 3 판 서포트 페이지 마린 암즈</a>(일본어)</li>
+<li><a href="http://shop.oreilly.com/product/0636920035534.do">Learning JavaScript, 3rd Edition</a>(원서, 영어)</li>
+</ul>
+
+<hr>
+
+<h2 id="front-end-handbook-2017-gitbook">Front-end Handbook 2017 · GitBook</h2>
+
+<p><a href="https://www.gitbook.com/book/frontendmasters/front-end-handbook-2017/details" title="Front-end Handbook 2017 · GitBook">www.gitbook.com/book/frontendmasters/front-end-handbook-2017/details</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">book</span></p>
+
+<p>프런트엔드에 관한 정보를 정리한 2017년 버전의 전자 서적입니다. 2016년 버전은 아래 링크를 참고해주세요.</p>
+
+<ul>
+<li><a href="https://www.gitbook.com/book/frontendmasters/front-end-handbook/details" title="Front-end Handbook 2016 · GitBook">Front-end Handbook 2016 · GitBook</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-01-11-Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","npm","webkit","PhantomJS"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>npm</li>
+                
+                <li>webkit</li>
+                
+                <li>PhantomJS</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/01/11/Node.js-v7.4.0-npm-v4-PhantomJS-2.5.0-Beta-clean-code/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

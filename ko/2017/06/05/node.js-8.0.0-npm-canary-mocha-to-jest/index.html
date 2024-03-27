@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-06-05 JS: Node.js 8.0.0, npm canary, Mocha to Jest - JSer.info</title>
+    <meta name="description" content="JSer.info #334 - Node.js 8.0.0이 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="Node.js,npm,Mocha,Jest,testing" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-06-05T17:45:58+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="Mocha" property="article:tag">
+      
+      <meta content="Jest" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #334 - Node.js 8.0.0이 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-06-05 JS: Node.js 8.0.0, npm canary, Mocha to Jest">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #334 - Node.js 8.0.0이 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-06-05T17:45:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="Mocha">
+
+<meta property="article:tag" content="Jest">
+
+<meta property="article:tag" content="testing">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/">2017-06-05 JS: Node.js 8.0.0, npm canary, Mocha to Jest</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年06月05日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-06-05-node.js-8.0.0-npm-canary-mocha-to-jest.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-06-05-node.js-8.0.0-npm-canary-mocha-to-jest.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #334 - Node.js 8.0.0이 릴리즈됐습니다.</p>
+
+<p>Node.js 8은 2017년 10월에 <a href="https://github.com/nodejs/LTS" title="nodejs/LTS: Node.js Foundation Long-term Support Working Group">LTS</a>가 될 예정입니다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v8.0.0/" title="Node v8.0.0 (Current) | Node.js">Node v8.0.0 (Current) | Node.js</a></li>
+<li><a href="https://medium.com/@nodejs/node-js-8-big-improvements-for-the-debugging-and-native-module-ecosystem-58454861f2fc" title="Node.js 8: Big Improvements for the Debugging and Native Module Ecosystem">Node.js 8: Big Improvements for the Debugging and Native Module Ecosystem</a></li>
+</ul>
+
+<p>Node.js 8.0.0에는 <a href="http://blog.npmjs.org/post/161081169345/v500" title="The npm Blog — v5.0.0">npm v5.0.0</a>와 <a href="https://v8project.blogspot.jp/2017/03/v8-release-58.html" title="V8 Release 5.8">V8 version 5.8</a>이 탑재돼 있습니다.</p>
+
+<p>또, Node.js API (N-API)라는 네이티브 에드온에 대한 레이어가 시험적으로 추가됐습니다.<br>
+이는, VM(V8이나 CharkraCore)에 의존하지 않는 ABI(Application Binary Interface)를 제공하는 것이 목적으로 자세한 내용은 아래 문서에 소개돼 있으니 참고하시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://medium.com/@nodejs/n-api-next-generation-node-js-apis-for-native-modules-169af5235b06" title="N-API: Next generation Node.js APIs for native modules">N-API: Next generation Node.js APIs for native modules</a></li>
+</ul>
+
+<p><code>async_hooks</code>과 WHATWG URL를 정식으로 지원하고 기본적으로 zero-filled된 인스턴스가 반환되도록 <code>Buffer</code> 생성자의 동작이 변경됐습니다. 그리고 <code>util.promisify</code>가 추가되는 등 다양한 변경 사항이 있습니다. <br>
+<code>util.promisify</code>는 <code>fs</code> 등의 전통적인 콜백 함수 인터페이스를 Promise로 다룰 수 있도록 변경 해주는 메서드입니다. 이와 관련된 자세한 내용은 아래 문서를 참고하시길 바랍니다.</p>
+
+<ul>
+<li><a href="http://2ality.com/2017/05/util-promisify.html" title="Node.js 8: `util.promisify()`">Node.js 8: <code>util.promisify()</code></a></li>
+</ul>
+
+<p>디버그 관련 변경사항으로 <code>--debug</code>를 사용한 디버깅은 비권장이 됐고 <code>--inspect</code>, <code>--inspect-brk</code> 등의 옵션을 이용한 디버깅이 권장합니다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/docs/guides/debugging-getting-started/" title="Debugging - Getting Started | Node.js">Debugging - Getting Started | Node.js</a></li>
+</ul>
+
+<p>또, Node.js가 생성하는 Error에 독자의 에러 코드가 부가며 <code>AssertionError</code>를 취급하는 방식이 조금 바뀌었습니다.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// assert 모듈에 의한 Error</span>
+<span class="nx">AssertionError</span> <span class="p">[</span><span class="nx">ERR_ASSERTION</span><span class="p">]:</span> <span class="kc">false</span> <span class="o">==</span> <span class="kc">true</span>
+</code></pre></div>
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/11273" title="Tracking Issue: Migrate errors to internal/errors.js · Issue #11273 · nodejs/node">Tracking Issue: Migrate errors to internal/errors.js · Issue #11273 · nodejs/node</a></li>
+</ul>
+
+<p>의해서 <code>AssertionError</code> 등에 특별한(부가적인) 처리를 하는 <a href="https://github.com/power-assert-js/power-assert/blob/v1.4.3/CHANGELOG.md" title="power-assert">power-assert</a> 등이 영향을 받게 됐습니다(이에 따른 대응이 필요함).</p>
+
+<ul>
+<li><a href="https://github.com/power-assert-js/power-assert/issues/85#issuecomment-305484852" title="Unable to compose power-assert + espower in node 7 or 8 · Issue #85 · power-assert-js/power-assert">Unable to compose power-assert + espower in node 7 or 8 · Issue #85 · power-assert-js/power-assert</a></li>
+</ul>
+
+<hr>
+
+<p>Node.js 8.0.0에 탑제돼 있는 것은 npm 5.0.0 이지만 몇 가지 문제와 성능을 개선한 npm 5.0.2가 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/npm/npm/releases/tag/v5.0.2" title="Release v5.0.2 · npm/npm">Release v5.0.2 · npm/npm</a></li>
+</ul>
+
+<p>또, npm의 canary 버전(조기 테스트 버전)인 <code>npmc</code>가 공개됐습니다. </p>
+<div class="highlight"><pre><code class="language-" data-lang="">npm i -g npmc
+</code></pre></div>
+<p><img src="https://monosnap.com/file/CcQwU5YfQIeg3N8HHiDxcH7W8vFnq3.png" alt="npmc"></p>
+
+<hr>
+
+<p><a href="https://ebaytech.berlin/into-the-great-unknown-migrating-from-mocha-to-jest-3baced083c7e" title="Into the Great Unknown — Migrating from Mocha to Jest">Into the Great Unknown — Migrating from Mocha to Jest</a>에는 Mocha에서 Jest 테스트 프레임워크로 변경하면서 겪은 일이 매끄럽게 소개돼 있습니다.</p>
+
+<p><a href="https://github.com/skovhus/jest-codemods" title="jest-codemods">jest-codemods</a>와 같은 마이그레이션 도구를 사용해서도 기계적으로 변경하지 못했던 부분을 어떻게 회피했는지 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="node-v8-0-0-current-node-js">Node v8.0.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v8.0.0/" title="Node v8.0.0 (Current) | Node.js">nodejs.org/en/blog/release/v8.0.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 8.0.0이 릴리즈됐습니다.<br>
+npm 5.0.0, V8 5.8, N-API(Node.js API), <code>async_hooks</code>, WHATWG URL을 정식으로 지원합니다. 기본적으로 zero-filled된 인스턴스가 반환되도록 <code>Buffer</code> 생성자의 동작이 변경됐고 <code>util.promisify</code>가 추가되며 Node.js가 생성하는 Error에 <code>code</code> 속성이 붙도록 변경됐습니다. 또, <code>--debug</code>가 폐지되고 <code>--inspect</code>로 디버거와 연계할 수 있도록 됐습니다.</p>
+
+<ul>
+<li><a href="http://abouthiroppy.hatenablog.jp/entry/2017/05/30/090015" title="Node8의 주 변경 사항 정리 - 기술 탐방">Node8의 주 변경 사항 정리 - 기술 탐방</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h2 id="npm-changelog-md-at-v5-0-1-npm-npm">npm/CHANGELOG.md at v5.0.1 · npm/npm</h2>
+
+<p><a href="https://github.com/npm/npm/blob/v5.0.1/CHANGELOG.md" title="npm/CHANGELOG.md at v5.0.1 · npm/npm">github.com/npm/npm/blob/v5.0.1/CHANGELOG.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm 5.0.1이 릴리즈됐습니다.<br>
+5.0.0의 버그가 주로 수정됐습니다. 또, 불필요한 assertion을 삭제하고 설치 속도를 개선하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-31-webkit">Release Notes for Safari Technology Preview 31 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7622/release-notes-for-safari-technology-preview-31/" title="Release Notes for Safari Technology Preview 31 | WebKit">webkit.org/blog/7622/release-notes-for-safari-technology-preview-31/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 31이 릴리즈됐습니다.<br>
+<code>preload</code>에서 <code>as</code>나 <code>type</code> 속성을 지원하며 Access-Control-Allow-Origin의 에러 메시지가 개선됐습니다.</p>
+
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=162819" title="162819 – Improve error message for Access-Control-Allow-Origin violation due to misconfigured server">162819 – Improve error message for Access-Control-Allow-Origin violation due to misconfigured server</a></li>
+<li><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=321517" title="321517 - Developer tools misleading error description on CORS XHR with multiple Access-Control-Allow-Origin response headers - chromium - Monorail">321517 - Developer tools misleading error description on CORS XHR with multiple Access-Control-Allow-Origin response headers - chromium - Monorail</a></li>
+</ul>
+
+<hr>
+
+<h2 id="n-api-next-generation-node-js-apis-for-native-modules">N-API: Next generation Node.js APIs for native modules</h2>
+
+<p><a href="https://medium.com/@nodejs/n-api-next-generation-node-js-apis-for-native-modules-169af5235b06" title="N-API: Next generation Node.js APIs for native modules">medium.com/@nodejs/n-api-next-generation-node-js-apis-for-native-modules-169af5235b06</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">C++</span> <span class="jser-tag">ChakraCore</span> <span class="jser-tag">V8</span> <span class="jser-tag">node.js</span></p></p>
+
+<p>Node.js 8.0.0에서 도입된 N-API에 관해 작성돼 있습니다. 지금까지 NAN 등을 이용해 네이티브 모듈을 작성할 수 있었지만 이는 V8을 의존하고 있기 때문에 API / ABI stability에 문제가 있었습니다. 따라서 N-API에서는 ABI-stable한 중간 레이어를 제공하여 문제를 회피합니다. 이에 맞춰 Node-ChacraCore 등에서도 호환 API를 준비하고 있습니다.</p>
+
+<hr>
+
+<h2 id="release-v5-0-2-npm-npm">Release v5.0.2 · npm/npm</h2>
+
+<p><a href="https://github.com/npm/npm/releases/tag/v5.0.2" title="Release v5.0.2 · npm/npm">github.com/npm/npm/releases/tag/v5.0.2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ReleaseNote</span> <span class="jser-tag">npm</span></p></p>
+
+<p>npm 5.0.2가 릴리즈됐습니다. <code>npm i -g npmc</code>으로 npm의 canary 버전을 설치할 수 있도록 변경 됐고 설치 출력 결과가 개선됐습니다.</p>
+
+<hr>
+
+<h2 id="announcing-meteor-1-5-meteor-blog">Announcing Meteor 1.5 – Meteor Blog</h2>
+
+<p><a href="https://blog.meteor.com/announcing-meteor-1-5-b82be66571bb" title="Announcing Meteor 1.5 – Meteor Blog">blog.meteor.com/announcing-meteor-1-5-b82be66571bb</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ree</span></p></p>
+
+<p>Meteor 1.5이 릴리즈됐습니다.<br>
+Code splitting, Dynamic import를 지원하고 bundle 분석 도구가 추가됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/meteor/meteor/blob/master/History.md#v15-2017-05-30" title="meteor/History.md at master · meteor/meteor">meteor/History.md at master · meteor/meteor</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="introduction-to-state-management-in-angular-v2-olricdigital-medium">Introduction to State Management in Angular v2+ – OlricDigital – Medium</h2>
+
+<p><a href="https://medium.com/olricdigital/introduction-to-state-management-in-angular-v2-ef6f5144bade" title="Introduction to State Management in Angular v2+ – OlricDigital – Medium">medium.com/olricdigital/introduction-to-state-management-in-angular-v2-ef6f5144bade</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span></p></p>
+
+<p>Angular에서 <code>@ngrx/store</code>를 사용한 상태 관리에 관해 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="http-2-push-is-tougher-than-i-thought-jakearchibald-com">HTTP/2 push is tougher than I thought - JakeArchibald.com</h2>
+
+<p><a href="https://jakearchibald.com/2017/h2-push-tougher-than-i-thought/" title="HTTP/2 push is tougher than I thought - JakeArchibald.com">jakearchibald.com/2017/h2-push-tougher-than-i-thought/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP2</span> <span class="jser-tag">browser</span></p></p>
+
+<p>HTTP/2 Server Push에 관련한 브라우저 별 동작에 대해 요약/정리 돼 있습니다.</p>
+
+<hr>
+
+<h2 id="whats-new-for-streams-in-node-8-calvin-metcalf-medium">Whats new for streams in Node 8 – Calvin Metcalf – Medium</h2>
+
+<p><a href="https://medium.com/@CWMma/whats-new-for-streams-in-node-8-736d431083df" title="Whats new for streams in Node 8 – Calvin Metcalf – Medium">medium.com/@CWMma/whats-new-for-streams-in-node-8-736d431083df</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span></p></p>
+
+<p>Node.js 8.0.0의 Stream에 추가된 <code>destroy</code>가 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="redux-vs-mobx-which-is-best-for-your-project-sitepoint">Redux vs MobX: Which Is Best for Your Project? — SitePoint</h2>
+
+<p><a href="https://www.sitepoint.com/redux-vs-mobx-which-is-best/" title="Redux vs MobX: Which Is Best for Your Project? — SitePoint">www.sitepoint.com/redux-vs-mobx-which-is-best/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">opinion</span> <span class="jser-tag">redux</span></p></p>
+
+<p>Redux와 MobX의 비교 글입니다. 각각의 특징이나 작성 방법의 차이점과 소소한 견해가 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="into-the-great-unknown-migrating-from-mocha-to-jest">Into the Great Unknown — Migrating from Mocha to Jest</h2>
+
+<p><a href="https://ebaytech.berlin/into-the-great-unknown-migrating-from-mocha-to-jest-3baced083c7e" title="Into the Great Unknown — Migrating from Mocha to Jest">ebaytech.berlin/into-the-great-unknown-migrating-from-mocha-to-jest-3baced083c7e</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Mocha에서 Jest로 테스트 환경을 변경하면서 겪은 이야기가 작성돼 있습니다.<br>
+codemod를 사용한 마이그레이션 방법과 js 이 외의 파일(scss)을 불러올 때 hook 처리 방법 그리고 ESLint 설정 등을 소개하고 복잡한 테스트나 chai 확장을 사용하고 있는 경우에 기계적으로 변환할 수 없는 경우에 대해서 이야기합니다.</p>
+
+<hr>
+
+<h2 id="announcing-storybook-3-0-storybook-medium">Announcing Storybook 3.0 – Storybook – Medium</h2>
+
+<p><a href="https://medium.com/storybookjs/announcing-storybook-3-0-329748b8f4cd" title="Announcing Storybook 3.0 – Storybook – Medium">medium.com/storybookjs/announcing-storybook-3-0-329748b8f4cd</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">document</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React의 컴포넌트 개발 환경 도구인 Storybook 3.0이 릴리즈됐습니다.<br>
+개발 주체가 Kadira에서 커뮤니티로 이동했고 webpack2를 대응했습니다. 또, 스탭샷 테스트를 할 수 있는 <code>storyshot</code>을 지원합니다.</p>
+
+<ul>
+<li><a href="https://github.com/storybooks/storybook/releases" title="Releases · storybooks/storybook">Releases · storybooks/storybook</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="rails-react-ssr-redux-typescript-bitjourney-kibela">Rails 엔지니어가 React를 시작해 SSR와 Redux와 TypeScript를 도입하기까지 | bitjourney Kibela(일본어)</h2>
+
+<p><a href="https://bitjourney.kibe.la/shared/entries/5c77844d-9856-4f1c-b689-44b1ee3d450a" title="Rails 엔지니어가 React를 시작해 SSR와 Redux와 TypeScript를 도입하기까지 | bitjourney Kibela | bitjourney Kibela">bitjourney.kibe.la/shared/entries/5c77844d-9856-4f1c-b689-44b1ee3d450a</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">rails</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Rails 환경에 React + Redux와 서버 사이드 렌더링을 도입하기 까지의 과정을 이야기합니다. 추후 TypeScript를 도입한 과정도 소개돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="webassembly-and-friends-roadmap">WebAssembly and Friends Roadmap</h2>
+
+<p><a href="https://wasmdash.appspot.com/" title="WebAssembly and Friends Roadmap">wasmdash.appspot.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">WebAssembly</span></p></p>
+
+<p>Chrome의 wasm 관련한 로드맵이 공개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="mil-webdnn">MIL WebDNN</h2>
+
+<p><a href="https://mil-tokyo.github.io/webdnn/" title="MIL WebDNN">mil-tokyo.github.io/webdnn/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">기계학습</span></p></p>
+
+<p>WebGPU, WebAssembly, JavaScript의 Fallback을 이용해 구현한 DNN(Deep neural network)의 실행 환경이 소개돼 있습니다.<br>
+브라우저 상에서 고속으로 범용 연산을 처리하는 것이 목적.</p>
+
+<ul>
+<li><a href="https://mil-tokyo.github.io/webdnn/ja/" title="MIL WebDNN(일본어)">MIL WebDNN(일본어)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="picodom-picodom-1kb-virtual-dom-builder-and-patch-algorithm">picodom/picodom: 1kb Virtual DOM builder and patch algorithm.</h2>
+
+<p><a href="https://github.com/picodom/picodom" title="picodom/picodom: 1kb Virtual DOM builder and patch algorithm.">github.com/picodom/picodom</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">VirtualDOM</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>작은 사이즈의 Virtual DOM 구현 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="birdview">Birdview</h2>
+
+<p><a href="http://achrafkassioui.com/birdview/" title="Birdview">achrafkassioui.com/birdview/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>사이트 전체를 관망할 수 있도록 전환할 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="oreilly-japan">O&#39;Reilly Japan - 서버리스 싱글 페이지 애플리케이션</h2>
+
+<p><a href="https://www.oreilly.co.jp/books/9784873118062/" title="O&#39;Reilly Japan - 서버리스 싱글 페이지 애플리케이션">www.oreilly.co.jp/books/9784873118062/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">serverless</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 06월 23일 발매 예정인 aws lambda 등을 사용한 서버리스 SPA를 주제로 한 도서입니다.</p>
+
+<hr>
+
+<h2 id="elm-amazon">기초부터 알아가는 Elm | 토리이 요우스케 |　책 | 통신판매 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/%E5%9F%BA%E7%A4%8E%E3%81%8B%E3%82%89%E3%82%8F%E3%81%8B%E3%82%8B-Elm-%E9%B3%A5%E5%B1%85-%E9%99%BD%E4%BB%8B/dp/4863542224" title="기초부터 알아가는 Elm | 토리이 요우스케 |　책 | 통신판매 | Amazon">www.amazon.co.jp/%E5%9F%BA%E7%A4%8E%E3%81%8B%E3%82%89%E3%82%8F%E3%81%8B%E3%82%8B-Elm-%E9%B3%A5%E5%B1%85-%E9%99%BD%E4%BB%8B/dp/4863542224</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">program</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 7월 14일 발매 예정인 Elm을 주제로 한 도서입니다.</p>
+
+<hr>
+
+<h2 id="get-programming-with-javascript-next-new-features-of-ecmascript-2015-2016-and-beyond-j-d-isaacks-9781617294204-amazon-com-books">Get Programming with JavaScript Next: New features of ECMAScript 2015, 2016, and beyond: J. D. Isaacks: 9781617294204: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Get-Programming-JavaScript-Next-ECMAScript/dp/1617294209" title="Get Programming with JavaScript Next: New features of ECMAScript 2015, 2016, and beyond: J. D. Isaacks: 9781617294204: Amazon.com: Books">www.amazon.com/Get-Programming-JavaScript-Next-ECMAScript/dp/1617294209</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 12월 30일 발매 예정인 ES2015 이후에 대해서 다루는 도서입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-06-05-node.js-8.0.0-npm-canary-mocha-to-jest.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","npm","Mocha","Jest","testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>npm</li>
+                
+                <li>Mocha</li>
+                
+                <li>Jest</li>
+                
+                <li>testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/06/05/node.js-8.0.0-npm-canary-mocha-to-jest/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

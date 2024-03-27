@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-06-23のJS: Backbone.Marionette 2.0.0、Orion 6.0、JavaScript Promise - JSer.info</title>
+    <meta name="description" content="JSer.info #180 - Backbone.Marionetteがメジャーアップデートしてv2.0.0がリリースされました。">
+    
+    <meta name="keywords" content="backbone,IDE,editor,JavaScript,Promises" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2014-06-23T22:21:58+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="backbone" property="article:tag">
+      
+      <meta content="IDE" property="article:tag">
+      
+      <meta content="editor" property="article:tag">
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="Promises" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #180 - Backbone.Marionetteがメジャーアップデートしてv2.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2014-06-23のJS: Backbone.Marionette 2.0.0、Orion 6.0、JavaScript Promise">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #180 - Backbone.Marionetteがメジャーアップデートしてv2.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2014-06-23T22:21:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="backbone">
+
+<meta property="article:tag" content="IDE">
+
+<meta property="article:tag" content="editor">
+
+<meta property="article:tag" content="JavaScript">
+
+<meta property="article:tag" content="Promises">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">2014-06-23のJS: Backbone.Marionette 2.0.0、Orion 6.0、JavaScript Promise</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年06月23日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-06-23-2014-06-23-js-backbone-marionette-2-0-0-orion.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2014-06-23-2014-06-23-js-backbone-marionette-2-0-0-orion.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #180 - <a href="http://marionettejs.com/" title="Backbone.Marionette" target="_blank">Backbone.Marionette</a>がメジャーアップデートして<a href="https://github.com/marionettejs/backbone.marionette/releases/tag/v2.0.0" title="v2.0.0" target="_blank">v2.0.0</a>がリリースされました。</p>
+
+<ul><li><a href="https://github.com/marionettejs/backbone.marionette/releases/tag/v2.0.0" title="Release v2.0.0 · marionettejs/backbone.marionette" target="_blank">Release v2.0.0 · marionettejs/backbone.marionette</a></li>
+<li><a href="https://github.com/marionettejs/Marionette.Upgrade" title="marionettejs/Marionette.Upgrade" target="_blank">marionettejs/Marionette.Upgrade</a></li>
+<li><a href="http://lealog.hateblo.jp/entry/2014/06/18/201525" title="Backbone.Marionetteがv2.0.0に - console.lealog();" target="_blank">Backbone.Marionetteがv2.0.0に - console.lealog();</a></li>
+</ul><p>リリースノートの方をみても分かるように、破壊的なAPIの変更が多くあるようです。
+そのため、<a href="https://github.com/marionettejs/Marionette.Upgrade" title="marionettejs/Marionette.Upgrade" target="_blank">marionettejs/Marionette.Upgrade</a>にアップグレート用のスクリプトと解説が用意されています。</p>
+
+<hr><p>JavaScriptを使ったオンラインIDEである<a href="http://planetorion.org/news/2014/06/orion-6-0-language-tooling-enhancements/" title="Orion 6.0" target="_blank">Orion 6.0</a>がリリースされました。</p>
+
+<p>既存の関数に対して対応したJSDocの生成、ビルトインされてるESLintの細かいカスタマイズ、
+コードのContextに応じたスニペットの補完等が入っています。</p>
+
+<p>また、OrionはJavaScriptパーサに<a href="http://esprima.org/" title="Esprima" target="_blank">Esprima</a>を使っていますが、
+通常コードを書いてる最中はJavaScriptとしては壊れているコードが頻出します。
+このような壊れたコードを上手く復帰させてパースする<a href="http://esprima.org/doc/index.html" title="tolerant" target="_blank">tolerant</a>というオプションがEsprimaには存在しています。</p>
+
+<p>Orionはこれをさらに改善して、シンタックスエラーの検出を強化しているみたいです。(これをJSHintのように独自のパーサーを持たないでやるの結構凄い気がします)</p>
+
+<p>このような復帰可能SyntaxErrorについては以下の記事でどのようなものかについて書かれています。</p>
+
+<ul><li><a href="http://constellation.hatenablog.com/entry/20100521/1274422000" title="JavaScript Syntax探訪 - 枕を欹てて聴く" target="_blank">JavaScript Syntax探訪 - 枕を欹てて聴く</a></li>
+</ul><hr><p><a href="http://azu.github.io/promises-book/" title="JavaScript Promiseの本" target="_blank">JavaScript Promiseの本</a> というJavaScriptのPromiseについての電子書籍がリリースされました。(ライセンスはCC BY-NC)</p>
+
+<p><a href="http://efcl.info/2014/0623/res3943/" title="JavaScript Promiseの本を書きました | Web scratch" target="_blank">JavaScript Promiseの本を書きました | Web scratch</a> にて詳しく書かれていますが、
+ブラウザでそのまま見られる<a href="http://azu.github.io/promises-book/" title="JavaScript Promiseの本" target="_blank">HTML版</a>と<a href="http://azu.github.io/promises-book/javascript-promise-book.pdf" title="JavaScript Promiseの本 - javascript-promise-book.pdf" target="_blank">PDF版</a>が公開されています。</p>
+
+<p>内容的には、<a href="http://jser.info/post/77696682011/es6-promises" title="あなたが読むべきJavaScript Promises | JSer.info" target="_blank">あなたが読むべきJavaScript Promises | JSer.info</a>で紹介したものに、Promiseのテストの話を加えたような感じになってます。</p>
+
+<p>Promiseの基本的な使い方からアンチパターンを含めた応用について書かれています。</p>
+
+<p>書籍の作りや書籍の自動テストについては<a href="https://gumroad.com/l/javascript-promise#" title="JavaScript Promiseの本 付録" target="_blank">JavaScript Promiseの本 付録</a>でおまけが公開されています。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="http://blog.nodejs.org/2014/06/16/node-v0-10-29-stable/" title="Node v0.10.29 (Stable)">
+<p class="jser-sitelink"><strong>Node v0.10.29 (Stable)</strong></p><footer><cite><a href="http://blog.nodejs.org/2014/06/16/node-v0-10-29-stable/" title="Node v0.10.29 (Stable)" target="_blank">blog.nodejs.org/2014/06/16/node-v0-10-29-stable/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Node v0.10.29 リリース。</p>
+
+<p>BufferでのUTF-8 の表示が変わった</p>
+
+<ul><li><a href="http://blog.nodejs.org/2014/06/16/openssl-and-breaking-utf-8-change/" target="_blank">OpenSSL and Breaking UTF-8 Change (fixed in Node v0.8.27 and v0.10.29)</a></li>
+</ul><blockquote cite="https://github.com/reworkcss/css/releases/tag/2.0.0" title="Release 2.0.0 · reworkcss/css">
+<p class="jser-sitelink"><strong>Release 2.0.0 · reworkcss/css</strong></p><footer><cite><a href="https://github.com/reworkcss/css/releases/tag/2.0.0" title="Release 2.0.0 · reworkcss/css" target="_blank">github.com/reworkcss/css/releases/tag/2.0.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span><span class="jser-tag">node.js</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>CSSパーサのcss 2.0.0リリース。</p>
+
+<p>ASTのnodeに<code>position.content</code>を追加、<code>@custom-media</code>等のサポート</p>
+
+<p><a href="https://github.com/reworkcss/css/blob/2.0.0/History.md" target="_blank">https://github.com/reworkcss/css/blob/2.0.0/History.md</a></p>
+
+<blockquote cite="http://dojotoolkit.org/blog/dojo-turns-1-10" title="Dojo turns (1.)10 | The Dojo Toolkit Blog">
+<p class="jser-sitelink"><strong>Dojo turns (1.)10 | The Dojo Toolkit Blog</strong></p><footer><cite><a href="http://dojotoolkit.org/blog/dojo-turns-1-10" title="Dojo turns (1.)10 | The Dojo Toolkit Blog" target="_blank">dojotoolkit.org/blog/dojo-turns-1-10</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Dojo 1.10 リリース。</p>
+
+<p>Dojo10年目</p>
+
+<blockquote cite="https://github.com/marionettejs/backbone.marionette/releases/tag/v2.0.0" title="Release v2.0.0 · marionettejs/backbone.marionette">
+<p class="jser-sitelink"><strong>Release v2.0.0 · marionettejs/backbone.marionette</strong></p><footer><cite><a href="https://github.com/marionettejs/backbone.marionette/releases/tag/v2.0.0" title="Release v2.0.0 · marionettejs/backbone.marionette" target="_blank">github.com/marionettejs/backbone.marionette/releases/tag/v2.0.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Backbone.Marionette 2.0.0リリース。</p>
+
+<p>APIの変更が多くあるため、1.x からのアップデートは <a href="https://github.com/marionettejs/Marionette.Upgrade" target="_blank">https://github.com/marionettejs/Marionette.Upgrade</a> を参照。</p>
+
+<ul><li><a href="https://github.com/marionettejs/Marionette.Upgrade" target="_blank">marionettejs/Marionette.Upgrade</a></li>
+<li><a href="http://lealog.hateblo.jp/entry/2014/06/18/201525" title="Backbone.Marionetteがv2.0.0に - console.lealog();" target="_blank">Backbone.Marionetteがv2.0.0に - console.lealog();</a></li>
+</ul><blockquote cite="http://planetorion.org/news/2014/06/orion-6-0-language-tooling-enhancements/" title="Orion 6.0 – Language Tooling Enhancements | Orion News">
+<p class="jser-sitelink"><strong>Orion 6.0 – Language Tooling Enhancements | Orion News</strong></p><footer><cite><a href="http://planetorion.org/news/2014/06/orion-6-0-language-tooling-enhancements/" title="Orion 6.0 – Language Tooling Enhancements | Orion News" target="_blank">planetorion.org/news/2014/06/orion-6-0-language-tooling-enhancements/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">editor</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>Orion 6.0リリース。</p>
+
+<p>関数にJSDocを追加出来るように、インラインスクリプトのLint、ESLintの細かいカスタマイズ、スコープに合わせたコードスニペット、壊れてるコードのパースから復帰と間違いの指摘、チェックツールなどをWebWorkerで動かせるように</p>
+
+<h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://efcl.info/2014/0623/res3943/" title="JavaScript Promiseの本を書きました | Web scratch">
+<p class="jser-sitelink"><strong>JavaScript Promiseの本を書きました | Web scratch</strong></p><footer><cite><a href="http://efcl.info/2014/0623/res3943/" title="JavaScript Promiseの本を書きました | Web scratch" target="_blank">efcl.info/2014/0623/res3943/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">book</span></p>
+
+<p>JavaScript Promiseの本 1.0.0リリース。</p>
+
+<p>ES6 Promiseの基本的な使い方、テスト、ライブラリや応用について書かれた電子書籍</p>
+
+<blockquote cite="http://blog.soareschen.com/the-problem-with-es6-promises" title="The Problem With ES6 Promises">
+<p class="jser-sitelink"><strong>The Problem With ES6 Promises</strong></p><footer><cite><a href="http://blog.soareschen.com/the-problem-with-es6-promises" title="The Problem With ES6 Promises" target="_blank">blog.soareschen.com/the-problem-with-es6-promises</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span><span class="jser-tag">debug</span></p>
+
+<p>Promiseにおけるよくある問題について。</p>
+
+<p>1つのpromiseオブジェクトが複数回resolve/rejectされる問題、キャッチしてないPromise、Uncaugh Error、タイムアウト。</p>
+
+<p>またその解決策として<a href="https://github.com/soareschen/es6-promise-debugging" title="soareschen/es6-promise-debugging" target="_blank">soareschen/es6-promise-debugging</a>にてそれぞれ実装が公開されています。</p>
+
+<blockquote cite="http://davidwalsh.name/asynquence-part-1" title="asynquence: The Promises You Don't Know Yet (Part 1)">
+<p class="jser-sitelink"><strong>asynquence: The Promises You Don&#8217;t Know Yet (Part 1)</strong></p><footer><cite><a href="http://davidwalsh.name/asynquence-part-1" title="asynquence: The Promises You Don't Know Yet (Part 1)" target="_blank">davidwalsh.name/asynquence-part-1</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span></p>
+
+<p>Promiseスタイルの非同期コントロールフローライブラリであるasynquenceについての連載。
+(内部的にPromiseを使って、非同期処理のフローを管理する)</p>
+
+<ul><li><a href="http://blog.getify.com/promises-part-1/" target="_blank">Promises: The Sync Problem (part 1) | getiblog</a></li>
+<li><a href="https://github.com/getify/asynquence" target="_blank">getify/asynquence</a></li>
+</ul><blockquote cite="http://osintegrators.com/node/322" title="Testing A Backbone App with Karma | Open Software Integrators">
+<p class="jser-sitelink"><strong>Testing A Backbone App with Karma | Open Software Integrators</strong></p><footer><cite><a href="http://osintegrators.com/node/322" title="Testing A Backbone App with Karma | Open Software Integrators" target="_blank">osintegrators.com/node/322</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span><span class="jser-tag">testing</span><span class="jser-tag">AMD</span><span class="jser-tag">tutorial</span></p>
+
+<p>Backbone+Jasmine+Karmaを使ったテストとコードカバレッジのチュートリアル。 バックエンドのFakeを書いてテストする方法について等</p>
+
+<blockquote cite="http://raganwald.com/2014/06/15/immutable-structs.html" title="Structs and ImmutableStructs">
+<p class="jser-sitelink"><strong>Structs and ImmutableStructs</strong></p><footer><cite><a href="http://raganwald.com/2014/06/15/immutable-structs.html" title="Structs and ImmutableStructs" target="_blank">raganwald.com/2014/06/15/immutable-structs.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p>
+
+<p><code>Object.defineProperties</code>を使ってImmutableなオブジェクトを作る話</p>
+
+<blockquote cite="http://efcl.info/2014/0622/res3933/" title="Source Mapを扱う関連ライブラリのまとめ | Web scratch">
+<p class="jser-sitelink"><strong>Source Mapを扱う関連ライブラリのまとめ | Web scratch</strong></p><footer><cite><a href="http://efcl.info/2014/0622/res3933/" title="Source Mapを扱う関連ライブラリのまとめ | Web scratch" target="_blank">efcl.info/2014/0622/res3933/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">node.js</span><span class="jser-tag">browser</span><span class="jser-tag">sourcemap</span><span class="jser-tag">library</span><span class="jser-tag">まとめ</span></p>
+
+<p>source mapを扱うライブラリについてのまとめ。</p>
+
+<p>ツールを作るときに使うようなsource mapを扱うモジュールについての紹介。</p>
+
+<blockquote cite="http://tkengo.github.io/blog/2014/06/22/ci-for-chrome-extensions1/" title="Chrome Extension の CI が出来るようになるまで(導入編) - けんごのお屋敷">
+<p class="jser-sitelink"><strong>Chrome Extension の CI が出来るようになるまで(導入編) - けんごのお屋敷</strong></p><footer><cite><a href="http://tkengo.github.io/blog/2014/06/22/ci-for-chrome-extensions1/" title="Chrome Extension の CI が出来るようになるまで(導入編) - けんごのお屋敷" target="_blank">tkengo.github.io/blog/2014/06/22/ci-for-chrome-extensions1/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span><span class="jser-tag">Extension</span><span class="jser-tag">testing</span><span class="jser-tag">CI</span></p>
+
+<p>Chrome拡張のテストとCIについての連載</p>
+
+<h3 class="site-genre">スライド、動画関係</h3>
+
+<blockquote cite="http://vimeo.com/97881078" title="Native NodeJS Apps on Vimeo">
+<p class="jser-sitelink"><strong>Native NodeJS Apps on Vimeo</strong></p><footer><cite><a href="http://vimeo.com/97881078" title="Native NodeJS Apps on Vimeo" target="_blank">vimeo.com/97881078</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node-webkit</span><span class="jser-tag">スライド</span><span class="jser-tag">動画</span></p>
+
+<p>node-webkitやatom-shellのようにNodeJSをベースとしたデスクトップアプリについて</p>
+
+<blockquote cite="https://speakerdeck.com/nkzawa/socket-dot-io-1-dot-0falsebian-geng-dian-nei-bu-de-nahua" title="Socket.IO 1.0の変更点・内部的な話 // Speaker Deck">
+<p class="jser-sitelink"><strong>Socket.IO 1.0の変更点・内部的な話 // Speaker Deck</strong></p><footer><cite><a href="https://speakerdeck.com/nkzawa/socket-dot-io-1-dot-0falsebian-geng-dian-nei-bu-de-nahua" title="Socket.IO 1.0の変更点・内部的な話 // Speaker Deck" target="_blank">speakerdeck.com/nkzawa/socket-dot-io-1-dot-0falsebian-geng-dian-nei-bu-de-nahua</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebSocket</span><span class="jser-tag">スライド</span></p>
+
+<p>socket.io 1.0/engine.ioについてまとまってるスライド。</p>
+
+<p>WebSocketへのアップグレードの仕組み、ハンドシェイクから接続の間に処理を入れるミドルウェア、バイナリサポート、Adapter、サーバ間共有、プロトコルの変化等</p>
+
+<h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="http://discourse.specifiction.org/t/name-663399-becca-purple-in-css4-color/225" title="Specifiction">
+<p class="jser-sitelink"><strong>Specifiction</strong></p><footer><cite><a href="http://discourse.specifiction.org/t/name-663399-becca-purple-in-css4-color/225" title="Specifiction" target="_blank">discourse.specifiction.org/t/name-663399-becca-purple-in-css4-color/225</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web</span><span class="jser-tag">spec</span><span class="jser-tag">community</span></p>
+
+<p>Web標準をよりオープンに議論/フィードバックすることを目的にした場所</p>
+
+<ul><li><a href="http://movethewebforward.org/" target="_blank">Move The Web Forward | Guide to getting involved with standards and browser development</a></li>
+</ul><blockquote cite="https://jakearchibald.github.io/isserviceworkerready/" title="Is ServiceWorker ready?">
+<p class="jser-sitelink"><strong>Is ServiceWorker ready?</strong></p><footer><cite><a href="https://jakearchibald.github.io/isserviceworkerready/" title="Is ServiceWorker ready?" target="_blank">jakearchibald.github.io/isserviceworkerready/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">browser</span><span class="jser-tag">Promises</span></p>
+
+<p>ServiceWorkerの関連仕様のサポート状況がわかるサイト。</p>
+
+<p>ServiceWorker/Promies/postMessage/Fetch Event/Install Event</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="https://developers.google.com/web/starter-kit/" title="Web Starter Kit">
+<p class="jser-sitelink"><strong>Web Starter Kit</strong></p><footer><cite><a href="https://developers.google.com/web/starter-kit/" title="Web Starter Kit" target="_blank">developers.google.com/web/starter-kit/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span><span class="jser-tag">web</span><span class="jser-tag">Tools</span></p>
+
+<p>Web Fundamentalsのプラクティスを実際に行うのを補助する初期セット/boilerplate。</p>
+
+<ul><li><a href="http://blog.chromium.org/2014/06/web-fundamentals-and-web-starter-kit.html" target="_blank">Chromium Blog: Web Fundamentals and Web Starter Kit: Resources for Modern Web Development</a></li>
+</ul><h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="http://azu.github.io/promises-book/" title="JavaScript Promiseの本">
+<p class="jser-sitelink"><strong>JavaScript Promiseの本</strong></p><footer><cite><a href="http://azu.github.io/promises-book/" title="JavaScript Promiseの本" target="_blank">azu.github.io/promises-book/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span><span class="jser-tag">book</span><span class="jser-tag">asciidoc</span><span class="jser-tag">電子書籍</span></p>
+
+<p>JavaScript Promiseについての電子書籍。 Promiseの基本的な使い方、テスト、応用について書かれている。 Asciidocで書かれた文章/ソースコードもGithubで公開されている。</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-06-23-2014-06-23-js-backbone-marionette-2-0-0-orion.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["backbone","IDE","editor","JavaScript","Promises"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>backbone</li>
+                
+                <li>IDE</li>
+                
+                <li>editor</li>
+                
+                <li>JavaScript</li>
+                
+                <li>Promises</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/89652992559/2014-06-23-js-backbone-marionette-2-0-0-orion"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

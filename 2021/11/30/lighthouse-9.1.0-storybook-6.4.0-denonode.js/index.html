@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-11-30のJS: Lighthouse 9.1.0、Storybook 6.4.0、DenoのNode.js互換モード - JSer.info</title>
+    <meta name="description" content="JSer.info #568 - Lighthouse 9.1.0がリリースされました。">
+    
+    <meta name="keywords" content="Tools,node.js,CSS,Chrome,performance" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-11-30T12:18:08+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #568 - Lighthouse 9.1.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-11-30のJS: Lighthouse 9.1.0、Storybook 6.4.0、DenoのNode.js互換モード">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #568 - Lighthouse 9.1.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-11-30T12:18:08+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="CSS">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="performance">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">2021-11-30のJS: Lighthouse 9.1.0、Storybook 6.4.0、DenoのNode.js互換モード</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年11月30日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-11-30-lighthouse-9.1.0-storybook-6.4.0-denonode.js.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2021/2021-11-30-lighthouse-9.1.0-storybook-6.4.0-denonode.js.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #568 - Lighthouse 9.1.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v9.1.0">Release v9.1.0 · GoogleChrome/lighthouse</a></li>
+</ul>
+
+<p>Next.js向けのStack Packが追加されたため、Next.jsのアプリに対するAuditが追加されています。</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse-stack-packs/pull/66">feat: Add Stack Pack for Next.js by kyliau · Pull Request #66 · GoogleChrome/lighthouse-stack-packs</a></li>
+</ul>
+
+<hr>
+
+<p>Storybook 6.4.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/storybookjs/storybook/releases/tag/v6.4.0">Release v6.4.0 · storybookjs/storybook</a></li>
+</ul>
+
+<p><a href="https://github.com/storybookjs/storybook/tree/next/addons/interactions">Storybook Addon Interactions</a>でInteractionsタブが追加され、インタラクション操作のシミュレートとデバッグができるようになっています。<br>
+また、Storybook向けのESLintプラグインである<a href="https://github.com/storybookjs/eslint-plugin-storybook">storybookjs/eslint-plugin-storybook</a>が公開されています。</p>
+
+<hr>
+
+<p>Denoでは、現在<a href="https://deno.land/manual@v1.16.3/npm_nodejs/compatibility_mode">Node.js compability mode</a>が開発されており、今後この互換性を上げていく方針となっています。</p>
+
+<ul>
+<li><a href="https://github.com/denoland/deno/issues/12577">Improve Node Compat Mode · Issue #12577 · denoland/deno</a></li>
+</ul>
+
+<p><a href="https://kt3k.github.io/talk_jsconfjp2021/#1">Deno のこれまでとこれから JSConf JP 2021</a>という発表では、このNode.js互換モードの開発がなぜ進められているのかについて話されています。</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fC4oZJmvfI0?start=9735" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-3-0-0-emscripten-core-emscripten">Release 3.0.0 · emscripten-core/emscripten</h2>
+
+<p><a href="https://github.com/emscripten-core/emscripten/releases/tag/3.0.0" title="Release 3.0.0 · emscripten-core/emscripten">github.com/emscripten-core/emscripten/releases/tag/3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">LLVM</span></p></p>
+
+<p>Emscripten 3.0.0リリース</p>
+
+<hr>
+
+<h2 id="prettier-2-5-typescript-4-5-and-mdx-v2-comment-syntax-prettier">Prettier 2.5: TypeScript 4.5 and MDX v2 comment syntax! · Prettier</h2>
+
+<p><a href="https://prettier.io/blog/2021/11/25/2.5.0.html" title="Prettier 2.5: TypeScript 4.5 and MDX v2 comment syntax! · Prettier">prettier.io/blog/2021/11/25/2.5.0.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Prettier 2.5リリース。<br>
+TypeScript 4.5のサポート、MDX v2のコメント構文をサポート、HTMLの<code>class</code>属性を複数行に整形していたのを1行に戻す変更など</p>
+
+<hr>
+
+<h2 id="release-8-4-president-camio-postcss-postcss">Release 8.4 “President Camio” · postcss/postcss</h2>
+
+<p><a href="https://github.com/postcss/postcss/releases/tag/8.4.0" title="Release 8.4 “President Camio” · postcss/postcss">github.com/postcss/postcss/releases/tag/8.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>PostCSS 8.4リリース。<br>
+WarningとErrorにRangeを指定できるように、プラグインが指定されていない場合にパース処理を実際にアクセスするまで遅延させるように。<br>
+パッケージサイズの削減など</p>
+
+<hr>
+
+<h2 id="release-v9-1-0-googlechrome-lighthouse">Release v9.1.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v9.1.0" title="Release v9.1.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v9.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lighthouse v9.1.0リリース。<br>
+Next.js向けのauditを追加など</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse-stack-packs/pull/66" title="feat: Add Stack Pack for Next.js by kyliau · Pull Request #66 · GoogleChrome/lighthouse-stack-packs">feat: Add Stack Pack for Next.js by kyliau · Pull Request #66 · GoogleChrome/lighthouse-stack-packs</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-12-0-0-puppeteer-puppeteer">Release 12.0.0 · puppeteer/puppeteer</h2>
+
+<p><a href="https://github.com/puppeteer/puppeteer/releases/tag/v12.0.0" title="Release 12.0.0 · puppeteer/puppeteer">github.com/puppeteer/puppeteer/releases/tag/v12.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">Firefox</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Puppeteer 12.0.0リリース。<br>
+Chromium 97.0.4692.0へアップデート、Firefoxで<code>userDataDir</code>の指定をサポートなど</p>
+
+<hr>
+
+<h2 id="release-v6-4-0-storybookjs-storybook">Release v6.4.0 · storybookjs/storybook</h2>
+
+<p><a href="https://github.com/storybookjs/storybook/releases/tag/v6.4.0" title="Release v6.4.0 · storybookjs/storybook">github.com/storybookjs/storybook/releases/tag/v6.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Storybook 6.4.0リリース。<br>
+Interactions stories、ESLintプラグインの追加など</p>
+
+<ul>
+<li><a href="https://github.com/storybookjs/storybook/tree/next/addons/interactions" title="storybook/addons/interactions at next · storybookjs/storybook">storybook/addons/interactions at next · storybookjs/storybook</a></li>
+<li><a href="https://github.com/storybookjs/eslint-plugin-storybook" title="storybookjs/eslint-plugin-storybook: Official ESLint plugin for Storybook">storybookjs/eslint-plugin-storybook: Official ESLint plugin for Storybook</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v5-0-0-chalk-chalk">Release v5.0.0 · chalk/chalk</h2>
+
+<p><a href="https://github.com/chalk/chalk/releases/tag/v5.0.0" title="Release v5.0.0 · chalk/chalk">github.com/chalk/chalk/releases/tag/v5.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chalk 5.0.0リリース。<br>
+pure ESMに変更、default exportからnamed exportへ変更。<br>
+また、<code>keyword()</code>/<code>hsl()</code>/<code>hsv()</code>/<code>hwb()</code>/<code>ansi()</code>を削除、Template Literalを<code>chalk-template</code>パッケージに移行など</p>
+
+<hr>
+
+<h2 id="berstend-node-safe-make-using-node-js-safe-again-with-deno-like-permissions">berstend/node-safe: 🤠 Make using Node.js safe again with Deno-like permissions</h2>
+
+<p><a href="https://github.com/berstend/node-safe" title="berstend/node-safe: 🤠 Make using Node.js safe again with Deno-like permissions">github.com/berstend/node-safe</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">macOS</span> <span class="jser-tag">security</span> <span class="jser-tag">deno</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>macOSのsandbox機能を利用してDenoライクなSandboxの仕組みを実装したNodeの実行ツール。<br>
+<code>--allow-read</code>、<code>--allow-net</code>など許可リストを指定してスクリプト実行やnpm/yarn/npxにも対応している。</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="ci-2-jest-mongo-db-circle-ci-tech-blog">CI 環境でのユニットテストの実行時間を2倍速くした話 (Jest + Mongo DB + Circle CI) - ミツモア Tech blog</h2>
+
+<p><a href="https://engineering.meetsmore.com/entry/2021/01/21/134930" title="CI 環境でのユニットテストの実行時間を2倍速くした話 (Jest + Mongo DB + Circle CI) - ミツモア Tech blog">engineering.meetsmore.com/entry/2021/01/21/134930</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">jest</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Jestでのユニットテストの実行時間の削減についての記事。<br>
+テストの並列化、変更したファイルのみをテスト、Worker単位でのDBの初期化、CIでキャッシュについて</p>
+
+<hr>
+
+<h2 id="publish-esm-and-cjs-in-a-single-package">Publish ESM and CJS in a single package</h2>
+
+<p><a href="https://antfu.me/posts/publish-esm-and-cjs" title="Publish ESM and CJS in a single package">antfu.me/posts/publish-esm-and-cjs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">CommonJS</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">module</span> <span class="jser-tag">article</span></p></p>
+
+<p>CommonJSとESMのデュアルフォーマットでのパッケージ公開について。<br>
+<code>package.json</code>の<code>exports</code>フィールドでの使い分け、tsupとunbuildのビルドについて。<br>
+ESMでは利用できないCommonJSの<code>__dirname</code>などの補完方法について</p>
+
+<hr>
+
+<h2 id="new-real-user-monitoring-for-amazon-cloudwatch-aws-news-blog">New – Real-User Monitoring for Amazon CloudWatch | AWS News Blog</h2>
+
+<p><a href="https://aws.amazon.com/jp/blogs/aws/cloudwatch-rum/" title="New – Real-User Monitoring for Amazon CloudWatch | AWS News Blog">aws.amazon.com/jp/blogs/aws/cloudwatch-rum/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">aws</span> <span class="jser-tag">webservice</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>CloudWatchでRUMを取得できるサービスがリリースされた。<br>
+JavaScriptのタグを埋め込むことで、Web Vitalsなどのメトリクスデータなどを取得できる。</p>
+
+<ul>
+<li><a href="https://github.com/aws-observability/aws-rum-web" title="aws-observability/aws-rum-web: Amazon CloudWatch RUM Web Client">aws-observability/aws-rum-web: Amazon CloudWatch RUM Web Client</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="deno-jsconf-jp-2021">Deno のこれまでとこれから JSConf JP 2021</h2>
+
+<p><a href="https://kt3k.github.io/talk_jsconfjp2021/#1" title="Deno のこれまでとこれから JSConf JP 2021">kt3k.github.io/talk_jsconfjp2021/#1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">node.js</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Denoの設計や採用事例についてのスライド。<br>
+また現在進めているNode.js互換モードについて。</p>
+
+<ul>
+<li><a href="https://github.com/denoland/deno/issues/12577" title="Improve Node Compat Mode · Issue #12577 · denoland/deno">Improve Node Compat Mode · Issue #12577 · denoland/deno</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="postcss-rs-postcss-rs-fast-and-100-api-compatible-postcss-replacer-built-in-rust">postcss-rs/postcss-rs: 🚀 Fast and 100% API compatible postcss replacer, built in Rust</h2>
+
+<p><a href="https://github.com/postcss-rs/postcss-rs" title="postcss-rs/postcss-rs: 🚀 Fast and 100% API compatible postcss replacer, built in Rust">github.com/postcss-rs/postcss-rs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PostCSS</span> <span class="jser-tag">Rust</span></p></p>
+
+<p>PostCSSのRust実装</p>
+
+<hr>
+
+<h2 id="tamagui-react-native-web-ui-kit">Tamagui — React Native + Web UI kit</h2>
+
+<p><a href="https://tamagui.dev/" title="Tamagui — React Native + Web UI kit">tamagui.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">CSS</span> <span class="jser-tag">Design</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p></p>
+
+<p>React NativeとWebに対応したスタイリングライブラリ。<br>
+Propsでスタイルを渡し、コンパイル時にはAtomic CSSが生成されて、コンポーネントにはクラス名が指定される。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-11-30-lighthouse-9.1.0-storybook-6.4.0-denonode.js.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Tools","node.js","CSS","Chrome","performance"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Tools</li>
+                
+                <li>node.js</li>
+                
+                <li>CSS</li>
+                
+                <li>Chrome</li>
+                
+                <li>performance</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/11/30/lighthouse-9.1.0-storybook-6.4.0-denonode.js/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-02-02のJS: WebRTC 1.0、Firefox 85、Chrome 89 Beta - JSer.info</title>
+    <meta name="description" content="JSer.info #525 - WebRTC 1.0がW3C RecommendationとIETF標準となりました。">
+    
+    <meta name="keywords" content="TypeScript,node.js,browser,WebRTC,Firefox" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-02-02T11:55:41+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="WebRTC" property="article:tag">
+      
+      <meta content="Firefox" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #525 - WebRTC 1.0がW3C RecommendationとIETF標準となりました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-02-02のJS: WebRTC 1.0、Firefox 85、Chrome 89 Beta">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #525 - WebRTC 1.0がW3C RecommendationとIETF標準となりました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-02-02T11:55:41+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="WebRTC">
+
+<meta property="article:tag" content="Firefox">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">2021-02-02のJS: WebRTC 1.0、Firefox 85、Chrome 89 Beta</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年02月02日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-02-02-webrtc-1.0-firefox-85-chrome-89-beta.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2021/2021-02-02-webrtc-1.0-firefox-85-chrome-89-beta.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #525 - WebRTC 1.0がW3C RecommendationとIETF標準となりました。</p>
+
+<ul>
+<li><a href="https://www.w3.org/2021/01/pressrelease-webrtc-rec.html.en">Web Real-Time Communications (WebRTC) transforms the communications landscape; becomes a World Wide Web Consortium (W3C) Recommendation and multiple Internet Engineering Task Force (IETF) standards</a></li>
+<li><a href="https://www.ietf.org/blog/webrtc-milestone/">IETF | WebRTC: Marking a milestone in real-time communications</a>
+
+<ul>
+<li><a href="https://www.rfc-editor.org/search/rfc_search_detail.php?page=All&pubstatus%5B%5D=Any&from_month=January&from_year=2021&pub_date_type=range&to_month=January&to_year=2021&sortkey=Number&sorting=ASC">RFC Search Detail</a></li>
+<li><a href="https://datatracker.ietf.org/wg/rtcweb/documents/">Real-Time Communication in WEB-browsers (rtcweb) - Documents</a></li>
+</ul></li>
+</ul>
+
+<p>W3Cの仕様ではJavaScriptのAPIが定義されており、IETFの仕様ではプロトコルが定義されています。<br>
+すでに<a href="https://wpt.fyi/results/webrtc?label=master&label=experimental&aligned">ブラウザ上にJavaScript APIが実装</a>されていたり、<a href="https://news.ycombinator.com/item?id=25933366">多くのWebRTCの実装</a>が存在するため、利用できる/利用している状態です。<br>
+今回のアナウンスは、WebRTCの仕様が1.0に到達し安定したことを意味しています。</p>
+
+<p>次の仕様改善については、<a href="https://web.dev/webrtc-standard-announcement/">WebRTC is now a W3C and IETF standard</a>というGoogleのブログにも書かれていますが、<a href="https://www.w3.org/TR/webrtc-nv-use-cases/">WebRTC Next Version Use Cases</a>などでユースケースを集めながら整理していくようです。</p>
+
+<hr>
+
+<p>Firefox 85がリリースされました。</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2021/01/january-brings-us-firefox-85/">January brings us Firefox 85 - Mozilla Hacks - the Web developer blog</a></li>
+<li><a href="https://www.mozilla.org/en-US/firefox/85.0/releasenotes/">Firefox 85.0, See All New Features, Updates and Fixes</a></li>
+</ul>
+
+<p>Flashのサポートを終了しています。</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Plugins/Roadmap">Plugin Roadmap for Firefox - Plugins | MDN</a></li>
+</ul>
+
+<p>CSSでPrefixなしの<code>:focus-visible</code>をサポート、<code>&lt;link rel=&quot;preload&quot;&gt;</code>をデフォルトでサポートしています。<br>
+また、キャッシュなどをつかったトラッキングを防止するためにNetwork partitioningの導入されています。</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/security/2021/01/26/supercookie-protections/">Firefox 85 Cracks Down on Supercookies - Mozilla Security Blog</a></li>
+<li><a href="https://developers.google.com/web/updates/2020/10/http-cache-partitioning">Gaining security and privacy by partitioning the cache  |  Web</a></li>
+</ul>
+
+<hr>
+
+<p>Chrome 89ベータがリリースされました。</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2021/01/chrome-89-beta-advanced-hardware.html">Chromium Blog: Chrome 89 Beta: Advanced Hardware Interactions, Web Sharing on Desktop, and More</a></li>
+</ul>
+
+<p>WebHID API、Web NFC、Web Serial APIのデフォルト有効化、デスクトップでのWeb Sharingが有効化されています。<br>
+また、Cross-origin opener policy reporting API、Manifastに<code>display_override</code>が追加されています。<br>
+その他には、Top-Level awaitのサポート、<code>performance.measureUserAgentSpecificMemory()</code>の追加、Streams APIがByte Streamsをサポートされています。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="january-brings-us-firefox-85-mozilla-hacks-the-web-developer-blog">January brings us Firefox 85 - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2021/01/january-brings-us-firefox-85/" title="January brings us Firefox 85 - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2021/01/january-brings-us-firefox-85/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 85リリース。<br>
+Flashのサポート終了。<br>
+CSSでPrefixなしの<code>:focus-visible</code>をサポート、<code>&lt;link rel=&quot;preload&quot;&gt;</code>のサポート。<br>
+また、Network partitioningの導入など</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/85.0/releasenotes/" title="Firefox 85.0, See All New Features, Updates and Fixes">Firefox 85.0, See All New Features, Updates and Fixes</a></li>
+<li><a href="https://blog.mozilla.org/security/2021/01/26/supercookie-protections/" title="Firefox 85 Cracks Down on Supercookies - Mozilla Security Blog">Firefox 85 Cracks Down on Supercookies - Mozilla Security Blog</a></li>
+<li><a href="https://developers.google.com/web/updates/2020/10/http-cache-partitioning#what_is_the_impact_of_this_behavioral_change" title="Gaining security and privacy by partitioning the cache  |  Web">Gaining security and privacy by partitioning the cache  |  Web</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/85" title="Firefox 85 for developers - Mozilla | MDN">Firefox 85 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-119-webkit">Release Notes for Safari Technology Preview 119 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/11525/release-notes-for-safari-technology-preview-119/" title="Release Notes for Safari Technology Preview 119 | WebKit">webkit.org/blog/11525/release-notes-for-safari-technology-preview-119/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 119リリース。<br>
+SpeechRecognition APIの有効化、CSS <code>aspect-ratio</code>プロパティのサポート改善、<code>prefers-contrast: more</code>のサポートなど。<br>
+WebAssemblyで<code>memory.copy</code>、<code>memory.init</code>、<code>memory.fill</code>をフラグ付きでサポートなど</p>
+
+<ul>
+<li><a href="https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md" title="bulk-memory-operations/Overview.md at master · WebAssembly/bulk-memory-operations">bulk-memory-operations/Overview.md at master · WebAssembly/bulk-memory-operations</a></li>
+<li><a href="https://drafts.csswg.org/mediaqueries-5/#prefers-contrast" title="Media Queries Level 5">Media Queries Level 5</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v7-5-0-npm-cli">Release v7.5.0 · npm/cli</h2>
+
+<p><a href="https://github.com/npm/cli/releases/tag/v7.5.0" title="Release v7.5.0 · npm/cli">github.com/npm/cli/releases/tag/v7.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm 7.5.0リリース。<br>
+npmパッケージのDiffを取得する<code>npm diff</code>コマンドの追加など</p>
+
+<ul>
+<li><a href="https://dev.to/ruyadorno/npm-diff-23dh" title="npm diff - DEV Community 👩‍💻👨‍💻">npm diff - DEV Community 👩‍💻👨‍💻</a></li>
+</ul>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-89-beta-advanced-hardware-interactions-web-sharing-on-desktop-and-more">Chromium Blog: Chrome 89 Beta: Advanced Hardware Interactions, Web Sharing on Desktop, and More</h2>
+
+<p><a href="https://blog.chromium.org/2021/01/chrome-89-beta-advanced-hardware.html" title="Chromium Blog: Chrome 89 Beta: Advanced Hardware Interactions, Web Sharing on Desktop, and More">blog.chromium.org/2021/01/chrome-89-beta-advanced-hardware.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 89ベータリリース。<br>
+WebHID API、Web NFC、Web Serial APIのデフォルト有効化、デスクトップでのWeb Sharingの有効化。<br>
+Cross-origin opener policy reporting API、Manifastに<code>display_override</code>の追加。<br>
+<code>performance.measureUserAgentSpecificMemory()</code>の追加、Streams APIがByte Streamsをサポート。<br>
+その他にはTop-Level awaitのサポートなど</p>
+
+<hr>
+
+<h2 id="webrtc-1-0-is-a-w3c-recommendation-w3c-news">WebRTC 1.0 is a W3C Recommendation | W3C News</h2>
+
+<p><a href="https://www.w3.org/blog/news/archives/8897" title="WebRTC 1.0 is a W3C Recommendation | W3C News">www.w3.org/blog/news/archives/8897</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">W3C</span> <span class="jser-tag">WebRTC</span> <span class="jser-tag">news</span></p></p>
+
+<p>WebRTC 1.0がW3C Recommendationとなった</p>
+
+<ul>
+<li><a href="https://www.w3.org/2021/01/pressrelease-webrtc-rec.html.en" title="Web Real-Time Communications (WebRTC) transforms the communications landscape; becomes a World Wide Web Consortium (W3C) Recommendation and multiple Internet Engineering Task Force (IETF) standards">Web Real-Time Communications (WebRTC) transforms the communications landscape; becomes a World Wide Web Consortium (W3C) Recommendation and multiple Internet Engineering Task Force (IETF) standards</a></li>
+<li><a href="https://web.dev/webrtc-standard-announcement/" title="WebRTC is now a W3C and IETF standard">WebRTC is now a W3C and IETF standard</a></li>
+</ul>
+
+<hr>
+
+<h2 id="toast-ui-chart-4-0-is-here-toast-ui-make-your-web-delicious">TOAST UI Chart 4.0 is here! | TOAST UI :: Make Your Web Delicious!</h2>
+
+<p><a href="https://ui.toast.com/weekly-pick/en_20210126" title="TOAST UI Chart 4.0 is here! | TOAST UI :: Make Your Web Delicious!">ui.toast.com/weekly-pick/en_20210126</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">chart</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>グラフライブラリのTOAST UI Chart v4.0リリース。<br>
+依存をなくしファイルサイズの削減、レスポンシブサポート、ライブアップデートに対応したグラフの追加、テーマオプションの改善など。<br>
+v3からのマイグレーションガイドも公開している</p>
+
+<ul>
+<li><a href="https://github.com/nhn/tui.chart/blob/main/docs/v4.0-migration-guide-en.md" title="tui.chart/v4.0-migration-guide-en.md at main · nhn/tui.chart">tui.chart/v4.0-migration-guide-en.md at main · nhn/tui.chart</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ckeditor-5-v25-0-0-with-flexible-annotations-improved-text-blocks-handling-and-performance-fixes">CKEditor 5 v25.0.0 with flexible annotations, improved text blocks handling and performance fixes</h2>
+
+<p><a href="https://ckeditor.com/blog/CKEditor-5-v25.0.0-with-flexible-annotations-improved-text-blocks-handling-and-performance-fixes/" title="CKEditor 5 v25.0.0 with flexible annotations, improved text blocks handling and performance fixes">ckeditor.com/blog/CKEditor-5-v25.0.0-with-flexible-annotations-improved-text-blocks-handling-and-performance-fixes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>CKEditor 5 v25.0.0リリース。<br>
+ReDoSの問題の修正、コンテンツブロックの動作改善、大量のテキストのフォーマットのパフォーマンス改善、画像管理の改善など</p>
+
+<hr>
+
+<h2 id="release-v5-3-4-vuejs-vue-devtools">Release v5.3.4 · vuejs/vue-devtools</h2>
+
+<p><a href="https://github.com/vuejs/vue-devtools/releases/tag/v5.3.4" title="Release v5.3.4 · vuejs/vue-devtools">github.com/vuejs/vue-devtools/releases/tag/v5.3.4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">Extension</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span> <span class="jser-tag">browser</span></p></p>
+
+<p>Vue DevTools 5.3.4リリース。<br>
+Universal XSS脆弱性の修正</p>
+
+<ul>
+<li><a href="https://github.com/vuejs/vue-devtools/issues/1353" title="Vue.js devtools Universal XSS (Chrome extension) · Issue #1353 · vuejs/vue-devtools">Vue.js devtools Universal XSS (Chrome extension) · Issue #1353 · vuejs/vue-devtools</a></li>
+</ul>
+
+<hr>
+
+<h2 id="babel-8-release-plan-issue-10746-babel-babel">Babel 8 Release Plan · Issue #10746 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/issues/10746" title="Babel 8 Release Plan · Issue #10746 · babel/babel">github.com/babel/babel/issues/10746</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">issue</span></p></p>
+
+<p>Babel 8のRoadmap Issue</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="when-to-use-https-for-local-development">When to use HTTPS for local development</h2>
+
+<p><a href="https://web.dev/when-to-use-local-https/" title="When to use HTTPS for local development">web.dev/when-to-use-local-https/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTPS</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>ローカル開発でもHTTPSが必要なものと<code>localhost</code>について。<br>
+また、ローカルでの開発に使うべきTLDについて</p>
+
+<ul>
+<li><a href="https://web.dev/how-to-use-local-https/" title="How to use HTTPS for local development">How to use HTTPS for local development</a></li>
+</ul>
+
+<hr>
+
+<h2 id="visitor-pattern-in-typescript-writing-kirill-vasiltsov">Visitor pattern in TypeScript | Writing | Kirill Vasiltsov</h2>
+
+<p><a href="https://www.kirillvasiltsov.com/writing/visitor-pattern-typescript/" title="Visitor pattern in TypeScript | Writing | Kirill Vasiltsov">www.kirillvasiltsov.com/writing/visitor-pattern-typescript/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScriptのinterfaceを使ったVisitor Patternの実装方法についての記事</p>
+
+<hr>
+
+<h2 id="cypress-vs-selenium-vs-playwright-vs-puppeteer-speed-comparison-checkly-blog">Cypress vs Selenium vs Playwright vs Puppeteer speed comparison | Checkly blog</h2>
+
+<p><a href="https://blog.checklyhq.com/cypress-vs-selenium-vs-playwright-vs-puppeteer-speed-comparison/" title="Cypress vs Selenium vs Playwright vs Puppeteer speed comparison | Checkly blog">blog.checklyhq.com/cypress-vs-selenium-vs-playwright-vs-puppeteer-speed-comparison/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">E2E</span> <span class="jser-tag">article</span> <span class="jser-tag">testing</span></p></p>
+
+<p>テストフレームワークの実行速度について比較した記事。<br>
+Puppeteer、Playwright、WebDriverIO、Selenium、Cypressをいくつかのシナリオで比較している。</p>
+
+<ul>
+<li><a href="https://blog.checklyhq.com/puppeteer-vs-selenium-vs-playwright-speed-comparison/" title="Puppeteer vs Selenium vs Playwright, a speed comparison | Checkly blog">Puppeteer vs Selenium vs Playwright, a speed comparison | Checkly blog</a></li>
+</ul>
+
+<hr>
+
+<h2 id="undefined-vs-null-revisited">`undefined` vs. `null` revisited</h2>
+
+<p><a href="https://2ality.com/2021/01/undefined-null-revisited.html" title="\`undefined\` vs. \`null\` revisited">2ality.com/2021/01/undefined-null-revisited.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span> <span class="jser-tag">opinion</span></p></p>
+
+<p><code>undefined</code>と<code>null</code>について。<br>
+<code>undefined</code>と<code>null</code>の歴史、<code>undefined</code>と<code>null</code>が言語的に発生するケース。言語的に特別扱いされるケース、どれを値がない値として使うかについて</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="azu-express-lazy-router-lazy-loading-for-express-router">azu/express-lazy-router: Lazy loading for express router</h2>
+
+<p><a href="https://github.com/azu/express-lazy-router" title="azu/express-lazy-router: Lazy loading for express router">github.com/azu/express-lazy-router</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">express</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span></p></p>
+
+<p>expressのRouterを遅延ロードするライブラリ。<br>
+ts-node-devとか@babel/registerでruntime compileしているケースで、起動時に全コンパイルじゃなくて分散コンパイルできるようにする目的</p>
+
+<hr>
+
+<h2 id="webreflection-linkedom-a-triple-linked-lists-based-dom-implementation">WebReflection/linkedom: A triple-linked lists based DOM implementation.</h2>
+
+<p><a href="https://github.com/WebReflection/linkedom" title="WebReflection/linkedom: A triple-linked lists based DOM implementation.">github.com/WebReflection/linkedom</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>Node.js向けのHTML/DOMの実装ライブラリ。<br>
+基本的なユースケースにおけるHTML文字列のパース、DOM APIを一定のパフォーマンスで実現できるものを目指している。<br>
+DOM標準互換を目指すのではなく、basichtmlの置き換えを目的に治している。</p>
+
+<ul>
+<li><a href="https://github.com/WebReflection/basicHTML#readme" title="WebReflection/basicHTML: A NodeJS based, standard oriented, HTML implementation.">WebReflection/basicHTML: A NodeJS based, standard oriented, HTML implementation.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="shinyoshiaki-werift-webrtc-webrtc-implementation-for-typescript-node-js">shinyoshiaki/werift-webrtc: WebRTC Implementation for TypeScript (Node.js)</h2>
+
+<p><a href="https://github.com/shinyoshiaki/werift-webrtc" title="shinyoshiaki/werift-webrtc: WebRTC Implementation for TypeScript (Node.js)">github.com/shinyoshiaki/werift-webrtc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebRTC</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Node.jsでのWebRTCの実装。<br>
+STUN、TURN、ICE、DataChannel、MediaChannelなどの実装</p>
+
+<hr>
+
+<h2 id="willmendesneto-perf-marks-the-isomorphic-simplest-and-lightweight-solution-for-user-timing-api-in-javascript-only-208b-tree-shaking-and-entry-points-built-in-simple-as-that">willmendesneto/perf-marks: The isomorphic, simplest, and lightweight solution for User Timing API in Javascript - 🚀 only 208B 🚀. Tree-shaking and entry points built-in. Simple as that!</h2>
+
+<p><a href="https://github.com/willmendesneto/perf-marks" title="willmendesneto/perf-marks: The isomorphic, simplest, and lightweight solution for User Timing API in Javascript - 🚀 only 208B 🚀. Tree-shaking and entry points built-in. Simple as that!">github.com/willmendesneto/perf-marks</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span> <span class="jser-tag">browser</span></p></p>
+
+<p>User Timing APIのラッパーライブラリ。<br>
+ブラウザとNode.js(<code>perf_hooks</code>)で利用できる。<br>
+User Timing APIのラップ、サポートしているかの判定処理、関数のプロファイル機能などを提供する</p>
+
+<hr>
+
+<h2 id="alesgenova-post-me-use-web-workers-and-other-windows-through-a-simple-promise-api">alesgenova/post-me: 📩 Use web Workers and other Windows through a simple Promise API</h2>
+
+<p><a href="https://github.com/alesgenova/post-me" title="alesgenova/post-me: 📩 Use web Workers and other Windows through a simple Promise API">github.com/alesgenova/post-me</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">library</span> <span class="jser-tag">Promises</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>Worker、Window(iframe)間のメッセージングライブラリ。<br>
+PromiseベースのAPIでWindowとWorker間でメッセージのやり取りができる</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-02-02-webrtc-1.0-firefox-85-chrome-89-beta.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["TypeScript","node.js","browser","WebRTC","Firefox"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>TypeScript</li>
+                
+                <li>node.js</li>
+                
+                <li>browser</li>
+                
+                <li>WebRTC</li>
+                
+                <li>Firefox</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/02/02/webrtc-1.0-firefox-85-chrome-89-beta/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

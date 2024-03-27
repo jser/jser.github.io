@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-06-12のJS: MobX 5.0.0、PhantomJS EOL、Node.jsにおける設計ミス - JSer.info</title>
+    <meta name="description" content="JSer.info #387 - ステート管理ライブラリのMobX 5.0.0がリリースされました。">
+    
+    <meta name="keywords" content="mobx,phantomjs,Node.js" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2018-06-12T10:00:43+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="mobx" property="article:tag">
+      
+      <meta content="phantomjs" property="article:tag">
+      
+      <meta content="Node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #387 - ステート管理ライブラリのMobX 5.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-06-12のJS: MobX 5.0.0、PhantomJS EOL、Node.jsにおける設計ミス">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #387 - ステート管理ライブラリのMobX 5.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-06-12T10:00:43+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="mobx">
+
+<meta property="article:tag" content="phantomjs">
+
+<meta property="article:tag" content="Node.js">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">2018-06-12のJS: MobX 5.0.0、PhantomJS EOL、Node.jsにおける設計ミス</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年06月12日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-06-12-mobx-5.0.0phantomjs-eolnode.js.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-06-12-mobx-5.0.0phantomjs-eolnode.js.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #387 - ステート管理ライブラリのMobX 5.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/mobxjs/mobx/blob/master/CHANGELOG.md#500">mobx/CHANGELOG.md at master · mobxjs/mobx</a></li>
+</ul>
+
+<p>MobX 5.0.0ではObservableの実装にデフォルトでES <code>Proxy</code>が利用されるようになりました。<br>
+これによりgetterではできなかった、宣言時になかったプロパティを動的に追加した場合も検知できるようになっています。<br>
+詳しくは次の記事でも解説されています。</p>
+
+<ul>
+<li><a href="https://lealog.hateblo.jp/entry/2018/06/08/105219">MobX 5.0.0 について - console.lealog();</a></li>
+</ul>
+
+<p>また<code>Proxy</code>をサポートしてないブラウザ(IE)はサポート対象外となり、npmで配布されるパッケージもES2015のコードベースで配布されるようになっています。</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy - JavaScript | MDN</a></li>
+</ul>
+
+<p>IEなどでも利用したい場合は<a href="https://medium.com/@mweststrate/mobx-4-better-simpler-faster-smaller-c1fbc08008da">MobX 4</a>を利用することが推奨されています。</p>
+
+<hr>
+
+<p>QtWebKitベースのヘッドレスブラウザである<a href="http://phantomjs.org/">PhantomJS</a>のリポジトリがアーカイブ化されました。</p>
+
+<p><a href="https://github.com/ariya/phantomjs"><img src="https://jser.info/uploads/media/2018/06/11-1528724137.png" alt="ariya/phantomjs"></a></p>
+
+<ul>
+<li><a href="https://github.com/ariya/phantomjs">ariya/phantomjs: Scriptable Headless Browser</a></li>
+<li><a href="https://github.com/ariya/phantomjs/issues/15344">Archiving the project: suspending the development · Issue #15344 · ariya/phantomjs</a></li>
+</ul>
+
+<p>Securityリリースの予定なども特にないことから事実上のEOL(End Of Life)になっています。</p>
+
+<p>次の記事で詳細を書いています。</p>
+
+<ul>
+<li><a href="https://jser.info/2018/06/11/phantomjs-ended/">PhantomJSの開発が終了しリポジトリがアーカイブ化された - JSer.info</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.youtube.com/watch?v=M3BM9TB-8yA&feature=youtu.be">10 Things I Regret About Node.js - Ryan Dahl - JSConf EU 2018 - YouTube</a>という発表ではNode.jsのオリジナルの作者である<a href="https://github.com/ry">@ry (Ryan Dahl)</a>によるNode.js初期におけるデザインミスついての発表がされています。<br>
+また現在開発中のTypeScriptのruntimeとして作成してる<a href="https://github.com/ry/deno">Deno</a>の紹介も行われています。<br>
+Denoのゴールはsandbox firstのセキュリティ、モジュールシステムの簡素化、ブラウザとの互換性などがあげられています。</p>
+
+<p>次の記事で補足も合わせた抜粋訳が公開されているので見てみるといいかもしれません。</p>
+
+<ul>
+<li><a href="http://yosuke-furukawa.hatenablog.com/entry/2018/06/07/080335">Node.js における設計ミス By Ryan Dahl - from scratch</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="safari-technology-preview-58-with-safari-12-features-is-now-available-webkit">Safari Technology Preview 58, with Safari 12 Features, is Now Available | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8327/safari-technology-preview-58-with-safari-12-features-is-now-available/" title="Safari Technology Preview 58, with Safari 12 Features, is Now Available | WebKit">webkit.org/blog/8327/safari-technology-preview-58-with-safari-12-features-is-now-available/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 58リリース。<br>
+Safari 12相当の機能が含まれている。</p>
+
+<ul>
+<li><a href="https://developer.apple.com/safari/whats-new/" title="What’s New in Safari - Apple Developer">What’s New in Safari - Apple Developer</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v6-1-0-npm-npm">Release v6.1.0 · npm/npm</h2>
+
+<p><a href="https://github.com/npm/npm/releases/tag/v6.1.0" title="Release v6.1.0 · npm/npm">github.com/npm/npm/releases/tag/v6.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm 6.1.0リリース。<br>
+<code>npm audit fix</code>の追加、<code>npm init &lt;pkg&gt;</code>がgit urlをサポートなど</p>
+
+<hr>
+
+<h2 id="chromium-blog-chrome-68-beta-add-to-home-screen-payment-handler-page-lifecycle">Chromium Blog: Chrome 68 Beta: add to home screen, payment handler, page lifecycle</h2>
+
+<p><a href="https://blog.chromium.org/2018/06/chrome-68-beta-add-to-home-screen.html" title="Chromium Blog: Chrome 68 Beta: add to home screen, payment handler, page lifecycle">blog.chromium.org/2018/06/chrome-68-beta-add-to-home-screen.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 68βリリース。<br>
+Payment Handler API、Page Lifecycle API、<code>customElements.upgrade()</code>、 Keyboard lock APIのサポートなど</p>
+
+<hr>
+
+<h2 id="mobx-changelog-md-at-master-mobxjs-mobx">mobx/CHANGELOG.md at master · mobxjs/mobx</h2>
+
+<p><a href="https://github.com/mobxjs/mobx/blob/master/CHANGELOG.md#500" title="mobx/CHANGELOG.md at master · mobxjs/mobx">github.com/mobxjs/mobx/blob/master/CHANGELOG.md#500</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>MobX 5.0.0リリース。<br>
+Observableに<code>Proxy</code>を利用するようになり、IEなどProxyがない環境は非サポートに。<br>
+また、公開されるパッケージのコード自体もES2015となった。</p>
+
+<hr>
+
+<h2 id="release-inferno-v5-1-0-infernojs-inferno">Release Inferno v5.1.0 · infernojs/inferno</h2>
+
+<p><a href="https://github.com/infernojs/inferno/releases/tag/v5.1.0" title="Release Inferno v5.1.0 · infernojs/inferno">github.com/infernojs/inferno/releases/tag/v5.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Inferno v5.1.0 リリース。<br>
+<code>Inferno-devtools</code>の書き直しなど</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="yarn-import-now-uses-package-lock-json-yarn-blog">Yarn import now uses package-lock.json | Yarn Blog</h2>
+
+<p><a href="https://yarnpkg.com/blog/2018/06/04/yarn-import-package-lock/" title="Yarn import now uses package-lock.json | Yarn Blog">yarnpkg.com/blog/2018/06/04/yarn-import-package-lock/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ReleaseNote</span> <span class="jser-tag">article</span> <span class="jser-tag">npm</span> <span class="jser-tag">yarn</span></p></p>
+
+<p>yarn 1.7.0で<code>package-lock.json</code>を<code>yarn.lock</code>としてimportできるようになった。</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/yarn/issues/5654" title="Competing lockfiles create poor UX · Issue #5654 · yarnpkg/yarn">Competing lockfiles create poor UX · Issue #5654 · yarnpkg/yarn</a></li>
+</ul>
+
+<hr>
+
+<h2 id="you-probably-dont-need-derived-state-react-blog">You Probably Don&#39;t Need Derived State - React Blog</h2>
+
+<p><a href="https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html" title="You Probably Don&#39;t Need Derived State - React Blog">reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 16.3で導入された<code>getDerivedStateFromProps</code>のケーススタディ。<br>
+<code>getDerivedStateFromProps</code>はpropsの変化を元にstateを更新するために利用する。どのような時に利用するべきか、しないべきかについて</p>
+
+<hr>
+
+<h2 id="flow-typescript">Flow から TypeScript に移行しました - てくすた</h2>
+
+<p><a href="http://texta.pixta.jp/entry/2018/06/07/120000" title="Flow から TypeScript に移行しました - てくすた">texta.pixta.jp/entry/2018/06/07/120000</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>FlowからTypeScriptへの移行について。<br>
+移行の理由、移行の手順やツールの組み合わせについてなどについて</p>
+
+<hr>
+
+<h2 id="assessing-loading-performance-in-real-life-with-navigation-and-resource-timing-web-fundamentals-google-developers">Assessing Loading Performance in Real Life with Navigation and Resource Timing  |  Web Fundamentals  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/fundamentals/performance/navigation-and-resource-timing/" title="Assessing Loading Performance in Real Life with Navigation and Resource Timing  |  Web Fundamentals  |  Google Developers">developers.google.com/web/fundamentals/performance/navigation-and-resource-timing/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Navigation TimingとResource Timingについて。<br>
+それぞれのAPIの使い方や取得できるデータの意味、クロスオリジンのリソースの<code>Timing-Allow-Origin</code>ヘッダによる対応。<br>
+またRUMのデータとして集める場合のデータの送信方法として<code>navigation.sendBeacon</code>の使い方やfailbackについてなど</p>
+
+<hr>
+
+<h2 id="pjax-design-report">これからpjaxを使う人に知っておいてほしいこと – Design Report – デザインレポート</h2>
+
+<p><a href="https://glitter-style.jp/labo/web-resource/master-the-pjax/" title="これからpjaxを使う人に知っておいてほしいこと – Design Report – デザインレポート">glitter-style.jp/labo/web-resource/master-the-pjax/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ajax</span> <span class="jser-tag">article</span></p></p>
+
+<p>pjaxについての連載記事。<br>
+pjaxの動作原理や利点、代表的な実装方法、利用する際の注意点、イベント管理、メモリリークの問題など、設計について書かれている</p>
+
+<hr>
+
+<h2 id="almin-0-17-execute-react-context-web-scratch">Almin 0.17リリース – executeの型付け、新しいReact Contextのサポート | Web Scratch</h2>
+
+<p><a href="https://efcl.info/2018/06/11/almin-0.17/" title="Almin 0.17リリース – executeの型付け、新しいReact Contextのサポート | Web Scratch">efcl.info/2018/06/11/almin-0.17/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">almin</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Almin 0.17リリース。<br>
+TypeScriptで<code>execute</code>の引数の型チェックができるように、React Context APIを使ったモジュールの公開、ファイルサイズの削減など</p>
+
+<hr>
+
+<h2 id="deprecating-cssnext">Deprecating cssnext</h2>
+
+<p><a href="https://moox.io/blog/deprecating-cssnext/" title="Deprecating cssnext">moox.io/blog/deprecating-cssnext/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">PostCSS</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>cssnext</code>がdeprecatedとなり、<code>postcss-preset-env</code>の利用が推奨されるようになった。<br>
+マイグレーション方法や違いについてなど</p>
+
+<ul>
+<li><a href="https://preset-env.cssdb.org/" title="postcss-preset-env">postcss-preset-env</a></li>
+<li><a href="https://github.com/csstools/postcss-preset-env/issues/32" title="A notice to cssnext users · Issue #32 · csstools/postcss-preset-env">A notice to cssnext users · Issue #32 · csstools/postcss-preset-env</a></li>
+</ul>
+
+<hr>
+
+<h2 id="2018-tree-shaking">2018 年の tree shaking | 株式会社カブク</h2>
+
+<p><a href="https://www.kabuku.co.jp/developers/tree-shaking-in-2018" title="2018 年の tree shaking | 株式会社カブク">www.kabuku.co.jp/developers/tree-shaking-in-2018</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span> <span class="jser-tag">webpack</span></p></p>
+
+<p>Tree Shakingと呼ばれるビルドの最適化がどのように行われるかについて。 webpackにおいてES modulesで書いてもTree Shankingされない場合について。 またRxJsでの例など</p>
+
+<hr>
+
+<h2 id="phantomjs-jser-info">PhantomJSの開発が終了しリポジトリがアーカイブ化された - JSer.info</h2>
+
+<p><a href="https://jser.info/2018/06/11/phantomjs-ended/" title="PhantomJSの開発が終了しリポジトリがアーカイブ化された - JSer.info">jser.info/2018/06/11/phantomjs-ended/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p>PhantomJSのリポジトリがArchived(read-only)になり正式に開発が終了となった。</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="10-things-i-regret-about-node-js-ryan-dahl-jsconf-eu-2018-youtube">10 Things I Regret About Node.js - Ryan Dahl - JSConf EU 2018 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=M3BM9TB-8yA&feature=youtu.be" title="10 Things I Regret About Node.js - Ryan Dahl - JSConf EU 2018 - YouTube">www.youtube.com/watch?v&#x3D;M3BM9TB-8yA&amp;feature&#x3D;youtu.be</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">video</span></p></p>
+
+<p>Node.jsの作成者であるryによるNode.js初期のデザインミスついての発表。<br>
+またTypeScriptのruntimeとして作成してるDenoの紹介。<br>
+Denoのゴールはsandbox firstのセキュリティ、モジュールシステムの簡素化、ブラウザとの互換性など</p>
+
+<ul>
+<li><a href="http://yosuke-furukawa.hatenablog.com/entry/2018/06/07/080335" title="Node.js における設計ミス By Ryan Dahl - from scratch">Node.js における設計ミス By Ryan Dahl - from scratch</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jsconf-eu-2018-youtube-youtube">JSConf EU 2018 - YouTube - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PL37ZVnwpeshG2YXJkun_lyNTtM-Qb3MKa" title="JSConf EU 2018 - YouTube - YouTube">www.youtube.com/playlist?list&#x3D;PL37ZVnwpeshG2YXJkun_lyNTtM-Qb3MKa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">イベント</span> <span class="jser-tag">video</span></p></p>
+
+<p>JSConf EU 2018の動画まとめ</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="waldojeffers-conductor-mix-both-synchronous-and-asynchronous-code-without-hassle">WaldoJeffers/conductor: Mix both synchronous and asynchronous code without hassle</h2>
+
+<p><a href="https://github.com/WaldoJeffers/conductor" title="WaldoJeffers/conductor: Mix both synchronous and asynchronous code without hassle">github.com/WaldoJeffers/conductor</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>syncとasyncな処理を同様のコードフローで扱うためのUtilityライブラリ。<br>
+map、compose、pluckなど LodashやRamdaによく似たAPIを持つライブラリ。</p>
+
+<ul>
+<li><a href="https://medium.com/@achille.urbain/why-im-building-conductor-fa780da821cd" title="Why I’m building Conductor – Achille Urbain – Medium">Why I’m building Conductor – Achille Urbain – Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="garris-backstopjs-catch-css-curve-balls">garris/BackstopJS: Catch CSS curve balls.</h2>
+
+<p><a href="https://github.com/garris/BackstopJS" title="garris/BackstopJS: Catch CSS curve balls.">github.com/garris/BackstopJS</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>CSSのリグレッションテストツール。<br>
+ヘッドレスブラウザでレンダリングして、描画結果の違いをテストできる</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="introduction-react">Introduction · React</h2>
+
+<p><a href="https://chrisnoring.gitbooks.io/react/content/" title="Introduction · React">chrisnoring.gitbooks.io/react/content/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">book</span></p></p>
+
+<p>ReactやRedux、MobXなどについての電子書籍</p>
+
+<hr>
+
+<h2 id="the-graphql-guide">The GraphQL Guide</h2>
+
+<p><a href="https://graphql.guide/" title="The GraphQL Guide">graphql.guide/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">book</span></p></p>
+
+<p>GraphQLについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-06-12-mobx-5.0.0phantomjs-eolnode.js.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["mobx","phantomjs","Node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>mobx</li>
+                
+                <li>phantomjs</li>
+                
+                <li>Node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/06/12/mobx-5.0.0phantomjs-eolnode.js/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

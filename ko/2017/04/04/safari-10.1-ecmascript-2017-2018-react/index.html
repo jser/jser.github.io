@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-04-04 JS: Safari 10.1, ECMAScript 2017-2018, React 성능 측정 및 개선 - JSer.info</title>
+    <meta name="description" content="JSer.info #325 - Safari 10.1이 정식 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="Safari,ECMAScript,ES2017,ES2018,React" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-04-04T09:17:15+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Safari" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="ES2017" property="article:tag">
+      
+      <meta content="ES2018" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/04/04/safari-10.1-ecmascript-2017-2018-react/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #325 - Safari 10.1이 정식 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-04-04 JS: Safari 10.1, ECMAScript 2017-2018, React 성능 측정 및 개선">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/04/04/safari-10.1-ecmascript-2017-2018-react/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #325 - Safari 10.1이 정식 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-04-04T09:17:15+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Safari">
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="ES2017">
+
+<meta property="article:tag" content="ES2018">
+
+<meta property="article:tag" content="React">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/04/04/safari-10.1-ecmascript-2017-2018-react/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/04/04/safari-10.1-ecmascript-2017-2018-react/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/04/04/safari-10.1-ecmascript-2017-2018-react/">2017-04-04 JS: Safari 10.1, ECMAScript 2017-2018, React 성능 측정 및 개선</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年04月04日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-04-04-safari-10.1-ecmascript-2017-2018-react.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-04-04-safari-10.1-ecmascript-2017-2018-react.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/04/04/safari-10.1-ecmascript-2017-2018-react/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #325 - Safari 10.1이 정식 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/7477/new-web-features-in-safari-10-1/" title="New Web Features in Safari 10.1 | WebKit">New Web Features in Safari 10.1 | WebKit</a></li>
+</ul>
+
+<p>Fetch API, CSS Grid, ES2016+, IndexedDB 2.0, Custom Elements, Gamepad, Pointer Lock, Input Events, <code>download</code> 속성, HTML Media Capture 등 상당히 여러가지 기능이 구현됐습니다.</p>
+
+<p>예전에 공개한 CSS Grid Layout과 Custom Elements를 소개하는 글을 함께 살펴보면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/7434/css-grid-layout-a-new-layout-module-for-the-web/" title="CSS Grid Layout: A New Layout Module for the Web | WebKit">CSS Grid Layout: A New Layout Module for the Web | WebKit</a></li>
+<li><a href="https://webkit.org/blog/7027/introducing-custom-elements/" title="Introducing Custom Elements | WebKit">Introducing Custom Elements | WebKit</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>ES2017 was officially approved by the committee to be sent to the ECMA General Assembly for approval.<br><br>
+-- <a href="https://github.com/rwaldron/tc39-notes/pull/64#issuecomment-291270151" title="March 2017 meeting notes by leobalter · Pull Request #64 · rwaldron/tc39-notes">March 2017 meeting notes by leobalter · Pull Request #64 · rwaldron/tc39-notes</a></p>
+</blockquote>
+
+<p>ECMAScript 2017의 사양이 확정됐으며 TC39(ECMAScript 사양을 책정하는 기술위원회)에서 최종 승인되어 ECMA <a href="https://www.ecma-international.org/memento/GA.htm" title="General Assembly">General Assembly</a>에 제출됐습니다.</p>
+
+<p>이제 2017년 6월 27일에 열리는 <a href="https://www.ecma-international.org/memento/Ecma_meeting_calendar.htm" title="GA 113th meeting">GA 113th meeting</a>에서 최종 승인되면 정식으로 ECMAScript2017이 릴리즈됩니다.</p>
+
+<ul>
+<li><a href="https://www.ecma-international.org/memento/Ecma_meeting_calendar.htm" title="Ecma meeting calendar">Ecma meeting calendar</a></li>
+</ul>
+
+<p>ES2017에 들어갈 사양은 아래 문서에 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="http://2ality.com/2016/02/ecmascript-2017.html" title="ECMAScript 2017: the final feature set">ECMAScript 2017: the final feature set</a></li>
+</ul>
+
+<p>이로써 ES2017 사양은 고정(freeze)됐으며 <a href="https://github.com/tc39/ecma262" title="tc39/ecma262">tc39/ecma262</a>의 master 브랜치는 <a href="https://github.com/tc39/ecma262/commit/8340bf9a8427ea81bb0d1459471afbcc91d18add" title="Editorial: master is now ES2018 draft · tc39/ecma262@8340bf9">ES2018 draft</a>로 관련 내용이 변경 됐습니다.</p>
+
+<hr>
+
+<p><strong>NOTE</strong>:</p>
+
+<p>ECMAScript의 ISO 표준 버전인 <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=55755">ISO/IEC 16262</a>는 <a href="https://www.ecma-international.org/publications/standards/Ecma-414.htm" title="ECMAScript Specification Suite">ECMA-414 ECMAScript Specification Suite</a>라는 사양으로 대신 제안됩니다.</p>
+
+<ul>
+<li><a href="http://efcl.info/2017/02/27/ecma-414/" title="ECMA-414 ECMAScript Specification Suite에 관해 | Web Scratch">ECMA-414 ECMAScript Specification Suite에 관해 | Web Scratch</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<p>ES2018 이후에 들어갈 수도 있는 제안은 스테이터스와 함께 아래 문서에 정리돼 있으니 참고하시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://ecmascript-daily.github.io/ecmascript/2017/04/04/ecmascript-proposals-status" title="ECMAScript proposal updates @ 2017-03 | ECMAScript Daily">ECMAScript proposal updates @ 2017-03 | ECMAScript Daily</a>
+
+<ul>
+<li>지난달 시점의 스테이터스 변경 정리</li>
+</ul></li>
+<li><a href="https://github.com/tc39/proposals" title="tc39/proposals: Tracking ECMAScript Proposals">tc39/proposals: Tracking ECMAScript Proposals</a></li>
+</ul>
+
+<p>지난달 미팅에서 정규표현 개선과 관련된 제안(Proposal) 4개가 Stage 3로 변경 됐습니다.<br>
+정규표현과 관련된 제안에 흥미가 있는 사람은 아래 문서를 보시면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://ponyfoo.com/articles/regular-expressions-post-es6" title="Regular Expressions in a post-ES6 world">Regular Expressions in a post-ES6 world</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://marmelab.com/blog/2017/02/06/react-is-slow-react-is-fast.html" title="React is Slow, React is Fast: Optimizing React Apps in Practice">React is Slow, React is Fast: Optimizing React Apps in Practice</a>에는 React 애플리케이션의 성능을 측정하는 방법과 개선을 위한 접근법이 소개돼 있습니다.</p>
+
+<p><code>?react_perf</code>를 사용해 컴포넌트 프로파일을 얻는 방법과 분석하는 방법 그리고 개선법 등에 관해 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="normalize-css-changelog-md-at-master-necolas-normalize-css">normalize.css/CHANGELOG.md at master · necolas/normalize.css</h2>
+
+<p><a href="https://github.com/necolas/normalize.css/blob/master/CHANGELOG.md" title="normalize.css/CHANGELOG.md at master · necolas/normalize.css">github.com/necolas/normalize.css/blob/master/CHANGELOG.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>normalize.css 6.0.0이 릴리즈됐습니다.<br>
+HTML 요소나 form 요소의 <code>font-family</code>, <code>line-height</code> 등 opinionated rules를 삭제했습니다.</p>
+
+<hr>
+
+<h2 id="tc39-ecma-402-updates-rafael-xavier">TC39: Ecma-402 updates | Rafael Xavier</h2>
+
+<p><a href="http://rafael.xavier.blog.br/2017/03/23/tc39-ecma-402-updates/" title="TC39: Ecma-402 updates | Rafael Xavier">rafael.xavier.blog.br/2017/03/23/tc39-ecma-402-updates/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">proposal</span></p></p>
+
+<p>Ecma-402(ECMAScript i18n API)의 Proposal이나 스테이터스에 관해 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="release-2-3-0-qunitjs-qunit">Release 2.3.0 · qunitjs/qunit</h2>
+
+<p><a href="https://github.com/qunitjs/qunit/releases/tag/2.3.0" title="Release 2.3.0 · qunitjs/qunit">github.com/qunitjs/qunit/releases/tag/2.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>QUnit 2.3.0이 릴리즈됐습니다.<br>
+QUnit CLI가 추가됐습니다. CLI에서 QUnit을 실행할 수 있고 reporter 등을 지정할 수 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/qunitjs/qunit/pull/1115" title="CLI: Introduce QUnit CLI by trentmwillis · Pull Request #1115 · qunitjs/qunit">CLI: Introduce QUnit CLI by trentmwillis · Pull Request #1115 · qunitjs/qunit</a></li>
+<li><a href="https://github.com/qunitjs/qunit/issues/1024" title="Introduce CLI tool · Issue #1024 · qunitjs/qunit">Introduce CLI tool · Issue #1024 · qunitjs/qunit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="new-web-features-in-safari-10-1-webkit">New Web Features in Safari 10.1 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7477/new-web-features-in-safari-10-1/" title="New Web Features in Safari 10.1 | WebKit">webkit.org/blog/7477/new-web-features-in-safari-10-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari 10.0이 릴리즈됐습니다.<br>
+Fetch API, CSS Grid, ES2016+, IndexedDB 2.0, Custom Elements, Gamepad, Pointer Lock, Input Events, <code>download</code> 속성, HTML Media Capture 등을 지원합니다.</p>
+
+<hr>
+
+<h2 id="node-v7-8-0-current-node-js">Node v7.8.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v7.8.0/" title="Node v7.8.0 (Current) | Node.js">nodejs.org/en/blog/release/v7.8.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 7.8.0이 릴리즈됐습니다.<br>
+npm 4.2.0으로 업데이트됐고, async function을 수정(desugaring)/백포트 하는 등 다양한 변경 사항이 있습니다.</p>
+
+<hr>
+
+<h2 id="testcafe-v0-14-0-released-testcafe">TestCafe v0.14.0 Released | TestCafe</h2>
+
+<p><a href="http://devexpress.github.io/testcafe/blog/testcafe-v0-14-0-released.html" title="TestCafe v0.14.0 Released | TestCafe">devexpress.github.io/testcafe/blog/testcafe-v0-14-0-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">E2E</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TestCafe v0.14.0이 릴리즈됐습니다.<br>
+<code>Role</code>에서 로그인 정보를 입력할 수 있도록 변경됐고 BrowserStack을 지원합니다. <code>t.debug()</code>로 <code>debugger;</code>와 비슷하게 디버깅할 수 있으며 <code>file://</code>에 대응해서도 테스트할 수 있고 <code>Selector</code>에 커스텀 메서드를 정의할 수 있게 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="flow-a-static-type-checker-for-javascript">Flow: A Static Type Checker for JavaScript</h2>
+
+<p><a href="https://flow.org/en/" title="Flow: A Static Type Checker for JavaScript">flow.org/en/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span></p></p>
+
+<p>Flow 정식 사이트가 리뉴얼 됐습니다.</p>
+
+<hr>
+
+<h2 id="release-almin-js-0-11-almin-almin">Release Almin.js 0.11 · almin/almin</h2>
+
+<p><a href="https://github.com/almin/almin/releases/tag/0.11.0" title="Release Almin.js 0.11 · almin/almin">github.com/almin/almin/releases/tag/0.11.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Flux</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Almin 0.11이 릴리즈 됐습니다.<br>
+Functional UseCase를 지원하고 API 문서가 갱신됐습니다. 또, React를 바인딩 할 수 있는 컨테이너 패키지가 추가됐습니다.</p>
+
+<hr>
+
+<h2 id="announcing-free-microsoft-edge-testing-in-partnership-with-browserstack-microsoft-edge-dev-blogmicrosoft-edge-dev-blog">Announcing free Microsoft Edge testing in partnership with BrowserStack - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</h2>
+
+<p><a href="https://blogs.windows.com/msedgedev/2017/03/30/free-edge-testing-browserstack/" title="Announcing free Microsoft Edge testing in partnership with BrowserStack - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog">blogs.windows.com/msedgedev/2017/03/30/free-edge-testing-browserstack/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>BrowserStack에서 테스트 목적으로 MSEdge를 무료로 이용 가능합니다.</p>
+
+<ul>
+<li><a href="https://www.browserstack.com/test-on-microsoft-edge-browser#live-cloud" title="Free Edge Testing on Windows 10">Free Edge Testing on Windows 10</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="zeit-next-js-2-0">ZEIT – Next.js 2.0</h2>
+
+<p><a href="https://zeit.co/blog/next2" title="ZEIT – Next.js 2.0">zeit.co/blog/next2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">서버</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React를 사용한 프레임워크인 Next.js 2.0이 릴리즈됐습니다.</p>
+
+<p>동적 라우팅을 지원하며 <code>next/css</code>를 비권장하는 대신 <code>styled-jsx</code>를 도입했습니다. 또, <code>&lt;Link&gt;</code>의 <code>prefetch</code>를 지원하며 <code>babel</code>을 설정할 수 있게 변경 됐습니다. 그리고 여러가지 샘플 예제가 추가됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/zeit/styled-jsx" title="zeit/styled-jsx: Full CSS support for JSX without compromises">zeit/styled-jsx: Full CSS support for JSX without compromises</a></li>
+<li><a href="https://github.com/zeit/next.js/wiki/Migrating-from-next-css" title="Migrating from next css · zeit/next.js Wiki">Migrating from next css · zeit/next.js Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-javascript-engine-help-us-test-the-future-of-v8">V8 JavaScript Engine: Help us test the future of V8!</h2>
+
+<p><a href="https://v8project.blogspot.com/2017/02/help-us-test-future-of-v8.html" title="V8 JavaScript Engine: Help us test the future of V8!">v8project.blogspot.com/2017/02/help-us-test-future-of-v8.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">V8</span> <span class="jser-tag">article</span></p></p>
+
+<p>V8의 새로운 컴파일 파이프라인인 Ignition iterpreter와 Tuborfan compiler를 활성화 하는 방법에 관해 작성돼 있습니다.<br>
+또, 버그가 발견 됐을 때 리포트할 수 있는 방법도 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="writing-better-javascript-with-flow-sitepoint">Writing Better JavaScript with Flow — SitePoint</h2>
+
+<p><a href="https://www.sitepoint.com/writing-better-javascript-with-flow/" title="Writing Better JavaScript with Flow — SitePoint">www.sitepoint.com/writing-better-javascript-with-flow/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span></p></p>
+
+<p>Flow의 기본적인 사용방법에 관해 소개하는 글입니다.<br>
+타입을 선언하는 방법, 라이브러리의 타입 선언(Library Definitions), 타입 어노테이션을 제거(Stripping)하는 방법 등이 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="react-is-slow-react-is-fast-optimizing-react-apps-in-practice">React is Slow, React is Fast: Optimizing React Apps in Practice</h2>
+
+<p><a href="http://marmelab.com/blog/2017/02/06/react-is-slow-react-is-fast.html" title="React is Slow, React is Fast: Optimizing React Apps in Practice">marmelab.com/blog/2017/02/06/react-is-slow-react-is-fast.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span></p></p>
+
+<p>React의 성능 측정 및 개선 방법에 관해 소개하는 글입니다.</p>
+
+<p><code>?react_perf</code>를 사용한 컴포넌트 프로파일링, <code>why-did-you-update</code>으로 컴포넌트 갱신 시간 측정, shouldComponentUpdate로 불필요한 갱신이 발생하지 않도록 개선, Resompose나 Reselect, React/JSX의 사용한 개선 등 다양한 성능 개선 방법에 관해 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/garbles/why-did-you-update" title="garbles/why-did-you-update: Puts your console on blast when React is making unnecessary updates.">garbles/why-did-you-update: Puts your console on blast when React is making unnecessary updates.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="svelte-qiita">Svelte 훑어보니 꽤 대단하다 - Qiita(일본어)</h2>
+
+<p><a href="http://qiita.com/jgs/items/2d985894ea07f48b74fb" title="Svelte 훑어보니 꽤 대단하다 - Qiita">qiita.com/jgs/items/2d985894ea07f48b74fb</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p></p>
+
+<p>HTML/CSS/JS를 한 파일에 셋으로 작성한 컴포넌트를 순수 JavaScript + 작은 규모의 런타임 코드로 변환하는 UI 프레임워크인 Svelte에 관해 소개하는 글입니다.</p>
+
+<hr>
+
+<h2 id="regular-expressions-in-a-post-es6-world">Regular Expressions in a post-ES6 world</h2>
+
+<p><a href="https://ponyfoo.com/articles/regular-expressions-post-es6" title="Regular Expressions in a post-ES6 world">ponyfoo.com/articles/regular-expressions-post-es6</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">proposal</span></p></p>
+
+<p>ES2015 이후, 정규표현에 추가된 사양과 Proposal이 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="vue-js-tutorial-a-prerendered-seo-friendly-example-live-demo-snipcart">Vue.js Tutorial: A Prerendered, SEO-Friendly Example [Live Demo] - Snipcart</h2>
+
+<p><a href="https://snipcart.com/blog/vuejs-tutorial-seo-example" title="Vue.js Tutorial: A Prerendered, SEO-Friendly Example \[Live Demo\] - Snipcart">snipcart.com/blog/vuejs-tutorial-seo-example</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Vue</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vue.js 튜토리얼 글입니다. PrerenderSpaPlugin를 사용하여 정적인 HTML을 만드는 방법까지 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2017-03-ecmascript-daily">ECMAScript proposal updates @ 2017-03 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2017/04/04/ecmascript-proposals-status" title="ECMAScript proposal updates @ 2017-03 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2017/04/04/ecmascript-proposals-status</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span></p></p>
+
+<p>ECMAScript Proposal 최신 변경 사항이 정리돼 있습니다.<br>
+정규표현 관련 Proposal이 Stage 3으로 변경됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="yarn-lock">그대는 yarn.lock을 커밋하고 있는가?(일본어)</h2>
+
+<p><a href="https://www.slideshare.net/teppeis/do-you-commit-yarnlock" title="그대는 yarn.lock을 커밋하고 있는가?">www.slideshare.net/teppeis/do-you-commit-yarnlock</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">slide</span></p></p>
+
+<p>라이브러리에서 yarn.lock을 커밋하는 것으로 devDeps가 고정됨으로써 얻을 수 있는 장점을 소개하는 슬라이드입니다.<br>
+devDeps 쪽은 Breaking Change가 발생하기 쉬우므로 yarn.lock을 이용해 고정하는 편이 좋다고 이야기 합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="sdgluck-mewt-immutability-in-under-one-kilobyte">sdgluck/mewt: Immutability in under one kilobyte</h2>
+
+<p><a href="https://github.com/sdgluck/mewt" title="sdgluck/mewt: Immutability in under one kilobyte">github.com/sdgluck/mewt</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Proxy를 사용해 구현한 심플한 Immutable 래퍼 라이브러리입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="reset-css">시작하며 | Reset CSS 프렌즈</h2>
+
+<p><a href="http://friends.o2p.jp/" title="시작하며 | Reset CSS 프렌즈">friends.o2p.jp/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">ebook</span></p></p>
+
+<p>유저 에이전트를 근거해 CSS의 특징적 부분을 덮어쓰는 Reset CSS나 normalize.css 등이 어떤 스타일을 할당하고 있는지 자세히 소개하는 전자 서적입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-04-04-safari-10.1-ecmascript-2017-2018-react.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Safari","ECMAScript","ES2017","ES2018","React"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Safari</li>
+                
+                <li>ECMAScript</li>
+                
+                <li>ES2017</li>
+                
+                <li>ES2018</li>
+                
+                <li>React</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/04/04/safari-10.1-ecmascript-2017-2018-react/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

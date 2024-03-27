@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2012-12-18のJS:ブラウザバグ報告手順、jQuery Deferred、DOM Compatibility Tables - JSer.info</title>
+    <meta name="description" content="JSer.info #101 - ブラウザのバグを見つけた場合にどのように報告するかについてまとめたブラウザのバグを見つけたときにやること - Please Sleepという記事が公開されています。Mozillaのバグ報告からパッチを取り入れてもらうまでの方法をそこの君、 バグ報告から始める Mozillaへ...">
+    
+    <meta name="keywords" content="jquery,browser,debug,dom" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2012-12-18T00:38:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="jquery" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="debug" property="article:tag">
+      
+      <meta content="dom" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/38149485673">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #101 - ブラウザのバグを見つけた場合にどのように報告するかについてまとめたブラウザのバグを見つけたときにやること - Please Sleepという記事が公開されています。Mozillaのバグ報告からパッチを取り入れてもらうまでの方法をそこの君、 バグ報告から始める Mozillaへ..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2012-12-18のJS:ブラウザバグ報告手順、jQuery Deferred、DOM Compatibility Tables">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/38149485673">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #101 - ブラウザのバグを見つけた場合にどのように報告するかについてまとめたブラウザのバグを見つけたときにやること - Please Sleepという記事が公開されています。Mozillaのバグ報告からパッチを取り入れてもらうまでの方法をそこの君、 バグ報告から始める Mozillaへ...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2012-12-18T00:38:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="jquery">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="debug">
+
+<meta property="article:tag" content="dom">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/38149485673">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/38149485673">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/38149485673">2012-12-18のJS:ブラウザバグ報告手順、jQuery Deferred、DOM Compatibility Tables</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2012年12月18日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-12-18-2012-12-18-js-jquery-deferred-dom.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2012-12-18-2012-12-18-js-jquery-deferred-dom.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/38149485673">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/38149485673"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #101 - ブラウザのバグを見つけた場合にどのように報告するかについてまとめた<a href="http://please-sleep.cou929.nu/how-to-report-bugs-of-browser.html" target="_blank">ブラウザのバグを見つけたときにやること - Please Sleep</a>という記事が公開されています。<br/>Mozillaのバグ報告からパッチを取り入れてもらうまでの方法を<a href="http://saneyukis.hatenablog.com/entry/2012/12/09/180412" target="_blank">そこの君、 バグ報告から始める Mozillaへのcontributeのやり方 教えてあげるからちょっと来なさい</a>で書かれています。</p>
+<p>どれも微妙に関係ありそうでないですが、jQueryのDeferred周りについて記事がいつくか書かれています。</p>
+<ul><li><a href="http://nanto.asablo.jp/blog/2012/12/16/6661787" target="_blank">jQuery で HTTP 接続するときの書き方: Days on the Moon</a></li>
+<li><a href="http://blog.toshimaru.net/jquery-ajaxdeferredajax" target="_blank">jQuery モダンAjaxな書き方を目指して　〜deferredを使ったAJAX〜 - Hack Your Design!</a></li>
+<li><a href="http://less.carbonfairy.org/post/38137563537" target="_blank">jQuery 1.8でDeferred.thenの挙動が変わった</a></li>
+</ul><p>最後のdeferred.thenがdeferred.pipeのエイリアスになったのは<a href="http://wiki.commonjs.org/wiki/Promises/A" target="_blank">Promises/A</a>に沿った形に変えたため挙動が変わったようです。</p>
+<ul><li><a href="https://github.com/jquery/jquery/commit/a41f2406748e3113751ab1e5b5d990d9144123fc" target="_blank">Makes Deferred implementation truly Promise/A compliant. Unit tests amen&#8230; · a41f240 · jquery/jquery</a></li>
+<li><a href="http://myjquery.blog.fc2.com/blog-entry-11.html" target="_blank">deferred.pipe() | 私的なjQuery</a></li>
+</ul><p><a href="https://github.com/enja-oss/README" target="_blank">en.ja OSS</a>による翻訳もそうですが、人気のあるライブラリ等の翻訳ドキュメント等が最近色々書かれています。</p>
+<ul><li><a href="http://blog.mitsuruog.info/2012/12/jasmine.html" target="_blank">Jasmine</a></li>
+<li><a href="http://kojs.sukobuto.com/" target="_blank">Knockout</a></li>
+<li><a href="https://github.com/enja-oss/Backbone" target="_blank">Backbone</a></li>
+</ul><div class="connectedSortable ui-sortable ui-sortable-disabled" id="output">
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="Node v0.8.16 (Stable)">
+<div>
+<p class="jser-sitelink"><strong>Node v0.8.16 (Stable)</strong><br/><a href="http://blog.nodejs.org/2012/12/13/node-v0-8-16/" title="Node v0.8.16 (Stable)" target="_blank">http://blog.nodejs.org/2012/12/13/node-v0-8-16/</a></p>
+</div>
+</blockquote>
+<p>Node.js v0.8.16リリース</p>
+<div class="sites">
+<blockquote title="jQuery Blog » jQuery 1.9 Beta 1 Released">
+<div>
+<p class="jser-sitelink"><strong>jQuery Blog&#160;» jQuery 1.9 Beta 1 Released</strong><br/><a href="http://blog.jquery.com/2012/12/17/jquery-1-9-beta-1-released/" title="jQuery Blog » jQuery 1.9 Beta 1 Released" target="_blank">http://blog.jquery.com/2012/12/17/jquery-1-9-beta-1-released/</a></p>
+</div>
+</blockquote>
+<p>jQuery 1.9 Beta 1 リリース</p>
+</div>
+</div>
+<div>
+<blockquote title="jQuery UI 1.10 Beta | jQuery UI Blog">
+<div>
+<p class="jser-sitelink"><strong>jQuery UI 1.10 Beta | jQuery UI Blog</strong><br/><a href="http://blog.jqueryui.com/2012/12/jquery-ui-1-10-beta/" title="jQuery UI 1.10 Beta | jQuery UI Blog" target="_blank">http://blog.jqueryui.com/2012/12/jquery-ui-1-10-beta/</a></p>
+</div>
+</blockquote>
+<p>jQuery UI 1.10 Betaリリース</p>
+</div>
+<div>
+<blockquote title="jsziptools 2.3.0 変更点 :右京web">
+<div>
+<p class="jser-sitelink"><strong>jsziptools 2.3.0 変更点 :右京web</strong><br/><a href="http://hujimi.seesaa.net/article/307606956.html" title="jsziptools 2.3.0 変更点 :右京web" target="_blank">http://hujimi.seesaa.net/article/307606956.html</a></p>
+</div>
+</blockquote>
+<p>JavaScriptでzlib,gzip,zipのデータを圧縮・展開するjsziptools 2.3.0リリース.<br/> Blob対応でasyncになった、Deferredの追加</p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="ブラウザのバグを見つけたときにやること - Please Sleep">
+<div>
+<p class="jser-sitelink"><strong>ブラウザのバグを見つけたときにやること - Please Sleep</strong><br/><a href="http://please-sleep.cou929.nu/how-to-report-bugs-of-browser.html" title="ブラウザのバグを見つけたときにやること - Please Sleep" target="_blank">http://please-sleep.cou929.nu/how-to-report-bugs-of-browser.html</a></p>
+</div>
+</blockquote>
+<p>ブラウザのバグを見つけた場合の報告までの手引き.<br/> 主要ブラウザの報告ガイドラインと報告先がまとまってる</p>
+</div>
+<div>
+<blockquote title="Mozilla 勉強会＠東京 8thで話しました - snyk_s log edit.hateblo">
+<div>
+<p class="jser-sitelink"><strong>Mozilla 勉強会＠東京 8thで話しました - snyk_s log edit.hateblo</strong><br/><a href="http://saneyukis.hatenablog.com/entry/2012/12/09/180412" title="Mozilla 勉強会＠東京 8thで話しました - snyk_s log edit.hateblo" target="_blank">http://saneyukis.hatenablog.com/entry/2012/12/09/180412</a></p>
+</div>
+</blockquote>
+<p>Mozillaへのバク報告の手順、パッチの書き方、レビューのしてもらい方.<br/> bugzillaガイドライン</p>
+</div>
+<div>
+<blockquote title="Are your mixins ECMAScript 5 compatible? | NCZOnline">
+<div>
+<p class="jser-sitelink"><strong>Are your mixins ECMAScript 5 compatible? | NCZOnline</strong><br/><a href="http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/" title="Are your mixins ECMAScript 5 compatible? | NCZOnline" target="_blank">http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/</a></p>
+</div>
+</blockquote>
+<p>mixinをES5で書く場合について。<br/> definePropertyの第三引数でディスクリプタもコピーする<br/> Object.defineProperty(receiver, property, Object.getOwnPropertyDescriptor(supplier, property));</p>
+<div class="sites">
+<blockquote title="jQuery で HTTP 接続するときの書き方: Days on the Moon">
+<div>
+<p class="jser-sitelink"><strong>jQuery で HTTP 接続するときの書き方: Days on the Moon</strong><br/><a href="http://nanto.asablo.jp/blog/2012/12/16/6661787" title="jQuery で HTTP 接続するときの書き方: Days on the Moon" target="_blank">http://nanto.asablo.jp/blog/2012/12/16/6661787</a></p>
+</div>
+</blockquote>
+<p>jQueryの$.ajaxのコールバックをsuccessではなくdoneメソッドで取るようになった話について</p>
+</div>
+</div>
+<div>
+<blockquote title="jquery-ajaxdeferredajax">
+<div>
+<p class="jser-sitelink"><strong>jquery-ajaxdeferredajax</strong><br/><a href="http://blog.toshimaru.net/jquery-ajaxdeferredajax" title="jquery-ajaxdeferredajax" target="_blank">http://blog.toshimaru.net/jquery-ajaxdeferredajax</a></p>
+</div>
+</blockquote>
+<p>jQueryの$.ajaxとDeferredについて</p>
+</div>
+<div>
+<blockquote title="jQuery 1.8でDeferred.thenの挙動が変わった">
+<div>
+<p class="jser-sitelink"><strong>jQuery 1.8でDeferred.thenの挙動が変わった</strong><br/><a href="http://less.carbonfairy.org/post/38137563537" title="jQuery 1.8でDeferred.thenの挙動が変わった" target="_blank">http://less.carbonfairy.org/post/38137563537</a></p>
+</div>
+</blockquote>
+<p>jQuery 1.8でDeferred.thenの挙動がDeferred.pipeと同等になった</p>
+<div class="sites">
+<blockquote title="私的なjQuery">
+<p class="jser-sitelink"><strong>私的なjQuery</strong><br/><a href="http://myjquery.blog.fc2.com/" title="私的なjQuery" target="_blank">http://myjquery.blog.fc2.com/</a></p>
+</blockquote>
+<p>jQueryのリファレンス的なブログ・サイト。<br/> バージョン毎の変更履歴についてもまとめてる</p>
+</div>
+</div>
+<div>
+<blockquote title="homoiconic/2012/12/combinators_1.md at master · raganwald/homoiconic · GitHub">
+<div>
+<p class="jser-sitelink"><strong>homoiconic/2012/12/combinators_1.md at master · raganwald/homoiconic · GitHub</strong><br/><a href="https://github.com/raganwald/homoiconic/blob/master/2012/12/combinators_1.md#combinator-recipes-for-working-with-objects-in-javascript-part-i" title="homoiconic/2012/12/combinators_1.md at master · raganwald/homoiconic · GitHub" target="_blank">https://github.com/raganwald/homoiconic/blob/master/2012/12/combinators_1.md#combinator-recipes-for-working-with-objects-in-javascript-part-i</a></p>
+</div>
+</blockquote>
+<p>underscore.jsを使ったcombinatorのレシピ.</p>
+</div>
+<div>
+<blockquote title="I am mitsuruog: Jasmineを和訳しました">
+<div>
+<p class="jser-sitelink"><strong>I am mitsuruog: Jasmineを和訳しました</strong><br/><a href="http://blog.mitsuruog.info/2012/12/jasmine.html" title="I am mitsuruog: Jasmineを和訳しました" target="_blank">http://blog.mitsuruog.info/2012/12/jasmine.html</a></p>
+</div>
+</blockquote>
+<p>Jasmineサイトの<a href="http://mitsuruog.github.com/jasmine/" target="_blank">introduction.js</a>を翻訳</p>
+</div>
+<div>
+<blockquote title="Knockout.日本語ドキュメント">
+<div>
+<p class="jser-sitelink"><strong>Knockout.日本語ドキュメント</strong><br/><a href="http://kojs.sukobuto.com/" title="Knockout.日本語ドキュメント" target="_blank">http://kojs.sukobuto.com/</a></p>
+</div>
+</blockquote>
+<p>Knockoutの日本語ドキュメント</p>
+</div>
+<div>
+<blockquote title="Backbone.js コメント付きソースコード日本語訳 ::ハブろぐ">
+<div>
+<p class="jser-sitelink"><strong>Backbone.js コメント付きソースコード日本語訳 ::ハブろぐ</strong><br/><a href="http://havelog.ayumusato.com/develop/others/e537-translate_backbone_annotated_source.html" title="Backbone.js コメント付きソースコード日本語訳 ::ハブろぐ" target="_blank">http://havelog.ayumusato.com/develop/others/e537-translate_backbone_annotated_source.html</a></p>
+</div>
+</blockquote>
+<p>Backbone.jsのコードコメントの翻訳<br/> (doccoで見られるようになるといい気がする)</p>
+</div>
+<div>
+<blockquote title="JSON PointerとJSON PatchがLast Call - 一汁三菜">
+<div>
+<p class="jser-sitelink"><strong>JSON PointerとJSON PatchがLast Call - 一汁三菜</strong><br/><a href="http://silphire.hatenablog.jp/entry/2012/12/12/233344" title="JSON PointerとJSON PatchがLast Call - 一汁三菜" target="_blank">http://silphire.hatenablog.jp/entry/2012/12/12/233344</a></p>
+</div>
+</blockquote>
+<p>JSONのXPathみたいなJSON Pointerと&#8221;PATCH&#8221; メソッドのJSON Patchについて</p>
+</div>
+<div>
+<blockquote title="Desktop Browser DOM Compatiblity Tables">
+<div>
+<p class="jser-sitelink"><strong>Desktop Browser DOM Compatiblity Tables</strong><br/><a href="http://codylindley.com/dom-desktop-tests/" title="Desktop Browser DOM Compatiblity Tables" target="_blank">http://codylindley.com/dom-desktop-tests/</a></p>
+</div>
+</blockquote>
+<p>DOMのプロパティ、メソッドについてのブラウザ毎の対応状況まとめ表</p>
+</div>
+<div class="site-genre ui-sortable"><strong>スライド、動画関係</strong></div>
+<div>
+<blockquote title="Presentations (+ Video) |  JS.everywhere(2012) + Wakanday">
+<div>
+<p class="jser-sitelink"><strong>Presentations (+ Video) | JS.everywhere(2012) + Wakanday</strong><br/><a href="http://www.jseverywhere.org/presentations/" title="Presentations (+ Video) |  JS.everywhere(2012) + Wakanday" target="_blank">http://www.jseverywhere.org/presentations/</a></p>
+</div>
+</blockquote>
+<p>JS.everywhere( ) 2012の動画が一部公開された<br/> <a href="http://www.youtube.com/playlist?list=PL2PF2oGPokReHxddTOGehBS_w8-prtOBE" target="_blank">http://www.youtube.com/playlist?list=PL2PF2oGPokReHxddTOGehBS_w8-prtOBE</a></p>
+</div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="One-com/assetgraph · GitHub">
+<div>
+<p class="jser-sitelink"><strong>One-com/assetgraph · GitHub</strong><br/><a href="https://github.com/One-com/assetgraph" title="One-com/assetgraph · GitHub" target="_blank">https://github.com/One-com/assetgraph</a></p>
+</div>
+</blockquote>
+<p>aやlinkやscriptや@importなどを辿って関連ファイルからHTML,CSS,JSについてを集める仕組みや、それらに対してまとめて最適化や結合などを行えるツール.<br/> インラインで書かれているscriptやcssも認識して扱える</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="occ/TraceKit · GitHub">
+<div>
+<p class="jser-sitelink"><strong>occ/TraceKit · GitHub</strong><br/><a href="https://github.com/occ/TraceKit" title="occ/TraceKit · GitHub" target="_blank">https://github.com/occ/TraceKit</a></p>
+</div>
+</blockquote>
+<p>ブラウザのスタックトレースを共通で扱えるようにしてくれるライブラリ</p>
+</div>
+</div>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-12-18-2012-12-18-js-jquery-deferred-dom.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["jquery","browser","debug","dom"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>jquery</li>
+                
+                <li>browser</li>
+                
+                <li>debug</li>
+                
+                <li>dom</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/38149485673">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/38149485673"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

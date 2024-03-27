@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-07-30: mithril.js 2, Electron 6, React 입문 가이드 - JSer.info</title>
+    <meta name="description" content="JSer.info #446 - 싱글 페이지 애플리케이션 용 자바스크립트 프레임워크인 Mithril 2가 릴리스됐습니다.">
+    
+    <meta name="keywords" content="mithril,Electron,React" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-07-30T09:18:44+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="mithril" property="article:tag">
+      
+      <meta content="Electron" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/07/30/mithril.js-2electron-6react/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #446 - 싱글 페이지 애플리케이션 용 자바스크립트 프레임워크인 Mithril 2가 릴리스됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-07-30: mithril.js 2, Electron 6, React 입문 가이드">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/07/30/mithril.js-2electron-6react/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #446 - 싱글 페이지 애플리케이션 용 자바스크립트 프레임워크인 Mithril 2가 릴리스됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-07-30T09:18:44+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="mithril">
+
+<meta property="article:tag" content="Electron">
+
+<meta property="article:tag" content="React">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/07/30/mithril.js-2electron-6react/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/07/30/mithril.js-2electron-6react/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/07/30/mithril.js-2electron-6react/">2019-07-30: mithril.js 2, Electron 6, React 입문 가이드</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年07月30日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-07-30-mithril.js-2electron-6react.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-07-30-mithril.js-2electron-6react.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/07/30/mithril.js-2electron-6react/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #446 - 싱글 페이지 애플리케이션 용 자바스크립트 프레임워크인 <a href="https://github.com/MithrilJS/mithril.js">Mithril</a> 2가 릴리스됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/MithrilJS/mithril.js/releases/tag/v2.0.1">Release v2.0.1 · MithrilJS/mithril.js</a></li>
+</ul>
+
+<p>비호환적 변경 사항으로 <code>m.redraw()</code>가 기본적으로 비동기로 동작하며 대신에 <code>m.redraw.sync()</code>가 추가됐습니다. <br>
+이 외로 <code>m.withAttr</code>가 삭제됐으며 <code>m.request</code>가 반환하는 Promise가 서버 에러인 경우에도 reject 되지 않도록 변경됐고 IE10 이하 지원이 종료됐습니다.<br>
+또, <code>m.request</code>에서 <code>timeout</code>이나 <code>responseType</code>을 지원하는 등의 기능 추가도 이뤄졌습니다.</p>
+
+<hr>
+
+<p>Electron 6.0.0이 릴리스됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/electron/electron/releases/tag/v6.0.0">Release electron v6.0.0 · electron/electron</a></li>
+<li><a href="https://electronjs.org/releases/stable">Stable Releases | Electron</a></li>
+</ul>
+
+<p>Chromium 76로 갱신됐으며 Cookies API에서 Promise를 지원합니다. macOS에서 Touch ID로 인증할 수 있는 <code>SystemPreferences.promptTouchID()</code>가 추가됐습니다.<br>
+또, sandboxed renderers 내에서 사용이 비권장된 <code>fs</code>와 <code>child_process</code> 등을 직접 <code>require</code>할 수 있는 동작이 삭제됐습니다.<br>
+대신 명시적으로 <code>remote.require</code>를 사용합니다.</p>
+<div class="highlight"><pre><code class="language-diff" data-lang="diff"><span class="gd">- require('fs');
+</span><span class="gi">+ require('electron').remote.require('fs')
+</span></code></pre></div>
+<ul>
+<li><a href="https://electronjs.org/blog/electron-5-0#automatic-modules-with-sandboxed-webcontents">Electron 5.0.0</a></li>
+<li><a href="https://github.com/electron/electron/pull/15957">chore: remove deprecated modules internally using remote.require in sandboxed renderer context by miniak · Pull Request #15957 · electron/electron</a></li>
+<li><a href="https://blog.chromium.org/2019/06/chrome-76-beta-dark-mode-payments-new.html" title="Chromium Blog: Chrome 76 Beta: dark mode, payments, new PWA features and more">Chromium Blog: Chrome 76 Beta: dark mode, payments, new PWA features and more</a></li>
+</ul>
+
+<hr>
+
+<p>React 입문자 용 가이드 문서 <a href="https://jscomplete.com/learn/complete-intro-react">The Complete Introduction to React</a>가 공개됐습니다.<br>
+기본적인 React의 개념, JSX, 컴포넌트, Hooks API 등 샘플 코드를 실행해보며 학습할 수 있도록 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-v2-0-1-mithriljs-mithril-js">Release v2.0.1 · MithrilJS/mithril.js</h2>
+
+<p><a href="https://github.com/MithrilJS/mithril.js/releases/tag/v2.0.1" title="Release v2.0.1 · MithrilJS/mithril.js">github.com/MithrilJS/mithril.js/releases/tag/v2.0.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>mithril.js 2.0이 릴리스됐습니다.<br>
+비호환적 변경 사항으로 <code>m.redraw()</code>가 기본적으로 비동기로 동작하며 대신해 사용할 수 있는 <code>m.redraw.sync()</code>가 추가됐으며 <code>m.withAttr</code>가 삭제됐습니다.<br>
+또, <code>m.request</code>에서 <code>timeout</code>와 <code>responseType</code>을 지원하며 IE10 이하 버전 지원을 종료했습니다.</p>
+
+<hr>
+
+<h2 id="node-v12-7-0-current-node-js">Node v12.7.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v12.7.0/" title="Node v12.7.0 (Current) | Node.js">nodejs.org/en/blog/release/v12.7.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v12.7.0이 릴리스됐습니다.<br>
+npm 6.10.0으로 갱신, <code>pkg-exports</code> Proposal 실험적 지원, Policy를 검증하는 <code>--policy-integrity=sri</code> 옵션 추가.<br>
+또, Docker의 Memory 제한(linux cgroups의 설정)을 정확하게 가져올 수 있도록 수정됐습니다.</p>
+
+<hr>
+
+<h2 id="release-v5-2-0-googlechrome-lighthouse">Release v5.2.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v5.2.0" title="Release v5.2.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v5.2.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lighthouse 5.2.0이 릴리스됐습니다.<br>
+Chrome 77에 탑재 될 예정입니다. 서드 파티 스크립트의 성능 영향을 표시할 수 있고 메인 스레드의 총 블로킹 시간을 측정할 수 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/patrickhulce/third-party-web" title="patrickhulce/third-party-web: Data on third party entities and their impact on the web.">patrickhulce/third-party-web: Data on third party entities and their impact on the web.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v4-38-0-webpack-webpack">Release v4.38.0 · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/releases/tag/v4.38.0" title="Release v4.38.0 · webpack/webpack">github.com/webpack/webpack/releases/tag/v4.38.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack v4.38.0이 릴리스됐습니다.<br>
+ProgressPlugin의 성능이 개선됐고, chunk graph 생성 시 부모 자식 관계를 추적하는 식으로 인크리멘탈 빌드 시의 chunk 생성 성능이 개선됐습니다.</p>
+
+<hr>
+
+<h2 id="release-v2-0-0-vuetifyjs-vuetify">Release v2.0.0 · vuetifyjs/vuetify</h2>
+
+<p><a href="https://github.com/vuetifyjs/vuetify/releases/tag/v2.0.0" title="Release v2.0.0 · vuetifyjs/vuetify">github.com/vuetifyjs/vuetify/releases/tag/v2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue의 Material Design UI 라이브러리 Vuetify 2.0이 릴리스됐습니다.<br>
+Material Design 2에 대응하고 새로운 컴포넌트가 추가됐습니다.<br>
+1.5에서의 마이그레이션 가이드도 함께 공개됐습니다.</p>
+
+<hr>
+
+<h2 id="release-electron-v6-0-0-electron-electron">Release electron v6.0.0 · electron/electron</h2>
+
+<p><a href="https://github.com/electron/electron/releases/tag/v6.0.0" title="Release electron v6.0.0 · electron/electron">github.com/electron/electron/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 6.0.0이 릴리스됐습니다.<br>
+Chromium 76으로 갱신, Cookies API에서 Promise 지원, macOS에서 Touch ID로 인증할 수 있는 <code>promptTouchID()</code>가 추가됐습니다.<br>
+sandboxed renderers에서 사용이 비권장 됐던 <code>require(&#39;fs&#39;)</code> 등 require 할 수 있는 동작 삭제됐으며 대신 명시적으로 <code>remote.require</code> 를 사용해야합니다.</p>
+
+<ul>
+<li><a href="https://blog.chromium.org/2019/06/chrome-76-beta-dark-mode-payments-new.html" title="Chromium Blog: Chrome 76 Beta: dark mode, payments, new PWA features and more">Chromium Blog: Chrome 76 Beta: dark mode, payments, new PWA features and more</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-77-web-google-developers">What&#39;s New In DevTools (Chrome 77)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2019/07/devtools" title="What&#39;s New In DevTools (Chrome 77)  |  Web  |  Google Developers">developers.google.com/web/updates/2019/07/devtools</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 77 개발자 도구 변경 사항이 정리돼 있습니다.<br>
+요소의 스타일을 복사할 수 있으며 Layout Instability 가시화 기능이 추가됐고 Lighthouse 5.1로 갱신, 네트워크 패널에 Prefetch cache가 출력되도록 개선됐습니다.<br>
+또, Push 통지 등을 Application 패널에서 확인할 수도 있습니다.</p>
+
+<hr>
+
+<h2 id="understanding-service-worker-life-cycle-vipul-nema-medium">Understanding service worker life cycle - Vipul Nema - Medium</h2>
+
+<p><a href="https://medium.com/@vipulnema2610/understanding-service-worker-life-cycle-b6580aa4eb50" title="Understanding service worker life cycle - Vipul Nema - Medium">medium.com/@vipulnema2610/understanding-service-worker-life-cycle-b6580aa4eb50</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">article</span></p></p>
+
+<p>Service Worker의 라이프사이클을 설명하는 글입니다</p>
+
+<hr>
+
+<h2 id="keeping-things-fresh-with-stale-while-revalidate-web-dev">Keeping things fresh with stale-while-revalidate  |  web.dev</h2>
+
+<p><a href="https://web.dev/stale-while-revalidate/" title="Keeping things fresh with stale-while-revalidate  |  web.dev">web.dev/stale-while-revalidate/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">article</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Chrome 75와 Firefox 68에서 지원하는 <code>stale-while-revalidate</code> HTTP 헤더 지원에 대해서 작성돼 있습니다.<br>
+일정 시간은 캐시를 이용하지만 동시에 백그라운드에서 갱신를 갱신하도록 합니다.</p>
+
+<p>글에선 <code>Cache-Control: max-age=1, stale-while-revalidate=59</code>의 동작 원리도 설명하며 유즈케이스를 소개합니다.</p>
+
+<hr>
+
+<h2 id="modern-script-loading">Modern Script Loading</h2>
+
+<p><a href="https://jasonformat.com/modern-script-loading/" title="Modern Script Loading">jasonformat.com/modern-script-loading/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>scirpt 요소에서 ES Module에 대응한 모던 빌드와 legacy 빌드를 반별하는 방법이 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="the-npm-blog-monorepos-and-npm">The npm Blog — Monorepos and npm</h2>
+
+<p><a href="https://blog.npmjs.org/post/186494959890/monorepos-and-npm" title="The npm Blog — Monorepos and npm">blog.npmjs.org/post/186494959890/monorepos-and-npm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">article</span></p></p>
+
+<p>npm와 lerna를 이용한 monorepo 관리에 대해 이야기합니다. </p>
+
+<ul>
+<li><a href="https://github.com/lerna/lerna" title="lerna/lerna: A tool for managing JavaScript projects with multiple packages.">lerna/lerna: A tool for managing JavaScript projects with multiple packages.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-complete-introduction-to-react">The Complete Introduction to React</h2>
+
+<p><a href="https://jscomplete.com/learn/complete-intro-react" title="The Complete Introduction to React">jscomplete.com/learn/complete-intro-react</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">document</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>React 초심자 용으로 작성된 가이드 문서입니다.<br>
+React의 기본적인 작성법, JSX, 컴포넌트, Hooks API, 사용자 입력을 다루는 방법, 사이드 이펙트 관리 등에 대해 설명돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="scrapbox-serviceworker-cache-daiiz">Scrapbox의 ServiceWorker와 Cache 활용 - daiiz(일본어)</h2>
+
+<p><a href="https://scrapbox.io/daiiz/Scrapbox%E3%81%A7%E3%81%AEServiceWorker%E3%81%A8Cache%E3%81%AE%E6%B4%BB%E7%94%A8" title="Scrapbox의 ServiceWorker와 Cache 활용 - daiiz">scrapbox.io/daiiz/Scrapbox%E3%81%A7%E3%81%AEServiceWorker%E3%81%A8Cache%E3%81%AE%E6%B4%BB%E7%94%A8</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">slide</span> <span class="jser-tag">browser</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Service Worker를 사용한 캐시 전략을 소개합니다.<br>
+<code>request.destination</code>을 사용한 요청 판별법, Quota의 용량과 사용량, <code>X-Serviceworker-Cache</code> 응답 헤더로 인한 캐시 판정, 캐시의 갱신 등에 대해 작성돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="cube-js-cube-js-cube-js-open-source-analytics-framework">cube-js/cube.js: 📊 Cube.js - Open Source Analytics Framework</h2>
+
+<p><a href="https://github.com/cube-js/cube.js" title="cube-js/cube.js: 📊 Cube.js - Open Source Analytics Framework">github.com/cube-js/cube.js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">데이터베이스</span> <span class="jser-tag">library</span></p></p>
+
+<p>Analytics 프레임워크 입니다.<br>
+분석 데이터를 저장할 수 있으며 해석을 담당하는 백엔드와 분석한 데이터를 그래프로 출력하는 기능 그리고 검색을 위한 프런트엔드를 제공합니다.<br>
+데이터베이스는 MySQL, Postgres, BigQuert, redshift 등을 대응하고 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="node-js-jonathanwexler">입문 Node.js 프로그래밍(저: JonathanWexler, 저: 요시카와 쿠니오, 역: 요시카와 쿠니오) | 상영사 책(일본어)</h2>
+
+<p><a href="https://www.shoeisha.co.jp/book/detail/9784798158624" title="입문 Node.js 프로그래밍(저: JonathanWexler, 저: 요시카와 쿠니오, 역: 요시카와 쿠니오) | 상영사 책">www.shoeisha.co.jp/book/detail/9784798158624</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">book</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">翻訳</span></p></p>
+
+<p>2019년 09월 25일 출간 예정인 Get Programming with Node.js의 번역서입니다.<br>
+ES2015를 기반으로 한 Node.js 입문 도서입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-07-30-mithril.js-2electron-6react.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["mithril","Electron","React"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>mithril</li>
+                
+                <li>Electron</li>
+                
+                <li>React</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/07/30/mithril.js-2electron-6react/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

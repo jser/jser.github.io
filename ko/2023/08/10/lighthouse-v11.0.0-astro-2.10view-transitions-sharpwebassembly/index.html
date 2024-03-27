@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-08-10: Lighthouse v11.0.0, Astro 2.10(View Transitions), Sharp의 WebAssembly 빌드 - JSer.info</title>
+    <meta name="description" content="JSer.info #655 - Lighthouse v11.0.0가 출시되었습니다.">
+    
+    <meta name="keywords" content="Bun,Tools,Chrome,performance,deno" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-08-10T22:11:24+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Bun" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="deno" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #655 - Lighthouse v11.0.0가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-08-10: Lighthouse v11.0.0, Astro 2.10(View Transitions), Sharp의 WebAssembly 빌드">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #655 - Lighthouse v11.0.0가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-08-10T22:11:24+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Bun">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="deno">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/">2023-08-10: Lighthouse v11.0.0, Astro 2.10(View Transitions), Sharp의 WebAssembly 빌드</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年08月10日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-08-10-lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-08-10-lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #655 - Lighthouse v11.0.0가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v11.0.0">Release v11.0.0 · GoogleChrome/lighthouse</a></li>
+</ul>
+
+<p>Node.js 16 지원 종료, 기본적으로 사용되지 않은 <code>resource-summary</code>/<code>service-worker</code>/<code>first-contentful-paint-3g</code>의 Audit이 삭제되었습니다.<br>
+또한, <a href="https://web.dev/inp/">INP</a>의 Audit가 Stable이 되었습니다.</p>
+
+<hr>
+
+<p>Astro 2.10가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://astro.build/blog/astro-2100/">Astro 2.10: Persistent State in View Transitions | Astro</a></li>
+</ul>
+
+<p><a href="https://astro.build/blog/astro-290/">Astro 2.9에 실험적 지원한 View Transitions</a>에 추가하는 형태로, 지정한 요소를 영속적으로 만드는 <code>transition:persist</code> 명령어가 추가되었습니다.</p>
+
+<p>또한, Astro 3.0가 베타 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://github.com/withastro/astro/blob/refs/heads/next/packages/astro/CHANGELOG.md#300-beta0">astro/packages/astro/CHANGELOG.md at refs/heads/next · withastro/astro</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://blog.stackblitz.com/posts/bringing-sharp-to-wasm-and-webcontainers/">Bringing Sharp to WebAssembly and WebContainers</a>에서는, Native Addon인 이미지 처리 라이브러리 <a href="https://sharp.pixelplumbing.com/">sharp</a>를 WebAssembly으로 어떻게 빌드했는가 다룹니다.</p>
+
+<p>emnapi를 사용해 Node API 이식, libvips를 Wasm으로 컴파일, 기동할 때 처리를 동기적으로 하기 위해 Emscripten를 어떻게 수정했는가에 대했는지도 다뤄집니다.</p>
+
+<p>다음 Pull Request에 sharp 변경을 확인가능합니다.</p>
+
+<ul>
+<li><a href="https://github.com/lovell/sharp/pull/3522">WebAssembly build by RReverser · Pull Request #3522 · lovell/sharp</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="bun-v0-7-2-bun-blog">Bun v0.7.2 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v0.7.2" title="Bun v0.7.2 | Bun Blog">bun.sh/blog/bun-v0.7.2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bun v0.7.2 출시.<br>
+<code>node:worker_threads</code>, <code>node:diagnostics_channel</code> 지원.<br>
+<code>BroadcastChannel</code> API 지원, <code>Error</code> 객체를 <code>structuredClone</code>에서 clone할 수 있도록 수정.<br>
+메모리누수 수정</p>
+
+<hr>
+
+<h2 id="release-v11-0-0-googlechrome-lighthouse">Release v11.0.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v11.0.0" title="Release v11.0.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v11.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lighthouse v11.0.0 출시.<br>
+Node.js 16 지원 종료, <code>resource-summary</code>/<code>service-worker</code>/<code>first-contentful-paint-3g</code> Audit 삭제.<br>
+INP의 Audit를 Stable으로</p>
+
+<hr>
+
+<h2 id="deno-1-36-more-flexible-security-and-expanded-testing-apis">Deno 1.36: More flexible security and expanded testing APIs</h2>
+
+<p><a href="https://deno.com/blog/v1.36" title="Deno 1.36: More flexible security and expanded testing APIs">deno.com/blog/v1.36</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno v1.36 출시.<br>
+<code>--deny-*</code> 거부 플러그 지원, <code>deno test</code>가 JUnit 레포터 지원, <code>node:test</code> 지원.<br>
+Node.js와 호환성개선, 모듈 다운로드에 재시도 추가</p>
+
+<hr>
+
+<h2 id="astro-2-10-persistent-state-in-view-transitions-astro">Astro 2.10: Persistent State in View Transitions | Astro</h2>
+
+<p><a href="https://astro.build/blog/astro-2100/" title="Astro 2.10: Persistent State in View Transitions | Astro">astro.build/blog/astro-2100/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">astro</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Astro 2.10 출시.<br>
+View Transition API 사용해 지정한 요소를 영속적으로 하는 <code>transition:persist</code> 명령어 추가.<br>
+또한 Astro 3.0 베타 출시.</p>
+
+<hr>
+
+<h2 id="bun-v0-7-3-bun-blog">Bun v0.7.3 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v0.7.3" title="Bun v0.7.3 | Bun Blog">bun.sh/blog/bun-v0.7.3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bun v0.7.3 출시.<br>
+<code>bun test --coverage</code> 지원, <code>bun test -t /pattern/</code> 지원.<br>
+<code>bun:sqlite</code>, <code>fs</code> 크래시 수정</p>
+
+<hr>
+
+<h2 id="1-0-0-milestone-for-api-stability-vanjs-org-van-discussion-72">1.0.0: Milestone for API stability · vanjs-org/van · Discussion #72</h2>
+
+<p><a href="https://github.com/vanjs-org/van/discussions/72" title="1.0.0: Milestone for API stability · vanjs-org/van · Discussion #72">github.com/vanjs-org/van/discussions/72</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Reactive UI 프레임워크 VanJS 1.0 출시.</p>
+
+<ul>
+<li><a href="https://github.com/vanjs-org/van/releases/tag/1.0.0" title="Release 1.0.0: Milestone for API stability · vanjs-org/van">Release 1.0.0: Milestone for API stability · vanjs-org/van</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-19-0-evanw-esbuild">Release v0.19.0 · evanw/esbuild</h2>
+
+<p><a href="https://github.com/evanw/esbuild/releases/tag/v0.19.0" title="Release v0.19.0 · evanw/esbuild">github.com/evanw/esbuild/releases/tag/v0.19.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">esbuild</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>esbuild v0.19.0 출시.<br>
+엔드포인트에 와일드 카드 지정할 수 있도록, Dynamic Import으로 변수를 포함한 경로를 bundle 할 수 있도록.<br>
+<code>--packages=external</code>와 <code>tsconfig.json</code>의 <code>paths</code> 문제 수정, <code>.module.css</code> 기본 로더를 <code>local-css</code>으로 변경</p>
+
+<hr>
+
+<h2 id="wednesday-august-9th-2023-security-releases-node-js">Wednesday August 9th 2023 Security Releases | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/vulnerability/august-2023-security-releases" title="Wednesday August 9th 2023 Security Releases | Node.js">nodejs.org/en/blog/vulnerability/august-2023-security-releases</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>Node.js의 Security Releases로 다음 버전이 공개됨.</p>
+
+<ul>
+<li>Node v20.5.1 (Current)</li>
+<li>Node v18.17.1 (LTS)</li>
+<li>Node v16.20.2 (LTS)</li>
+</ul>
+
+<p>실험적 기능인 Permissions policies 수정과 OpenSSL 업데이트가 주요한 수정</p>
+
+<hr>
+
+<h2 id="announcing-typescript-5-2-rc-typescript">Announcing TypeScript 5.2 RC - TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-5-2-rc/" title="Announcing TypeScript 5.2 RC - TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-5-2-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 5.2 RC 출시.<br>
+Stage 3 Proposal의 Explicit Resource Management(<code>using</code> 선언) 지원, Decorator Metadata 지원.<br>
+Tuple 라벨 유무에 따른 조합 제한 삭제, 배열 Union 타입 처리 개선.<br>
+<code>import type</code>에는 <code>.ts</code> 파일을 import 할 수 있도록, <code>module</code> 옵션과 <code>moduleResolution</code> 옵션의 잘못 된 조합 체크 기능 추가</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-176-webkit">Release Notes for Safari Technology Preview 176 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/14401/release-notes-for-safari-technology-preview-176/" title="Release Notes for Safari Technology Preview 176 | WebKit">webkit.org/blog/14401/release-notes-for-safari-technology-preview-176/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 176 출시.<br>
+CSS의 <code>contain-intrinsic-size: inherit</code> 지원, <code>liner(...)</code> timing function 지원</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="bringing-sharp-to-webassembly-and-webcontainers">Bringing Sharp to WebAssembly and WebContainers</h2>
+
+<p><a href="https://blog.stackblitz.com/posts/bringing-sharp-to-wasm-and-webcontainers/" title="Bringing Sharp to WebAssembly and WebContainers">blog.stackblitz.com/posts/bringing-sharp-to-wasm-and-webcontainers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">Image</span> <span class="jser-tag">article</span></p></p>
+
+<p>C++으로 작성된 Native Addon 이미지처리 라이브러리 sharp를 WebContainers에서 이용가능 하도록 WebAssembly으로 컴파일한 이야기.<br>
+emnapi를 사용해 Node API 이식, libvips를 Wasm으로 컴파일, 기동시 처리를 동기적으로 하기 위해 Emscripten를 어떻게 수정했는가에 대하여.</p>
+
+<hr>
+
+<h2 id="a-compilation-of-outstanding-testing-articles-with-javascript-practica-js">A compilation of outstanding testing articles (with JavaScript) | Practica.js</h2>
+
+<p><a href="https://practica.dev/blog/a-compilation-of-outstanding-testing-articles-with-javaScript/" title="A compilation of outstanding testing articles (with JavaScript) | Practica.js">practica.dev/blog/a-compilation-of-outstanding-testing-articles-with-javaScript/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">program</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>테스트에 관련한 우수한 글/영상를 소개하는 글.</p>
+
+<hr>
+
+<h2 id="puppeteer-in-node-js-common-mistakes-to-avoid-appsignal-blog">Puppeteer in Node.js: Common Mistakes to Avoid | AppSignal Blog</h2>
+
+<p><a href="https://blog.appsignal.com/2023/02/08/puppeteer-in-nodejs-common-mistakes-to-avoid.html" title="Puppeteer in Node.js: Common Mistakes to Avoid | AppSignal Blog">blog.appsignal.com/2023/02/08/puppeteer-in-nodejs-common-mistakes-to-avoid.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">puppeteer</span> <span class="jser-tag">article</span></p></p>
+
+<p>Puppeteer에서 자주 있는 시행착오에 대하여</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="vue-js-2023-speaker-deck">Vue.js 에코시스템 동향 2023 - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/kazupon/vue-dot-jsekosisutemudong-xiang-2023" title="Vue.js 에코시스템 동향 2023 - Speaker Deck">speakerdeck.com/kazupon/vue-dot-jsekosisutemudong-xiang-2023</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Vue 에코 시스템에 대한 슬라이드.<br>
+Vue 3.3 개선 내용, Reactivity Transform이 비권장이 된 이유에 대하여.<br>
+Vue의 LSP, Nuxt 3와 Nitro에 대하여</p>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="npmgraph">npmgraph -</h2>
+
+<p><a href="https://npmgraph.js.org/" title="npmgraph -">npmgraph.js.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">webservice</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>npm 패키지 의존관계를 가시화하는 Web서비스.<br>
+지정한 패키지나 <code>package.json</code>에서 분석 가능</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="svelte">실전 Svelte 입문：도서안내｜기술평론사</h2>
+
+<p><a href="https://gihyo.jp/book/2023/978-4-297-13495-2" title="실전 Svelte 입문：도서안내｜기술평론사">gihyo.jp/book/2023/978-4-297-13495-2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Svelte</span> <span class="jser-tag">book</span></p></p>
+
+<p>Svelte 입문서</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-08-10-lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Bun","Tools","Chrome","performance","deno"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Bun</li>
+                
+                <li>Tools</li>
+                
+                <li>Chrome</li>
+                
+                <li>performance</li>
+                
+                <li>deno</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/08/10/lighthouse-v11.0.0-astro-2.10view-transitions-sharpwebassembly/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-10-15: webpack 5β, Next.js(create-next-app), Same-Site Cookies - JSer.info</title>
+    <meta name="description" content="JSer.info #457 - webpack 5β가 릴리스되어 베타 피드백을 받는 이슈가 함께 생성됐습니다.">
+    
+    <meta name="keywords" content="webpack,Next.js,Cookie" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-10-15T09:48:55+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="webpack" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="Cookie" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #457 - webpack 5β가 릴리스되어 베타 피드백을 받는 이슈가 함께 생성됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-10-15: webpack 5β, Next.js(create-next-app), Same-Site Cookies">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #457 - webpack 5β가 릴리스되어 베타 피드백을 받는 이슈가 함께 생성됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-10-15T09:48:55+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="webpack">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="Cookie">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/">2019-10-15: webpack 5β, Next.js(create-next-app), Same-Site Cookies</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年10月15日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-10-15-webpack-5bnext.jscreate-next-appsame-site-cookies.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-10-15-webpack-5bnext.jscreate-next-appsame-site-cookies.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #457 - webpack 5β가 릴리스되어 베타 피드백을 받는 이슈가 함께 생성됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/issues/9802">webpack 5 beta feedback · Issue #9802 · webpack/webpack</a></li>
+<li><a href="https://github.com/webpack/changelog-v5/blob/master/README.md">changelog-v5/README.md at master · webpack/changelog-v5</a></li>
+</ul>
+
+<p>webpack 5β의 비호환적 변경사항으로 Node.js 코어 모듈 자동 폴리필(automatic Node.js polyfills)을 삭제했고 장기적(long term) 캐시를 위해서 Chunk와 Module Id 해쉬 알고리즘을 변경했습니다. 또, 몇 가지 옵션명이 변경됐습니다. </p>
+
+<p>그 외 기능적인 측면으로 파일 시스템 캐시 설정 추가, Tree Shaking 개선, <code>output.ecmaVersion</code> 옵션이 추가됐습니다.<br>
+또 실험적 기능으로서 <code>asset</code> module type이 추가됐고 Top Level <code>await</code>를 지원합니다.</p>
+
+<p>4.x에서 5.x로의 마이그레이션 가이드도 함께 공개됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/webpack/changelog-v5/blob/master/MIGRATION%20GUIDE.md">changelog-v5/MIGRATION GUIDE.md at master · webpack/changelog-v5</a></li>
+</ul>
+
+<p>베타 피드벡 이슈에서는 버그나 성능 회귀(performance regression), Breaking Change에 대한 의견을 모집하고 있습니다.</p>
+
+<hr>
+
+<p>Next.js 9.1.0이 릴리스됐습니다.</p>
+
+<ul>
+<li><a href="https://nextjs.org/blog/next-9-1">Blog - Next.js 9.1 | Next.js</a></li>
+<li><a href="https://github.com/zeit/next.js/releases/tag/v9.1.0">Release v9.1.0 · zeit/next.js</a></li>
+</ul>
+
+<p>Next.js 9.1.0에서는 <code>src/pages</code> 디렉터리 지원하며 <code>public/</code> 디렉터리를 이용해 정적 파일의 루트 서빙을 할 수 있게 됐습니다. 따라서 기존과 같이 <code>static/</code>을 사용하면 비권장 메시지가 출력됩니다.<br>
+또, 다음과 같은 실험적 기능이 플래그가 붙어 구현됐습니다.</p>
+
+<ul>
+<li>Built-in CSS Support</li>
+<li>Static Error Pages</li>
+<li>Module / Nomodule 출력</li>
+</ul>
+
+<p>이 외로 지금까지 커뮤니티에서 관리하던 <code>create-next-app</code>를 공식적으로 이관했습니다.<br>
+<a href="https://github.com/zeit/next.js/tree/canary/examples">공식 예제</a> 문서도 <code>create-next-app</code>을 사용하는 형태로 변경되는 것 같습니다.</p>
+
+<ul>
+<li><a href="https://nextjs.org/blog/create-next-app">Blog - Introducing Create Next App | Next.js</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://textslashplain.com/2019/09/30/same-site-cookies-by-default/">Same-Site Cookies By Default | text/plain</a>에는 Same-Site Cookie에 대해서 자세히 소개돼 있습니다.</p>
+
+<p>Chrome 80에서 Cookie 기본 정책을 <code>SameSite=Lax</code>로 변경할 예정이라는 소식과 함께 Same-Site Cookies의 목적과 실제 영향에 대해서 이야기 합니다.<br>
+CSRF 공격으로부터 방어적으로 도움이 되는 부분과 Cookie의 HTTPOnly 속성과 Secure 속성에 대해서도 작성돼 있습니다.<br>
+또 Same-Site가 기본이 돼 있을 경우 발생할 수 있는 영향과 다른 브라우저의 대응 현황에 대해서도 소개합니다. </p>
+
+<p>Same-Site Cookies는 <code>SameSite=None</code>이라고 설정하는 것으로 기능을 끌 수 있으나 <a href="https://bugs.webkit.org/show_bug.cgi?id=198181">Safari 12에서 <code>SameSite=None</code>을 <code>SameSite=Strict</code></a>으로 취급하는 버그가 있다는 사실과 디버깅하는 방법을 소개하는 등 이를 다룰때 발생할 수 있는 문제에 대해서도 언급합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="the-new-evergreen-bingbot-simplifying-seo-by-leveraging-microsoft-edge-webmaster-blog">The new evergreen Bingbot simplifying SEO by leveraging Microsoft Edge | Webmaster Blog</h2>
+
+<p><a href="https://blogs.bing.com/webmaster/october-2019/The-new-evergreen-Bingbot-simplifying-SEO-by-leveraging-Microsoft-Edge" title="The new evergreen Bingbot simplifying SEO by leveraging Microsoft Edge | Webmaster Blog">blogs.bing.com/webmaster/october-2019/The-new-evergreen-Bingbot-simplifying-SEO-by-leveraging-Microsoft-Edge</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MSEdge</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">SEO</span> <span class="jser-tag">news</span></p></p>
+
+<p>Bing 엔진으로 Chromium 기반의 MSEdge 채용했다는 소식입니다.<br>
+크롤링하는 Bingbot은 이제 Chrome과 상응하며 정기적으로 최신 안정버전으로 갱신됩니다.</p>
+
+<hr>
+
+<h2 id="release-v9-1-0-zeit-next-js">Release v9.1.0 · zeit/next.js</h2>
+
+<p><a href="https://github.com/zeit/next.js/releases/tag/v9.1.0" title="Release v9.1.0 · zeit/next.js">github.com/zeit/next.js/releases/tag/v9.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 9.1.0이 릴리스됐습니다.<br>
+<code>src/pages</code> 디렉터리를 지원하고 <code>public/</code> 디렉터리를 이용해 정적 파일의 루트 서빙을 할 수 있게 됐습니다.</p>
+
+<hr>
+
+<h2 id="webpack-5-beta-feedback-issue-9802-webpack-webpack">webpack 5 beta feedback · Issue #9802 · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/issues/9802" title="webpack 5 beta feedback · Issue #9802 · webpack/webpack">github.com/webpack/webpack/issues/9802</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack 5β가 릴리스됐습니다.<br>
+Node.js 코어 모듈 자동 폴리필(automatic Node.js polyfills)을 삭제했고 장기적(long term) 캐시를 위해서 Chunk와 Module Id 해쉬 알고리즘과 몇 가지 옵션명이 변경됐습니다.<br>
+파일 시스템 캐시 설정 추가, Tree Shaking 개선, <code>output.ecmaVersion</code> 옵션이 추가됐습니다.<br>
+또 실험적 기능으로서 <code>asset</code> module type이 추가됐고 Top Level <code>await</code>를 지원합니다.</p>
+
+<ul>
+<li><a href="https://github.com/webpack/changelog-v5/blob/master/MIGRATION%20GUIDE.md" title="changelog-v5/MIGRATION GUIDE.md at master · webpack/changelog-v5">changelog-v5/MIGRATION GUIDE.md at master · webpack/changelog-v5</a></li>
+<li><a href="https://github.com/webpack/changelog-v5/blob/master/README.md" title="changelog-v5/README.md at master · webpack/changelog-v5">changelog-v5/README.md at master · webpack/changelog-v5</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-v12-12-0-current-node-js">Node v12.12.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v12.12.0/" title="Node v12.12.0 (Current) | Node.js">nodejs.org/en/blog/release/v12.12.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 12.12.0이 릴리스됐습니다.<br>
+<code>fs.opendir()</code>, <code>fs.Dir</code>이 추가됐고 <code>--enable-source-maps</code>로 스택 트레이스 Source Map을 지원합니다.</p>
+
+<hr>
+
+<h2 id="blog-introducing-create-next-app-next-js">Blog - Introducing Create Next App | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/create-next-app" title="Blog - Introducing Create Next App | Next.js">nextjs.org/blog/create-next-app</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p><code>create-next-app</code>가 Next.js의 공식 프로젝트로 이관됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="top-level-await-v8">Top-level await · V8</h2>
+
+<p><a href="https://v8.dev/features/top-level-await" title="Top-level await · V8">v8.dev/features/top-level-await</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Top-level <code>await</code>을 주제로 한 글입니다.<br>
+Top-level <code>await</code>의 유스케이스와 실행 순서 등 동작과 관련한 내용이 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="same-site-cookies-by-default-text-plain">Same-Site Cookies By Default | text/plain</h2>
+
+<p><a href="https://textslashplain.com/2019/09/30/same-site-cookies-by-default/" title="Same-Site Cookies By Default | text/plain">textslashplain.com/2019/09/30/same-site-cookies-by-default/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 80에서 기본 정책으로 적용되는 SameSite=Lax에 대해서 이야기합니다.<br>
+Cookie의 Security와 Privacy 문제, Same-Site Cookies의 목적, CSRF 공격으로부터의 보호, HTTPOnly 속성과 Secure 속성에 대해서 작성돼 있습니다.<br>
+또, Same-Site가 기본 적용될 경우 실제 영향과 다른 브라우저의 대응 현황에 대해서도 소개하며 2분 완화(two minute mitigation) 전략에 대해서도 이야기합니다.</p>
+
+<hr>
+
+<h2 id="whats-new-in-chrome-78-logrocket-blog">What&#39;s new in Chrome 78 - LogRocket Blog</h2>
+
+<p><a href="https://blog.logrocket.com/whats-new-in-chrome-78/" title="What&#39;s new in Chrome 78 - LogRocket Blog">blog.logrocket.com/whats-new-in-chrome-78/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 78의 변경 사항이 정리돼 있습니다.<br>
+CSS opacity의 <code>%</code>, Proposal의 Optional Chaining, <code>unload</code> 시의 제한, User Timing Lv3, WebSocketStream 등을 지원합니다.<br>
+Origin Trial로써 지원되는 Native File System API와 SMS Receiver API도 소개합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="vue-js-performance-tips-v_kansai-11-speaker-deck">Vue.js Performance Tips / #v_kansai 11 - Speaker Deck(일본어)</h2>
+
+<p><a href="https://speakerdeck.com/masashi/number-v-kansai-11" title="Vue.js Performance Tips / #v\_kansai 11 - Speaker Deck">speakerdeck.com/masashi/number-v-kansai-11</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">performance</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Vue.js 애플리케이션의 성능 개선을 주제로 한 슬라이드입니다.<br>
+IntersectionObserver를 사용해 표시가 제대로 이뤄지는지 감지하는 방법과 이미지 지연 로드, Hydration의 지연 실행 등에 대해서 이야기합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="lirantal-is-website-vulnerable-finds-publicly-known-security-vulnerabilities-in-a-websites-frontend-javascript-libraries">lirantal/is-website-vulnerable: finds publicly known security vulnerabilities in a website&#39;s frontend JavaScript libraries</h2>
+
+<p><a href="https://github.com/lirantal/is-website-vulnerable" title="lirantal/is-website-vulnerable: finds publicly known security vulnerabilities in a website&#39;s frontend JavaScript libraries">github.com/lirantal/is-website-vulnerable</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">security</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>지정한 URL에서 취약성이 있는 라이브러리를 사용하고 있는지 검사하는 도구입니다.<br>
+Synx를 기반으로 취약성을 판정합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="leeoniya-uplot-an-exceptionally-fast-tiny-time-series-chart">leeoniya/uPlot: An exceptionally fast, tiny time series chart</h2>
+
+<p><a href="https://github.com/leeoniya/uPlot" title="leeoniya/uPlot: An exceptionally fast, tiny time series chart">github.com/leeoniya/uPlot</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">chart</span> <span class="jser-tag">library</span></p></p>
+
+<p>파일 크기가 작은 시 계열 그래프 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="devforth-painterro-painterro-javascript-painting-plugin">devforth/painterro: Painterro - JavaScript painting plugin</h2>
+
+<p><a href="https://github.com/devforth/painterro" title="devforth/painterro: Painterro - JavaScript painting plugin">github.com/devforth/painterro</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Image</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>간단한 이미지 편집 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="luwes-sinuous-small-fast-reactive-ui-library">luwes/sinuous: Small, fast, reactive UI library</h2>
+
+<p><a href="https://github.com/luwes/sinuous" title="luwes/sinuous: Small, fast, reactive UI library">github.com/luwes/sinuous</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span> <span class="jser-tag">jsx</span></p></p>
+
+<p><code>htm</code> 문법, Hyperscript, JSX에 대응한 UI 라이브러리입니다.<br>
+observable한 값 감시 시스템을 제공하며 작은 파일 크기로 UI를 만들 수 있도록 하는 것에 목적을 두고 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/developit/htm" title="developit/htm: Hyperscript Tagged Markup: JSX alternative using standard tagged templates, with compiler support.">developit/htm: Hyperscript Tagged Markup: JSX alternative using standard tagged templates, with compiler support.</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-10-15-webpack-5bnext.jscreate-next-appsame-site-cookies.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["webpack","Next.js","Cookie"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>webpack</li>
+                
+                <li>Next.js</li>
+                
+                <li>Cookie</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/10/15/webpack-5bnext.jscreate-next-appsame-site-cookies/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

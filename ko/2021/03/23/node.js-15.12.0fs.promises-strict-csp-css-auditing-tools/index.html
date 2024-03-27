@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-03-23: Node.js 15.12.0(fs.promises 성능 개선), strict CSP, CSS Auditing Tools - JSer.info</title>
+    <meta name="description" content="JSer.info #532 - Node.js 15.12.0이 릴리스 됐다.">
+    
+    <meta name="keywords" content="node.js,performance,Tools,testing,browser" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-03-23T12:32:29+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #532 - Node.js 15.12.0이 릴리스 됐다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-03-23: Node.js 15.12.0(fs.promises 성능 개선), strict CSP, CSS Auditing Tools">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #532 - Node.js 15.12.0이 릴리스 됐다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-03-23T12:32:29+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="testing">
+
+<meta property="article:tag" content="browser">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/">2021-03-23: Node.js 15.12.0(fs.promises 성능 개선), strict CSP, CSS Auditing Tools</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年03月23日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-03-23-node.js-15.12.0fs.promises-strict-csp-css-auditing-tools.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-03-23-node.js-15.12.0fs.promises-strict-csp-css-auditing-tools.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #532 - Node.js 15.12.0이 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v15.12.0/">Node v15.12.0 (Current) | Node.js</a></li>
+</ul>
+
+<p><code>fs</code>의 <code>readFile</code> / <code>writeFile</code>에 대한 Promise 버전인 <code>fs.promises</code>의 <code>readFile</code> / <code>writeFile</code>가 느리다는 Issue가 있다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/37583">fs.promises.readFile is 40% slower than fs.readFile · Issue #37583 · nodejs/node</a></li>
+</ul>
+
+<p>Node.js 15.12.0에는 이 성능 문제에 대한 개선 내용이 포함됐다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/pull/37608">fs: improve fsPromises readFile performance by Linkgoron · Pull Request #37608 · nodejs/node</a></li>
+<li><a href="https://github.com/nodejs/node/pull/37610">fs: improve fsPromises writeFile performance by Linkgoron · Pull Request #37610 · nodejs/node</a>
+
+<ul>
+<li>write 관련해서는 콜백 버전과 거의 동등한 성능을 보인다.</li>
+</ul></li>
+</ul>
+
+<p>그 외로는 <code>crypto.create{Public,Private}Key</code>가 JWK 객체를 지원, <code>AbortSignal.abort()</code> 구현, <code>worker_threads</code> 모듈에 <code>{get,set}EnvironmentData</code>가 추가됐다.</p>
+
+<hr>
+
+<p><a href="https://web.dev/strict-csp/">Mitigate cross-site scripting (XSS) with a strict Content Security Policy (CSP)</a>에서 Content Security Policy (CSP)를 사용한 XSS의 영향을 줄일 수 있는 접근법에 대해 다루고 있다.</p>
+
+<p>CSP에는 특정 URL을 화이트 리스트로 다루는 설정이 있는데, 허가한 URL에 JSONP 등의 엔드포인트가 있을 때 CSP가 우회 되는 문제가 알려져 있다.</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/lweichselbaum/csp-is-dead-long-live-strict-csp-deepsec-2016?slide=15">CSP Is Dead, Long Live Strict CSP! - DeepSec 2016 - Speaker Deck</a></li>
+<li><a href="https://speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation">Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck</a></li>
+</ul>
+
+<p>때문에 nonce 기반이나 hash 기반의 strict한 CSP 설정을 하여 CSP가 우회 돼 버릴 가능성을 줄인다.<br>
+이 글에서는 nonce 기반과 hash 기반의 strict CSP 설정을 다루는 방법에 대해서 작성돼 있다.</p>
+
+<hr>
+
+<p><a href="https://www.smashingmagazine.com/2021/03/css-auditing-tools/">CSS Auditing Tools — Smashing Magazine</a>에는 CSS의 Audit 도구가 알기 쉽게 한데 정리돼 있다.</p>
+
+<ul>
+<li><a href="https://cssstats.com/">CSS Stats</a></li>
+<li><a href="https://yellowlab.tools/">Yellow Lab Tools - Page Speed audit</a></li>
+<li><a href="https://isellsoap.github.io/specificity-visualizer/">Specificity Visualizer</a></li>
+<li><a href="https://www.projectwallace.com/">CSS Analytics - Project Wallace</a></li>
+<li><a href="https://github.com/katiefenn/parker">katiefenn/parker: Stylesheet analysis tool.</a></li>
+<li>Chrome DevTools
+
+<ul>
+<li><a href="https://umaar.com/dev-tips/209-css-overview/">CSS Overview Panel - Chrome DevTools - Dev Tips</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/coverage">Find Unused JavaScript And CSS Code With The Coverage Tab In Chrome DevTools</a></li>
+</ul></li>
+</ul>
+
+<p>각각의 도구를 소개하고 어떠한 항목을 측정하거나 조사할 수 있는지 정리돼 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="node-v15-12-0-current-node-js">Node v15.12.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v15.12.0/" title="Node v15.12.0 (Current) | Node.js">nodejs.org/en/blog/release/v15.12.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 15.12.0 릴리스.<br>
+<code>crypto.create{Public,Private}Key</code>가 JWK 객체를 지원하며 <code>fs.promises</code>의 writeFile과 readFile의 성능 문제가 개선됐다.<br>
+<code>AbortSignal.abort()</code> 구현, <code>worker_threads</code> 모듈에 <code>{get,set}EnvironmentData</code>가 추가됐다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/37583" title="fs.promises.readFile is 40% slower than fs.readFile · Issue #37583 · nodejs/node">fs.promises.readFile is 40% slower than fs.readFile · Issue #37583 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-release-v9-0-v8">V8 release v9.0 · V8</h2>
+
+<p><a href="https://v8.dev/blog/v8-release-90" title="V8 release v9.0 · V8">v8.dev/blog/v8-release-90</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 v9.0 릴리스.<br>
+<code>RegExp#insices</code> 구현, <code>super</code> 속성에 접근할 때의 성능 개선, JavaScript에서 Wasm의 함수를 호출할 때의 성능 개선.</p>
+
+<hr>
+
+<h2 id="release-v7-3-0-googlechrome-lighthouse">Release v7.3.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v7.3.0" title="Release v7.3.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v7.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">Chrome</span></p></p>
+
+<p>Lighthouse 7.3.0 릴리스.<br>
+새로운 audit으로 csp-xss를 실험적으로 추가.</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse/pull/12044" title="new\_audit: csp-xss by adamraine · Pull Request #12044 · GoogleChrome/lighthouse">new_audit: csp-xss by adamraine · Pull Request #12044 · GoogleChrome/lighthouse</a></li>
+</ul>
+
+<hr>
+
+<h2 id="jasmine-3-7-0-md-at-main-jasmine-jasmine">jasmine/3.7.0.md at main · jasmine/jasmine</h2>
+
+<p><a href="https://github.com/jasmine/jasmine/blob/main/release_notes/3.7.0.md" title="jasmine/3.7.0.md at main · jasmine/jasmine">github.com/jasmine/jasmine/blob/main/release_notes/3.7.0.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">testing</span></p></p>
+
+<p>Jasmine 3.7 릴리스.<br>
+Node.js의 Source Maps에 대응, Array.prototype를 확장하고 있을 때에 일부 테스트가 누락되는 문제 수정, <code>.and.callFake</code>에서 Generator 함수를 지원한다.</p>
+
+<ul>
+<li><a href="https://nodejs.medium.com/source-maps-in-node-js-482872b56116" title="Source maps in Node.js. Supporting the many flavors of… | by Node.js | Medium">Source maps in Node.js. Supporting the many flavors of… | by Node.js | Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2021-03-ecmascript-daily">ECMAScript proposal updates @ 2021-03 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2021/03/22/ecmascript-proposal-update" title="ECMAScript proposal updates @ 2021-03 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2021/03/22/ecmascript-proposal-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">news</span></p></p>
+
+<p>2021년 3월에 변경된 TC39의 ECMAScript Proposal 정리.<br>
+Module Fragments가 Stage 1으로, <code>Array#findLast</code>가 Stage2로, Temporal가 Stage 3로 각각 갱신됐다.</p>
+
+<ul>
+<li><a href="https://sosukesuzuki.dev/posts/stage-0-module-fragments/" title="JavaScript의 Module Fragments에 관해서">JavaScript의 Module Fragments에 관해서</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h2 id="sinon-changelog-md-at-master-sinonjs-sinon">sinon/CHANGELOG.md at master · sinonjs/sinon</h2>
+
+<p><a href="https://github.com/sinonjs/sinon/blob/master/CHANGELOG.md#1000--2021-03-22" title="sinon/CHANGELOG.md at master · sinonjs/sinon">github.com/sinonjs/sinon/blob/master/CHANGELOG.md#1000--2021-03-22</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Sinon.js 10.0.0 릴리스.<br>
+IE 11, Legacy Edge, Legacy Safari 지원 종료.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="mitigate-cross-site-scripting-xss-with-a-strict-content-security-policy-csp">Mitigate cross-site scripting (XSS) with a strict Content Security Policy (CSP)</h2>
+
+<p><a href="https://web.dev/strict-csp/" title="Mitigate cross-site scripting (XSS) with a strict Content Security Policy (CSP)">web.dev/strict-csp/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSP</span> <span class="jser-tag">article</span> <span class="jser-tag">security</span></p></p>
+
+<p>도메인 허가 목록을 이용한 CSP 보다도 strict 설정을 이용한 CSP를 권장한다는 글.<br>
+nonce와 strict-dynamic 기반의 CSP설정으로 막을 수 있는 XSS, nonce 기반과 hash 기반의 CSP 설정, CSP 도입 절차에 대해 정리돼 있다.</p>
+
+<hr>
+
+<h2 id="supabse">Supabse 팀은 어떻게 프런트엔드의 고속화에 성공했는가 - 벤쿠버에서 생각중(일본어)</h2>
+
+<p><a href="https://jp.taishikato.com/posts/making-the-supabase-dashboard-supa-fast" title="Supabse 팀은 어떻게 프런트엔드의 고속화에 성공했는가 - 벤쿠버에서 생각중">jp.taishikato.com/posts/making-the-supabase-dashboard-supa-fast</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Making the Supabase Dashboard Supa-fast의 일본어 번역글.<br>
+베이스라인과 목표 설정, 번들 사이즈 개선, 성능 문화 등에 대해서 다룬다.</p>
+
+<ul>
+<li><a href="https://supabase.io/blog/2020/12/13/supabase-dashboard-performance" title="Making the Supabase Dashboard Supa-fast">Making the Supabase Dashboard Supa-fast</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-1-tip-to-familiarize-with-new-javascript-codebases">The #1 tip to familiarize with new JavaScript Codebases</h2>
+
+<p><a href="https://www.kevinpeters.net/the-fastest-way-to-understand-new-code-bases" title="The #1 tip to familiarize with new JavaScript Codebases">www.kevinpeters.net/the-fastest-way-to-understand-new-code-bases</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>code-complexity</code>를 사용한 코드의 복잡도 분석에 대해 이야기한다.<br>
+Complexity와 Churn에 대해서 설명하고 있다.</p>
+
+<ul>
+<li><a href="https://github.com/simonrenoult/code-complexity" title="simonrenoult/code-complexity: Measure the churn/complexity ratio. Higher values mean hotspots where refactorings should happen.">simonrenoult/code-complexity: Measure the churn/complexity ratio. Higher values mean hotspots where refactorings should happen.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="css-auditing-tools-smashing-magazine">CSS Auditing Tools — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2021/03/css-auditing-tools/" title="CSS Auditing Tools — Smashing Magazine">www.smashingmagazine.com/2021/03/css-auditing-tools/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>CSS의 Audit 도구를 정리 소개하는 글.<br>
+CSS 셀렉터의 Specificity, 복잡도 측정, Code Coverage, 지속적인 분석 등.</p>
+
+<hr>
+
+<h2 id="next-10-years-of-node-js-understanding-the-needs-of-the-node-js-constituencies-by-node-js-mar-2021-medium">Next 10 years of Node.js — Understanding the needs of the Node.js constituencies | by Node.js | Mar, 2021 | Medium</h2>
+
+<p><a href="https://nodejs.medium.com/next-10-years-of-node-js-understanding-the-needs-of-the-node-js-constituencies-2f95a1df6a6f" title="Next 10 years of Node.js — Understanding the needs of the Node.js constituencies | by Node.js | Mar, 2021 | Medium">nodejs.medium.com/next-10-years-of-node-js-understanding-the-needs-of-the-node-js-constituencies-2f95a1df6a6f</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js의 다음 10년에 관해 이야기한다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/next-10" title="nodejs/next-10: Repository for discussion on strategic directions for next 10 years of Node.js">nodejs/next-10: Repository for discussion on strategic directions for next 10 years of Node.js</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="101arrowz-isoworker-isomorphic-workerization-with-context-support">101arrowz/isoworker: Isomorphic workerization with context support</h2>
+
+<p><a href="https://github.com/101arrowz/isoworker" title="101arrowz/isoworker: Isomorphic workerization with context support">github.com/101arrowz/isoworker</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebWorker와 <code>worker_threds</code>에 대응한 Worker 라이브러리.<br>
+Inline Code를 Worker 코드로 생성하고, Worker에 클래스나 함수를 포함한 데이터를 전달하여 실행한 결과를 얻을 수 있다.</p>
+
+<hr>
+
+<h2 id="taoqf-node-html-parser-a-very-fast-html-parser-generating-a-simplified-dom-with-basic-element-query-support">taoqf/node-html-parser: A very fast HTML parser, generating a simplified DOM, with basic element query support.</h2>
+
+<p><a href="https://github.com/taoqf/node-html-parser" title="taoqf/node-html-parser: A very fast HTML parser, generating a simplified DOM, with basic element query support.">github.com/taoqf/node-html-parser</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span></p></p>
+
+<p>HTML 파서와 DOM API를 제공하는 라이브러리.<br>
+파싱한 결과 객체를 DOM API와 같은 메서드로 조작할 수 있다.</p>
+
+<hr>
+
+<h2 id="hello-from-trpc-trpc">Hello from tRPC | tRPC</h2>
+
+<p><a href="https://trpc.io/" title="Hello from tRPC | tRPC">trpc.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">React</span> <span class="jser-tag">Next.js</span></p></p>
+
+<p>HTTP 통신의 데이터 레이어 라이브러리.<br>
+TypeScript와 yup / zod 등의 벨리데이터 기반으로 서버 측의 API 엔드포인트를 정의하며 그 타입을 클라이언트에서도 이용할 수 있는 구조 제공.<br>
+React 용 Hooks와 SSR에 대응한 클라이언트 라이브러도 공개돼 있다.</p>
+
+<hr>
+
+<h2 id="charts-css">Charts.css</h2>
+
+<p><a href="https://chartscss.org/" title="Charts.css">chartscss.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">library</span></p></p>
+
+<p>CSS만으로 제작한 그래프 라이브러리.<br>
+다양한 종류의 차트 표현을 제공한다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="learning-tensorflow-js">Learning TensorFlow.js</h2>
+
+<p><a href="https://learning.oreilly.com/library/view/learning-tensorflowjs/9781492090786/" title="Learning TensorFlow.js">learning.oreilly.com/library/view/learning-tensorflowjs/9781492090786/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">MachineLearning</span> <span class="jser-tag">book</span></p></p>
+
+<p>2021년 7월 추간 예정인 TensorFlow.js 입문서.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-03-23-node.js-15.12.0fs.promises-strict-csp-css-auditing-tools.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","performance","Tools","testing","browser"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>performance</li>
+                
+                <li>Tools</li>
+                
+                <li>testing</li>
+                
+                <li>browser</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/03/23/node.js-15.12.0fs.promises-strict-csp-css-auditing-tools/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

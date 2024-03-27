@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-04-10のJS: PWA on iOS & Windows Store、dom-testing-library - JSer.info</title>
+    <meta name="description" content="JSer.info #378 - Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Mediumという記事では、iOS 11.3/Safari 11.1でサポートされたService WorkerなどいわゆるProgressive Web...">
+    
+    <meta name="keywords" content="PWA,iOS,windows,dom,tests" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2018-04-10T10:35:23+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="PWA" property="article:tag">
+      
+      <meta content="iOS" property="article:tag">
+      
+      <meta content="windows" property="article:tag">
+      
+      <meta content="dom" property="article:tag">
+      
+      <meta content="tests" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #378 - Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Mediumという記事では、iOS 11.3/Safari 11.1でサポートされたService WorkerなどいわゆるProgressive Web..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-04-10のJS: PWA on iOS & Windows Store、dom-testing-library">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #378 - Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Mediumという記事では、iOS 11.3/Safari 11.1でサポートされたService WorkerなどいわゆるProgressive Web...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-04-10T10:35:23+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="PWA">
+
+<meta property="article:tag" content="iOS">
+
+<meta property="article:tag" content="windows">
+
+<meta property="article:tag" content="dom">
+
+<meta property="article:tag" content="tests">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">2018-04-10のJS: PWA on iOS & Windows Store、dom-testing-library</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年04月10日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-04-10-pwa-on-ios-and-windows-store-dom-testing-library.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-04-10-pwa-on-ios-and-windows-store-dom-testing-library.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #378 - <a href="https://medium.com/@firt/progressive-web-apps-on-ios-are-here-d00430dee3a7">Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Medium</a>という記事では、iOS 11.3/Safari 11.1でサポートされたService Workerなどいわゆる<a href="https://developers.google.com/web/progressive-web-apps/">Progressive Web Apps </a>(PWA)の対応について書かれています。</p>
+
+<p>ホームスクリーンアプリとしての動作や<a href="https://developer.apple.com/safari/technology-preview/">Safari Technology Preview</a>を使ったService Workerのデバッグ方法について紹介しています。加えて、iOSのネイティブアプリと違いやAndroid/ChromeのPWAとの違いなどについても書かれています。</p>
+
+<p>また<a href="https://www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here">First Windows 10 Progressive Web Apps (PWA) published by Microsoft hit the Store | Windows Central</a>という記事では、Windows 10 Spring Creators Update(Windows 10 build 1803)のプレビュー版のWindows StoreにPWAなアプリケーションが掲載されるようになったことが書かれています。</p>
+
+<p>Windows StoreでのPWAについては次の記事で解説されています。</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/msedgedev/2018/02/06/welcoming-progressive-web-apps-edge-windows-10/#0eVsoxrHYlso6vcS.97">Welcoming Progressive Web Apps to Microsoft Edge and Windows 10 - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://github.com/kentcdodds/dom-testing-library">kentcdodds/dom-testing-library: 🐙 Simple and complete DOM testing utilities that encourage good testing practices.</a>というDOM要素をテストするためのライブラリが公開されています。<br>
+テストの際によく利用するテキストを含む要素を選択する<code>getByText</code>関数や<code>data-testid</code>属性を元に要素を選択する<code>getByTestId</code>関数などを提供するライブラリとなっています。</p>
+
+<p>著名なViewライブラリ向けのバインディングも用意されていて<a href="https://github.com/kentcdodds/react-testing-library">react-testing-library<br>
+</a>、<a href="https://github.com/dfcook/vue-testing-library">vue-testing-library<br>
+</a>などがあります。</p>
+
+<p>詳しくは作者により次の記事で解説されています。</p>
+
+<ul>
+<li><a href="https://blog.kentcdodds.com/introducing-the-react-testing-library-e3a274307e65">Introducing the react-testing-library 🐐 – kentcdodds</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="axe-3-0-has-arrived-here-s-what-you-need-to-know-deque">Axe 3.0 has arrived — here’s what you need to know - Deque</h2>
+
+<p><a href="https://www.deque.com/blog/axe-3-0-has-arrived/" title="Axe 3.0 has arrived — here’s what you need to know - Deque">www.deque.com/blog/axe-3-0-has-arrived/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Axe 3.0リリース。<br>
+Shadow DOMのサポートなど</p>
+
+<ul>
+<li><a href="https://github.com/dequelabs/axe-core/releases/tag/v3.0.0" title="Release 3.0.0 · dequelabs/axe-core">Release 3.0.0 · dequelabs/axe-core</a></li>
+</ul>
+
+<hr>
+
+<h2 id="first-windows-10-progressive-web-apps-pwa-published-by-microsoft-hit-the-store-windows-central">First Windows 10 Progressive Web Apps (PWA) published by Microsoft hit the Store | Windows Central</h2>
+
+<p><a href="https://www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here" title="First Windows 10 Progressive Web Apps (PWA) published by Microsoft hit the Store | Windows Central">www.windowscentral.com/first-batch-windows-10-progressive-web-apps-here</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">MS</span> <span class="jser-tag">PWA</span> <span class="jser-tag">news</span></p></p>
+
+<p>Microsoft StoreにPWAアプリが公開されるようになった</p>
+
+<hr>
+
+<h2 id="sails-changelog-md-at-v1-0-0-balderdashy-sails">sails/CHANGELOG.md at v1.0.0 · balderdashy/sails</h2>
+
+<p><a href="https://github.com/balderdashy/sails/blob/v1.0.0/CHANGELOG.md" title="sails/CHANGELOG.md at v1.0.0 · balderdashy/sails">github.com/balderdashy/sails/blob/v1.0.0/CHANGELOG.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.jsのウェブアプリケーションフレームワークであるSails.js 1.0リリース。</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="react-v16-3-changes-blog-koba04-com">React v16.3 changes - blog.koba04.com</h2>
+
+<p><a href="http://blog.koba04.com/post/2018/04/04/react-v163-changes/" title="React v16.3 changes - blog.koba04.com">blog.koba04.com/post/2018/04/04/react-v163-changes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 16.3の変更点について</p>
+
+<hr>
+
+<h2 id="lazy-loading-images-and-video-web-fundamentals-google-developers">Lazy Loading Images and Video  |  Web Fundamentals  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/" title="Lazy Loading Images and Video  |  Web Fundamentals  |  Google Developers">developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">browser</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span></p></p>
+
+<p>画像や動画の遅延ロードについて。<br>
+画像の遅延ロードとしてIntersection Observerを使った方法、CSSを使った方法について。<br>
+動画とGIFのロード、遅延ロードを補助するライブラリ、ロードに失敗した時のFallbackなどについて</p>
+
+<hr>
+
+<h2 id="headless-chrome-an-answer-to-server-side-rendering-js-sites-tools-for-web-developers-google-developers">Headless Chrome: an answer to server-side rendering JS sites  |  Tools for Web Developers  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/tools/puppeteer/articles/ssr" title="Headless Chrome: an answer to server-side rendering JS sites  |  Tools for Web Developers  |  Google Developers">developers.google.com/web/tools/puppeteer/articles/ssr</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">server</span> <span class="jser-tag">article</span></p></p>
+
+<p>Headless Chromeを使ったサーバーサイドレンダリングについてのチュートリアル。<br>
+どのように実装するか、最適化について</p>
+
+<hr>
+
+<h2 id="godaddy-open-source-center-isomorphic-asset-system-for-react-and-react-native">GoDaddy Open Source Center - Isomorphic Asset System for React and React-Native</h2>
+
+<p><a href="https://godaddy.github.io/2018/04/04/isomorphic-asset-system-for-react-and-react-native/" title="GoDaddy Open Source Center - Isomorphic Asset System for React and React-Native">godaddy.github.io/2018/04/04/isomorphic-asset-system-for-react-and-react-native/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>SVGのアセットを管理するツール、React/React Nativeコンポーネント、webpack loaderなどについて</p>
+
+<hr>
+
+<h2 id="strategies-for-service-worker-caching-for-progressive-web-apps">Strategies for Service Worker Caching for Progressive Web Apps</h2>
+
+<p><a href="https://blog.hasura.io/strategies-for-service-worker-caching-d66f3c828433" title="Strategies for Service Worker Caching for Progressive Web Apps">blog.hasura.io/strategies-for-service-worker-caching-d66f3c828433</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">article</span></p></p>
+
+<p>Service Workerのキャッシュの仕組みとキャッシュの問題があるケースについて。<br>
+壊れたデプロイを行った時の問題、<code>service-worker.js</code>ファイル自体をキャッシュした時の問題、キャッシュすべきでないレスポンスなどについて。<br>
+また<code>create-react-app</code>の事例や<code>Clear-Site-Data</code>ヘッダについて</p>
+
+<hr>
+
+<h2 id="progressive-web-apps-on-ios-are-here-maximiliano-firtman-medium">Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Medium</h2>
+
+<p><a href="https://medium.com/@firt/progressive-web-apps-on-ios-are-here-d00430dee3a7" title="Progressive Web Apps on iOS are here 🚀 – Maximiliano Firtman – Medium">medium.com/@firt/progressive-web-apps-on-ios-are-here-d00430dee3a7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ios</span> <span class="jser-tag">safari</span> <span class="jser-tag">article</span> <span class="jser-tag">ServiceWorker</span> <span class="jser-tag">PWA</span></p></p>
+
+<p>iOS 11.3でサポートされたService WorkerなどのPWAに関する機能について。<br>
+ネイティブアプリと比較した場合の制限やChrome/Androidとの違いなどについて</p>
+
+<hr>
+
+<h2 id="transform-your-codebase-using-codemods-nec-is">Transform your codebase using codemods | nec.is</h2>
+
+<p><a href="https://nec.is/writing/transform-your-codebase-using-codemods/" title="Transform your codebase using codemods | nec.is">nec.is/writing/transform-your-codebase-using-codemods/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">article</span> <span class="jser-tag">AST</span></p></p>
+
+<p>jscodeshiftを使ったJavaScriptのコード変換についての記事。<br>
+どのようにJavaScriptのコードを扱うのか、ASTについて、jscodeshiftのAPIについて紹介している</p>
+
+<hr>
+
+<h2 id="introducing-the-payment-request-api-for-apple-pay-webkit">Introducing the Payment Request API for Apple Pay | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8182/introducing-the-payment-request-api-for-apple-pay/" title="Introducing the Payment Request API for Apple Pay | WebKit">webkit.org/blog/8182/introducing-the-payment-request-api-for-apple-pay/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">article</span></p></p>
+
+<p>Safari 11.1のPayment Request APIでApple Payを利用する方法についての解説記事。<br>
+<code>-webkit-appearance: -apple-pay-button;&quot;</code>のスタイルを指定するだけでAppley Payボタンを表示できる。<br>
+またPayment Request APIの使い方について。</p>
+
+<hr>
+
+<h2 id="understanding-javascript-proxies-by-examining-on-change-library">Understanding JavaScript Proxies by Examining on-change Library</h2>
+
+<p><a href="https://codeburst.io/understanding-javascript-proxies-by-examining-on-change-library-f252eddf76c2" title="Understanding JavaScript Proxies by Examining on-change Library">codeburst.io/understanding-javascript-proxies-by-examining-on-change-library-f252eddf76c2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">proxy</span> <span class="jser-tag">article</span></p></p>
+
+<p>プロパティの変更検知をES Proxyで実装しながら、Proxyについて紹介している記事</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="browser-automated-tests-speaker-deck">Browser Automated Tests // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/derekb/browser-automated-tests" title="Browser Automated Tests // Speaker Deck">speakerdeck.com/derekb/browser-automated-tests</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">slide</span></p></p>
+
+<p>puppeteerとmochaを使った自動テストについてのスライド。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="react-lifecycle-methods-diagram">React lifecycle methods diagram</h2>
+
+<p><a href="http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/" title="React lifecycle methods diagram">projects.wojtekmaj.pl/react-lifecycle-methods-diagram/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">document</span></p></p>
+
+<p>React 16.3以降を含むReactのライフサイクルの図</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="kentcdodds-dom-testing-library-simple-and-complete-dom-testing-utilities-that-encourage-good-testing-practices">kentcdodds/dom-testing-library: 🐙 Simple and complete DOM testing utilities that encourage good testing practices.</h2>
+
+<p><a href="https://github.com/kentcdodds/dom-testing-library" title="kentcdodds/dom-testing-library: 🐙 Simple and complete DOM testing utilities that encourage good testing practices.">github.com/kentcdodds/dom-testing-library</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p></p>
+
+<p>DOM要素をテストするMatcherライブラリ</p>
+
+<ul>
+<li><a href="https://blog.kentcdodds.com/introducing-the-react-testing-library-e3a274307e65" title="Introducing the react-testing-library 🐐 – kentcdodds">Introducing the react-testing-library 🐐 – kentcdodds</a></li>
+</ul>
+
+<hr>
+
+<h2 id="kwolfy-webworker-promise-promise-based-wrapper-for-webworkers">kwolfy/webworker-promise: Promise based wrapper for webworkers</h2>
+
+<p><a href="https://github.com/kwolfy/webworker-promise" title="kwolfy/webworker-promise: Promise based wrapper for webworkers">github.com/kwolfy/webworker-promise</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebWorkerを扱うライブラリ。<br>
+EventEmitterライクなイベントの仕組みとPromiseを使った非同期処理、Worker poolの仕組みなどを持っている</p>
+
+<hr>
+
+<h2 id="avwo-whistle-http-https-websocket-debugging-proxy">avwo/whistle: HTTP, HTTPS, WebSocket debugging proxy</h2>
+
+<p><a href="https://github.com/avwo/whistle" title="avwo/whistle: HTTP, HTTPS, WebSocket debugging proxy">github.com/avwo/whistle</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTTP</span> <span class="jser-tag">proxy</span> <span class="jser-tag">debug</span> <span class="jser-tag">node.js</span></p></p>
+
+<p>Node.jsで書かれたHTTP/HTTPS/WebSocketsのデバッグProxy</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-04-10-pwa-on-ios-and-windows-store-dom-testing-library.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["PWA","iOS","windows","dom","tests"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>PWA</li>
+                
+                <li>iOS</li>
+                
+                <li>windows</li>
+                
+                <li>dom</li>
+                
+                <li>tests</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/04/10/pwa-on-ios-and-windows-store-dom-testing-library/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
