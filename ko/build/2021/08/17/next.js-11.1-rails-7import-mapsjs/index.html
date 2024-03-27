@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-08-17のJS: Next.js 11.1、Rails 7で予定されているimport mapsベースのJSライブラリの利用 - JSer.info</title>
+    <meta name="description" content="JSer.info #553 - Next.js 11.1 がリリースされました。">
+    
+    <meta name="keywords" content="node.js,Vue,performance,CSS,security" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-08-17T08:06:44+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="Vue" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="CSS" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2021/08/17/next.js-11.1-rails-7import-mapsjs/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #553 - Next.js 11.1 がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-08-17のJS: Next.js 11.1、Rails 7で予定されているimport mapsベースのJSライブラリの利用">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2021/08/17/next.js-11.1-rails-7import-mapsjs/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #553 - Next.js 11.1 がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-08-17T08:06:44+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="Vue">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="CSS">
+
+<meta property="article:tag" content="security">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/08/17/next.js-11.1-rails-7import-mapsjs/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/08/17/next.js-11.1-rails-7import-mapsjs/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/08/17/next.js-11.1-rails-7import-mapsjs/">2021-08-17のJS: Next.js 11.1、Rails 7で予定されているimport mapsベースのJSライブラリの利用</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年08月17日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-08-17-next.js-11.1-rails-7import-mapsjs.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2021/2021-08-17-next.js-11.1-rails-7import-mapsjs.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/08/17/next.js-11.1-rails-7import-mapsjs/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/08/17/next.js-11.1-rails-7import-mapsjs/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #553 - Next.js 11.1 がリリースされました。</p>
+
+<ul>
+<li><a href="https://nextjs.org/blog/next-11-1">Blog - Next.js 11.1 | Next.js</a></li>
+</ul>
+
+<p><a href="https://github.com/vercel/next.js/pull/27738">オープンリダイレクタの脆弱性</a>が修正されています。<br>
+<code>experimental.esmExternals</code>オプションでNode.jsのESMをサポートしています。<br>
+その他には、<code>node-fetch</code>のkeepAliveをデフォルトで有効化、Source Map/ESLint/<code>next/image</code>の改善なども含まれています。</p>
+
+<p>また、Rust製のJS/TS Compiler/Bundlerである<a href="https://swc.rs/">SWC</a>の作者である<a href="https://twitter.com/kdy1dev">DongYoon Kang</a>がVercelに入り、Next.jsでのコンパイルに<a href="https://github.com/vercel/next.js/tree/d2f43b718f979aa517a80d4ad8e2ecd764200d39/packages/next/build/swc">SWCを利用できるように開発中</a>とのことです。</p>
+
+<hr>
+
+<p>Rails 7.0では、現在のwebpacker(webpack)ではなく、<a href="https://github.com/WICG/import-maps">Import maps</a>を使ってJavaScriptライブラリを利用する方法をデフォルトする方針が提案されています。</p>
+
+<ul>
+<li><a href="https://world.hey.com/dhh/modern-web-apps-without-javascript-bundling-or-transpiling-a20f2755">Modern web apps without JavaScript bundling or transpiling</a></li>
+<li><a href="https://github.com/rails/rails/pull/42999">Replace webpack with importmapped Hotwire as default js by dhh · Pull Request #42999 · rails/rails</a></li>
+</ul>
+
+<p>Import mapsはES Modulesでimportする際に、importするモジュールの名前解決を定義するウェブ標準です。</p>
+
+<p>次のように<code>type=&quot;importmap&quot;</code>でImport mapsを定義します。</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"importmap"</span><span class="nt">&gt;</span>
+<span class="p">{</span>
+  <span class="dl">"</span><span class="s2">imports</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">app</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">./src/app.js</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">md5</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://cdn.skypack.dev/md5</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<p>このImport mapsの定義が、各モジュールでの名前解決に利用されます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">import</span> <span class="nx">app</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">app</span><span class="dl">"</span><span class="p">;</span> <span class="c1">// ./src/app.js をロードする</span>
+<span class="k">import</span> <span class="nx">md5</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">md5</span><span class="dl">"</span><span class="p">;</span> <span class="c1">// https://cdn.skypack.dev/md5 をロードする</span>
+</code></pre></div>
+<p>Import mapsは<a href="https://caniuse.com/import-maps">Chrome系ブラウザのみがサポート</a>しているため、他のブラウザでは<a href="https://github.com/guybedford/es-module-shims">ES Module Shims</a>を利用する必要があります。(<a href="https://github.com/rails/importmap-rails/">rails/importmap-rails</a>にはshimが同梱されています)</p>
+
+<p>Rails 7では、JavaScriptのbuildやbundleをせずにCDNからライブラリを取得できる仕組みをImport mapsを使って実現して、現在のwebpackerをオプションへと変更する予定となっています。<br>
+TypeScriptやReactのようなビルドを前提とする仕組みはwebpackerを利用する必要があります。</p>
+
+<p>詳しい動作については次の動画でデモが公開されています。</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=PtxZvFnL2i0">Alpha preview: Modern JavaScript in Rails 7 without Webpack - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="august-2021-security-releases-node-js">August 2021 Security Releases | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/vulnerability/aug-2021-security-releases/" title="August 2021 Security Releases | Node.js">nodejs.org/en/blog/vulnerability/aug-2021-security-releases/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.jsのセキュリティアップデート。<br>
+それぞれ対応するNode v12.22.5 (LTS)、 Node v14.17.5 (LTS)、Node v16.6.2がリリースされている。<br>
+DNSライブラリc-aresのセキュリティ修正、<code>http2</code>のstreamを閉じた際のUse after freeの修正。<br>
+<code>rejectUnauthorized</code>に<code>undefined</code>を渡すと期限切れの証明書を受け付けていた問題の修正など</p>
+
+<hr>
+
+<h2 id="hopping-on-firefox-91-mozilla-hacks-the-web-developer-blog">Hopping on Firefox 91 - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2021/08/hopping-on-firefox-91/" title="Hopping on Firefox 91 - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2021/08/hopping-on-firefox-91/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 91リリース。<br>
+Visual Viewport API、Intl.DateTimeFormatの改善、Error Causeのサポートなど。<br>
+またGamepad APIがSecure Contextでのみ動作するようになる変更など</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/91.0/releasenotes/" title="Firefox 91.0, See All New Features, Updates and Fixes">Firefox 91.0, See All New Features, Updates and Fixes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/91" title="Firefox 91 for developers - Mozilla | MDN">Firefox 91 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="blog-next-js-11-1-next-js">Blog - Next.js 11.1 | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/next-11-1" title="Blog - Next.js 11.1 | Next.js">nextjs.org/blog/next-11-1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 11.1リリース。<br>
+オープンリダイレクタの脆弱性の修正、experimentalでNode.jsのESMをサポート。<br>
+<code>node-fetch</code>のkeepAliveをデフォルトで有効化、Source Map/ESLint/<code>next/image</code>の改善など</p>
+
+<hr>
+
+<h2 id="announcing-typescript-4-4-rc-typescript">Announcing TypeScript 4.4 RC | TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-4-rc/" title="Announcing TypeScript 4.4 RC | TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-4-4-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 4.4 RCリリース。<br>
+Control Flow Analysisの改善、Index SignaturesにSymbolやTemplate Stringを利用できるように。<br>
+Catch節のデフォルトを<code>unknown</code>型にする<code>useUnknownInCatchVariables</code>オプションの追加。<br>
+optionalと<code>undefined</code>値の区別をする<code>exactOptionalPropertyTypes</code>オプションの追加。<br>
+また、ES Proposal Stage 3のclass static blockをサポート。<br>
+declarationの生成や<code>strict</code>モードでのビルドパフォーマンスの改善も含まれている</p>
+
+<hr>
+
+<h2 id="release-v6-0-0-vueuse-vueuse">Release v6.0.0 · vueuse/vueuse</h2>
+
+<p><a href="https://github.com/vueuse/vueuse/releases/tag/v6.0.0" title="Release v6.0.0 · vueuse/vueuse">github.com/vueuse/vueuse/releases/tag/v6.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>vueuse 6.0.0リリース。<br>
+Vue 3.2の<code>effectScope</code> APIに対応、<code>createSharedComposable</code>/<code>toReactive</code>/<code>useEventBus</code>の追加。<br>
+<code>useStorage</code>にonErrorコールバックの追加など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="javascript-development-making-a-web-worker-optional-by-tobias-uhlig-aug-2021-itnext">JavaScript Development: Making a Web Worker optional | by Tobias Uhlig | Aug, 2021 | ITNEXT</h2>
+
+<p><a href="https://itnext.io/javascript-development-making-a-web-worker-optional-f23a13490b28" title="JavaScript Development: Making a Web Worker optional | by Tobias Uhlig | Aug, 2021 | ITNEXT">itnext.io/javascript-development-making-a-web-worker-optional-f23a13490b28</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">article</span></p></p>
+
+<p>重たいロジックを別のWeb Workerで分けることには意味があるが、スレッドがほとんどアイドル状態の場合にWorkerを分けるとpostMessage分の遅延が発生してしまう。<br>
+Workerとして分けて実行していた処理を、同じAPIを維持しつつ同じスレッドで実行するように処理を変更するアプローチについて。<br>
+neo.mjs 2.3.4ではどのように対応したかについて。</p>
+
+<ul>
+<li><a href="https://github.com/neomjs/neo" title="neomjs/neo: The application worker driven frontend framework">neomjs/neo: The application worker driven frontend framework</a></li>
+</ul>
+
+<hr>
+
+<h2 id="lazy-rendering-in-vue-to-improve-performance-by-martin-malinda-vue-js-developers-aug-2021-medium">&lt;Lazy&gt; rendering in Vue to improve performance | by Martin Malinda | Vue.js Developers | Aug, 2021 | Medium</h2>
+
+<p><a href="https://medium.com/js-dojo/lazy-rendering-in-vue-to-improve-performance-dcccd445d5f" title="&amp;lt;Lazy&amp;gt; rendering in Vue to improve performance | by Martin Malinda | Vue.js Developers | Aug, 2021 | Medium">medium.com/js-dojo/lazy-rendering-in-vue-to-improve-performance-dcccd445d5f</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">article</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Vueでの遅延レンダリングを使ったパフォーマンス改善について。<br>
+レンダリングのタイミングをずらす、Intersection Observerを使ってviewportに入るタイミングでレンダリング、無限リストの実装についてなど</p>
+
+<hr>
+
+<h2 id="slinkity">Slinkity</h2>
+
+<p><a href="https://slinkity.dev/" title="Slinkity">slinkity.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">React</span> <span class="jser-tag">Vue</span> <span class="jser-tag">Svelte</span></p></p>
+
+<p>静的サイトジェネレータである11tyにReact/Vue/Svelteなどのコンポーネントをimportとして利用できるようにする拡張</p>
+
+<hr>
+
+<h2 id="modern-web-apps-without-javascript-bundling-or-transpiling">Modern web apps without JavaScript bundling or transpiling</h2>
+
+<p><a href="https://world.hey.com/dhh/modern-web-apps-without-javascript-bundling-or-transpiling-a20f2755" title="Modern web apps without JavaScript bundling or transpiling">world.hey.com/dhh/modern-web-apps-without-javascript-bundling-or-transpiling-a20f2755</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">rails</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Rails 7.0でwebpacker(webpack)ではなくimport mapsベースのbundlerを使わないアプローチをデフォルトにすることを検討しているという話。</p>
+
+<ul>
+<li><a href="https://github.com/rails/importmap-rails/" title="rails/importmap-rails: Use ESM with importmap to manage modern JavaScript in Rails without transpiling or bundling.">rails/importmap-rails: Use ESM with importmap to manage modern JavaScript in Rails without transpiling or bundling.</a></li>
+<li><a href="https://github.com/rails/rails/pull/42999" title="Replace webpack with importmapped Hotwire as default js by dhh · Pull Request #42999 · rails/rails">Replace webpack with importmapped Hotwire as default js by dhh · Pull Request #42999 · rails/rails</a></li>
+<li><a href="https://www.youtube.com/watch?v=PtxZvFnL2i0" title="Alpha preview: Modern JavaScript in Rails 7 without Webpack - YouTube">Alpha preview: Modern JavaScript in Rails 7 without Webpack - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h2 id="don-t-attach-tooltips-to-document-body-atif-afzal">Don’t attach tooltips to document.body - Atif Afzal</h2>
+
+<p><a href="https://atfzl.com/don-t-attach-tooltips-to-document-body" title="Don’t attach tooltips to document.body - Atif Afzal">atfzl.com/don-t-attach-tooltips-to-document-body</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">CSS</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>document.body</code>直下にツールチップ表示用の要素を追加すると、多くの要素のスタイル更新処理が行われパフォーマンスの問題となった話。<br>
+どのようにレイアウト計算の影響を確認したか、ツールチップを表示用の要素をラップすることでスタイル更新の影響範囲を小さくした話</p>
+
+<hr>
+
+<h2 id="css-grid-tooling-in-devtools-chrome-developers">CSS Grid tooling in DevTools - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/blog/css-grid-tooling/" title="CSS Grid tooling in DevTools - Chrome Developers">developer.chrome.com/blog/css-grid-tooling/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome DevToolsのCSS Gridのデバッグ機能と追加されたCDP(chrome devtools protocol)について。<br>
+DevToolsのGridのオーバーレイ表示を永続化、DOMの変更を即時反映、ComputedなStyleでの要素検索を実現するために、CDPに対して新しいコマンドを実装したという話。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="craigmichaelmartin-pure-orm-a-node-js-sql-toolkit-for-writing-native-sql-queries-yielding-pure-business-objects">craigmichaelmartin/pure-orm: A Node.js SQL toolkit for writing native SQL queries yielding pure business objects</h2>
+
+<p><a href="https://github.com/craigmichaelmartin/pure-orm" title="craigmichaelmartin/pure-orm: A Node.js SQL toolkit for writing native SQL queries yielding pure business objects">github.com/craigmichaelmartin/pure-orm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DB</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>ORMライブラリ。<br>
+Business Object(BO)とData Access Object(DAO)を使ってDBとのデータをやり取りする。<br>
+DAOはクエリビルダーではなく、生に近いSQL構文を利用する</p>
+
+<hr>
+
+<h2 id="microlinkhq-keyv-simple-key-value-storage-with-support-for-multiple-backends">microlinkhq/keyv: Simple key-value storage with support for multiple backends.</h2>
+
+<p><a href="https://github.com/microlinkhq/keyv" title="microlinkhq/keyv: Simple key-value storage with support for multiple backends.">github.com/microlinkhq/keyv</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>redis/mongo/SQLite/MySQL/PostgreSQLなどの各種バックエンドに対応したKVSライブラリ。</p>
+
+<hr>
+
+<h2 id="jlongster-absurd-sql-sqlite3-in-ur-indexeddb-hopefully-a-better-backend-soon">jlongster/absurd-sql: sqlite3 in ur indexeddb (hopefully a better backend soon)</h2>
+
+<p><a href="https://github.com/jlongster/absurd-sql" title="jlongster/absurd-sql: sqlite3 in ur indexeddb (hopefully a better backend soon)">github.com/jlongster/absurd-sql</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SQL</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">IndexedDB</span> <span class="jser-tag">library</span></p></p>
+
+<p>sql.jsのIndexedDBバックエンド</p>
+
+<ul>
+<li><a href="https://jlongster.com/future-sql-web" title="A future for SQL on the web">A future for SQL on the web</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-08-17-next.js-11.1-rails-7import-mapsjs.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","Vue","performance","CSS","security"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>Vue</li>
+                
+                <li>performance</li>
+                
+                <li>CSS</li>
+                
+                <li>security</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/08/17/next.js-11.1-rails-7import-mapsjs/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/08/17/next.js-11.1-rails-7import-mapsjs/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

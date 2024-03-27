@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題 - JSer.info</title>
+    <meta name="description" content="JSer.info #228 - Firefox 38.0がリリースされました。">
+    
+    <meta name="keywords" content="Firefox,Backbone,MVC,V8,ベンチマーク" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2015-05-19T23:03:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Firefox" property="article:tag">
+      
+      <meta content="Backbone" property="article:tag">
+      
+      <meta content="MVC" property="article:tag">
+      
+      <meta content="V8" property="article:tag">
+      
+      <meta content="ベンチマーク" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2015/05/19/firefox38-babel-bench/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #228 - Firefox 38.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2015/05/19/firefox38-babel-bench/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #228 - Firefox 38.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2015-05-19T23:03:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Firefox">
+
+<meta property="article:tag" content="Backbone">
+
+<meta property="article:tag" content="MVC">
+
+<meta property="article:tag" content="V8">
+
+<meta property="article:tag" content="ベンチマーク">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/05/19/firefox38-babel-bench/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/05/19/firefox38-babel-bench/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/05/19/firefox38-babel-bench/">2015-05-19のJS: Firefox 38、Backbone.js 1.2.0、マイクロベンチマークの問題</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年05月19日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-05-19-firefox38-babel-bench.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2015/2015-05-19-firefox38-babel-bench.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/05/19/firefox38-babel-bench/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/05/19/firefox38-babel-bench/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #228 - <a href="https://www.mozilla.org/en-US/firefox/38.0/releasenotes/" title="Firefox — Notes (38.0) — Mozilla">Firefox 38.0</a>がリリースされました。</p>
+
+<p>タブやウィンドウ間でデータのやり取りができる<a href="https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/" title="BroadcastChannel API">BroadcastChannel API</a>や<a href="https://hacks.mozilla.org/2015/03/ruby-support-in-firefox-developer-edition-38/" title="HTML5 ruby tags">HTML5 ruby tags</a>、<code>&lt;picture&gt;</code>や<code>&lt;img srcset&gt;</code>のサポートなどが追加されています。</p>
+
+<p>また、<a href="http://www.sitepoint.com/discovering-user-timing-api/" title="performance.measure">performance.measure</a>やFirefoxの開発者ツールで<a href="https://developer.mozilla.org/ja/docs/Tools/Web_Console#Helper_commands" title="copy()"><code>copy()</code></a>メソッドのサポート、<a href="https://developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Examine,_modify,_and_watch_variables">JavaScriptエンジンの最適化により削除されている変数を表示</a>する機能など開発者ツールにも色々機能が増えています。</p>
+
+<p>詳細は以下から確認できます。</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2015/05/trainspotting-firefox-38/" title="Trainspotting: Firefox 38 ✩ Mozilla Hacks – the Web developer blog">Trainspotting: Firefox 38 ✩ Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/38">Firefox 38 for developers - Mozilla | MDN</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/38/Site_Compatibility">Firefox 38 サイト互換性情報 - Mozilla | MDN</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://backbonejs.org/" title="Backbone.js">Backbone.js</a> 1.2.0がリリースされました。<br>
+1年ぶりのアップデートになりますが、コミット数が多いので内部コードレベルでは結構変化しています。</p>
+
+<ul>
+<li><a href="https://github.com/jashkenas/backbone/compare/1.1.2...1.2.0" title="Comparing 1.1.2...1.2.0 · jashkenas/backbone">Comparing 1.1.2...1.2.0 · jashkenas/backbone</a></li>
+</ul>
+
+<p>Viewの作成などをhookする機能の追加、モデルの&quot;update&quot;イベントの追加、ユニークidとなるmodeldの追加、Strict Modeだと動かない問題の修正などがされています。</p>
+
+<p>一部互換性のない変更も含まれているようです。</p>
+
+<ul>
+<li><a href="https://github.com/jashkenas/backbone/issues/3611" title="listenTo change in behavior, 1.2.0? · Issue #3611 · jashkenas/backbone">listenTo change in behavior, 1.2.0? · Issue #3611 · jashkenas/backbone</a></li>
+</ul>
+
+<hr>
+
+<p>V8について色々な記事を書いてる<a href="https://twitter.com/mraleph" title="@mraleph">@mraleph</a>さんによる<a href="http://mrale.ph/talks/goto2015/#/" title="Do not Measure the Weather">Do not Measure the Weather</a>というスライドでは、JavaScriptエンジンの最適化によってマイクロベンチマークが意図したものを計測できていない事がある点について実例と共に解説しています。</p>
+
+<p>よくあるのがループの中で計測した処理を書いていてその結果を使っていないため、ループの中身が最適化によって空になってしまう問題などが起きています。(dead code elimination)</p>
+
+<p>以下のような原則で最適化によって無意味なベンチマークにならないような方法について書かれています。</p>
+
+<ol>
+<li>verify results</li>
+<li>no constants</li>
+<li>no loop invariants</li>
+<li>no dead code</li>
+<li><a href="http://mrale.ph/talks/goto2015/#/74">http://mrale.ph/talks/goto2015/#/74</a></li>
+</ol>
+
+<p>しかし、最近のJavaScriptエンジンはホントに賢いので、それでも最適化により意図とは異なるものを計測してる場合があり、<br>
+実際にどういう事が起きているのかを<a href="http://mrale.ph/irhydra/2/#" title="IRHydra2">IRHydra2</a>を使って見ていく方法についても書かれています。</p>
+
+<p>IRHydra2については以前<a href="http://efcl.info/2014/09/13/v8-optimization-memo/" title="V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch">V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch</a>という記事を書いたのでこちらも見てみるといいかもしれません。</p>
+
+<blockquote>
+<p>algorithms first, µbenchmarks last</p>
+</blockquote>
+
+<p>とも書かれています。</p>
+
+<ul>
+<li><a href="http://mrale.ph/blog/2014/02/23/the-black-cat-of-microbenchmarks.html" title="The Black Cat of Microbenchmarks">The Black Cat of Microbenchmarks</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v0-12-3-stable">Node v0.12.3 (Stable)</h2>
+
+<p><a href="http://blog.nodejs.org/2015/05/13/node-v0-12-3-0.12.3/" title="Node v0.12.3 (Stable)">blog.nodejs.org/2015/05/13/node-v0-12-3-0.12.3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p><br>
+Node v0.12.3リリース</p>
+
+<hr>
+
+<h2 id="0-9-released">0.9 released!</h2>
+
+<p><a href="http://blog.polymer-project.org/announcements/2015/05/14/0.9-release/" title="0.9 released!">blog.polymer-project.org/announcements/2015/05/14/0.9-release/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p><br>
+Polymer 0.9リリース。<br>
+0.8でexperimentalだった機能がデフォルトサポートされている。<br>
+<code>:root</code>セレクタ、Gesture、CSPのサポートやUtilの追加など。<br>
+Breaking Changeもあり、Migration guideが用意されている</p>
+
+<ul>
+<li><a href="https://www.polymer-project.org/0.9/docs/release-notes.html" title="Release notes - Polymer">Release notes - Polymer</a></li>
+<li><a href="https://www.polymer-project.org/0.9/docs/migration.html" title="Migration guide - Polymer">Migration guide - Polymer</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-js-ember-js-1-12-and-1-13-beta-glimmer-released">Ember.js - Ember.js 1.12 and 1.13 Beta (Glimmer!) Released</h2>
+
+<p><a href="http://emberjs.com/blog/2015/05/13/ember-1-12-released.html" title="Ember.js - Ember.js 1.12 and 1.13 Beta (Glimmer!) Released">emberjs.com/blog/2015/05/13/ember-1-12-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p><br>
+Ember.js 1.12と1.13 Betaリリース。<br>
+computeにgetter/setterを使った方法を追加、併せてDecoratorsを使った方法をサポートする予定</p>
+
+<hr>
+
+<h2 id="backbone-js">Backbone.js</h2>
+
+<p><a href="http://backbonejs.org" title="Backbone.js">backbonejs.org</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">backbone.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p><br>
+Backbone.js 1.2.0リリース<br>
+Viewの作成などをhookする機能の追加、モデルの&quot;update&quot;イベントの追加、ユニークidとなる<code>modeld</code>の追加、ES6 modulesとして読み込んでも使えるように修正</p>
+
+<ul>
+<li><a href="https://github.com/jashkenas/underscore/issues/2152" title="Use Function(\&quot;return this\&quot;) to get global? · Issue #2152 · jashkenas/underscore">Use Function(&quot;return this&quot;) to get global? · Issue #2152 · jashkenas/underscore</a></li>
+<li><a href="http://efcl.info/2015/05/06/this-is-es6-module/" title="ES6 moduleのtop levelにある`this`の値は何になるのか? | Web Scratch">ES6 moduleのtop levelにある`this`の値は何になるのか? | Web Scratch</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-notes-38-0-mozilla">Firefox — Notes (38.0) — Mozilla</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/38.0/releasenotes/" title="Firefox — Notes (38.0) — Mozilla">www.mozilla.org/en-US/firefox/38.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p><br>
+Firefox 38.0リリース。<br>
+Ruby要素のサポート、WebSocketがWeb Workerで動作するように、BroadcastChannel API、<code>srcset</code>属性とpicture要素のサポート、開発者ツールで<code>copy</code>関数のサポートなど</p>
+
+<ul>
+<li><a href="https://hacks.mozilla.org/2015/03/ruby-support-in-firefox-developer-edition-38/" title="Ruby support in Firefox Developer Edition 38 ✩ Mozilla Hacks – the Web developer blog">Ruby support in Firefox Developer Edition 38 ✩ Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="https://hacks.mozilla.org/2015/05/trainspotting-firefox-38/" title="Trainspotting: Firefox 38 ✩ Mozilla Hacks – the Web developer blog">Trainspotting: Firefox 38 ✩ Mozilla Hacks – the Web developer blog</a></li>
+<li><a href="http://rockridge.hatenablog.com/entry/2015/05/13/003218" title="Firefox 38の性能を検証 ゲーム・プラットフォームとしての優秀さを示す - Mozilla Flux">Firefox 38の性能を検証 ゲーム・プラットフォームとしての優秀さを示す - Mozilla Flux</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/38" title="Firefox 38 for developers - Mozilla | MDN">Firefox 38 for developers - Mozilla | MDN</a></li>
+<li><a href="https://developer.mozilla.org/ja/Firefox/Releases/38/Site_Compatibility" title="Firefox 38 サイト互換性情報 - Mozilla | MDN">Firefox 38 サイト互換性情報 - Mozilla | MDN</a></li>
+<li><a href="http://www.w3.org/blog/news/archives/4704?pk_campaign=feed&pk_kwd=html5-web-messaging-is-a-w3c-recommendation" title="HTML5 Web Messaging is a W3C Recommendation | W3C News">HTML5 Web Messaging is a W3C Recommendation | W3C News</a></li>
+</ul>
+
+<hr>
+
+<h2 id="babel-changelog-md-at-v5-3-0-babel-babel">babel/CHANGELOG.md at v5.3.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/blob/v5.3.0/CHANGELOG.md#530" title="babel/CHANGELOG.md at v5.3.0 · babel/babel">github.com/babel/babel/blob/v5.3.0/CHANGELOG.md#530</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p><br>
+Babel 5.3.0リリース。<br>
+5.2.0からの主な変更点としては<code>es7.trailingCommas</code> transformerの仕様追従、<code>retainLines</code>のオプション追加など</p>
+
+<ul>
+<li><a href="http://babeljs.io/docs/usage/options/" title="retainLines">retainLines</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="why-babel-matters">Why Babel Matters</h2>
+
+<p><a href="http://codemix.com/blog/why-babel-matters" title="Why Babel Matters">codemix.com/blog/why-babel-matters</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span></p><br>
+Babelの基本的な機能の紹介、ES.nextと言われるようなまだ標準化されてない仕様の対応、Babel pluginでのコードの最適化や型チェック、マクロなどASTを扱うプラットフォームとして見るBabelについて</p>
+
+<hr>
+
+<h2 id="function-bind-syntax-babel">Function Bind Syntax · Babel</h2>
+
+<p><a href="https://babeljs.io/blog/2015/05/14/function-bind" title="Function Bind Syntax · Babel">babeljs.io/blog/2015/05/14/function-bind</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span></p><br>
+Babel 5.4でES.nextで提案されているStage 0の<code>::</code>によるBind構文の変換をサポート。<br>
+<a href="https://github.com/zenparsing/es-function-bind" title="Function Bind Syntax">Function Bind Syntax</a>の挙動についての解説</p>
+
+<hr>
+
+<h2 id="we-tested-how-googlebot-crawls-javascript-and-heres-what-we-learned">We Tested How Googlebot Crawls Javascript And Here&#x27;s What We Learned</h2>
+
+<p><a href="http://searchengineland.com/tested-googlebot-crawls-javascript-heres-learned-220157" title="We Tested How Googlebot Crawls Javascript And Here&#39;s What We Learned">searchengineland.com/tested-googlebot-crawls-javascript-heres-learned-220157</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">google</span> <span class="jser-tag">検索</span></p><br>
+Google検索botがどこまでJavaScript等を解釈してクロールしているかの調査</p>
+
+<hr>
+
+<h2 id="es6-in-depth-template-strings-mozilla-hacks-the-web-developer-blog">ES6 In Depth: Template strings ✩ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2015/05/es6-in-depth-template-strings-2/" title="ES6 In Depth: Template strings ✩ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2015/05/es6-in-depth-template-strings-2/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p><br>
+Template stringsについて。<br>
+Backtickから始まるtemplate literalやtagged templateについて</p>
+
+<hr>
+
+<h2 id="dev-opera-the-state-of-web-type">Dev.Opera — The State of Web Type</h2>
+
+<p><a href="https://dev.opera.com/articles/state-of-web-type/" title="Dev.Opera — The State of Web Type">dev.opera.com/articles/state-of-web-type/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">fonts</span> <span class="jser-tag">まとめ</span></p><br>
+OpenTypeフォントに関する機能のブラウザサポートの状況についてのまとめ。<br>
+JustificationとHyphenation、Font Loadingについてなど</p>
+
+<ul>
+<li><a href="http://stateofwebtype.com/" title="State of Web Type">State of Web Type</a></li>
+</ul>
+
+<hr>
+
+<h2 id="reftest-runner-web-scratch">ブラウザでビジュアルテストをするreftest-runnerを作った | Web Scratch</h2>
+
+<p><a href="http://efcl.info/2015/05/14/reftest-runner/" title="ブラウザでビジュアルテストをするreftest-runnerを作った | Web Scratch">efcl.info/2015/05/14/reftest-runner/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">canvas</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">webdriver</span></p><br>
+ブラウザの描画結果を比較する自動テストライブラリとコマンドラインツール。<br>
+2つのHTMLを用意して表示結果が一致するかどうかテストをするので、Canvasのテストなどに利用できる</p>
+
+<hr>
+
+<h2 id="a-complete-guide-to-svg-fallbacks-css-tricks">A Complete Guide to SVG Fallbacks | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/a-complete-guide-to-svg-fallbacks/" title="A Complete Guide to SVG Fallbacks | CSS-Tricks">css-tricks.com/a-complete-guide-to-svg-fallbacks/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">まとめ</span></p><br>
+SVG Fallbackのまとめ</p>
+
+<hr>
+
+<h2 id="bringing-node-js-to-windows-10-iot-core">Bringing Node.js to Windows 10 IoT Core</h2>
+
+<p><a href="http://blogs.windows.com/buildingapps/2015/05/12/bringing-node-js-to-windows-10-iot-core/" title="Bringing Node.js to Windows 10 IoT Core">blogs.windows.com/buildingapps/2015/05/12/bringing-node-js-to-windows-10-iot-core/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span></p><br>
+Chakra JavaScriptエンジンを使ったNode.jsのforkが公開された。</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/node" title="Microsoft/node">Microsoft/node</a></li>
+</ul>
+
+<hr>
+
+<h2 id="broadcastchannel-api-in-firefox-38-mozilla-hacks-the-web-developer-blog">BroadcastChannel API in Firefox 38 ✩ Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/" title="BroadcastChannel API in Firefox 38 ✩ Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span></p><br>
+Firefox 38.0でBroadcastChannel APIが実装された。<br>
+同じchannelを指定すれば、異なるタブやウィンドウ間でもメッセージのやり取りができるようになるAPI。<br>
+Blobデータのやりとりも可能</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API" title="Broadcast Channel API - Web API Interfaces | MDN">Broadcast Channel API - Web API Interfaces | MDN</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="do-not-measure-the-weather">Do not Measure the Weather</h2>
+
+<p><a href="http://mrale.ph/talks/goto2015/#/" title="Do not Measure the Weather">mrale.ph/talks/goto2015/#/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">スライド</span></p><br>
+計測と最適化の問題についてのスライド。<br>
+JSエンジンはJITコンパイルするため計測結果は未最適化+最適化になる。<br>
+場合によっては計測対象がdead codeとなり最適化によって消えているかもしれないので、計測できていないケースも存在する。<br>
+そのことを実際にIRHydra2を使って検証する話</p>
+
+<ul>
+<li><a href="http://efcl.info/2014/09/13/v8-optimization-memo/" title="V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch">V8の最適化とIRHydraでの可視化とベンチマークについてのメモ | Web Scratch</a></li>
+<li><a href="http://mrale.ph/irhydra/2/" title="IRHydra2">IRHydra2</a></li>
+<li><a href="http://www.ibm.com/developerworks/jp/java/library/j-jtp02225/" title="Javaの理論と実践: 欠陥マイクロベンチマークを分析する">Javaの理論と実践: 欠陥マイクロベンチマークを分析する</a></li>
+</ul>
+
+<hr>
+
+<h2 id="making-a-silky-smooth-web-speaker-deck">Making a Silky Smooth Web // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/paullewis/making-a-silky-smooth-web" title="Making a Silky Smooth Web // Speaker Deck">speakerdeck.com/paullewis/making-a-silky-smooth-web</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p><br>
+JavaScript-&gt;Style-&gt;Layout-&gt;Paint-&gt;Compositeという表示までの流れをきれいに行う方法や開発者ツールの使い方について。<br>
+requestAnimationFrameの活用</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="state-of-web-type">State of Web Type</h2>
+
+<p><a href="http://stateofwebtype.com/" title="State of Web Type">stateofwebtype.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">fonts</span> <span class="jser-tag">まとめ</span> <span class="jser-tag">検索</span></p><br>
+ウェブフォントとtypographic機能別のブラウザサポート状況をまとめているサイト</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="codemix-babel-plugin-typecheck-github">codemix/babel-plugin-typecheck · GitHub</h2>
+
+<p><a href="https://github.com/codemix/babel-plugin-typecheck" title="codemix/babel-plugin-typecheck · GitHub">github.com/codemix/babel-plugin-typecheck</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">babel</span> <span class="jser-tag">flowtype</span></p><br>
+flowtypeアノテーションからランタイム型チェックのコードへ変換するBabel plugin</p>
+
+<hr>
+
+<h2 id="hit9-ntt">hit9/ntt</h2>
+
+<p><a href="https://github.com/hit9/ntt" title="hit9/ntt">github.com/hit9/ntt</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p><br>
+小さなテストモジュール。<br>
+テストコードそのもので実行できるので、Mochaなどのようにrunnerにあたる部分は不要となってる</p>
+
+<hr>
+
+<h2 id="watermark-js-watermarks-in-the-browser">watermark.js - watermarks in the browser</h2>
+
+<p><a href="http://brianium.github.io/watermarkjs/" title="watermark.js - watermarks in the browser">brianium.github.io/watermarkjs/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">画像</span> <span class="jser-tag">library</span></p><br>
+画像のwatermarkを付けるライブラリ</p>
+
+<hr>
+
+<h2 id="quench-the-gulp-file-generator">Quench: The Gulp file generator.</h2>
+
+<p><a href="http://quenchjs.com/" title="Quench: The Gulp file generator.">quenchjs.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">gulp</span> <span class="jser-tag">webservice</span> <span class="jser-tag">Tools</span></p><br>
+CSS、JavaScript、Imageについての項目を入力してgulpfileを生成してくれるツール。</p>
+
+<hr>
+
+<h2 id="leebyron-testcheck-js">leebyron/testcheck-js</h2>
+
+<p><a href="https://github.com/leebyron/testcheck-js" title="leebyron/testcheck-js">github.com/leebyron/testcheck-js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p><br>
+QuickCheckライブラリ。<br>
+JasmineとMochaの拡張が用意されてる</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-05-19-firefox38-babel-bench.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Firefox","Backbone","MVC","V8","ベンチマーク"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Firefox</li>
+                
+                <li>Backbone</li>
+                
+                <li>MVC</li>
+                
+                <li>V8</li>
+                
+                <li>ベンチマーク</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/05/19/firefox38-babel-bench/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/05/19/firefox38-babel-bench/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

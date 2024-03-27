@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-08-16: Next.js v13.4.16(test mode), Safari의 Storage Policy, ESM으로 이행하기(Redux) - JSer.info</title>
+    <meta name="description" content="JSer.info #656 - Next.js v13.4.16가 출시되었습니다.">
+    
+    <meta name="keywords" content="Chrome,TypeScript,React,safari,npm" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-08-16T22:35:20+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="safari" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #656 - Next.js v13.4.16가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-08-16: Next.js v13.4.16(test mode), Safari의 Storage Policy, ESM으로 이행하기(Redux)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #656 - Next.js v13.4.16가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-08-16T22:35:20+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="safari">
+
+<meta property="article:tag" content="npm">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/">2023-08-16: Next.js v13.4.16(test mode), Safari의 Storage Policy, ESM으로 이행하기(Redux)</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年08月16日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-08-16-next.js-v13.4.16test-mode-safaristorage-policy-esmredux.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-08-16-next.js-v13.4.16test-mode-safaristorage-policy-esmredux.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #656 - Next.js v13.4.16가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://github.com/vercel/next.js/releases/tag/v13.4.16">Release v13.4.16 · vercel/next.js</a></li>
+</ul>
+
+<p>v13.4.16에는, 실험적 기능으로 <a href="https://playwright.dev/">Playwright</a>와 <a href="https://mswjs.io/">MSW</a>를 사용한 테스트 기능 test mode가 추가되었습니다.<br>
+Next.js의 App Directory에는, MSW가 Next.js 처리하는 포인트가 없었기에, MSW가 동작하지 않던 문제가 있었습니다. test mode에서는 이것이 일부 해결됩니다.</p>
+
+<ul>
+<li><a href="https://github.com/mswjs/msw/issues/1644">Support Next.js 13 (App directory) · Issue #1644 · mswjs/msw</a></li>
+</ul>
+
+<p>아직 검증목적 실험적 기능이기에 앞으로는 모르지만, 다음 Discussion에서 Next.js를 사용한 애플리케이션 테스트에 대해 논의되고 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/vercel/next.js/discussions/53409">RFC: Next as a test runner · vercel/next.js · Discussion #53409</a></li>
+</ul>
+
+<hr>
+
+<p>다음 글에서는, Safari의 Web Storage(localStorage/Cache API/IndexedDB/Service Worker/File System) Policy 갱신에 대해 확인할 수 있습니다.</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/14403/updates-to-storage-policy/">Updates to Storage Policy | WebKit</a></li>
+</ul>
+
+<p>Origin 째로 / 전체의 Quota가 있으며, Quota를 벗어나면 <code>QuotaExceededError</code>가 발상합니다.<br>
+또한, 이용하고 있지 않은 웹사이트 데이터는 Origin 째로 삭제되는 구조이지만, Storage가 영속모드라면 제외됩니다.<br>
+Storage 영속성 보증하기 위한 Storage API의 사용방법도 설명합니다.</p>
+
+<p>그리고, 이 업데이트와 관계없지만, 예전 Safari는 Private Mode라면 <code>localStorage</code> 등 Web Storage를 읽고 쓰기만으로도 예외가 발생했습니다만, 현재 Safari는 Private Mode에서도 예외 발생하지 않고 읽고 쓰기가 가능합니다.</p>
+
+<ul>
+<li><a href="https://github.com/mdn/content/issues/17827">Safari Handling of localStorage in Private Mode · Issue #17827 · mdn/content</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://blog.isquaredsoftware.com/2023/08/esm-modernization-lessons/">Blogged Answers: My Experience Modernizing Packages to ESM · Mark&#39;s Dev Blog</a>에서는, Redux를 ESM으로 이행할 때 발생한 문제에 대해 상세히 설명되어 있습니다.</p>
+
+<p>넓리 사용되고 있는 여러 환경이나 bundler에서의 이용 대응하는 패키지의 난해함에 대해 언급됩니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="google-online-security-blog-an-update-on-chrome-security-updates-shipping-security-fixes-to-you-faster">Google Online Security Blog: An update on Chrome Security updates – shipping security fixes to you faster</h2>
+
+<p><a href="https://security.googleblog.com/2023/08/an-update-on-chrome-security-updates.html" title="Google Online Security Blog: An update on Chrome Security updates – shipping security fixes to you faster">security.googleblog.com/2023/08/an-update-on-chrome-security-updates.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">security</span> <span class="jser-tag">news</span></p></p>
+
+<p>Chrome 116부터, 2주 마다 진행한 보안 출시가 1주로 변경됩니다.</p>
+
+<hr>
+
+<h2 id="release-v1-37-0-microsoft-playwright">Release v1.37.0 · microsoft/playwright</h2>
+
+<p><a href="https://github.com/microsoft/playwright/releases/tag/v1.37.0" title="Release v1.37.0 · microsoft/playwright">github.com/microsoft/playwright/releases/tag/v1.37.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">playwright</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>playwright v1.37.0 출시.<br>
+<code>--shard</code> 플러그로 분할실행 결과 레포트를 결합하는 <code>merge-reports</code> 명령어 추가</p>
+
+<hr>
+
+<h2 id="release-v1-3-0-vega-ts-json-schema-generator">Release v1.3.0 · vega/ts-json-schema-generator</h2>
+
+<p><a href="https://github.com/vega/ts-json-schema-generator/releases/tag/v1.3.0" title="Release v1.3.0 · vega/ts-json-schema-generator">github.com/vega/ts-json-schema-generator/releases/tag/v1.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ts-json-schema-generator v1.3.0 출시.<br>
+<code>satisfies</code> 연산자 지원, TypeScript 5으로 업데이트, Bun 지원</p>
+
+<hr>
+
+<h2 id="electron-26-0-0-electron">Electron 26.0.0 | Electron</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-26-0" title="Electron 26.0.0 | Electron">www.electronjs.org/blog/electron-26-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 26 출시.<br>
+Chromium 116, V8 11.2, Node.js 18.16.1으로 업데이트.</p>
+
+<hr>
+
+<h2 id="release-v13-4-16-vercel-next-js">Release v13.4.16 · vercel/next.js</h2>
+
+<p><a href="https://github.com/vercel/next.js/releases/tag/v13.4.16" title="Release v13.4.16 · vercel/next.js">github.com/vercel/next.js/releases/tag/v13.4.16</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js v13.4.16 출시.<br>
+실험적기능으로 playwright와 msw 사용하는 test mode 추가</p>
+
+<ul>
+<li><a href="https://zenn.dev/uyas/articles/bc58a4bed15ed4" title="Next.js에 next/testmode 개념이 나타남 MSW x Playwright 테스트하기 쉬워질지도 모른다">Next.js에 next/testmode 개념이 나타남 MSW x Playwright 테스트하기 쉬워질지도 모른다</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="updates-to-storage-policy-webkit">Updates to Storage Policy | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/14403/updates-to-storage-policy/" title="Updates to Storage Policy | WebKit">webkit.org/blog/14403/updates-to-storage-policy/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Safari의 Web Storage Policy 관해.<br>
+Origin 째로 / 전체 Quota가 있으며, Quota를 벗어나면 <code>QuotaExceededError</code> 발생.<br>
+이용하지 않는 웹사이트 데이터는 Origin 째로 삭제. Storage 영속성 보증하기 위한 Storage API 사용방법</p>
+
+<hr>
+
+<h2 id="blogged-answers-my-experience-modernizing-packages-to-esm-marks-dev-blog">Blogged Answers: My Experience Modernizing Packages to ESM · Mark&#039;s Dev Blog</h2>
+
+<p><a href="https://blog.isquaredsoftware.com/2023/08/esm-modernization-lessons/" title="Blogged Answers: My Experience Modernizing Packages to ESM · Mark&amp;#039;s Dev Blog">blog.isquaredsoftware.com/2023/08/esm-modernization-lessons/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">redux</span> <span class="jser-tag">article</span> <span class="jser-tag">opinion</span></p></p>
+
+<p>여러 환경에서 동작하는 JavaScript 패키지 공개의 난해함에 대한 글.<br>
+CJS와 ESM의 dual package, TypeScript의 <code>moduleResolution</code> 호환성, UMD, webpack 4과 호환성<br>
+Next.js와 React Server Component 문제에 관하여.</p>
+
+<hr>
+
+<h2 id="module-documentation-in-progress">Module documentation (in progress)</h2>
+
+<p><a href="https://gist.github.com/andrewbranch/79f872a8b9f0507c9c5f2641cfb3efa6" title="Module documentation (in progress)">gist.github.com/andrewbranch/79f872a8b9f0507c9c5f2641cfb3efa6</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScript가 모듈 어떻게 접근하고 다루고 있는가에 대한 가이드.<br>
+<code>moduleResolution</code> 옵션, TypeScript의 모듈 문제 해결 구조, ESM와 CJS 호환운용성에 관하여</p>
+
+<hr>
+
+<h2 id="creating-a-recorder-with-document-picture-in-picture-api-contrast">Creating a recorder with Document Picture-in-Picture API | Contrast</h2>
+
+<p><a href="https://www.getcontrast.io/learn/using-document-picture-in-picture-and-insertable-streams-apis-to-record-your-screen-and-camera" title="Creating a recorder with Document Picture-in-Picture API | Contrast">www.getcontrast.io/learn/using-document-picture-in-picture-and-insertable-streams-apis-to-record-your-screen-and-camera</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>Document Picture-in-Picture API 사용해, 카메라 표시와 화면을 합성하고 녹화하는 방법에 관하여</p>
+
+<hr>
+
+<h2 id="a-blog-post-with-every-html-element">A Blog Post With Every HTML Element</h2>
+
+<p><a href="https://www.patrickweaver.net/blog/a-blog-post-with-every-html-element/" title="A Blog Post With Every HTML Element">www.patrickweaver.net/blog/a-blog-post-with-every-html-element/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">article</span></p></p>
+
+<p>모든 HTML 요소가 들어가 있는 블로그 글.<br>
+각 태그에 대한 해설도 포함</p>
+
+<hr>
+
+<h2 id="deprecating-the-unload-event-chrome-developers">Deprecating the unload event - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/en/blog/deprecating-unload/" title="Deprecating the unload event - Chrome Developers">developer.chrome.com/en/blog/deprecating-unload/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 117에서 <code>unload</code> 이벤트가 Deprecated.<br>
+<code>unload</code> 이벤트는 제대로 동작하지 않은 경우가 많았으며 BFCache를 무효화함.<br>
+대체품으로 <code>visibilitychange</code>/<code>pagehide</code> 이벤트 추천. <code>unload</code> 이벤트를 이용하고 있는가를 확인하는 방법에 관하여</p>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-117-chrome-developers">What&#039;s New in DevTools (Chrome 117) - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/en/blog/new-in-devtools-117/" title="What&amp;#039;s New in DevTools (Chrome 117) - Chrome Developers">developer.chrome.com/en/blog/new-in-devtools-117/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 117 개발자 도구 변경점에 관하여.<br>
+Network에서 컨텐츠 오버라이드 개선, 확장기능의 URL 필터하는 기능 추가, Fetch가 실제 Priority를 확인하도록.<br>
+서드파티 쿠기 관련한 경고나 문제 설명 추가, prerender 디버그 기능 추가</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="react-speaker-deck">React - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/recruitengineers/react" title="React - Speaker Deck">speakerdeck.com/recruitengineers/react</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">slide</span></p></p>
+
+<p>React의 사고방법에 대한 슬라이드.<br>
+MPA/SPA 차이와 과제, 선언적UI에서 React, 컴포넌트, 상태관리, 렌더링, 부작용에 관하여</p>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="using-typescript-react">Using TypeScript – React</h2>
+
+<p><a href="https://react.dev/learn/typescript" title="Using TypeScript – React">react.dev/learn/typescript</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">document</span></p></p>
+
+<p>TypeScrip 관련한 React 공식 문서</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-08-16-next.js-v13.4.16test-mode-safaristorage-policy-esmredux.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Chrome","TypeScript","React","safari","npm"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Chrome</li>
+                
+                <li>TypeScript</li>
+                
+                <li>React</li>
+                
+                <li>safari</li>
+                
+                <li>npm</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/08/16/next.js-v13.4.16test-mode-safaristorage-policy-esmredux/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

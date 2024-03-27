@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-09-14: Node v16.9.0(Corepack), Spook.js(Same-Site에서의 사이드 채널 공격) - JSer.info</title>
+    <meta name="description" content="JSer.info #557 - Node.js 16.9.0 릴리스.">
+    
+    <meta name="keywords" content="Tools,React,node.js,database,Ember" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-09-14T10:00:58+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="database" property="article:tag">
+      
+      <meta content="Ember" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/09/14/node-v16.9.0corepack-spook.jssame-site/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #557 - Node.js 16.9.0 릴리스." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-09-14: Node v16.9.0(Corepack), Spook.js(Same-Site에서의 사이드 채널 공격)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/09/14/node-v16.9.0corepack-spook.jssame-site/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #557 - Node.js 16.9.0 릴리스.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-09-14T10:00:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="database">
+
+<meta property="article:tag" content="Ember">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/09/14/node-v16.9.0corepack-spook.jssame-site/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/09/14/node-v16.9.0corepack-spook.jssame-site/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/09/14/node-v16.9.0corepack-spook.jssame-site/">2021-09-14: Node v16.9.0(Corepack), Spook.js(Same-Site에서의 사이드 채널 공격)</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年09月14日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-09-14-node-v16.9.0corepack-spook.jssame-site.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-09-14-node-v16.9.0corepack-spook.jssame-site.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/09/14/node-v16.9.0corepack-spook.jssame-site/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #557 - Node.js 16.9.0 릴리스.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v16.9.0/">Node v16.9.0 (Current) | Node.js</a></li>
+</ul>
+
+<p>npm / yarn / pnpm 등 패키지 매니저를 프로젝트 별로 지정하여 사용할 수 있는 Corepack을 시험적으로 지원한다. Corepack을 활성화 한 경우 어떤 패키지 매니저를 사용할 것인지를 <code>package.json</code>의  <code>packageManager</code> 필드에 지정하여 프록시를 통해 패키지 설치나 명령어를 실행할 수 있다.</p>
+
+<p>시험적인 기능이므로 사용하려면 <code>corepack enable yarn</code> 등의 명령어가 옵트-인으로 필요하다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/dist/latest-v16.x/docs/api/corepack.html" title="Corepack | Node.js v16.9.0 Documentation">Corepack | Node.js v16.9.0 Documentation</a></li>
+<li><a href="https://zenn.dev/teppeis/articles/2021-05-corepack">corepack is 무엇?</a>(일본어)</li>
+</ul>
+
+<p>그 외로 V8 9.3으로 갱신, <code>Object.hasOwn</code>와 Error Cause 지원, <code>stream.compose</code>가 추가됐다.</p>
+
+<ul>
+<li><a href="https://v8.dev/blog/v8-release-93" title="V8 release v9.3 · V8">V8 release v9.3 · V8</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.spookjs.com/">Spook.js</a>에는 투기(transient)적 실행을 이용한 same-site 환경에서의 사이드 채널 공격에 대한 논문이 공개돼 있다.</p>
+
+<ul>
+<li><a href="https://zenn.dev/agektmr/articles/f8dcd345a88c97">same-site/cross-site, same-origin/cross-originをちゃんと理解する</a></li>
+</ul>
+
+<p>과거 구글이 공개한 <a href="https://blog.google/products/google-cloud/answering-your-questions-about-meltdown-and-spectre/">Spectre</a> 취약성을 다뤘던 <a href="https://leaky.page/">https://leaky.page/</a>라는 사이트가 있다.</p>
+
+<ul>
+<li><a href="https://security.googleblog.com/2021/03/a-spectre-proof-of-concept-for-spectre.html">Google Online Security Blog: A Spectre proof-of-concept for a Spectre-proof web</a></li>
+</ul>
+
+<p><a href="https://www.spookjs.com/">Spook.js</a>는 이를 보다 사실적으로 검증한 논문으로 Bitbucket이나 Tumblr 등의 사용자 컨텐츠를 예로 서브 도메인이 있는 사이트 간 데모, Google Chrome 확장 기능 간 데모 등을 소개하며 eTLD+1가 일치하는 same-site에서의 사이드 채널 공격이 어떻게 이뤄질 수 있는지 설명한다.</p>
+
+<p>간단히 소개(자세한 내용은 논문 참고)하면 크롬은 각각의 사이트를 별도 프로세스로 분리하여 사이드 채널 공격을 막을 수 있도록 설계 돼 있다. 하지만 메모리가 압박 받는 상황(의도적으로 압박하는 상황일 수 있음)에서 eTLD+1이 일치하는 same-site를 실행할 경우 설계대로 사이트가 분리되지 않기 때문에 이 경우 사이트 간 사이드 채널 공격이 가능하다는 것이다.</p>
+
+<p>Same-Site 여부는 <a href="https://publicsuffix.org/">Public Suffix List</a>를 기준으로 정하므로 Bitbucket은 bitbucket.io에 관한 내용을 Public Suffix List에 추가해 Cross-Site로 인식시키는 방법으로 대응하고 있다.</p>
+
+<ul>
+<li><a href="https://github.com/publicsuffix/list/pull/1374">Adding bitbucket.io pages which render user generated content by andyortlieb-atlassian · Pull Request #1374 · publicsuffix/list</a></li>
+</ul>
+
+<p>또, 확장 기능 Page(<code>chrome-extension://</code>)에서의 문제는 Chrome 92에서 확장 간에는 Same-Site 등의 조건 여부와 상관 없이 프로세스를 공유하지 않도록 하여 이 문제에 대응했다.</p>
+
+<ul>
+<li><a href="https://security.googleblog.com/2021/07/protecting-more-with-site-isolation.html">Google Online Security Blog: Protecting more with Site Isolation</a></li>
+</ul>
+
+<p><a href="https://www.spookjs.com/">Spook.js</a>에는 투기적 실행을 이용한 사이드 채널 공격에 대해서 자세히 작성돼 있으므로 소개한 내용 외에 더 관심이 가는 분들은 직접 방문해보길 바란다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="node-v16-9-0-current-node-js">Node v16.9.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v16.9.0/" title="Node v16.9.0 (Current) | Node.js">nodejs.org/en/blog/release/v16.9.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v16.9.0 릴리스.<br>
+npm / yarn / pnpm 등의 패키지 매니저를 프로젝트 별로 다르게 설치할 수 있는 Corepack 지원.<br>
+V8 9.3으로 업데이트, <code>Object.hasOwn</code>과 Error Cause를 지원, <code>stream.compose</code> 추가.</p>
+
+<ul>
+<li><a href="https://nodejs.org/dist/latest-v16.x/docs/api/corepack.html" title="Corepack | Node.js v16.9.0 Documentation">Corepack | Node.js v16.9.0 Documentation</a></li>
+<li><a href="https://v8.dev/blog/v8-release-93" title="V8 release v9.3 · V8">V8 release v9.3 · V8</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-3-0-1-prisma-prisma">Release 3.0.1 · prisma/prisma</h2>
+
+<p><a href="https://github.com/prisma/prisma/releases/tag/3.0.1" title="Release 3.0.1 · prisma/prisma">github.com/prisma/prisma/releases/tag/3.0.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">database</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Prisma 3.0.1 릴리스. 3부터는 Semver에 따라서 릴리스한다.<br>
+Referential Actions, Named Constraints, Microsoft SQL / Azure SQL, Node-API 등이 GA(Generally Available)가 됐다.<br>
+비호환 변경 사항으로 <code>prisma db seed</code>의 구조 변경, <code>null</code>을 쿼리로 지정하지 못하도록 하고 <code>JsonNull</code> / <code>DbNull</code> / <code>AnyNull</code> 중 하나를 사용하도록 하는 변경도 포함됐다.</p>
+
+<hr>
+
+<h2 id="ember-3-28-and-4-0-beta-released">Ember 3.28 and 4.0 Beta Released</h2>
+
+<p><a href="https://blog.emberjs.com/ember-3-28-released/" title="Ember 3.28 and 4.0 Beta Released">blog.emberjs.com/ember-3-28-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Ember 3.28과 4.0 Beta 릴리스.</p>
+
+<hr>
+
+<h2 id="prettier-2-4-new-bracketsameline-option-and-typescript-4-4-support-prettier">Prettier 2.4: new bracketSameLine option and TypeScript 4.4 support! · Prettier</h2>
+
+<p><a href="https://prettier.io/blog/2021/09/09/2.4.0.html" title="Prettier 2.4: new bracketSameLine option and TypeScript 4.4 support! · Prettier">prettier.io/blog/2021/09/09/2.4.0.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Prettier 2.4 릴리스.<br>
+TypeScript 4.4 지원, <code>jsxBracketSameLine</code> 옵션을 <code>bracketSameLine</code> 옵션으로 변경.</p>
+
+<hr>
+
+<h2 id="nightwatch-v2-0-alpha-is-released-nightwatch-js-blog">Nightwatch v2.0-alpha is Released | Nightwatch.js Blog</h2>
+
+<p><a href="https://nightwatchjs.org/blog/nightwatch-v2-alpha-is-released.html" title="Nightwatch v2.0-alpha is Released | Nightwatch.js Blog">nightwatchjs.org/blog/nightwatch-v2-alpha-is-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">E2E</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">Selenium</span></p></p>
+
+<p>Nightwatch v2.0-alpha 릴리스.<br>
+<code>selenium-webdriver</code>를 이용하도록, WebDriver Actions API 지원, Chrome Dev Tools Protocol 지원.<br>
+<code>.ensure</code> assertion 추가, <code>perform()</code> 등에서 WebDriver object를 직접 다룰 수 있도록, Async / Await 대응 개선.</p>
+
+<hr>
+
+<h2 id="time-for-a-review-of-firefox-92-mozilla-hacks-the-web-developer-blog">Time for a review of Firefox 92 - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2021/09/time-for-a-review-of-firefox-92/" title="Time for a review of Firefox 92 - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2021/09/time-for-a-review-of-firefox-92/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 92 릴리스.<br>
+CSS의 <code>accent-color</code>와 <code>size-adjust</code> 지원, Stage 4 <code>Object.hasOwn</code> 지원 등.<br>
+또, ₩selectionchange₩ 이벤트에서 <code>input</code>이나 <code>textarea</code> 내의 선택 범위 변경도 인식할 수 있도록 변경.</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/92" title="Firefox 92 for developers - Mozilla | MDN">Firefox 92 for developers - Mozilla | MDN</a></li>
+<li><a href="https://www.mozilla.org/en-US/firefox/92.0/releasenotes/" title="Firefox 92.0, See All New Features, Updates and Fixes">Firefox 92.0, See All New Features, Updates and Fixes</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-workbox-v6-3-0-googlechrome-workbox">Release Workbox v6.3.0 · GoogleChrome/workbox</h2>
+
+<p><a href="https://github.com/GoogleChrome/workbox/releases/tag/v6.3.0" title="Release Workbox v6.3.0 · GoogleChrome/workbox">github.com/GoogleChrome/workbox/releases/tag/v6.3.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Workbox 6.3.0 릴리즈.<br>
+<code>integrity</code> 속성이 지정돼 있는 리소스에 대한 precaching 수정, IDB 기록에 <code>{ durability: &#39;relaxed&#39; }</code>을 사용하도록.<br>
+BroadcastCacheUpdate에 <code>notifyAllClients</code> 옵션 추가, <code>Vary:</code> 헤더에 대한 디버깅 로그 추가.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="what-s-new-with-devtools-cross-browser-edition-smashing-magazine">What’s New With DevTools: Cross-Browser Edition — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2021/09/devtools-cross-browser-edition/" title="What’s New With DevTools: Cross-Browser Edition — Smashing Magazine">www.smashingmagazine.com/2021/09/devtools-cross-browser-edition/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>브라우저 별 개발자 도구 기능을 정리 및 소개하는 글</p>
+
+<hr>
+
+<h2 id="migrating-notions-marketing-site-to-next-js">Migrating Notion&#039;s marketing site to Next.js</h2>
+
+<p><a href="https://www.notion.so/blog/migrating-notion-marketing-to-next-js" title="Migrating Notion&amp;#039;s marketing site to Next.js">www.notion.so/blog/migrating-notion-marketing-to-next-js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Notion 마케팅 사이트를 Next.js로 이전한 내용 정리.<br>
+React 기반의 애플리케이션과 마케팅 사이트가 React 구성 요소 디렉터리를 공유할 수 있도록 하여 마케팅 사이트에서 라이브 데모를 포함할 수 있도록 대응.<br>
+라우팅 전환과 테스트, CSS 대응 방법 등 이전과 관련한 다양한 주제에 대해서 이야기한다.</p>
+
+<hr>
+
+<h2 id="javascript-eventing-deep-dive">JavaScript Eventing Deep Dive</h2>
+
+<p><a href="https://web.dev/eventing-deepdive/" title="JavaScript Eventing Deep Dive">web.dev/eventing-deepdive/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">article</span></p></p>
+
+<p>Event Capturing / Event Bubbling phase의 동작 원리 소개.<br>
+각각의 phase에 맞춰 Event 흐름을 멈추게 할 수 있는 <code>stopPropagation()</code>, <code>stopImmediatePropagation()</code>, <code>preventDefault()</code> 동작 방식 설명.</p>
+
+<hr>
+
+<h2 id="journey-with-icons-continues">Journey with Icons Continues</h2>
+
+<p><a href="https://antfu.me/posts/journey-with-icons-continues" title="Journey with Icons Continues">antfu.me/posts/journey-with-icons-continues</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">Vue</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vite에서 아이콘 컴포넌트를 온디멘드 빌드하여 사용할 수 있는 unplugin-icons 소개<br>
+아이콘 데이터로는 Iconify를 사용하며 아이콘 컴포넌트를 가져온 시점에 Vite 측에서 SVG 기반의 아이콘 컴포넌트를 작성하여 반환하는 구조로 이뤄져 있다.</p>
+
+<ul>
+<li><a href="https://iconify.design/" title="Iconify - Unified icons framework">Iconify - Unified icons framework</a></li>
+<li><a href="https://github.com/antfu/unplugin-icons" title="antfu/unplugin-icons: 🤹 Access thousands of icons as components on-demand universally.">antfu/unplugin-icons: 🤹 Access thousands of icons as components on-demand universally.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="introducing-flow-enums-as-announced-in-an-earlier-post-flow-by-george-zahariev-flow-sep-2021-medium">Introducing Flow Enums. As announced in an earlier post, Flow… | by George Zahariev | Flow | Sep, 2021 | Medium</h2>
+
+<p><a href="https://medium.com/flow-type/introducing-flow-enums-16d4239b3180" title="Introducing Flow Enums. As announced in an earlier post, Flow… | by George Zahariev | Flow | Sep, 2021 | Medium">medium.com/flow-type/introducing-flow-enums-16d4239b3180</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">article</span></p></p>
+
+<p>FlowType에 도입된 <code>enum</code> 소개.</p>
+
+<ul>
+<li><a href="https://medium.com/flow-type/typescript-enums-vs-flow-enums-83da2ca4a9b4" title="TypeScript Enums vs. Flow Enums. The Flow team recently announced Flow… | by George Zahariev | Flow | Sep, 2021 | Medium">TypeScript Enums vs. Flow Enums. The Flow team recently announced Flow… | by George Zahariev | Flow | Sep, 2021 | Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="postd">프런트엔드 테스트는 모두를 위한 것 | POSTD(일본어)</h2>
+
+<p><a href="https://postd.cc/frontend-testing-is-for-everyone/" title="フロントエンドのテストは皆のためのもの | POSTD">postd.cc/frontend-testing-is-for-everyone/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Front-End Testing is For Everyone 번역 글.<br>
+테스트가 검증하는 범위와 검증 도구를 정리한 글.<br>
+유닛 테스트, 결합 테스트, E2E 테스트, 접근성 테스트, 시각적 회귀(visual regression) 테스트, 성능 테스트를 다루고 있다.</p>
+
+<ul>
+<li><a href="https://css-tricks.com/front-end-testing-is-for-everyone/" title="Front-End Testing is For Everyone | CSS-Tricks">Front-End Testing is For Everyone | CSS-Tricks</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="spook-js">Spook.js</h2>
+
+<p><a href="https://www.spookjs.com/" title="Spook.js">www.spookjs.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">security</span> <span class="jser-tag">paper</span></p></p>
+
+<p>동일 페이지 내에 대한 Spectre 취약성을 다뤘던 leaky.page에 이어 웹 사이트 간이나 확장 기능 간 까지 실증적으로 검증하여 정리한 논문.<br>
+Chrome은 메모리를 압박하면 eTLD+1의 범위로 프로세스를 정리하는데 이러한 V8의 성질을 이용해 투기(transient)적 실행 공격을 하면 다른 사이트의 메모리 데이터를 읽어드릴 수 있다는 내용.</p>
+
+<ul>
+<li><a href="https://developers-jp.googleblog.com/2021/03/a-spectre-proof-of-concept-for-spectre.html" title="Google Developers Japan: Spectre의 영향을 받지 않는 웹을 만들기 위한 개념 증명에 관해">Google Developers Japan: Spectre의 영향을 받지 않는 웹을 만들기 위한 개념 증명에 관해</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="wizardpisces-tiny-sass-compiler-another-sass-compiler-write-from-scatch-runnable-on-both-node-and-browser">wizardpisces/tiny-sass-compiler: Another sass compiler write from scatch，runnable on both node and browser</h2>
+
+<p><a href="https://github.com/wizardpisces/tiny-sass-compiler" title="wizardpisces/tiny-sass-compiler: Another sass compiler write from scatch，runnable on both node and browser">github.com/wizardpisces/tiny-sass-compiler</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">CSS</span></p></p>
+
+<p>JavaScript로 작성한 Sass 컴파일러<br>
+브라우저와 Node.js에서 동작한다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="typescript-kindle-amazon">TypeScript 핸즈온 | 쇼다 츠야노 | 공학 | Kindle 스토어 | Amazon(일본어)</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/B09D76MB7B/" title="TypeScript 핸즈온 | 쇼다 츠야노 | 공학 | Kindle 스토어 | Amazon">www.amazon.co.jp/dp/B09D76MB7B/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>핸즈온 형식의 TypeScript 입문서</p>
+
+<ul>
+<li><a href="https://www.shuwasystem.co.jp/book/9784798065335.html" title="TypeScript 핸즈온 - 슈와시스템 당신의 배움을 지원합니다">TypeScript 핸즈온 - 슈와시스템 당신의 배움을 지원합니다</a>(일본어)</li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-09-14-node-v16.9.0corepack-spook.jssame-site.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Tools","React","node.js","database","Ember"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Tools</li>
+                
+                <li>React</li>
+                
+                <li>node.js</li>
+                
+                <li>database</li>
+                
+                <li>Ember</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/09/14/node-v16.9.0corepack-spook.jssame-site/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

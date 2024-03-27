@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-06-25のJS: Node.js 10.5.0 Workerサポート、ESLint 5.0.0、AirbnbとReact Native - JSer.info</title>
+    <meta name="description" content="JSer.info #389 - Node.js 10.5.0がリリースされました。">
+    
+    <meta name="keywords" content="Node.js,ESLint,ReactNative" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2018-06-26T08:32:36+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="ESLint" property="article:tag">
+      
+      <meta content="ReactNative" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #389 - Node.js 10.5.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-06-25のJS: Node.js 10.5.0 Workerサポート、ESLint 5.0.0、AirbnbとReact Native">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #389 - Node.js 10.5.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-06-26T08:32:36+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="ESLint">
+
+<meta property="article:tag" content="ReactNative">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">2018-06-25のJS: Node.js 10.5.0 Workerサポート、ESLint 5.0.0、AirbnbとReact Native</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年06月26日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-06-25-node.js-10.5.0-workereslint-5.0.0airbnbreact-native.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-06-25-node.js-10.5.0-workereslint-5.0.0airbnbreact-native.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #389 - Node.js 10.5.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v10.5.0/">Node v10.5.0 (Current) | Node.js</a></li>
+</ul>
+
+<p>この中で<code>--experimental-worker</code>の試験的なフラグ付きで<code>worker_threads</code>モジュールが利用できるようになっています。<br>
+このWorker Threadsについては次のPRとFAQでまとめられています。</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/pull/20876" title="worker: initial implementation by addaleax · Pull Request #20876 · nodejs/node">worker: initial implementation by addaleax · Pull Request #20876 · nodejs/node</a></li>
+<li> <a href="https://gist.github.com/benjamingr/3d5e86e2fb8ae4abe2ab98ffe4758665" title="workers-faq.md">workers-faq.md</a></li>
+</ul>
+
+<p>現在は、1 Worker Thread = 1 Threadとなっていることや、現在は<a href="https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel">MessageChannel</a> APIに沿った作りとなっていること、Transferring dataや<code>SharedArrayBuffer</code>をサポートしていることなどについて書かれています。</p>
+
+<hr>
+
+<p>ESLint 5.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://eslint.org/blog/2018/06/eslint-v5.0.0-released">ESLint v5.0.0 released - ESLint - Pluggable JavaScript linter</a></li>
+</ul>
+
+<p>ESLint 4.xから具体的な変更点やマイグレーション方法については次のページにまとめられています。</p>
+
+<ul>
+<li><a href="https://eslint.org/docs/user-guide/migrating-to-5.0.0">Migrating to v5.0.0 - ESLint - Pluggable JavaScript linter</a></li>
+<li><a href="https://qiita.com/mysticatea/items/f34097961bf2827b675d">ESLint v5.0.0 変更点まとめ - Qiita</a></li>
+</ul>
+
+<p>Node.js 4のサポート終了、<code>eslint:recommended</code>の更新、ルールのデフォルトオプションの変更、Lint対象がないときにfatal errorとなるように変更されています。<br>
+また、ルールを作成する側のAPIなども一部変更がはいっています。</p>
+
+<hr>
+
+<p><a href="https://medium.com/airbnb-engineering/react-native-at-airbnb-f95aa460be1c">React Native at Airbnb – Airbnb Engineering &amp; Data Science – Medium</a>（<a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation">日本語訳</a>）という一連の記事ではAirbnbでReact Nativeを使った結果について書かれています。</p>
+
+<p>Airbnbでは、開発速度、品質、クロスプラットフォーム対応、開発者の体感を良くするのを目的にReact Nativeを使ったアプリを開発した経験と結果について5パートに分けた記事が書かれています。</p>
+
+<ol>
+<li><a href="https://medium.com/airbnb-engineering/react-native-at-airbnb-f95aa460be1c">React Native at Airbnb</a>/<a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation/blob/master/1-alt-react-native-at-airbnb.md">日本語訳</a></li>
+<li><a href="https://medium.com/airbnb-engineering/react-native-at-airbnb-the-technology-dafd0b43838">React Native at Airbnb: The Technology</a>
+/<a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation/blob/master/2-react-native-at-airbnb-the-technology.md">日本語訳</a></li>
+<li><a href="https://medium.com/airbnb-engineering/building-a-cross-platform-mobile-team-3e1837b40a88">Building a Cross-Platform Mobile Team</a>/<a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation/blob/master/3-building-a-cross-platform-mobile-team.md">日本語訳</a></li>
+<li><a href="https://medium.com/airbnb-engineering/sunsetting-react-native-1868ba28e30a">Sunsetting React Native</a>/<a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation/blob/master/4-sunsetting-react-native.md">日本語訳</a></li>
+<li><a href="https://medium.com/airbnb-engineering/whats-next-for-mobile-at-airbnb-5e71618576ab">What’s Next for Mobile at Airbnb</a>/<a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation/blob/master/5-what%E2%80%99s-next-for-mobile-at-airbnb.md">日本語訳</a></li>
+</ol>
+
+<p>React Nativeの技術的解説、上手くいった点、上手くいかなかった点。<br>
+クロスプラットフォームアプリ開発の技術的/組織的な難しさなどから、当初の目標を達成できなかったためAirbnbではReact Nativeからネイティブに移行するという決断をした話。<br>
+また、Airbnbが採用したReact Nativeのアプローチ（ハイブリッドモデル）からくる問題とアプローチによってはまた異なる結果になるだろうという話。</p>
+
+<p>最後のパートではAirbnbでの&quot;次の&quot;モバイル開発に向けてのコンポーネントや手法など将来の予定について書かれています。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="v8-javascript-engine-v8-release-v6-8">V8 JavaScript Engine: V8 release v6.8</h2>
+
+<p><a href="https://v8project.blogspot.com/2018/06/v8-release-68.html" title="V8 JavaScript Engine: V8 release v6.8">v8project.blogspot.com/2018/06/v8-release-68.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 v6.8リリース。<br>
+関数自身が外の関数の不要な情報を持っていたのをリファクタリングしてメモリの改善。<br>
+<code>Object.assign</code>をC++からJSの実装に変更してパフォーマンス改善、<code>TypedArray.prototype.sort</code>のパフォーマンス改善など</p>
+
+<hr>
+
+<h2 id="node-v10-5-0-current-node-js">Node v10.5.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v10.5.0/" title="Node v10.5.0 (Current) | Node.js">nodejs.org/en/blog/release/v10.5.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 10.5.0リリース。<br>
+<code>fs.stat</code>などがBigIntをサポート、<code>--experimental-worker</code>のフラグ付きでWorkerのサポートなど</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-59-webkit">Release Notes for Safari Technology Preview 59 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8332/release-notes-for-safari-technology-preview-59/" title="Release Notes for Safari Technology Preview 59 | WebKit">webkit.org/blog/8332/release-notes-for-safari-technology-preview-59/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 59リリース。<br>
+ITP 2.0への更新、Web Animationsのデフォルト有効化。<br>
+ES Proposalの<code>Symbol.prototype.description</code>のサポート、BitIntの実装など</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/8343/web-animations-in-webkit/" title="Web Animations in WebKit | WebKit">Web Animations in WebKit | WebKit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="eslint-v5-0-0-released-eslint-pluggable-javascript-linter">ESLint v5.0.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="https://eslint.org/blog/2018/06/eslint-v5.0.0-released" title="ESLint v5.0.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2018/06/eslint-v5.0.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint 5.0.0リリース。<br>
+Node.js 4のサポート終了、<code>eslint:recommended</code>の更新、ルールのデフォルトオプションの変更、Lint対象がないときにfatal errorとなるように。<br>
+プラグイン周りの変更など</p>
+
+<ul>
+<li><a href="https://eslint.org/docs/user-guide/migrating-to-5.0.0" title="Migrating to v5.0.0 - ESLint - Pluggable JavaScript linter">Migrating to v5.0.0 - ESLint - Pluggable JavaScript linter</a></li>
+</ul>
+
+<hr>
+
+<h2 id="announcing-winston-3-0-0-godaddy-open-source-center">Announcing <a href="mailto:winston@3.0.0">winston@3.0.0</a>! — GoDaddy Open Source Center</h2>
+
+<p><a href="https://godaddy.github.io/2018/06/12/announcing-winston-3/" title="Announcing winston@3.0.0! — GoDaddy Open Source Center">godaddy.github.io/2018/06/12/announcing-winston-3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ロガーライブラリであるwinston 3.0.0リリース。</p>
+
+<ul>
+<li><a href="https://github.com/winstonjs/winston/blob/master/CONTRIBUTING.md#what-makes-up-winston300" title="winston/CONTRIBUTING.md at master · winstonjs/winston">winston/CONTRIBUTING.md at master · winstonjs/winston</a></li>
+<li><a href="https://github.com/winstonjs/winston/blob/master/CHANGELOG.md#v300--2018-06-12" title="winston/CHANGELOG.md at master · winstonjs/winston">winston/CHANGELOG.md at master · winstonjs/winston</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="react-native-at-airbnb-airbnb-engineering-data-science-medium">React Native at Airbnb – Airbnb Engineering &amp; Data Science – Medium</h2>
+
+<p><a href="https://medium.com/airbnb-engineering/react-native-at-airbnb-f95aa460be1c" title="React Native at Airbnb – Airbnb Engineering &amp; Data Science – Medium">medium.com/airbnb-engineering/react-native-at-airbnb-f95aa460be1c</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ios</span> <span class="jser-tag">Android</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>AirbnbでのReact Nativeについて。<br>
+React Nativeの技術的解説、上手くいった点、上手くいかなかった点。<br>
+クロスプラットフォームアプリ開発の技術的/組織的な難しさなどから、当初の目標を達成できないためAirbnbではReact Nativeからネイティブに移行するという話。</p>
+
+<ul>
+<li><a href="https://github.com/react-native-jp/react-native-at-airbnb-jp-translation" title="react-native-jp/react-native-at-airbnb-jp-translation">react-native-jp/react-native-at-airbnb-jp-translation</a></li>
+</ul>
+
+<hr>
+
+<h2 id="techlunch-javascript-ast-medley-developer-blog">社内勉強会TechLunchで&quot;JavaScript ASTことはじめ&quot;という発表をしました - Medley Developer Blog</h2>
+
+<p><a href="https://developer.medley.jp/entry/2018/06/22/130000" title="社内勉強会TechLunchで\&quot;JavaScript ASTことはじめ\&quot;という発表をしました - Medley Developer Blog">developer.medley.jp/entry/2018/06/22/130000</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptのASTやAST Explorerの使い方について</p>
+
+<hr>
+
+<h2 id="understanding-jest-mocks-rick-hanlon-ii-medium">Understanding Jest Mocks – Rick Hanlon II – Medium</h2>
+
+<p><a href="https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c" title="Understanding Jest Mocks – Rick Hanlon II – Medium">medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>jestのmock機能について解析。<br>
+<code>jest.mock</code>、<code>jest.spy</code>などについて</p>
+
+<hr>
+
+<h2 id="react-ideal-image-introduction-md-at-master-stereobooster-react-ideal-image">react-ideal-image/introduction.md at master · stereobooster/react-ideal-image</h2>
+
+<p><a href="https://github.com/stereobooster/react-ideal-image/blob/master/introduction.md" title="react-ideal-image/introduction.md at master · stereobooster/react-ideal-image">github.com/stereobooster/react-ideal-image/blob/master/introduction.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>react-ideal-imageの画像表示の実装について。<br>
+Lazy Loading、プレースホルダー、LQIP、レスポンシブ、アダプティブな表示方法について解説している。</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="the-critical-request-speaker-deck">The Critical Request - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/benschwarz/the-critical-request" title="The Critical Request - Speaker Deck">speakerdeck.com/benschwarz/the-critical-request</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">slide</span></p></p>
+
+<p>First Meaningful Paintまでに必要なリソースへのリクエストと優先度についてのスライド。<br>
+preloadなどによるwebfontの読み込み改善について</p>
+
+<hr>
+
+<h2 id="automated-dependency-updates-with-renovate">Automated Dependency Updates with Renovate</h2>
+
+<p><a href="https://www.slideshare.net/teppeis/automated-dependency-updates-with-renovate-102769685" title="Automated Dependency Updates with Renovate">www.slideshare.net/teppeis/automated-dependency-updates-with-renovate-102769685</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">slide</span></p></p>
+
+<p>リポジトリが依存するパッケージのバージョン更新をRenovateを使って自動化することについてのスライド。</p>
+
+<ul>
+<li><a href="https://renovatebot.com/" title="Renovate | Automated Dependency Updates">Renovate | Automated Dependency Updates</a></li>
+</ul>
+
+<hr>
+
+<h2 id="redux-refactoring-patterns-with-ngrx-platform-speaker-deck">Redux Refactoring Patterns with @ngrx/platform - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/gregonnet/platform" title="Redux Refactoring Patterns with @ngrx/platform - Speaker Deck">speakerdeck.com/gregonnet/platform</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">Angular</span> <span class="jser-tag">リファクタリング</span> <span class="jser-tag">slide</span></p></p>
+
+<p>ngrxについてのスライド。<br>
+Reduxのパターン、switch-caseのパターンとFactoryパターン、どのようにStateを扱うかについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="progressive-web-apps-app-center-mdn">Progressive web apps - App Center | MDN</h2>
+
+<p><a href="https://developer.mozilla.org/en-US/Apps/Progressive" title="Progressive web apps - App Center | MDN">developer.mozilla.org/en-US/Apps/Progressive</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PWA</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>MDNのPWAチュートリアルガイド</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="microsoft-license-checker-webpack-plugin-webpack-plugin-that-verifies-licenses-of-all-external-dependencies-in-a-compilation-and-outputs-them-to-a-file">Microsoft/license-checker-webpack-plugin: Webpack plugin that verifies licenses of all external dependencies in a compilation, and outputs them to a file.</h2>
+
+<p><a href="https://github.com/Microsoft/license-checker-webpack-plugin" title="Microsoft/license-checker-webpack-plugin: Webpack plugin that verifies licenses of all external dependencies in a compilation, and outputs them to a file.">github.com/Microsoft/license-checker-webpack-plugin</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">license</span></p></p>
+
+<p>利用してるライブラリのライセンスチェックやまとめたライセンスファイルを生成するwebpackプラグイン</p>
+
+<hr>
+
+<h2 id="simonwep-pickr-flat-simple-and-hackable-color-picker-no-dependencies-no-jquery-compatible-with-all-css-frameworks-e-g-bootstrap-materialize">Simonwep/pickr: Flat, simple and hackable Color-Picker. No dependencies, no jQuery. Compatible with all CSS Frameworks e.g. Bootstrap, Materialize.</h2>
+
+<p><a href="https://github.com/Simonwep/pickr" title="Simonwep/pickr: Flat, simple and hackable Color-Picker. No dependencies, no jQuery. Compatible with all CSS Frameworks e.g. Bootstrap, Materialize.">github.com/Simonwep/pickr</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">color</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p></p>
+
+<p>依存のないカラーピッカーライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="amazon-com-mastering-javascript-design-patterns-third-edition-create-scalable-and-reliable-applications-with-advanced-javascript-design-patterns-using-reliable-code-ebook-tomas-corral-kindle-store">Amazon.com: Mastering JavaScript Design Patterns - Third Edition: Create scalable and reliable applications with advanced JavaScript Design Patterns using reliable code. eBook: Tomas Corral: Kindle Store</h2>
+
+<p><a href="https://www.amazon.com/dp/B07D6LQNK3/" title="Amazon.com: Mastering JavaScript Design Patterns - Third Edition: Create scalable and reliable applications with advanced JavaScript Design Patterns using reliable code. eBook: Tomas Corral: Kindle Store">www.amazon.com/dp/B07D6LQNK3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2019年1月9日発売<br>
+Mastering JavaScript Design Patternsの第3版</p>
+
+<hr>
+
+<h2 id="javascript-js-es2016-amazon">動かしながらさくっと身につく 今こそホンキで覚えるJavaScript[JS/ES2016対応] | 狩野 祐東 |本 | 通販 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4802611242/" title="動かしながらさくっと身につく 今こそホンキで覚えるJavaScript\[JS/ES2016対応\] | 狩野 祐東 |本 | 通販 | Amazon">www.amazon.co.jp/dp/4802611242/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年7月17日発売</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-06-25-node.js-10.5.0-workereslint-5.0.0airbnbreact-native.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","ESLint","ReactNative"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>ESLint</li>
+                
+                <li>ReactNative</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/06/26/node.js-10.5.0-workereslint-5.0.0airbnbreact-native/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

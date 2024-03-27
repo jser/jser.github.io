@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-11-28のJS: Firefox 58の変更点、Emscripten/WebAssembly/Rust - JSer.info</title>
+    <meta name="description" content="JSer.info #359 - New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blogではFirefox 58(開発版)での変更点について紹介しています。">
+    
+    <meta name="keywords" content="firefox,webassembly,emscripten" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-11-28T09:43:49+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="firefox" property="article:tag">
+      
+      <meta content="webassembly" property="article:tag">
+      
+      <meta content="emscripten" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/11/28/firefox-58-emscripten-webassembly-rust/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #359 - New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blogではFirefox 58(開発版)での変更点について紹介しています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-11-28のJS: Firefox 58の変更点、Emscripten/WebAssembly/Rust">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/11/28/firefox-58-emscripten-webassembly-rust/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #359 - New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blogではFirefox 58(開発版)での変更点について紹介しています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-11-28T09:43:49+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="firefox">
+
+<meta property="article:tag" content="webassembly">
+
+<meta property="article:tag" content="emscripten">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/11/28/firefox-58-emscripten-webassembly-rust/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/11/28/firefox-58-emscripten-webassembly-rust/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/11/28/firefox-58-emscripten-webassembly-rust/">2017-11-28のJS: Firefox 58の変更点、Emscripten/WebAssembly/Rust</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年11月28日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-11-28-firefox-58-emscripten-webassembly-rust.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-11-28-firefox-58-emscripten-webassembly-rust.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/11/28/firefox-58-emscripten-webassembly-rust/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/11/28/firefox-58-emscripten-webassembly-rust/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #359 - <a href="https://hacks.mozilla.org/2017/11/new-in-firefox-58-developer-edition/" title="New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blog">New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blog</a>ではFirefox 58(開発版)での変更点について紹介しています。</p>
+
+<p>CSSの<code>clip-path</code>を編集できる<a href="https://developer.mozilla.org/ja/docs/Tools/Page_Inspector/How_to/Edit_CSS_shapes" title="CSS shapes highlighter">CSS shapes highlighter</a>の追加、デバッガーで著名なフレームワークのスタックトレースが簡潔な表示にでき、また<code>console.groups</code>が折りたためるようになるなど。<br>
+また、macOSでのWebVRをデフォルトで有効化、FLACのサポート環境の追加、<code>PerformanceNavigationTiming</code>のサポート、Budgetベースのバックグラウンドにおける処理の制限追加などが行われています。</p>
+
+<hr>
+
+<p><a href="http://gfx.hatenablog.com/entry/2017/11/16/231950" title="WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream">WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream</a>という記事では<a href="https://kripken.github.io/emscripten-site/">Emscripten</a>経由でWebAssemblyを利用する方法について書かれています。</p>
+
+<p>Node.jsではNative addonの仕組みがあるためバインディングを書けばCやC++などで書かれたものも利用できますが、node-gypによるビルドは環境によって問題を起こすことがあります。<br>
+ネイティブコードをwasmにビルド済みのものを配布し、各環境でwasmを読み込んで実行することでこの問題を回避するという話を<code>zopfli</code>を例にして紹介しています。</p>
+
+<hr>
+
+<p><a href="https://github.com/dcodeIO/webassembly" title="dcodeIO/webassembly">dcodeIO/webassembly</a>は、C/C++で書かれたコードをWebAssemblyに変換して実行できるコンパイラ、ランタイムをもつツールキットです。<br>
+<a href="https://kripken.github.io/emscripten-site/">Emscripten</a>などを使ってC/C++を<code>.wasm</code>へビルドできる環境を<a href="https://github.com/azu/emscripten-example">自分で設定</a>するよりも、最小構成のビルド環境を簡単に作れるようにする目的のツールキットです。</p>
+
+<p><code>npm</code>でインストールすると<code>.wasm</code>のビルドに必要なツールも同時にダウンロードしてくれます。</p>
+<div class="highlight"><pre><code class="language-" data-lang=""># Install
+npm install webassembly
+# Compile
+npx wa compile -o program.wasm program.c
+</code></pre></div>
+<p>Node.jsで<code>.wasm</code>ファイルを読み込んで実行できるランタイムも含まれているので、次のように読み込んで実行できます。</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// program.js</span>
+<span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">webassembly</span><span class="dl">"</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="dl">"</span><span class="s2">program.wasm</span><span class="dl">"</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">module</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">1 + 2 = </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+  <span class="p">});</span>
+</code></pre></div>
+<p><code>git clone</code>して<code>npm install</code>するだけで動くサンプルコードは次のリポジトリに用意してあります。</p>
+
+<ul>
+<li><a href="https://github.com/azu/webassembly-example" title="azu/webassembly-example: Test https://github.com/dcodeIO/webassembly">azu/webassembly-example: Test https://github.com/dcodeIO/webassembly</a></li>
+</ul>
+
+<p>また、少し話は異なりますがRustがEmscriptenを使わずにWebAssembly(<code>wasm32-unknown-unknown<br>
+</code>)の出力に対応しました。</p>
+
+<ul>
+<li><a href="https://github.com/rust-lang/rust/pull/45905">std: Add a new wasm32-unknown-unknown target by alexcrichton · Pull Request #45905 · rust-lang/rust</a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/46115">rustbuild: Enable WebAssembly backend by default by alexcrichton · Pull Request #46115 · rust-lang/rust</a></li>
+<li><a href="https://sbfl.net/blog/2017/11/27/rust-webassembly-standalone/" title="Rust単体でWebAssemblyをコンパイルする（Emscripten無し）">Rust単体でWebAssemblyをコンパイルする（Emscripten無し）</a></li>
+</ul>
+
+<p><a href="https://kripken.github.io/emscripten-site/">Emscripten</a>を使わずに<code>.wasm</code>を扱うことができる環境は増えてきているので、興味がある人は調べてみるといいかもしれません。<br>
+WebAssemblyについては次のサイトがWeeklyでニュースレターを更新しています。</p>
+
+<ul>
+<li><a href="http://wasmweekly.news/" title="WebAssembly Weekly · A community-driven weekly newsletter about WebAssembly">WebAssembly Weekly · A community-driven weekly newsletter about WebAssembly</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="jsdom-changelog-md-at-master-tmpvar-jsdom">jsdom/Changelog.md at master · tmpvar/jsdom</h2>
+
+<p><a href="https://github.com/tmpvar/jsdom/blob/master/Changelog.md#1140" title="jsdom/Changelog.md at master · tmpvar/jsdom">github.com/tmpvar/jsdom/blob/master/Changelog.md#1140</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>jsdom 11.4.0リリース。<br>
+基本的なSVGのサポート、<code>pretendToBeVisual</code>オプションの追加、<code>prepend()/append()/before()/after()/replaceWith()</code>の追加、<code>&lt;applet&gt;</code>要素の削除など</p>
+
+<hr>
+
+<h2 id="new-in-firefox-58-developer-edition-mozilla-hacks-the-web-developer-blog">New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2017/11/new-in-firefox-58-developer-edition/" title="New in Firefox 58: Developer Edition – Mozilla Hacks – the Web developer blog">hacks.mozilla.org/2017/11/new-in-firefox-58-developer-edition/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 58について。<br>
+デバッガーでフレームワークのスタックトレースが簡潔化、<code>console.groups</code>が折りたためるように。<br>
+また、WebVR(macOS)、FLACのサポート環境の追加、<code>PerformanceNavigationTiming</code>のサポート、Budgetベースのバックグラウンドにおける処理の制限追加など</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API#Policies_in_place_to_aid_background_page_performance">budget-based background timeout throttling</a></li>
+</ul>
+
+<hr>
+
+<h2 id="learn-svelte">Learn Svelte</h2>
+
+<p><a href="https://svelte.technology/guide#state-management" title="Learn Svelte">svelte.technology/guide#state-management</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">news</span></p></p>
+
+<p>コンパイルできるUIフレームワークのSvelteにStoreが追加された。<br>
+ReduxやMobXなどのように<code>Store</code>でStateを管理し、変更の監視やcompuate propertyの管理ができる</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="dynamic-import-web-google-developers">Dynamic import()  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/11/dynamic-import" title="Dynamic import()  |  Web  |  Google Developers">developers.google.com/web/updates/2017/11/dynamic-import</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">safari</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 63から利用できるDynamic <code>import()</code>についての解説</p>
+
+<hr>
+
+<h2 id="web-frameworks-conclusions-blog-sitepen">Web Frameworks: Conclusions - Blog | SitePen</h2>
+
+<p><a href="https://www.sitepen.com/blog/2017/11/10/web-frameworks-conclusions/" title="Web Frameworks: Conclusions - Blog | SitePen">www.sitepen.com/blog/2017/11/10/web-frameworks-conclusions/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptフレームワークの比較。<br>
+強み、弱み、将来性、選ぶ理由について</p>
+
+<hr>
+
+<h2 id="webassembly-nodejs-native-addon-islands-in-the-byte-stream">WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream</h2>
+
+<p><a href="http://gfx.hatenablog.com/entry/2017/11/16/231950" title="WebAssemblyをNodeJS Native Addonの配布形式として使う - Islands in the byte stream">gfx.hatenablog.com/entry/2017/11/16/231950</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">WebAssembly</span></p></p>
+
+<p>Emscriptenを使ってWebAssembl形式にしたNodeモジュールを配布する方法について</p>
+
+<hr>
+
+<h2 id="bankai-the-friendly-web-compiler-choo-medium">Bankai, the friendly web compiler – choo – Medium</h2>
+
+<p><a href="https://medium.com/choojs/bankai-the-friendly-web-compiler-35f1916679cc" title="Bankai, the friendly web compiler – choo – Medium">medium.com/choojs/bankai-the-friendly-web-compiler-35f1916679cc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">Tools</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Browserifyを使った開発ツールキットについて</p>
+
+<ul>
+<li><a href="https://github.com/choojs/bankai" title="choojs/bankai: - friendly web compiler">choojs/bankai: - friendly web compiler</a></li>
+</ul>
+
+<hr>
+
+<h2 id="javascript-webgl-2-0-gpgpu-qiita">JavaScriptのWebGL 2.0でGPGPU - Qiita</h2>
+
+<p><a href="https://qiita.com/teatime77/items/e867d7d462cb553b373d" title="JavaScriptのWebGL 2.0でGPGPU - Qiita">qiita.com/teatime77/items/e867d7d462cb553b373d</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebGL</span> <span class="jser-tag">article</span></p></p>
+
+<p>WebGL 2.0を使ったGPGPUについての解説記事。<br>
+WebGL 2.0を使った行列計算や他の実装との比較など</p>
+
+<hr>
+
+<h2 id="reactnative-qiita">ReactNative 本体のバージョンのアップグレードを行う - Qiita</h2>
+
+<p><a href="https://qiita.com/hotchpotch/items/5617caccd8749f410631" title="ReactNative 本体のバージョンのアップグレードを行う - Qiita">qiita.com/hotchpotch/items/5617caccd8749f410631</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>ReactNativeの0.44.xから0.49.xへのアップグレードについて。<br>
+<code>rn-diff</code>を使った変更内容のチェック、Xcode関係のアップデート、モジュールのマイグレーション、FlowとReactの型変更の対応などについて</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="introduction-to-node-js-edx">Introduction to Node.js | edX</h2>
+
+<p><a href="https://www.edx.org/course/introduction-node-js-microsoft-dev283x" title="Introduction to Node.js | edX">www.edx.org/course/introduction-node-js-microsoft-dev283x</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">MS</span> <span class="jser-tag">video</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>MicrosoftのNode.js入門講座</p>
+
+<hr>
+
+<h2 id="source-to-binary-journey-of-v8-javascript-engine-speaker-deck">Source to Binary - journey of V8 javascript engine // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/brn/source-to-binary-journey-of-v8-javascript-engine" title="Source to Binary - journey of V8 javascript engine // Speaker Deck">speakerdeck.com/brn/source-to-binary-journey-of-v8-javascript-engine</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">slide</span></p></p>
+
+<p>V8がJavaScriptのコードを実行するフロー、コンパイルパイプラインについてのスライド</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="jsbench-me-javascript-performance-benchmarking-playground">JSBench.me - JavaScript performance benchmarking playground</h2>
+
+<p><a href="https://jsbench.me/" title="JSBench.me - JavaScript performance benchmarking playground">jsbench.me/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">benchmark</span> <span class="jser-tag">Tools</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>JavaScriptのスニペットベンチマークサイト。<br>
+jsperfのようにJavaScriptのコードのマイクロベンチマークを取って比較できる</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="y-js-yjs-a-framework-for-real-time-p2p-shared-editing-on-any-data">y-js/yjs: A framework for real-time p2p shared editing on any data</h2>
+
+<p><a href="https://github.com/y-js/yjs" title="y-js/yjs: A framework for real-time p2p shared editing on any data">github.com/y-js/yjs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">p2p</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebRTC/WebSocktes/XMPPを使ったP2Pでデータのやり取りやテキストの同時編集ができるライブラリ</p>
+
+<hr>
+
+<h2 id="mikemcl-big-js-a-small-fast-javascript-library-for-arbitrary-precision-decimal-arithmetic">MikeMcl/big.js: A small, fast JavaScript library for arbitrary-precision decimal arithmetic.</h2>
+
+<p><a href="https://github.com/MikeMcl/big.js/" title="MikeMcl/big.js: A small, fast JavaScript library for arbitrary-precision decimal arithmetic.">github.com/MikeMcl/big.js/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Javaの<code>BigDecimal</code>のJavaScript実装ライブラリ</p>
+
+<hr>
+
+<h2 id="asfktz-autodll-webpack-plugin-webpacks-dllplugin-without-the-boilerplate">asfktz/autodll-webpack-plugin: Webpack&#39;s DllPlugin without the boilerplate</h2>
+
+<p><a href="https://github.com/asfktz/autodll-webpack-plugin" title="asfktz/autodll-webpack-plugin: Webpack&#39;s DllPlugin without the boilerplate">github.com/asfktz/autodll-webpack-plugin</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>webpackのDLLを簡単に扱えるようにするDLLプラグイン。<br>
+パッケージの追加や設定の変更をトリガーに再ビルドできる。</p>
+
+<hr>
+
+<h2 id="aws-aws-amplify-a-declarative-library-for-application-development-using-cloud-services-with-javascript">aws/aws-amplify: A declarative library for application development using Cloud services with JavaScript</h2>
+
+<p><a href="https://github.com/aws/aws-amplify" title="aws/aws-amplify: A declarative library for application development using Cloud services with JavaScript">github.com/aws/aws-amplify</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">aws</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">React</span></p></p>
+
+<p>AWSとの連携を簡単に行えるライブラリ。認証、Analytics、API、Storageなど。<br>
+またReact/React Nativeと連携できるライブラリも公開されている。</p>
+
+<ul>
+<li><a href="https://aws.amazon.com/jp/blogs/mobile/announcing-aws-amplify-and-the-aws-mobile-cli/" title="Announcing AWS Amplify and the AWS Mobile CLI | AWS Mobile Blog">Announcing AWS Amplify and the AWS Mobile CLI | AWS Mobile Blog</a></li>
+<li><a href="http://docs.aws.amazon.com/aws-mobile/latest/developerguide/web-getting-started.html" title="Get Started - AWS Mobile">Get Started - AWS Mobile</a></li>
+</ul>
+
+<hr>
+
+<h2 id="z-pattern-matching-z-native-pattern-matching-for-javascript">z-pattern-matching/z: native pattern matching for javascript</h2>
+
+<p><a href="https://github.com/z-pattern-matching/z" title="z-pattern-matching/z: native pattern matching for javascript">github.com/z-pattern-matching/z</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>パターンマッチライブラリ</p>
+
+<hr>
+
+<h2 id="imsnif-synp-convert-yarn-lock-to-package-lock-json-and-vice-versa">imsnif/synp: Convert yarn.lock to package-lock.json and vice versa</h2>
+
+<p><a href="https://github.com/imsnif/synp" title="imsnif/synp: Convert yarn.lock to package-lock.json and vice versa">github.com/imsnif/synp</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">npm</span> <span class="jser-tag">Tools</span></p></p>
+
+<p><code>yarn.lock</code>ファイルと<code>package-lock.json</code>ファイルを相互変換できるツール。</p>
+
+<hr>
+
+<h2 id="google-ts-style-typescript-style-guide-formatter-and-linter">google/ts-style: ☂️ TypeScript style guide, formatter, and linter.</h2>
+
+<p><a href="https://github.com/google/ts-style" title="google/ts-style: ☂️ TypeScript style guide, formatter, and linter.">github.com/google/ts-style</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">console</span> <span class="jser-tag">google</span></p></p>
+
+<p>設定不要なコンパイル、コードフォーマット、Lintを行うTypeScript向けのツール。 clang-format、TSLintを利用している。</p>
+
+<hr>
+
+<h2 id="naver-billboard-js-re-usable-easy-interface-javascript-chart-library-based-on-d3-v4">naver/billboard.js: Re-usable, easy interface JavaScript chart library based on D3 v4+</h2>
+
+<p><a href="https://github.com/naver/billboard.js" title="naver/billboard.js: Re-usable, easy interface JavaScript chart library based on D3 v4+">github.com/naver/billboard.js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">d3.js</span> <span class="jser-tag">グラフ</span> <span class="jser-tag">library</span></p></p>
+
+<p>D3.jsを使ったC3.jsのようなグラフライブラリ。<br>
+C3.jsをforkしたライブラリで、D3.js v4を使いC3.jsとの互換性を持っている</p>
+
+<hr>
+
+<h2 id="dcodeio-webassembly-a-minimal-toolkit-and-runtime-to-produce-and-run-webassembly-modules">dcodeIO/webassembly: A minimal toolkit and runtime to produce and run WebAssembly modules.</h2>
+
+<p><a href="https://github.com/dcodeIO/webassembly" title="dcodeIO/webassembly: A minimal toolkit and runtime to produce and run WebAssembly modules.">github.com/dcodeIO/webassembly</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">browser</span> <span class="jser-tag">node.js</span></p></p>
+
+<p>WebAssemblyのツールキットとランタイム。 wasmへのコンパイルに必要な依存の自動ダウンロードやコンパイルができる。 またwasm向けの<code>console</code>や<code>Mtch</code>などのバインディングを提供するランタイムも含まれている。</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript-kindle-amazon">ちゃんと使える力を身につける　JavaScriptのきほんのきほん | 大澤 文孝 | 工学 | Kindleストア | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E4%BD%BF%E3%81%88%E3%82%8B%E5%8A%9B%E3%82%92%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%91%E3%82%8B-JavaScript%E3%81%AE%E3%81%8D%E3%81%BB%E3%82%93%E3%81%AE%E3%81%8D%E3%81%BB%E3%82%93-%E5%A4%A7%E6%BE%A4-%E6%96%87%E5%AD%9D-ebook/dp/B0779R1R3P" title="ちゃんと使える力を身につける　JavaScriptのきほんのきほん | 大澤 文孝 | 工学 | Kindleストア | Amazon">www.amazon.co.jp/%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8%E4%BD%BF%E3%81%88%E3%82%8B%E5%8A%9B%E3%82%92%E8%BA%AB%E3%81%AB%E3%81%A4%E3%81%91%E3%82%8B-JavaScript%E3%81%AE%E3%81%8D%E3%81%BB%E3%82%93%E3%81%AE%E3%81%8D%E3%81%BB%E3%82%93-%E5%A4%A7%E6%BE%A4-%E6%96%87%E5%AD%9D-ebook/dp/B0779R1R3P</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>プログラミング入門者向けのJavaScript入門書</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-11-28-firefox-58-emscripten-webassembly-rust.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["firefox","webassembly","emscripten"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>firefox</li>
+                
+                <li>webassembly</li>
+                
+                <li>emscripten</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/11/28/firefox-58-emscripten-webassembly-rust/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/11/28/firefox-58-emscripten-webassembly-rust/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

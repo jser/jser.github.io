@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-10-10のJS: Mocha 4.0.0、npm 2要素認証、WHATWG Stream - JSer.info</title>
+    <meta name="description" content="JSer.info #352 - Mocha 4.0.0がリリースされました。">
+    
+    <meta name="keywords" content="Mocha,npm,security,Stream,WHATWG" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-10-10T13:21:18+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Mocha" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="Stream" property="article:tag">
+      
+      <meta content="WHATWG" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #352 - Mocha 4.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-10-10のJS: Mocha 4.0.0、npm 2要素認証、WHATWG Stream">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #352 - Mocha 4.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-10-10T13:21:18+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Mocha">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="Stream">
+
+<meta property="article:tag" content="WHATWG">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">2017-10-10のJS: Mocha 4.0.0、npm 2要素認証、WHATWG Stream</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年10月10日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-10-10-mocha-4.0.0-npm-2-whatwg-stream.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-10-10-mocha-4.0.0-npm-2-whatwg-stream.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #352 - Mocha 4.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://boneskull.com/mocha-v4-nears-release/">Mocha v4 Nears Release</a></li>
+<li><a href="https://github.com/mochajs/mocha/releases/tag/v4.0.0">Release v4.0.0 · mochajs/mocha</a></li>
+</ul>
+
+<p>Node.jsの古いバージョンやIE8以下などのサポート終了、<code>--no-exit</code>がデフォルトの動作になっています。また、4.0.0では<code>--compilers</code>コマンドライン引数が非推奨となり<code>--require</code>に動作を寄せていくようです。</p>
+
+<ul>
+<li><a href="https://github.com/mochajs/mocha/wiki/compilers-deprecation" title="compilers deprecation · mochajs/mocha Wiki">compilers deprecation · mochajs/mocha Wiki</a></li>
+</ul>
+
+<hr>
+
+<p>npm 5.5.0が公開されています。</p>
+
+<ul>
+<li><a href="https://github.com/npm/npm/releases/tag/v5.5.0" title="Release v5.5.0 · npm/npm">Release v5.5.0 · npm/npm</a></li>
+</ul>
+
+<p>このリリースには2要素認証のサポートが含まれています。</p>
+<div class="highlight"><pre><code class="language-" data-lang="">npm profile enable-tfa
+</code></pre></div>
+<p>また、npmにおいてreadonly tokenが発行できるようになっています。<br>
+詳細は次の記事やスライドで解説されています。</p>
+
+<ul>
+<li><a href="http://blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor" title="The npm Blog — Protect your npm account with two-factor...">The npm Blog — Protect your npm account with two-factor...</a></li>
+<li><a href="https://speakerdeck.com/ceejbot/keeping-javascript-safe" title="Keeping JavaScript safe // Speaker Deck">Keeping JavaScript safe // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://www.sitepen.com/blog/2017/10/02/a-guide-to-faster-web-app-io-and-data-operations-with-streams/" title="A Guide to Faster Web App I/O and Data Operations with Streams - Blog | SitePen">A Guide to Faster Web App I/O and Data Operations with Streams - Blog | SitePen</a>という記事ではWHATWG Streamについて解説されています。</p>
+
+<p>Stream処理の利点や基本的なWHATWG Streamのreadables streamやwritables streamの使い方について紹介しています。Stream同士を<code>pipeTo</code>で接続する方法やbackpressureについて書かれています。<br>
+Fetch APIとの組み合わせ、Dojoによる<a href="https://github.com/dojo/streams">互換実装</a>やブラウザの実装状況についてなどについて書かれています。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v4-0-0-mochajs-mocha">Release v4.0.0 · mochajs/mocha</h2>
+
+<p><a href="https://github.com/mochajs/mocha/releases/tag/v4.0.0" title="Release v4.0.0 · mochajs/mocha">github.com/mochajs/mocha/releases/tag/v4.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Mocha 4.0.0リリース。<br>
+Node.js 0.1xなどのサポート終了、IE8/PhantomJS 1.xのサポート終了、<code>--no-exit</code>がデフォルトの動作になるなど</p>
+
+<ul>
+<li><a href="https://boneskull.com/mocha-v4-nears-release/" title="Mocha v4 Nears Release">Mocha v4 Nears Release</a></li>
+<li><a href="https://github.com/mochajs/mocha/wiki/compilers-deprecation" title="compilers deprecation · mochajs/mocha Wiki">compilers deprecation · mochajs/mocha Wiki</a></li>
+</ul>
+
+<hr>
+
+<h2 id="ember-js-the-road-to-ember-3-0">Ember.js - The Road to Ember 3.0</h2>
+
+<p><a href="https://emberjs.com/blog/2017/10/03/the-road-to-ember-3-0.html" title="Ember.js - The Road to Ember 3.0">emberjs.com/blog/2017/10/03/the-road-to-ember-3-0.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">news</span></p></p>
+
+<p>Ember 3.0のロードマップについて。<br>
+LTSのリリーススケジュール、破壊的な変更の予定、削除されるAPIの予定などについて</p>
+
+<hr>
+
+<h2 id="release-v5-5-0-npm-npm">Release v5.5.0 · npm/npm</h2>
+
+<p><a href="https://github.com/npm/npm/releases/tag/v5.5.0" title="Release v5.5.0 · npm/npm">github.com/npm/npm/releases/tag/v5.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>npm 5.5.0の変更点について。<br>
+2要素認証のサポートとその有効化手順について</p>
+
+<hr>
+
+<h2 id="the-npm-blog-protect-your-npm-account-with-two-factor">The npm Blog — Protect your npm account with two-factor...</h2>
+
+<p><a href="http://blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor" title="The npm Blog — Protect your npm account with two-factor...">blog.npmjs.org/post/166039777883/protect-your-npm-account-with-two-factor</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">news</span></p></p>
+
+<p>npm 5.5.0で2要素認証のサポート。<br>
+またRead-only tokenを発行できるようになった。</p>
+
+<ul>
+<li><a href="https://speakerdeck.com/ceejbot/keeping-javascript-safe" title="Keeping JavaScript safe // Speaker Deck">Keeping JavaScript safe // Speaker Deck</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-41-webkit">Release Notes for Safari Technology Preview 41 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7989/release-notes-for-safari-technology-preview-41/" title="Release Notes for Safari Technology Preview 41 | WebKit">webkit.org/blog/7989/release-notes-for-safari-technology-preview-41/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">webkit</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 41リリース。<br>
+CSSの<code>calc()</code>内で<code>min()</code>と<code>max()</code>をサポート、<code>env()</code>を<code>constant()</code>のaliasとして追加、<code>DataTransfer.prototype.items</code>をデフォルトで有効化など</p>
+
+<hr>
+
+<h2 id="node-chakracore-update-from-node-js-interactive-2017-microsoft-edge-dev-blogmicrosoft-edge-dev-blog">Node-ChakraCore update from Node.js Interactive 2017 - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog</h2>
+
+<p><a href="https://blogs.windows.com/msedgedev/2017/10/04/node-chakracore-update-node-js-interactive-2017/" title="Node-ChakraCore update from Node.js Interactive 2017 - Microsoft Edge Dev BlogMicrosoft Edge Dev Blog">blogs.windows.com/msedgedev/2017/10/04/node-chakracore-update-node-js-interactive-2017/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ChakraCore</span></p></p>
+
+<p>Node-ChakraCoreについての記事。<br>
+MS以外でのproduction事例、Time-Travel debugging、N-APIの状況、iOS/Androidの対応についてなど。<br>
+また、今後の予定についてなど</p>
+
+<ul>
+<li><a href="http://www.janeasystems.com/blog/announcing-node-js-mobile-apps-true-node-js-runtime-android-ios/" title="Node.js for Mobile Apps: full-fledged Node.js for Android and iOS">Node.js for Mobile Apps: full-fledged Node.js for Android and iOS</a></li>
+</ul>
+
+<hr>
+
+<h2 id="falcor-changelog-md-at-master-netflix-falcor">falcor/CHANGELOG.md at master · Netflix/falcor</h2>
+
+<p><a href="https://github.com/Netflix/falcor/blob/master/CHANGELOG.md#100" title="falcor/CHANGELOG.md at master · Netflix/falcor">github.com/Netflix/falcor/blob/master/CHANGELOG.md#100</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>NetflixのデータFetchライブラリであるFalcor 1.0.0リリース。</p>
+
+<ul>
+<li><a href="http://netflix.github.io/falcor/" title="Falcor: One Model Everywhere">Falcor: One Model Everywhere</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="the-intl-pluralrules-api-web-google-developers">The Intl.PluralRules API  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/10/intl-pluralrules" title="The Intl.PluralRules API  |  Web  |  Google Developers">developers.google.com/web/updates/2017/10/intl-pluralrules</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">i18n</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">API</span></p></p>
+
+<p>複数形を扱うECMAScript i18n APIである<code>Intl.PluralRules</code>についての解説。</p>
+
+<hr>
+
+<h2 id="typescript-at-lyft-lyft-engineering">TypeScript at Lyft – Lyft Engineering</h2>
+
+<p><a href="https://eng.lyft.com/typescript-at-lyft-64f0702346ea" title="TypeScript at Lyft – Lyft Engineering">eng.lyft.com/typescript-at-lyft-64f0702346ea</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>LyftにおいてJavaScriptで書かれたものをTypeScriptにマイグレーションするまでの話。<br>
+FlowとTypeScriptどちらもJavaScriptとは異なる言語という認識での比較やJavaScriptで書かれたReactコンポーネントのマイグレーションなどについて</p>
+
+<hr>
+
+<h2 id="await-and-async-explained-with-diagrams-and-examples-nikolay-grozev">Await and Async Explained with Diagrams and Examples – Nikolay Grozev</h2>
+
+<p><a href="http://nikgrozev.com/2017/10/01/async-await/" title="Await and Async Explained with Diagrams and Examples – Nikolay Grozev">nikgrozev.com/2017/10/01/async-await/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span></p></p>
+
+<p>Async/Awaitの動きについてをダイアグラムとサンプルコードで解説した記事。<br>
+エラーハンドリング、concurrencyとparallelの違いについて</p>
+
+<hr>
+
+<h2 id="a-guide-to-faster-web-app-i-o-and-data-operations-with-streams-blog-sitepen">A Guide to Faster Web App I/O and Data Operations with Streams - Blog | SitePen</h2>
+
+<p><a href="https://www.sitepen.com/blog/2017/10/02/a-guide-to-faster-web-app-io-and-data-operations-with-streams/" title="A Guide to Faster Web App I/O and Data Operations with Streams - Blog | SitePen">www.sitepen.com/blog/2017/10/02/a-guide-to-faster-web-app-io-and-data-operations-with-streams/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WHATWG</span> <span class="jser-tag">stream</span> <span class="jser-tag">article</span></p></p>
+
+<p>WHATWG Streamについての記事。<br>
+Stream処理の利点や基本的なWHATWG Streamのread/write/pipeのやり方やbackpressureについて。<br>
+Fetch APIとの組み合わせ、Dojoによる互換実装、ブラウザの実装状況についてなど</p>
+
+<ul>
+<li><a href="https://streams.spec.whatwg.org/" title="Streams Standard">Streams Standard</a></li>
+<li><a href="https://github.com/dojo/streams" title="dojo/streams: Dojo 2 - WHATWG compliant streams.">dojo/streams: Dojo 2 - WHATWG compliant streams.</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="mdn-browser-compat-data-this-repository-contains-compatibility-data-for-web-technologies">mdn/browser-compat-data: This repository contains compatibility data for Web technologies</h2>
+
+<p><a href="https://github.com/mdn/browser-compat-data" title="mdn/browser-compat-data: This repository contains compatibility data for Web technologies">github.com/mdn/browser-compat-data</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Mozilla</span> <span class="jser-tag">WebPlatformAPI</span></p></p>
+
+<p>MDNで使われるブラウザの実装状況/Compatibility dataをまとめたリポジトリ。<br>
+Web API/CSS/HTML/HTTP/JavaScript/WebExtensionsについてのデータがまとまっている</p>
+
+<hr>
+
+<h2 id="scrolltop-on-scrollingelement-jsfiddle">scrollTop on scrollingElement - JSFiddle</h2>
+
+<p><a href="https://jsfiddle.net/xvrdaacf/3/" title="scrollTop on scrollingElement - JSFiddle">jsfiddle.net/xvrdaacf/3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">DOM</span> <span class="jser-tag">example</span></p></p>
+
+<p>Chrome 61+からは&quot;ScrollTopLeftInterop&quot;がデフォルトで有効化されたため、<code>scrollingElement</code>を使って<code>scrollTop</code>を取る必要がある。<br>
+<code>scrollingElement</code>のサンプルコード</p>
+
+<ul>
+<li><a href="https://dev.opera.com/articles/fixing-the-scrolltop-bug/" title="Dev.Opera — Fixing the scrollTop bug">Dev.Opera — Fixing the scrollTop bug</a></li>
+<li><a href="https://ginpen.com/2017/10/06/chrome-61-scrolltop/" title="新しいChromeでスクロールが取れない？　scrollingElement？ | Ginpen.com">新しいChromeでスクロールが取れない？　scrollingElement？ | Ginpen.com</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/scrollingElement" title="Document.scrollingElement - Web APIs | MDN">Document.scrollingElement - Web APIs | MDN</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="bahmutov-dont-break-checks-if-the-current-version-of-your-package-would-break-dependent-projects">bahmutov/dont-break: Checks if the current version of your package would break dependent projects</h2>
+
+<p><a href="https://github.com/bahmutov/dont-break" title="bahmutov/dont-break: Checks if the current version of your package would break dependent projects">github.com/bahmutov/dont-break</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p></p>
+
+<p>自分のライブラリがアップデートすることで、そのライブラリユーザーのパッケージが壊れないかをチェックできるツール。 壊れないかをチェックするライブラリを<code>.dont-break.json</code>に記述してテストできる。</p>
+
+<hr>
+
+<h2 id="raymondsze-create-react-scripts-easily-extend-the-react-scripts-to-your-own-version-of-react-scripts">raymondsze/create-react-scripts: Easily extend the react-scripts to your own version of react-scripts</h2>
+
+<p><a href="https://github.com/raymondsze/create-react-scripts" title="raymondsze/create-react-scripts: Easily extend the react-scripts to your own version of react-scripts">github.com/raymondsze/create-react-scripts</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>create-react-scriptsの設定を拡張できるようにしたツール</p>
+
+<ul>
+<li><a href="https://medium.com/@szer0601/create-react-scripts-create-your-own-react-scripts-without-fork-e73d384c7369" title="Create-React-Scripts — create your own react-scripts without fork">Create-React-Scripts — create your own react-scripts without fork</a></li>
+</ul>
+
+<hr>
+
+<h2 id="egeozcan-ppipe-pipes-values-through-functions-an-alternative-to-using-the-proposed-pipe-operator-for-es">egeozcan/ppipe: pipes values through functions, an alternative to using the proposed pipe operator ( |&gt; ) for ES</h2>
+
+<p><a href="https://github.com/egeozcan/ppipe" title="egeozcan/ppipe: pipes values through functions, an alternative to using the proposed pipe operator ( |&gt; ) for ES">github.com/egeozcan/ppipe</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>pipe operator(<code>|&gt;</code>)の代案として書かれたライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="redux-in-action-marc-garreau-will-faurot-9781617294976-amazon-com-books">Redux in Action: Marc Garreau, Will Faurot: 9781617294976: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Redux-Action-Marc-Garreau/dp/1617294977" title="Redux in Action: Marc Garreau, Will Faurot: 9781617294976: Amazon.com: Books">www.amazon.com/Redux-Action-Marc-Garreau/dp/1617294977</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年3月30日発売。<br>
+Reduxについての書籍</p>
+
+<hr>
+
+<h2 id="the-cli-book-writing-successful-command-line-interfaces-with-node-js-robert-kowalski-9781484231760-amazon-com-books">The CLI Book: Writing Successful Command Line Interfaces with Node.js: Robert Kowalski: 9781484231760: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/CLI-Book-Writing-Successful-Interfaces/dp/1484231767" title="The CLI Book: Writing Successful Command Line Interfaces with Node.js: Robert Kowalski: 9781484231760: Amazon.com: Books">www.amazon.com/CLI-Book-Writing-Successful-Interfaces/dp/1484231767</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年3月17日発売<br>
+Node.jsのCLIアプリケーションについての書籍</p>
+
+<hr>
+
+<h2 id="introducing-javascript-game-development-learn-to-use-html5-and-javascript-to-make-2d-games-graeme-stuart-9781484232514-amazon-com-books">Introducing JavaScript Game Development: Learn to use HTML5 and JavaScript to make 2D games: Graeme Stuart: 9781484232514: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Introducing-JavaScript-Game-Development-Learn/dp/1484232518" title="Introducing JavaScript Game Development: Learn to use HTML5 and JavaScript to make 2D games: Graeme Stuart: 9781484232514: Amazon.com: Books">www.amazon.com/Introducing-JavaScript-Game-Development-Learn/dp/1484232518</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">game</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018年4月12日発売<br>
+Canvasを使った2Dゲームについての書籍</p>
+
+<ul>
+<li><a href="http://www.apress.com/us/book/9781484232514" title="Introducing JavaScript Game Development - Learn to use HTML5 and | Graeme Stuart | Apress">Introducing JavaScript Game Development - Learn to use HTML5 and | Graeme Stuart | Apress</a></li>
+</ul>
+
+<hr>
+
+<h2 id="front-end-reactive-architectures-explore-the-future-of-the-front-end-using-reactive-javascript-frameworks-and-libraries-luca-mezzalira-9781484231791-amazon-com-books">Front-End Reactive Architectures: Explore the future of the front end using reactive JavaScript frameworks and libraries: Luca Mezzalira: 9781484231791: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Front-End-Reactive-Architectures-JavaScript-frameworks/dp/1484231791" title="Front-End Reactive Architectures: Explore the future of the front end using reactive JavaScript frameworks and libraries: Luca Mezzalira: 9781484231791: Amazon.com: Books">www.amazon.com/Front-End-Reactive-Architectures-JavaScript-frameworks/dp/1484231791</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span> <span class="jser-tag">Rx</span></p></p>
+
+<p>2018年4月17日発売<br>
+RxやCycle.jsなどを使ったReactiveアーキテクチャについての書籍</p>
+
+<ul>
+<li><a href="http://www.apress.com/gb/book/9781484231791#aboutAuthors" title="Front-End Reactive Architectures - Explore the future of the | Luca Mezzalira | Apress">Front-End Reactive Architectures - Explore the future of the | Luca Mezzalira | Apress</a></li>
+</ul>
+
+<hr>
+
+<h2 id="electron-from-beginner-to-pro-learn-to-build-cross-platform-desktop-apps-using-githubs-electron-chris-griffith-leif-wells-9781484228258-amazon-com-books">Electron: From Beginner to Pro: Learn to Build Cross Platform Desktop Apps using Github&#39;s Electron: Chris Griffith, Leif Wells: 9781484228258: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/Electron-Beginner-Platform-Desktop-Githubs/dp/1484228251" title="Electron: From Beginner to Pro: Learn to Build Cross Platform Desktop Apps using Github&#39;s Electron: Chris Griffith, Leif Wells: 9781484228258: Amazon.com: Books">www.amazon.com/Electron-Beginner-Platform-Desktop-Githubs/dp/1484228251</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017年12月9日発売<br>
+Electronでのアプリ開発についての書籍。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-10-10-mocha-4.0.0-npm-2-whatwg-stream.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Mocha","npm","security","Stream","WHATWG"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Mocha</li>
+                
+                <li>npm</li>
+                
+                <li>security</li>
+                
+                <li>Stream</li>
+                
+                <li>WHATWG</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/10/10/mocha-4.0.0-npm-2-whatwg-stream/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-02-17のJS: Babel(6to5)、BrowserSync 2.0、Flux実装比較 - JSer.info</title>
+    <meta name="description" content="JSer.info #215 - ES6+のコードをES5に変換するツールである6to5がBabelにリネームされてリリースされました。">
+    
+    <meta name="keywords" content="Tools,ES6,Flux,library" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2015-02-17T00:00:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="ES6" property="article:tag">
+      
+      <meta content="Flux" property="article:tag">
+      
+      <meta content="library" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2015/02/17/6to5-to-babel-browsersync-flux/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #215 - ES6+のコードをES5に変換するツールである6to5がBabelにリネームされてリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2015-02-17のJS: Babel(6to5)、BrowserSync 2.0、Flux実装比較">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2015/02/17/6to5-to-babel-browsersync-flux/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #215 - ES6+のコードをES5に変換するツールである6to5がBabelにリネームされてリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2015-02-17T00:00:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="ES6">
+
+<meta property="article:tag" content="Flux">
+
+<meta property="article:tag" content="library">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/02/17/6to5-to-babel-browsersync-flux/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/02/17/6to5-to-babel-browsersync-flux/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/02/17/6to5-to-babel-browsersync-flux/">2015-02-17のJS: Babel(6to5)、BrowserSync 2.0、Flux実装比較</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年02月17日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-02-17-6to5-to-babel-browsersync-flux.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2015/2015-02-17-6to5-to-babel-browsersync-flux.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/02/17/6to5-to-babel-browsersync-flux/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/02/17/6to5-to-babel-browsersync-flux/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #215 - ES6+のコードをES5に変換するツールである<a href="https://6to5.org/">6to5</a>が<a href="https://babeljs.io/" title="Babel · The transpiler for writing next generation JavaScript">Babel</a>にリネームされてリリースされました。</p>
+
+<ul>
+<li><a href="http://babeljs.io/blog/2015/02/15/not-born-to-die/" title="Not Born to Die · Babel">Not Born to Die · Babel</a></li>
+</ul>
+
+<p>また、BabelはAcornをベースにしたパーサーを利用していて、そのASTの元になっている<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API" title="SpiderMonkey parser">SpiderMonkey parser</a>のASTはES6以降についての仕様が曖昧になっていてその部分を各パーサがそれぞれ実装していました。</p>
+
+<p>最近になってjQuery FoundationにEsprimaが移管されたのが契機となって、Esprima、Acorn、Mozilla、Shift ASTの人たちが中心となってASTの仕様を定義していく<a href="https://github.com/estree/estree" title="ESTree">ESTree</a>が始まりました。(基本的には現行のASTと互換性を重視しています)</p>
+
+<p>Babelとしても<a href="https://github.com/sebmck" title="sebmck">@sebmck</a>氏が<a href="https://github.com/estree/estree" title="ESTree">ESTree</a>でのASTの策定に関わっていくようです。</p>
+
+<hr>
+
+<p>LiveReload的な機能を持っている開発用のローカルサーバを立ててくれる<a href="http://www.wearejh.com/news/browsersync-2-0/" title="BrowserSync 2.0 - JH">BrowserSync 2.0</a>がリリースされました。</p>
+
+<p>元々多機能でしたが、<a href="http://pesticide.io/" title="Pesticide - Kill Your Css Layout Bugs">Pesticide</a>を使ったCSSアウトラインのデバッグ機能やレイテンシーのシミュレート等Remote debug機能が強化されています。</p>
+
+<ul>
+<li><a href="http://www.browsersync.io/" title="BrowserSync - Time-saving synchronised browser testing">BrowserSync - Time-saving synchronised browser testing</a></li>
+</ul>
+
+<hr>
+
+<p><a href="http://pixelhunter.me/post/110248593059/flux-solutions-compared-by-example" title="Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&amp;#39;s blog">Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#39;s blog</a>という記事では<a href="https://github.com/voronianski/flux-comparison" title="voronianski/flux-comparison">voronianski/flux-comparison</a>というFlux実装の比較をした経験から得た事について書かれています。</p>
+
+<p>&quot;Flux Online Shop&quot;を題材にそれぞれのライブラリがどのようなアプローチをとっているかや、そこから見えてくるFluxアーキテクチャについて書かれています。<br>
+一度、<a href="http://facebook.github.io/flux/">Facebookで紹介されている素のFlux</a>を実装してみてから読んでみると面白いと思います。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v1-11-0-jscs-dev-node-jscs">Release v1.11.0 · jscs-dev/node-jscs</h2>
+
+<p><a href="https://github.com/jscs-dev/node-jscs/releases/tag/v1.11.0" title="Release v1.11.0 · jscs-dev/node-jscs">github.com/jscs-dev/node-jscs/releases/tag/v1.11.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jscs v1.11.0リリース。<br>
+既存のファイルの用意されてるプリセットでチェックして、自動で設定ファイルを作成出来る<code>--auto-configure</code>のオプションの追加、ルールの追加修正など。</p>
+
+<hr>
+
+<h2 id="jquery-ui-1-11-3-jquery-ui-blog">jQuery UI 1.11.3 | jQuery UI Blog</h2>
+
+<p><a href="http://blog.jqueryui.com/2015/02/jquery-ui-1-11-3/" title="jQuery UI 1.11.3 | jQuery UI Blog">blog.jqueryui.com/2015/02/jquery-ui-1-11-3/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">jQuery</span> <span class="jser-tag">UI</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>jQuery UI 1.11.3リリース。</p>
+
+<hr>
+
+<h2 id="changelog-lodash-lodash-wiki">Changelog · lodash/lodash Wiki</h2>
+
+<p><a href="https://github.com/lodash/lodash/wiki/Changelog#v320" title="Changelog · lodash/lodash Wiki">github.com/lodash/lodash/wiki/Changelog#v320</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>lodash v3.2.0リリース。<br>
+<code>_.fill</code>や<code>_.spread</code>等の追加、lazyサポートの修正や対応メソッドの追加</p>
+
+<hr>
+
+<h2 id="browsersync-2-0-jh">BrowserSync 2.0 - JH</h2>
+
+<p><a href="http://www.wearejh.com/news/browsersync-2-0/" title="BrowserSync 2.0 - JH">www.wearejh.com/news/browsersync-2-0/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>LiveReloadなどが入った開発用サーバであるBrowserSync 2.0リリース。<br>
+デバッグのUI画面が追加され、履歴、接続してる端末一覧、CSSでデバッグ用にアウトライン表示などの機能が追加されている</p>
+
+<hr>
+
+<h2 id="download-requirejs">Download RequireJS</h2>
+
+<p><a href="http://requirejs.org/docs/download.html#2-1-16" title="Download RequireJS">requirejs.org/docs/download.html#2-1-16</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AMD</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>RequireJS 2.1.16リリース。<br>
+依存関係のパースをするのにEsprima 2.0を使うように、r.jsがNashornをサポート、UMDサポートのアップデート</p>
+
+<hr>
+
+<h2 id="release-pure-0-6-0-rc-1-new-pure-menus-yahoo-pure">Release Pure 0.6.0-rc-1 – New Pure Menus · yahoo/pure</h2>
+
+<p><a href="https://github.com/yahoo/pure/releases/tag/v0.6.0-rc-1" title="Release Pure 0.6.0-rc-1 – New Pure Menus · yahoo/pure">github.com/yahoo/pure/releases/tag/v0.6.0-rc-1</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Pure 0.6.0-rc-1リリース。<br>
+Menusの書き直し、Normalizeのアップデート(IE 7以下はサポート廃止)など</p>
+
+<hr>
+
+<h2 id="js2coffee-newin2-0-md-at-master-js2coffee-js2coffee">js2coffee/New<em>in</em>2.0.md at master · js2coffee/js2coffee</h2>
+
+<p><a href="https://github.com/js2coffee/js2coffee/blob/master/notes/New_in_2.0.md" title="js2coffee/New\_in\_2.0.md at master · js2coffee/js2coffee">github.com/js2coffee/js2coffee/blob/master/notes/New<em>in</em>2.0.md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">CoffeeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>JavaScriptをCoffeeScriptに変換するJs2coffee 2.0リリース。<br>
+エディタや警告の表示、ASTの表示、SourceMap対応など</p>
+
+<hr>
+
+<h2 id="harmony-specification_drafts-es-wiki">harmony:specification_drafts [ES Wiki]</h2>
+
+<p><a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts" title="harmony:specification\_drafts \[ES Wiki\]">wiki.ecmascript.org/doku.php?id=harmony:specification_drafts</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ECMAScript 2015 (ES6)  Draft Rev 33リリース。<br>
+<code>super()</code>に関する制約の記述の追加、module周りのリファクタリング</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="not-born-to-die-babel">Not Born to Die · Babel</h2>
+
+<p><a href="https://babeljs.io/blog/2015/02/15/not-born-to-die" title="Not Born to Die · Babel">babeljs.io/blog/2015/02/15/not-born-to-die</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>6to5が&quot;Babel&quot;にリネームされた。<br>
+多くのツールがparsersとtranspilersに依存しているため、Babelプロジェクトではこの部分を解決していく。<br>
+ESTreeというASTの仕様の標準化作業にも協力していくとのこと</p>
+
+<ul>
+<li><a href="https://github.com/babel/babel/issues/568" title="Project scope and future · Issue #568 · babel/babel">Project scope and future · Issue #568 · babel/babel</a></li>
+<li><a href="https://github.com/estree/estree" title="estree/estree">estree/estree</a></li>
+<li><a href="https://github.com/babel/babel/issues/596" title="Name suggestions · Issue #596 · babel/babel">Name suggestions · Issue #596 · babel/babel</a></li>
+</ul>
+
+<hr>
+
+<h2 id="estree-estree-github">estree/estree · GitHub</h2>
+
+<p><a href="https://github.com/estree/estree" title="estree/estree · GitHub">github.com/estree/estree</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span></p>
+
+<p>SpiderMonkey Parser APIのASTのドキュメントがGitHubに移行し、ES6についてのドキュメント化が開始された。<br>
+現行の多くのツールがこれに依存していて、明文化されてないASTについてを仕様に落とすのが目的。</p>
+
+<hr>
+
+<h2 id="jscs-in-use">JSCS in use</h2>
+
+<p><a href="http://varya.me/en/posts/jscs-in-use/" title="JSCS in use">varya.me/en/posts/jscs-in-use/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>JavaScriptのコードスタイルチェックツールであるJSCSの使い方について</p>
+
+<ul>
+<li><a href="http://varya.me/jscs-talk/" title="JavaScript CodeStyle. Automatically!">JavaScript CodeStyle. Automatically!</a></li>
+<li><a href="http://frontendbabel.info/articles/jscs-javascript-code-style/" title="JSCS: JavaScript Code Style — Frontend Babel">JSCS: JavaScript Code Style — Frontend Babel</a></li>
+</ul>
+
+<hr>
+
+<h2 id="extensible-web-api-block-rockin-codes">Extensible Web を支える低レベル API 群 - Block Rockin’ Codes</h2>
+
+<p><a href="http://jxck.hatenablog.com/entry/extensible-lowlevel-api" title="Extensible Web を支える低レベル API 群 - Block Rockin’ Codes">jxck.hatenablog.com/entry/extensible-lowlevel-api</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebPlatformAPI</span></p>
+
+<p>現在策定や実装が進んでいる低レベルなAPIとしてどのようなものがあるかについてのまとめ</p>
+
+<ul>
+<li><a href="http://www.slideshare.net/Jxck/extensible-web" title="Extensible web">Extensible web</a></li>
+</ul>
+
+<hr>
+
+<h2 id="change-detection-in-angular-2-victor-savkin">Change Detection in Angular 2 | Victor Savkin</h2>
+
+<p><a href="http://victorsavkin.com/post/110170125256/change-detection-in-angular-2" title="Change Detection in Angular 2 | Victor Savkin">victorsavkin.com/post/110170125256/change-detection-in-angular-2</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">アルゴリズム</span></p>
+
+<p>Angular 2の変更検知の仕組みについての解説。<br>
+基本的にはComponentツリーを上から走査して変更を検知するが、Reactの<code>shouldComponentUpdate()</code>のように子への探索を減らす仕組みが導入されている</p>
+
+<ul>
+<li><a href="http://steps.dodgson.org/b/2014/12/11/why-is-real-dom-slow/" title="リアルな DOM はなぜ遅いのか - steps to phantasien">リアルな DOM はなぜ遅いのか - steps to phantasien</a></li>
+</ul>
+
+<hr>
+
+<h2 id="year-in-review-spidermonkey-part-1-h4writer">Year in review: Spidermonkey part 1 | H4writer</h2>
+
+<p><a href="http://h4writer.com/?p=14" title="Year in review: Spidermonkey part 1 | H4writer">h4writer.com/?p=14</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">firefox</span> <span class="jser-tag">歴史</span></p>
+
+<p>2014年のFirefoxに入ったAPI、機能や改善点等の振り返り</p>
+
+<ul>
+<li><a href="http://h4writer.com/?p=40" title="Year in review: Spidermonkey in 2014 part 2 | H4writer">Year in review: Spidermonkey in 2014 part 2 | H4writer</a></li>
+</ul>
+
+<hr>
+
+<h2 id="touchdevelop-touchdevelop-goes-open-source">TouchDevelop - TouchDevelop goes open-source</h2>
+
+<p><a href="https://www.touchdevelop.com/blog/touchdevelopgoesopensource" title="TouchDevelop - TouchDevelop goes open-source">www.touchdevelop.com/blog/touchdevelopgoesopensource</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">MS</span> <span class="jser-tag">オープンソース</span></p>
+
+<p>タッチ操作でアプリを開発出来るウェブアプリである TouchDevelopがオープンソースとして公開された。<br>
+TypeScriptで書かれている</p>
+
+<ul>
+<li><a href="https://github.com/Microsoft/TouchDevelop" title="TouchDevelop">TouchDevelop</a></li>
+</ul>
+
+<hr>
+
+<h2 id="a-guide-to-es6-classes-i-like-kill-nerds">A Guide To ES6 Classes - I Like Kill Nerds</h2>
+
+<p><a href="http://ilikekillnerds.com/2015/02/a-guide-to-es6-classes/" title="A Guide To ES6 Classes - I Like Kill Nerds">ilikekillnerds.com/2015/02/a-guide-to-es6-classes/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span></p>
+
+<p>ES6 Classesについて。<br>
+ES5ではどのように&quot;クラス&quot;を書いてたかと、ES6ではどのように書けるかについて。<br>
+継承や<code>super()</code>についても触れている</p>
+
+<hr>
+
+<h2 id="flux-solutions-compared-by-example-pixelhunter-me-dmitri-voronianskis-blog">Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&#x27;s blog</h2>
+
+<p><a href="http://pixelhunter.me/post/110248593059/flux-solutions-compared-by-example" title="Flux solutions compared by example - Pixelhunter.me | Dmitri Voronianski&amp;#x27;s blog">pixelhunter.me/post/110248593059/flux-solutions-compared-by-example</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">サンプル</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>Flux実装のライブラリは多種多様で、小さなサンプルをそれぞれのライブラリを使って分かった事について。<br>
+通信でデータ取得はどこですべきか、<br>
+Isomorphicとシングルトン、ComponentをラップしたContainerのレイヤーを設ける事についてなど</p>
+
+<hr>
+
+<h2 id="60fps-on-the-mobile-web-flipboard-engineering">60fps on the mobile web — Flipboard Engineering</h2>
+
+<p><a href="http://engineering.flipboard.com/2015/02/mobile-web/" title="60fps on the mobile web — Flipboard Engineering">engineering.flipboard.com/2015/02/mobile-web/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">canvas</span> <span class="jser-tag">React</span> <span class="jser-tag">DOM</span></p>
+
+<p>React Canvasについて。<br>
+canvas要素でUIを作ることで60FPSのスクロールを実現する。<br>
+宣言的にUIを作れるためDOM的な抽象レイヤーとしてReactを使い、内部的にCanvasでレンダリングするReact Canvasを開発した話</p>
+
+<ul>
+<li><a href="https://github.com/flipboard/react-canvas" title="Flipboard/react-canvas">Flipboard/react-canvas</a></li>
+<li><a href="http://www.paciellogroup.com/blog/2015/02/flipboard-react-canvas-accessibility/" title="Flipboard – React Canvas Accessibility | The Paciello Group – Your Accessibility Partner (WCAG 2.0/508 audits, VPAT, usability and accessible user experience)">Flipboard – React Canvas Accessibility | The Paciello Group – Your Accessibility Partner (WCAG 2.0/508 audits, VPAT, usability and accessible user experience)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="maxogden-maintenance-modules">maxogden/maintenance-modules</h2>
+
+<p><a href="https://github.com/maxogden/maintenance-modules" title="maxogden/maintenance-modules">github.com/maxogden/maintenance-modules</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">Tools</span></p>
+
+<p>npmでモジュールを公開するのを補助する色々なツールの紹介。<br>
+Travis CIの設定、gh-pagesへのデプロイスクリプト、package.jsonの整形、npm release、依存パッケージのチェックなど</p>
+
+<hr>
+
+<h2 id="detect-javascript-problems-with-eslint">Detect JavaScript Problems with ESLint</h2>
+
+<p><a href="http://davidwalsh.name/eslint" title="Detect JavaScript Problems with ESLint">davidwalsh.name/eslint</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>ESLintを使ったJavaScriptのLintについて。<br>
+オプションの設定方法</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="es6-at-paypal">ES6 at PayPal</h2>
+
+<p><a href="http://www.slideshare.net/JamundFerguson/es6-at-paypal" title="ES6 at PayPal">www.slideshare.net/JamundFerguson/es6-at-paypal</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">スライド</span></p>
+
+<p>ES6を使ってみようという感じのスライド</p>
+
+<hr>
+
+<h2 id="asynchronous-programming-the-end-of-the-loop-video-tutorial-series-eggheadio">Asynchronous Programming: The End of The Loop - Video Tutorial Series @eggheadio</h2>
+
+<p><a href="https://egghead.io/series/mastering-asynchronous-programming-the-end-of-the-loop" title="Asynchronous Programming: The End of The Loop - Video Tutorial Series @eggheadio">egghead.io/series/mastering-asynchronous-programming-the-end-of-the-loop</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">動画</span></p>
+
+<p>NetflixのJafar HusainさんによるJavaScriptの非同期プログラミングについてのスクリーンキャスト。<br>
+聞きやすくて、分かりやすくて、書き起こしもある</p>
+
+<hr>
+
+<h2 id="tagtree-course-expert-es6">Tagtree course: Expert ES6</h2>
+
+<p><a href="http://tagtree.io/courses/expert-es6/" title="Tagtree course: Expert ES6">tagtree.io/courses/expert-es6/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">tutorial</span></p>
+
+<p>ES6について学べる講座。<br>
+ES6の新しい機能についての解説と練習問題を解いて学べる</p>
+
+<hr>
+
+<h2 id="nodefest-2014-youtube">nodefest 2014 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PL42hYWKFRfN689rx3pVReAkYjs2F05Kum" title="nodefest 2014 - YouTube">www.youtube.com/playlist?list=PL42hYWKFRfN689rx3pVReAkYjs2F05Kum</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">イベント</span> <span class="jser-tag">動画</span></p>
+
+<p>東京Node学園祭2014 <a href="http://nodefest.jp/2014/">http://nodefest.jp/2014/</a> の動画が公開された</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス</h1>
+
+<hr>
+
+<h2 id="npm-how-to-npm">npm/how-to-npm</h2>
+
+<p><a href="https://github.com/npm/how-to-npm" title="npm/how-to-npm">github.com/npm/how-to-npm</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">npm</span> <span class="jser-tag">tutorial</span></p>
+
+<p>npmについてコマンドラインで学べるインタラクティブな教材</p>
+
+<hr>
+
+<h2 id="css2scss-from-css-to-scss">css2scss - from css to scss</h2>
+
+<p><a href="http://sebastianpontow.de/css2compass" title="css2scss - from css to scss">sebastianpontow.de/css2compass</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Sass</span> <span class="jser-tag">webservice</span></p>
+
+<p>CSSからSCSSの機能を使ったものを変換したり、色見本を作ってくれるサービス。</p>
+
+<ul>
+<li><a href="http://qiita.com/koh-taka@github/items/bf638dd64c7c09e93557" title="汚いcssを整形するWebアプリ「css2scss」でリファクタリングした際、「ヤバい」と感じた３つの機能と３つの点 - Qiita">汚いcssを整形するWebアプリ「css2scss」でリファクタリングした際、「ヤバい」と感じた３つの機能と３つの点 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="wooorm-eslint-md">wooorm/eslint-md</h2>
+
+<p><a href="https://github.com/wooorm/eslint-md" title="wooorm/eslint-md">github.com/wooorm/eslint-md</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Markdown</span> <span class="jser-tag">Tools</span></p>
+
+<p>Markdownの中にあるCodeBlockのJavaScriptをESLintでチェックできるツール</p>
+
+<hr>
+
+<h2 id="phoenixmatrix-phoenixmatrix-proxy">Phoenixmatrix/phoenixmatrix-proxy</h2>
+
+<p><a href="https://github.com/Phoenixmatrix/phoenixmatrix-proxy" title="Phoenixmatrix/phoenixmatrix-proxy">github.com/Phoenixmatrix/phoenixmatrix-proxy</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node-webkit</span> <span class="jser-tag">proxy</span> <span class="jser-tag">app</span></p>
+
+<p>node-webkit(nw.js)で書かれたプロキシアプリ。<br>
+SSLにもCharlesみたいに証明書を使ってプロキシ出来る。Fiddlerとかみたいにスクリプタブルなデバッグプロキシとなるのが目的</p>
+
+<hr>
+
+<h2 id="wix-react-templates">wix/react-templates</h2>
+
+<p><a href="https://github.com/wix/react-templates" title="wix/react-templates">github.com/wix/react-templates</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">template</span> <span class="jser-tag">library</span></p>
+
+<p>ReactのJSXへ変換できるテンプレートとコンパイラ。<br>
+JetBrains IDEで動くプラグインが用意されている<br>
+<a href="https://github.com/idok/react-templates-plugin">https://github.com/idok/react-templates-plugin</a></p>
+
+<hr>
+
+<h2 id="flipboard-react-canvas">Flipboard/react-canvas</h2>
+
+<p><a href="https://github.com/flipboard/react-canvas" title="Flipboard/react-canvas">github.com/flipboard/react-canvas</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span></p>
+
+<p>CanvasのレンダリングをするReact components。<br>
+基本的な要素、Events、Text sizing、css-layout(パフォーマンス優先なのでなくなるかも?)、Accessibilityへの配慮が予定されてる</p>
+
+<ul>
+<li><a href="http://engineering.flipboard.com/2015/02/mobile-web/" title="60fps on the mobile web — Flipboard Engineering">60fps on the mobile web — Flipboard Engineering</a></li>
+</ul>
+
+<hr>
+
+<h2 id="reapp-hybrid-apps-fast">Reapp - Hybrid apps, fast</h2>
+
+<p><a href="http://reapp.io/" title="Reapp - Hybrid apps, fast">reapp.io/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">mobile</span> <span class="jser-tag">library</span></p>
+
+<p>ReactベースのモバイルUIフレームワーク</p>
+
+<hr>
+
+<h2 id="maxogden-wzrd">maxogden/wzrd</h2>
+
+<p><a href="https://github.com/maxogden/wzrd" title="maxogden/wzrd">github.com/maxogden/wzrd</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browserify</span> <span class="jser-tag">debug</span> <span class="jser-tag">library</span></p>
+
+<p>beefyみたいなBrowserifyを使ったローカルサーバを立てるコマンドラインツール</p>
+
+<hr>
+
+<h2 id="typicode-jsop">typicode/jsop</h2>
+
+<p><a href="https://github.com/typicode/jsop" title="typicode/jsop">github.com/typicode/jsop</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p>
+
+<p>Object.observeを使って読み込んだJSONを書き換えたら自動的に保存するNode.jsモジュール</p>
+
+<hr>
+
+<h2 id="acdlite-flummox">acdlite/flummox</h2>
+
+<p><a href="https://github.com/acdlite/flummox" title="acdlite/flummox">github.com/acdlite/flummox</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Flux</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>Flux実装ライブラリ。<br>
+コアとなるFlummoxクラスを継承して、そこにStoreとActionを登録することでシングルトンを避ける作りになっている。ES6 Classesやasync/awaitを使った書き方等が考慮されている。</p>
+
+<hr>
+
+<h2 id="fdecampredon-jsx-typescript">fdecampredon/jsx-typescript</h2>
+
+<p><a href="https://github.com/fdecampredon/jsx-typescript" title="fdecampredon/jsx-typescript">github.com/fdecampredon/jsx-typescript</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">React</span></p>
+
+<p>TypeScript + React(JSX)なTypeScript fork.</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="exploring-es6-upgrade-to-the-next-version-of-javascript">Exploring ES6: Upgrade to the next version of JavaScript</h2>
+
+<p><a href="http://exploringjs.com/" title="Exploring ES6: Upgrade to the next version of JavaScript">exploringjs.com/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+
+<p>Speaking JavaScriptの著者でもあるDr. AxelによるES6についての書籍</p>
+
+<ul>
+<li><a href="http://www.2ality.com/2015/02/es6-book.html" title="First details of my upcoming book on ES6">First details of my upcoming book on ES6</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-02-17-6to5-to-babel-browsersync-flux.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Tools","ES6","Flux","library"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Tools</li>
+                
+                <li>ES6</li>
+                
+                <li>Flux</li>
+                
+                <li>library</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/02/17/6to5-to-babel-browsersync-flux/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/02/17/6to5-to-babel-browsersync-flux/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

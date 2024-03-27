@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2020-11-16のJS: Angular 11、Reactアプリの最適化、TypeScriptを採用して学んだこと - JSer.info</title>
+    <meta name="description" content="JSer.info #514 -　Angular 11がリリースされました。Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blogangular/CHANGELOG.md at master · angula...">
+    
+    <meta name="keywords" content="React,Angular,ESLint,performance,ECMAScript" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2020-11-16T09:28:55+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="Angular" property="article:tag">
+      
+      <meta content="ESLint" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2020/11/16/angular-11-react-typescript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #514 -　Angular 11がリリースされました。Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blogangular/CHANGELOG.md at master · angula..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2020-11-16のJS: Angular 11、Reactアプリの最適化、TypeScriptを採用して学んだこと">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2020/11/16/angular-11-react-typescript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #514 -　Angular 11がリリースされました。Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blogangular/CHANGELOG.md at master · angula...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2020-11-16T09:28:55+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="Angular">
+
+<meta property="article:tag" content="ESLint">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="ECMAScript">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2020/11/16/angular-11-react-typescript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2020/11/16/angular-11-react-typescript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2020/11/16/angular-11-react-typescript/">2020-11-16のJS: Angular 11、Reactアプリの最適化、TypeScriptを採用して学んだこと</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2020年11月16日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2020/2020-11-16-angular-11-react-typescript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2020/2020-11-16-angular-11-react-typescript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2020/11/16/angular-11-react-typescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2020/11/16/angular-11-react-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #514 -　Angular 11がリリースされました。</p>
+
+<ul>
+<li><a href="https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7">Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog</a></li>
+<li><a href="https://github.com/angular/angular/blob/master/CHANGELOG.md#1100-2020-11-11">angular/CHANGELOG.md at master · angular/angular</a></li>
+</ul>
+
+<p>Angular 11ではフォントの自動インライン化の対応、Component Test Harnessesがすべてのコンポーネントに対応、Language Serviceの対応改善、HMRをCLIの引数で有効化できるようになっています。<br>
+その他には、webpack5の実験的サポート、Angular CLIのデフォルトLinterの今後について書かれています。</p>
+
+<p>現在のAngularではTSLintを使ったLintが実装されていますが、<a href="https://medium.com/palantir/tslint-in-2019-1a144c2317a9">TSLintは非推奨となりESLintへの移行</a>が進められています。<br>
+Angularでも同様のTSLintからESLintの移行が進められていましたが、すでにコミュニティベースで進んでいた<a href="https://github.com/angular-eslint/angular-eslint">Angular ESLint</a>に移行していく方針についても書かれています。</p>
+
+<p>詳しくは次の記事も参照してください。</p>
+
+<ul>
+<li><a href="https://blog.lacolaco.net/2020/11/angular-state-of-linting-2020/">Angular: ESLintサポートの現状 2020 Autumn | <output type=text></a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/">Optimize React Apps PageSpeed Insights Score - thetuteur</a>という記事では、Reactで書かれたアプリケーションのパフォーマンス改善について書かれています。</p>
+
+<p>未使用のJavaScriptを削除、コンポーネントのLazy Load、TTFBを短縮するためにNode.jsでレスポンスのIn-Memoryでキャッシュする方法について。</p>
+
+<p><a href="https://github.com/Aljullu/react-lazy-load-image-component#readme"><code>react-lazy-load-image-component</code></a>を使って画像の遅延ロード、<a href="https://github.com/hadeeb/react-lazy-hydration"><code>react-lazy-hydration</code></a>を使って初期ロードでのメインスレッド処理を減らす方法などについて書かれています。<br>
+また、CSSの非同期ロードや<a href="https://github.com/addyosmani/critical"><code>critical</code></a>を使ってUAごとに対してクリティカルパスCSSの生成などについても書かれています。</p>
+
+<hr>
+
+<p><a href="https://www.techatbloomberg.com/blog/10-insights-adopting-typescript-at-scale/">10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg</a>という記事では、TypeScriptを採用して学んだことについて色々と書かれています。</p>
+
+<p>TypeScriptという言語、tsconfigの設定、型定義の扱い方などについて次のような判断軸で色々と書かれています。</p>
+
+<ul>
+<li>Scalability</li>
+<li>Ecosystem Coherence</li>
+<li>Standards Alignment</li>
+</ul>
+
+<p>この記事から参照されている<code>type</code>と<code>interface</code>の違いやコンパイルパフォーマンスについての記事も興味深いです。</p>
+
+<ul>
+<li><a href="https://ncjamieson.com/prefer-interfaces/">TypeScript: Prefer Interfaces — @ncjamieson</a></li>
+<li><a href="https://github.com/microsoft/TypeScript/wiki/Performance">Performance · microsoft/TypeScript Wiki</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="node-v15-2-0-current-node-js">Node v15.2.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v15.2.0/" title="Node v15.2.0 (Current) | Node.js">nodejs.org/en/blog/release/v15.2.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v15.2.0リリース。<br>
+<code>events</code>にイベント名を指定してリスナーを取得する<code>getEventListeners</code>の追加、<code>fs</code>の<code>writeFile</code>/<code>readFile</code>がAbortSignal対応など</p>
+
+<hr>
+
+<h2 id="bootstrap-5-alpha-3-bootstrap-blog">Bootstrap 5 Alpha 3 | Bootstrap Blog</h2>
+
+<p><a href="https://blog.getbootstrap.com/2020/11/11/bootstrap-5-alpha-3/" title="Bootstrap 5 Alpha 3 | Bootstrap Blog">blog.getbootstrap.com/2020/11/11/bootstrap-5-alpha-3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bootstrap 5 Alpha 3リリース。<br>
+<code>.card</code>ベースのアコーディオンの代わりとなる<code>.accordion</code>の追加、<code>.btn-block</code>の削除、Utilitiesクラスの追加など</p>
+
+<hr>
+
+<h2 id="version-11-of-angular-now-available-by-mark-techson-nov-2020-angular-blog">Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog</h2>
+
+<p><a href="https://blog.angular.io/version-11-of-angular-now-available-74721b7952f7" title="Version 11 of Angular Now Available | by Mark Techson | Nov, 2020 | Angular Blog">blog.angular.io/version-11-of-angular-now-available-74721b7952f7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Angular 11リリース。<br>
+フォントの自動インライン化の対応、Component Test Harnessesがすべてのコンポーネントに対応、Language Serviceの対応改善、HMRをCLIの引数で有効化できるように。<br>
+その他には、webpack5の実験的サポートなど</p>
+
+<ul>
+<li><a href="https://github.com/angular/angular/blob/master/CHANGELOG.md#1100-2020-11-11" title="angular/CHANGELOG.md at master · angular/angular">angular/CHANGELOG.md at master · angular/angular</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-22-0-ryansolid-solid">Release v0.22.0 · ryansolid/solid</h2>
+
+<p><a href="https://github.com/ryansolid/solid/releases/tag/v0.22.0" title="Release v0.22.0 · ryansolid/solid">github.com/ryansolid/solid/releases/tag/v0.22.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>UI作成ライブラリのsolid v0.22.0リリース。<br>
+<code>splid-js/dom</code>を非推奨化し、<code>solid-js/web</code>を代わりに利用。<br>
+<code>dev</code>オプションのサポート、CDNのJSだけで動かせるように<code>solid-js/html</code>などを同梱、<code>renderToWebStream</code>や<code>createMutable</code>の追加など</p>
+
+<hr>
+
+<h2 id="lunuy-iterable-weak-iterable-weakset-weakmap-using-es2021-weakref">Lunuy/iterable-weak: Iterable WeakSet / WeakMap using ES2021 WeakRef</h2>
+
+<p><a href="https://github.com/Lunuy/iterable-weak" title="Lunuy/iterable-weak: Iterable WeakSet / WeakMap using ES2021 WeakRef">github.com/Lunuy/iterable-weak</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ECMAScript</span></p></p>
+
+<p>WeakRefを使ったIterableなWeakMap/WeakSetの実装ライブラリ。<br>
+Iterateできるように要素を参照するが、WeakRefのFinalizationRegistryを使って参照を解放するようになっている</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-88-web-google-developers">What&#39;s New In DevTools (Chrome 88)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2020/11/devtools" title="What&#39;s New In DevTools (Chrome 88)  |  Web  |  Google Developers">developers.google.com/web/updates/2020/11/devtools</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 88の開発者ツールの変更点について。<br>
+CSS angleのビジュアライズ、AVIFがサポートされていない状態をエミュレートできるように、storage quota sizeのエミュレートに対応。<br>
+PerformanceパネルにWeb Vitalsレーンを追加、ApplicationパネルにCross-Origin Isolatedの状態を表示、network initiatorのコピーに対応。<br>
+実験的な機能としてCSS Flexboxのデバッグ機能、ショートカットカスタマイズを追加など</p>
+
+<hr>
+
+<h2 id="optimize-react-apps-pagespeed-insights-score-thetuteur">Optimize React Apps PageSpeed Insights Score - thetuteur</h2>
+
+<p><a href="https://thetuteur.com/optimize-react-apps-pagespeed-insights-score/" title="Optimize React Apps PageSpeed Insights Score - thetuteur">thetuteur.com/optimize-react-apps-pagespeed-insights-score/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Reactアプリのパフォーマンス改善。<br>
+未使用のJavaScriptを削除、コンポーネントのLazy Load、TTFBを短縮するためにレスポンスのキャッシュ。<br>
+<code>react-lazy-load-image-component</code>を使って画像の遅延ロード、<code>react-lazy-hydration</code>を使い初期ロードでのCPU処理を減らす方法。<br>
+また、CSSの非同期ロード、<code>critical</code>を使ってUAごとに対してクリティカルパスCSSの生成などについて</p>
+
+<hr>
+
+<h2 id="typescript-prefer-interfaces-ncjamieson">TypeScript: Prefer Interfaces — @ncjamieson</h2>
+
+<p><a href="https://ncjamieson.com/prefer-interfaces/" title="TypeScript: Prefer Interfaces — @ncjamieson">ncjamieson.com/prefer-interfaces/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScriptの<code>type</code>と<code>interface</code>の違いについて。<br>
+<code>interface</code>は名前で参照されるのに対して、<code>type</code>で定義した型はインライン化されることがある。そのため<code>type</code>を使った場合に<code>d.ts</code>が肥大化する問題について</p>
+
+<ul>
+<li><a href="https://www.techatbloomberg.com/blog/10-insights-adopting-typescript-at-scale/" title="10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg">10 Insights from Adopting TypeScript at Scale | Tech At Bloomberg</a></li>
+</ul>
+
+<hr>
+
+<h2 id="performance-microsoft-typescript-wiki">Performance · microsoft/TypeScript Wiki</h2>
+
+<p><a href="https://github.com/microsoft/TypeScript/wiki/Performance" title="Performance · microsoft/TypeScript Wiki">github.com/microsoft/TypeScript/wiki/Performance</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScriptのコンパイルパフォーマンスについてまとめられているページ。<br>
+<code>type</code>と<code>interface</code>、Base TypeとUnion Type、Project Reference、tsconfig.jsonの設定による最適化について</p>
+
+<hr>
+
+<h2 id="angular-eslint-2020-autumn">Angular: ESLintサポートの現状 2020 Autumn | <output type=text></h2>
+
+<p><a href="https://blog.lacolaco.net/2020/11/angular-state-of-linting-2020/" title="Angular: ESLintサポートの現状 2020 Autumn | &lt;output type=text&gt;">blog.lacolaco.net/2020/11/angular-state-of-linting-2020/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">article</span></p></p>
+
+<p>AgularにおけるTSLint/ESLintでのLintの今後について。<br>
+TSLintはAngular 12で非推奨となる予定で、ESLintへの対応はコミュニティベースで進んでいるという話</p>
+
+<ul>
+<li><a href="https://github.com/angular-eslint/angular-eslint" title="angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular">angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular</a></li>
+</ul>
+
+<hr>
+
+<h2 id="official-google-webmaster-central-blog-timing-for-bringing-page-experience-to-google-search">Official Google Webmaster Central Blog: Timing for bringing page experience to Google Search</h2>
+
+<p><a href="https://webmasters.googleblog.com/2020/11/timing-for-page-experience.html" title="Official Google Webmaster Central Blog: Timing for bringing page experience to Google Search">webmasters.googleblog.com/2020/11/timing-for-page-experience.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">SEO</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span> <span class="jser-tag">search</span></p></p>
+
+<p>2021年5月からCore Web Vitals(LCP、FID、CLS)のスコアがGoogle検索結果のシグナルに使われる。<br>
+ウェブパフォーマンスが検索結果のランキングへ影響を与えるようになる</p>
+
+<hr>
+
+<h2 id="microsoft-web-dev-for-beginners-24-lessons-12-weeks-get-started-as-a-web-developer">microsoft/Web-Dev-For-Beginners: 24 Lessons, 12 Weeks, Get Started as a Web Developer</h2>
+
+<p><a href="https://github.com/microsoft/Web-Dev-For-Beginners" title="microsoft/Web-Dev-For-Beginners: 24 Lessons, 12 Weeks, Get Started as a Web Developer">github.com/microsoft/Web-Dev-For-Beginners</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>ウェブ開発のチュートリアル集、レッスン。HTML/CSS/JSについてやアプリ開発についての学習コンテンツ</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="next-js-conf-2020-youtube">Next.js Conf 2020 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/playlist?list=PLBnKlKpPeagnT2Cmv4giCbosfrbKnuYTD" title="Next.js Conf 2020 - YouTube">www.youtube.com/playlist?list&#x3D;PLBnKlKpPeagnT2Cmv4giCbosfrbKnuYTD</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">video</span> <span class="jser-tag">Conference</span></p></p>
+
+<p>Next.js Conf 2020の動画一覧</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="esm">ESM</h2>
+
+<p><a href="https://esm.sh/" title="ESM">esm.sh/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">deno</span> <span class="jser-tag">cdn</span> <span class="jser-tag">library</span></p></p>
+
+<p>esbuildで依存を含めてbundleしたパッケージを配布するnpm CDNサービス。<br>
+npmパッケージをdenoからES Modulesとして読み込めるようにpolyfillの仕組みも用意されている</p>
+
+<hr>
+
+<h2 id="open-source-labs-recoilize-recoil-developer-tool">open-source-labs/Recoilize: Recoil developer tool</h2>
+
+<p><a href="https://github.com/open-source-labs/Recoilize" title="open-source-labs/Recoilize: Recoil developer tool">github.com/open-source-labs/Recoilize</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">React</span></p></p>
+
+<p>recoilのデバッグツール</p>
+
+<hr>
+
+<h2 id="acot-a11y-acot-more-accessible-web-all-over-the-world">acot-a11y/acot: More accessible web, all over the world.</h2>
+
+<p><a href="https://github.com/acot-a11y/acot" title="acot-a11y/acot: More accessible web, all over the world.">github.com/acot-a11y/acot</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>ESLintライクなプラグインシステムをもったAccessibilityテストフレームワーク。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="trivago-prettier-plugin-sort-imports-a-prettier-plugin-to-sort-imports-in-typescript-and-javascript-files-by-the-provided-regex-order">trivago/prettier-plugin-sort-imports: A prettier plugin to sort imports in typescript and javascript files by the provided RegEx order.</h2>
+
+<p><a href="https://github.com/trivago/prettier-plugin-sort-imports" title="trivago/prettier-plugin-sort-imports: A prettier plugin to sort imports in typescript and javascript files by the provided RegEx order.">github.com/trivago/prettier-plugin-sort-imports</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>import文の順番をソートするprettier plugin</p>
+
+<hr>
+
+<h2 id="vinissimus-next-translate-i18n-tool-for-next-js-10-load-page-translations-and-use-them-in-an-easy-way">vinissimus/next-translate: i18n tool for Next.js 10 🌍 - Load page translations and use them in an easy way!</h2>
+
+<p><a href="https://github.com/vinissimus/next-translate" title="vinissimus/next-translate: i18n tool for Next.js 10 🌍 - Load page translations and use them in an easy way!">github.com/vinissimus/next-translate</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">i18n</span> <span class="jser-tag">library</span></p></p>
+
+<p>Next.js向けのi18nツール</p>
+
+<hr>
+
+<h2 id="angular-eslint-angular-eslint-monorepo-for-all-the-tooling-related-to-using-eslint-with-angular">angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular</h2>
+
+<p><a href="https://github.com/angular-eslint/angular-eslint" title="angular-eslint/angular-eslint: Monorepo for all the tooling related to using ESLint with Angular">github.com/angular-eslint/angular-eslint</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ESLint</span></p></p>
+
+<p>Angular向けのESLintプラグインセット。<br>
+Codelyzer/TSLintからのマイグレーションを目的にしている</p>
+
+<hr>
+
+<h2 id="felixfbecker-dom-to-svg-library-to-convert-a-given-html-dom-node-into-an-accessible-svg-screenshot">felixfbecker/dom-to-svg: Library to convert a given HTML DOM node into an accessible SVG &quot;screenshot&quot;.</h2>
+
+<p><a href="https://github.com/felixfbecker/dom-to-svg" title="felixfbecker/dom-to-svg: Library to convert a given HTML DOM node into an accessible SVG \&quot;screenshot\&quot;.">github.com/felixfbecker/dom-to-svg</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">SVG</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p><code>&lt;foreignObject&gt;</code>を使わずに、DOMからSVGを作成するライブラリ。<br>
+DOM上のWAI-ARIAやリンクなども維持した状態のSVGを作成する</p>
+
+<hr>
+
+<h2 id="davnicwil-react-frontload-async-data-loading-for-react-components-on-client-server">davnicwil/react-frontload: Async data loading for React components, on client &amp; server</h2>
+
+<p><a href="https://github.com/davnicwil/react-frontload" title="davnicwil/react-frontload: Async data loading for React components, on client &amp; server">github.com/davnicwil/react-frontload</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">server</span></p></p>
+
+<p>React向けのData Loaderライブラリ。<br>
+コンポーネントでAPIを叩いてデータの取得、取得中の表示を扱える。クライアントとサーバでそれぞれ対応するAPIを用意してhydrationも扱える</p>
+
+<hr>
+
+<h2 id="alephjs-aleph-js-the-react-framework-in-deno">alephjs/aleph.js: The React Framework in Deno.</h2>
+
+<p><a href="https://github.com/alephjs/aleph.js" title="alephjs/aleph.js: The React Framework in Deno.">github.com/alephjs/aleph.js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>Deno向けのReactを使ったNext.jsライクなフレームワーク</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript-impress-top-gear-cay-s-horstmann-amazon">JavaScriptモダンプログラミング完全ガイド [堅牢なコードを効率的に開発できる! ] (impress top gearシリーズ) | Cay S. Horstmann, 吉川 邦夫 |本 | 通販 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4295010561/" title="JavaScriptモダンプログラミング完全ガイド \[堅牢なコードを効率的に開発できる! \] (impress top gearシリーズ) | Cay S. Horstmann, 吉川 邦夫 |本 | 通販 | Amazon">www.amazon.co.jp/dp/4295010561/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2020年12月21日発売<br>
+Modern JavaScript for the Impatientの翻訳本</p>
+
+<ul>
+<li><a href="https://www.amazon.co.jp/dp/B08F5HFWBH/" title="Amazon | Modern JavaScript for the Impatient (English Edition) \[Kindle edition\] by Horstmann, Cay S. | Languages &amp;amp; Tools | Kindleストア">Amazon | Modern JavaScript for the Impatient (English Edition) [Kindle edition] by Horstmann, Cay S. | Languages &amp; Tools | Kindleストア</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2020/2020-11-16-angular-11-react-typescript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","Angular","ESLint","performance","ECMAScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>Angular</li>
+                
+                <li>ESLint</li>
+                
+                <li>performance</li>
+                
+                <li>ECMAScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2020/11/16/angular-11-react-typescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2020/11/16/angular-11-react-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

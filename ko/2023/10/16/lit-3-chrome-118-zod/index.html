@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-10-16: Lit 3, Chrome 118, Zod 작성하기 - JSer.info</title>
+    <meta name="description" content="JSer.info #665 - Web Components 라이브러리 Lit 3.0가 출시되었습니다.">
+    
+    <meta name="keywords" content="Bun,npm,Chrome,UI,parcel" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-10-16T21:44:04+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Bun" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="UI" property="article:tag">
+      
+      <meta content="parcel" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/10/16/lit-3-chrome-118-zod/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #665 - Web Components 라이브러리 Lit 3.0가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-10-16: Lit 3, Chrome 118, Zod 작성하기">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/10/16/lit-3-chrome-118-zod/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #665 - Web Components 라이브러리 Lit 3.0가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-10-16T21:44:04+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Bun">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="UI">
+
+<meta property="article:tag" content="parcel">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/10/16/lit-3-chrome-118-zod/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/10/16/lit-3-chrome-118-zod/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/10/16/lit-3-chrome-118-zod/">2023-10-16: Lit 3, Chrome 118, Zod 작성하기</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年10月16日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-10-16-lit-3-chrome-118-zod.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-10-16-lit-3-chrome-118-zod.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/10/16/lit-3-chrome-118-zod/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #665 - Web Components 라이브러리 Lit 3.0가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://lit.dev/blog/2023-10-10-lit-3.0/">Lit Launch Day: Lit 3.0, Labs graduations, a compiler and more! – Lit</a></li>
+<li><a href="https://lit.dev/docs/v3/releases/upgrade/">Lit 3 upgrade guide – Lit</a></li>
+</ul>
+
+<p>Lit 3는, IE11 지원 종료, 최소 실행 환경을 ES2021 지원하는 브라우저로 변경했습니다.<br>
+Lit 2.0에서 비권장된 API 삭제, Stage 3 Decorator 대응했습니다.<br>
+또한, 새롭게 Lit 템플릿 컴파일러 공개, Preact Signals 통합하는 패키지도 공개했습니다.</p>
+
+<hr>
+
+<p>Chrome 118 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://developer.chrome.com/en/blog/new-in-chrome-118/">New in Chrome 118 - Chrome for Developers</a></li>
+</ul>
+
+<p>Chrome 118에서는 CSS의 <code>@scope</code> 규칙 지원합니다.</p>
+
+<ul>
+<li><a href="https://developer.chrome.com/articles/at-scope/">Limit the reach of your selectors with the CSS <code>@scope</code> at-rule - Chrome for Developers</a></li>
+</ul>
+
+<p>Media Query에서 JavaScript가 유효한지 판단하는 <code>scripting</code> 추가, DevTools의 &quot;Sources&quot; 패널 개선, <code>zstd</code>의 Content-Encoding 지원이 있습니다.</p>
+
+<hr>
+
+<p><a href="https://zackoverflow.dev/writing/write-your-own-zod">Write your own Zod</a>에서는, <a href="https://github.com/colinhacks/zod">Zod</a> 같은 스키마 기반 검증을 어떻게 동작하는가 해설합니다.</p>
+
+<p>mini Zod로 불리는 귀여운 Zod 클론 코딩하면서, 스키마 객체에서 자료형을 Infer하는 방법, 검증 구현 방법에 대해 해설합니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="lit-launch-day-lit-3-0-labs-graduations-a-compiler-and-more-lit">Lit Launch Day: Lit 3.0, Labs graduations, a compiler and more! – Lit</h2>
+
+<p><a href="https://lit.dev/blog/2023-10-10-lit-3.0/" title="Lit Launch Day: Lit 3.0, Labs graduations, a compiler and more! – Lit">lit.dev/blog/2023-10-10-lit-3.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lit 3.0 출시.<br>
+IE11 지원 종료, 최소 실행환경을 ES2021 지원하는 브라우저로 변경.<br>
+Lit 2.0에서 비권장이었던 API 삭제, Stage 3의 Decorator에 대응.<br>
+새로히 Lit 템플릿 컴파일러 공개, Preact Signals 통합하는 패키지 공개.</p>
+
+<ul>
+<li><a href="https://lit.dev/docs/v3/releases/upgrade/" title="Lit 3 upgrade guide – Lit">Lit 3 upgrade guide – Lit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="bun-v1-0-5-bun-blog">Bun v1.0.5 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v1.0.5" title="Bun v1.0.5 | Bun Blog">bun.sh/blog/bun-v1.0.5</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bun v1.0.5 출시.<br>
+Fetch 메모리 누수 수정, <code>bun run --if-present</code> 지원, <code>package-lock.json</code>을 <code>bun.lockb</code>으로 변환해주는 <code>bun pm migrate</code> 명령어 추가.<br>
+<code>peerDependencies</code>을 자동으로 설치하도록 변경</p>
+
+<hr>
+
+<h2 id="release-v2-10-0-parcel-bundler-parcel">Release v2.10.0 · parcel-bundler/parcel</h2>
+
+<p><a href="https://github.com/parcel-bundler/parcel/releases/tag/v2.10.0" title="Release v2.10.0 · parcel-bundler/parcel">github.com/parcel-bundler/parcel/releases/tag/v2.10.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">parcel</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Parcel v2.10.0 출시.<br>
+지연 컴파일 대상 지정할 수 있는 <code>--lazy [glob]</code>와 <code>--lazy-excludes</code> 추가.<br>
+Rust 모듈을 하나의 패키지 매니저로 함으로 중복 Crates 삭제해 사이즈 경감, 또한 병렬 처리 효율적으로 하게 성능 개선됨.</p>
+
+<hr>
+
+<h2 id="fresh-1-5-partials-client-side-navigation-and-more">Fresh 1.5: Partials, client side navigation and more</h2>
+
+<p><a href="https://deno.com/blog/fresh-1.5" title="Fresh 1.5: Partials, client side navigation and more">deno.com/blog/fresh-1.5</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>Fresh 1.5 출시.<br>
+화면 전환 해당 영역을 파편해서 얻을 수 있는 <code>&lt;Partial&gt;</code> 추가.<br>
+현재 경로와 일치하는 <code>&lt;a&gt;</code> 요소에 <code>data-current</code> 추가, 커스텀 빌드 타겟을 지정할 수 있는 <code>build.target</code> 객체 추가.<br>
+esbuild 사용해서 bundle 파일 분석해서 메타파일 생성 기능 지원, 에러 오버레이 지원</p>
+
+<hr>
+
+<h2 id="bun-v1-0-6-bun-blog">Bun v1.0.6 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v1.0.6" title="Bun v1.0.6 | Bun Blog">bun.sh/blog/bun-v1.0.6</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">yarn</span> <span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bun v1.0.6 출시.<br>
+npm의 <code>overrides</code> 필드, yarn의 <code>resolutions</code> 필드 지원.</p>
+
+<hr>
+
+<h2 id="electron-27-0-0-electron">Electron 27.0.0 | Electron</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-27-0" title="Electron 27.0.0 | Electron">www.electronjs.org/blog/electron-27-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 27.0.0 지원.<br>
+macOS 10.13/10.14 지원 종료, <code>ipcRenderer.sendTo()</code> API 비권장화</p>
+
+<hr>
+
+<h2 id="astro-3-3-picture-component-astro">Astro 3.3: Picture component | Astro</h2>
+
+<p><a href="https://astro.build/blog/astro-330/" title="Astro 3.3: Picture component | Astro">astro.build/blog/astro-330/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">astro</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Astro 3.3 출시.<br>
+<code>&lt;picture /&gt;</code> 컴포넌트 추가, 신택스 하이라이트에 사용했던 라이브러리를 <code>shiki</code>에서 <code>shikiji</code>로 변경</p>
+
+<hr>
+
+<h2 id="vite-unstable-dev-branch-remix">Vite (Unstable) (dev branch) | Remix</h2>
+
+<p><a href="https://remix.run/docs/en/dev/future/vite" title="Vite (Unstable) (dev branch) | Remix">remix.run/docs/en/dev/future/vite</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Remix</span> <span class="jser-tag">vite</span> <span class="jser-tag">document</span></p></p>
+
+<p>Remix의 Vite 지원.<br>
+Vite의 플러그인으로 Remix가 동작할 수 있게끔.</p>
+
+<ul>
+<li><a href="https://github.com/remix-run/remix/discussions/7632" title="Just use vite! · remix-run/remix · Discussion #7632">Just use vite! · remix-run/remix · Discussion #7632</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v4-1-0-rollup-rollup">Release v4.1.0 · rollup/rollup</h2>
+
+<p><a href="https://github.com/rollup/rollup/releases/tag/v4.1.0" title="Release v4.1.0 · rollup/rollup">github.com/rollup/rollup/releases/tag/v4.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">rollup</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Rollup v4.1.0 출시.<br>
+객체를 갖는 객체를 비트 플러그로 관리해서 메모리 소비량을 경감하는 개선 포함.</p>
+
+<hr>
+
+<h2 id="new-in-chrome-118-chrome-for-developers">New in Chrome 118 - Chrome for Developers</h2>
+
+<p><a href="https://developer.chrome.com/en/blog/new-in-chrome-118/" title="New in Chrome 118 - Chrome for Developers">developer.chrome.com/en/blog/new-in-chrome-118/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 118 변경점 관련.<br>
+CSS의 <code>@scope</code> 규칙 지원, Media Query에서 JavaScript가 유효한지 판단하는 <code>scripting</code> 추가.<br>
+DevTools으 &quot;Sources&quot; 패널 개선, <code>zstd</code>의 Content-Encoding 지원.</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="limit-the-reach-of-your-selectors-with-the-css-scope-at-rule-chrome-for-developers">Limit the reach of your selectors with the CSS `@scope` at-rule - Chrome for Developers</h2>
+
+<p><a href="https://developer.chrome.com/articles/at-scope/" title="Limit the reach of your selectors with the CSS \`@scope\` at-rule - Chrome for Developers">developer.chrome.com/articles/at-scope/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS <code>@scope</code> 관련한 글.<br>
+<code>@scope</code> 덕에 셀렉터 범위를 제한할 수 있으며, 스코프는 특별히 영향없음.<br>
+또한, <code>@scope { }</code>와 루트 지정없이 지정할 수 있는 scoped style을 다루는 prelude-less <code>@scope</code>에 대해서도 다룬다</p>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-118-chrome-for-developers">What&#039;s New in DevTools (Chrome 118) - Chrome for Developers</h2>
+
+<p><a href="https://developer.chrome.com/blog/new-in-devtools-118/" title="What&amp;#039;s New in DevTools (Chrome 118) - Chrome for Developers">developer.chrome.com/blog/new-in-devtools-118/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 118 개발자 모드 변경점에 대해.<br>
+local overrides 개선, 코드 검색 개선, Sources 패널 개선, Lighthouse 11으로 업데이트</p>
+
+<hr>
+
+<h2 id="write-your-own-zod">Write your own Zod</h2>
+
+<p><a href="https://zackoverflow.dev/writing/write-your-own-zod" title="Write your own Zod">zackoverflow.dev/writing/write-your-own-zod</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Zod 같은 스키마 검증을 만드는 방법에 대해서.<br>
+Zod 같이 스키마 객체에서 자료형을 Infer하는 방법, 검증 구현에 대해.</p>
+
+<hr>
+
+<h2 id="flat-config-rollout-plans-eslint-pluggable-javascript-linter">Flat config rollout plans - ESLint - Pluggable JavaScript Linter</h2>
+
+<p><a href="https://eslint.org/blog/2023/10/flat-config-rollout-plans/" title="Flat config rollout plans - ESLint - Pluggable JavaScript Linter">eslint.org/blog/2023/10/flat-config-rollout-plans/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">article</span></p></p>
+
+<p>앞으로 Config 파일에 관련하여.<br>
+ESLint 9에서는 <code>eslint.config.js</code>의 Flat Config가 기본이 되어, <code>.eslintrc.*</code> 형식은 비권장이 됨.<br>
+<code>.eslinrc.*</code> 지원은 ESLint 10에서 삭제 예정.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="react-hookz-web-react-hooks-done-right-for-browser-and-ssr">react-hookz/web: React hooks done right, for browser and SSR.</h2>
+
+<p><a href="https://github.com/react-hookz/web" title="react-hookz/web: React hooks done right, for browser and SSR.">github.com/react-hookz/web</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span></p></p>
+
+<p>서버렌더링할 때 동작하는 React Hooks 콜렉션 라이브러리.<br>
+<code>react-use</code> 계승을 의식하며 제작되었음</p>
+
+<hr>
+
+<h2 id="elbywan-zap-another-insert-blazing-fast-synonyms-javascript-package-manager">elbywan/zap: Another [insert blazing fast synonyms] JavaScript package manager</h2>
+
+<p><a href="https://github.com/elbywan/zap" title="elbywan/zap: Another \[insert blazing fast synonyms\] JavaScript package manager">github.com/elbywan/zap</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">package</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Crystal 언어로 작성된 npm 패키지 매니저.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-10-16-lit-3-chrome-118-zod.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Bun","npm","Chrome","UI","parcel"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Bun</li>
+                
+                <li>npm</li>
+                
+                <li>Chrome</li>
+                
+                <li>UI</li>
+                
+                <li>parcel</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/10/16/lit-3-chrome-118-zod/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

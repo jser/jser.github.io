@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-10-22: Node v12.13.0 (LTS), Chrome 79 개발자 도구의 변경사항, WSL2로 Node.js 입문 - JSer.info</title>
+    <meta name="description" content="JSer.info #458 - Node.js 12.13.0이 릴리스됐습니다.">
+    
+    <meta name="keywords" content="Node.js,Chrome,Windows" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-10-22T11:50:26+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="Windows" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #458 - Node.js 12.13.0이 릴리스됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-10-22: Node v12.13.0 (LTS), Chrome 79 개발자 도구의 변경사항, WSL2로 Node.js 입문">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #458 - Node.js 12.13.0이 릴리스됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-10-22T11:50:26+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="Windows">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/">2019-10-22: Node v12.13.0 (LTS), Chrome 79 개발자 도구의 변경사항, WSL2로 Node.js 입문</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年10月22日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-10-22-node-v12.13.0-ltschrome-79wsl-2node.js.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-10-22-node-v12.13.0-ltschrome-79wsl-2node.js.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #458 - Node.js 12.13.0이 릴리스됐습니다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v12.13.0/">Node v12.13.0 (LTS) | Node.js</a></li>
+</ul>
+
+<p>Node.js 12.x의 LTS(Long Term Support)가 되는 버전이며 Node.js 12.x는 2022년 4월 까지 지원(매인터넌스) 합니다.<br>
+현재 LTS는 8.x, 10.x, 12.x 세가지 이며 8.x는 2019년 12월에 지원을 종료할 예정입니다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/Release">nodejs/Release: Node.js Foundation Release Working Group</a></li>
+</ul>
+
+<p>AWS Lambda에서는 Node.js 8.10의 이용을 비권장하고 폐지하기 까지의 일정을 발표했습니다.</p>
+
+<ul>
+<li><a href="https://gist.github.com/azu/84c21a3d8335ef797ccbff3d20ea8889">Node.js 8.10 is EOL, please migrate your functions to a newer runtime version</a></li>
+</ul>
+
+<p>Node.js 12.13.0의 변경사항으로는 <a href="https://npm.community/t/release-6-12-0/10436">npm 6.12.0</a>으로의 업데이트가 포함된 정도입니다.<br>
+Node.js 12의 메이저 업데이트와 관련한 변경사항은 아래 문서를 참고하시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v12.0.0/">Node v12.0.0 (Current) | Node.js</a></li>
+<li><a href="https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V12.md">node/CHANGELOG_V12.md at master · nodejs/node</a></li>
+<li><a href="https://jser.info/ko/2019/04/30/node.js-12.0.0node.js-6.xeolelectron-5.0.0pixi.js-5.0.0webgl-by-default/">2019-04-30: Node.js 12.0.0(Node.js 6.x는 EOL), Electron 5.0.0, Pixi.js 5.0.0(WebGL by default) - JSer.info</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://developers.google.com/web/updates/2019/10/devtools">What&#39;s New In DevTools (Chrome 79)  |  Web  |  Google Developers</a>에는 Chrome 79 개발자 도구의 변경사항이 정리돼 있습니다.</p>
+
+<p>SameSite Cookie 도입이 예정돼 있으므로 네트워크 패널에 막힌(blocked) 쿠키와 원인이 표시되도록 변경됐습니다.<br>
+이어, 코드 커버리지 기능이 개선됐고 네트워크 요청의 콜스택 정보를 표시하며 들여쓰기 설정이 무시되는 버그가 수정됐습니다.</p>
+
+<p>Chrome 80에서 기본 설정 될 <code>SameSite=Lax</code> 즉, SameSite Cookie는 아래 문서를 참고하시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://web.dev/samesite-cookies-explained/">SameSite cookies explained  |  web.dev</a></li>
+<li><a href="https://textslashplain.com/2019/09/30/same-site-cookies-by-default/">Same-Site Cookies By Default | text/plain</a></li>
+<li><a href="https://speakerdeck.com/masashi/samesite-cookie">SameSite Cookie - Speaker Deck</a></li>
+<li><a href="https://youtu.be/w5S8Qwonwqc?t=40">[주간에-퓌 10월 4주] 크롬의 쿠키 정책 변경 등</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-v4-0-0-vuejs-vue-cli">Release v4.0.0 · vuejs/vue-cli</h2>
+
+<p><a href="https://github.com/vuejs/vue-cli/releases/tag/v4.0.0" title="Release v4.0.0 · vuejs/vue-cli">github.com/vuejs/vue-cli/releases/tag/v4.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue CLI 4.0.0이 릴리스됐습니다.<br>
+Nightwatch, Jest, PWA 지원이 개선됐으며 의존 모듈의 메이저 업데이트가 포함됐습니다.</p>
+
+<ul>
+<li><a href="https://cli.vuejs.org/migrating-from-v3/" title="Migrating from v3 | Vue CLI">Migrating from v3 | Vue CLI</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v5-6-0-googlechrome-lighthouse">Release v5.6.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v5.6.0" title="Release v5.6.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v5.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>lighthouse v5.6.0이 릴리스됐습니다.<br>
+Stack pack에서 Angular, React, AMP, Magento를 지원하며 프레임워크 고유의 계측(metrics) 정보가 추가됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse-stack-packs" title="GoogleChrome/lighthouse-stack-packs: Lighthouse Stack Packs">GoogleChrome/lighthouse-stack-packs: Lighthouse Stack Packs</a></li>
+</ul>
+
+<hr>
+
+<h2 id="testcafe-v1-6-0-released-testcafe">TestCafe v1.6.0 Released | TestCafe</h2>
+
+<p><a href="https://devexpress.github.io/testcafe/blog/testcafe-v1-6-0-released.html" title="TestCafe v1.6.0 Released | TestCafe">devexpress.github.io/testcafe/blog/testcafe-v1-6-0-released.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TestCafe 1.6.0이 릴리스됐습니다.<br>
+전체 페이지 스크린샷을 지원하고, 스크린샷 관련한 옵션이 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-94-webkit">Release Notes for Safari Technology Preview 94 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/9609/release-notes-for-safari-technology-preview-94/" title="Release Notes for Safari Technology Preview 94 | WebKit">webkit.org/blog/9609/release-notes-for-safari-technology-preview-94/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 94가 릴리스됐습니다.<br>
+CSS Shadow Parts의 <code>::part()</code> 의사 요소를 지원하며 https에서 HTTP 헤더에 <code>Cache-Control: no-store</code>가 포함, 전송된 페이지도 BFCache에 들어가도록 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="node-v12-13-0-lts-node-js">Node v12.13.0 (LTS) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v12.13.0/" title="Node v12.13.0 (LTS) | Node.js">nodejs.org/en/blog/release/v12.13.0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 12.13.0이 릴리스됐습니다.<br>
+Node.js 12.x의 LTS(Long Term Support) 버전으로 2022년 4월 까지 지원(메인터넌스) 합니다.<br>
+이 버전에서는 npm 6.12.0로 갱신됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/Release" title="nodejs/Release: Node.js Foundation Release Working Group">nodejs/Release: Node.js Foundation Release Working Group</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-electron-v7-0-0-electron-electron">Release electron v7.0.0 · electron/electron</h2>
+
+<p><a href="https://github.com/electron/electron/releases/tag/v7.0.0" title="Release electron v7.0.0 · electron/electron">github.com/electron/electron/releases/tag/v7.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron v7.0.0이 릴리스됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-79-web-google-developers">What&#39;s New In DevTools (Chrome 79)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2019/10/devtools" title="What&#39;s New In DevTools (Chrome 79)  |  Web  |  Google Developers">developers.google.com/web/updates/2019/10/devtools</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 79의 개발자 도구에 대해서 정리돼 있습니다.<br>
+막힌(blocked) Cookie 정보와 원인을 표시하고 코드 커버리지 기능이 개선됐습니다. 또 네트워크 요청의 콜스택 정보를 표시합니다.</p>
+
+<hr>
+
+<h2 id="vanilla-javascript-and-html-no-frameworks-no-libraries-no-problem-dev-community">Vanilla JavaScript and HTML - No frameworks. No libraries. No problem. - DEV Community 👩‍💻👨‍💻</h2>
+
+<p><a href="https://dev.to/pluralsight/vanilla-javascript-and-html-no-frameworks-no-libraries-no-problem-2n99" title="Vanilla JavaScript and HTML - No frameworks. No libraries. No problem. - DEV Community 👩‍💻👨‍💻">dev.to/pluralsight/vanilla-javascript-and-html-no-frameworks-no-libraries-no-problem-2n99</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">article</span></p></p>
+
+<p>프레임워크를 사용하지 않고 DOM API 만으로 웹페이지를 작성하는 튜토리얼입니다.<br>
+<code>&lt;template&gt;</code> 태그를 사용한 컴포넌트 작성과 렌더링에 대해서 소개돼 있습니다.</p>
+
+<hr>
+
+<h2 id="firefoxs-new-websocket-inspector-mozilla-hacks-the-web-developer-blog">Firefox&#39;s New WebSocket Inspector - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2019/10/firefoxs-new-websocket-inspector/" title="Firefox&#39;s New WebSocket Inspector - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2019/10/firefoxs-new-websocket-inspector/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">debug</span> <span class="jser-tag">WebSocket</span> <span class="jser-tag">article</span></p></p>
+
+<p>Firefox 71의 개발자 도구에서 WebSockets Inspector가 개편됩니다.<br>
+WS protocol의 데이터가 JSON, Socket.IO, SockJS 등의 경우에 데이터를 인스펙트할 수 있도록 변경됐으며 WS 트래픽의 정지와 재개 버튼이 추가됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="samesite-cookie-speaker-deck">SameSite Cookie - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/masashi/samesite-cookie" title="SameSite Cookie - Speaker Deck">speakerdeck.com/masashi/samesite-cookie</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">slide</span> <span class="jser-tag">security</span></p></p>
+
+<p>SameSite Cookie를 주제로한 슬라이드 자료입니다.<br>
+SameSite Cookie와 CSRF, Cookie의 속성, SameSite Cookie의 동작과 옵션(Strict, Lax, None), 웹사이트에 미치는 영향 등에 대해서 정리돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="developing-with-node-js-on-windows-microsoft-docs">Developing with Node.js on Windows | Microsoft Docs</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/windows/nodejs/index" title="Developing with Node.js on Windows | Microsoft Docs">docs.microsoft.com/en-us/windows/nodejs/index</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">windows</span></p></p>
+
+<p>WSL 2 기반 윈도우즈 환경 Node.js 개발을 주제로 한 튜토리얼입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="middyjs-middy-the-stylish-node-js-middleware-engine-for-aws-lambda">middyjs/middy: 🛵 The stylish Node.js middleware engine for AWS Lambda</h2>
+
+<p><a href="https://github.com/middyjs/middy" title="middyjs/middy: 🛵 The stylish Node.js middleware engine for AWS Lambda">github.com/middyjs/middy</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">aws</span> <span class="jser-tag">Lambda</span> <span class="jser-tag">library</span></p></p>
+
+<p>aws lambda의 handler에 대해서 전 / 후처리를 실행할 수 있는 middleware 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="meriyah-meriyah-a-100-compliant-self-hosted-javascript-parser-https-meriyah-github-io-meriyah">meriyah/meriyah: A 100% compliant, self-hosted javascript parser - <a href="https://meriyah.github.io/meriyah">https://meriyah.github.io/meriyah</a></h2>
+
+<p><a href="https://github.com/meriyah/meriyah" title="meriyah/meriyah: A 100% compliant, self-hosted javascript parser - https://meriyah.github.io/meriyah">github.com/meriyah/meriyah</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">AST</span> <span class="jser-tag">library</span></p></p>
+
+<p>JavaScript의 코드를 ESTree AST 포맷으로 파싱할 수 있는 JavaScript 파서 라이브러리입니다.</p>
+
+<ul>
+<li><a href="https://github.com/buntis/buntis" title="buntis/buntis: A 100% compliant, self-hosted typescript parser that emits an ESTree-compatible AST">buntis/buntis: A 100% compliant, self-hosted typescript parser that emits an ESTree-compatible AST</a></li>
+</ul>
+
+<hr>
+
+<h2 id="vega-vega-lite-a-concise-grammar-of-interactive-graphics-built-on-vega">vega/vega-lite: A concise grammar of interactive graphics, built on Vega.</h2>
+
+<p><a href="https://github.com/vega/vega-lite" title="vega/vega-lite: A concise grammar of interactive graphics, built on Vega.">github.com/vega/vega-lite</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">graphic</span></p></p>
+
+<p>선언적 데이터를 이용해 인터랙티브한 그래프는 생성할 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-10-22-node-v12.13.0-ltschrome-79wsl-2node.js.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","Chrome","Windows"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>Chrome</li>
+                
+                <li>Windows</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/10/22/node-v12.13.0-ltschrome-79wsl-2node.js/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

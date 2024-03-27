@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2012-12-10のJS: Firebug 1.11.0、Heap Profilerでのメモリリーク調査、CSS testing tools - JSer.info</title>
+    <meta name="description" content="JSer.info #100 - Firebug 1.11.0がリリースされました。Firebugのコンソール上で利用できる $() や $$() がquerySelector相当になったりinclude()でjsファイルを取り込んだり出来るようになったりしています。また、postMessageや関数呼び出しのロ...">
+    
+    <meta name="keywords" content="firebug,chrome,debug,Css,testing" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2012-12-10T23:43:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="firebug" property="article:tag">
+      
+      <meta content="chrome" property="article:tag">
+      
+      <meta content="debug" property="article:tag">
+      
+      <meta content="Css" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/37638024456">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #100 - Firebug 1.11.0がリリースされました。Firebugのコンソール上で利用できる $() や $$() がquerySelector相当になったりinclude()でjsファイルを取り込んだり出来るようになったりしています。また、postMessageや関数呼び出しのロ..." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2012-12-10のJS: Firebug 1.11.0、Heap Profilerでのメモリリーク調査、CSS testing tools">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/37638024456">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #100 - Firebug 1.11.0がリリースされました。Firebugのコンソール上で利用できる $() や $$() がquerySelector相当になったりinclude()でjsファイルを取り込んだり出来るようになったりしています。また、postMessageや関数呼び出しのロ...">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2012-12-10T23:43:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="firebug">
+
+<meta property="article:tag" content="chrome">
+
+<meta property="article:tag" content="debug">
+
+<meta property="article:tag" content="Css">
+
+<meta property="article:tag" content="testing">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/37638024456">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/37638024456">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/37638024456">2012-12-10のJS: Firebug 1.11.0、Heap Profilerでのメモリリーク調査、CSS testing tools</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2012年12月10日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-12-10-2012-12-10-js-firebug-1-11-0-heap.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2012-12-10-2012-12-10-js-firebug-1-11-0-heap.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/37638024456">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/37638024456"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #100 - <a href="https://blog.getfirebug.com/2012/12/07/firebug-1-11-0/" target="_blank">Firebug 1.11.0</a>がリリースされました。<br/>Firebugのコンソール上で利用できる $() や $$() がquerySelector相当になったりinclude()でjsファイルを取り込んだり出来るようになったりしています。<br/>また、postMessageや関数呼び出しのログ表示やSPDY対応等も含まれています。</p>
+<ul><li><a href="https://hacks.mozilla.org/2012/12/firebug-1-11-new-features/" target="_blank">Firebug 1.11 New Features ✩ Mozilla Hacks – the Web developer blog</a></li>
+</ul><p><a href="http://kaaes.github.com/timing/" target="_blank">Navigation Timing API</a>や<a href="http://yuroyoro.hatenablog.com/entry/2012/10/02/213340" target="_blank">Navigation Timing APIでブラウザの処理時間を可視化するツール作った</a>のようなwindow.performanceの<a href="http://www.softwareishard.com/blog/firebug/support-for-performance-timing-in-firebug/" target="_blank">グラフィカル表示にも対応</a>しています</p>
+<p><a href="http://www.ibm.com/developerworks/jp/web/library/wa-jsmemory/" target="_blank">JavaScript アプリケーションのメモリー・リークを理解する</a>という記事で、ChromeのHeap Profilerを使ったメモリリークの調査方法について書かれています。<br/>console.logを使ったことにより参照が残ってリークが見えることなどについても書かれてて面白いと思います。<br/><a href="http://ameblo.jp/ca-1pixel/entry-11333270027.html" target="_blank">リッチスマートフォンWebアプリのメモリ管理｜1 pixel｜サイバーエージェント公式クリエイターズブログ</a> も一緒に読むとHeap Profilerの使いかたが分かりやすくなるかもしれません。</p>
+<p><a href="https://github.com/Huddle/PhantomCSS" target="_blank">Huddle/PhantomCSS · GitHub</a>や<a href="https://github.com/thingsinjars/GhostStory" target="_blank">thingsinjars/GhostStory · GitHub</a>や<a href="https://github.com/thingsinjars/cssert" target="_blank">thingsinjars/cssert · GitHub</a>などの、<a href="https://github.com/ariya/phantomjs/" target="_blank">PhantomJS</a>と(PhantomJS上で動く)<a href="https://github.com/n1k0/casperjs" target="_blank">CasperJS</a>を使ったCSSやレンダリングのテストをするツールが色々出てきています。<br/><a href="https://github.com/n1k0/casperjs" target="_blank">CasperJS</a>は<a href="https://github.com/n1k0/casperjs/blob/master/CHANGELOG.md#2012-12-10-v100-rc5" target="_blank">v1.0.0-RC5</a>がリリースされて、そろそろ1.0.0となるので色々でてきてるのかもしれないです。</p>
+<p>追記: <a href="http://csste.st/slides/" target="_blank">csste.st</a>というスライドでCSSのテストについて上記で出てきたツールなどが紹介されています。(これが発端で昨日色々出てきたのだと思います)</p>
+<div class="site-genre ui-sortable"><strong>ヘッドライン</strong></div>
+<div>
+<blockquote title="Underscore.js">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Underscore.js</strong><br/><a href="http://underscorejs.org" title="Underscore.js" target="_blank">http://underscorejs.org</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>Underscore.js 1.4.3 リリース<br/> Adobe&#8217;s JS engine フレンドリーに、throttleの改善等</p>
+</div>
+<div>
+<blockquote title="casperjs/CHANGELOG.md at master · n1k0/casperjs · GitHub">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>casperjs/CHANGELOG.md at master · n1k0/casperjs · GitHub</strong><br/><a href="https://github.com/n1k0/casperjs/blob/master/CHANGELOG.md#2012-10-31-v100-rc4" title="casperjs/CHANGELOG.md at master · n1k0/casperjs · GitHub" target="_blank">https://github.com/n1k0/casperjs/blob/master/CHANGELOG.md#2012-10-31-v100-rc4</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>CasperJS 1.0.0-RC4リリース<br/>書いてる途中で<a href="https://github.com/n1k0/casperjs/blob/master/CHANGELOG.md#2012-12-10-v100-rc5" target="_blank">v1.0.0-RC5</a>もリリースされた。</p>
+</div>
+<div>
+<blockquote title="Getfirebug Blog » Blog Archive » Firebug 1.11.0">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Getfirebug Blog&#160;» Blog Archive&#160;» Firebug 1.11.0</strong><br/><a href="https://blog.getfirebug.com/2012/12/07/firebug-1-11-0/" title="Getfirebug Blog » Blog Archive » Firebug 1.11.0" target="_blank">https://blog.getfirebug.com/2012/12/07/firebug-1-11-0/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>Firebug 1.11.0リリース</p>
+</div>
+<div>
+<blockquote title="Firebug 1.11 New Features ✩ Mozilla Hacks  the Web developer blog">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Firebug 1.11 New Features ✩ Mozilla Hacks – the Web developer blog</strong><br/><a href="https://hacks.mozilla.org/2012/12/firebug-1-11-new-features/" title="Firebug 1.11 New Features ✩ Mozilla Hacks  the Web developer blog" target="_blank">https://hacks.mozilla.org/2012/12/firebug-1-11-new-features/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>Firebug 1.11の新しい機能についてのまとめ。<br/> SPDY対応、performance-timing、CSS Selectorでの検索、postMessageログ、関数呼び出しのログ、$,$$の変更、自動補完などの機能紹介</p>
+</div>
+<div class="site-genre ui-sortable"><strong>アーティクル</strong></div>
+<div>
+<blockquote title="Asynchronous JS: Callbacks, Listeners, Control Flow Libs and Promises - Sebastian's Blog">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Asynchronous JS: Callbacks, Listeners, Control Flow Libs and Promises - Sebastian&#8217;s Blog</strong><br/><a href="http://sporto.github.com/blog/2012/12/09/callbacks-listeners-promises/" title="Asynchronous JS: Callbacks, Listeners, Control Flow Libs and Promises - Sebastian's Blog" target="_blank">http://sporto.github.com/blog/2012/12/09/callbacks-listeners-promises/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>非同期JavaScriptについて.<br/> コールバック、イベントリスナーon/trigger、Flow Control Library、Promise それぞれのメリット・デメリットをまとめてる</p>
+</div>
+<div>
+<blockquote title="JavaScript アプリケーションのメモリー・リークを理解する">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>JavaScript アプリケーションのメモリー・リークを理解する</strong><br/><a href="http://www.ibm.com/developerworks/jp/web/library/wa-jsmemory/" title="JavaScript アプリケーションのメモリー・リークを理解する" target="_blank">http://www.ibm.com/developerworks/jp/web/library/wa-jsmemory/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>ChromeのHeap Profilerをつかったメモリリークの調査方法について。<br/> クロージャー、console APIを使った事によるリーク、循環参照のリークと対処法</p>
+</div>
+<div>
+<blockquote title="Backbone.js 1.0に向けての変更点 « NAVER Engineers' Blog">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Backbone.js 1.0に向けての変更点 «&#160;NAVER Engineers&#8217; Blog</strong><br/><a href="http://tech.naver.jp/blog/?p=2342" title="Backbone.js 1.0に向けての変更点 « NAVER Engineers' Blog" target="_blank">http://tech.naver.jp/blog/?p=2342</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>Backbone.js 1.0で追加予定の機能紹介.<br/> DOMの削除に合わせて参照も取り除くdispose、Collection.add()のmergeオプション</p>
+</div>
+<div>
+<blockquote title="What They Didnt Tell You About ES52s Array Extras | Nettuts+">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>What They Didn’t Tell You About ES5′s Array Extras | Nettuts+</strong><br/><a href="http://net.tutsplus.com/tutorials/javascript-ajax/what-they-didnt-tell-you-about-es5s-array-extras/" title="What They Didnt Tell You About ES52s Array Extras | Nettuts+" target="_blank">http://net.tutsplus.com/tutorials/javascript-ajax/what-they-didnt-tell-you-about-es5s-array-extras/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>ES5で追加されたArrayメソッドについて.<br/> applyと合わせたTips、[&#8230;].filter(RegExp.prototype.test, /^b/);のようなprototypeメソッド渡して使う応用的な方法についても</p>
+</div>
+<div>
+<blockquote title="Arrays in JavaScript">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Arrays in JavaScript</strong><br/><a href="http://www.2ality.com/2012/12/arrays.html" title="Arrays in JavaScript" target="_blank">http://www.2ality.com/2012/12/arrays.html</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>粗密なArrayの違い、配列のlengthの仕様について</p>
+</div>
+<div>
+<blockquote title="All You Need to Know About the HTML5 Data Attribute | Webdesigntuts+">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>All You Need to Know About the HTML5 Data Attribute | Webdesigntuts+</strong><br/><a href="http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/all-you-need-to-know-about-the-html5-data-attribute/" title="All You Need to Know About the HTML5 Data Attribute | Webdesigntuts+" target="_blank">http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/all-you-need-to-know-about-the-html5-data-attribute/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>data属性の扱い方について。<br/> どういう時に使うか、CSSから利用する方法、jQueryのdataメソッドについて</p>
+</div>
+<div>
+<blockquote title="Tutorial: JavaScript animation with the Greensock framework">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Tutorial: JavaScript animation with the Greensock framework</strong><br/><a href="http://ahrengot.com/tutorials/greensock-javascript-animation/" title="Tutorial: JavaScript animation with the Greensock framework" target="_blank">http://ahrengot.com/tutorials/greensock-javascript-animation/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>JavaScriptアニメーションライブラリのGreensockのチュートリアル.</p>
+</div>
+<div>
+<blockquote title="Object.defineProperty 関数で Observable なオブジェクトを作る #JavaScript #jQuery - Qiita">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Object.defineProperty 関数で Observable なオブジェクトを作る #JavaScript #jQuery - Qiita</strong><br/><a href="http://qiita.com/items/42f30cf4983822240398" title="Object.defineProperty 関数で Observable なオブジェクトを作る #JavaScript #jQuery - Qiita" target="_blank">http://qiita.com/items/42f30cf4983822240398</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>値が変更されたらtriggerするようなsetterを定義して、モデルの変更をViewに通知する仕組みを作る</p>
+</div>
+<div>
+<blockquote title="Introducing the Battery Status API">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Introducing the Battery Status API</strong><br/><a href="http://jspro.com/apis/introducing-the-battery-status-api/" title="Introducing the Battery Status API" target="_blank">http://jspro.com/apis/introducing-the-battery-status-api/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>バッテリーの情報を取得するBattery Status APIのプロパティとBattery Eventsについて</p>
+</div>
+<div>
+<blockquote title="esformatter &amp; rocambole | Blog | Miller Medeiros">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>esformatter &amp; rocambole | Blog | Miller Medeiros</strong><br/><a href="http://blog.millermedeiros.com/esformatter-rocambole/" title="esformatter &amp; rocambole | Blog | Miller Medeiros" target="_blank">http://blog.millermedeiros.com/esformatter-rocambole/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>JavaScriptのコード整形を行うツールesformatterと整形するためにAST walk と操作を行うrocamboleについて</p>
+</div>
+<div>
+<blockquote title="次世代JavaScriptでデータバインディング： Object.observe() を試す - ぼちぼち日記">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>次世代JavaScriptでデータバインディング： Object.observe() を試す - ぼちぼち日記</strong><br/><a href="http://d.hatena.ne.jp/jovi0608/20121206/1354762082" title="次世代JavaScriptでデータバインディング： Object.observe() を試す - ぼちぼち日記" target="_blank">http://d.hatena.ne.jp/jovi0608/20121206/1354762082</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>オブジェクトの変更監視をするObject.observeについて</p>
+</div>
+<div>
+<blockquote title="oosugi20-blog  HTML5でこの要素ってどういう仕様だっけって思った時の調べ方">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>oosugi20-blog — HTML5でこの要素ってどういう仕様だっけって思った時の調べ方</strong><br/><a href="http://oosugi20-blog.tumblr.com/post/36823233295/html5" title="oosugi20-blog  HTML5でこの要素ってどういう仕様だっけって思った時の調べ方" target="_blank">http://oosugi20-blog.tumblr.com/post/36823233295/html5</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>仕様の読み解き方</p>
+</div>
+<div>
+<blockquote title="Nashorn - OpenJDKに提案された新JavaScriptエンジン">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Nashorn - OpenJDKに提案された新JavaScriptエンジン</strong><br/><a href="http://www.infoq.com/jp/news/2012/12/Nashorn-proposal" title="Nashorn - OpenJDKに提案された新JavaScriptエンジン" target="_blank">http://www.infoq.com/jp/news/2012/12/Nashorn-proposal</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>JDKのJavaScript実装Nashornについて</p>
+<ul><li><a href="https://blogs.oracle.com/nashorn/" target="_blank">Nashorn</a></li>
+</ul></div>
+<div>
+<blockquote title="パフォーマンスからみるSass/Compass 第2回：CompassによるCSS Sprite | MOL">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>パフォーマンスからみるSass/Compass 第2回：CompassによるCSS Sprite | MOL</strong><br/><a href="http://t32k.me/mol/log/spriting-with-compass/" title="パフォーマンスからみるSass/Compass 第2回：CompassによるCSS Sprite | MOL" target="_blank">http://t32k.me/mol/log/spriting-with-compass/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>CompassのCSSスプライトについて</p>
+</div>
+<div>
+<blockquote title="Sassオレオレリファレンス">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Sassオレオレリファレンス</strong><br/><a href="http://tenderfeel.github.com/SassReference/" title="Sassオレオレリファレンス" target="_blank">http://tenderfeel.github.com/SassReference/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>Sassのリファレンスサイト</p>
+</div>
+<div class="site-genre ui-sortable"><strong>スライド、動画関係</strong></div>
+<div>
+<blockquote title="Learning to Love JavaScript">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Learning to Love JavaScript</strong><br/><a href="http://infrequently.org/11/io/js/" title="Learning to Love JavaScript" target="_blank">http://infrequently.org/11/io/js/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>JavaScriptとは何か。<br/> all mutable objects、closure、関数スコープ、prototypeについて。<br/>またES.nextの内容も出しながら、それを今まではどのように書いてたかという感じ</p>
+<div class="sites">
+<blockquote title="csste.st">
+<div>
+<div>
+<p class="jser-sitelink"><strong>csste.st</strong><br/><a href="http://csste.st/slides/" title="csste.st" target="_blank">http://csste.st/slides/</a></p>
+</div>
+</div>
+</blockquote>
+<p>CSSのテストについてのスライド.<br/> CSSLint、CSSUnit、GhostStory、Mogotest、画像diffでのテスト、cssertなどについて紹介</p>
+</div>
+</div>
+<div>
+<blockquote title="JS開発におけるTDDと自動テストツール利用の勘所">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>JS開発におけるTDDと自動テストツール利用の勘所</strong><br/><a href="http://www.slideshare.net/KojiNakamura/jstdd" title="JS開発におけるTDDと自動テストツール利用の勘所" target="_blank">http://www.slideshare.net/KojiNakamura/jstdd</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>QUnit、Jasmineの基本的な使い方、DOMに依存したテスト、Testacularについてのスライド。<br/> テストの導入からCIまでの流れが一通りな感じ</p>
+</div>
+<div>
+<blockquote title="An Analysis of the Redesign of the CoffeeScript Compiler - YOW2012 // Speaker Deck">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>An Analysis of the Redesign of the CoffeeScript Compiler - YOW2012 // Speaker Deck</strong><br/><a href="https://speakerdeck.com/michaelficarra/an-analysis-of-the-redesign-of-the-coffeescript-compiler-yow2012" title="An Analysis of the Redesign of the CoffeeScript Compiler - YOW2012 // Speaker Deck" target="_blank">https://speakerdeck.com/michaelficarra/an-analysis-of-the-redesign-of-the-coffeescript-compiler-yow2012</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>新しいCoffeeScriptコンパイラの設計デザインについて.<br/> inputからoutputまで流れ.<br/> Spidermonkey ASTをIR(中間表現)とすることで、それに関するツール(esprima等)との連携が得られるメリットが有る。<br/> <a href="http://constellation.github.com/slides/contents/20121118/modules.html" target="_blank">http://constellation.github.com/slides/contents/20121118/modules.html</a></p>
+</div>
+<div class="site-genre ui-sortable"><strong>サービス、ツール、ソフトウェア関係</strong></div>
+<div>
+<blockquote title="Media features of the most common devices - pieroxy.net">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Media features of the most common devices - pieroxy.net</strong><br/><a href="http://pieroxy.net/blog/2012/10/18/media_features_of_the_most_common_devices.html" title="Media features of the most common devices - pieroxy.net" target="_blank">http://pieroxy.net/blog/2012/10/18/media_features_of_the_most_common_devices.html</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>モバイル/スマートフォン/タブレット端末の画面情報のまとめ。<br/> 画面サイズ、解像度、アスペクト比<br/> device-pixel-ratioの値等</p>
+</div>
+<div>
+<blockquote title="Huddle/PhantomCSS · GitHub">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Huddle/PhantomCSS · GitHub</strong><br/><a href="https://github.com/Huddle/PhantomCSS" title="Huddle/PhantomCSS · GitHub" target="_blank">https://github.com/Huddle/PhantomCSS</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>CSS regression testingツール.<br/> PhantomJSとCasperJSを使って js-imagediff によるレンダリング描画の画像を比較してregression testingを行うツール</p>
+</div>
+<div>
+<blockquote title="thingsinjars/GhostStory · GitHub">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>thingsinjars/GhostStory · GitHub</strong><br/><a href="https://github.com/thingsinjars/GhostStory" title="thingsinjars/GhostStory · GitHub" target="_blank">https://github.com/thingsinjars/GhostStory</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>CasperJS/PhantomJSを使って、 cucumber-styleな感じでCSSが適応されているかをテストするツール</p>
+</div>
+<div>
+<blockquote title="thingsinjars/cssert · GitHub">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>thingsinjars/cssert · GitHub</strong><br/><a href="https://github.com/thingsinjars/cssert" title="thingsinjars/cssert · GitHub" target="_blank">https://github.com/thingsinjars/cssert</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>CSS verification testingツール.<br/> ブックマークレットでテストしたい要素のstyleを取ってきて、リファクタリングした結果それが壊れてないかを検証するツール.<br/> runnerはPhantomJSで動かせる</p>
+</div>
+<div>
+<blockquote title="Navigation Timing API">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>Navigation Timing API</strong><br/><a href="http://kaaes.github.com/timing/" title="Navigation Timing API" target="_blank">http://kaaes.github.com/timing/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>Navigation TIming API(window.performance)の内容をタイムライン表示するブックマークレット</p>
+</div>
+<div>
+<blockquote title="JSCover - JavaScript code coverage">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>JSCover - JavaScript code coverage</strong><br/><a href="http://tntim96.github.com/JSCover/" title="JSCover - JavaScript code coverage" target="_blank">http://tntim96.github.com/JSCover/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>JSCoverageの改良コードカバレッジツール。Javaで実装されてる</p>
+</div>
+<div class="site-genre ui-sortable"><strong>ライブラリ関係</strong></div>
+<div>
+<blockquote title="xCharts">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>xCharts</strong><br/><a href="http://tenxer.github.com/xcharts/" title="xCharts" target="_blank">http://tenxer.github.com/xcharts/</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>D3.jsを使ったグラフライブラリ</p>
+</div>
+<div class="site-genre ui-sortable"><strong>書籍関係</strong></div>
+<div>
+<blockquote title="CoffeeScript on Node.js - O'Reilly Media">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>CoffeeScript on Node.js - O&#8217;Reilly Media</strong><br/><a href="http://shop.oreilly.com/product/0636920023081.do" title="CoffeeScript on Node.js - O'Reilly Media" target="_blank">http://shop.oreilly.com/product/0636920023081.do</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>2013年12月発売<br/> CoffeeScriptでNode.jsアプリを作りながら、Node.jsやCoffeeScriptやドキュメントやテストについて学んで行く書籍</p>
+</div>
+<blockquote title="JS.next - O'Reilly Media">
+<div>
+<div>
+<div>
+<p class="jser-sitelink"><strong>JS.next - O&#8217;Reilly Media</strong><br/><a href="http://shop.oreilly.com/product/0636920026396.do" title="JS.next - O'Reilly Media" target="_blank">http://shop.oreilly.com/product/0636920026396.do</a></p>
+</div>
+</div>
+</div>
+</blockquote>
+<p>2013年5月発売<br/> ECMAScript 6についての書籍</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2012-12-10-2012-12-10-js-firebug-1-11-0-heap.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["firebug","chrome","debug","Css","testing"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>firebug</li>
+                
+                <li>chrome</li>
+                
+                <li>debug</li>
+                
+                <li>Css</li>
+                
+                <li>testing</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/37638024456">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/37638024456"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

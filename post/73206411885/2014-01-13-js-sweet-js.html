@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2014-01-13のJS: sweet.js 0.4.0、Generatorチュートリアル、同期的に書ける結合テストフレームワークTestium - JSer.info</title>
+    <meta name="description" content="JSer.info #157 - JavaScriptをマクロを使って展開出来るSweet.js v0.4.0がリリースされました。">
+    
+    <meta name="keywords" content="macro,generator,debug,testing,node.js" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2014-01-13T23:41:46+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="macro" property="article:tag">
+      
+      <meta content="generator" property="article:tag">
+      
+      <meta content="debug" property="article:tag">
+      
+      <meta content="testing" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/post/73206411885/2014-01-13-js-sweet-js">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #157 - JavaScriptをマクロを使って展開出来るSweet.js v0.4.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2014-01-13のJS: sweet.js 0.4.0、Generatorチュートリアル、同期的に書ける結合テストフレームワークTestium">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/post/73206411885/2014-01-13-js-sweet-js">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #157 - JavaScriptをマクロを使って展開出来るSweet.js v0.4.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2014-01-13T23:41:46+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="macro">
+
+<meta property="article:tag" content="generator">
+
+<meta property="article:tag" content="debug">
+
+<meta property="article:tag" content="testing">
+
+<meta property="article:tag" content="node.js">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/post/73206411885/2014-01-13-js-sweet-js">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/post/73206411885/2014-01-13-js-sweet-js">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/post/73206411885/2014-01-13-js-sweet-js">2014-01-13のJS: sweet.js 0.4.0、Generatorチュートリアル、同期的に書ける結合テストフレームワークTestium</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2014年01月13日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-01-13-2014-01-13-js-sweet-js.html"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/tumblr/2014-01-13-2014-01-13-js-sweet-js.html"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/73206411885/2014-01-13-js-sweet-js">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/73206411885/2014-01-13-js-sweet-js"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #157 - JavaScriptをマクロを使って展開出来る<a href="http://sweetjs.org/" title="Sweet.js" target="_blank">Sweet.js</a> <a href="https://github.com/mozilla/sweet.js/releases/tag/v0.4.0" title=" v0.4.0" target="_blank">v0.4.0</a>がリリースされました。</p>
+
+<p>sweet.jsについての紹介とES6のsyntaxをmacroで実装したものについて紹介されてる<a href="http://jlongster.com/Stop-Writing-JavaScript-Compilers--Make-Macros-Instead" title="Stop Writing JavaScript Compilers! Make Macros Instead" target="_blank">Stop Writing JavaScript Compilers! Make Macros Instead</a>を読んでみるといいかもしれません。</p>
+
+<hr><p><a href="http://jxck.hatenablog.com/entry/2014-01-12/generator-screencaset" title="ジェネレータの解説と非同期への適用 - Block Rockin’ Codes" target="_blank">ジェネレータの解説と非同期への適用 - Block Rockin’ Codes</a> では、ES6 generatorについてスクリーンキャストで解説されています。</p>
+
+<p>Generatorの基本的な仕組み(どのような流れて動くのか)や<a href="https://github.com/visionmedia/co" title="co" target="_blank">co</a>のようなgenerator関数を渡して使うライブラリがどのような仕組みで動いてるかなどが紹介されています。</p>
+
+<p><a href="http://spion.github.io/posts/why-i-am-switching-to-promises.html" title="Why I am switching to promises" target="_blank">Why I am switching to promises</a> という記事ではES6 Promisesの利点やユースケース、既存のコールバックスタイルからどのように移行していくかなど実践的な内容になってます。</p>
+
+<p>また、Promiseのチュートリアルが書かれている<a href="http://promise-nuggets.github.io/" title="Promise nuggets" target="_blank">Promise nuggets</a>というものも公開されているので合わせて読むといいです。(現在進行形ですが)</p>
+
+<hr><p><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</a>というJS ASTを使ったgrep/sedのようなコマンドラインツールを使ったリファクタリングについて書かれています。</p>
+
+<p>単純な文字列置換とは違ったメリットなどユースケースが紹介されていて、以下でも簡単に記事の紹介を書いてます。</p>
+
+<ul><li><a href="http://jser.info/post/73202282881/grasp-javascript" title="Graspを使ったJavaScriptのリファクタリング | JSer.info" target="_blank">Graspを使ったJavaScriptのリファクタリング | JSer.info</a></li>
+</ul><hr><h3>Info</h3>
+
+<p>Tumblrでは<a href="http://staff.tumblr.com/post/36234584/markdown-now-supported-via-email-mobile" title="Markdown" target="_blank">Markdown</a>をサポートしてるので、このブログも <a href="https://github.com/azu/jser.info/issues/3#issuecomment-32159687" target="_blank">Markdownで投稿出来る</a>ようにしました。</p>
+
+<p>HTMLからMarkdownにした理由としては、<a href="http://jser.info/post/73202282881/grasp-javascript" title="Graspを使ったJavaScriptのリファクタリング | JSer.info" target="_blank">Graspを使ったJavaScriptのリファクタリング</a>のような簡単な紹介記事を書こうとしたら、リッチエディタだと予期せぬ変換が発生したり、やる気が出なかったのでMarkdownにしました。</p>
+
+<p><a href="http://azu.github.io/jser.info/" title="JSer.infoのアーカイブ" target="_blank">JSer.infoのアーカイブ</a>の方もjQueryUIで適当に実装したままだとMarkdownで出力するのが難しい感じだったので、適当に<a href="https://github.com/rniemeyer/knockout-sortable" title="knockout-sortable" target="_blank">knockout-sortable</a>を使って書きなおしたりしました。</p>
+
+<hr><h3 class="site-genre">ヘッドライン</h3>
+
+<blockquote cite="https://github.com/mozilla/sweet.js/releases/tag/v0.4.0" title="Release Infix macros · mozilla/sweet.js">
+<p class="jser-sitelink"><strong>Release Infix macros · mozilla/sweet.js</strong></p><footer><cite><a href="https://github.com/mozilla/sweet.js/releases/tag/v0.4.0" title="Release Infix macros · mozilla/sweet.js" target="_blank">https://github.com/mozilla/sweet.js/releases/tag/v0.4.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ReleaseNote</span><span class="jser-tag">library</span><span class="jser-tag">Tools</span></p>
+
+<p>マクロを扱えるsweet.js 0.4.0リリース</p>
+
+<blockquote cite="http://jrburke.com/2014/01/08/requirejs-2.1.10-released/" title="RequireJS 2.1.10 Released ~ James Burke">
+<p class="jser-sitelink"><strong>RequireJS 2.1.10 Released ~ James Burke</strong></p><footer><cite><a href="http://jrburke.com/2014/01/08/requirejs-2.1.10-released/" title="RequireJS 2.1.10 Released ~ James Burke" target="_blank">http://jrburke.com/2014/01/08/requirejs-2.1.10-released/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AMD</span><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>RequireJS 2.1.10リリース。</p>
+
+<p>nodeIdCompat、bundlesオプションの追加</p>
+
+<blockquote cite="https://github.com/andyearnshaw/Intl.js/releases/tag/v0.1.0" title="Release Now passing all relevant tests · andyearnshaw/Intl.js">
+<p class="jser-sitelink"><strong>Release Now passing all relevant tests · andyearnshaw/Intl.js</strong></p><footer><cite><a href="https://github.com/andyearnshaw/Intl.js/releases/tag/v0.1.0" title="Release Now passing all relevant tests · andyearnshaw/Intl.js" target="_blank">https://github.com/andyearnshaw/Intl.js/releases/tag/v0.1.0</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span><span class="jser-tag">i18n</span><span class="jser-tag">ReleaseNote</span></p>
+
+<p>ECMAScript Internationalization API (ECMA-402)の実装であるIntl.js 0.1.0がリリース。</p>
+
+<p>test262 suiteを全てパスした</p>
+
+<ul><li><a href="http://www.ecma-international.org/ecma-402/1.0/" target="_blank">ECMAScript Internationalization API Specification – ECMA-402 Edition 1.0</a></li>
+<li><a href="http://test262.ecmascript.org/" target="_blank">ECMAScript Language – test262</a></li>
+</ul><h3 class="site-genre">アーティクル</h3>
+
+<blockquote cite="http://spion.github.io/posts/why-i-am-switching-to-promises.html" title="Why I am switching to promises">
+<p class="jser-sitelink"><strong>Why I am switching to promises</strong></p><footer><cite><a href="http://spion.github.io/posts/why-i-am-switching-to-promises.html" title="Why I am switching to promises" target="_blank">http://spion.github.io/posts/why-i-am-switching-to-promises.html</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Promises</span></p>
+
+<p>Promiseの利点について。</p>
+
+<p>throw-safeなエラーハンドリング、パフォーマンスとメモリ消費、promise.nodeifyを使ったコールバックスタイルとの互換性、Promiseの書き方やユースケース等まとまってる</p>
+
+<ul><li><a href="http://promise-nuggets.github.io/" target="_blank">Promise nuggets</a></li>
+</ul><blockquote cite="http://jlongster.com/Stop-Writing-JavaScript-Compilers--Make-Macros-Instead" title="Stop Writing JavaScript Compilers! Make Macros Instead">
+<p class="jser-sitelink"><strong>Stop Writing JavaScript Compilers! Make Macros Instead</strong></p><footer><cite><a href="http://jlongster.com/Stop-Writing-JavaScript-Compilers--Make-Macros-Instead" title="Stop Writing JavaScript Compilers! Make Macros Instead" target="_blank">http://jlongster.com/Stop-Writing-JavaScript-Compilers&#8212;Make-Macros-Instead</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">ECMAScript</span></p>
+
+<p>JavaScriptのマクロを書けるsweet.jsの使い方とsweet.jsを使ってES6のsyntaxをいくつか実装したmacroについて</p>
+
+<ul><li><a href="https://github.com/jlongster/es6-macros" target="_blank">jlongster/es6-macros</a></li>
+</ul><blockquote cite="http://ympbyc.hatenablog.com/entry/2014/01/11/sweet_js%E3%81%A7shift/reset%3A_%E9%99%90%E5%AE%9A%E7%B6%99%E7%B6%9A%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF%E5%9C%B0%E7%8D%84%E3%81%8B%E3%82%89%E6%8A%9C" title="sweet.jsでshift/reset: 限定継続を使ってコールバック地獄から抜け出す - 標高+1m">
+<p class="jser-sitelink"><strong>sweet.jsでshift/reset: 限定継続を使ってコールバック地獄から抜け出す - 標高+1m</strong></p><footer><cite><a href="http://ympbyc.hatenablog.com/entry/2014/01/11/sweet_js%E3%81%A7shift/reset%3A_%E9%99%90%E5%AE%9A%E7%B6%99%E7%B6%9A%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF%E5%9C%B0%E7%8D%84%E3%81%8B%E3%82%89%E6%8A%9C" title="sweet.jsでshift/reset: 限定継続を使ってコールバック地獄から抜け出す - 標高+1m" target="_blank">http://ympbyc.hatenablog.com/entry/2014/01/11/sweet_js%E3%81%A7shift/reset%3A_%E9%99%90%E5%AE%9A%E7%B6%99%E7%B6%9A%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF%E5%9C%B0%E7%8D%84%E3%81%8B%E3%82%89%E6%8A%9C</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">sweet.js</span></p>
+
+<p>sweet.jsを使ったshift/resetのような実装</p>
+
+<blockquote cite="http://tavendo.com/blog/post/super-vector-graphics/" title="SVG - Super Vector Graphics">
+<p class="jser-sitelink"><strong>SVG - Super Vector Graphics</strong></p><footer><cite><a href="http://tavendo.com/blog/post/super-vector-graphics/" title="SVG - Super Vector Graphics" target="_blank">http://tavendo.com/blog/post/super-vector-graphics/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span><span class="jser-tag">tutorial</span><span class="jser-tag">browser</span></p>
+
+<p>SVGについての連載。</p>
+
+<p>SVGの基本や利点や扱い方、クロスブラウザでの表示や最適化、fallbackについて書かれてる</p>
+
+<blockquote cite="http://Ianfeather.github.com/ianfeatherV3/ten-reasons-we-switched-from-an-icon-font-to-svg/" title="Ten reasons we switched from an icon font to SVG - Ian Feather">
+<p class="jser-sitelink"><strong>Ten reasons we switched from an icon font to SVG - Ian Feather</strong></p><footer><cite><a href="http://Ianfeather.github.com/ianfeatherV3/ten-reasons-we-switched-from-an-icon-font-to-svg/" title="Ten reasons we switched from an icon font to SVG - Ian Feather" target="_blank">http://Ianfeather.github.com/ianfeatherV3/ten-reasons-we-switched-from-an-icon-font-to-svg/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">fonts</span><span class="jser-tag">SVG</span></p>
+
+<p>アイコンフォントとSVGを比べた時にSVGのメリットについて。</p>
+
+<blockquote cite="http://jxck.hatenablog.com/entry/2014-01-12/generator-screencaset" title="ジェネレータの解説と非同期への適用 - Block Rockin’ Codes">
+<p class="jser-sitelink"><strong>ジェネレータの解説と非同期への適用 - Block Rockin’ Codes</strong></p><footer><cite><a href="http://jxck.hatenablog.com/entry/2014-01-12/generator-screencaset" title="ジェネレータの解説と非同期への適用 - Block Rockin’ Codes" target="_blank">http://jxck.hatenablog.com/entry/2014-01-12/generator-screencaset</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">動画</span></p>
+
+<p>NodeでのGeneratorについてのスクリーンキャスト。</p>
+
+<p>generatorの使い方、next()でどこまで進むか、非同期処理の同期化、ユーザー側とライブラリ側を分けるための抽象化(coライクのものを作る)、throwでのエラー処理、thunkifyのやってる事</p>
+
+<ul><li><a href="https://github.com/visionmedia/co" target="_blank">visionmedia/co</a></li>
+<li><a href="https://github.com/visionmedia/node-thunkify" target="_blank">visionmedia/node-thunkify</a></li>
+<li><a href="http://koajs.com/" target="_blank">Koa - next generation web framework for node.js</a></li>
+</ul><blockquote cite="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor">
+<p class="jser-sitelink"><strong>Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor</strong></p><footer><cite><a href="http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/" title="Refactoring your JavaScript code with Grasp | Grasp - JavaScript structural search, replace, and refactor" target="_blank">http://graspjs.com/blog/2014/01/07/refactoring-javascript-with-grasp/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">Tools</span><span class="jser-tag">debug</span></p>
+
+<p>JS ASTを元にしたgrep/sedのようなツールであるGraspのユースケース紹介。</p>
+
+<p>実際にどのようにリファクタリングを行えるかが書かれてる</p>
+
+<ul><li><a href="http://jser.info/post/73202282881/grasp-javascript" target="_blank">Graspを使ったJavaScriptのリファクタリング | JSer.info</a></li>
+</ul><blockquote cite="http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript" title="Dependency injection in JavaScript">
+<p class="jser-sitelink"><strong>Dependency injection in JavaScript</strong></p><footer><cite><a href="http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript" title="Dependency injection in JavaScript" target="_blank">http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">testing</span><span class="jser-tag">tutorial</span></p>
+
+<p>JavaScriptでDIを実装してみるチュートリアル。</p>
+
+<p>AMDライクな依存関係を示すモジュールの定義をするアプローチとAngularJSみたいなリフレクションで関数定義から依存関係を取得するアプローチについて書かれてる</p>
+
+<ul><li><a href="http://merrickchristensen.com/articles/javascript-dependency-injection.html" target="_blank">Merrick Christensen - JavaScript Dependency Injection</a></li>
+</ul><h3 class="site-genre">サイト、サービス</h3>
+
+<blockquote cite="http://promise-nuggets.github.io/" title="Promise nuggets">
+<p class="jser-sitelink"><strong>Promise nuggets</strong></p><footer><cite><a href="http://promise-nuggets.github.io/" title="Promise nuggets" target="_blank">http://promise-nuggets.github.io/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Promises</span><span class="jser-tag">tutorial</span></p>
+
+<p>Promisesに関するチュートリアル。</p>
+
+<p>Promisesの使い方やパターンについて書かれている。</p>
+
+<h3 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h3>
+
+<blockquote cite="http://www.frida.re/" title="Frida">
+<p class="jser-sitelink"><strong>Frida</strong></p><footer><cite><a href="http://www.frida.re/" title="Frida" target="_blank">http://www.frida.re/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">python</span><span class="jser-tag">software</span></p>
+
+<p>プロセスのトレース、関数のhook等を出来るツール <a href="https://github.com/frida/frida-gum/" target="_blank">https://github.com/frida/frida-gum/</a></p>
+
+<p>V8とPythonを使ったバインディングがあり、JavaScriptでスクリプトを書いてプロセスを監視したりデバッグに使える。</p>
+
+<ul><li><a href="http://www.frida.re/docs/history/" target="_blank">History</a></li>
+</ul><blockquote cite="https://github.com/lo-th/Oimo.js" title="lo-th/Oimo.js">
+<p class="jser-sitelink"><strong>lo-th/Oimo.js</strong></p><footer><cite><a href="https://github.com/lo-th/Oimo.js" title="lo-th/Oimo.js" target="_blank">https://github.com/lo-th/Oimo.js</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">library</span></p>
+
+<p>Three.jsを使った物理エンジンライブラリ。</p>
+
+<p>AS3のOimoPhysicsのJavaScriptポート。</p>
+
+<ul><li><a href="http://el-ement.com/blog/2012/10/08/as3-physics-engine/" target="_blank">ActionScript3.0用の3D物理エンジンを作ってみた – EL-EMENT blog</a></li>
+</ul><blockquote cite="https://github.com/groupon/testium" title="groupon/testium">
+<p class="jser-sitelink"><strong>groupon/testium</strong></p><footer><cite><a href="https://github.com/groupon/testium" title="groupon/testium" target="_blank">https://github.com/groupon/testium</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span><span class="jser-tag">webdriver</span><span class="jser-tag">library</span><span class="jser-tag">Tools</span></p>
+
+<p>WebDriverとmochaを使ったIntegration testを行えるツール。</p>
+
+<p>webdriver-http-syncをベースにしていて同期的にテストを書けるのが特徴</p>
+
+<ul><li><a href="https://engineering.groupon.com/2014/misc/i-tier-testium/" title="I-Tier: Testium - Groupon Engineering Blog" target="_blank">I-Tier: Testium - Groupon Engineering Blog</a></li>
+<li><a href="http://wazanova.jp/items/895" target="_blank">Groupon: Node.js向け結合テストツールtestiumをオープンソースで提供 - ワザノバ | wazanova</a></li>
+</ul><blockquote cite="http://linemanjs.com/" title="Lineman | Build awesome web apps, easily.">
+<p class="jser-sitelink"><strong>Lineman | Build awesome web apps, easily.</strong></p><footer><cite><a href="http://linemanjs.com/" title="Lineman | Build awesome web apps, easily." target="_blank">http://linemanjs.com/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">console</span><span class="jser-tag">Tools</span></p>
+
+<p>Yeomanのようなウェブアプリのワークフロー管理ツール。</p>
+
+<p>プロジェクトのテンプレート、ジェネレータやAPIのStubやProxy、Gruntのタスク管理等</p>
+
+<h3 class="site-genre">書籍関係</h3>
+
+<blockquote cite="https://github.com/tooling/book-of-modern-frontend-tooling" title="tooling/book-of-modern-frontend-tooling">
+<p class="jser-sitelink"><strong>tooling/book-of-modern-frontend-tooling</strong></p><footer><cite><a href="https://github.com/tooling/book-of-modern-frontend-tooling" title="tooling/book-of-modern-frontend-tooling" target="_blank">https://github.com/tooling/book-of-modern-frontend-tooling</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">book</span><span class="jser-tag">Tools</span><span class="jser-tag">browser</span></p>
+
+<p>モダンなフロントエンド向けツールについて書かれている書籍。</p>
+
+<p>Github上で書かれいるのでコントリビューションも出来る</p>
+
+<ul><li><a href="http://enterprisewebbook.com/" target="_blank">Enterprise Web Development: From Desktop to Mobile</a></li>
+</ul><blockquote cite="http://www.oreilly.co.jp/books/9784873116600/" title="O'Reilly Japan - JavaScriptで学ぶ関数型プログラミング">
+<p class="jser-sitelink"><strong>O&#8217;Reilly Japan - JavaScriptで学ぶ関数型プログラミング</strong></p><footer><cite><a href="http://www.oreilly.co.jp/books/9784873116600/" title="O'Reilly Japan - JavaScriptで学ぶ関数型プログラミング" target="_blank">http://www.oreilly.co.jp/books/9784873116600/</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">関数型言語</span><span class="jser-tag">book</span></p>
+
+<p>2014年01月18日発売</p>
+
+<p>Functional JavaScriptの翻訳本</p>
+
+<ul><li><a href="http://www.functionaljavascript.com/" target="_blank">functional javascript</a></li>
+</ul><blockquote cite="http://www.amazon.co.jp/o/ASIN/4883379167/amazon0abac-22/ref=nosim" title="Amazon: HTML5 Web標準API バイブル [単行本]: 羽田野 太巳">
+<p class="jser-sitelink"><strong>Amazon: HTML5 Web標準API バイブル [単行本]: 羽田野 太巳</strong></p><footer><cite><a href="http://www.amazon.co.jp/o/ASIN/4883379167/amazon0abac-22/ref=nosim" title="Amazon: HTML5 Web標準API バイブル [単行本]: 羽田野 太巳" target="_blank">http://www.amazon.co.jp/o/ASIN/4883379167/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML5</span><span class="jser-tag">WebPlatformAPI</span><span class="jser-tag">book</span></p>
+
+<p>2014年1月20日発売</p>
+
+<p>様々なWebPlatform APIについてチュートリアル方式で解説した書籍</p>
+
+<ul><li><a href="https://twitter.com/futomi/status/420468660172369920" target="_blank">Twitter / futomi: 昨年末の時点でメジャーブラウザーに実装されている W3C A &#8230;</a></li>
+</ul><blockquote cite="http://www.amazon.co.jp/o/ASIN/4048916580/amazon0abac-22/ref=nosim" title="Amazon: サードパーティJavaScript [大型本]: Ben Vinegar, Anton Kovalyov, 水野貴明">
+<p class="jser-sitelink"><strong>Amazon: サードパーティJavaScript [大型本]: Ben Vinegar, Anton Kovalyov, 水野貴明</strong></p><footer><cite><a href="http://www.amazon.co.jp/o/ASIN/4048916580/amazon0abac-22/ref=nosim" title="Amazon: サードパーティJavaScript [大型本]: Ben Vinegar, Anton Kovalyov, 水野貴明" target="_blank">http://www.amazon.co.jp/o/ASIN/4048916580/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span><span class="jser-tag">セキュリティ</span><span class="jser-tag">book</span></p>
+
+<p>2014年2月1日発売</p>
+
+<p>Third-party JavaScriptの翻訳本</p>
+
+<p><a href="http://thirdpartyjs.com/" target="_blank">http://thirdpartyjs.com/</a></p>
+
+<blockquote cite="http://www.amazon.com/o/ASIN/1430264810/amazon0abac-22/ref=nosim" title="Amazon: Dart for Absolute Beginners [Paperback]: David Kopec">
+<p class="jser-sitelink"><strong>Amazon: Dart for Absolute Beginners [Paperback]: David Kopec</strong></p><footer><cite><a href="http://www.amazon.com/o/ASIN/1430264810/amazon0abac-22/ref=nosim" title="Amazon: Dart for Absolute Beginners [Paperback]: David Kopec" target="_blank">http://www.amazon.com/o/ASIN/1430264810/amazon0abac-22/ref=nosim</a></cite></footer></blockquote>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">dart</span><span class="jser-tag">book</span></p>
+
+<p>2014年7月14日発売</p>
+
+<p>Dart初心者向けの書籍</p>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/tumblr/2014-01-13-2014-01-13-js-sweet-js.html"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["macro","generator","debug","testing","node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>macro</li>
+                
+                <li>generator</li>
+                
+                <li>debug</li>
+                
+                <li>testing</li>
+                
+                <li>node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/post/73206411885/2014-01-13-js-sweet-js">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/post/73206411885/2014-01-13-js-sweet-js"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

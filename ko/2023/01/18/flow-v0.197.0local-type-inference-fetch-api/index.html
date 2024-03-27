@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-01-18: Flow v0.197.0(Local Type Inference), Fetch API 에러 핸들링 - JSer.info</title>
+    <meta name="description" content="JSer.info #627 - Flow v0.197.0가 릴리스 됐다.">
+    
+    <meta name="keywords" content="TypeScript,Tools,node.js,ECMAScript,book" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-01-18T13:18:30+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="ECMAScript" property="article:tag">
+      
+      <meta content="book" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #627 - Flow v0.197.0가 릴리스 됐다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-01-18: Flow v0.197.0(Local Type Inference), Fetch API 에러 핸들링">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #627 - Flow v0.197.0가 릴리스 됐다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-01-18T13:18:30+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="ECMAScript">
+
+<meta property="article:tag" content="book">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/">2023-01-18: Flow v0.197.0(Local Type Inference), Fetch API 에러 핸들링</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年01月18日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-01-18-flow-v0.197.0local-type-inference-fetch-api.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-01-18-flow-v0.197.0local-type-inference-fetch-api.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #627 - Flow v0.197.0가 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://github.com/facebook/flow/releases/tag/v0.197.0">Release v0.197.0 · facebook/flow</a></li>
+</ul>
+
+<p>Flow v0.197.0에서 Local Type Inference라는 기능이 opt-in으로 도입됐다.</p>
+
+<ul>
+<li><a href="https://medium.com/flow-type/introducing-local-type-inference-for-flow-6af65b7830aa">Introducing: Local Type Inference for Flow | by Michael Matson Vitousek | Flow | Medium</a></li>
+</ul>
+
+<p>Flow는 강력한 타입 추론 엔진을 제공했으나 현재는 Type-First한 아키텍처로 전환하고 있다.<br>
+따라서 이전과는 다르게 명시적으로 타입을 지정해야 하는 경우가 늘어나지만 안전성이나 버그는 줄어들게 된다.</p>
+
+<ul>
+<li><a href="https://medium.com/flow-type/clarity-on-flows-direction-and-open-source-engagement-e721a4eb4d8b">Clarity on Flow’s Direction and Open Source Engagement | by Vladan Djeric | Flow | Medium</a></li>
+<li><a href="https://medium.com/flow-type/types-first-a-scalable-new-architecture-for-flow-3d8c7ba1d4eb">Types-First: A Scalable New Architecture for Flow | by Panagiotis Vekris | Flow | Medium</a></li>
+</ul>
+
+<p>Local Type Inference도 이러한 아키텍처 변경과 관련된 내용으로 보인다.</p>
+
+<hr>
+
+<p><a href="https://www.builder.io/blog/safe-data-fetching">Safe Data Fetching in Modern JavaScript</a>에서는 Fetch API를 안전하게 사용하고자 할 경우에 고려해야만 하는 내용이 정리돼 있다.</p>
+
+<p>Fetch API에서는 4xx 계열 에러가 발생해도 결과 Promise가 Reject 되지 않는다는 특징을 토대로 어떻게 다뤄야 안전한지 이야기한다.<br>
+Axios 처럼 에러 핸들링하기, JSON을 POST할 때 빠지기 쉬운 실수, Fetch 랩퍼 등에 대해서 다루고 있다.</p>
+
+<hr>
+
+<p>JSer.info를 시작한지 12년이 지났다 🎉</p>
+
+<ul>
+<li><a href="https://jser.info/2023/01/16/jser-12th/">JSer.info 12주년 - JSer.info</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="rimraf-changelog-md-at-main-isaacs-rimraf">rimraf/CHANGELOG.md at main · isaacs/rimraf</h2>
+
+<p><a href="https://github.com/isaacs/rimraf/blob/main/CHANGELOG.md#v40" title="rimraf/CHANGELOG.md at main · isaacs/rimraf">github.com/isaacs/rimraf/blob/main/CHANGELOG.md#v40</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>rimraf 4.0 릴리스.<br>
+glob 지원 삭제, Promise를 반환하도록 변경, Node 14 미만 지원 종료, TypeScript로 재작성.<br>
+또, CJS와 ESM을 모두 지원하며 Windows에서의 성능이 개선됐다.</p>
+
+<hr>
+
+<h2 id="release-v0-17-0-evanw-esbuild">Release v0.17.0 · evanw/esbuild</h2>
+
+<p><a href="https://github.com/evanw/esbuild/releases/tag/v0.17.0" title="Release v0.17.0 · evanw/esbuild">github.com/evanw/esbuild/releases/tag/v0.17.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>esbuild v0.17.0 릴리스.<br>
+incremental build 관련 처리를 <code>context</code> API로 이동.<br>
+<code>watch</code>와 <code>serve</code>를 동시에 사용할 수 있도록 개선.<br>
+또, Server Send Event를 사용한 Live Reload 지원, 개발 서버가 HTTPS에 대응.</p>
+
+<hr>
+
+<h2 id="release-v0-197-0-facebook-flow">Release v0.197.0 · facebook/flow</h2>
+
+<p><a href="https://github.com/facebook/flow/releases/tag/v0.197.0" title="Release v0.197.0 · facebook/flow">github.com/facebook/flow/releases/tag/v0.197.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Flow v0.197.0 릴리스.<br>
+Local Type Inference를 opt-in으로 이용할 수 있도록 변경.</p>
+
+<ul>
+<li><a href="https://medium.com/flow-type/introducing-local-type-inference-for-flow-6af65b7830aa" title="Introducing: Local Type Inference for Flow | by Michael Matson Vitousek | Flow | Medium">Introducing: Local Type Inference for Flow | by Michael Matson Vitousek | Flow | Medium</a></li>
+</ul>
+
+<hr>
+
+<h2 id="moon-v0-22-new-pipeline-hashing-and-caching-with-turborepo-migration-moon">moon v0.22 - New pipeline, hashing, and caching, with Turborepo migration | moon</h2>
+
+<p><a href="https://moonrepo.dev/blog/v0.22" title="moon v0.22 - New pipeline, hashing, and caching, with Turborepo migration | moon">moonrepo.dev/blog/v0.22</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>monorepo 관리 도구 moon 0.22 릴리스.<br>
+파이프라인 병렬성을 제어할 수 있도록 개선.<br>
+프로젝트 그래프 캐시와 의존 모듈 설치 오류 개선.<br>
+Turborepo로 부터의 마이그레이션 명령 추가.</p>
+
+<hr>
+
+<h2 id="firefox-109-0-see-all-new-features-updates-and-fixes">Firefox 109.0, See All New Features, Updates and Fixes</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/109.0/releasenotes/" title="Firefox 109.0, See All New Features, Updates and Fixes">www.mozilla.org/en-US/firefox/109.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 109 릴리스.<br>
+확장 기능에서 Manifest V3 지원, <code>scrolled</code> 이벤트 지원 등.</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/109" title="Firefox 109 for developers - Mozilla | MDN">Firefox 109 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="safe-data-fetching-in-modern-javascript">Safe Data Fetching in Modern JavaScript</h2>
+
+<p><a href="https://www.builder.io/blog/safe-data-fetching" title="Safe Data Fetching in Modern JavaScript">www.builder.io/blog/safe-data-fetching</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Fetch</span> <span class="jser-tag">article</span></p></p>
+
+<p>Fetch API를 주제로 한 글.<br>
+Fetch API의 에러 바운딩, Axios 처럼 에러 핸들링하기, JSON을 POST 할 때의 빠지기 쉬운 실수, Fetch 랩퍼 등에 대해서 다루고 있다.</p>
+
+<hr>
+
+<h2 id="d-ts">`*.d.ts` 파일을 커밋하기 전에 알았으면 하는 네 가지(일본어)</h2>
+
+<p><a href="https://zenn.dev/qnighy/articles/9a6a0041f2a1aa" title="\`\*.d.ts\` 파일을 커밋하기 전에 알았으면 하는 네 가지">zenn.dev/qnighy/articles/9a6a0041f2a1aa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>타입스크립트의 <code>.d.ts</code>를 소스 코드에 포함할 필요가 없는 경우를 정리.<br>
+또, 포함할 경우에 tsconfig의 <code>typeRoot</code>나 <code>types</code>를 사용하지 않고 코드에서 import 하는 방법 및 <code>includes</code>를 사용하는 방법 소개.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="giusepperaso-structura-js-a-very-fast-and-lightweight-typescript-library-to-create-immutable-states-with-a-mutable-syntax">giusepperaso/structura.js: A very fast and lightweight Typescript library to create immutable states with a mutable syntax</h2>
+
+<p><a href="https://github.com/GiuseppeRaso/structura.js" title="giusepperaso/structura.js: A very fast and lightweight Typescript library to create immutable states with a mutable syntax">github.com/GiuseppeRaso/structura.js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Immer와 비슷한 Immutable 처리 API를 제공하는 라이브러리.<br>
+Object.freeze 대신 TypeScript 타입으로 표현하는 것으로 오버헤드를 줄인다.</p>
+
+<hr>
+
+<h2 id="lyrasearch-lyra-fast-in-memory-typo-tolerant-full-text-search-engine-written-in-typescript">LyraSearch/lyra: 🌌 Fast, in-memory, typo-tolerant, full-text search engine written in TypeScript.</h2>
+
+<p><a href="https://github.com/LyraSearch/lyra" title="LyraSearch/lyra: 🌌 Fast, in-memory, typo-tolerant, full-text search engine written in TypeScript.">github.com/LyraSearch/lyra</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">search </span> <span class="jser-tag">library</span></p></p>
+
+<p>TypeScript로 작성한 전문 검색 엔진.</p>
+
+<hr>
+
+<h2 id="azu-eslint-cjs-to-esm-eslint-wrapper-for-migration-from-cjs-to-esm">azu/eslint-cjs-to-esm: ESLint wrapper for migration from CJS to ESM.</h2>
+
+<p><a href="https://github.com/azu/eslint-cjs-to-esm" title="azu/eslint-cjs-to-esm: ESLint wrapper for migration from CJS to ESM.">github.com/azu/eslint-cjs-to-esm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">CommonJS</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ESLint</span></p></p>
+
+<p>CommonJS에서 ESM으로 변환할 수 있도록 도와주는 보조 도구.<br>
+ESLint를 래핑하고, CJS와 ESM 관계를 분석하는 도구를 빌트인하고 있다.<br>
+import하고 있는 경로에 <code>.js</code>를 추가하거나 <code>require</code> / <code>exports</code> 등 CJS에서만 사용할 수 있는 기능을 금지하는 등의 기능을 제공한다.</p>
+
+<hr>
+
+<h2 id="tsmodule-tsmodule-typescript-to-es-module-loader-and-compiler">tsmodule/tsmodule: TypeScript to ES Module loader and compiler.</h2>
+
+<p><a href="https://github.com/tsmodule/tsmodule" title="tsmodule/tsmodule: TypeScript to ES Module loader and compiler.">github.com/tsmodule/tsmodule</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>TypeScript에서 ESM 기반 패키지를 개발하기 위한 툴 킷.</p>
+
+<hr>
+
+<h2 id="shuding-react-wrap-balancer-simple-react-component-that-makes-titles-more-readable">shuding/react-wrap-balancer: Simple React Component That Makes Titles More Readable</h2>
+
+<p><a href="https://github.com/shuding/react-wrap-balancer" title="shuding/react-wrap-balancer: Simple React Component That Makes Titles More Readable">github.com/shuding/react-wrap-balancer</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">CSS</span> <span class="jser-tag">library</span> <span class="jser-tag">english</span></p></p>
+
+<p>가독성을 해치지 않으면서 타이틀 문자열을 개행하는 리액트 컴포넌트</p>
+
+<ul>
+<li><a href="https://vercel.com/blog/react-wrap-balancer#innovation-in-text-wrapping" title="Improving readability with React Wrap Balancer – Vercel">Improving readability with React Wrap Balancer – Vercel</a></li>
+</ul>
+
+<hr>
+
+<h2 id="azu-tsconfig-to-dual-package-node-js-dual-package-tool-that-add-package-json-to-tsconfigs-outdir">azu/tsconfig-to-dual-package: Node.js dual package tool that add package.json to tsconfig&#039;s `outDir`</h2>
+
+<p><a href="https://github.com/azu/tsconfig-to-dual-package" title="azu/tsconfig-to-dual-package: Node.js dual package tool that add package.json to tsconfig&amp;#039;s \`outDir\`">github.com/azu/tsconfig-to-dual-package</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">node.js</span></p></p>
+
+<p>TypeScript에서 Dual package(CJS, ESM)를 작성하는데 도움을 주는 도구.<br>
+<code>tsc</code>의 빌드 결과가 생성되는 디렉터리 내에 CJS와 ESM을 지원하는 <code>pacakge.json</code>을 추가하는 방식으로 Dual package를 생성한다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="3-javascript">개정 3 판 JavaScript 본격 입문 ~ 모던 스타일로 기초부터 현장 응용까지 : 서적 안내 | 기술평론사(일본어)</h2>
+
+<p><a href="https://gihyo.jp/book/2023/978-4-297-13288-0" title="개정 3 판 JavaScript 본격 입문 ~ 모던 스타일로 기초부터 현장 응용까지 : 서적 안내 | 기술평론사">gihyo.jp/book/2023/978-4-297-13288-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2023년 2월 13일 출간 예정인 자바스크립트 입문서</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-01-18-flow-v0.197.0local-type-inference-fetch-api.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["TypeScript","Tools","node.js","ECMAScript","book"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>TypeScript</li>
+                
+                <li>Tools</li>
+                
+                <li>node.js</li>
+                
+                <li>ECMAScript</li>
+                
+                <li>book</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/01/18/flow-v0.197.0local-type-inference-fetch-api/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

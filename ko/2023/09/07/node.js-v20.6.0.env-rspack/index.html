@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-09-07: Node.js v20.6.0(.env), Rspack 아키텍처 디자인 - JSer.info</title>
+    <meta name="description" content="JSer.info #659 - Node.js v20.6.0가 출시되었습니다">
+    
+    <meta name="keywords" content="nodejs,bundler,MicroFrontend,architecture,GraphQL" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-09-07T15:06:26+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="bundler" property="article:tag">
+      
+      <meta content="MicroFrontend" property="article:tag">
+      
+      <meta content="architecture" property="article:tag">
+      
+      <meta content="GraphQL" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/09/07/node.js-v20.6.0.env-rspack/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #659 - Node.js v20.6.0가 출시되었습니다" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-09-07: Node.js v20.6.0(.env), Rspack 아키텍처 디자인">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/09/07/node.js-v20.6.0.env-rspack/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #659 - Node.js v20.6.0가 출시되었습니다">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-09-07T15:06:26+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="bundler">
+
+<meta property="article:tag" content="MicroFrontend">
+
+<meta property="article:tag" content="architecture">
+
+<meta property="article:tag" content="GraphQL">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/09/07/node.js-v20.6.0.env-rspack/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/09/07/node.js-v20.6.0.env-rspack/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/09/07/node.js-v20.6.0.env-rspack/">2023-09-07: Node.js v20.6.0(.env), Rspack 아키텍처 디자인</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年09月07日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-09-07-node.js-v20.6.0.env-rspack.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-09-07-node.js-v20.6.0.env-rspack.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/09/07/node.js-v20.6.0.env-rspack/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #659 - Node.js v20.6.0가 출시되었습니다</p>
+
+<ul>
+<li><a href="https://nodejs.org/ja/blog/release/v20.6.0">Node v20.6.0 (Current) | Node.js</a></li>
+</ul>
+
+<p><code>.env</code> 빌드인 지원, <code>import.meta.resolve</code> 플래그 없이 이용 가능, <code>module.register()</code> API 추가되었습니다.<br>
+Loader의 <code>load</code> hook이 CommonJS 지원되며, 비권장 기능 <code>require.extensions</code> 없어도 CommonJS 작업할 수 있도록 custom loader 작성할 수 있는 변경도 있습니다.</p>
+
+<p>단, v20.6.0에서는 loader 변경으로 Babel 등이 동작하지 않게 되어, v20.6.1에서 수정될 예정입니다.</p>
+
+<ul>
+<li><a href="https://github.com/nodejs/node/issues/49497">[v20.6] CJS runs repeatedly when there are circular dependencies when loaded by ESM · Issue #49497 · nodejs/node</a></li>
+<li><a href="https://github.com/nodejs/node/pull/49500">esm: fix loading of (recursive) CJS modules from ESM by aduh95 · Pull Request #49500 · nodejs/node</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://github.com/web-infra-dev/wg/discussions/1">Design Trade-offs in Bundler: The Rationale Behind Creating Rspack · web-infra-dev/wg · Discussion #1</a>에는, Rspack 개발 목적이나 webpack/parcel/esbuild/rollup 등 bundler 아키텍처에 대해 설명하고 있습니다.</p>
+
+<p>각 bundler에는 장단점이 있지만, esbuild와 Rollup의 장점을 흡수해서 Rust버전으로 작성한 점에 대해 언급합니다.<br>
+플러그인 API나 JavaScript 이외 언어를 다루는 필요성부터, webpack 아키텍처와 닮은 것이 필요한 것을 깨닫고, webpack 호환 아키텍처를 선택한 것에 대해서도 작성되었습니다.</p>
+
+<p>각 bundler 아키텍처, Rspack의 현 과제, 앞으로 방향성에 대해서도 언급합니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="nitrogql-1-0-release-nitrogql-blog">nitrogql 1.0 release | nitrogql blog</h2>
+
+<p><a href="https://nitrogql.vercel.app/blog/release-1.0" title="nitrogql 1.0 release | nitrogql blog">nitrogql.vercel.app/blog/release-1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">Tools</span> <span class="jser-tag">Rust</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>GraphQL에서 클라이언트 코드 생성과 GraphQL 쿼리의 자료형 체크를 하는 nitrogql 1.0 출시.</p>
+
+<hr>
+
+<h2 id="node-v20-6-0-current-node-js">Node v20.6.0 (Current) | Node.js</h2>
+
+<p><a href="https://nodejs.org/ja/blog/release/v20.6.0" title="Node v20.6.0 (Current) | Node.js">nodejs.org/ja/blog/release/v20.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v20.6.0 출시.<br>
+<code>.env</code> 빌트인 지원, <code>import.meta.resolve</code> 플러그 없이 이용 가능, <code>module.register()</code> API 추가.<br>
+Loader의 <code>load</code> hook가 CommonJS 지원, 비권장 <code>require.extensions</code> 사용 없이도 CommonJS 처리할 수 있는 custom loader 작성할 수 있도록</p>
+
+<hr>
+
+<h2 id="release-v4-0-0-actions-checkout">Release v4.0.0 · actions/checkout</h2>
+
+<p><a href="https://github.com/actions/checkout/releases/tag/v4.0.0" title="Release v4.0.0 · actions/checkout">github.com/actions/checkout/releases/tag/v4.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Github</span> <span class="jser-tag">Actions</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>actions/checkout v4.0.0 출시.<br>
+Node.js 20 이용 가능, <code>show-progress</code> 옵션 추가</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="design-trade-offs-in-bundler-the-rationale-behind-creating-rspack-web-infra-dev-wg-discussion-1">Design Trade-offs in Bundler: The Rationale Behind Creating Rspack · web-infra-dev/wg · Discussion #1</h2>
+
+<p><a href="https://github.com/web-infra-dev/wg/discussions/1" title="Design Trade-offs in Bundler: The Rationale Behind Creating Rspack · web-infra-dev/wg · Discussion #1">github.com/web-infra-dev/wg/discussions/1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">bundler</span> <span class="jser-tag">article</span> <span class="jser-tag">architecture</span></p></p>
+
+<p>Rspack 개발 목적이나 webpack/parcel/esbuild/rollup 등 bundler 아키텍처에 대하여.<br>
+webpack에는 디버그나 성능 문제가 있었고, Vite/Rollup도 대규모 프로젝트에서 성능에 빌드 환경 차이 문제가 있었으며, esbuild는 플러그인 문제성이 있었음.<br>
+Rollup는 ESM 한정으로 일급시민이기에, Rspack는 webpack와 Parcel과 같이 언어에 의존하지 않는 것을 목표로 함.<br>
+각 bundler 플러그인 API 설계 복잡성, AST 재이용과 성능 문제, Tree Shaking를 AST 기반으로 하는 경우의 과제에 대해서도 언급.<br>
+또한, 앞으로 Rspack가 지향하는 방향으로 간단히 사용, 디버그 하기 쉽게, 최적화를 webpack과 동급 혹은 그 이상으로, 원격 캐시 등에 대해서도 다룬다.</p>
+
+<hr>
+
+<h2 id="mofi-snappy-uis-with-webassembly-and-web-workers">Mofi - Snappy UIs With WebAssembly and Web Workers</h2>
+
+<p><a href="https://mofi.loud.red/blog/wasm-and-workers" title="Mofi - Snappy UIs With WebAssembly and Web Workers">mofi.loud.red/blog/wasm-and-workers</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">webworker</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>WebAssembly에서 처리를 WebWorker 안에서 함으로, 메인 스레드 블록없이 처리하는 이야기.<br>
+CPU 코어 이상 Worker 늘리면 문제가 있기에, 워커 풀을 작성해서 Worker 수를 제어한다. 또한 Worker에서 진행 상황을 메세징하는 방법에 대해서도 다룬다</p>
+
+<hr>
+
+<h2 id="faster-vue-js-execution-in-firefox-mozilla-hacks-the-web-developer-blog">Faster Vue.js Execution in Firefox - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2023/09/faster-vue-js-execution-in-firefox/" title="Faster Vue.js Execution in Firefox - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2023/09/faster-vue-js-execution-in-firefox/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vue 등에서 사용하는 Proxy 최적화를 함으로, TodoMVC-Vue 성능이 40% 개선.<br>
+Firefox 118 출시 때 이 변경이 포함될 예정.</p>
+
+<hr>
+
+<h2 id="how-we-reduced-the-size-of-our-javascript-bundles-by-33-dropbox">How we reduced the size of our JavaScript bundles by 33% - Dropbox</h2>
+
+<p><a href="https://dropbox.tech/frontend/how-we-reduced-the-size-of-our-javascript-bundles-by-33-percent" title="How we reduced the size of our JavaScript bundles by 33% - Dropbox">dropbox.tech/frontend/how-we-reduced-the-size-of-our-javascript-bundles-by-33-percent</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">bundler</span> <span class="jser-tag">article</span></p></p>
+
+<p>Rollup으로 Code Splitting/Tree Shaking 함으로 bundle 크기를 작게하는 이야기.<br>
+한 편 Rollup은 메모리 상에 모든 코드를 갖기에 빌드가 불안정한 점, 세세한 chunk라면 압축률이 그리 좋지 않다는 점에 대해서도 언급된다</p>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="modern-js">Modern.js</h2>
+
+<p><a href="https://modernjs.dev/en" title="Modern.js">modernjs.dev/en</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">MicroFrontend</span></p></p>
+
+<p>ByteDance의 JavaScript 대상 웹 애플리케이션 프레임워크.<br>
+React 기반으로 클라이언트 사이드 모델이나 라우팅, Rspack/ESLint/Jest 통합, BFF 지원, MicroFrontend 지원한다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="measuredco-puck-the-self-hosted-drag-and-drop-editor-for-react">measuredco/puck: The self-hosted drag and drop editor for React.</h2>
+
+<p><a href="https://github.com/measuredco/puck" title="measuredco/puck: The self-hosted drag and drop editor for React.">github.com/measuredco/puck</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">editor </span> <span class="jser-tag">library</span></p></p>
+
+<p>D&amp;D처럼 편집 가능한 비주얼 에디터의 React 컴포넌트 라이브러리</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="nuxt-3">Nuxt 3 프론트엔드 개발 교과서: 도서안내 | 기술평론사</h2>
+
+<p><a href="https://gihyo.jp/book/2023/978-4-297-13685-7" title="Nuxt 3 프론트엔드 개발 교과서: 도서안내 | 기술평론사">gihyo.jp/book/2023/978-4-297-13685-7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">library</span> <span class="jser-tag">book</span></p></p>
+
+<p>2023년 9월 22일 발매<br>
+Nuxt 관련 도서</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-09-07-node.js-v20.6.0.env-rspack.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["nodejs","bundler","MicroFrontend","architecture","GraphQL"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>nodejs</li>
+                
+                <li>bundler</li>
+                
+                <li>MicroFrontend</li>
+                
+                <li>architecture</li>
+                
+                <li>GraphQL</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/09/07/node.js-v20.6.0.env-rspack/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

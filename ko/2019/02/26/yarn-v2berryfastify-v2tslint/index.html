@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-02-26: yarn v2 후보(berry), Fastify v2, TSLint의 향후 방향 - JSer.info</title>
+    <meta name="description" content="JSer.info #424 - yarn v2 저장소를 공개했습니다.">
+    
+    <meta name="keywords" content="yarn,node,typescript,eslint,tslint" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-02-26T11:02:23+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="yarn" property="article:tag">
+      
+      <meta content="node" property="article:tag">
+      
+      <meta content="typescript" property="article:tag">
+      
+      <meta content="eslint" property="article:tag">
+      
+      <meta content="tslint" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/02/26/yarn-v2berryfastify-v2tslint/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #424 - yarn v2 저장소를 공개했습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-02-26: yarn v2 후보(berry), Fastify v2, TSLint의 향후 방향">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/02/26/yarn-v2berryfastify-v2tslint/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #424 - yarn v2 저장소를 공개했습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-02-26T11:02:23+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="yarn">
+
+<meta property="article:tag" content="node">
+
+<meta property="article:tag" content="typescript">
+
+<meta property="article:tag" content="eslint">
+
+<meta property="article:tag" content="tslint">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/02/26/yarn-v2berryfastify-v2tslint/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/02/26/yarn-v2berryfastify-v2tslint/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/02/26/yarn-v2berryfastify-v2tslint/">2019-02-26: yarn v2 후보(berry), Fastify v2, TSLint의 향후 방향</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年02月26日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-02-26-yarn-v2berryfastify-v2tslint.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-02-26-yarn-v2berryfastify-v2tslint.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/02/26/yarn-v2berryfastify-v2tslint/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #424 - <a href="https://yarnpkg.com/">yarn</a> v2 저장소를 공개했습니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/berry">yarnpkg/berry: 📦🐈 A modern, fast, reliable, package manager; part of the Yarn organization</a></li>
+</ul>
+
+<p>아래 이슈에도 작성돼 있듯이 v1과 저장소를 분리한 이유는 이슈 분류를 좀 더 편하게 하기 위해서라고 합니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/berry/issues/1" title="👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry">👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry</a></li>
+<li><a href="https://github.com/yarnpkg/yarn/issues/6953#issuecomment-466589196" title="Yarn&#39;s Future - v2 and beyond · Issue #6953 · yarnpkg/yarn">Yarn&#39;s Future - v2 and beyond · Issue #6953 · yarnpkg/yarn</a></li>
+</ul>
+
+<blockquote>
+<p>The codename for these changes is Berry<br>
+-- <a href="https://github.com/yarnpkg/yarn/issues/6953">https://github.com/yarnpkg/yarn/issues/6953</a></p>
+</blockquote>
+
+<p>&quot;Berry&quot;라는 이름은 v2 용으로 변경한 코드 네임입니다.</p>
+
+<p>v2(berry)에는 <a href="https://github.com/yarnpkg/yarn/issues/6953">Yarn&#39;s Future - v2 and beyond</a>에서 예고한 기능이 구현돼 있는 단계인 것 같습니다.</p>
+
+<p>소스 코드는 타입스크립트로 작성돼 있으며 monorepo로 관리합니다.<br>
+yml 서브셋 격인 <a href="https://github.com/yarnpkg/berry/blob/master/packages/berry-parsers/sources/syml.ts">syml</a>이라는 포맷을 만들어 lock 파일에 적용하고 있습니다. 또, 플러그인 구조가 추가돼 PnP나 npm(<code>package-lock.json</code>을 다루는 등) 등의 처리는 플러그인으로 대응합니다.<br>
+이어서 워크스페이스 개선 내용으로 <a href="https://github.com/yarnpkg/berry/blob/master/docs/workspaces-constraints.md">Constraints</a> 라고 하는 Prolog(실제론 <a href="https://github.com/jariazavalverde/tau-prolog">tau-prolog</a>)를 사용한 제약을 다루는 <a href="https://github.com/yarnpkg/berry/tree/master/packages/plugin-constraints">플러그인</a>을 추가했습니다. 워크스페이스 간 의존 규칙 등을 Prolog를 이용해 기술하여 보다 효율적으로 제약을 다룰 수 있도록 하는데 목적을 두고 있습니다.</p>
+
+<p>흥미가 있는 분은 <a href="https://github.com/yarnpkg/berry#install">Install</a>로 테스트해보거나 <a href="https://github.com/yarnpkg/berry/issues">Issue</a>를 살펴보시면 좋을 것 같습니다.</p>
+
+<hr>
+
+<p><a href="https://github.com/Microsoft/TypeScript/issues/29288">TypeScript의 2019 June 로드맵</a>에서 TSLint가 아니라 ESLint의 지원을 강화하겠다는 이야기가 했습니다. 이어서 <a href="https://github.com/typescript-eslint/typescript-eslint">typescript-eslint</a>라는 프로젝트를 생성했고 <a href="https://eslint.org/blog/2019/01/future-typescript-eslint">ESLint 팀과 협력</a>할 것이라고 발표했습니다.</p>
+
+<p>이러한 배경 속에서 TSLint의 메인테이너가 TSLint의 향후 방향에 대한 글을 공개했습니다.</p>
+
+<ul>
+<li><a href="https://medium.com/palantir/tslint-in-2019-1a144c2317a9" title="TSLint in 2019 – Palantir Blog – Medium">TSLint in 2019 – Palantir Blog – Medium</a></li>
+<li><a href="https://github.com/palantir/tslint/issues/4534" title="Roadmap: TSLint -&gt; ESLint · Issue #4534 · palantir/tslint">Roadmap: TSLint -&gt; ESLint · Issue #4534 · palantir/tslint</a></li>
+</ul>
+
+<p>TSLint는 2019년 중에 비권장(당장은 아닙니다) 되며 향후엔 ESLint로의 마이그레이션하는 과정을 갖는다고 합니다. <a href="https://github.com/typescript-eslint/typescript-eslint">typescript-eslint</a>는 아직 개발중이기 때문에 TSLint와 연계되는 규칙이 없는 것도 있습니다. 때문에 TSLint 자체도 당분간은 유지보수를 계속 이어갑니다.</p>
+
+<p>현재 <a href="https://github.com/typescript-eslint/typescript-eslint">typescript-eslint</a>의 동작에 관해서는 다음 글을 참고해주세요.</p>
+
+<ul>
+<li><a href="https://teppeis.hatenablog.com/entry/2019/02/typescript-eslint">@typescript-eslint 첫삽 - teppeis blog</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-version-3-5-0-knockout-knockout">Release Version 3.5.0 · knockout/knockout</h2>
+
+<p><a href="https://github.com/knockout/knockout/releases/tag/v3.5.0" title="Release Version 3.5.0 · knockout/knockout">github.com/knockout/knockout/releases/tag/v3.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Knockout 3.5.0을 릴리스했습니다.<br>
+<code>foreach</code> 바인딩의 동작 변경, 성능 개선, <code>ko.when</code>이 Promise를 반환하도록 수정했습니다.</p>
+
+<hr>
+
+<h2 id="release-npm-6-9-0-next-0-announcements-npm-forum">Release: <a href="mailto:npm@6.9.0-next.0">npm@6.9.0-next.0</a> - 📣 announcements - npm forum</h2>
+
+<p><a href="https://npm.community/t/release-npm-6-9-0-next-0/5553" title="Release: npm@6.9.0-next.0 - 📣 announcements - npm forum">npm.community/t/release-npm-6-9-0-next-0/5553</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm 6.9.0-next.0을 릴리스 했습니다.<br>
+페키지에 별명을 붙일 수 있는 package alias 기능과 <code>--before</code> 옵션을 지원합니다.</p>
+
+<ul>
+<li><a href="https://github.com/npm/cli/pull/3" title="install: add support for package aliases by zkat · Pull Request #3 · npm/cli">install: add support for package aliases by zkat · Pull Request #3 · npm/cli</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-npm-blog-managing-javascript-in-the-enterprise">The npm Blog — Managing JavaScript in the Enterprise</h2>
+
+<p><a href="https://blog.npmjs.org/post/182958759735/managing-javascript-in-the-enterprise" title="The npm Blog — Managing JavaScript in the Enterprise">blog.npmjs.org/post/182958759735/managing-javascript-in-the-enterprise</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">news</span></p></p>
+
+<p>npm Enterprise를 정식으로 릴리스했습니다.<br>
+SSO 인증을 대응했고 private registry를 지원합니다.</p>
+
+<ul>
+<li><a href="https://www.npmjs.com/products/enterprise" title="npm | Enterprise">npm | Enterprise</a></li>
+</ul>
+
+<hr>
+
+<h2 id="dsherret-conditional-type-checks-types-for-testing-typescript-types">dsherret/conditional-type-checks: Types for testing TypeScript types.</h2>
+
+<p><a href="https://github.com/dsherret/conditional-type-checks" title="dsherret/conditional-type-checks: Types for testing TypeScript types.">github.com/dsherret/conditional-type-checks</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">testing</span></p></p>
+
+<p>Conditional Type를 사용해 TypeScript 타입을 Assertion 할 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="fastify-v2-0-0-is-here-fastify-medium">Fastify v2.0.0 is here – Fastify – Medium</h2>
+
+<p><a href="https://medium.com/@fastifyjs/fastify-v2-0-0-is-here-8275d613fba4" title="Fastify v2.0.0 is here – Fastify – Medium">medium.com/@fastifyjs/fastify-v2-0-0-is-here-8275d613fba4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">server</span></p></p>
+
+<p>Node.js 프레임워크 Fastify 2.0.0를 릴리스했습니다.<br>
+<code>onError</code>, <code>preParsing</code>, <code>preSerialization</code>, <code>preValidation</code> Hook API를 추가했습니다.<br>
+plugin 불러오기 타임아웃을 설정할 수 있고 일관성 없던 시그니처를 수정했습니다.</p>
+
+<ul>
+<li><a href="https://github.com/fastify/fastify/releases/tag/v2.0.0" title="Release v2.0.0 · fastify/fastify">Release v2.0.0 · fastify/fastify</a></li>
+</ul>
+
+<hr>
+
+<h2 id="yarnpkg-berry-a-modern-fast-reliable-package-manager-part-of-the-yarn-organization">yarnpkg/berry: 📦🐈 A modern, fast, reliable, package manager; part of the Yarn organization</h2>
+
+<p><a href="https://github.com/yarnpkg/berry" title="yarnpkg/berry: 📦🐈 A modern, fast, reliable, package manager; part of the Yarn organization">github.com/yarnpkg/berry</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">news</span></p></p>
+
+<p>yarn v2이 될 소 스코드 저장소를 공개했습니다.<br>
+issue를 좀 더 편하게 분류하고 다루기 위해서 v1 저장소와 분리 했습니다.<br>
+현재 로드맵에서 예정한 기능은 어느정도 개발한 상태이지만 일부 기능과 문서가 아직 부족한 상황입니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/yarn/issues/6953#issuecomment-466589196" title="Yarn&amp;#x27;s Future - v2 and beyond · Issue #6953 · yarnpkg/yarn">Yarn&#39;s Future - v2 and beyond · Issue #6953 · yarnpkg/yarn</a></li>
+<li><a href="https://github.com/yarnpkg/berry/issues/1" title="👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry">👑 Say hello to Yarn v2 · Issue #1 · yarnpkg/berry</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="addyosmani-com-javascript-loading-priorities-in-chrome">AddyOsmani.com - JavaScript Loading Priorities in Chrome</h2>
+
+<p><a href="https://addyosmani.com/blog/script-priorities/" title="AddyOsmani.com - JavaScript Loading Priorities in Chrome">addyosmani.com/blog/script-priorities/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p>link rel=preload와 script 요소에 defer/async 속성을 조합할 때의 불러오기와 실행의 Priority에 관해 정리한 글입니다.</p>
+
+<hr>
+
+<h2 id="how-supports-works-css-tricks">How @supports Works | CSS-Tricks</h2>
+
+<p><a href="https://css-tricks.com/how-supports-works/" title="How @supports Works | CSS-Tricks">css-tricks.com/how-supports-works/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS의 <code>@supports</code> 사용법과 유스케이스에 관해 작성한 글입니다.<br>
+또, JavaScript에서 CSS Supports를 사용한 Feature Detect 기법도 소개합니다.</p>
+
+<hr>
+
+<h2 id="intelligent-tracking-prevention-2-1-webkit">Intelligent Tracking Prevention 2.1 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8613/intelligent-tracking-prevention-2-1/" title="Intelligent Tracking Prevention 2.1 | WebKit">webkit.org/blog/8613/intelligent-tracking-prevention-2-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Safari 12.1에 도입되는 ITP(Intelligent Tracking Prevention) 2.1을 소개합니다. Partitioned Cookies와 DNT(Do Not Track)의 지원을 종료하며 document.cookie로 생성한 쿠기는 만료 기간을 7일로 제한합니다.</p>
+
+<hr>
+
+<h2 id="tslint-in-2019-palantir-blog-medium">TSLint in 2019 – Palantir Blog – Medium</h2>
+
+<p><a href="https://medium.com/palantir/tslint-in-2019-1a144c2317a9" title="TSLint in 2019 – Palantir Blog – Medium">medium.com/palantir/tslint-in-2019-1a144c2317a9</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>TSLint의 향후 방침에 대해 이야기합니다.<br>
+올해 내 TSLint는 비권장되며 TSLint에서 ESLint로 마이그레이션하는 과정을 갖습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">서비스, 사이트, 문서</h1>
+
+<hr>
+
+<h2 id="react-a-javascript-library-for-building-user-interfaces">React – A JavaScript library for building user interfaces(일본어)</h2>
+
+<p><a href="https://ja.reactjs.org/" title="React – A JavaScript library for building user interfaces">ja.reactjs.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">번역</span></p></p>
+
+<p>React 사이트의 일본어 버전입니다.</p>
+
+<ul>
+<li><a href="https://reactjs.org/blog/2019/02/23/is-react-translated-yet.html" title="Is React Translated Yet? ¡Sí! Sim! はい！ – React Blog">Is React Translated Yet? ¡Sí! Sim! はい！ – React Blog</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="patr0nus-deskgap-a-cross-platform-desktop-app-framework-based-on-node-js-and-the-system-webview">patr0nus/DeskGap: A cross-platform desktop app framework based on Node.js and the system webview</h2>
+
+<p><a href="https://github.com/patr0nus/DeskGap/" title="patr0nus/DeskGap: A cross-platform desktop app framework based on Node.js and the system webview">github.com/patr0nus/DeskGap/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">mac</span> <span class="jser-tag">windows</span> <span class="jser-tag">Electron</span></p></p>
+
+<p>OS의 웹뷰 구조를 이용해 개발한 Electron과 비슷한 데스크탑 애플리케이션 개발 프레임워크입니다.<br>
+Chromium을 bundle 하고 있진 않지만 Node.js을 bundle 하고 있습니다.<br>
+제한적으로 Electron와 비슷한 몇 가지 API와 Node.js의 기능을 사용할 수 있습니다.</p>
+
+<hr>
+
+<h2 id="klaussinani-qoa-minimal-interactive-command-line-prompts">klaussinani/qoa: 💬 Minimal interactive command-line prompts</h2>
+
+<p><a href="https://github.com/klaussinani/qoa" title="klaussinani/qoa: 💬 Minimal interactive command-line prompts">github.com/klaussinani/qoa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">console</span> <span class="jser-tag">UI</span></p></p>
+
+<p>터미널 환경을 위한 대화형 인터페이스를 만들 수 있는 Node.js 라이브러리입니다.<br>
+Confirm, Quiz, Secure Prompt 등을 지원합니다.</p>
+
+<hr>
+
+<h2 id="jariazavalverde-tau-prolog-an-open-source-prolog-interpreter-in-javascript">jariazavalverde/tau-prolog: An open source Prolog interpreter in JavaScript</h2>
+
+<p><a href="https://github.com/jariazavalverde/tau-prolog" title="jariazavalverde/tau-prolog: An open source Prolog interpreter in JavaScript">github.com/jariazavalverde/tau-prolog</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">program</span> <span class="jser-tag">library</span></p></p>
+
+<p>Prolog 인터프리터 JavaScript 구현체입니다.</p>
+
+<hr>
+
+<h2 id="fagbokforlaget-simple-fs-handles-files-on-indexeddb-like-you-would-do-in-node-js-promise">fagbokforlaget/simple-fs: Handles files on indexeddb like you would do in node.js (promise)</h2>
+
+<p><a href="https://github.com/fagbokforlaget/simple-fs" title="fagbokforlaget/simple-fs: Handles files on indexeddb like you would do in node.js (promise)">github.com/fagbokforlaget/simple-fs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>IndexedDB를 사용한 파일 시스템 스러운 API를 제공하는 브라우저 용 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="namics-webpack-config-plugins-provide-best-practices-for-webpack-loader-configurations">namics/webpack-config-plugins: Provide best practices for webpack loader configurations</h2>
+
+<p><a href="https://github.com/namics/webpack-config-plugins" title="namics/webpack-config-plugins: Provide best practices for webpack loader configurations">github.com/namics/webpack-config-plugins</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">設定</span></p></p>
+
+<p>webpack의 loader 설정을 단순하게 정리하여 제공하는 플러그인 입니다.<br>
+Babel, TypeScript, Sass, Font, Image 등의 빌드를 지원하는 플러그인이 준비돼 있습니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-02-26-yarn-v2berryfastify-v2tslint.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["yarn","node","typescript","eslint","tslint"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>yarn</li>
+                
+                <li>node</li>
+                
+                <li>typescript</li>
+                
+                <li>eslint</li>
+                
+                <li>tslint</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/02/26/yarn-v2berryfastify-v2tslint/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

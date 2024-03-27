@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-07-14: Firefox 90, npm audit 문제, Access Guide - JSer.info</title>
+    <meta name="description" content="JSer.info #548 - Firefox 90 릴리스.">
+    
+    <meta name="keywords" content="node.js,Next.js,npm,TypeScript,Tools" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-07-14T12:24:13+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #548 - Firefox 90 릴리스." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-07-14: Firefox 90, npm audit 문제, Access Guide">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #548 - Firefox 90 릴리스.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-07-14T12:24:13+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="Tools">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/07/14/firefox-90-npm-audit-access-guide/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/07/14/firefox-90-npm-audit-access-guide/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/07/14/firefox-90-npm-audit-access-guide/">2021-07-14: Firefox 90, npm audit 문제, Access Guide</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年07月14日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-07-14-firefox-90-npm-audit-access-guide.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-07-14-firefox-90-npm-audit-access-guide.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #548 - Firefox 90 릴리스.</p>
+
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/90.0/releasenotes/">Firefox 90.0, See All New Features, Updates and Fixes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/90">Firefox 90 for developers - Mozilla | MDN</a></li>
+</ul>
+
+<p>Firefox 90에서는 ECMAScript Proposal Stage 4의 Private class fields를 기본적으로 지원하고 Stage 3 String/Array의 <code>at()</code>를 지원한다. FTP 지원을 삭제했고 WheelEvent의 호환성을 개선했다.</p>
+
+<p>또, Chrome에 구현 돼 있던 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#fetch_metadata_request_headers">Fetch metadata request headers</a>도 구현됐다.<br>
+<code>Sec-Fetch-Site</code>, <code>Sec-Fetch-Mode</code>, <code>Sec-Fetch-User</code>, <code>Sec-Fetch-Dest</code> 요청 헤더가 각 요청에 추가돼 서버에서 요청을 검사 할 때 이용할 수 있다.</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/">Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog</a></li>
+<li><a href="https://web.dev/fetch-metadata/">Protect your resources from web attacks with Fetch Metadata</a></li>
+</ul>
+
+<p>Fetch metadata request headers는 Safari를 비롯한 IE 이외의 브라우저에도 구현돼 있다.</p>
+
+<hr>
+
+<p><a href="https://overreacted.io/npm-audit-broken-by-design/">npm audit: Broken by Design — Overreacted</a>에서는 <a href="https://github.com/facebook/create-react-app/issues/11174">create-react-app</a>을 예로 <code>npm audit</code>의 취약성 보고 방식에 문제가 있다고 전한다.</p>
+
+<p>보고되는 취약성 대부분이 ReDOS(Regular expression Denial of Service)이며(대부분 문제가 되지 않는), <code>devDependencies</code>로 다루는 도구에 대한 보고는 오탐지(false positive)에 가까운 경우가 많고, 에코시스템으로서 대응이 어렵게 돼 있는 부분에 대해 우려를 나타내고 있다.</p>
+
+<p>GitHub에서 공개한 GitHub’s Advisory Database 데이터를 보더라도 2021년에는 CWE-400인 DoS가 가장 많은 보고가 이뤄져 있고, ReDOS 보고가 증가하고 있다는 사실을 알 수 있다.</p>
+
+<ul>
+<li><a href="https://securitylab.github.com/research/CWE-Overview/">Our shared common weaknesses | GitHub Security Lab</a></li>
+</ul>
+
+<p>도구가 과잉 보고하는 문제 속에서 실제 중요한 문제가 뒤섞여 무시될 가능성에 대한 우려, 이 문제를 어떻게 회피해 볼 수 있을지, <a href="https://github.com/npm/rfcs/pull/18">npm audit and audit-resolve.json</a> 등 RFC에 대해서도 이야기한다.</p>
+
+<hr>
+
+<p><a href="https://accessguide.io/">Access Guide</a>에는 WCAG 2.1 접근성 가이드가 작성돼 있다.<br>
+각 토픽별 해설 및 구현 방법, 테스트 방법 등 리소스가 정리 돼 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="html2canvas-changelog-md-at-master-niklasvh-html2canvas">html2canvas/CHANGELOG.md at master · niklasvh/html2canvas</h2>
+
+<p><a href="https://github.com/niklasvh/html2canvas/blob/master/CHANGELOG.md#100-2021-07-04" title="html2canvas/CHANGELOG.md at master · niklasvh/html2canvas">github.com/niklasvh/html2canvas/blob/master/CHANGELOG.md#100-2021-07-04</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>HTML을 Canvas로 스크린샷을 찍는 html2canvas 1.0.0 릴리스</p>
+
+<hr>
+
+<h2 id="release-v8-0-0-nestjs-nest">Release v8.0.0 · nestjs/nest</h2>
+
+<p><a href="https://github.com/nestjs/nest/releases/tag/v8.0.0" title="Release v8.0.0 · nestjs/nest">github.com/nestjs/nest/releases/tag/v8.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nest.js 8.0.0 릴리스.<br>
+Logger 클래스 개선, API Versioning 지원</p>
+
+<hr>
+
+<h2 id="release-8-9-2-mermaid-js-mermaid">Release 8.9.2 · mermaid-js/mermaid</h2>
+
+<p><a href="https://github.com/mermaid-js/mermaid/releases/tag/8.9.2" title="Release 8.9.2 · mermaid-js/mermaid">github.com/mermaid-js/mermaid/releases/tag/8.9.2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">diagram</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>mermaid 8.9.2에서 <code>%%{init: {&lt;JSON_OBJECT&gt;}}%%</code> 설정 기법을 사용한 XSS 취약점과 프로토타입 오염(Prototype pollution) 취약점이 수정됐다.</p>
+
+<ul>
+<li><a href="https://hackerone.com/reports/1106238" title="#1106238 Client-Side DOS via Mermaid Prototype Pollution vulnerability">#1106238 Client-Side DOS via Mermaid Prototype Pollution vulnerability</a></li>
+</ul>
+
+<hr>
+
+<h2 id="firefox-90-0-see-all-new-features-updates-and-fixes">Firefox 90.0, See All New Features, Updates and Fixes</h2>
+
+<p><a href="https://www.mozilla.org/en-US/firefox/90.0/releasenotes/" title="Firefox 90.0, See All New Features, Updates and Fixes">www.mozilla.org/en-US/firefox/90.0/releasenotes/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Firefox 90 릴리스.<br>
+ES Proposal Stage 4의 Private class fields를 기본적으로 지원, Stage 3의 String / Array의 <code>at()</code> 지원.<br>
+FTP 지원 삭제, WheelEvent의 호환성 개선 등.</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/90" title="Firefox 90 for developers - Mozilla | MDN">Firefox 90 for developers - Mozilla | MDN</a></li>
+<li><a href="https://github.com/tc39/proposal-relative-indexing-method" title="tc39/proposal-relative-indexing-method: A TC39 proposal to add an .at() method to all the basic indexable classes (Array, String, TypedArray)">tc39/proposal-relative-indexing-method: A TC39 proposal to add an .at() method to all the basic indexable classes (Array, String, TypedArray)</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-2-27-0-prisma-prisma">Release 2.27.0 · prisma/prisma</h2>
+
+<p><a href="https://github.com/prisma/prisma/releases/tag/2.27.0" title="Release 2.27.0 · prisma/prisma">github.com/prisma/prisma/releases/tag/2.27.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">MongoDB</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 용 ORM 라이브러리 Prisma 2.27.0 릴리스.<br>
+MongoDB를 프리뷰 지원, M1 Mac 지원, pnpm으로 설치할 수 없던 문제 수정 등.</p>
+
+<ul>
+<li><a href="https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb-typescript-mongodb" title="Start from scratch with MongoDB (15 min) | Prisma Docs">Start from scratch with MongoDB (15 min) | Prisma Docs</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="how-does-node-js-load-its-built-in-native-modules-joyee-cheungs-blog">How does Node.js load its built-in/native modules? | Joyee Cheung&#039;s Blog</h2>
+
+<p><a href="https://joyeecheung.github.io/blog/2021/07/06/how-does-node-js-load-its-builtins-native-modules/" title="How does Node.js load its built-in/native modules? | Joyee Cheung&amp;#039;s Blog">joyeecheung.github.io/blog/2021/07/06/how-does-node-js-load-its-builtins-native-modules/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js 내에 JavaScript로 작성된 빌트인 모듈은 Node.js 바이너리에 어떻게 올려지고 읽혀는지 소개.<br>
+바이너피 파일의 읽기 전용 데이터 섹션에 올려지며 bootstrap에서 V8을 사용해 컴파일 및 Snapshots를 다루는 구조로 돼 있다.</p>
+
+<hr>
+
+<h2 id="resource-inlining-in-javascript-frameworks">Resource inlining in JavaScript frameworks</h2>
+
+<p><a href="https://web.dev/aurora-resource-inlining/" title="Resource inlining in JavaScript frameworks">web.dev/aurora-resource-inlining/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">Angular</span> <span class="jser-tag">CSS</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js와 Angular Google Fonts의 Critical CSS 인라인화.<br>
+Font를 가져오는 CSS를 인라인화 하는 것으로 CLS를 최적화 할 수 있다고 소개</p>
+
+<hr>
+
+<h2 id="npm-audit-broken-by-design-overreacted">npm audit: Broken by Design — Overreacted</h2>
+
+<p><a href="https://overreacted.io/npm-audit-broken-by-design/" title="npm audit: Broken by Design — Overreacted">overreacted.io/npm-audit-broken-by-design/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span></p></p>
+
+<p>devDependencies로 사용하는 도구에 대한 <code>npm audit</code> 보고 대부분이 ReDoS 취약성에 대한 것이라는 문제 제기.<br>
+이를 회피하기 위한 방법으로 제품에서 사용되는 <code>dependencies</code> 만 검사하는 <code>npm audit --production</code>, 공개하는 패키지를 인라인화 하는 방법과 또다른 문제를 소개하며 에코시스템에 대한 우려도 나타내고 있다.</p>
+
+<hr>
+
+<h2 id="typescript-and-native-esm-on-node-js">TypeScript and native ESM on Node.js</h2>
+
+<p><a href="https://2ality.com/2021/06/typescript-esm-nodejs.html" title="TypeScript and native ESM on Node.js">2ality.com/2021/06/typescript-esm-nodejs.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>타입스크립트에서 ESM에 대응하는 방법.<br>
+package.json의 <code>&quot;type&quot;: &quot;module&quot;</code> 설정, <code>exports</code> 필드와 <code>typesVersions</code> 필드, <code>import</code>하는 파일의 확장자 설정 등</p>
+
+<hr>
+
+<h2 id="jquery-typescript-react-vite-ics-media">jQuery에서 TypeScript・React 까지 - Vite로 시작하는 모던 고속 개발 환경 구축 - ICS MEDIA(일본어)</h2>
+
+<p><a href="https://ics.media/entry/210708/" title="jQuery에서 TypeScript・React 까지 - Vite로 시작하는 모던 고속 개발 환경 구축 - ICS MEDIA">ics.media/entry/210708/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vite의 기본적인 사용 방법 소개 글.<br>
+라이브러리, TypeScript, 이미지 등 에셋 사용, 설정 파일, IE11 대응 등.</p>
+
+<hr>
+
+<h2 id="firefox-90-supports-fetch-metadata-request-headers-mozilla-security-blog">Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog</h2>
+
+<p><a href="https://blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/" title="Firefox 90 supports Fetch Metadata Request Headers - Mozilla Security Blog">blog.mozilla.org/security/2021/07/12/firefox-90-supports-fetch-metadata-request-headers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Firefox 90에서 Fetch Metadata Request Headers를 지원한다.<br>
+<code>Sec-Fetch-Site</code> 등 교차 사이트 공격으로 부터 보호할 수 있는 <code>Sec-Fetch-*</code> 요청 헤더를 지원한다는 것.</p>
+
+<ul>
+<li><a href="https://web.dev/fetch-metadata/" title="Protect your resources from web attacks with Fetch Metadata">Protect your resources from web attacks with Fetch Metadata</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="access-guide">Access Guide</h2>
+
+<p><a href="https://accessguide.io/" title="Access Guide">accessguide.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">document</span></p></p>
+
+<p>WCAG 2.1 설명 사이트.<br>
+어떤게 구현할 수 있는지, 어떻게 테스트할 수 있는지, 실제 예 등을 소개한다.</p>
+
+<hr>
+
+<h2 id="javascript-decorators">Javascript Decorators</h2>
+
+<p><a href="https://javascriptdecorators.org/" title="Javascript Decorators">javascriptdecorators.org/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">Tools</span> <span class="jser-tag">debug</span></p></p>
+
+<p>ECMAScript Proposal의 Decorators를 시험해 볼 수 있는 Playground 도구</p>
+
+<ul>
+<li><a href="https://github.com/tc39/proposal-decorators" title="tc39/proposal-decorators: Decorators for ES6 classes">tc39/proposal-decorators: Decorators for ES6 classes</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="frontlabsofficial-vue-tiny-validate-tiny-2-5kb-minified-vue-validate-composition">FrontLabsOfficial/vue-tiny-validate: 💯 Tiny (2.5KB minified) Vue Validate Composition</h2>
+
+<p><a href="https://github.com/FrontLabsOfficial/vue-tiny-validate" title="FrontLabsOfficial/vue-tiny-validate: 💯 Tiny (2.5KB minified) Vue Validate Composition">github.com/FrontLabsOfficial/vue-tiny-validate</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">library</span></p></p>
+
+<p>Vue Composition API 용 벨리데이션 라이브러리</p>
+
+<hr>
+
+<h2 id="lucacasonato-dext-ts-the-preact-framework-for-deno">lucacasonato/dext.ts: The Preact Framework for Deno</h2>
+
+<p><a href="https://github.com/lucacasonato/dext.ts" title="lucacasonato/dext.ts: The Preact Framework for Deno">github.com/lucacasonato/dext.ts</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">Next.js</span></p></p>
+
+<p>Next.js에서 영감을 받아 개발한 Deno 용 Preact 기반 웹프레임워크</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="oreilly-japan-webgl-2-2">O&#039;Reilly Japan - 처음 시작하는 WebGL 2 제 2판(일본어)</h2>
+
+<p><a href="https://www.oreilly.co.jp/books/9784873119373/" title="O&amp;#039;Reilly Japan - 처음 시작하는 WebGL 2 제 2판">www.oreilly.co.jp/books/9784873119373/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2021년 07월 21일 출간 예정인 WebGL 입문서<br>
+원서는 Real-Time 3D Graphics with WebGL 2 - Second Edition</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-07-14-firefox-90-npm-audit-access-guide.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","Next.js","npm","TypeScript","Tools"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>Next.js</li>
+                
+                <li>npm</li>
+                
+                <li>TypeScript</li>
+                
+                <li>Tools</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/07/14/firefox-90-npm-audit-access-guide/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

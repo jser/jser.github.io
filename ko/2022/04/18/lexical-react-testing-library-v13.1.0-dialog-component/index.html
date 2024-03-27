@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2022-04-18: Lexical, React Testing Library v13.1.0, Dialog component 작성 - JSer.info</title>
+    <meta name="description" content="JSer.info #588 - Lexical이라고 하는 텍스트 에디터를 만들기 위한 JavaScript 프레임워크가 공개되었다.">
+    
+    <meta name="keywords" content="React,HTML,JSON,TypeScript,polyfill" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2022-04-18T22:36:16+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="HTML" property="article:tag">
+      
+      <meta content="JSON" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="polyfill" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #588 - Lexical이라고 하는 텍스트 에디터를 만들기 위한 JavaScript 프레임워크가 공개되었다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2022-04-18: Lexical, React Testing Library v13.1.0, Dialog component 작성">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #588 - Lexical이라고 하는 텍스트 에디터를 만들기 위한 JavaScript 프레임워크가 공개되었다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2022-04-18T22:36:16+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="HTML">
+
+<meta property="article:tag" content="JSON">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="polyfill">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/">2022-04-18: Lexical, React Testing Library v13.1.0, Dialog component 작성</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2022年04月18日</span>
+                
+                <span class="post-translator">Translator: Daewon Seo</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-04-18-lexical-react-testing-library-v13.1.0-dialog-component.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2022/2022-04-18-lexical-react-testing-library-v13.1.0-dialog-component.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #588 - Lexical이라고 하는 텍스트 에디터를 만들기 위한 JavaScript 프레임워크가 공개되었다.</p>
+
+<ul>
+<li><a href="https://github.com/facebook/lexical">facebook/lexical: Lexical is an extensible text editor framework that provides excellent reliability, accessibility and performance.</a></li>
+</ul>
+
+<p>에디터의 상태를 double-buffering으로 관리하고, 상태 변경을 diff/patch로 표시하여 반영하는 구조로 되어있다.<br>
+또한 contentEditable을 사용하지만, 외부에서 변경을 MutationObserver로 감시하여, 에디터의 상태를 갱신하고 있다.</p>
+
+<p>Lexical은 동일하게 Facebook에서 만들고 있는<a href="https://draftjs.org/">Draft.js</a>의 후속작인 라이브러리로, API의 호환은 되지않지만 앞으로 마이그레이션 가이드가 만들어질 예정이다.</p>
+
+<ul>
+<li><a href="https://github.com/facebook/lexical/issues/1641">Add Draft JS to Lexical migration documentation · Issue #1641 · facebook/lexical</a></li>
+</ul>
+
+<hr>
+
+<p>React DOM의 테스트 라이브러리인 React Testing Library v13.1.0이 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://github.com/testing-library/react-testing-library/releases/tag/v13.1.0">Release v13.1.0 · testing-library/react-testing-library</a></li>
+</ul>
+
+<p>React Testing Library v13.1.0에서는 <code>renderHook</code>이라 하는 API가 추가되었다.<br>
+이 API는 React Hooks의 테스트를 하기 위한 것으로 <a href="https://github.com/testing-library/react-hooks-testing-library"><code>@testing-library/react-hooks</code></a><br>
+을 바탕으로 구현되었다.</p>
+
+<p>상세한 경위는 다음 PR에 쓰여있지만,<a href="https://github.com/testing-library/react-hooks-testing-library"><code>@testing-library/react-hooks</code></a>은 React 18의 대응을 어렵게 하는 부분이 있기 때문에 <code>renderHook</code>이라고 하는 심플한 API가<br>
+<code>@testing-library/react</code>에 구현되었다.</p>
+
+<ul>
+<li><a href="https://github.com/testing-library/react-testing-library/pull/991">feat: Add <code>renderHook</code> by eps1lon · Pull Request #991 · testing-library/react-testing-library</a></li>
+</ul>
+
+<p>그렇기 때문에, 앞으로 <code>@testing-library/react-hooks</code>은 권장되지 않을 예정이다.</p>
+
+<ul>
+<li><a href="https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support">https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://web.dev/building-a-dialog-component/">Building a dialog component</a>라는 기사에서는<code>&lt;dialog&gt;</code>요소를 사용한 다이얼로그 컴포넌트 작성에 대해 쓰여있다.</p>
+
+<p><code>inert</code>속성、<code>autofocus</code>속성、CSS의 <code>overscroll-behavior</code>프로퍼티 등、 관련있는 접근성 기능 등에 대해 쓰여 있으므로, 흥미 있는 분은 참고 바람.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-3-22-0-2022-04-15-zloirock-core-js">Release 3.22.0 - 2022.04.15 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v3.22.0" title="Release 3.22.0 - 2022.04.15 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v3.22.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>core-js v3.22.0 릴리스.<br>
+Change Array by copy proposal의 사양에 따라、<code>atob</code>/<code>btoa</code>의 수정、compat data의 갱신 등</p>
+
+<hr>
+
+<h2 id="release-v1-4-0-remix-run-remix">Release v1.4.0 · remix-run/remix</h2>
+
+<p><a href="https://github.com/remix-run/remix/releases/tag/v1.4.0" title="Release v1.4.0 · remix-run/remix">github.com/remix-run/remix/releases/tag/v1.4.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Remix</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>Remix v1.4.0 릴리스.<br>
+<code>remix</code>라 하는 단독 패키지를 참조하는 &quot;magic imports&quot;라고 하는 방식을 위해<code>node_modules</code>를 직접 편집했지만 pnpm 등 움직이지 않는 문제가 있었다.<br>
+따라서, 각각의 패키지를 참조할 수 있도록 하기 위해 마이그레이션 스크립트의 공개 등 이에 관한 변경을 포함하고 있다.</p>
+
+<hr>
+
+<h2 id="release-v8-0-0-reduxjs-react-redux">Release v8.0.0 · reduxjs/react-redux</h2>
+
+<p><a href="https://github.com/reduxjs/react-redux/releases/tag/v8.0.0" title="Release v8.0.0 · reduxjs/react-redux">github.com/reduxjs/react-redux/releases/tag/v8.0.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>React-Redux v8.0.0 릴리스.<br>
+코드베이스를 TypeScript로 변환하여、API의 호환성을 유지한다.<br>
+<code>useSyncExternalStore</code>를 사용한 React 18 대응、TypeScript 타입 정의 부터 <code>DefaultRootState</code>의 삭제、<code>connectAdvanced</code> 삭제 등</p>
+
+<hr>
+
+<h2 id="util-add-parseargs-module-by-bcoe-pull-request-42675-nodejs-node">util: add parseArgs module by bcoe · Pull Request #42675 · nodejs/node</h2>
+
+<p><a href="https://github.com/nodejs/node/pull/42675" title="util: add parseArgs module by bcoe · Pull Request #42675 · nodejs/node">github.com/nodejs/node/pull/42675</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">proposal</span> <span class="jser-tag">issue</span></p>
+
+<p>Node.js의 커맨드라인 인수를 전달하는<code>util.parseArgs</code>을 추가하는 Proposal</p>
+
+<ul>
+<li><a href="https://github.com/pkgjs/parseargs" title="pkgjs/parseargs: Polyfill of future proposal for `util.parseArgs()`">pkgjs/parseargs: Polyfill of future proposal for `util.parseArgs()`</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v13-1-0-testing-library-react-testing-library">Release v13.1.0 · testing-library/react-testing-library</h2>
+
+<p><a href="https://github.com/testing-library/react-testing-library/releases/tag/v13.1.0" title="Release v13.1.0 · testing-library/react-testing-library">github.com/testing-library/react-testing-library/releases/tag/v13.1.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>react-testing-library 13.1.0 릴리스.<br>
+React 18의 Hooks를 테스트하기 위한 <code>renderHook</code> API를 추가.</p>
+
+<ul>
+<li><a href="https://github.com/testing-library/react-testing-library/pull/991" title="feat: Add `renderHook` by eps1lon · Pull Request #991 · testing-library/react-testing-library">feat: Add `renderHook` by eps1lon · Pull Request #991 · testing-library/react-testing-library</a></li>
+<li><a href="https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support" title="testing-library/react-hooks-testing-library: 🐏 Simple and complete React hooks testing utilities that encourage good testing practices.">testing-library/react-hooks-testing-library: 🐏 Simple and complete React hooks testing utilities that encourage good testing practices.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-2-0-0-beta-1-vercel-swr">Release 2.0.0-beta.1 · vercel/swr</h2>
+
+<p><a href="https://github.com/vercel/swr/releases/tag/2.0.0-beta.1" title="Release 2.0.0-beta.1 · vercel/swr">github.com/vercel/swr/releases/tag/2.0.0-beta.1</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>SWR 2.0.0-beta.1 릴리스.<br>
+<code>useSWR</code>이<code>isLoading</code>을 반환하도록、<code>keepPreviousData</code>옵션 추가 등</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="new-react-18-features-and-changes-xebia">New React 18 features and changes - Xebia</h2>
+
+<p><a href="https://xebia.com/new-react-18-features-and-changes/" title="New React 18 features and changes - Xebia">xebia.com/new-react-18-features-and-changes/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p>
+
+<p>React 18의 변경점에 관한 해설.<br>
+Concurrent renderer、createRoot/hydrateRoot과 onRecoverableError에 관해서.<br>
+Automatic batching과 flushSync。<br>
+새롭게 추가한 Hooks API인 useTransition/useDeferredValue、useId、useSyncExternalStore、useInsertionEffect에 관해서</p>
+
+<hr>
+
+<h2 id="session-cookie-base">왜 우리는 session.cookie를 변경해야만 했을까 - BASE 프로덕트 팀 블로그</h2>
+
+<p><a href="https://devblog.thebase.in/entry/2022/04/13/114714" title="なぜ我々はsession.cookieを変更しなければならなかったのか - BASEプロダクトチームブログ">devblog.thebase.in/entry/2022/04/13/114714</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">privacy</span> <span class="jser-tag">article</span></p>
+
+<p>Public Suffix List의 추가 신청 등、 브라우저에 번들되는 타이밍<br>
+브라우저 복원후 기능에 관해, 변경 전과 변경 후 같은 이름의 Cookie가 존재하는 문제와 브라우저째 동작이 다른 점에 관하여.</p>
+
+<hr>
+
+<h2 id="building-a-dialog-component">Building a dialog component</h2>
+
+<p><a href="https://web.dev/building-a-dialog-component/" title="Building a dialog component">web.dev/building-a-dialog-component/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">article</span> <span class="jser-tag">accessibility</span></p>
+
+<p><code>&lt;dialog&gt;</code>요소를 사용한 다이얼로그의 작성과 접근성에 관한 기사.<br>
+다이얼로그 표시와 유자 입력을 무시하는 <code>inert</code>속성、<code>autofocus</code>속성、ESC 키로 비표시.<br>
+<code>&lt;dialog&gt;</code>요소의 스타일, Header/Footer의 디자인,<code>overscroll-behavior</code>에서의 body scroll lock、JavaScript과의 연동 방법에 관하여</p>
+
+<hr>
+
+<h2 id="boost-resource-loading-with-fetchpriority-a-new-priority-hint-smashing-magazine">Boost Resource Loading With fetchpriority, a New Priority Hint — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2022/04/boost-resource-loading-new-priority-hint-fetchpriority/" title="Boost Resource Loading With fetchpriority, a New Priority Hint — Smashing Magazine">www.smashingmagazine.com/2022/04/boost-resource-loading-new-priority-hint-fetchpriority/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">performance</span> <span class="jser-tag">Fetch</span> <span class="jser-tag">article</span></p>
+
+<p>리소스 로드의 우선도를 정의하는 <code>fetchpriority</code> 속성에 관해.</p>
+
+<ul>
+<li><a href="https://github.com/WICG/priority-hints" title="WICG/priority-hints: A browser API to enable developers signal the priorities of the resources they need to download.">WICG/priority-hints: A browser API to enable developers signal the priorities of the resources they need to download.</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/fetchpriority" title="HTMLIFrameElement.fetchpriority - Web APIs | MDN">HTMLIFrameElement.fetchpriority - Web APIs | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="turborepo-monorepo-issue-13-worldzhao-blog">Turborepo로 보는 Monorepo 도구의 작업 배열 능력 · Issue #13 · worldzhao/blog</h2>
+
+<p><a href="https://github.com/worldzhao/blog/issues/13" title="从 Turborepo 看 Monorepo 工具的任务编排能力 · Issue #13 · worldzhao/blog">github.com/worldzhao/blog/issues/13</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">monorepo</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p>
+
+<p>monorepo에 관한 의존관계의 관리, 태스크 스케쥴링, 버전 관리에 관해.<br>
+태스크의 병렬 실행, 토폴로지컬 소스, Turborepo와 Rush의 어프로치, 리모트 캐시에 관한 설명.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="facebook-lexical-lexical-is-an-extensible-text-editor-framework-that-provides-excellent-reliability-accessibility-and-performance">facebook/lexical: Lexical is an extensible text editor framework that provides excellent reliability, accessibility and performance.</h2>
+
+<p><a href="https://github.com/facebook/lexical" title="facebook/lexical: Lexical is an extensible text editor framework that provides excellent reliability, accessibility and performance.">github.com/facebook/lexical</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span></p>
+
+<p>텍스트 에디터를 작성하기 위한 JavaScript 프레임워크.<br>
+에디터의 상태를 double-buffering로 관리한다.<br>
+상태의 변경을 diff/patch로 표시해 반영한다.<br>
+또한 contentEditable를 사용하고 있지만, 외부에서의 변경을 MutationObserver로 감시하여, 에디터의 상태를 갱신한다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="thomasaribart-json-schema-to-ts-infer-ts-types-from-json-schemas">ThomasAribart/json-schema-to-ts: Infer TS types from JSON schemas 📝</h2>
+
+<p><a href="https://github.com/ThomasAribart/json-schema-to-ts" title="ThomasAribart/json-schema-to-ts: Infer TS types from JSON schemas 📝">github.com/ThomasAribart/json-schema-to-ts</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JSON</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p>
+
+<p>JSON Schema에서 TypeScript 타입으로 변경하는 라이브러리</p>
+
+<hr>
+
+<h2 id="shopify-javy-js-to-webassembly-toolchain">Shopify/javy: JS to WebAssembly toolchain</h2>
+
+<p><a href="https://github.com/Shopify/javy" title="Shopify/javy: JS to WebAssembly toolchain">github.com/Shopify/javy</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">Tools</span></p>
+
+<p>JavaScript의 코드를 실행하는 WebAssembly.<br>
+JavaScript 엔진에서는 QuickJS를 이용한다.<br>
+Shopify에서 사용된다.</p>
+
+<hr>
+
+<h2 id="ehmicky-wild-wild-path-object-property-paths-with-wildcards-and-regexps">ehmicky/wild-wild-path: 🤠 Object property paths with wildcards and regexps 🌵</h2>
+
+<p><a href="https://github.com/ehmicky/wild-wild-path" title="ehmicky/wild-wild-path: 🤠 Object property paths with wildcards and regexps 🌵">github.com/ehmicky/wild-wild-path</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p><code>*</code>와 정규표현식으로 매치한 오브젝트 프로퍼티 취득과 설정이 가능한 라이브러리</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-04-18-lexical-react-testing-library-v13.1.0-dialog-component.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","HTML","JSON","TypeScript","polyfill"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>HTML</li>
+                
+                <li>JSON</li>
+                
+                <li>TypeScript</li>
+                
+                <li>polyfill</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/04/18/lexical-react-testing-library-v13.1.0-dialog-component/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

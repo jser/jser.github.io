@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2022-09-29: TypeScript 4.9 Beta, workerd(Cloudflare Workers runtime), Web Almanac 2022 - JSer.info</title>
+    <meta name="description" content="JSer.info #611 - TypeScript 4.9 beta가 릴리스 됐다.">
+    
+    <meta name="keywords" content="node.js,TypeScript,security,book,browser" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2022-09-29T12:01:10+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="book" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #611 - TypeScript 4.9 beta가 릴리스 됐다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2022-09-29: TypeScript 4.9 Beta, workerd(Cloudflare Workers runtime), Web Almanac 2022">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #611 - TypeScript 4.9 beta가 릴리스 됐다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2022-09-29T12:01:10+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="book">
+
+<meta property="article:tag" content="browser">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/">2022-09-29: TypeScript 4.9 Beta, workerd(Cloudflare Workers runtime), Web Almanac 2022</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2022年09月29日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-09-29-typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2022/2022-09-29-typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #611 - TypeScript 4.9 beta가 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-9-beta/">Announcing TypeScript 4.9 Beta - TypeScript</a></li>
+</ul>
+
+<p>타입 변환 없이 타입 일치 여부 체크할 수 있는 <code>satisfies</code> 연산자 추가, <code>in</code> 연산자 구문 내 타입 추론 영역 축소, <code>== NaN</code>을 컴파일 에러로 변경하는 등이 갱신이 이뤄졌다.</p>
+
+<p><code>satisfies</code> 연산자는 아래 글에서 자세히 설명하고 있으니 참고한다.</p>
+
+<ul>
+<li><a href="https://medium.com/@cefn/typescript-satisfies-6ba52e74cb2f">Typescript’s new ‘satisfies’ operator | by Cefn Hoile | Aug, 2022 | Medium</a></li>
+</ul>
+
+<p>또, <code>--watch</code>에서의 파일 감시 시스템 기본값을 <code>useFsEvents</code>(파일 시스템 이벤트)로 변경, <code>exports</code> 파일의 <code>typeVersions</code> 우선도를 조정했다.</p>
+
+<hr>
+
+<p>Cloudflare Workers의 runtime인 workerd가 오픈소스로 공개됐다.</p>
+
+<ul>
+<li><a href="https://blog.cloudflare.com/workerd-open-source-workers-runtime/">Introducing workerd: the Open Source Workers runtime</a></li>
+<li><a href="https://github.com/cloudflare/workerd">cloudflare/workerd</a></li>
+</ul>
+
+<p>이와 함게 Miniflare 3.0.0가 알파 릴리스 됐으며 자바스크립트로 구현됐던 부분도 workerd를 다루는 방식으로 변경됐다.</p>
+
+<ul>
+<li><a href="https://github.com/cloudflare/miniflare/releases/tag/v3.0.0-next.1">Release v3.0.0-next.1 · cloudflare/miniflare</a></li>
+</ul>
+
+<p>이에 따라 로컬 개발 시와 실제 동작이 달랐던 경우가 크게 줄어들 것으로 기대된다.</p>
+
+<hr>
+
+<p>HTTP Archive 데이터를 기반으로 웹 현황을 정리한 보고서 Web Almanac의 2022년 버전이 공개됐다.</p>
+
+<ul>
+<li><a href="https://almanac.httparchive.org/en/2022/">The 2022 Web Almanac</a></li>
+</ul>
+
+<p>HTML / CSS / JS 뿐 아니라 접근성 / 보안 / 서드파티 등 폭넓은 데이터를 다루고 있는 보고서다.</p>
+
+<p>2021년 버전은 일본어로도 번역돼 있으니 관심있는 분은 함께 읽어보면 좋을 것 같다.</p>
+
+<ul>
+<li><a href="https://almanac.httparchive.org/ja/2021/">2021 Web Almanac</a></li>
+<li><a href="https://cdn.httparchive.org/almanac/ebooks/web_almanac_2021_ja.pdf">https://cdn.httparchive.org/almanac/ebooks/web_almanac_2021_ja.pdf</a></li>
+</ul>
+
+<hr>
+
+<p>ㄴ<br>
+<h1 class="site-genre">헤드라인</h1></p>
+
+<hr>
+
+<h2 id="september-22nd-2022-security-releases-node-js">September 22nd 2022 Security Releases | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/vulnerability/september-2022-security-releases/" title="September 22nd 2022 Security Releases | Node.js">nodejs.org/en/blog/vulnerability/september-2022-security-releases/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>Node.js의 보안 수정 버전 v14.20.1 (LTS), v16.17.1 (LTS), v18.9.1 (Current)가 각각 릴리스 됐다.<br>
+<code>--inspect</code>에 의한 DNS rebinding, HTTP Request Smuggling, WebCrypto의 Weak randomness 문제가 수정됐다.</p>
+
+<hr>
+
+<h2 id="announcing-typescript-4-9-beta-typescript">Announcing TypeScript 4.9 Beta - TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-9-beta/" title="Announcing TypeScript 4.9 Beta - TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-4-9-beta/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 4.9 beta가 릴리스 됐다.</p>
+
+<ul>
+<li>타입 캐스트 없이 타입의 일치 여부를 체크할 수 있는 <code>satisfies</code> 연산자 추가</li>
+<li><code>in</code> 연산자 구문 내 타입 추론 영역 축소</li>
+<li><code>== NaN</code>을 컴파일 에러로 변경</li>
+<li><code>--watch</code> 시의 파일 감시 방식의 기본 값을 <code>useFsEvents</code>(파일 시스템 이벤트)으로 변경</li>
+<li><p><code>exports</code> 필드의 <code>typeVersions</code> 우선도 수정</p></li>
+<li><p><a href="https://medium.com/@cefn/typescript-satisfies-6ba52e74cb2f" title="Typescript’s new ‘satisfies’ operator | by Cefn Hoile | Aug, 2022 | Medium">Typescript’s new ‘satisfies’ operator | by Cefn Hoile | Aug, 2022 | Medium</a></p></li>
+</ul>
+
+<hr>
+
+<h2 id="introducing-workerd-the-open-source-workers-runtime">Introducing workerd: the Open Source Workers runtime</h2>
+
+<p><a href="https://blog.cloudflare.com/workerd-open-source-workers-runtime/" title="Introducing workerd: the Open Source Workers runtime">blog.cloudflare.com/workerd-open-source-workers-runtime/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cloudflare</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">C++</span></p></p>
+
+<p>Cloudflare Workers의 JavaScript / WebAssembly runtime 인 workerd가 공개 됐다.<br>
+Miniflare에서 자바스크립트로 구현 돼 있던 부분을 workerd를 다루는 방식으로 변경한 버전도 공개 됐다.<br>
+workerd 자체는 Sandbox가 아니지만 SSRF 방지를 위한 Binding과 Fetch 구조 등을 제공한다.</p>
+
+<ul>
+<li><a href="https://github.com/cloudflare/miniflare/releases/tag/v3.0.0-next.1" title="Release v3.0.0-next.1 · cloudflare/miniflare">Release v3.0.0-next.1 · cloudflare/miniflare</a></li>
+<li><a href="https://github.com/cloudflare/workerd" title="cloudflare/workerd">cloudflare/workerd</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-add-support-for-engines-node-and-volta-actions-setup-node">Release Add support for engines.node and Volta · actions/setup-node</h2>
+
+<p><a href="https://github.com/actions/setup-node/releases/tag/v3.5.0" title="Release Add support for engines.node and Volta · actions/setup-node">github.com/actions/setup-node/releases/tag/v3.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Actions</span> <span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">Github</span></p></p>
+
+<p>GitHub Actions의 setup-node 3.5.0 릴리스.<br>
+<code>package.json</code>의 <code>engines.node</code>와 Volta에서 지정한 Node.js 버전을 인식한다.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-154-webkit">Release Notes for Safari Technology Preview 154 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/13207/release-notes-for-safari-technology-preview-154/" title="Release Notes for Safari Technology Preview 154 | WebKit">webkit.org/blog/13207/release-notes-for-safari-technology-preview-154/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">serverless</span></p></p>
+
+<p>Safari Technology Preview 154 릴리스.<br>
+CSS의 <code>:dir</code> 활성화, <code>InputEvent.isComposing</code> 지원, Scroll To Text Fragment 활성화 등.</p>
+
+<hr>
+
+<h2 id="release-v0-5-0-facebook-lexical">Release v0.5.0 · facebook/lexical</h2>
+
+<p><a href="https://github.com/facebook/lexical/releases/tag/v0.5.0" title="Release v0.5.0 · facebook/lexical">github.com/facebook/lexical/releases/tag/v0.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>lexical v0.5.0 릴리스.<br>
+Notion과 같은 Draggable Blocks 지원, LexicalTablePlugin 안정환, Shadow Root에 대응.<br>
+일부 API는 비호환 변경 사항도 포함돼 있으니 확인한다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="next-js-layouts-rfc-in-5-minutes-vercel">Next.js Layouts RFC in 5 minutes – Vercel</h2>
+
+<p><a href="https://vercel.com/blog/next-js-layouts-rfc-in-5-minutes" title="Next.js Layouts RFC in 5 minutes – Vercel">vercel.com/blog/next-js-layouts-rfc-in-5-minutes</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js의 Layouts RFC를 설명(소개)하는 글.</p>
+
+<hr>
+
+<h2 id="the-anatomy-of-an-isolate-cloud">The Anatomy of an Isolate Cloud</h2>
+
+<p><a href="https://deno.com/blog/anatomy-isolate-cloud" title="The Anatomy of an Isolate Cloud">deno.com/blog/anatomy-isolate-cloud</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">V8</span> <span class="jser-tag">article</span></p></p>
+
+<p>Deno Deploy의 Isolation 접근법 소개.<br>
+V8 프로세스가 독립적으로 동작, Runner가 요청에 대해 부팅 중인 프로세스(혹은 프로세스)를 기동한다.<br>
+기본적으로는 V8 Sandbox를 의존하고 있으며 fs나 net 접근에 제한을 둔다.</p>
+
+<hr>
+
+<h2 id="introducing-ezno">Introducing Ezno</h2>
+
+<p><a href="https://kaleidawave.github.io/posts/introducing-ezno/" title="Introducing Ezno">kaleidawave.github.io/posts/introducing-ezno/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Rust</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span> <span class="jser-tag">opinion</span></p></p>
+
+<p>Rust로 구현하고 있는 TypeScript 호환 타입 체커와 컴파일러 Ezno를 소개하는 글.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="zod-tutorial-total-typescript">Zod Tutorial | Total TypeScript</h2>
+
+<p><a href="https://www.totaltypescript.com/tutorials/zod" title="Zod Tutorial | Total TypeScript">www.totaltypescript.com/tutorials/zod</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">video</span></p></p>
+
+<p>TypeScript 기반의 스키마 검증 라이브러리 zod를 소개하는 튜토리얼 동영상.<br>
+각각의 연습 문제를 직접 풀어보면서 진행할 수 있도록 준비 돼 있다.</p>
+
+<hr>
+
+<h2 id="spa">SPA 보안 초입문 | 독스웰(일본어)</h2>
+
+<p><a href="https://www.docswell.com/s/ockeghem/K2PPNK-phpconf2022" title="SPA 보안 초입문 | 독스웰">www.docswell.com/s/ockeghem/K2PPNK-phpconf2022</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">XSS</span> <span class="jser-tag">SQL</span> <span class="jser-tag">security</span> <span class="jser-tag">slide</span></p></p>
+
+<p>SPA에서 잘 발생하는 보안 문제를 정리한 슬라이드 자료.<br>
+클라이언트 사이드에서만 검증하는 인가 제어 미비, 임의의 HTML의 렌더링을 허용하여 발생하는 XSS, CSRF 등에 대해서 이야기한다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="gioboa-vite-module-federation-module-federation-with-vite-now-is-possible">gioboa/vite-module-federation: Module Federation with Vite now is possible</h2>
+
+<p><a href="https://github.com/gioboa/vite-module-federation" title="gioboa/vite-module-federation: Module Federation with Vite now is possible">github.com/gioboa/vite-module-federation</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>Module Federation을 하는 Vite Plugin.</p>
+
+<hr>
+
+<h2 id="japa-a-simple-yet-powerful-testing-framework-for-node-js">Japa - A simple yet powerful testing framework for Node.js</h2>
+
+<p><a href="https://japa.dev/docs" title="Japa - A simple yet powerful testing framework for Node.js">japa.dev/docs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span></p></p>
+
+<p>Node.js 용 테스트 프레임워크.<br>
+<code>node</code> 명령어로 테스트를 실행할 수 있다.<br>
+기본적인 테스트 기능에 더해 파라메터라이즈 테스트와 테스트에 대한 태그를 지정하고 필터링 할 수 있는 기능 제공.<br>
+또, 플러그인 구조를 지원하며 실패한 테스트 만 재실행 하거나 타입스크립트의 타입 검사 등을 할 수 있는 플러그인을 지원한다</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="the-2022-web-almanac">The 2022 Web Almanac</h2>
+
+<p><a href="https://almanac.httparchive.org/en/2022/" title="The 2022 Web Almanac">almanac.httparchive.org/en/2022/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web </span> <span class="jser-tag">book</span> <span class="jser-tag">browser</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">CSS</span> <span class="jser-tag">HTML</span></p></p>
+
+<p>Web Almanac의 2022년 버전이 공개됐다.<br>
+HTTP Archive의 데이터를 기반으로 웹 현황(status)을 정리한 보고서.<br>
+HTML / CSS / JS를 시작으로 접근성 / 보안 / 서드 파티 등 폭넓은 데이터를 보여준다.</p>
+
+<hr>
+
+<h2 id="shell-scripting-with-node-js">Shell scripting with Node.js</h2>
+
+<p><a href="https://exploringjs.com/nodejs-shell-scripting/" title="Shell scripting with Node.js">exploringjs.com/nodejs-shell-scripting/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">book</span> <span class="jser-tag">ShellScript</span></p></p>
+
+<p>Node.js에서 shell scripting을 다루는 방법을 기술한 도서</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-09-29-typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","TypeScript","security","book","browser"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>TypeScript</li>
+                
+                <li>security</li>
+                
+                <li>book</li>
+                
+                <li>browser</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/09/29/typescript-4.9-beta-workerdcloudflare-workers-runtime-web-almanac-2022/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

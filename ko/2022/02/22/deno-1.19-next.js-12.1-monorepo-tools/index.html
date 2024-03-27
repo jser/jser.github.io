@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2022-02-22: Deno 1.19, Next.js 12.1, Monorepo Tools 정리 - JSer.info</title>
+    <meta name="description" content="JSer.info #580 - Deno 1.19가 릴리스 됐다.">
+    
+    <meta name="keywords" content="node.js,React,monorepo,Tools,express" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2022-02-22T12:38:39+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="monorepo" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="express" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #580 - Deno 1.19가 릴리스 됐다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2022-02-22: Deno 1.19, Next.js 12.1, Monorepo Tools 정리">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #580 - Deno 1.19가 릴리스 됐다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2022-02-22T12:38:39+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="monorepo">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="express">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/">2022-02-22: Deno 1.19, Next.js 12.1, Monorepo Tools 정리</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2022年02月22日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-02-22-deno-1.19-next.js-12.1-monorepo-tools.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2022/2022-02-22-deno-1.19-next.js-12.1-monorepo-tools.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #580 - Deno 1.19가 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://deno.com/blog/v1.19">Deno 1.19 Release Notes</a></li>
+</ul>
+
+<p><code>deno vendor</code>라는 외부 모듈을 저장소 내에 관리 할 수 있도록 도와주는 명령어가 추가됐다.<br>
+<code>deno vendor</code>은 외부 모듈을 로컬에 설치하고 <a href="https://github.com/WICG/import-maps">Import maps</a>으로 매핑하여 사용할 수 있다.</p>
+
+<ul>
+<li><a href="https://github.com/denoland/deno/issues/13346">Proposal: <code>deno vendor</code> · Issue #13346 · denoland/deno</a></li>
+</ul>
+
+<p><code>Deno.File</code>를 <code>Deno.FsFile</code>로 이름 변경하고 <code>Deno.File</code>를 비권장 했다.<br>
+<code>Deno.File</code>은 다음 메이저 업데이트에서 삭제될 예정이다.</p>
+
+<p><code>Deno.FsFile</code>과 <code>Deno.Conn</code> 등이 Web Streams에 대응, <code>CompressionStream</code> / <code>DecompressionStream</code> 지원, <code>console.log</code>가 순환 참조를 표시할 수 있도록 개선, <code>Deno.listen</code>이 Unix sockets를 통해 설정된 연결도 지원한다.<br>
+또, 불안정 API <code>Deno.getUid</code>, <code>Deno.networkInterfaces</code> 추가도 함께 이뤄졌다.</p>
+
+<hr>
+
+<p>Next.js 12.1이 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://nextjs.org/blog/next-12-1">Blog - Next.js 12.1 | Next.js</a></li>
+</ul>
+
+<p>API 서버에서 <code>unstable_revalidate</code>를 사용해 ISR 페이지를 revalidate할 수 있도록 변경, <code>next/jest</code> 추가, SWC 개선과 Minify 대응.<br>
+또, 실험적 기능으로 <code>outputStandalone</code> 옵션으로 Next.js를 서버로 사용하기 위해서 필요한 파일만을 출력할 수 있는 기능이 추가됐고 React 18 대응 개선이 이뤄졌다.</p>
+
+<hr>
+
+<p><a href="https://monorepo.tools/">Monorepo Explained</a> 사이트에는 monorepo와 관련된 도구가 소개돼 있다.<br>
+Bazel / Gradle / Lage / Lerna / Nx / Rush / Turborepo에 대한 캐시 및 분산 태스크 등 각 기능이 비교 및 분석돼 있다.<br>
+사이트는 Narwhal(Nx) 쪽 사람을 중심으로 생성하고 있다.</p>
+
+<p>때마침 State of JS 2021 설문 결과가 공개 됐으며 내용 중 Monorepo Tools와 관련된 설문도 있으니 함께 살펴보면 좋을 거 같다.</p>
+
+<ul>
+<li><a href="https://2021.stateofjs.com/en-US/libraries/monorepo-tools">The State of JS 2021: Monorepo Tools</a></li>
+</ul>
+
+<p>또, 현재 유지보수가 중단된 <a href="https://github.com/lerna/lerna">Lerna</a>의 <code>version</code> / <code>publish</code> / <code>run</code> 명령어만 추려낸 <a href="https://github.com/ghiscoding/lerna-lite">lerna-lite</a>라는 도구도 공개됐다.</p>
+
+<ul>
+<li><a href="https://github.com/lerna/lerna/issues/2703#issuecomment-1036971049">Lerna is largely unmaintained · Issue #2703 · lerna/lerna</a></li>
+</ul>
+
+<p>원래 Lerna는 Workspace관리(의존 관계 관리), 태스크 관리(패키지의 의존 확인 후 태스크 실행), Publish 관리(버전 갱신과 CHANGELOG 작성 및 공개) 등의 기능을 갖는 도구로서 시작됐다.</p>
+
+<ul>
+<li><a href="https://github.com/babel/babel/blob/master/doc/design/monorepo.md">babel/monorepo.md at master · babel/babel</a></li>
+</ul>
+
+<p>Workspace 관리는 npm 7+ / Yarn / pnpm 등의 패키지 매니저에서 workspaces 기능을 지원하기 시작했다.<br>
+태스크 관리는 Turborepo나 Nx(Nx는 모든 기능 포함) 등이 보다 효율적으로 사용할 수 있는 도구로 자리매김 하고 있다.<br>
+Publish 관리는 아직 무르익은 도구는 적지만 <a href="https://github.com/changesets/changesets">changesets</a> / <a href="https://github.com/algolia/shipjs">Ship.js</a> / <a href="https://github.com/ghiscoding/lerna-lite">lerna-lite</a> 그리고 패키지 매니저 자체적으로 제공하는 기능이 있다.</p>
+
+<p>애플리케이션 뿐 아니라 라이브러리 개발에서도 Monorepo를 널리 사용하게 되면서 Monorepo와 함께 관련 도구 등의 발전 역시 활발한 느낌이다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-5-0-0-beta-1-expressjs-express">Release 5.0.0-beta.1 · expressjs/express</h2>
+
+<p><a href="https://github.com/expressjs/express/releases/tag/v5.0.0-beta.1" title="Release 5.0.0-beta.1 · expressjs/express">github.com/expressjs/express/releases/tag/v5.0.0-beta.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">express</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Express 5.0.0 beta 1 릴리스. 2020년 3월 5.0.0-alpha.8 릴리스 이후 첫 5.0.0 관련 릴리스.</p>
+
+<hr>
+
+<h2 id="the-file-system-access-api-with-origin-private-file-system-webkit">The File System Access API with Origin Private File System | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/12257/the-file-system-access-api-with-origin-private-file-system/" title="The File System Access API with Origin Private File System | WebKit">webkit.org/blog/12257/the-file-system-access-api-with-origin-private-file-system/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">IndexedDB</span></p></p>
+
+<p>Safari에 구현된 File System Acccess API를 소개하는 글.<br>
+Origin 별로 분리된 Private한 파일 시스템으로 돼 있어 브라우저 밖에서는 접근할 수 없다.<br>
+File System Access API의 기본적인 사용 방법 등도 소개한다.</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API" title="File System Access API - Web APIs | MDN">File System Access API - Web APIs | MDN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v9-4-0-googlechrome-lighthouse">Release v9.4.0 · GoogleChrome/lighthouse</h2>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v9.4.0" title="Release v9.4.0 · GoogleChrome/lighthouse">github.com/GoogleChrome/lighthouse/releases/tag/v9.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lighthouse v9.4.0 릴리스.</p>
+
+<hr>
+
+<h2 id="deno-1-19-release-notes">Deno 1.19 Release Notes</h2>
+
+<p><a href="https://deno.com/blog/v1.19" title="Deno 1.19 Release Notes">deno.com/blog/v1.19</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno 1.19 릴리스.<br>
+<code>Deno.File</code>을 <code>Deno.FsFile</code>으로 이름 변경하고 <code>Deno.File</code>를 deprecated로 변경.<br>
+의존 관계를 저장소 내의 파일로 관리하는 <code>deno vendor</code> 명령어 추가, <code>Deno.FsFile</code>나 <code>Deno.Conn</code> 등이 <code>Web Streams</code>에 대응.<br>
+<code>CompressionStream</code> / <code>DecompressionStream</code> 지원, <code>console.log</code>에서 순환 참조 표시 지원, <code>Deno.listen</code>가 Unix sockets에 대응.<br>
+또, unstable한 API로 <code>Deno.getUid</code>, <code>Deno.networkInterfaces</code>가 추가 됐다.</p>
+
+<hr>
+
+<h2 id="release-v1-2-0-remix-run-remix">Release v1.2.0 · remix-run/remix</h2>
+
+<p><a href="https://github.com/remix-run/remix/releases/tag/v1.2.0" title="Release v1.2.0 · remix-run/remix">github.com/remix-run/remix/releases/tag/v1.2.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">server</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Remix v1.2.0 릴리스.<br>
+<code>serverBuildTarget</code> 옵션을 추가하여 디플로이 타겟 별로 최적화 된 출력이 가능하도록 개선, <code>server</code> 옵션으로 커스텀 서버를 지정할 수 있도록 개선.<br>
+Node의 빌트인 모듈을 사용하고 있는 경우에 shim이 추가되도록 변경, <code>serverDependenciesToBundle</code>로 CJS 용 번들을 출력할 경우 ESM 패키지를 bundle 할 수 있도록 개선.</p>
+
+<hr>
+
+<h2 id="blog-next-js-12-1-next-js">Blog - Next.js 12.1 | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/next-12-1" title="Blog - Next.js 12.1 | Next.js">nextjs.org/blog/next-12-1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 12.1 릴리스. 앞서 만구님이 정리 해주셨으니 자세한 내용은 해당 스레드 참고.<br>
+API 서버에서 <code>unstable_revalidate</code>를 사용해 ISR 페이지를 revalidate 할 수 있도록, <code>next/jest</code> 추가, SWC 개선과 Minify 대응.<br>
+시험적인 기능으로 <code>outputStandalone</code> 옵션으로 Next.js를 서버로 실행시키기 위한 파일만 출력할 수 있는 기능 추가, React 18 지원 등.</p>
+
+<hr>
+
+<h2 id="yarn-3-2-libc-yarn-explain-next-major-dev-community">Yarn 3.2 🚢🔮 Libc, Yarn Explain, Next Major, ... - DEV Community 👩‍💻👨‍💻</h2>
+
+<p><a href="https://dev.to/arcanis/yarn-32-libc-yarn-explain-next-major--o22" title="Yarn 3.2 🚢🔮 Libc, Yarn Explain, Next Major, ... - DEV Community 👩‍💻👨‍💻">dev.to/arcanis/yarn-32-libc-yarn-explain-next-major--o22</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Yarn 3.2 릴리스.<br>
+<code>optionalDependencies</code>에 <code>libc</code> 필드 추가, <code>yarn explain</code> 명령어 추가, UI 개선.<br>
+다음 메이저 업데이트(Yarn 4.x)에 있을 변경 예정 사항도 정리돼 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">업데이트</h1>
+
+<hr>
+
+<h2 id="the-state-of-js-2021">The State of JS 2021</h2>
+
+<p><a href="https://2021.stateofjs.com/en-US/" title="The State of JS 2021">2021.stateofjs.com/en-US/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Survey</span></p></p>
+
+<p>State of JS 2021 설문 결과가 공개됐다.<br>
+언어, 프레임워크, 도구, 라이브러리 등의 순위, 만족도, 평가 등의 설문 결과를 다양한 그래프를 활용해 제공하고 있다.<br>
+한국어도 지원하므로 관심있는 분은 살펴보길 바란다.</p>
+
+<hr>
+
+<h2 id="textarea-react">textarea를 커스터마이즈 할 수 있는 React 용 라이브러리를 작성했다(일본어)</h2>
+
+<p><a href="https://zenn.dev/inokawa/articles/946ba7be927f44" title="textarea를 커스터마이즈 할 수 있는 React 용 라이브러리를 작성했다">zenn.dev/inokawa/articles/946ba7be927f44</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>textarea 요소에 대응하는 오버레이 요소를 두어 textarea 경험을 최대한 유지하면서 텍스트 꾸미기 및 이벤트를 설정할 수 있도록 확장한 리액트 라이브러리 소개.</p>
+
+<ul>
+<li><a href="https://github.com/inokawa/rich-textarea" title="inokawa/rich-textarea: A small customizable textarea for React to colorize, highlight, decorate texts, offer autocomplete and much more.">inokawa/rich-textarea: A small customizable textarea for React to colorize, highlight, decorate texts, offer autocomplete and much more.</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="js-framework-for-native-web-components-minze">JS framework for native web components | Minze</h2>
+
+<p><a href="https://minze.dev/" title="JS framework for native web components | Minze">minze.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebCompoennts를 만드는 데 필요한 여러가지 기능을 제공하는 프레임워크.</p>
+
+<hr>
+
+<h2 id="jimmywarting-native-file-system-adapter-file-system-based-on-the-spec-reference-implementation">jimmywarting/native-file-system-adapter: File system, based on the spec reference implementation</h2>
+
+<p><a href="https://github.com/jimmywarting/native-file-system-adapter/" title="jimmywarting/native-file-system-adapter: File system, based on the spec reference implementation">github.com/jimmywarting/native-file-system-adapter/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">polyfill</span></p></p>
+
+<p>File System Access API의 polyfill 라이브러리.<br>
+대상 시스템을 어댑터로 교체할 수 있는 구조로 Node.js, Deno, IndexedDB 등을 지원한다.</p>
+
+<hr>
+
+<h2 id="ghiscoding-lerna-lite-automate-your-workspace-version-publish-by-using-conventional-changelog-commits">ghiscoding/lerna-lite: automate your workspace version &amp; publish by using conventional-changelog-commits</h2>
+
+<p><a href="https://github.com/ghiscoding/lerna-lite" title="ghiscoding/lerna-lite: automate your workspace version &amp;amp; publish by using conventional-changelog-commits">github.com/ghiscoding/lerna-lite</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p></p>
+
+<p>lerna에서 <code>version</code> / <code>publish</code> / <code>run</code> 명령어만 간추린 fork 버전</p>
+
+<ul>
+<li><a href="https://github.com/lerna/lerna/issues/2703#issuecomment-1036971049" title="Lerna is largely unmaintained · Issue #2703 · lerna/lerna">Lerna is largely unmaintained · Issue #2703 · lerna/lerna</a></li>
+</ul>
+
+<hr>
+
+<h2 id="monorepo-explained">Monorepo Explained</h2>
+
+<p><a href="https://monorepo.tools/" title="Monorepo Explained">monorepo.tools/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>monorepo의 정의를 소개하고 관련 도구를 비교한 사이트.<br>
+Babel / Gradle / Lage / Lerna / Nx / Rush / Turborepo에 대해 캐시나 분산 태스크 등 각 기능을 비교 소개한다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="html-amazon">HTML 해부 신간 - 사양으로부터 푸는 본격 입문 | 오타 요시노리, 나카무라 나오키 | 책 | 통신 판매 | Amazon(일본어)</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4862465277/" title="HTML 해부 신간 - 사양으로부터 푸는 본격 입문 | 오타 요시노리, 나카무라 나오키 | 책 | 통신 판매 | Amazon">www.amazon.co.jp/dp/4862465277/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">book</span> <span class="jser-tag">accessibility</span></p></p>
+
+<p>2022년 4월 15일에 출간 예정.<br>
+HTML과 웹 접근성을 주제로한 기술 도서.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-02-22-deno-1.19-next.js-12.1-monorepo-tools.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","React","monorepo","Tools","express"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>React</li>
+                
+                <li>monorepo</li>
+                
+                <li>Tools</li>
+                
+                <li>express</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/02/22/deno-1.19-next.js-12.1-monorepo-tools/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

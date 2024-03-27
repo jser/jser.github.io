@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-11-09のJS: React Router v6、Angular v13、ChromeのRecord and Replay、TypeScriptへの段階的な移行 - JSer.info</title>
+    <meta name="description" content="JSer.info #565 - React Router v6がリリースされました。">
+    
+    <meta name="keywords" content="React,TypeScript,Chrome,performance,node.js" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-11-09T11:39:44+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #565 - React Router v6がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-11-09のJS: React Router v6、Angular v13、ChromeのRecord and Replay、TypeScriptへの段階的な移行">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #565 - React Router v6がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-11-09T11:39:44+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="node.js">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">2021-11-09のJS: React Router v6、Angular v13、ChromeのRecord and Replay、TypeScriptへの段階的な移行</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年11月09日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-11-09-react-router-v6-angular-v13-chromerecord-and-replay-typescript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2021/2021-11-09-react-router-v6-angular-v13-chromerecord-and-replay-typescript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #565 - React Router v6がリリースされました。</p>
+
+<ul>
+<li><a href="https://remix.run/blog/react-router-v6">React Router v6 | Remix</a></li>
+</ul>
+
+<p>React Hooksベースで再実装、<code>&lt;Route&gt;</code>のネストの扱いを改善、<code>&lt;Link to&gt;</code>の値に相対パスの解釈を<code>&lt;Route path&gt;</code>を基準にする変更などが含まれています。</p>
+
+<p>合わせてReact Router v5からのマイグレーションガイドも公開されています。</p>
+
+<ul>
+<li><a href="https://reactrouter.com/docs/en/v6/upgrading/v5">React Router | Upgrading from v5</a></li>
+</ul>
+
+<hr>
+
+<p>Angular 13がリリースされました。</p>
+
+<ul>
+<li><a href="https://blog.angular.io/angular-v13-is-now-available-cce66f7bc296">Angular v13 is now Available. We’re back with the brand new release… | by Mark Thompson (@marktechson) | Nov, 2021 | Angular Blog</a></li>
+</ul>
+
+<p>Ivyがデフォルトとなったため、View Engineが削除されています。<br>
+Angular Package Format(APF)が、<code>package.json</code>の<code>exports</code>フィールドをサポートしました。<br>
+また、IE 11のサポートが終了されています。<br>
+AngularでのIEサポートはAngular 12までとなり、Angular 12は2022年11月12日までサポートされます。</p>
+
+<ul>
+<li><a href="https://angular.io/guide/releases#support-policy-and-schedule">Angular - Angular versioning and releases</a></li>
+</ul>
+
+<p>その他には、Angular CLIが永続ビルドキャッシュをサポート、テスト時にDOMのクリーンアップがデフォルト化されています。</p>
+
+<hr>
+
+<p><a href="https://developer.chrome.com/docs/devtools/recorder/">Record, replay and measure user flows - Chrome Developers</a>という記事では、Chrome 97の開発者ツールにプレビュー実装されたRecorder panelについて紹介されています。</p>
+
+<p>ユーザー操作を記録し再生でき、またユーザーフローとPerformance計測を組み合わせて利用できます。<br>
+また、記録した内容は編集したり、Puppeteerスクリプトとして出力できるようになっています。</p>
+
+<hr>
+
+<p>以下の記事はどちらもJavaScriptからTypeScriptへの段階的な移行について書かれています。</p>
+
+<ul>
+<li><a href="https://tech.plaid.co.jp/karte-blocks-incremental-development/">インクリメンタルに新しい技術を取り入れる方法。TypeScriptへの移行を例にしたプロセス</a></li>
+<li><a href="https://codeascraft.com/2021/11/08/etsys-journey-to-typescript/">Etsy’s Journey to TypeScript - Code as Craft</a></li>
+</ul>
+
+<p>ゆるい型をつけてから段階的に厳しくしていくアプローチと最初から厳密な型をつけていくというアプローチをそれぞれ扱っているので、合わせて読んでみると面白いと思います。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v11-0-0-puppeteer-puppeteer">Release v11.0.0 · puppeteer/puppeteer</h2>
+
+<p><a href="https://github.com/puppeteer/puppeteer/releases/tag/v11.0.0" title="Release v11.0.0 · puppeteer/puppeteer">github.com/puppeteer/puppeteer/releases/tag/v11.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>puppeteer 11.0.0リリース。<br>
+Out of Processなiframeのwaitをサポートする<code>Page.waitForFrame()</code>と<code>frame.isOOPFrame()</code>の追加。<br>
+HTTP Requestのinitiatorを取得できるようになるなど</p>
+
+<hr>
+
+<h2 id="recoil-0-5-recoil">Recoil 0.5 | Recoil</h2>
+
+<p><a href="https://recoiljs.org/blog/2021/11/03/0.5.0-release" title="Recoil 0.5 | Recoil">recoiljs.org/blog/2021/11/03/0.5.0-release</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Recoil 0.5リリース。<br>
+キャッシュをクリアできる<code>useRecoilRefresher_UNSTABLE()</code>の追加。<br>
+<code>onSet</code>のコールバックに<code>isReset</code>を追加、<code>getLoadable()</code>/<code>getPromise()</code>/<code>getInfo_UNSTABLE()</code>の追加など</p>
+
+<hr>
+
+<h2 id="react-router-v6-remix">React Router v6 | Remix</h2>
+
+<p><a href="https://remix.run/blog/react-router-v6" title="React Router v6 | Remix">remix.run/blog/react-router-v6</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React Router v6リリース。<br>
+React Hooksベースで再実装、<code>&lt;Route&gt;</code>のネストの改善、<code>&lt;Link to&gt;</code>の値に相対パスの解釈を<code>&lt;Route path&gt;</code>を基準にするように変更など</p>
+
+<ul>
+<li><a href="https://remix.run/blog/react-router-v6#upgrading-to-react-router-v6" title="React Router v6 | Remix">React Router v6 | Remix</a></li>
+<li><a href="https://reactrouter.com/docs/en/v6/upgrading/v5" title="React Router | Upgrading from v5">React Router | Upgrading from v5</a></li>
+</ul>
+
+<hr>
+
+<h2 id="announcing-typescript-4-5-rc-typescript">Announcing TypeScript 4.5 RC - TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-rc/" title="Announcing TypeScript 4.5 RC - TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-4-5-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 4.5 RCリリース。<br>
+4.5 betaで導入されていたESM対応の<code>module: node12</code>はリリースが延期となった。</p>
+
+<hr>
+
+<h2 id="nightwatch-v2-is-now-in-beta-nightwatch-js-blog">Nightwatch v2 is Now in Beta | Nightwatch.js Blog</h2>
+
+<p><a href="https://nightwatchjs.org/blog/nightwatch-v2-beta-is-available.html" title="Nightwatch v2 is Now in Beta | Nightwatch.js Blog">nightwatchjs.org/blog/nightwatch-v2-beta-is-available.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">E2E</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nightwatch v2リリース。<br>
+Chrome DevTools ProtocolとWebDriver BiDIのサポート、CucumberJSのサポートなど</p>
+
+<hr>
+
+<h2 id="v8-release-v9-7-v8">V8 release v9.7 · V8</h2>
+
+<p><a href="https://v8.dev/blog/v8-release-97" title="V8 release v9.7 · V8">v8.dev/blog/v8-release-97</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>V8 v9.7リリース。<br>
+ArrayとTypedArrayに<code>findLast</code>と<code>findLastIndex</code>の実装。</p>
+
+<hr>
+
+<h2 id="angular-v13-is-now-available-we-re-back-with-the-brand-new-release-by-mark-thompson-marktechson-nov-2021-angular-blog">Angular v13 is now Available. We’re back with the brand new release… | by Mark Thompson (@marktechson) | Nov, 2021 | Angular Blog</h2>
+
+<p><a href="https://blog.angular.io/angular-v13-is-now-available-cce66f7bc296" title="Angular v13 is now Available. We’re back with the brand new release… | by Mark Thompson (@marktechson) | Nov, 2021 | Angular Blog">blog.angular.io/angular-v13-is-now-available-cce66f7bc296</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Angular 13リリース。<br>
+IvyがデフォルトとなったためView Engineを削除、Angular Package Format(APF)が<code>exports</code>フィールドのサポート、IE 11のサポート終了。<br>
+Angular CLIが永続ビルドキャッシュをサポート、テスト時にDOMのクリーンアップがデフォルト化など</p>
+
+<hr>
+
+<h2 id="release-v4-0-0-markedjs-marked">Release v4.0.0 · markedjs/marked</h2>
+
+<p><a href="https://github.com/markedjs/marked/releases/tag/v4.0.0" title="Release v4.0.0 · markedjs/marked">github.com/markedjs/marked/releases/tag/v4.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Markdown</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>markded 4.0.0リリース。<br>
+ESMの対応、default exportを削除したため<code>import { markded } from &quot;marked&quot;</code>のnamed importを利用するに変更など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="whats-new-in-pagespeed-insights">What&#039;s new in PageSpeed Insights</h2>
+
+<p><a href="https://web.dev/whats-new-pagespeed-insights/" title="What&amp;#039;s new in PageSpeed Insights">web.dev/whats-new-pagespeed-insights/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>新しいPageSpeed Insightsの画面解説。<br>
+計測データとCrUXデータ(Lab)が混在していたが、CrUXのデータはOrigin Summaryというタブに分離された。<br>
+Core Web Vitalsのスコア表示などが含まれる予定</p>
+
+<hr>
+
+<h2 id="malware-found-in-coa-and-rc-two-npm-packages-with-23m-weekly-downloads-the-record-by-recorded-future">Malware found in coa and rc, two npm packages with 23M weekly downloads - The Record by Recorded Future</h2>
+
+<p><a href="https://therecord.media/malware-found-in-coa-and-rc-two-npm-packages-with-23m-weekly-downloads/" title="Malware found in coa and rc, two npm packages with 23M weekly downloads - The Record by Recorded Future">therecord.media/malware-found-in-coa-and-rc-two-npm-packages-with-23m-weekly-downloads/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>coa</code>と<code>rc</code>パッケージにマルウェアが含まれていたバージョンがpublishされていた問題について。<br>
+現在は無効化されているが、それぞれ次のバージョンが問題となっている。</p>
+
+<ul>
+<li>coa: 2.0.3, 2.0.4, 2.1.1, 2.1.3, 3.0.1, 3.1.3</li>
+<li><p>rc: 1.2.9, 1.3.9, 2.3.9</p></li>
+<li><p><a href="https://github.com/advisories/GHSA-73qr-pfmq-6rp8" title="Embedded malware in coa · GHSA-73qr-pfmq-6rp8 · GitHub Advisory Database">Embedded malware in coa · GHSA-73qr-pfmq-6rp8 · GitHub Advisory Database</a></p></li>
+<li><p><a href="https://github.com/advisories/GHSA-g2q5-5433-rhrf" title="Embedded malware in rc · GHSA-g2q5-5433-rhrf · GitHub Advisory Database">Embedded malware in rc · GHSA-g2q5-5433-rhrf · GitHub Advisory Database</a></p></li>
+</ul>
+
+<hr>
+
+<h2 id="record-replay-and-measure-user-flows-chrome-developers">Record, replay and measure user flows - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/docs/devtools/recorder/" title="Record, replay and measure user flows - Chrome Developers">developer.chrome.com/docs/devtools/recorder/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">article</span> <span class="jser-tag">debug</span></p></p>
+
+<p>Chrome 97の開発者ツールにプレビュー実装されたRecorder panelについて。<br>
+ユーザー操作を記録し再生できる。またユーザーフローとPerformance計測を組み合わせられる。<br>
+記録した内容は編集したり、Puppeteerスクリプトとして出力できる。</p>
+
+<hr>
+
+<h2 id="typescript-jsdoc">TypeScriptのJSDocサポートでできること、できないこと</h2>
+
+<p><a href="https://zenn.dev/qnighy/articles/56917d9bf9077b" title="TypeScriptのJSDocサポートでできること、できないこと">zenn.dev/qnighy/articles/56917d9bf9077b</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScriptのJSDocによる型アノテーションについての解説。<br>
+TypeScriptとJSDocの型アノテーションでの表現力の違い、JSDocでの型アノテーションの書き方について</p>
+
+<hr>
+
+<h2 id="a-comprehensive-guide-to-error-handling-in-node-js-honeybadger-developer-blog">A Comprehensive Guide To Error Handling In Node.js - Honeybadger Developer Blog</h2>
+
+<p><a href="https://www.honeybadger.io/blog/errors-nodejs/" title="A Comprehensive Guide To Error Handling In Node.js - Honeybadger Developer Blog">www.honeybadger.io/blog/errors-nodejs/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsのエラーハンドリングについての記事。<br>
+例外、コールバック、Promise、EventEmitterそれぞれにおけるエラーのハンドリング。<br>
+カスタムエラーでの分類、Operational ErrorとProgrammer Errorの違い。<br>
+またOperation Errorが発生したときの対処方法とProgrammer Errorの防止策について</p>
+
+<hr>
+
+<h2 id="typescript">インクリメンタルに新しい技術を取り入れる方法。TypeScriptへの移行を例にしたプロセス</h2>
+
+<p><a href="https://tech.plaid.co.jp/karte-blocks-incremental-development/" title="インクリメンタルに新しい技術を取り入れる方法。TypeScriptへの移行を例にしたプロセス">tech.plaid.co.jp/karte-blocks-incremental-development/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">React</span> <span class="jser-tag">Vue</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScriptをTypeScriptを段階的に移行する方法について。<br>
+最初からしっかりとした型をつける方法とゆるい型に変換してから型をつける方法の比較、マイグレーションの順番、型を使ったAPIバリデーション、VueからReactへの段階的な移行など。<br>
+インクリメンタルな移行するときのポイントについて。</p>
+
+<hr>
+
+<h2 id="etsy-s-journey-to-typescript-code-as-craft">Etsy’s Journey to TypeScript - Code as Craft</h2>
+
+<p><a href="https://codeascraft.com/2021/11/08/etsys-journey-to-typescript/" title="Etsy’s Journey to TypeScript - Code as Craft">codeascraft.com/2021/11/08/etsys-journey-to-typescript/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScriptの採用戦略についての記事。<br>
+厳密な型付けへの移行方法、typescript-eslintを使った一部の汎用型と構文の禁止、APIへの型付けについて。<br>
+TypeScriptの型チェックのパフォーマンス問題のデバッグ、教育について</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="web-performance-metrics-cheatsheet">Web Performance Metrics Cheatsheet</h2>
+
+<p><a href="https://bitsofco.de/web-performance-metrics-cheatsheet/" title="Web Performance Metrics Cheatsheet">bitsofco.de/web-performance-metrics-cheatsheet/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">cheatsheet</span></p></p>
+
+<p>ウェブパフォーマンスのメトリクスチートシート。<br>
+4つのステージにグループ分けし、それぞれに関連するメトリクスをまとめている</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="urin-qrono-just-right-date-time-library">urin/qrono: 🕥 Just right date time library</h2>
+
+<p><a href="https://github.com/urin/qrono" title="urin/qrono: 🕥 Just right date time library">github.com/urin/qrono</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Immutableな日付操作ライブラリ。<br>
+UTCとローカル時間のみを扱うことで、夏時間のあいまいな時間を正確に扱う。</p>
+
+<ul>
+<li><a href="https://zenn.dev/urin/articles/6ca9cf8174fd92" title="こういうのでいいんだよ、な JavaScript日付時刻ライブラリ Qrono">こういうのでいいんだよ、な JavaScript日付時刻ライブラリ Qrono</a></li>
+</ul>
+
+<hr>
+
+<h2 id="shopify-hydrogen-react-based-framework-for-building-dynamic-shopify-powered-custom-storefronts">Shopify/hydrogen: React-based framework for building dynamic, Shopify-powered custom storefronts.</h2>
+
+<p><a href="https://github.com/Shopify/hydrogen" title="Shopify/hydrogen: React-based framework for building dynamic, Shopify-powered custom storefronts.">github.com/Shopify/hydrogen</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">vite</span> <span class="jser-tag">library</span></p></p>
+
+<p>Shopifyのストアフロントを作成するReactベースのフレームワーク。<br>
+ViteとReactをベースにしていて、React ServerSide Componentsを利用している。</p>
+
+<ul>
+<li><a href="https://www.smashingmagazine.com/2021/11/hydrogen-react-framework-dynamic-contextual-personalized-ecommerce/" title="Meet Hydrogen: A React Framework For Dynamic, Contextual And Personalized E-Commerce — Smashing Magazine">Meet Hydrogen: A React Framework For Dynamic, Contextual And Personalized E-Commerce — Smashing Magazine</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="javascript-7-ohmsha">JavaScript（第7版） | Ohmsha</h2>
+
+<p><a href="https://www.ohmsha.co.jp/book/9784873119700/" title="JavaScript（第7版） | Ohmsha">www.ohmsha.co.jp/book/9784873119700/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>2021年12月2日発売<br>
+サイ本 7版の翻訳本</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2021/2021-11-09-react-router-v6-angular-v13-chromerecord-and-replay-typescript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","TypeScript","Chrome","performance","node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>TypeScript</li>
+                
+                <li>Chrome</li>
+                
+                <li>performance</li>
+                
+                <li>node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2021/11/09/react-router-v6-angular-v13-chromerecord-and-replay-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

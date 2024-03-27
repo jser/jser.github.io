@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2018-11-27のJS: Web Components入門、React-Reduxの歴史と実装、 HTTP/3 explained - JSer.info</title>
+    <meta name="description" content="JSer.info #411 - &quot;Lets Build Web Components!&quot;というWeb Componentsについての連載記事が公開されています。">
+    
+    <meta name="keywords" content="WebComponents,react,redux,HTTP3" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2018-11-27T11:18:42+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="WebComponents" property="article:tag">
+      
+      <meta content="react" property="article:tag">
+      
+      <meta content="redux" property="article:tag">
+      
+      <meta content="HTTP3" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2018/11/27/web-componentsreact-redux-http3-explained/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #411 - &quot;Lets Build Web Components!&quot;というWeb Componentsについての連載記事が公開されています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2018-11-27のJS: Web Components入門、React-Reduxの歴史と実装、 HTTP/3 explained">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2018/11/27/web-componentsreact-redux-http3-explained/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #411 - &quot;Lets Build Web Components!&quot;というWeb Componentsについての連載記事が公開されています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2018-11-27T11:18:42+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="WebComponents">
+
+<meta property="article:tag" content="react">
+
+<meta property="article:tag" content="redux">
+
+<meta property="article:tag" content="HTTP3">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2018/11/27/web-componentsreact-redux-http3-explained/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2018/11/27/web-componentsreact-redux-http3-explained/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2018/11/27/web-componentsreact-redux-http3-explained/">2018-11-27のJS: Web Components入門、React-Reduxの歴史と実装、 HTTP/3 explained</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2018年11月27日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-11-27-web-componentsreact-redux-http3-explained.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2018/2018-11-27-web-componentsreact-redux-http3-explained.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/11/27/web-componentsreact-redux-http3-explained/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/11/27/web-componentsreact-redux-http3-explained/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #411 - &quot;Lets Build Web Components!&quot;というWeb Componentsについての連載記事が公開されています。</p>
+
+<ul>
+<li><a href="https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85" title="Lets Build Web Components! Part 1: The Standards - DEV Community 👩‍💻👨‍💻">Lets Build Web Components! Part 1: The Standards - DEV Community 👩‍💻👨‍💻</a></li>
+<li><a href="https://dev.to/bennypowers/lets-build-web-components-part-2-the-polyfills-dkh" title="Lets Build Web Components! Part 2: The Polyfills - DEV Community 👩‍💻👨‍💻">Lets Build Web Components! Part 2: The Polyfills - DEV Community 👩‍💻👨‍💻</a></li>
+<li><a href="https://dev.to/bennypowers/lets-build-web-components-part-3-vanilla-components-4on3" title="Lets Build Web Components! Part 3: Vanilla Components - DEV Community 👩‍💻👨‍💻">Lets Build Web Components! Part 3: Vanilla Components - DEV Community 👩‍💻👨‍💻</a></li>
+<li><a href="https://dev.to/bennypowers/lets-build-web-components-part-4-polymer-library-4dk2" title="Lets Build Web Components! Part 4: Polymer Library - DEV Community 👩‍💻👨‍💻">Lets Build Web Components! Part 4: Polymer Library - DEV Community 👩‍💻👨‍💻</a></li>
+<li><a href="https://dev.to/bennypowers/lets-build-web-components-part-5-litelement-906" title="Let&#39;s Build Web Components! Part 5: LitElement - DEV Community 👩‍💻👨‍💻">Let&#39;s Build Web Components! Part 5: LitElement - DEV Community 👩‍💻👨‍💻</a></li>
+<li><a href="https://dev.to/bennypowers/lets-build-web-components-part-6-gluon-27ll" title="Let&#39;s Build Web Components! Part 6: Gluon - DEV Community 👩‍💻👨‍💻">Let&#39;s Build Web Components! Part 6: Gluon - DEV Community 👩‍💻👨‍💻</a></li>
+</ul>
+
+<p>Web Componentsの基本的な使い方、Polyfill、ライフサイクル、スタイルなどについて解説しています。<br>
+また、<a href="https://www.polymer-project.org/">Polymer</a>や<a href="https://github.com/ruphin/gluonjs">Gluonjs</a>といったフレームワークを使ったコンポーネント開発などについても書かれているためかなり幅広い内容になっています。</p>
+
+<hr>
+
+<p><a href="https://blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/">Idiomatic Redux: The History and Implementation of React-Redux · Mark&#39;s Dev Blog</a>という記事では、Reduxのメンテナーの<a href="https://github.com/markerikson">Mark Erikson</a>が<a href="https://github.com/reduxjs/react-redux">React Redux</a>の歴史と実装について紹介しています。</p>
+
+<p>v5までのReact Reduxの実装とv6 β実装された<a href="https://reactjs.org/docs/context.html">Context API</a>ベースの実装やパフォーマンスの問題についても書かれています。<br>
+また今後の話として、Reactの<a href="https://reactjs.org/docs/hooks-reference.html">Hooks API</a>を使った実装の提案などについても書かれています。</p>
+
+<hr>
+
+<p><a href="https://daniel.haxx.se/http2/">HTTP/2 explained</a>の著者でもある<a href="https://daniel.haxx.se/">Daniel Stenberg</a>によるHTTP/3 explainedが公開されています。</p>
+
+<ul>
+<li><a href="https://daniel.haxx.se/http3-explained/">HTTP/3 explained - The book</a></li>
+<li><a href="https://daniel.haxx.se/blog/2018/11/26/http3-explained/">HTTP/3 Explained | daniel.haxx.se</a></li>
+</ul>
+
+<p>この書籍ではHTTP/3について解説されています。<br>
+HTTP/3自体がまだ策定中であるため、この書籍もまだ更新が予定されています。</p>
+
+<p>また、ソースコードもGitHubで公開されています。</p>
+
+<ul>
+<li><a href="https://github.com/bagder/http3-explained">bagder/http3-explained: A document describing the HTTP/3 and QUIC protocols</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="lets-build-web-components-part-1-the-standards-dev-community">Lets Build Web Components! Part 1: The Standards - DEV Community 👩‍💻👨‍💻</h2>
+
+<p><a href="https://dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85" title="Lets Build Web Components! Part 1: The Standards - DEV Community 👩‍💻👨‍💻">dev.to/bennypowers/lets-build-web-components-part-1-the-standards-3e85</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebComponents</span> <span class="jser-tag">article</span></p></p>
+
+<p>Web Componentsについての連載。<br>
+Web Componentsの構成要素、polyfill、読み込み方法、ライフサイクル、非同期ロード。<br>
+また<code>:host</code>や<code>&lt;slot&gt;</code>、スタイル、アクセシビリティ、Polymerなどのフレームワークについて</p>
+
+<hr>
+
+<h2 id="websockets-a-conceptual-deep-dive-ably-realtime">WebSockets - A Conceptual Deep-Dive | Ably Realtime</h2>
+
+<p><a href="https://www.ably.io/concepts/websockets" title="WebSockets - A Conceptual Deep-Dive | Ably Realtime">www.ably.io/concepts/websockets</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebSocket</span> <span class="jser-tag">article</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebSocketについての記事。 Cometのようなポーリングによる通信、WebSocketによるハンドシェイクについて。 <code>WebSocket</code>を使っての接続方法や著名なライブラリの紹介など</p>
+
+<hr>
+
+<h2 id="idiomatic-redux-the-history-and-implementation-of-react-redux-marks-dev-blog">Idiomatic Redux: The History and Implementation of React-Redux · Mark&#39;s Dev Blog</h2>
+
+<p><a href="https://blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/" title="Idiomatic Redux: The History and Implementation of React-Redux · Mark&#39;s Dev Blog">blog.isquaredsoftware.com/2018/11/react-redux-history-implementation/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">redux</span> <span class="jser-tag">article</span></p></p>
+
+<p>react-reduxの歴史と今後について<br>
+今までのreact-reduxの実装とv6 β実装されたContext APIベースの実装。<br>
+また、React Hooksを使った実装のProposalについてなど</p>
+
+<hr>
+
+<h2 id="zeit-ncc-node-js-compiler-collection">ZEIT – ncc: Node.js Compiler Collection</h2>
+
+<p><a href="https://zeit.co/blog/ncc" title="ZEIT – ncc: Node.js Compiler Collection">zeit.co/blog/ncc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsのプログラムを依存含めて1つのファイルにするnccについて。<br>
+ファイル1つにまとめることで配布性や実行時の起動時間のI/Oオーバヘッドの改善を目的としている。</p>
+
+<ul>
+<li><a href="https://github.com/zeit/ncc" title="zeit/ncc: Node.js Compiler Collection">zeit/ncc: Node.js Compiler Collection</a></li>
+</ul>
+
+<hr>
+
+<h2 id="malicious-code-found-in-npm-package-event-stream-downloaded-8-million-times-in-the-past-2-5-months-snyk">Malicious code found in npm package event-stream downloaded 8 million times in the past 2.5 months | Snyk</h2>
+
+<p><a href="https://snyk.io/blog/malicious-code-found-in-npm-package-event-stream" title="Malicious code found in npm package event-stream downloaded 8 million times in the past 2.5 months | Snyk">snyk.io/blog/malicious-code-found-in-npm-package-event-stream</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">npm</span> <span class="jser-tag">library</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>event-stream@3.3.6</code>と<code>flatmap-stream</code>の問題について。<br>
+<code>flatmap-stream</code>にwalletsからbitcoinを盗むコードが含まれており、<code>event-stream@3.3.6</code>がこのパッケージに依存していた問題について。<br>
+現在<code>flatmap-stream</code>はnpmからunpublishされている</p>
+
+<ul>
+<li><a href="https://github.com/dominictarr/event-stream/issues/116" title="I don&amp;#x27;t know what to say. · Issue #116 · dominictarr/event-stream">I don&#39;t know what to say. · Issue #116 · dominictarr/event-stream</a></li>
+<li><a href="https://gist.github.com/dominictarr/9fd9c1024c94592bc7268d36b8d83b3a" title="statement on event-stream compromise">statement on event-stream compromise</a></li>
+</ul>
+
+<hr>
+
+<h2 id="how-we-made-carousell-s-mobile-web-experience-3x-faster">How we made Carousell’s mobile web experience 3x faster</h2>
+
+<p><a href="https://medium.com/carousell-insider/how-we-made-carousells-mobile-web-experience-3x-faster-bbb3be93e006" title="How we made Carousell’s mobile web experience 3x faster">medium.com/carousell-insider/how-we-made-carousells-mobile-web-experience-3x-faster-bbb3be93e006</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>carousellにおけるパフォーマンス改善について。<br>
+PRPLパターン、Critical CSS、Lazy LOading、画像の圧縮とCDN、Service Workerの導入などについて</p>
+
+<hr>
+
+<h2 id="validator-favalid-asterisc">フロントエンド向けvalidator: favalidの紹介 - asterisc</h2>
+
+<p><a href="http://akito0107.hatenablog.com/entry/2018/11/23/195538" title="フロントエンド向けvalidator: favalidの紹介 - asterisc">akito0107.hatenablog.com/entry/2018/11/23/195538</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span></p></p>
+
+<p>バリデーターを関数で書いてcombineできるライブラリのfavalidについて</p>
+
+<ul>
+<li><a href="https://github.com/akito0107/favalid" title="akito0107/favalid: make your favorite validators.">akito0107/favalid: make your favorite validators.</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="seo_for_spa-pdf-speaker-deck">seo_for_spa.pdf - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/kazuyaseki/seo-for-spa-cfb3706f-ae1d-4c6f-a83f-96dc2452f32b" title="seo\_for\_spa.pdf - Speaker Deck">speakerdeck.com/kazuyaseki/seo-for-spa-cfb3706f-ae1d-4c6f-a83f-96dc2452f32b</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">SEO</span> <span class="jser-tag">google</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Google botに適切に解釈されるようにするための手法についてのスライド。<br>
+Google botがChrome 41相当であることによる制限、タイムアウトの検証、Dynamic Rendering(prerender)やSSRなどの対策についてなど</p>
+
+<hr>
+
+<h2 id="angular-web-pdf-speaker-deck">Angular Webアプリケーションの最新設計手法.pdf - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/koumatsumot0/angular-webahurikesiyonfalsezui-xin-she-ji-shou-fa" title="Angular Webアプリケーションの最新設計手法.pdf - Speaker Deck">speakerdeck.com/koumatsumot0/angular-webahurikesiyonfalsezui-xin-she-ji-shou-fa</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Angularのコンポーネント設計やステート管理についてのスライド</p>
+
+<hr>
+
+<h2 id="pwa-nikkei-pwa-html5conf2018-speaker-deck">PWA導入の成果と課題 / nikkei-pwa-html5conf2018 - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/sisidovski/nikkei-pwa-html5conf2018" title="PWA導入の成果と課題 / nikkei-pwa-html5conf2018 - Speaker Deck">speakerdeck.com/sisidovski/nikkei-pwa-html5conf2018</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">PWA</span> <span class="jser-tag">performance</span> <span class="jser-tag">slide</span></p></p>
+
+<p>PWAの導入と運用しての課題についてのスライド。<br>
+Service Workerによるパフォーマンスの改善、Add to HomeScreenのハンドリング、Performance Budgetの設定方法とパフォーマンス監視などについて</p>
+
+<hr>
+
+<h2 id="http-and-5g-fixed1">HTTP and 5G (fixed1)</h2>
+
+<p><a href="https://www.slideshare.net/dynamis/httpp-and-5g-fixed1" title="HTTP and 5G (fixed1)">www.slideshare.net/dynamis/httpp-and-5g-fixed1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">QUIC</span> <span class="jser-tag">browser</span> <span class="jser-tag">network</span> <span class="jser-tag">slide</span></p></p>
+
+<p>5G環境での通信試験についてのスライド。<br>
+5Gの試験環境における輻輳制御方法CUBICとBBRの比較、HTTP/1、HTTP/2、QUICの比較などについて</p>
+
+<hr>
+
+<h2 id="class-features-in-nodefest-japan-google">Class features in NodeFest Japan - Google スライド</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1nsR7QnPlyhlPj1ff4cYyARwcWrYM1j_fM7dpbFZM3K8/mobilepresent#slide=id.p" title="Class features in NodeFest Japan - Google スライド">docs.google.com/presentation/d/1nsR7QnPlyhlPj1ff4cYyARwcWrYM1j_fM7dpbFZM3K8/mobilepresent#slide&#x3D;id.p</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">slide</span></p></p>
+
+<p>ECMAScript ProposalのPrivate fieldsについてのスライド。<br>
+privateを実現するための構文として<code>#variable</code>を使う理由や経緯、構文、現在のStageについてなど</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="google-js-green-licenses-javascript-package-json-license-checker">google/js-green-licenses: JavaScript package.json License Checker</h2>
+
+<p><a href="https://github.com/google/js-green-licenses" title="google/js-green-licenses: JavaScript package.json License Checker">github.com/google/js-green-licenses</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">npm</span> <span class="jser-tag">ライセンス</span></p></p>
+
+<p><code>package.json</code>にかかれている依存ライブラリのライセンスチェックツール。<br>
+Pull Reuqest対するチェックなども対応している</p>
+
+<hr>
+
+<h2 id="kidkarolis-jetpack-jetpack-a-more-convenient-webpack-dev-server">KidkArolis/jetpack: 🚀 Jetpack – a more convenient webpack dev server.</h2>
+
+<p><a href="https://github.com/KidkArolis/jetpack" title="KidkArolis/jetpack: 🚀 Jetpack – a more convenient webpack dev server.">github.com/KidkArolis/jetpack</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>webpackベースの開発サーバ、ビルドツール。<br>
+Parcelのようにデフォルトの設定があり、設定なしで利用できることを目的としている。</p>
+
+<hr>
+
+<h2 id="wasmerio-wasmer-high-performance-webassembly-jit-interpreter">wasmerio/wasmer: High-Performance WebAssembly JIT interpreter</h2>
+
+<p><a href="https://github.com/wasmerio/wasmer" title="wasmerio/wasmer: High-Performance WebAssembly JIT interpreter">github.com/wasmerio/wasmer</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span> <span class="jser-tag">Rust</span></p></p>
+
+<p>WebAssemblyファイル(<code>.wasm</code>と<code>.wat</code>)を実行できるスタンドアローンなツール。</p>
+
+<hr>
+
+<h2 id="introduction-http-3-explained">Introduction · HTTP/3 explained</h2>
+
+<p><a href="https://http3-explained.haxx.se/en/" title="Introduction · HTTP/3 explained">http3-explained.haxx.se/en/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">http3</span> <span class="jser-tag">document</span></p></p>
+
+<p>HTTP/3とQUICについての解説ドキュメント。<br>
+TCPとUDP、HTTP/2との違い、QUICの仕組みなどについて</p>
+
+<ul>
+<li><a href="https://legacy.gitbook.com/book/bagder/http2-explained/details" title="http2 explained · GitBook (Legacy)">http2 explained · GitBook (Legacy)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="developit-htm-hyperscript-tagged-markup-jsx-alternative-using-standard-tagged-templates-with-compiler-support">developit/htm: Hyperscript Tagged Markup: JSX alternative using standard tagged templates, with compiler support.</h2>
+
+<p><a href="https://github.com/developit/htm" title="developit/htm: Hyperscript Tagged Markup: JSX alternative using standard tagged templates, with compiler support.">github.com/developit/htm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">babal</span> <span class="jser-tag">jsx</span> <span class="jser-tag">library</span></p></p>
+
+<p>JSXライクなTagged Templatesライブラリ。babelプラグインでコンパイルも可能になっている。</p>
+
+<hr>
+
+<h2 id="areknawo-rex-your-regex-companion">areknawo/Rex: Your RegEx companion.</h2>
+
+<p><a href="https://github.com/areknawo/rex" title="areknawo/Rex: Your RegEx companion.">github.com/areknawo/rex</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">正規表現</span> <span class="jser-tag">library</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>メソッドチェーンで正規表現を作成したり、マッチング、置換するライブラリ</p>
+
+<hr>
+
+<h2 id="boneskull-create-yo-use-any-yeoman-generator-with-npm-init">boneskull/create-yo: Use any Yeoman generator with &quot;npm init&quot;</h2>
+
+<p><a href="https://github.com/boneskull/create-yo" title="boneskull/create-yo: Use any Yeoman generator with \&quot;npm init\&quot;">github.com/boneskull/create-yo</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">library</span></p></p>
+
+<p><code>npm init yo &lt;generator&gt;</code>できるYoeman向けのツール</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2018/2018-11-27-web-componentsreact-redux-http3-explained.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["WebComponents","react","redux","HTTP3"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>WebComponents</li>
+                
+                <li>react</li>
+                
+                <li>redux</li>
+                
+                <li>HTTP3</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2018/11/27/web-componentsreact-redux-http3-explained/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2018/11/27/web-componentsreact-redux-http3-explained/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

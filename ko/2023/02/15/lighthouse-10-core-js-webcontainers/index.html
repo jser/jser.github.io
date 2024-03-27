@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-02-15: Lighthouse 10, core-js와 오픈소스 재정적 지원, WebContainers - JSer.info</title>
+    <meta name="description" content="JSer.info #631 - LightHouse 10가 출시되었다.">
+    
+    <meta name="keywords" content="performance,TypeScript,browser,Tools,node.js" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-02-15T13:33:33+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/02/15/lighthouse-10-core-js-webcontainers/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #631 - LightHouse 10가 출시되었다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-02-15: Lighthouse 10, core-js와 오픈소스 재정적 지원, WebContainers">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/02/15/lighthouse-10-core-js-webcontainers/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #631 - LightHouse 10가 출시되었다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-02-15T13:33:33+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="node.js">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/02/15/lighthouse-10-core-js-webcontainers/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/02/15/lighthouse-10-core-js-webcontainers/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/02/15/lighthouse-10-core-js-webcontainers/">2023-02-15: Lighthouse 10, core-js와 오픈소스 재정적 지원, WebContainers</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年02月15日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0(Oh TaeJun)</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-02-15-lighthouse-10-core-js-webcontainers.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-02-15-lighthouse-10-core-js-webcontainers.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/02/15/lighthouse-10-core-js-webcontainers/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #631 - LightHouse 10가 출시되었다.</p>
+
+<ul>
+<li><a href="https://developer.chrome.com/blog/lighthouse-10-0/">What&#39;s new in Lighthouse 10 - Chrome Developers</a></li>
+<li><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v10.0.0">Release v10.0.0 · GoogleChrome/lighthouse</a></li>
+</ul>
+
+<p>LightHouse 10 에는, 스코어에서 TTI가 삭제되었으며, CLS로 스코어에 이동되었다.<br>
+또, Audit으로 BFCache 검증, 붙여넣기 금지 검증이 추가되었다.<br>
+그 외로는, LightHouse JSON 출력 구조 변경이 있다.</p>
+
+<p>관련 정보로, <a href="https://developer.chrome.com/docs/crux/history-api/">CrUX History API</a> Chrome User Experience Report (CrUX) 이력 데이터를 취득하는 API가 출시 되었다.<br>
+특정 페이지 Web Vitals 값 데이터를 일주일 단위로 얻을 수 있다.</p>
+
+<ul>
+<li><a href="https://developer.chrome.com/en/blog/chrome-ux-report-history-api/">Introducing historical web performance data via the CrUX History API - Chrome Developers</a></li>
+</ul>
+
+<hr>
+
+<p>core-js 3.28.0가 출시되었다.</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/releases/tag/v3.28.0">Release 3.28.0 - 2023.02.14 · zloirock/core-js</a></li>
+</ul>
+
+<p>core-js 3.28.0은, <a href="https://ecmascript-daily.github.io/ecmascript/2023/02/03/ecmascript-proposal-update">2023-01 TC 39 Meetings 결과</a>를 반영한 변경이 포함되었다.</p>
+
+<ul>
+<li>Stage4가 된 Change Array by copy proposal를 Stable으로 이동</li>
+<li>Stage3 <code>JSON.parse</code> source text access, <code>ArrayBuffer.prototype.transfer</code>, Explicit Resource Management 추가</li>
+<li>Stage 2 Symbol Predicates 구현</li>
+<li>Stage 1 <code>Number.range</code>를 <code>Iterator.range</code>로 변경</li>
+</ul>
+
+<p>또한, core-js 역사, 재정적 지원 모집이나 앞으로의 방침에 대한 글도 공개되었다.</p>
+
+<ul>
+<li><a href="https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md">core-js/2023-02-14-so-whats-next.md at master · zloirock/core-js · GitHub</a></li>
+</ul>
+
+<p>오픈 소스 관리와 재정적 이야기에 대해서는 <a href="https://press.stripe.com/working-in-public">Working in Public</a>에 잘 정리되어 있다.<br>
+Babel이나 core-js 같이 소수 관리자와 많은 유저 비율이 크게 어긋나는 프로젝트는 스타디움모델 형식이라 분류되어 있다.</p>
+
+<p>또 소프트웨어는 거의 무료 배포하고 있어서, 이용자 수는 계속 지속하지만, 관리자에게 걸리는 부하는 커지는 문제가 있다.<br>
+(오픈소스) 소프트웨어를 구매하는 동기는 적어지는 반면, 그 사회적가치가 극적으로 상승하고 있어, 많은 사람이나 사이트는 오픈소스 소프트웨어에 의존하고 있다.（<a href="https://medium.com/npm-inc/this-year-in-javascript-2018-in-review-and-npms-predictions-for-2019-3a3d7e5298ef#49d6">모던한 웹 애플리케이션 코드 97%는 npm에서 나오고 있다</a> 이런 이야기도 있다）.<br>
+이에, 오픈소스는 관리가 필요한 공공 인프라의 일종이라는 말도 있습니다.</p>
+
+<p>오픈소스에 재정적 지원하는 개인이나 기업이 늘어나고 있다.<br>
+한편 소프트웨어 의존관계는 방대해지고 있기에, 어디에 어떻게 지원해야 하는가 알기어렵다는 문제도 지적된다.</p>
+
+<p>📝 의존관계에 따라 자동적으로 분배하는 서비스도 있다</p>
+
+<ul>
+<li><a href="https://thanks.dev/home">thanks.dev – open source funding platform</a></li>
+<li><a href="https://www.stackaid.us/">StackAid - Fund all your open source dependencies</a></li>
+</ul>
+
+<p>또 특정 사람에게 Sponsor는 &quot;기부&quot; 개념과 혼동되지만, 명확하게 말하면 창작자의 장래에 대한 기대, 관심에 이어지므로, 구독에 가깝다 써있다.<br>
+최근에는 특정 프로젝트에 대해 Sponsor가 아닌, 특정 사람에 대한 Sponsor도 문화 변경도 일어난다는 이야기도 소개되어있다.</p>
+
+<p>（이는, 프로젝트가 성장단계에 들어가면 코드를 쓰는 개발자 외에도, moderator나 문서화 등을 중심으로 하는 사람의 중요도가 높아졌다는 이야기와도 관련된다.）</p>
+
+<p>이 책의 출간 이후라 포함되어있지 않지만, Babel에도 같은 이야기가 있었기에, 흥미롭다면 읽기 권장.</p>
+
+<ul>
+<li><a href="https://babeljs.io/blog/2021/05/10/funding-update">Babel is used by millions, so why are we running out of money? · Babel</a></li>
+</ul>
+
+<p>이 사이트 <a href="https://github.com/sponsors/azu">💚JSer.info Sponsor</a> 등 Sponsors로 재정적 지원을 할 수 있다.</p>
+
+<hr>
+
+<p>Node.js을 Web 브라우저 상에 동작시킨 후에, Playground 등에 이용할 수 있는 WebContainers API와 패키지가 공개되었다.<br>
+<a href="https://learn.svelte.dev/tutorial/welcome-to-svelte">Svelte Tutorial</a> 등에서 이용하고 있는 사례도 적혀있다.</p>
+
+<ul>
+<li><a href="https://webcontainers.io/">WebContainers - Dev environments. In your web app. | WebContainers</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-163-webkit">Release Notes for Safari Technology Preview 163 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/13839/release-notes-for-safari-technology-preview-163/" title="Release Notes for Safari Technology Preview 163 | WebKit">webkit.org/blog/13839/release-notes-for-safari-technology-preview-163/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 163 출시.<br>
+CSS Grid의 Masonry layout를 기본 유효화, <code>StorageManager.estimate()</code> 지원, Web Crypto API가 Ed25519 지원.<br>
+비표준한 <code>HTMLHeadElement.profile</code>이나 <code>HTMLFrameElement.location</code> 등 삭제.</p>
+
+<hr>
+
+<h2 id="release-v3-2-0-nuxt-nuxt">Release v3.2.0 · nuxt/nuxt</h2>
+
+<p><a href="https://github.com/nuxt/nuxt/releases/tag/v3.2.0" title="Release v3.2.0 · nuxt/nuxt">github.com/nuxt/nuxt/releases/tag/v3.2.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">library</span></p></p>
+
+<p>Nuxt.js v3.2.0 출시.<br>
+Nuxt DevTools 추가, <code>useFetch</code> 리퀘스트에 자동적으로 Cookie 붙을 수 있게.<br>
+서버에서 코드에서 client-only component 빼오는 <code>treeshakeClientOnly</code>를 기본값으로 <code>true</code>로 등의 변경</p>
+
+<hr>
+
+<h2 id="whats-new-in-lighthouse-10-chrome-developers">What&#039;s new in Lighthouse 10 - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/blog/lighthouse-10-0/" title="What&amp;#039;s new in Lighthouse 10 - Chrome Developers">developer.chrome.com/blog/lighthouse-10-0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Lighthouse 10 출시.<br>
+스코어에서  TTI 삭제, CLS로 스코어 이동.<br>
+Audit으로 BFCache 검증, 붙여넣기 금지 검증 추가.<br>
+Lighthouse 결과를 보여주는 JSON 구조 변경 등</p>
+
+<ul>
+<li><a href="https://github.com/GoogleChrome/lighthouse/releases/tag/v10.0.0" title="Release v10.0.0 · GoogleChrome/lighthouse">Release v10.0.0 · GoogleChrome/lighthouse</a></li>
+</ul>
+
+<hr>
+
+<h2 id="electron-23-0-0-electron">Electron 23.0.0 | Electron</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-23-0" title="Electron 23.0.0 | Electron">www.electronjs.org/blog/electron-23-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 23.0.0 출시.<br>
+Chromium 110, Node.js 18.12.1, V8 11.0 으로 업데이트.<br>
+Windows 7/8/8.1 지원 종료, <code>scroll-touch-*</code> 이벤트 삭제.<br>
+추가 기능으로 WebUSB API 지원</p>
+
+<hr>
+
+<h2 id="release-v1-because-i-finally-got-around-to-it-jquense-yup">Release v1 Because I finally got around to it · jquense/yup</h2>
+
+<p><a href="https://github.com/jquense/yup/releases/tag/v1.0.0" title="Release v1 Because I finally got around to it · jquense/yup">github.com/jquense/yup/releases/tag/v1.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>스키마를 만들어 검증할 수 있는 yup 1.0.0. 출시.<br>
+<code>tuple</code> 추가, bundle한 파일을 배포할 수 있도록, <code>when</code> API 변경, email 검증을 WHATWG 정의과 같도록 변경.<br>
+<code>cast</code>에 <code>ignore-optionality</code> 옵션 추가, 자료형 처리 성능 개선과 <code>Objectschema</code> 클래스는 추가 등</p>
+
+<ul>
+<li><a href="https://github.com/jquense/yup/issues/1906" title="How do I migrate to v1 · Issue #1906 · jquense/yup">How do I migrate to v1 · Issue #1906 · jquense/yup</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-dompurify-3-0-0-cure53-dompurify">Release DOMPurify 3.0.0 · cure53/DOMPurify</h2>
+
+<p><a href="https://github.com/cure53/DOMPurify/releases/tag/3.0.0" title="Release DOMPurify 3.0.0 · cure53/DOMPurify">github.com/cure53/DOMPurify/releases/tag/3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">security</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>DOMpurify 3.0.0 출시.<br>
+IE 서포트 종료, <code>ALLOW_SELF_CLOSE_IN_ATTRP</code> 옵션 추가 등</p>
+
+<hr>
+
+<h2 id="release-3-28-0-2023-02-14-zloirock-core-js">Release 3.28.0 - 2023.02.14 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v3.28.0" title="Release 3.28.0 - 2023.02.14 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v3.28.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>core-js v3.28.0 출시.<br>
+Stage4가 된 Change Array by copy proposal를 Stable로 이동.<br>
+Stage3 <code>JSON.parse</code> source text access, <code>ArrayBuffer.prototype.transfer</code>, Explicit Resource Management를 추가.<br>
+Stage2 Symbol Predicates 구현, Stage 1 <code>Number.range</code>를 <code>Iterator.range</code>으로 변경 등</p>
+
+<hr>
+
+<h2 id="nextra-2-next-js-static-site-generator-the-guild">Nextra 2 – Next.js Static Site Generator – The Guild</h2>
+
+<p><a href="https://the-guild.dev/blog/nextra-2" title="Nextra 2 – Next.js Static Site Generator – The Guild">the-guild.dev/blog/nextra-2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 기반 정적 사이트 제네레이터 Nextra 2 출시.<br>
+MDX2 지원, Markdown 임포트, Next 13 대응, 원격으로 Markdown 파일을 읽어 렌더링할 수 있도록, FlexSearch를 사용한 전문 검색 지원 등</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="bringing-javascript-to-webassembly-for-shopify-functions-2023">Bringing Javascript to WebAssembly for Shopify Functions (2023)</h2>
+
+<p><a href="https://shopify.engineering/javascript-in-webassembly-for-shopify-functions" title="Bringing Javascript to WebAssembly for Shopify Functions (2023)">shopify.engineering/javascript-in-webassembly-for-shopify-functions</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScript를 Wasm으로 실행하는 구조에 대해.<br>
+QuickJS를 사용해 JavaScript를 ByteCode로 한 <code>script.wasm</code>를 작성해, <code>QuickJS.wasm</code>와 동적으로 링크해서 대부분을 공유하고 있다.</p>
+
+<p>Shopify Function에서 이용가능하지만, 비동기처리 제한이나 5ms 미만 실행 제한이 있다. 현재는 Rust로 작성한 Wasm보다 3배정도 느리지만, 앞으로 SpiderMonkey 이용이나 JIT에 연계해서 나아갈 것.</p>
+
+<ul>
+<li><a href="https://github.com/Shopify/javy" title="Shopify/javy: JS to WebAssembly toolchain">Shopify/javy: JS to WebAssembly toolchain</a></li>
+</ul>
+
+<hr>
+
+<h2 id="speculation-rules-api">Speculation Rules API으로 프레렌더링 위한 매트릭스 설계</h2>
+
+<p><a href="https://nhiroki.jp/2023/02/13/metrics-for-prerendering" title="Speculation Rules API Speculation Rules API으로 프레렌더링 위한 매트릭스 설계">nhiroki.jp/2023/02/13/metrics-for-prerendering</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Speculation Rules API의 PreRendering에 대하여.<br>
+Prerender한 경우 <code>navigationStart</code>는 사전실행 타이밍이기 되기에,  <code>activationStart</code> 매트릭스가 추가된 점.<br>
+또, Predender가 실제 이용되는가 확인하는 방법에 대하여</p>
+
+<hr>
+
+<h2 id="improved-type-safety-in-storybook-7">Improved type safety in Storybook 7</h2>
+
+<p><a href="https://storybook.js.org/blog/improved-type-safety-in-storybook-7/" title="Improved type safety in Storybook 7">storybook.js.org/blog/improved-type-safety-in-storybook-7/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Storybook 7의 TypeScript 자료형에 대해.<br>
+<code>StoryObj</code> 타입이나 <code>satisfies</code> 연산자를 사용해 export 하는 컴포넌트 정의에 자료형을 붙이는 글</p>
+
+<hr>
+
+<h2 id="understanding-app-directory-architecture-in-next-js-smashing-magazine">Understanding App Directory Architecture In Next.js — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2023/02/understanding-app-directory-architecture-next-js/" title="Understanding App Directory Architecture In Next.js — Smashing Magazine">www.smashingmagazine.com/2023/02/understanding-app-directory-architecture-next-js/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js에서 <code>app</code> 폴더에 대한 글</p>
+
+<hr>
+
+<h2 id="a-historical-reference-of-react-criticism-zachleat-com">A Historical Reference of React Criticism—zachleat.com</h2>
+
+<p><a href="https://www.zachleat.com/web/react-criticism/" title="A Historical Reference of React Criticism—zachleat.com">www.zachleat.com/web/react-criticism/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span> <span class="jser-tag">history</span></p></p>
+
+<p>React 비판하는 역사에 대해</p>
+
+<hr>
+
+<h2 id="core-js-2023-02-14-so-whats-next-md-at-master-zloirock-core-js-github">core-js/2023-02-14-so-whats-next.md at master · zloirock/core-js · GitHub</h2>
+
+<p><a href="https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md" title="core-js/2023-02-14-so-whats-next.md at master · zloirock/core-js · GitHub">github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">article</span> <span class="jser-tag">OpenSource</span> <span class="jser-tag">opinion</span></p></p>
+
+<p>core-js 역사, 재정적 문제, 로드맵 등.<br>
+또한, 많은 웹사이트가 여러 버전의 <code>core-js</code>를 같은 페이지에서 읽고 있는 패키지 의존관계 문제에 대해서</p>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="webcontainers-dev-environments-in-your-web-app-webcontainers">WebContainers - Dev environments. In your web app. | WebContainers</h2>
+
+<p><a href="https://webcontainers.io/" title="WebContainers - Dev environments. In your web app. | WebContainers">webcontainers.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>Node.js를 Web 브라우저 상에서 동작시키고, Playground 등으로 이용할 수 있는 WebContainers API와 패키지 공개되었다.</p>
+
+<hr>
+
+<h2 id="introducing-historical-web-performance-data-via-the-crux-history-api-chrome-developers">Introducing historical web performance data via the CrUX History API - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/en/blog/chrome-ux-report-history-api/" title="Introducing historical web performance data via the CrUX History API - Chrome Developers">developer.chrome.com/en/blog/chrome-ux-report-history-api/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p></p>
+
+<p>CrUX History API로 1주일 간격 데이터를 6개월 분 확인할 수 있게 되었다.<br>
+WebVitals의 데이터를 각 페이지 레벨에서 얻을 수 있도록 되었다</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="upgradejs-depngn-a-cli-tool-to-find-out-if-your-dependencies-support-a-given-version-of-node">upgradejs/depngn: A CLI tool to find out if your dependencies support a given version of node.</h2>
+
+<p><a href="https://github.com/upgradejs/depngn" title="upgradejs/depngn: A CLI tool to find out if your dependencies support a given version of node.">github.com/upgradejs/depngn</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>설치된 의존관계 <code>engines</code> 필드를 보고, 지정한 Node.js 버전이 조건에 맞는지를 한 눈에 볼 수 있는 도구</p>
+
+<hr>
+
+<h2 id="slashd-analytics-run-run-user-provided-code-in-a-web-worker">slashd-analytics/run: Run user-provided code in a Web Worker</h2>
+
+<p><a href="https://github.com/slashd-analytics/run" title="slashd-analytics/run: Run user-provided code in a Web Worker">github.com/slashd-analytics/run</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">library</span></p></p>
+
+<p>Web Worker의 일종으로 Sandbox로 사용하거나, 임의의 JS코드를 실행할 수 있도록 하는 라이브러리</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="design-patterns-in-typescript">Design Patterns in TypeScript</h2>
+
+<p><a href="https://refactoring.guru/design-patterns/typescript" title="Design Patterns in TypeScript">refactoring.guru/design-patterns/typescript</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">document</span> <span class="jser-tag">book</span></p></p>
+
+<p>TypeScript에서의 디자인 패턴에 대해 정리</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-02-15-lighthouse-10-core-js-webcontainers.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["performance","TypeScript","browser","Tools","node.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>performance</li>
+                
+                <li>TypeScript</li>
+                
+                <li>browser</li>
+                
+                <li>Tools</li>
+                
+                <li>node.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/02/15/lighthouse-10-core-js-webcontainers/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

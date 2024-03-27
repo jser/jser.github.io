@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2021-01-26: webpack 5.17.0(lazyCompilation), Deno 1.7, Open Web Docs - JSer.info</title>
+    <meta name="description" content="JSer.info #524 - webpack 5.17.0 릴리스">
+    
+    <meta name="keywords" content="node.js,browser,React,IPFS,p2p" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2021-01-26T11:14:34+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="browser" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="IPFS" property="article:tag">
+      
+      <meta content="p2p" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #524 - webpack 5.17.0 릴리스" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2021-01-26: webpack 5.17.0(lazyCompilation), Deno 1.7, Open Web Docs">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #524 - webpack 5.17.0 릴리스">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2021-01-26T11:14:34+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="browser">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="IPFS">
+
+<meta property="article:tag" content="p2p">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/">2021-01-26: webpack 5.17.0(lazyCompilation), Deno 1.7, Open Web Docs</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2021年01月26日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-01-26-webpack-5.17.0lazycompilation-deno-1.7-open-web-docs.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2021/2021-01-26-webpack-5.17.0lazycompilation-deno-1.7-open-web-docs.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #524 - webpack 5.17.0 릴리스</p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/releases/tag/v5.17.0">Release v5.17.0 · webpack/webpack</a></li>
+</ul>
+
+<p><code>experiments.lazyCompilation</code> 옵션이 실험적으로 추가됐다.<br>
+<code>experiments.lazyCompilation</code>은 webpack dev server 등의 로컬 서버와 함께 동작하는 옵션으로 Dynamic Import하고 있는 모듈(chunk)을 시작 시에 빌드하지 않고 불러오는 시점에 빌드하는 지연 컴파일 구조다.</p>
+
+<p>첫 빌드시 Dynamic Import 하고 있는 모듈은 lazyCompilation을 위해서 Proxy 모듈로 빌드 된다. 이 모듈은 lazyCompilation의 <code>client</code>가 되며, 불러올 때 Server Sent Event를 사용해 lazyCompilation의 <code>backend</code> 측에 불러옴을 통지한다.<br>
+lazyCompilation의 <code>backend</code>는 <code>client</code>로 부터 통지를 받으면 실제 모듈을 빌드하여 반환하는 방식으로 동작한다.<br>
+이 <code>client</code>와 <code>backend</code>도 각각 <code>experiments.lazyCompilation</code> 옵션으로 독자적인 방식을 정의할 수 있다. 기본값으로는 webpack dev server에서 동작하는 코드로 작성돼 있다.</p>
+
+<p>첫 동작 시 컴파일 범위를 축소하여 개발 서버의 시작 속도를 개선하는 데 주 목적이 있다.</p>
+
+<hr>
+
+<p>Deno 1.7 릴리스</p>
+
+<ul>
+<li><a href="https://deno.land/posts/v1.7">Deno 1.7 Release Notes</a></li>
+<li><a href="https://github.com/denoland/deno/releases/tag/v1.7.0">Release v1.7.0 · denoland/deno</a></li>
+<li><a href="https://zenn.dev/magurotuna/articles/55575eb16ae422">Deno 1.7.0가 릴리스 됐으므로 새 기능과 변경사항 소개</a>(일본어)</li>
+</ul>
+
+<p><a href="https://deno.land/posts/v1.6">Deno 1.6</a>에서 지원한 <code>deno compile</code>의 크기 개선, 크로스 컴파일 대응.<br>
+Data URL의 import 지원, <code>deno fmt</code>에서 Markdown 지원.<br>
+또, Steram API를 WHATWG에 맞춰 수정, Web Worker에 <code>permissions</code> 옵션으로 Deno의 독다적인 퍼미션을 지정할 수 있게 됐다.<br>
+그 외로는 <code>--location</code> 플래그를 사용해 상대 URL의 Fetch 대응, Fetch 요청 body에 Stream을 지정 가능하게 됐다.</p>
+
+<p>비호환 변경 사항으로 unstable한 Deno APIs가 일부 변경됐고 <code>Deno.resolveDns</code>를 Unstable API로서 지원한다.</p>
+
+<hr>
+
+<p><a href="https://github.com/openwebdocs/project">Open Web Docs</a>라는 MDN 등의 웹 플랫폼 문서를 개선해 나가기 위한 프로젝트가 시작됐다.</p>
+
+<ul>
+<li><a href="https://opencollective.com/open-web-docs/updates/introducing-open-web-docs">Open Web Docs - Open Collective</a></li>
+</ul>
+
+<p>2020년 8월 Mozilla 레이오프 영향으로 <a href="https://developer.mozilla.org/">MDN</a>의 Writer 관련 팀이 축소 됐다.</p>
+
+<ul>
+<li><a href="https://blog.mozilla.org/blog/2020/08/11/changing-world-changing-mozilla/">Changing World, Changing Mozilla - The Mozilla Blog</a></li>
+<li><a href="https://hacks.mozilla.org/2020/08/an-update-on-mdn-web-docs/">An Update on MDN Web Docs - Mozilla Hacks - the Web developer blog</a></li>
+</ul>
+
+<p>Open Web Docs는 MDN 등의 웹 플랫폼에 관한 문서를 컨트리뷰션 하고 관리하는 조직이다. Open Web Docs의 멤버로는 Mozilla, Google, Microsoft, W3C 등이 있다.</p>
+
+<ul>
+<li><a href="https://github.com/openwebdocs/project/blob/main/steering-committee/membership-expectations.md">https://github.com/openwebdocs/project/blob/main/steering-committee/membership-expectations.md</a></li>
+</ul>
+
+<p>당면한 목표로는 MDN의 <a href="https://hacks.mozilla.org/2020/12/welcome-yari-mdn-web-docs-has-a-new-platform/">새로운 아키텍처</a>로의 이전 및 지원, <a href="https://github.com/mdn/browser-compat-data">브라우저 호환성 데이터</a>, 자바스크립트 문서 개선 등이 있다. </p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="ipfs-support-in-brave">IPFS Support in Brave</h2>
+
+<p><a href="https://brave.com/ipfs-support/" title="IPFS Support in Brave">brave.com/ipfs-support/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">news</span> <span class="jser-tag">IPFS</span> <span class="jser-tag">p2p</span></p></p>
+
+<p>Brave가 P2P 프로토콜인 IPFS(InterPlanetary File System)를 지원한다.<br>
+1.19.x 이후로 Brave는 게이트웨와 로컬 노드를 사용한 IPFS URI을 지원한다.</p>
+
+<ul>
+<li><a href="https://brave.com/brave-integrates-ipfs/" title="Brave Integrates IPFS">Brave Integrates IPFS</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v5-17-0-webpack-webpack">Release v5.17.0 · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/releases/tag/v5.17.0" title="Release v5.17.0 · webpack/webpack">github.com/webpack/webpack/releases/tag/v5.17.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack 5.17.0 릴리스.<br>
+실험적인 기능으로 Dynamic Import 하고 있는 모듈을 불러오는 시점에 빌드하는 <code>experiments.lazyCompilation</code> 옵션 추가.<br>
+동작 시 모든 것을 빌드하지 않는 방법으로 첫 동작 성능을 개선한다.</p>
+
+<ul>
+<li><a href="https://github.com/liximomo/lazy-compile-webpack-plugin" title="liximomo/lazy-compile-webpack-plugin: Boost webpack startup time by lazily compiling dynamic imports">liximomo/lazy-compile-webpack-plugin: Boost webpack startup time by lazily compiling dynamic imports</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-node-js-runtime-cloud-functions-documentation-google-cloud">The Node.js Runtime  |  Cloud Functions Documentation  |  Google Cloud</h2>
+
+<p><a href="https://cloud.google.com/functions/docs/concepts/nodejs-runtime#nodejs_14_public_preview" title="The Node.js Runtime  |  Cloud Functions Documentation  |  Google Cloud">cloud.google.com/functions/docs/concepts/nodejs-runtime#nodejs_14_public_preview</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GCP</span> <span class="jser-tag">node.js</span> <span class="jser-tag">news</span></p></p>
+
+<p>Cloud Function이 Node.js 14를 public preview로 지원한다.</p>
+
+<hr>
+
+<h2 id="deno-1-7-release-notes">Deno 1.7 Release Notes</h2>
+
+<p><a href="https://deno.land/posts/v1.7" title="Deno 1.7 Release Notes">deno.land/posts/v1.7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno 1.7 릴리스.<br>
+<code>deno compile</code> 크기 개선, 크로스 컴파일 대응, Data URL의 import 지원, <code>deno fmt</code>에서 Markdown 지원.<br>
+Steram API를 WHATWG에 맞춰서 수정, Web Worker에 <code>permissions</code>으로 Deno 독자 퍼미션을 지정 가능하도록 개선.<br>
+<code>--location</code> 플래그를 사용해 상대 URL의 Fetch 대응, Fetch 요청 body에 Stream을 지정 가능하게 됐다.</p>
+
+<p>비호환 변경 사항으로 Deno APIs가 일부 변경됐고 <code>Deno.resolveDns</code>를 Unstable API로서 지원한다.</p>
+
+<ul>
+<li><a href="https://github.com/denoland/deno/releases/tag/v1.7.0" title="Release v1.7.0 · denoland/deno">Release v1.7.0 · denoland/deno</a></li>
+<li><a href="https://zenn.dev/magurotuna/articles/55575eb16ae422" title="Deno 1.7.0가 릴리스 됐기 때문에 새 기능과 변경사항 소개">Deno 1.7.0가 릴리스 됐으므로 새 기능과 변경사항 소개</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h2 id="open-web-docs-open-collective">Open Web Docs - Open Collective</h2>
+
+<p><a href="https://opencollective.com/open-web-docs/updates/introducing-open-web-docs" title="Open Web Docs - Open Collective">opencollective.com/open-web-docs/updates/introducing-open-web-docs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">document</span> <span class="jser-tag">news</span> <span class="jser-tag">mdn</span></p></p>
+
+<p>MDN와 같은 웹 플랫폼 문서를 장기적으로 관리해 나가기 위한 프로젝트. Mozilla 등의 브라우저 벤더와 W3C 등이 멤버로 구축.<br>
+당분간은 MDN에 중점적으로 컨트리뷰션 해나갈 것으로 보인다.</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/msedgedev/2021/01/25/welcome-open-web-docs/" title="Supporting Open Web Docs to deliver web developer documentation - Microsoft Edge Blog">Supporting Open Web Docs to deliver web developer documentation - Microsoft Edge Blog</a></li>
+<li><a href="https://web.dev/open-web-docs/" title="Introducing Open Web Docs">Introducing Open Web Docs</a></li>
+<li><a href="https://hacks.mozilla.org/2021/01/welcoming-open-web-docs-to-the-mdn-family/" title="Welcoming Open Web Docs to the MDN family - Mozilla Hacks - the Web developer blog">Welcoming Open Web Docs to the MDN family - Mozilla Hacks - the Web developer blog</a></li>
+<li><a href="https://www.igalia.com/2021/01/25/Open-Web-Docs.html" title="Open Web Docs | Igalia">Open Web Docs | Igalia</a></li>
+<li><a href="https://www.w3.org/blog/2021/01/welcome-to-open-web-docs/" title="Welcome to Open Web Docs! | W3C Blog">Welcome to Open Web Docs! | W3C Blog</a></li>
+<li><a href="https://github.com/openwebdocs/project/blob/main/steering-committee/membership-expectations.md" title="project/membership-expectations.md at main · openwebdocs/project">project/membership-expectations.md at main · openwebdocs/project</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="how-to-solve-the-infinite-loop-of-react-useeffect">How to Solve the Infinite Loop of React.useEffect()</h2>
+
+<p><a href="https://dmitripavlutin.com/react-useeffect-infinite-loop/" title="How to Solve the Infinite Loop of React.useEffect()">dmitripavlutin.com/react-useeffect-infinite-loop/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>React의 <code>useEffect</code> 내에서 State를 갱신할 경우 왜 무한 루프가 발생하는지 또, 그 문제를 해결하는 방법을 소개한다.</p>
+
+<hr>
+
+<h2 id="migrating-puppeteer-to-typescript-web-google-developers">Migrating Puppeteer to TypeScript  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2021/01/puppeteer-typescript" title="Migrating Puppeteer to TypeScript  |  Web  |  Google Developers">developers.google.com/web/updates/2021/01/puppeteer-typescript</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScript에서 TypeScript로의 기반 코드 이전을 어떻게 계획하고 있는지 정리돼 있다.</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=BHogHiiyuQk" title="Upgrading DevTools&amp;#x27; architecture to the modern web - YouTube">Upgrading DevTools&#39; architecture to the modern web - YouTube</a></li>
+</ul>
+
+<hr>
+
+<h2 id="the-secret-parameter-lfr-and-potential-rce-in-nodejs-apps">The Secret Parameter, LFR, and Potential RCE in NodeJS Apps</h2>
+
+<p><a href="https://blog.shoebpatel.com/2021/01/23/The-Secret-Parameter-LFR-and-Potential-RCE-in-NodeJS-Apps/" title="The Secret Parameter, LFR, and Potential RCE in NodeJS Apps">blog.shoebpatel.com/2021/01/23/The-Secret-Parameter-LFR-and-Potential-RCE-in-NodeJS-Apps/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">security</span> <span class="jser-tag">express</span> <span class="jser-tag">article</span></p></p>
+
+<p>Express에서 <code>hbs</code>(handlebars)를 사용하고 있을 때 <code>res.render</code>의 두 번째 인수에 사용자 인수를 그대로 전달할 경우 <code>layout</code> 속성에 의해 임의의 파일을 읽어들이는 문제에 대해.<br>
+또, Handlerbars 4.0.14 미만 버전에 있는 취약성과 합쳐지면 RCE(Remote Code Execution)로 발전할 수 있는 문제도 다루고 있다.</p>
+
+<ul>
+<li><a href="https://github.com/pillarjs/hbs" title="pillarjs/hbs: Express view engine wrapper for Handlebars">pillarjs/hbs: Express view engine wrapper for Handlebars</a></li>
+<li><a href="https://expressjs.com/en/api.html#res.render" title="Express 4.x - API Reference">Express 4.x - API Reference</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="speaker-deck">브라우저 만드는 방법 - Speaker Deck(일본어)</h2>
+
+<p><a href="https://speakerdeck.com/keiya01/burauzafalsezuo-rifang" title="브라우저 만드는 방법 - Speaker Deck">speakerdeck.com/keiya01/burauzafalsezuo-rifang</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Rust</span> <span class="jser-tag">slide</span></p></p>
+
+<p>Let&#39;s build a browser engine!을 참고해 브라우저 렌더링 엔진을 만들면서 HTML이나 CSS가 어떤 경로로 어떻게 렌더링되는지 소개한다.</p>
+
+<ul>
+<li><a href="https://github.com/keiya01/kamaitachi" title="keiya01/kamaitachi: \&amp;#x60;kamaitachi\&amp;#x60; is a simple browser.">keiya01/kamaitachi: `kamaitachi` is a simple browser.</a></li>
+<li><a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" title="Let&amp;#x27;s build a browser engine! Part 1: Getting started">Let&#39;s build a browser engine! Part 1: Getting started</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="jsitor-javascript-html-css-online-editor">JSitor - JavaScript, HTML, CSS, online editor</h2>
+
+<p><a href="https://jsitor.com/" title="JSitor - JavaScript, HTML, CSS, online editor">jsitor.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">editor</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>jsfiddle과 같이 HTML/CSS/JS를 작성하고 실행해 볼 수 있는 Playground 서비스.<br>
+에디터는 Monaco Editor를 사용해 만들어 졌으며 자동 완성 기능을 제공한다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="forgojs-forgo-an-ultra-light-ui-runtime">forgojs/forgo: An ultra-light UI runtime</h2>
+
+<p><a href="https://github.com/forgojs/forgo" title="forgojs/forgo: An ultra-light UI runtime">github.com/forgojs/forgo</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">jsx</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>JSX로 작성할 수 있는 UI 라이브러리.<br>
+React와는 다르게 컴포넌트 내에서도 DOM API를 다루는 형태로 돼 있고, 재렌더링도 수동으로 실시.<br>
+파일 크기가 작고, 프레임워크의 추상적인 부분도 적으며 DOM API만 알고 있으면 쉽게 쓸수 수 있도록 하는 데 목적이 있다.</p>
+
+<hr>
+
+<h2 id="nodepack">Nodepack</h2>
+
+<p><a href="https://nodepackjs.com/" title="Nodepack">nodepackjs.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Node.js 웹 프레임워크.<br>
+프로젝트를 관리하기 위한 CLI와 이를 확장할 수 있는 플러그인 시스템을 제공한다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2021/2021-01-26-webpack-5.17.0lazycompilation-deno-1.7-open-web-docs.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["node.js","browser","React","IPFS","p2p"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>node.js</li>
+                
+                <li>browser</li>
+                
+                <li>React</li>
+                
+                <li>IPFS</li>
+                
+                <li>p2p</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2021/01/26/webpack-5.17.0lazycompilation-deno-1.7-open-web-docs/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

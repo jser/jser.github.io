@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-12-03: Got 10(Node.js HTTP 클라이언트), FAB(Frontend Application Bundles) - JSer.info</title>
+    <meta name="description" content="JSer.info #464 - Node.js 용 HTTP 클라이언트 라이브러리인 Got 10이 릴리스 됐습니다.">
+    
+    <meta name="keywords" content="Node.js,HTTP,bundler" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-12-03T12:22:10+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="HTTP" property="article:tag">
+      
+      <meta content="bundler" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #464 - Node.js 용 HTTP 클라이언트 라이브러리인 Got 10이 릴리스 됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-12-03: Got 10(Node.js HTTP 클라이언트), FAB(Frontend Application Bundles)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #464 - Node.js 용 HTTP 클라이언트 라이브러리인 Got 10이 릴리스 됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-12-03T12:22:10+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="HTTP">
+
+<meta property="article:tag" content="bundler">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/">2019-12-03: Got 10(Node.js HTTP 클라이언트), FAB(Frontend Application Bundles)</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年12月03日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-12-03-got-10node.js-httpfabfrontend-application-bundles.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-12-03-got-10node.js-httpfabfrontend-application-bundles.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #464 - Node.js 용 HTTP 클라이언트 라이브러리인 Got 10이 릴리스 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/sindresorhus/got/releases/tag/v10.0.0">Release v10.0.0 · sindresorhus/got</a></li>
+</ul>
+
+<p>TypeScript로 재작성한 버전으로 Node.js 10 이상을 지원합니다.<br>
+Node.js 12 이후 버전에서는 Brotli도 지원하며 DNS Cache 옵션이 추가됐습니다.<br>
+또, 옵션명 변경을 중심으로 비호환 변경 사항도 많이 이뤄졌습니다.</p>
+
+<ul>
+<li><code>query</code> -&gt; <code>searchParams</code></li>
+<li><code>baseUrl</code> -&gt; <code>prefixUrl</code></li>
+<li><code>encoding</code> -&gt; <code>responseType</code></li>
+</ul>
+
+<p>이 외에도 재시도(retry) 옵션의 사용 방식이 변경됐으며 요청과 응답 내에서 JSON을 다루는 방식도 변경됐습니다.</p>
+
+<hr>
+
+<p><a href="https://fab.dev/">FAB — Frontend Application Bundles</a> 커뮤니티 사양에서는 프런트엔드 애플리케이션을 Heroku나 AWS Lambda 등에 배포(deploy) 할 때의 포멧에 대해 정의하고 있습니다.</p>
+
+<p>Gatsby, Next.js, Nuxt.js 등의 프레임워크 별 애플리케이션의 출력 형식이 다르기 때문에 여러 호스팅 환경에 배포하기 위해서는 각 환경에 맞는 별도의 설정이 필요하게 됩니다.<br>
+FAB는 그 사이에서 Framework adapters 역할의 중간 포맷을 정의하고 프레임워크와 호스팅 환경의 높은 상호 운용성을 달성하고자 하는 프로젝트입니다.</p>
+
+<p><a href="https://fab.dev/kb/fab-structure">FAB Structure</a>에는 에셋을 배치하는 <code>_assets</code>이라는 디렉터리와 Node.js 서버와 API 정의한 <code>server.js</code>를 zip으로 패키징하는 구조가 정의돼 있습니다.</p>
+
+<p>하지만 <a href="https://github.com/fab-spec/fab/issues">다양한 Issue</a>가 있기 때문에 실제로 이용되게 될지는 모르겠습니다. 현재 <a href="https://linc.sh/">Linc</a>의 CTO가 주도하여 사양을 정의하고 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-workbox-v5-0-0-rc-1-googlechrome-workbox">Release Workbox v5.0.0-rc.1 · GoogleChrome/workbox</h2>
+
+<p><a href="https://github.com/GoogleChrome/workbox/releases/tag/v5.0.0-rc.1" title="Release Workbox v5.0.0-rc.1 · GoogleChrome/workbox">github.com/GoogleChrome/workbox/releases/tag/v5.0.0-rc.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ServiceWorker</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Workbox 5.0.0 RC1이 릴리스 됐습니다.</p>
+
+<hr>
+
+<h2 id="release-v10-0-0-sindresorhus-got">Release v10.0.0 · sindresorhus/got</h2>
+
+<p><a href="https://github.com/sindresorhus/got/releases/tag/v10.0.0" title="Release v10.0.0 · sindresorhus/got">github.com/sindresorhus/got/releases/tag/v10.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag"> node</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js 용 HTTP 클라이언트 Got 10.0.0이 릴리스됐습니다.<br>
+TypeScript로 재작성한 버전입니다.<br>
+Node.js 10 미만 지원 종료, <code>query</code>를 <code>searchParams</code>으로 이름 변경, <code>encoding</code>를 <code>responseType</code>으로 이름 변경, <code>json</code> 옵션 변경 등이 이뤄졌습니다.<br>
+DNS cache를 지원하며 <code>maxRedirects</code> 옵션이 추가됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="javascript-frameworks-security-report-2019-snyk">JavaScript frameworks security report 2019 | Snyk</h2>
+
+<p><a href="https://snyk.io/blog/javascript-frameworks-security-report-2019/" title="JavaScript frameworks security report 2019 | Snyk">snyk.io/blog/javascript-frameworks-security-report-2019/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">React</span> <span class="jser-tag">jQuery</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Angular(JS), React, jQuery와 관련한 보안 리포트가 정리돼 있습니다.<br>
+취약성 개수나 영향 범위, 취약성 보고, 보안 기능 등에 대해서 이야기합니다.</p>
+
+<hr>
+
+<h2 id="i-created-the-exact-same-app-in-vue-and-svelte-here-are-the-differences">I created the exact same app in Vue and Svelte. Here are the differences.</h2>
+
+<p><a href="https://medium.com/javascript-in-plain-english/i-created-the-exact-same-app-in-vue-and-svelte-here-are-the-differences-c649f8d4ce0a" title="I created the exact same app in Vue and Svelte. Here are the differences.">medium.com/javascript-in-plain-english/i-created-the-exact-same-app-in-vue-and-svelte-here-are-the-differences-c649f8d4ce0a</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Vue</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vue와 Svelte로 같은 Todo 애플리케이션을 작성하여 비교한 글입니다.</p>
+
+<hr>
+
+<h2 id="announcing-graalwasm-a-webassembly-engine-in-graalvm">Announcing GraalWasm — a WebAssembly engine in GraalVM</h2>
+
+<p><a href="https://medium.com/graalvm/announcing-graalwasm-a-webassembly-engine-in-graalvm-25cd0400a7f2" title="Announcing GraalWasm — a WebAssembly engine in GraalVM">medium.com/graalvm/announcing-graalwasm-a-webassembly-engine-in-graalvm-25cd0400a7f2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">Java</span> <span class="jser-tag">VM</span> <span class="jser-tag">article</span></p></p>
+
+<p>GraalVM에서 WebAssembly를 지원합니다.<br>
+GraalVM의 Trufle API를 사용해 WebAssembly 바이너리 인터프리터를 구현하고 wasm을 실행할 수 있도록 제공하고 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="connor4312-cockatiel-a-resilience-and-transient-fault-handling-library-that-allows-developers-to-express-policies-such-as-backoff-retry-circuit-breaker-timeout-bulkhead-isolation-and-fallback-inspired-by-net-polly">connor4312/cockatiel: A resilience and transient-fault-handling library that allows developers to express policies such as Backoff, Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback. Inspired by .NET Polly.</h2>
+
+<p><a href="https://github.com/connor4312/cockatiel" title="connor4312/cockatiel: A resilience and transient-fault-handling library that allows developers to express policies such as Backoff, Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback. Inspired by .NET Polly.">github.com/connor4312/cockatiel</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">.net</span></p></p>
+
+<p>.NET Polly에 영감을 받아 개발한 에러 핸들링 복귀 처리 라이브러리입니다.<br>
+백 오프 알고리즘, 취소, 재시도, 서킷 브레이커, 타임아웃, 동시 호출 제한, 폴백 등을 수행합니다.</p>
+
+<ul>
+<li><a href="https://github.com/App-vNext/Polly" title="App-vNext/Polly: Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner. From version 6.0.1, Polly targets .NET Standard 1.1 and 2.0+.">App-vNext/Polly: Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner. From version 6.0.1, Polly targets .NET Standard 1.1 and 2.0+.</a></li>
+</ul>
+
+<hr>
+
+<h2 id="graphql-ec-improving-online-shopping-site-performance-which-using-the-graphql-speaker-deck">GraphQL를 사용한 사이트에서 풀 수 있는 성능 개선(EC사이트를 소재로) / Improving online shopping site performance which using the GraphQL - Speaker Deck(일본어)</h2>
+
+<p><a href="https://speakerdeck.com/nobuhikosawai/improving-online-shopping-site-performance-which-using-the-graphql" title="G GraphQL를 사용한 사이트에서 풀 수 있는 성능 개선(EC사이트를 소재로) / Improving online shopping site performance which using the GraphQL - Speaker Deck">speakerdeck.com/nobuhikosawai/improving-online-shopping-site-performance-which-using-the-graphql</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">performance</span> <span class="jser-tag">slide</span></p></p>
+
+<p>GraphQL 성능 개선을 주제로한 슬라이드입니다.<br>
+Datadog APM를 사용한 서버 사이트의 GraphQL 쿼리 트레이스를 읽는 방법과 프런트엔드에서 불필요한 데이터를 가져오는 쿼리의 개선 방법에 대해 이야기합니다.<br>
+쿼리와 화면을 연계하기 위한 Fragment과 Colocation도 설명합니다.</p>
+
+<ul>
+<li><a href="https://www.apollographql.com/docs/react/data/fragments/" title="Using fragments - Client (React) - Apollo GraphQL Docs">Using fragments - Client (React) - Apollo GraphQL Docs</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="open-source-labs-reactime-chrome-extension-for-state-debugging-in-react-applications">open-source-labs/reactime: Chrome extension for state debugging in React applications</h2>
+
+<p><a href="https://github.com/open-source-labs/reactime" title="open-source-labs/reactime: Chrome extension for state debugging in React applications">github.com/open-source-labs/reactime</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">debug</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">Extension</span></p></p>
+
+<p>React 애플리케이션의 State를 디버깅하는데 사용할 수 있는 브라우저 확장 도구입니다.<br>
+특정 시점의 State 표시하고 State의 변화를 기록해 원하는 시점의 State로 되돌릴 수 있습니다. </p>
+
+<hr>
+
+<h2 id="style-guide-redux">Style Guide · Redux</h2>
+
+<p><a href="https://redux.js.org/style-guide/style-guide" title="Style Guide · Redux">redux.js.org/style-guide/style-guide</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">document</span></p></p>
+
+<p>Redux의 스타일을 설명하는 공식 문서입니다.<br>
+Essential, Strongly Recommended, Recommended 세 개의 카테고리로 스타일과 관련된 가이드가 정리돼 있습니다.</p>
+
+<hr>
+
+<h2 id="who-can-use">Who Can Use</h2>
+
+<p><a href="https://whocanuse.com/" title="Who Can Use">whocanuse.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">accessibility</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>배경색, 글자색, 글자 크기를 지정해 미리 살펴볼 수 있고 명암비나 WCAG 그레이드를 산출해 주는 도구입니다.</p>
+
+<hr>
+
+<h2 id="fab-frontend-application-bundles">FAB — Frontend Application Bundles</h2>
+
+<p><a href="https://fab.dev/" title="FAB — Frontend Application Bundles">fab.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">bundler</span> <span class="jser-tag">Tools</span> <span class="jser-tag">spec</span> <span class="jser-tag">document</span></p></p>
+
+<p>프런트엔드 애플리케이션을 호스팅 서비스에 배포(deploy) 할 때의 패키징 방식이나 발신하는 Node.js 서버에 대한 사양을 정의하고 있습니다.<br>
+프레임워크 마다 출력 형식이 다르고 호스티 서비스 환경마다 설정이 각기 다른 문제를 보완하기 위한 중간 포맷을 설계합니다.</p>
+
+<ul>
+<li><a href="https://github.com/fab-spec/fab/tree/next/packages/fab-static" title="@fab/static">@fab/static</a></li>
+</ul>
+
+<hr>
+
+<h2 id="linc-the-perfect-ci-cd-pipeline-for-your-frontend">Linc – The Perfect CI/CD Pipeline for your Frontend</h2>
+
+<p><a href="https://linc.sh/" title="Linc – The Perfect CI/CD Pipeline for your Frontend">linc.sh/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CI </span> <span class="jser-tag">CD</span> <span class="jser-tag">webservice</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>프런트엔드 애플리케이션 용 CI 웹 서비스입니다.<br>
+<a href="https://fab.dev/%EC%9D%98">https://fab.dev/의</a> 패키지(사양)를 지원하고 있고 커밋 별 테스트, 애플리케이션 프리뷰를 제공합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="killedbyapixel-jsoncrush-compress-json-into-url-friendly-strings">KilledByAPixel/JSONCrush: Compress JSON into URL friendly strings</h2>
+
+<p><a href="https://github.com/KilledByAPixel/JSONCrush" title="KilledByAPixel/JSONCrush: Compress JSON into URL friendly strings">github.com/KilledByAPixel/JSONCrush</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JSON</span> <span class="jser-tag">URL</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>JSON 문자열을 URL 안전하게 인코딩 / 디코딩하는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="grubersjoe-reflow-babel-plugin-to-transpile-flow-code-to-typescript-with-cli-wrapper">grubersjoe/reflow: Babel plugin to transpile Flow code to TypeScript with CLI wrapper</h2>
+
+<p><a href="https://github.com/grubersjoe/reflow" title="grubersjoe/reflow: Babel plugin to transpile Flow code to TypeScript with CLI wrapper">github.com/grubersjoe/reflow</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Flow 코드를 TypeScript 코드로 변환하는 CLI 도구입니다.</p>
+
+<hr>
+
+<h2 id="billinghamj-fix-es-imports-fixes-your-es-import-paths-from-node-style-to-explicit-filenames">billinghamj/fix-es-imports: Fixes your ES import paths - from Node-style to explicit filenames</h2>
+
+<p><a href="https://github.com/billinghamj/fix-es-imports" title="billinghamj/fix-es-imports: Fixes your ES import paths - from Node-style to explicit filenames">github.com/billinghamj/fix-es-imports</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag"> node</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">module</span> <span class="jser-tag">Tools</span></p></p>
+
+<p><code>require</code>에서는 생략 가능한 모듈 임포트의 <code>index.js</code>나 확장자를 추가하는 도구입니다.<br>
+ECMAScript에서는 확장자 등은 생략할 수 없기 때문에 관련한 <code>import</code> 문을 일괄 수정하는데 사용할 수 있는 도구입니다.</p>
+
+<hr>
+
+<h2 id="neomjs-neo-the-webworkers-driven-ui-framework-beta-version">neomjs/neo: The webworkers driven UI framework (BETA version)</h2>
+
+<p><a href="https://github.com/neomjs/neo" title="neomjs/neo: The webworkers driven UI framework (BETA version)">github.com/neomjs/neo</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webworker</span> <span class="jser-tag">library</span> <span class="jser-tag">UI</span></p></p>
+
+<p>WebWorker 기반의 UI 프레임워크 입니다.<br>
+Worker 내에서 컴포넌트를 처리 합니다.</p>
+
+<ul>
+<li><a href="https://github.com/neomjs/neo" title="neomjs/neo: The webworkers driven UI framework (BETA version)">neomjs/neo: The webworkers driven UI framework (BETA version)</a></li>
+<li><a href="https://github.com/neomjs/neo/blob/dev/.github/VISION.md" title="neo/VISION.md at dev · neomjs/neo">neo/VISION.md at dev · neomjs/neo</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="javascript-kids">아이부터 어른까지 술술 읽을 수 있는 JavaScript 후리가나 Kids 프로그래밍, 게임을 만들어 보면서 즐겁게 배우자! - 임프레스 북스(일본어)</h2>
+
+<p><a href="https://book.impress.co.jp/books/1118101174" title="아이부터 어른까지 술술 읽을 수 있는 JavaScript 후리가나 Kids 프로그래밍, 게임을 만들어 보면서 재미있게 학습하자! - 임프레스 북스">book.impress.co.jp/books/1118101174</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p></p>
+
+<p>JavaScript 코드와 본문에 후리가나를 활용한 프로그래밍 서적입니다.<br>
+HTML과 JavaScript를 사용한 게임을 만들어 보면서 프로그래밍에 대해서 학습할 수 있도록 작성돼 있습니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-12-03-got-10node.js-httpfabfrontend-application-bundles.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","HTTP","bundler"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>HTTP</li>
+                
+                <li>bundler</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/12/03/got-10node.js-httpfabfrontend-application-bundles/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

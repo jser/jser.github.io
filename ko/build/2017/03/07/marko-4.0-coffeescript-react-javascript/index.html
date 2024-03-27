@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-03-07のJS: Marko 4.0、CoffeeScript+ReactからJavaScriptへ - JSer.info</title>
+    <meta name="description" content="JSer.info #321 - UIコンポーネントライブラリのMarko 4.0がリリースされました。">
+    
+    <meta name="keywords" content="template,CoffeeScript,React" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-03-07T10:11:32+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="template" property="article:tag">
+      
+      <meta content="CoffeeScript" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2017/03/07/marko-4.0-coffeescript-react-javascript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #321 - UIコンポーネントライブラリのMarko 4.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-03-07のJS: Marko 4.0、CoffeeScript+ReactからJavaScriptへ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2017/03/07/marko-4.0-coffeescript-react-javascript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #321 - UIコンポーネントライブラリのMarko 4.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-03-07T10:11:32+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="template">
+
+<meta property="article:tag" content="CoffeeScript">
+
+<meta property="article:tag" content="React">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/03/07/marko-4.0-coffeescript-react-javascript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/03/07/marko-4.0-coffeescript-react-javascript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/03/07/marko-4.0-coffeescript-react-javascript/">2017-03-07のJS: Marko 4.0、CoffeeScript+ReactからJavaScriptへ</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年03月07日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-03-07-marko-4.0-coffeescript-react-javascript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2017/2017-03-07-marko-4.0-coffeescript-react-javascript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/03/07/marko-4.0-coffeescript-react-javascript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/03/07/marko-4.0-coffeescript-react-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #321 - UIコンポーネントライブラリの<a href="http://markojs.com/" title="Marko">Marko</a> 4.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://medium.com/@mlrawlings/marko-4-0-is-here-837884c5f60d">Marko 4.0 is here 🚀 🎉 – Medium</a></li>
+<li><a href="https://github.com/marko-js/marko/blob/master/ROADMAP.md" title="marko/ROADMAP.md at master · marko-js/marko">marko/ROADMAP.md at master · marko-js/marko</a></li>
+</ul>
+
+<p>MarkoはeBayで開発され使われているUIコンポーネントライブラリです。</p>
+
+<p>Marko 4.0ではクライアントレンダリングとサーバサイドレンダリング(HTML文字列を出力)で異なる手法を使うことで、<br>
+サーバサイドレンダリングを高速化しています。</p>
+
+<ul>
+<li><a href="https://hackernoon.com/server-side-rendering-shootout-with-marko-preact-rax-react-and-vue-25e1ae17800f" title="Server-side Rendering Shootout with Marko, Preact, Rax, React and Vue">Server-side Rendering Shootout with Marko, Preact, Rax, React and Vue</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://blog.bugsnag.com/converting-a-large-react-codebase-from-coffeescript-to-es6/" title="Bugsnag Blog - Converting a large React Codebase from Coffeescript to ES6">Bugsnag Blog - Converting a large React Codebase from Coffeescript to ES6</a>という記事では、CoffeeScript + React(cjsx)からJavaScript + Reactの環境へ移行した手法について書かれています。</p>
+
+<p>CoffeeScriptをJavaScriptへ変換する<a href="https://github.com/decaffeinate/decaffeinate" title="decaffeinate">decaffeinate</a>はcjsx(CoffeeScriptにJSXを書けるもの)をサポートしていません。</p>
+
+<p>そのため、一度<a href="https://github.com/jsdf/coffee-react-transform" title="jsdf/coffee-react-transform: DEPRECATED – Provides React JSX support for Coffeescript">coffee-react-transform</a>で<code>React.createElement</code>ベースのJSに変換し、<a href="https://github.com/reactjs/react-codemod#create-element-to-jsx" title="reactjs/react-codemod: React codemod scripts">react-codemod</a>でJSXに再変換しています。<br>
+また、変換したコードベースを<code>prettier</code>や<code>eslint</code>を使い自動整形し、読みやすくするまでの流れが書かれています。</p>
+
+<p>それらをまとめた<a href="https://github.com/bugsnag/depercolator" title="Depercolator">Depercolator</a>というツールを作り公開されていて、今のJavaScriptは機械変換でかなりのタスクができている部分が面白いかもしれません。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v3-5-0-petkaantonov-bluebird">Release v3.5.0 · petkaantonov/bluebird</h2>
+
+<p><a href="https://github.com/petkaantonov/bluebird/releases/tag/v3.5.0" title="Release v3.5.0 · petkaantonov/bluebird">github.com/petkaantonov/bluebird/releases/tag/v3.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p><br>
+Bluebird v3.5.0リリース。<br>
+catch時に処理を行いエラー自体はそのまま次のcatchへ渡す<code>.tapCatch</code>の追加など</p>
+
+<ul>
+<li><a href="https://github.com/petkaantonov/bluebird/pull/1220" title="add tapError by benjamingr · Pull Request #1220 · petkaantonov/bluebird">add tapError by benjamingr · Pull Request #1220 · petkaantonov/bluebird</a></li>
+<li><a href="http://bluebirdjs.com/docs/api/tapcatch.html" title=".tapCatch | bluebird">.tapCatch | bluebird</a></li>
+</ul>
+
+<hr>
+
+<h2 id="marko-4-0-is-here-medium">Marko 4.0 is here 🚀 🎉 – Medium</h2>
+
+<p><a href="https://medium.com/@mlrawlings/marko-4-0-is-here-837884c5f60d" title="Marko 4.0 is here 🚀 🎉 – Medium">medium.com/@mlrawlings/marko-4-0-is-here-837884c5f60d</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">template</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">VirtualDOM</span></p><br>
+Marko 4.0リリース。<br>
+コンポーネントベースのUIライブラリ(テンプレート)で、クライアントとサーバのそれぞれのモードを持っているため、サーバサイドレンダリングが高速。</p>
+
+<ul>
+<li><a href="https://hackernoon.com/server-side-rendering-shootout-with-marko-preact-rax-react-and-vue-25e1ae17800f#.6r2g5rwgk" title="Server-side Rendering Shootout with Marko, Preact, Rax, React and Vue">Server-side Rendering Shootout with Marko, Preact, Rax, React and Vue</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-js-quality-with-speed-node-js">Node.js - Quality with Speed | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/community/quality-with-speed/" title="Node.js - Quality with Speed | Node.js">nodejs.org/en/blog/community/quality-with-speed/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">opinion</span></p><br>
+Node.jsの開発プロセスやリリースサイクル、またそれらを支えるテスト基盤について。</p>
+
+<hr>
+
+<h2 id="eslint-v3-17-0-released-eslint-pluggable-javascript-linter">ESLint v3.17.0 released - ESLint - Pluggable JavaScript linter</h2>
+
+<p><a href="http://eslint.org/blog/2017/03/eslint-v3.17.0-released" title="ESLint v3.17.0 released - ESLint - Pluggable JavaScript linter">eslint.org/blog/2017/03/eslint-v3.17.0-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p><br>
+ESLint 3.17.0リリース。<br>
+ルール開発者向けの機能追加、<code>no-compare-neg-zero</code>と<code>nonblock-statement-body-position</code>のルールを追加など</p>
+
+<ul>
+<li><a href="http://qiita.com/mysticatea/items/a2d72c76671c2197c712" title="ESLint v3.17.0 - Qiita">ESLint v3.17.0 - Qiita</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-22-0-yarnpkg-yarn">Release v0.22.0 · yarnpkg/yarn</h2>
+
+<p><a href="https://github.com/yarnpkg/yarn/releases/tag/v0.22.0" title="Release v0.22.0 · yarnpkg/yarn">github.com/yarnpkg/yarn/releases/tag/v0.22.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p><br>
+yarn 0.22.0 プレリリース。<br>
+<code>--non-interactive</code>のオプションを追加、<code>v8-compile-cache</code>を利用し起動速度を改善、Docker image(<code>yarnpkg/node-yarn</code>)の追加など</p>
+
+<ul>
+<li><a href="https://github.com/zertosh/v8-compile-cache" title="zertosh/v8-compile-cache: Require hook for automatic V8 compile cache persistence">zertosh/v8-compile-cache: Require hook for automatic V8 compile cache persistence</a></li>
+</ul>
+
+<hr>
+
+<h2 id="zertosh-v8-compile-cache-require-hook-for-automatic-v8-compile-cache-persistence">zertosh/v8-compile-cache: Require hook for automatic V8 compile cache persistence</h2>
+
+<p><a href="https://github.com/zertosh/v8-compile-cache" title="zertosh/v8-compile-cache: Require hook for automatic V8 compile cache persistence">github.com/zertosh/v8-compile-cache</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p><br>
+Node v5.7.0から導入されたV8のcode cacheを保持するrequire hookを提供するライブラリ。<br>
+yarnやnuclideなどの起動速度改善に使われてる</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="javascript-designmap">ゼロから始めるJavaScript入門 ： DESIGNMAP</h2>
+
+<p><a href="http://designmap.info/category/lecture/javascript-introduction/" title="ゼロから始めるJavaScript入門 ： DESIGNMAP">designmap.info/category/lecture/javascript-introduction/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">JavaScript</span></p><br>
+ES2015ベースにしたJavaScript入門チュートリアル</p>
+
+<hr>
+
+<h2 id="a-step-by-step-guide-for-building-master-detail-user-interfaces-with-angulartelerik-developer-network">A Step-By-Step Guide for Building Master-Detail User Interfaces with AngularTelerik Developer Network</h2>
+
+<p><a href="http://developer.telerik.com/content-types/tutorials/step-step-guide-building-master-detail-user-interfaces-angular/" title="A Step-By-Step Guide for Building Master-Detail User Interfaces with AngularTelerik Developer Network">developer.telerik.com/content-types/tutorials/step-step-guide-building-master-detail-user-interfaces-angular/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AngularJS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p><br>
+Angularでよくあるリストビューと詳細ビューからなるアプリを作るチュートリアル</p>
+
+<hr>
+
+<h2 id="pwa-progressive-web-apps-blog">PWA（Progressive Web Apps）の現状とその開発方法 | フロントエンドBlog | ミツエーリンクス</h2>
+
+<p><a href="https://www.mitsue.co.jp/knowledge/blog/frontend/201702/23_2217.html" title="PWA（Progressive Web Apps）の現状とその開発方法 | フロントエンドBlog | ミツエーリンクス">www.mitsue.co.jp/knowledge/blog/frontend/201702/23_2217.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ProgressiveWebApp</span> <span class="jser-tag">article</span></p><br>
+PWAの概要についてまとめられた記事。<br>
+Googleによるケーススタディや開発方法について</p>
+
+<hr>
+
+<h2 id="javascript-void-keyword">JavaScript void Keyword</h2>
+
+<p><a href="http://cmichel.io/javascript-void-keyword/" title="JavaScript void Keyword">cmichel.io/javascript-void-keyword/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p><br>
+JavaScriptの<code>void</code>キーワードについて。<br>
+<code>if(condition) { return void console.log(&quot;&quot;); }</code>のようなケースで利用できるという話。</p>
+
+<hr>
+
+<h2 id="bugsnag-blog-converting-a-large-react-codebase-from-coffeescript-to-es6">Bugsnag Blog - Converting a large React Codebase from Coffeescript to ES6</h2>
+
+<p><a href="http://blog.bugsnag.com/converting-a-large-react-codebase-from-coffeescript-to-es6/" title="Bugsnag Blog - Converting a large React Codebase from Coffeescript to ES6">blog.bugsnag.com/converting-a-large-react-codebase-from-coffeescript-to-es6/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CoffeeScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p><br>
+coffee-react(cjsx)からJavaScriptへのマイグレーションについての記事。<br>
+decaffeinateはcjsxをサポートしていないため、<code>React.createElement</code>ベースのJSに変換し、react codemod toolでJSXに再変換する。<br>
+変換したコードベースを<code>prettier</code>で整形し、<code>eslint</code>で細かいところを直す。<br>
+それらをまとめた<code>Depercolator</code>というツールを作った話</p>
+
+<ul>
+<li><a href="https://github.com/jsdf/coffee-react-transform" title="jsdf/coffee-react-transform: DEPRECATED – Provides React JSX support for Coffeescript">jsdf/coffee-react-transform: DEPRECATED – Provides React JSX support for Coffeescript</a></li>
+<li><a href="https://github.com/reactjs/react-codemod#create-element-to-jsx" title="reactjs/react-codemod: React codemod scripts">reactjs/react-codemod: React codemod scripts</a></li>
+<li><a href="https://github.com/bugsnag/depercolator" title="bugsnag/depercolator: Tool for converting coffeescript to idiomatic javascript and JSX">bugsnag/depercolator: Tool for converting coffeescript to idiomatic javascript and JSX</a></li>
+</ul>
+
+<hr>
+
+<h2 id="v8-behind-the-scenes-february-edition-feat-a-tale-of-turbofan-benedikt-meurer">V8: Behind the Scenes (February Edition feat. A tale of TurboFan) | Benedikt Meurer</h2>
+
+<p><a href="http://benediktmeurer.de/2017/03/01/v8-behind-the-scenes-february-edition/" title="V8: Behind the Scenes (February Edition feat. A tale of TurboFan) | Benedikt Meurer">benediktmeurer.de/2017/03/01/v8-behind-the-scenes-february-edition/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">V8</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p><br>
+ChromeのTurboFanプロジェクトの歴史について。<br>
+2013年から開始したプロジェクトで、Crankshaftはfast pathにフォーカスしていたが、TurboFanはslow pathにもフォーカスしているという話。<br>
+V8において予測できないパフォーマンス問題を作っていたFunction#bindやPromiseの話。<br>
+TurboFanのアーキテクチャについての解説など</p>
+
+<hr>
+
+<h2 id="nodebox-opentype-js-read-and-write-opentype-fonts-using-javascript">nodebox/opentype.js: Read and write OpenType fonts using JavaScript.</h2>
+
+<p><a href="https://github.com/nodebox/opentype.js" title="nodebox/opentype.js: Read and write OpenType fonts using JavaScript.">github.com/nodebox/opentype.js</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">fonts</span> <span class="jser-tag">library</span></p><br>
+OpenTypeフォントの読み書きを行うライブラリ</p>
+
+<hr>
+
+<h2 id="how-to-optimize-cpu-intensive-work-in-node-js-medium">How to Optimize CPU-Intensive Work in Node.js – Medium</h2>
+
+<p><a href="https://medium.com/@graeme_boy/how-to-optimize-cpu-intensive-work-in-node-js-cdc09099ed41" title="How to Optimize CPU-Intensive Work in Node.js – Medium">medium.com/@graeme_boy/how-to-optimize-cpu-intensive-work-in-node-js-cdc09099ed41</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span></p><br>
+Node.jsでCPUバウンドなプログラムを別プロセスで処理する方法について。<br>
+<code>child_process</code>の扱い方について書かれた記事</p>
+
+<hr>
+
+<h2 id="a-link-rel-preload-analysis-from-the-chrome-data-saver-team-reloading-medium">A Link: rel=preload Analysis From the Chrome Data Saver Team – reloading – Medium</h2>
+
+<p><a href="https://medium.com/reloading/a-link-rel-preload-analysis-from-the-chrome-data-saver-team-5edf54b08715" title="A Link: rel=preload Analysis From the Chrome Data Saver Team – reloading – Medium">medium.com/reloading/a-link-rel-preload-analysis-from-the-chrome-data-saver-team-5edf54b08715</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">HTTP2</span> <span class="jser-tag">article</span></p><br>
+(Chromeの)<code>rel=preload</code>がどのように動いているのかの解説記事。<br>
+クリティカルリソースを宣言的に先読みするもので、優先度については仕様では未定義。<br>
+Chromeにおけるpreloadの優先度やpreloadとasync属性の違いなどについて</p>
+
+<hr>
+
+<h2 id="a-detailed-introduction-to-webpack-smashing-magazine">A Detailed Introduction To Webpack – Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2017/02/a-detailed-introduction-to-webpack/" title="A Detailed Introduction To Webpack – Smashing Magazine">www.smashingmagazine.com/2017/02/a-detailed-introduction-to-webpack/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">tutorial</span></p><br>
+webpackについてのチュートリアル。<br>
+loader、動的ロード、コード分割について</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="snyk-vulndb-snyks-public-vulnerability-database">snyk/vulndb: Snyk&#39;s public vulnerability database</h2>
+
+<p><a href="https://github.com/snyk/vulndb" title="snyk/vulndb: Snyk&#39;s public vulnerability database">github.com/snyk/vulndb</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">security</span> <span class="jser-tag">npm</span> <span class="jser-tag">webservice</span></p><br>
+Snykによるnpmやrubygemの脆弱性についてを集めたデータベース。</p>
+
+<ul>
+<li><a href="https://snyk.io/vuln" title="VulnDB | Snyk">VulnDB | Snyk</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="artillery-a-modern-load-testing-toolkit">Artillery - a modern load testing toolkit</h2>
+
+<p><a href="https://artillery.io/" title="Artillery - a modern load testing toolkit">artillery.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">performance</span> <span class="jser-tag">HTTP</span></p><br>
+HTTPやWebSocketのロードテストを行うことができるツール。<br>
+シナリオを元にしたテストもできる。</p>
+
+<hr>
+
+<h2 id="typicode-pkg-ok-prevents-publishing-a-module-with-bad-paths">typicode/pkg-ok: Prevents publishing a module with bad paths</h2>
+
+<p><a href="https://github.com/typicode/pkg-ok" title="typicode/pkg-ok: Prevents publishing a module with bad paths">github.com/typicode/pkg-ok</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">Tools</span> <span class="jser-tag">console</span></p><br>
+npmで公開するパッケージの<code>main</code>と<code>bin</code>が正しいかをチェックするツール。</p>
+
+<ul>
+<li><a href="https://github.com/maxogden/dependency-check" title="maxogden/dependency-check: checks which modules you have used in your code and then makes sure they are listed as dependencies in your package.json">maxogden/dependency-check: checks which modules you have used in your code and then makes sure they are listed as dependencies in your package.json</a></li>
+</ul>
+
+<hr>
+
+<h2 id="kegsay-flow-jsdoc-use-jsdoc-to-represent-flow-annotations">Kegsay/flow-jsdoc: Use JSDoc to represent Flow annotations</h2>
+
+<p><a href="https://github.com/Kegsay/flow-jsdoc" title="Kegsay/flow-jsdoc: Use JSDoc to represent Flow annotations">github.com/Kegsay/flow-jsdoc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JSDoc</span> <span class="jser-tag">flowtype</span> <span class="jser-tag">Tools</span></p><br>
+JSDocの型をFlowTypeの型アノテーションへ変換するツール</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2017/2017-03-07-marko-4.0-coffeescript-react-javascript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["template","CoffeeScript","React"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>template</li>
+                
+                <li>CoffeeScript</li>
+                
+                <li>React</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2017/03/07/marko-4.0-coffeescript-react-javascript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2017/03/07/marko-4.0-coffeescript-react-javascript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

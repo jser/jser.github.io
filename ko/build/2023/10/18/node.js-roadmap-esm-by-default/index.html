@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Deep Dive: Node.jsのESMデフォルト化への道 - JSer.info</title>
+    <meta name="description" content="Node.js 21では --experimental-default-type=module フラグで、JavaScriptファイルのデフォルトの解釈をCJS(CommonJS)からESM(ECMAScript Modules)に変更できるようになっています。">
+    
+    <meta name="keywords" content="Node.js,ESM" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-10-18T10:51:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="Article" property="article:section">
+      
+    
+    
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="ESM" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2023/10/18/node.js-roadmap-esm-by-default/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="Node.js 21では --experimental-default-type=module フラグで、JavaScriptファイルのデフォルトの解釈をCJS(CommonJS)からESM(ECMAScript Modules)に変更できるようになっています。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="Deep Dive: Node.jsのESMデフォルト化への道">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2023/10/18/node.js-roadmap-esm-by-default/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="Node.js 21では --experimental-default-type=module フラグで、JavaScriptファイルのデフォルトの解釈をCJS(CommonJS)からESM(ECMAScript Modules)に変更できるようになっています。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-10-18T10:51:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="ESM">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/10/18/node.js-roadmap-esm-by-default/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/10/18/node.js-roadmap-esm-by-default/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/10/18/node.js-roadmap-esm-by-default/">Deep Dive: Node.jsのESMデフォルト化への道</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年10月18日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2023/2023-10-18-node.js-roadmap-esm-by-default.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2023/2023-10-18-node.js-roadmap-esm-by-default.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2023/10/18/node.js-roadmap-esm-by-default/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2023/10/18/node.js-roadmap-esm-by-default/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>Node.js 21では <code>--experimental-default-type=module</code> フラグで、JavaScriptファイルのデフォルトの解釈をCJS(CommonJS)からESM(ECMAScript Modules)に変更できるようになっています。</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/announcements/v21-release-announce">Node.js 21 is now available! | Node.js</a></li>
+</ul>
+
+<p>これは、Node.jsにおいてJavaScriptファイル(<code>.js</code>)のデフォルトをESMに変更するための第一歩です。</p>
+
+<p>今回のDeep Diveでは、Node.jsのESMデフォルト化に向けたIssueや実装について紹介します。</p>
+
+<h2 id="node-js-esm">Node.jsのESMデフォルト化</h2>
+
+<h3 id="discussion-new-esm-by-default-mode-issue-49432-nodejs-node"><a href="https://github.com/nodejs/node/issues/49432">Discussion: New “ESM by default” mode · Issue #49432 · nodejs/node</a></h3>
+
+<p>このIssueは、Node.jsにおけるambiguous fileの解釈をCJS(CommonJS)からESM(ECMAScript Modules)へと変えたいというDiscussion Issueです。</p>
+
+<p>Ambiguous file(あいまいなファイル)とは、次のものを指しています。</p>
+
+<ul>
+<li><code>.js</code> ファイル かつ <code>package.json</code> で <code>type</code> が定義されていない
+
+<ul>
+<li><code>.mjs</code>はESMとして扱われるためambiguous fileではない</li>
+</ul></li>
+<li><code>node --eval</code> のように文字列入力されていて、 <code>--input-type</code> が指定されていない</li>
+</ul>
+
+<p>現在のNode.jsは、あいまいなファイルをCommonJSとして解釈して実行します。</p>
+
+<p>このIssueでは、あいまいなファイルをESMとして解釈して実行する方法について議論されています。</p>
+
+<ol>
+<li><code>node</code> バイナリを分ける
+
+<ul>
+<li>バイナリの管理コストが発生する</li>
+</ul></li>
+<li>package.jsonを生成するときに <code>type=module</code> を追加してもらう
+
+<ul>
+<li>package.jsonを使わない”スクリプト”の問題やチュートリアルといった記事の説明コストが発生する</li>
+</ul></li>
+<li>デフォルトの解釈を変更するフラグを追加する</li>
+</ol>
+
+<p>などのオプションが話され、実験的な機能としてデフォルトの解釈を変更する <code>--experimental-default-type</code> が Node.js 21に向けて実装されました。</p>
+
+<h3 id="esm-experimental-default-type-flag-to-flip-module-defaults-by-geoffreybooth-pull-request-49869-nodejs-node"><a href="https://github.com/nodejs/node/pull/49869">esm: <code>--experimental-default-type</code> flag to flip module defaults by GeoffreyBooth · Pull Request #49869 · nodejs/node</a></h3>
+
+<p>このPRでは、<code>node --experimental-default-type=module</code> で実行された場合、ambiguous file(あいまいなファイル)をESMとして解釈して実行できるフラグが実装されています。</p>
+
+<p>📝 このフラグは<a href="https://nodejs.org/en/blog/release/v21.0.0">Node.js 21.0.0</a>に含まれています。</p>
+
+<h3 id="when-to-make-default-type-module-the-node-js-default-issue-1445-nodejs-tsc"><a href="https://github.com/nodejs/TSC/issues/1445">When to make <code>--default-type=module</code> the Node.js default · Issue #1445 · nodejs/TSC</a></h3>
+
+<p>このIssueは<code>--experimental-default-type=module</code> がNode.js 21に向けて実装されるので、Node.js 21をリリースするときに、それをいつデフォルトにするかという話をするために、将来の方向性について議論しているIssueです。</p>
+
+<p>このIssueでは、<code>--experimental-default-type=module</code> というデフォルトの解釈を変えるフラグだけでは、大規模な破壊的な変更となり混乱を生むという問題が指摘されています。</p>
+
+<p>たとえば、 <code>node_modules/</code> 以下のパッケージのデフォルト解釈をESMに変えた場合動かないパッケージが多くあり、すでにメンテナンスされていないパッケージもあるため、立ち往生してしまうなどの問題が指摘されています。(アプリケーションコードとパッケージの作者が異なるため、パッチを当てる方法がなくなるという問題)</p>
+
+<p>そのため、デフォルトの解釈を切り替えるだけの<code>--experimental-default-type=module</code> のようなフラグだけでは、移行パスが不十分で分断が発生するという問題があります。この0か1の問題に対して、次のようなIssueが出されています。</p>
+
+<h3 id="proposal-set-experimental-default-type-mode-by-detecting-esm-syntax-in-entry-point-issue-50043-nodejs-node"><a href="https://github.com/nodejs/node/issues/50043">Proposal: Set <code>--experimental-default-type</code> mode by detecting ESM syntax in entry point · Issue #50043 · nodejs/node</a></h3>
+
+<p>このIssueでは、<code>node_modules/</code> 以下のファイルの中身を見てCJSかESMを判定する <code>--experimental-detect-module</code> のようなフラグを追加するのはどうかという提案です。</p>
+
+<h3 id="esm-detect-esm-syntax-in-ambiguous-javascript-by-geoffreybooth-pull-request-50096-nodejs-node"><a href="https://github.com/nodejs/node/pull/50096">esm: detect ESM syntax in ambiguous JavaScript by GeoffreyBooth · Pull Request #50096 · nodejs/node</a></h3>
+
+<p>このPRでは、<code>--experimental-detect-module</code>が実装されています。<br>
+この<code>--experimental-detect-module</code>の実装では、<code>node_modules/</code> 以下のあいまいなファイルの中に、ESMの構文が含まれているならそれをESMとして扱い、そうではない場合はCJSとして扱います。</p>
+
+<p>ESMの構文は <code>import</code> / <code>export</code> / <code>import.meta</code> などの静的に解釈できるものをV8を使って判定しています。( <code>import()</code> はCommonJSでも利用できるため、ESMの構文としては扱われていません)</p>
+
+<p>現在のデフォルトはCJSであり、ambiguous fileにESMの構文が含まれている場合は実行時にエラーとなります(これはacornを使ってESMの構文が含まれているかを判定しています)</p>
+
+<p>Node.js 20でESMの構文を含むCJSを実行した時のエラーは次のようになっています。</p>
+<div class="highlight"><pre><code class="language-jsx" data-lang="jsx"><span class="k">import</span> <span class="nx">lodash</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">lodash</span><span class="dl">"</span>
+<span class="o">^^^^^^</span>
+
+<span class="nx">SyntaxError</span><span class="p">:</span> <span class="nx">Cannot</span> <span class="nx">use</span> <span class="k">import</span> <span class="nx">statement</span> <span class="nx">outside</span> <span class="nx">a</span> <span class="nx">module</span>
+</code></pre></div>
+<p>そのため、ESMの構文を含むCJSというものはないという前提にでき、<code>--experimental-detect-module</code> は破壊的な変更をなく入れることができるのではないかという話がされています。(すでに実行できているものが実行できなくなることはないという点)</p>
+
+<p>このアプローチのデメリットは、ファイルの中身を見てESMかを判定するためパフォーマンスが悪くなるのではという点があります。</p>
+
+<h2 id="part-2a00357080695c85">おわりに</h2>
+
+<p>まだ、Node.jsにおいて <code>.js</code> ファイルをESMとして扱えるようにするかをどういう方法でやるかは確定はしていません。</p>
+
+<p>開発バージョンであるNode.js 21で <code>--experimental-*</code> でフラグを実装しながら、互換性的な問題がないかやパフォーマンスが問題ないかなどを調べて進んでいくと思われます。</p>
+
+<h2 id="part-65432582092">関連</h2>
+
+<h3 id="tc39-proposal-unambiguousjavascriptgrammar"><a href="https://github.com/tc39/proposal-UnambiguousJavaScriptGrammar">tc39/proposal-UnambiguousJavaScriptGrammar</a></h3>
+
+<p>2016年から2017年にかけて、Node.jsがTC39(ECMAScriptの仕様策定をするグループ)で、ファイルの中身を見てScriptかModuleかを判定できるようにするProposalを出していました。<br>
+ここでいうScriptはCommonJSで、ModuleがESMです。</p>
+
+<p>このあいまいなファイルの判定としてあげていたのが <code>import</code> 文や <code>export</code> 文がファイルに含まれているかどうかでした(また <code>&quot;use module&quot;</code> のようなDirectiveの話も行われていました)</p>
+
+<p>この提案は、ECMAScriptの仕様ではなくプラットフォーム側(ブラウザやNode.js)でやるべきことであるとして、TC39としてのコンセンサスは取れずにそこで議論は終了しています。</p>
+
+<ul>
+<li><a href="https://github.com/tc39/notes/blob/main/meetings/2016-11/nov-30.md#12iia-proposal-to-reform-the-spec-to-solve-nodejs-ecosystem-compatibility-breaks-w-es-modules">https://github.com/tc39/notes/blob/main/meetings/2016-11/nov-30.md#12iia-proposal-to-reform-the-spec-to-solve-nodejs-ecosystem-compatibility-breaks-w-es-modules</a></li>
+<li><a href="https://github.com/tc39/notes/blob/afc1eacf01c5374a1a55cdd6ae00f82fa291d4b8/meetings/2017-01/jan-25.md#13iia-proposed-grammar-change-to-es-modules">https://github.com/tc39/notes/blob/afc1eacf01c5374a1a55cdd6ae00f82fa291d4b8/meetings/2017-01/jan-25.md#13iia-proposed-grammar-change-to-es-modules</a></li>
+</ul>
+
+<p>2016-2017年の段階で、Node.jsはESMサポートをする方針として次の3つを持っていました</p>
+
+<ol>
+<li><code>.js</code> の中身を見てCJSかESMかを判定する</li>
+<li><code>package.json</code> の <code>type</code> などの特定のフィールドで判定する</li>
+<li><code>.mjs</code> のような拡張子で判定する</li>
+</ol>
+
+<p>TC39で提案していたものは1に関するもので、このとき(2016-2017年)は特に進むことはありませんでした。<br>
+Node.js 20時点は2と3が実装済みで、今回の <code>--experimental-default-type=module</code> は2016-2017年に提案していた 1の内容と近いものだと考えられます。</p>
+
+<ul>
+<li><a href="https://hackernoon.com/node-js-tc-39-and-modules-a1118aecf95e#.sh1fdwodi">Node.js, TC-39, and Modules | HackerNoon</a></li>
+<li><a href="https://medium.com/@awbjs/follow-up-tc39-meets-node-js-modules-76fdea278370">Follow up: TC39 meets Node.js Modules | by Allen Wirfs-Brock | Medium</a></li>
+</ul>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2023/2023-10-18-node.js-roadmap-esm-by-default.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Node.js","ESM"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>Node.js</li>
+                
+                <li>ESM</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2023/10/18/node.js-roadmap-esm-by-default/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2023/10/18/node.js-roadmap-esm-by-default/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

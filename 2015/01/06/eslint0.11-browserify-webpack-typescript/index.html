@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2015-01-06のJS: ESLint 0.11.0、Browserifyとwebpack、TypeScriptの本 - JSer.info</title>
+    <meta name="description" content="JSer.info #209 - JavaScript LintツールであるESLint 0.11.0がリリースされました。">
+    
+    <meta name="keywords" content="JavaScript,Lint,tools,Browserify,webpack,TypeScript" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2015-01-06T22:24:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="JavaScript" property="article:tag">
+      
+      <meta content="Lint" property="article:tag">
+      
+      <meta content="tools" property="article:tag">
+      
+      <meta content="Browserify" property="article:tag">
+      
+      <meta content="webpack" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2015/01/06/eslint0.11-browserify-webpack-typescript/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #209 - JavaScript LintツールであるESLint 0.11.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2015-01-06のJS: ESLint 0.11.0、Browserifyとwebpack、TypeScriptの本">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2015/01/06/eslint0.11-browserify-webpack-typescript/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #209 - JavaScript LintツールであるESLint 0.11.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2015-01-06T22:24:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+
+
+
+
+<meta property="article:tag" content="JavaScript">
+
+<meta property="article:tag" content="Lint">
+
+<meta property="article:tag" content="tools">
+
+<meta property="article:tag" content="Browserify">
+
+<meta property="article:tag" content="webpack">
+
+<meta property="article:tag" content="TypeScript">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2015/01/06/eslint0.11-browserify-webpack-typescript/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2015/01/06/eslint0.11-browserify-webpack-typescript/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2015/01/06/eslint0.11-browserify-webpack-typescript/">2015-01-06のJS: ESLint 0.11.0、Browserifyとwebpack、TypeScriptの本</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2015年01月06日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-01-06-eslint0.11-browserify-webpack-typescript.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2015/2015-01-06-eslint0.11-browserify-webpack-typescript.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/01/06/eslint0.11-browserify-webpack-typescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/01/06/eslint0.11-browserify-webpack-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #209 - JavaScript Lintツールである<a href="http://eslint.org/blog/2014/12/eslint-0.11.0-released/" title="ESLint 0.11.0">ESLint 0.11.0</a>がリリースされました。</p>
+
+<p>ES6やJSXのサポート等をしていくためにEsprimaから<a href="https://github.com/eslint/espree" title="Espree">Espree</a>というforkしたものへとパーサが変更されています。</p>
+
+<p>またデフォルトのLintの設定がECMAScript 5のものを対象とするように変更されたり、設定を<code>package.json</code>に書くことでも使えるようになっています。</p>
+
+<ul>
+<li><a href="http://eslint.org/docs/configuring/" title="ESLint">Configuring ESLint</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://gist.github.com/substack/68f8d502be42d5cd4942" title="browserify for webpack users">browserify for webpack users</a>という記事では、webpackの各機能をBrowserifyで実現する方法の比較紹介をしています。</p>
+
+<p>紹介されてるものが<a href="https://gist.github.com/substack/68f8d502be42d5cd4942#comment-1365101">必ずしも同等の機能</a>という訳ではないですが、それぞれのツールの設計思想の違いが分かるようなデザインになってます。</p>
+
+<p>webpackは全部入りでそれを活かした<a href="https://github.com/webpack/docs/wiki/hot-module-replacement-with-webpack" title="Hot Module Replacement (HMR)">最適化ができる</a>作りになっていて、一方Browserifyは機能が外部化されていてそれを組み合わせて使うUnix哲学的な作りになっています。</p>
+
+<hr>
+
+<p><a href="http://typescript.ninja/typescript-in-definitelyland/" title="型の国のTypeScript">型の国のTypeScript</a>はTypeScriptの基本的な要素、TypeScript 1.3.0や1.4.0で追加された機能、型定義ファイルの書き方等について書かれていて、無料で公開されている書籍です。</p>
+
+<p><a href="https://github.com/borisyankov/DefinitelyTyped" title="borisyankov/DefinitelyTyped">DefinitelyTyped</a>のメンテナである<a href="https://twitter.com/vvakame" title="@vvakame">@vvakame</a>さんが書かれた薄い本なので、<a href="http://typescript.ninja/typescript-in-definitelyland/definition-file.html" title="第5章　JS資産と型定義ファイル">第5章　JS資産と型定義ファイル</a>の型定義ファイル(d.ts)の書き方についてや<a href="http://typescript.ninja/typescript-in-definitelyland/types-advanced.html" title="第4章　アドバンスド型戦略">第4章　アドバンスド型戦略</a>の最近の変更点などについて読んでおくといいかもしれません。</p>
+
+<ul>
+<li><a href="http://typescript.ninja/2015/01/01/typescript-in-definitelyland.html" title="TypeScript in Definitelyland 発行">TypeScript in Definitelyland 発行</a></li>
+<li><a href="https://github.com/typescript-ninja/typescript-in-definitelyland" title="typescript-ninja/typescript-in-definitelyland">typescript-ninja/typescript-in-definitelyland</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="eslint-0-11-0-released-eslint">ESLint 0.11.0 released - ESLint</h2>
+
+<p><a href="http://eslint.org/blog/2014/12/eslint-0.11.0-released/" title="ESLint 0.11.0 released - ESLint">eslint.org/blog/2014/12/eslint-0.11.0-released/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>ESLint 0.11.0リリース。</p>
+
+<p>JavaScriptパーサがesprimaからEspreeへと変更された。</p>
+
+<p>またES5がデフォルトとなり、ES3のコードとしてLintしたい場合はオプションを変更する必要がある</p>
+
+<hr>
+
+<h2 id="release-v2-2-0-less-less-js">Release v2.2.0 · less/less.js</h2>
+
+<p><a href="https://github.com/less/less.js/releases/tag/v2.2.0" title="Release v2.2.0 · less/less.js">github.com/less/less.js/releases/tag/v2.2.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>less 2.2.0リリース。</p>
+
+<hr>
+
+<h2 id="release-bulleit-bottle-sass-libsass">Release Bulleit Bottle · sass/libsass</h2>
+
+<p><a href="https://github.com/sass/libsass/releases/tag/3.1.0" title="Release Bulleit Bottle · sass/libsass">github.com/sass/libsass/releases/tag/3.1.0</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span> <span class="jser-tag">ReleaseNote</span></p>
+
+<p>libsass 3.1.0リリース。</p>
+
+<p><code>@debug</code>、<code>@error</code>等のデバッグ系の実装、<code>random()</code>等の関数の実装や修正など。</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="ecmascript-6-maps-and-sets">ECMAScript 6: maps and sets</h2>
+
+<p><a href="http://www.2ality.com/2015/01/es6-maps-sets.html" title="ECMAScript 6: maps and sets">www.2ality.com/2015/01/es6-maps-sets.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">まとめ</span> <span class="jser-tag">tutorial</span></p>
+
+<p>Map, WeakMap, Set, WeakSetの挙動についての解説。</p>
+
+<p>それぞれのAPIの解説、WeakMapを使ったプライベートデータ、spread operatorとあわせた使い方等について</p>
+
+<hr>
+
+<h2 id="browserify-for-webpack-users">browserify for webpack users</h2>
+
+<p><a href="https://gist.github.com/substack/68f8d502be42d5cd4942" title="browserify for webpack users">gist.github.com/substack/68f8d502be42d5cd4942</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browserify</span> <span class="jser-tag">webpack</span></p>
+
+<p>Browserifyとwebpackのそれぞれの機能対応について。</p>
+
+<p>webpackは多くの機能が同梱されているため、その機能に対応するBrowserify pluginの紹介や設計思想の違い等について</p>
+
+<ul>
+<li><a href="http://webpack.github.io/docs/webpack-for-browserify-users.html" title="webpack for browserify users">webpack for browserify users</a></li>
+<li><a href="https://github.com/substack/browserify-handbook" title="substack/browserify-handbook">substack/browserify-handbook</a></li>
+</ul>
+
+<hr>
+
+<h2 id="advanced-unit-testing-tools-for-node-js">Advanced unit testing tools for Node.js</h2>
+
+<p><a href="http://blog.wercker.com/2014/12/23/Testing-in-Node.html" title="Advanced unit testing tools for Node.js">blog.wercker.com/2014/12/23/Testing-in-Node.html</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span></p>
+
+<p>TAP形式とtapeを使ってのNodeのテストについて。</p>
+
+<p>proxyquireを使ってのStubなど</p>
+
+<ul>
+<li><a href="https://github.com/thlorenz/proxyquire" title="thlorenz/proxyquire">thlorenz/proxyquire</a></li>
+</ul>
+
+<hr>
+
+<h2 id="keyboardevent-key-webstudio">KeyboardEvent.keyを利用する前に知っておくべき事 - WebStudio</h2>
+
+<p><a href="http://www.d-toybox.com/studio/weblog/show.php?mode=single;id=2015010100" title="KeyboardEvent.keyを利用する前に知っておくべき事 - WebStudio">www.d-toybox.com/studio/weblog/show.php?mode=single;id=2015010100</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">DOM</span> <span class="jser-tag">event</span> <span class="jser-tag">キーボード</span></p>
+
+<p>DOM 3 KeyboardEventについて。 </p>
+
+<p>KeyboardEvent.keyCodeの問題点やKeyboardEvent.keyは入力される文字となり直感的に分かるようになっている点について。</p>
+
+<p>また、KeyboardEvent.codeはキー自体を示し、クロスブラウザでのキーイベント対応について等</p>
+
+<hr>
+
+<h2 id="es6-generator-async-await-maru-source">ES6 Generatorを使ってasync/awaitを実装するメモ - maru source</h2>
+
+<p><a href="http://blog.h13i32maru.jp/entry/2015/01/02/225457" title="ES6 Generatorを使ってasync/awaitを実装するメモ - maru source">blog.h13i32maru.jp/entry/2015/01/02/225457</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Promises</span> <span class="jser-tag">tutorial</span></p>
+
+<p>ES6 GeneratorとPromiseを使ってcoライクな実装をするまでをステップ・バイ・ステップで</p>
+
+<hr>
+
+<h2 id="multi-user-video-conference-with-webrtc-minko-gechevs-blog">Multi-User Video Conference with WebRTC – Minko Gechev&#x27;s blog</h2>
+
+<p><a href="http://blog.mgechev.com/2014/12/26/multi-user-video-conference-webrtc-angularjs-yeoman" title="Multi-User Video Conference with WebRTC – Minko Gechev&amp;#x27;s blog">blog.mgechev.com/2014/12/26/multi-user-video-conference-webrtc-angularjs-yeoman</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebRTC</span> <span class="jser-tag">AngularJS</span> <span class="jser-tag">tutorial</span></p>
+
+<p>AngularJS+WebRTC+socket.ioを使ってビデオチャットを作るチュートリアル。</p>
+
+<p>Yeomanのジェネレータを使ってAngularJSのコードベースを生成してる</p>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="a-brief-introduction-to-svg-treehouse-blog">A Brief Introduction to SVG | Treehouse Blog</h2>
+
+<p><a href="http://blog.teamtreehouse.com/brief-introduction-svg" title="A Brief Introduction to SVG | Treehouse Blog">blog.teamtreehouse.com/brief-introduction-svg</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">動画</span></p>
+
+<p>SVGとは何かというのが簡単にまとめられたスクリーンキャスト</p>
+
+<hr>
+
+<h2 id="the-jsdom">The jsdom</h2>
+
+<p><a href="http://www.slideshare.net/domenicdenicola/the-jsdom" title="The jsdom">www.slideshare.net/domenicdenicola/the-jsdom</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">スライド</span></p>
+
+<p>jsdomの実装、将来についてのスライド。</p>
+
+<p>またWebIDLから実装に落としていくツールについて</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス</h1>
+
+<hr>
+
+<h2 id="front-end-dev-weekly">Front-end Dev Weekly</h2>
+
+<p><a href="https://frontenddevweekly.curated.co/" title="Front-end Dev Weekly">frontenddevweekly.curated.co/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web</span> <span class="jser-tag">Tools</span> <span class="jser-tag">mail</span></p>
+
+<p>フロントエンド開発のニュース、ツールについての週間のメールマガジン</p>
+
+<hr>
+
+<h2 id="frontend-weekly">Frontend Weekly</h2>
+
+<p><a href="http://studiomohawk.us2.list-manage.com/subscribe?u=0c8604ec46b9f779a3f5b6a1c&id=9af01549dd" title="Frontend Weekly">studiomohawk.us2.list-manage.com/subscribe?u=0c8604ec46b9f779a3f5b6a1c&amp;id=9af01549dd</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">web</span> <span class="jser-tag">mail</span></p>
+
+<p>フロントエンドに関連する記事、チュートリアル、動画/スライドを紹介する週間のメールマガジン</p>
+
+<ul>
+<li><a href="http://t32k.me/mol/log/frontend-weekly/" title="”今の”フロントエンド開発を知るためのメルマガ：Frontend Weekly — MOL">”今の”フロントエンド開発を知るためのメルマガ：Frontend Weekly — MOL</a></li>
+</ul>
+
+<hr>
+
+<h2 id="optimizing-performance-web-fundamentals">Optimizing Performance — Web Fundamentals</h2>
+
+<p><a href="https://developers.google.com/web/fundamentals/performance/" title="Optimizing Performance — Web Fundamentals">developers.google.com/web/fundamentals/performance/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">翻訳</span> <span class="jser-tag">Brackets</span> <span class="jser-tag">performance</span></p>
+
+<p>Web Fundamentalsの一部が翻訳されてる</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="desvg">deSVG</h2>
+
+<p><a href="http://benhowdle.im/deSVG/" title="deSVG">benhowdle.im/deSVG/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">CSS</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>SVGをインラインに展開してCSSでスタイリング出来るようにするライブラリ</p>
+
+<hr>
+
+<h2 id="mauriciosoares-core-js">mauriciosoares/core.js</h2>
+
+<p><a href="https://github.com/mauriciosoares/core.js" title="mauriciosoares/core.js">github.com/mauriciosoares/core.js</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p><code>Core.register</code>で要素指定しその要素に関連する処理を書いたコンポーネントの作成、コンポーネント同士はlistenとnotifyのpub/subでやり取りする事で疎結合な構成を作るライブラリ</p>
+
+<hr>
+
+<h2 id="fraction-set-timer">fraction/set-timer</h2>
+
+<p><a href="https://github.com/fraction/set-timer" title="fraction/set-timer">github.com/fraction/set-timer</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>setTimeout、setIntervalをラップしたTimer APIライブラリ</p>
+
+<hr>
+
+<h2 id="strml-jsxhint">STRML/JSXHint</h2>
+
+<p><a href="https://github.com/STRML/JSXHint" title="STRML/JSXHint">github.com/STRML/JSXHint</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p>
+
+<p>JSXシンタックスを含んだファイルもLint出来るJSHintラッパツール</p>
+
+<hr>
+
+<h2 id="bearcat">bearcat</h2>
+
+<p><a href="http://bearcatjs.org/" title="bearcat">bearcatjs.org/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
+
+<p>モジュール定義部分をbearcatの書き方にすることで、DI、非同期ロード、AOPに対応出来るライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="typescript">型の国のTypeScript</h2>
+
+<p><a href="http://typescript.ninja/typescript-in-definitelyland/" title="型の国のTypeScript">typescript.ninja/typescript-in-definitelyland/</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">book</span> <span class="jser-tag">電子書籍</span></p>
+
+<p>TypeScriptについての書籍</p>
+
+<p>無料で公開されている。</p>
+
+<ul>
+<li><a href="http://typescript.ninja/2015/01/01/typescript-in-definitelyland.html" title="TypeScript in Definitelyland 発行">TypeScript in Definitelyland 発行</a></li>
+</ul>
+
+<hr>
+
+<h2 id="pro-express-js">Pro Express.js</h2>
+
+<p><a href="http://www.apress.com/9781484200384" title="Pro Express.js">www.apress.com/9781484200384</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">book</span></p>
+
+<p>Express.jsについての書籍</p>
+
+<hr>
+
+<h2 id="css-refactoring-oreilly-media">CSS Refactoring - O&#x27;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/0636920033998.do" title="CSS Refactoring - O&amp;#x27;Reilly Media">shop.oreilly.com/product/0636920033998.do</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">book</span></p>
+
+<p>2015年3月発売</p>
+
+<p>CSSのリファクタリング本</p>
+
+<hr>
+
+<h2 id="beautiful-javascript-oreilly-media">Beautiful JavaScript - O&#x27;Reilly Media</h2>
+
+<p><a href="http://shop.oreilly.com/product/0636920030706.do" title="Beautiful JavaScript - O&amp;#x27;Reilly Media">shop.oreilly.com/product/0636920030706.do</a></p>
+
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+
+<p>2015年3月発売</p>
+
+<p>JavaScript全体のエコシステムやどうやって問題にアプローチしていくのかなどについて</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2015/2015-01-06-eslint0.11-browserify-webpack-typescript.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["JavaScript","Lint","tools","Browserify","webpack","TypeScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>JavaScript</li>
+                
+                <li>Lint</li>
+                
+                <li>tools</li>
+                
+                <li>Browserify</li>
+                
+                <li>webpack</li>
+                
+                <li>TypeScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2015/01/06/eslint0.11-browserify-webpack-typescript/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2015/01/06/eslint0.11-browserify-webpack-typescript/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12のJS: jQuery 4.0.0、Storybook 8 Beta、Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05のJS: TypeScript 5.4 Beta、Learn Testing/Performance、Interop 2024</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

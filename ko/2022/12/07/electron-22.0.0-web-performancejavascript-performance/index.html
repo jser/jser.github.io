@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2022-12-07: Electron 22.0.0, Web Performance와 JavaScript Performance - JSer.info</title>
+    <meta name="description" content="JSer.info #621 - Electron 22.0.0 출시되었다.">
+    
+    <meta name="keywords" content="performance,Chrome,Electron,Next.js,TypeScript" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2022-12-07T14:04:16+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="Chrome" property="article:tag">
+      
+      <meta content="Electron" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2022/12/07/electron-22.0.0-web-performancejavascript-performance/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #621 - Electron 22.0.0 출시되었다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2022-12-07: Electron 22.0.0, Web Performance와 JavaScript Performance">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2022/12/07/electron-22.0.0-web-performancejavascript-performance/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #621 - Electron 22.0.0 출시되었다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2022-12-07T14:04:16+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="Chrome">
+
+<meta property="article:tag" content="Electron">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="TypeScript">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2022/12/07/electron-22.0.0-web-performancejavascript-performance/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2022/12/07/electron-22.0.0-web-performancejavascript-performance/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2022/12/07/electron-22.0.0-web-performancejavascript-performance/">2022-12-07: Electron 22.0.0, Web Performance와 JavaScript Performance</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2022年12月07日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0(Oh TaeJun)</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-12-07-electron-22.0.0-web-performancejavascript-performance.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2022/2022-12-07-electron-22.0.0-web-performancejavascript-performance.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/12/07/electron-22.0.0-web-performancejavascript-performance/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #621 - Electron 22.0.0 출시되었다.</p>
+
+<ul>
+<li><a href="https://www.electronjs.org/blog/electron-22-0">Electron 22.0.0 | Electron</a></li>
+</ul>
+
+<p>Chromium 108, Node.js 16.17.1, V8 10.8로 업데이트, <code>UtilityProcess</code> 모듈 추가, <code>new-window</code> 이벤트 비권장화 등의 변경이 포함되었다.</p>
+
+<p>또한 Chromium 109에서는 Windows 7/8/8.1 지원이 종료됨에 따라 Electron도 이에 대응했다.<br>
+Windows 7/8/8.1 지원하는 최후의 Electron 버전이다.</p>
+
+<ul>
+<li><a href="https://support.google.com/chrome/thread/185534985/sunsetting-support-for-windows-7-8-8-1-in-early-2023?hl=en">Sunsetting support for Windows 7 / 8/8.1 in early 2023 - Google Chrome Community</a></li>
+</ul>
+
+<hr>
+
+<p>이번주는 웹 퍼포먼스와 JavaScript 퍼포먼스에 대한 글이 많습니다.</p>
+
+<p><a href="https://www.debugbear.com/blog/image-formats">Image Formats for the Web | DebugBear</a>은 GIF부터 AVIF까지 여러 이미지 퍼포먼스에 대해 정리했습니다.<br>
+또한, <a href="https://developer.chrome.com/en/blog/prerender-pages/">Prerender pages in Chrome for instant page navigations - Chrome Developers</a>은, Chrome 108에 새로 구현된 prerender 구조에 대해 설명합니다.</p>
+
+<p><a href="https://marvinh.dev/blog/speeding-up-javascript-ecosystem/">Speeding up the JavaScript ecosystem - one library at a time</a>에서는, 유명한 라이브러리의 어떤 부분이 느려지는 처리를 하는가 알려줍니다.</p>
+
+<p>이 외에도 <a href="https://calendar.perfplanet.com/2022/">Web Performance Calendar » 2022</a>가 올해도 개최됨에 웹 관련 퍼포먼스 글이 많습니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="electron-22-0-0-electron">Electron 22.0.0 | Electron</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-22-0" title="Electron 22.0.0 | Electron">www.electronjs.org/blog/electron-22-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 22.0.0 출시.<br>
+Chromium 108, Node.js 16.17.1, V8 10.8 로 업데이트, <code>UtilityProcess</code> 모듈 추가, <code>new-window</code> 이벤트 비권장화.<br>
+Windows 7/8/8.1 지원하는 마지막 버전 Electron.</p>
+
+<hr>
+
+<h2 id="release-5-0-0-primus-eventemitter3">Release 5.0.0 · primus/eventemitter3</h2>
+
+<p><a href="https://github.com/primus/eventemitter3/releases/tag/5.0.0" title="Release 5.0.0 · primus/eventemitter3">github.com/primus/eventemitter3/releases/tag/5.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>eventemitter3 5.0.0 출시.<br>
+Node.js ESM 지원 등</p>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2022-11-ecmascript-daily">ECMAScript proposal updates @ 2022-11 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2022/12/05/ecmascript-proposal-update" title="ECMAScript proposal updates @ 2022-11 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2022/12/05/ecmascript-proposal-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">news</span></p></p>
+
+<p>2022년 11월에 행해진 TC39 Meeting에 의해 Status가 변경된 ECMAScript Proposal 정리.</p>
+
+<hr>
+
+<h2 id="new-in-chrome-108-chrome-developers">New in Chrome 108 - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/blog/new-in-chrome-108/" title="New in Chrome 108 - Chrome Developers">developer.chrome.com/blog/new-in-chrome-108/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 108 변경점에 대해.<br>
+viewport의 unit <code>dvh</code>/<code>lvh</code>/<code>svh</code> 추가, Variable fonts의 COLRv1를 지원.<br>
+FileSystemSyncAccessHandle API를 동기 메서드로 변경, Permissions Policy Origin 지정에 <code>*</code>(wildcard)를 이용할 수 있도록 등</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="how-typescript-4-9-satisfies-your-prisma-workflows">How TypeScript 4.9 `satisfies` Your Prisma Workflows</h2>
+
+<p><a href="https://www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb" title="How TypeScript 4.9 \`satisfies\` Your Prisma Workflows">www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScript 4.9 <code>satisfies</code> operator 사용방법에 대한 글.<br>
+Prisma이나 Zod와 함께 사용하는 방법에 대해.</p>
+
+<hr>
+
+<h2 id="sass-svg-dwango-on-github">Sass로 만든 SVG 초빠르게 읽어주는 라이브러리 소개 - dwango on GitHub</h2>
+
+<p><a href="https://dwango.github.io/articles/2022-12_nicolive_svg/" title="Sass로 만든 SVG 초빠르게 읽어주는 라이브러리 소개 - dwango on GitHub">dwango.github.io/articles/2022-12_nicolive_svg/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">SVG</span> <span class="jser-tag">Cargo</span></p></p>
+
+<p>CSS를 사용해 SVG를 갈아끼우는 방법과 그것을 구현한 라이브러리에 대해.<br>
+CSS의 <code>mask-image</code>를 사용하는 방법과 <code>animationstart</code>로 갈아끼우는 방법과 비교.</p>
+
+<hr>
+
+<h2 id="image-formats-for-the-web-debugbear">Image Formats for the Web | DebugBear</h2>
+
+<p><a href="https://www.debugbear.com/blog/image-formats" title="Image Formats for the Web | DebugBear">www.debugbear.com/blog/image-formats</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Image</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>웹에 적절한 이미지 포맷과 어떤 것을 사용해야 하는가 에대해.<br>
+GIF/PNG/JPG/WebP/AVIF/SVG 각각의 특성과 추천사항. AVIF은 비가역 압축과 가역 압축 모두 지원하며, 가역 압축의 결과는 그다지 좋지 않다는 점에 대해 등</p>
+
+<blockquote>
+<p>비가역: 어떤 상태로 되돌릴 수 없는, 가역: 어떤 상태로 되돌릴 수 있는.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="migrating-from-vue-2-to-svelte">Migrating from Vue 2 to Svelte</h2>
+
+<p><a href="https://escape.tech/blog/from-vue2-to-svelte/" title="Migrating from Vue 2 to Svelte">escape.tech/blog/from-vue2-to-svelte/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">Svelte</span> <span class="jser-tag">article</span></p></p>
+
+<p>Vue 2에서 SvelteKit으로 이행하는 글.</p>
+
+<hr>
+
+<h2 id="working-with-zustand-tkdodos-blog">Working with Zustand | TkDodo&#039;s blog</h2>
+
+<p><a href="https://tkdodo.eu/blog/working-with-zustand" title="Working with Zustand | TkDodo&amp;#039;s blog">tkdodo.eu/blog/working-with-zustand</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>React 상태관리 라이브러리 Zustand에 대한 Tips.<br>
+퍼포먼스 관련한 Tips, 액션과 상태의 분리, 액션을 setter가 아니라 event로 다룸, Store 스코프를 자잘하게 보존 등</p>
+
+<hr>
+
+<h2 id="prerender-pages-in-chrome-for-instant-page-navigations-chrome-developers">Prerender pages in Chrome for instant page navigations - Chrome Developers</h2>
+
+<p><a href="https://developer.chrome.com/en/blog/prerender-pages/" title="Prerender pages in Chrome for instant page navigations - Chrome Developers">developer.chrome.com/en/blog/prerender-pages/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome의 새로운 prerender에 대해.<br>
+주소창에 URL 입력하는 경우에도 신뢰도에 기반해 Prerender를 우선적으로 행함.<br>
+또한 Speculation Rules API에 prerender 규칙 정의, prerender를 서버 측에서 무효화하는 방법, prerender 되었는가 어떤가를 확인하는 방법 등 .</p>
+
+<hr>
+
+<h2 id="speeding-up-the-javascript-ecosystem-one-library-at-a-time">Speeding up the JavaScript ecosystem - one library at a time</h2>
+
+<p><a href="https://marvinh.dev/blog/speeding-up-javascript-ecosystem/" title="Speeding up the JavaScript ecosystem - one library at a time">marvinh.dev/blog/speeding-up-javascript-ecosystem/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>불필요한 자료형 변환이나 함수 안에 함수를 만들지 않음으로 다수의 라이브러리는 성능이 개선되었다는 글.<br>
+실제 PostCSS 플러그인이나 SVGO 등 코드를 예시로 어떤 것이 성능에 영향을 주는가에 대해</p>
+
+<hr>
+
+<h2 id="new-npm-features-for-secure-publishing-and-safe-consumption-the-github-blog">New npm features for secure publishing and safe consumption | The GitHub Blog</h2>
+
+<p><a href="https://github.blog/2022-12-06-new-npm-features-for-secure-publishing-and-safe-consumption/" title="New npm features for secure publishing and safe consumption | The GitHub Blog">github.blog/2022-12-06-new-npm-features-for-secure-publishing-and-safe-consumption/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>npm에 접근가능한 범위 설정할 수 있는 fine-grained access token 추가, npm 웹사이트 상의 Code explorer에서 코드를 볼 수 있도록 등</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="an-introduction-to-the-libjs-javascript-engine-google">An introduction to the LibJS JavaScript engine - Google 슬라이드</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1-chE3GTNFnNRwZqk4Bf3GCPV_nINfKG-NUTM4IeEnVc/edit#slide=id.p" title="An introduction to the LibJS JavaScript engine - Google 슬라이드">docs.google.com/presentation/d/1-chE3GTNFnNRwZqk4Bf3GCPV_nINfKG-NUTM4IeEnVc/edit#slide&#x3D;id.p</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">slide</span></p></p>
+
+<p>SerenityOS 대상 스크래치에서 JavaScript 엔진을 작성했다는 슬라이드.<br>
+ECMA-262 사양을 만족하는 JIT 없이 AST/Bytecode 인터프리터를 어떻게 구현했는가에 대해</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="shuding-nextra-simple-powerful-and-flexible-site-generation-framework-with-everything-you-love-from-next-js">shuding/nextra: Simple, powerful and flexible site generation framework with everything you love from Next.js.</h2>
+
+<p><a href="https://github.com/shuding/nextra" title="shuding/nextra: Simple, powerful and flexible site generation framework with everything you love from Next.js.">github.com/shuding/nextra</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>Next.js와 MDX 기반 정적 사이트 제네레이터 도구.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2022/2022-12-07-electron-22.0.0-web-performancejavascript-performance.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["performance","Chrome","Electron","Next.js","TypeScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>performance</li>
+                
+                <li>Chrome</li>
+                
+                <li>Electron</li>
+                
+                <li>Next.js</li>
+                
+                <li>TypeScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2022/12/07/electron-22.0.0-web-performancejavascript-performance/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

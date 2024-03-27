@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2023-01-24: Bun v0.5, Remix v1.11.0, 메모리 누수 조사 - JSer.info</title>
+    <meta name="description" content="JSer.info #628 - Bun v0.5가 릴리스 됐다.">
+    
+    <meta name="keywords" content="performance,node.js,Bun,rlee,Next.js" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2023-01-24T22:23:07+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="node.js" property="article:tag">
+      
+      <meta content="Bun" property="article:tag">
+      
+      <meta content="rlee" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2023/01/24/bun-v0.5-remix-v1.11.0/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #628 - Bun v0.5가 릴리스 됐다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2023-01-24: Bun v0.5, Remix v1.11.0, 메모리 누수 조사">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2023/01/24/bun-v0.5-remix-v1.11.0/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #628 - Bun v0.5가 릴리스 됐다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2023-01-24T22:23:07+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="node.js">
+
+<meta property="article:tag" content="Bun">
+
+<meta property="article:tag" content="rlee">
+
+<meta property="article:tag" content="Next.js">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2023/01/24/bun-v0.5-remix-v1.11.0/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2023/01/24/bun-v0.5-remix-v1.11.0/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2023/01/24/bun-v0.5-remix-v1.11.0/">2023-01-24: Bun v0.5, Remix v1.11.0, 메모리 누수 조사</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2023年01月24日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-01-24-bun-v0.5-remix-v1.11.0-.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2023/2023-01-24-bun-v0.5-remix-v1.11.0-.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/01/24/bun-v0.5-remix-v1.11.0/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #628 - Bun v0.5가 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://bun.sh/blog/bun-v0.5.0">Bun v0.5 | Bun Blog</a></li>
+</ul>
+
+<p><code>package.json</code>의 <code>workspaces</code>를 이용한 설치를 지원한다.<br>
+<code>node:dns</code>, <code>node:tls</code>, <code>node:net</code>, <code>node:readline</code>을 지원하는 등 Node.js와의 호환성 강화.<br>
+또, 모듈 해결(resolution) 시의 식별자 우선 순위 변경이 포함됐다.</p>
+
+<hr>
+
+<p>Remix v1.11.0가 릴리스 됐다.</p>
+
+<ul>
+<li><a href="https://github.com/remix-run/remix/releases/tag/remix%401.11.0">Release v1.11.0 · remix-run/remix</a></li>
+</ul>
+
+<p><code>defer</code>를 사용해 응답 대기 시간을 줄일 수 있도록, <code>@remix-run/css-bundle</code>을 이용한 CSS 파일 가져오기, CSS Modules, Vanilla Extract 지원.<br>
+또, Remix v2에서 도입 예정인 Flat Routes를 opt-in으로 이용할 수 있다.</p>
+
+<ul>
+<li><a href="https://github.com/remix-run/remix/discussions/4482">Flat Routes · Discussion #4482 · remix-run/remix</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://kentcdodds.com/blog/fixing-a-memory-leak-in-a-production-node-js-app">Fixing a Memory Leak in a Production Node.js App</a>에서는 Node.js 기반 웹 애플리케이션에서 발생한 메모리 누수의 원인을 어떻게 조사하고 수정해 나갔는지 이야기 한다.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vkys6Wk-jYk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<p>본문 내 라이브 디버깅 영상에서는 Node.js의 Memory Profilter(Chrome DevTools)를 이용하여 메모리 누수 원인을 찾는 과정을 보여준다.<br>
+heap snapshots을 이용한 메모리 누수 디버깅, <a href="https://www.npmjs.com/package/autocannon">autocannon</a>라는 HTTP 벤치마크 도구를 사용하요 지속적으로 요청을 보내 문제 상황을 재현하는 방법을 소개한다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="bun-v0-5-bun-blog">Bun v0.5 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v0.5.0" title="Bun v0.5 | Bun Blog">bun.sh/blog/bun-v0.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">rlee</span></p></p>
+
+<p>Bun 0.5.0 릴리스.<br>
+<code>workspaces</code> 설치 지원.<br>
+<code>node:dns</code>, <code>node:tls</code>, <code>node:net</code>, <code>node:readline</code>를 지원하는 등 Node.js와의 호환성 강화.<br>
+모듈 해결(resolution) 시의 식별자 우선 순위 변경 등.</p>
+
+<hr>
+
+<h2 id="release-v2-0-0-alpha-1-reduxjs-redux-toolkit">Release v2.0.0-alpha.1 · reduxjs/redux-toolkit</h2>
+
+<p><a href="https://github.com/reduxjs/redux-toolkit/releases/tag/v2.0.0-alpha.1" title="Release v2.0.0-alpha.1 · reduxjs/redux-toolkit">github.com/reduxjs/redux-toolkit/releases/tag/v2.0.0-alpha.1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">library</span> <span class="jser-tag">redux</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Redux Toolkit v2.0.0-alpha.1 릴리스.<br>
+ESM 형식과 CJS 형식을 지원하는 듀얼 패키지로 변경, <code>thunk</code> 함수를 <code>redux-thunk</code> 패키지로 이동.<br>
+v2 정식 버전에는 Immer 10을 포함할 예정이다.</p>
+
+<ul>
+<li><a href="https://github.com/immerjs/immer/issues/1015" title="Immer 10 proposals: Drop promises, default export, array.length patches, ES5 mode, and make getter / setter support opt-in · Issue #1015 · immerjs/immer">Immer 10 proposals: Drop promises, default export, array.length patches, ES5 mode, and make getter / setter support opt-in · Issue #1015 · immerjs/immer</a></li>
+</ul>
+
+<hr>
+
+<h2 id="q1-roadmap-issue-17475-denoland-deno">Q1 Roadmap · Issue #17475 · denoland/deno</h2>
+
+<p><a href="https://github.com/denoland/deno/issues/17475" title="Q1 Roadmap · Issue #17475 · denoland/deno">github.com/denoland/deno/issues/17475</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">issue</span> <span class="jser-tag">proposal</span></p></p>
+
+<p>Deno의 2023 Q1 로드맵.<br>
+<code>deno.json</code>에 직접 import map을 삽입할 수 있도록 개선, <code>type=module</code>의 <code>package.json</code> 지원, <code>node:</code> prefix 지원.<br>
+deno.land/x 에서 semver 버전 지정 지원, <code>deno bundle</code>를 Deprecate로 하고 <code>deno pack</code> 추가.</p>
+
+<hr>
+
+<h2 id="safari-16-3-release-notes-apple-developer-documentation">Safari 16.3 Release Notes | Apple Developer Documentation</h2>
+
+<p><a href="https://developer.apple.com/documentation/safari-release-notes/safari-16_3-release-notes" title="Safari 16.3 Release Notes | Apple Developer Documentation">developer.apple.com/documentation/safari-release-notes/safari-16_3-release-notes</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari 16.3 릴리스.<br>
+<code>fetch()</code>로 <code>Content-Encoding: gzip</code> 컨텐츠를 다운로드 할 때의 문제 수정, <code>Cross-Origin-Embedder-Policy</code> 버그 수정.<br>
+CSP에 <code>prefetch-src</code> 디렉티브 추가.</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/13691/webkit-features-in-safari-16-3/" title="WebKit Features in Safari 16.3 | WebKit">WebKit Features in Safari 16.3 | WebKit</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v29-4-0-facebook-jest">Release v29.4.0 · facebook/jest</h2>
+
+<p><a href="https://github.com/facebook/jest/releases/tag/v29.4.0" title="Release v29.4.0 · facebook/jest">github.com/facebook/jest/releases/tag/v29.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">jest</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Jest v29.4.0 릴리스.<br>
+<code>equal</code> 알고리즘을 사용자가 정의할 수 있도록 하는 <code>expect.addEqualityTesters()</code> 추가, 객체의 속성을 목(mock)하는 <code>jest.replaceProperty()</code> 추가 등.</p>
+
+<hr>
+
+<h2 id="release-v1-11-0-remix-run-remix">Release v1.11.0 · remix-run/remix</h2>
+
+<p><a href="https://github.com/remix-run/remix/releases/tag/remix%401.11.0" title="Release v1.11.0 · remix-run/remix">github.com/remix-run/remix/releases/tag/remix%401.11.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Remix</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Remix 1.11.0 릴리스.<br>
+<code>defer</code>를 사용해 응답 대기를 줄일 수 있도록, <code>@remix-run/css-bundle</code>을 이용한 CSS 파일 가져오기, CSS Modules. Vanilla Extract 지원.<br>
+Flat Routes를 opt-in으로 사용할 수 있도록 변경.</p>
+
+<ul>
+<li><a href="https://github.com/remix-run/remix/discussions/4482" title="Flat Routes · Discussion #4482 · remix-run/remix">Flat Routes · Discussion #4482 · remix-run/remix</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="next-js-100">Next.js 기반 애플리케이션 컴파일 속도를 약 100배 개선한 이야기(일본어)</h2>
+
+<p><a href="https://zenn.dev/mkt/articles/543669021d9a1e" title="Next.js 기반 애플리케이션 컴파일 속도를 약 100배 개선한 이야기">zenn.dev/mkt/articles/543669021d9a1e</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Next.js의 빌드 속도 문제 원인을 <code>.next/trace</code>의 트레이스 데이터를 보고 분석하는 방법 소개.</p>
+
+<ul>
+<li><a href="https://github.com/vercel/next.js/issues/29559#issuecomment-938431883" title="NextJs compiling extremely slow · Issue #29559 · vercel/next.js">NextJs compiling extremely slow · Issue #29559 · vercel/next.js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="why-not-document-write-css-wizardry-web-performance-optimisation">Why Not document.write()? – CSS Wizardry – Web Performance Optimisation</h2>
+
+<p><a href="https://csswizardry.com/2023/01/why-not-document-write/" title="Why Not document.write()? – CSS Wizardry – Web Performance Optimisation">csswizardry.com/2023/01/why-not-document-write/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span> <span class="jser-tag">performance</span></p></p>
+
+<p><code>document.write()</code>가 왜 느린지 분석 및 설명하는 글.</p>
+
+<hr>
+
+<h2 id="why-is-my-jest-test-suite-so-slow-by-steven-lemon-jan-2023-bits-and-pieces">Why Is My Jest Test Suite So Slow? | by Steven Lemon | Jan, 2023 | Bits and Pieces</h2>
+
+<p><a href="https://blog.bitsrc.io/why-is-my-jest-suite-so-slow-2a4859bb9ac0" title="Why Is My Jest Test Suite So Slow? | by Steven Lemon | Jan, 2023 | Bits and Pieces">blog.bitsrc.io/why-is-my-jest-suite-so-slow-2a4859bb9ac0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Jest 테스트의 성능 병목 현상을 알아보는 방법 소개.<br>
+부팅 시간, <code>jsdom</code> 로드. 캐시, 테스트 파일 로드, 실제 테스트 실행 시간 분석.<br>
+Node.js의 프로파일러를 사용해 어디에 문제가 있는지 알아보는 방법을 소개한다.</p>
+
+<hr>
+
+<h2 id="fixing-a-memory-leak-in-a-production-node-js-app">Fixing a Memory Leak in a Production Node.js App</h2>
+
+<p><a href="https://kentcdodds.com/blog/fixing-a-memory-leak-in-a-production-node-js-app" title="Fixing a Memory Leak in a Production Node.js App">kentcdodds.com/blog/fixing-a-memory-leak-in-a-production-node-js-app</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span> <span class="jser-tag">video</span></p></p>
+
+<p>Node.js의 애플리케이션에서 메모리 누수가 발생했을 때 실제로 어떻게 디버깅하여 문제를 발견했는지 소개하는 글.<br>
+본문 내 영상을 보면 처음에는 <code>shiki</code>가 사용하는 <code>vscode-oniguruma</code>에서 메모리 해제 처리를 하지 않는 것이 문제라고 판단하고 Worker에서 처리하도록 변경한다.<br>
+하지만 실제로는 <code>express-http-proxy</code>에서 요청 URL을 저장하고 있었고 Image CDN의 URL이 너무 길어서 메모리를 필요 이상 점유하게 된 게 원인으로 분석된다.</p>
+
+<hr>
+
+<h2 id="sssvg-an-interactive-svg-reference-fffuel">SSSVG: An Interactive SVG Reference | fffuel</h2>
+
+<p><a href="https://fffuel.co/sssvg/" title="SSSVG: An Interactive SVG Reference | fffuel">fffuel.co/sssvg/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">SVG</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>인터렉티브하게 속성을 조절해가며 SVG 태그를 살펴볼 수 있는 래퍼런스 사이트.</p>
+
+<hr>
+
+<h2 id="optimize-time-to-first-byte">Optimize Time to First Byte</h2>
+
+<p><a href="https://web.dev/optimize-ttfb/" title="Optimize Time to First Byte">web.dev/optimize-ttfb/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p>Time to First Byte (TTFB)의 개선을 주제로 한 글.<br>
+<code>Serving-Timing</code> 헤더를 사용한 정보 구체화, CDN 이용, 페이지 리다이렉트를 피하기, SSR 시에 Streaming Server Rendering을 사용하기.<br>
+Service Worker를 사용한 캐시 전략, 103 Early Hints 등을 다루고 있다.</p>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="amandaghassaei-gpu-io-a-gpu-accelerated-computing-library-for-physics-simulations-and-other-mathematical-calculations">amandaghassaei/gpu-io: A GPU-accelerated computing library for physics simulations and other mathematical calculations</h2>
+
+<p><a href="https://github.com/amandaghassaei/gpu-io" title="amandaghassaei/gpu-io: A GPU-accelerated computing library for physics simulations and other mathematical calculations">github.com/amandaghassaei/gpu-io</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>WebGL 2.0 기반으로 개발된 GPU 가속 처리 라이브러리.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이버러리</h1>
+
+<hr>
+
+<h2 id="brooooooklyn-canvas-high-performance-skia-binding-to-node-js-zero-system-dependencies-and-pure-npm-packages-without-any-postinstall-scripts-nor-node-gyp">Brooooooklyn/canvas: High performance skia binding to Node.js. Zero system dependencies and pure npm packages without any postinstall scripts nor node-gyp.</h2>
+
+<p><a href="https://github.com/Brooooooklyn/canvas" title="Brooooooklyn/canvas: High performance skia binding to Node.js. Zero system dependencies and pure npm packages without any postinstall scripts nor node-gyp.">github.com/Brooooooklyn/canvas</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span></p></p>
+
+<p>네이티브 에드온을 사용한 skia backend의 Canvas API 구현 라이브러리.<br>
+아키텍처 환경에 맞춰 optionalDependencies로 prebuild의 Skia를 포함한 바이너리가 다운로드 되므로 시스템에 따라 사전에 의존 모듈을 추가로 설치할 필요가 없다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2023/2023-01-24-bun-v0.5-remix-v1.11.0-.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["performance","node.js","Bun","rlee","Next.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>performance</li>
+                
+                <li>node.js</li>
+                
+                <li>Bun</li>
+                
+                <li>rlee</li>
+                
+                <li>Next.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2023/01/24/bun-v0.5-remix-v1.11.0/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

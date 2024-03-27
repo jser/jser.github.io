@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-04-23: Svelte 3(Change Everything), Google의 CSP(Content Security Policy) 도입 단계 - JSer.info</title>
+    <meta name="description" content="JSer.info #432 - 컴파일을 전제로한 UI 컴포넌트 프레임워크인 Svelte 3가 릴리스됐습니다.">
+    
+    <meta name="keywords" content="Svelte,CSP,security" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-04-23T10:35:41+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Svelte" property="article:tag">
+      
+      <meta content="CSP" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #432 - 컴파일을 전제로한 UI 컴포넌트 프레임워크인 Svelte 3가 릴리스됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-04-23: Svelte 3(Change Everything), Google의 CSP(Content Security Policy) 도입 단계">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #432 - 컴파일을 전제로한 UI 컴포넌트 프레임워크인 Svelte 3가 릴리스됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-04-23T10:35:41+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Svelte">
+
+<meta property="article:tag" content="CSP">
+
+<meta property="article:tag" content="security">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/">2019-04-23: Svelte 3(Change Everything), Google의 CSP(Content Security Policy) 도입 단계</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年04月23日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-04-23-svelte-3change-everythinggooglecspcontent-security-policy.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-04-23-svelte-3change-everythinggooglecspcontent-security-policy.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #432 - 컴파일을 전제로한 UI 컴포넌트 프레임워크인 Svelte 3가 릴리스됐습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/blog/svelte-3-rethinking-reactivity">Svelte 3: Rethinking reactivity</a></li>
+</ul>
+
+<p>3.0.0의 <a href="https://github.com/sveltejs/svelte/blob/master/CHANGELOG.md#300">CHANGELOG의 &quot;Everything&quot;</a>을 보면 알 수 있듯이 지금까지의 구조를 크게 변경해 재작성한 버전입니다.</p>
+
+<p>템플릿 구문, 컴포넌트에서 사용할 수 있는 API, 상태 변경 시 UI 갱신을 위한 전파 구조(reactive)가 변경됐습니다. </p>
+
+<p>기존에는 컴포넌트의 상태를 <code>set</code> API 등을 사용해 변경하고 UI에 반영했습니다.</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p&gt;</span>{count} doubled is {double}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">on:click=</span><span class="s">"set({ count: count + 1 })"</span><span class="nt">&gt;</span>+1<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+        <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="na">count</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">};</span>
+        <span class="p">},</span>
+        <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">doubled</span><span class="p">:</span> <span class="p">({</span> <span class="nx">count</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">count</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<p>Svelte 3부터는 다음과 같이 변경을 탐지하고자 하는 문을 <code>$</code> 라벨(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label">JavaScript의 라벨</a>)로 애너테이션합니다. 이 라벨로 지정된 변수의 값이 변경 됐을 때 UI를 갱신하는 코드가 컴파일 시 생성됩니다(<code>$$invalidate</code>라는 변경을 전파하는 코드가 빌드 파일에 포함됩니다).</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p&gt;</span>{count} doubled is {doubled}<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;button</span> <span class="na">on:click=</span><span class="s">"{() =&gt; count += 1}"</span><span class="nt">&gt;</span>+1<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+    <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nl">$</span><span class="p">:</span> <span class="nx">doubled</span> <span class="o">=</span> <span class="nx">count</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="kd">function</span> <span class="nx">handleClick</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">count</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<p>위와 같은 선언적인 Reactivity에 대해서는 다음 문서나 RFC를 살펴보면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/tutorial/reactive-declarations">Reactivity / Declarations • Svelte Tutorial</a></li>
+<li><a href="https://github.com/sveltejs/rfcs/blob/master/text/0003-reactive-declarations.md">rfcs/0003-reactive-declarations.md at master · sveltejs/rfcs</a></li>
+</ul>
+
+<p>아주 간단히 설명하자면 <code>@observable</code>과 같은 <a href="https://github.com/tc39/proposal-decorators">​아직 책정 중의 Decorator 구문</a>을 사용하는게 아니라 이미 존재하는 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label">label 문</a>과 <code>$</code> 라벨을 사용해 컴파일 시 변수 등을 Observable하게 만드는 방식입니다.</p>
+
+<p>이 외에도 <a href="https://svelte.dev/blog/write-less-code">Write less code</a>에 따른 변경 사항이 많이 포함된 버전이므로 자세한 내용은 공식 사이트를 꼼꼼히 살펴보는게 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/">Svelte • Cybernetically enhanced web apps</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation">Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck</a> 슬라이드에는 구글 주요 도메인의 CSP(Content Security Policy) 도입 상황과 단계 등이 소개돼 있습니다.</p>
+
+<p>구글 도메인의 CSP 도입 정도를 나타내는 커버리지와 CSP 상에서의 XSS 차단율과 원리를 소개합니다. 또, CSP의 4개 레벨과 도입 단계, 명시적 허가 목록(whitelist) 문제와 nonce-based CSP, CSP와 배포(deploy) 환경과의 절충점(trade off)에 대해서도 이야기 합니다.</p>
+
+<p>CSP의 설정(directive)에 따라서 eval이나 inline code를 사용할 수 없을수도 있기 있으며 이에 따른 CSP 대응 리팩터링 방법과 도입을 위한 각 단계가 소개돼 있습니다.</p>
+
+<p>이 슬라이드에서 언급하고 있는 화이트리스트 문제와 nonce-based CSP는 다음 글을 참고하면 도움이 될 거 같습니다.</p>
+
+<ul>
+<li><a href="https://inside.pixiv.blog/kobo/5137" title="Content Security Policy Level 3의 XSS 대책 - pixiv inside">Content Security Policy Level 3의 XSS 대책 - pixiv inside</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="alibaba-rax-v1-0-released-the-fastest-way-to-build-universal-application">alibaba/rax: [ v1.0 released] The fastest way to build universal application.</h2>
+
+<p><a href="https://github.com/alibaba/rax" title="alibaba/rax: \[ v1.0 released\] The fastest way to build universal application.">github.com/alibaba/rax</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React와 같은 API를 갖는 Universal View 라이브러리인 Rax 1.0.0이 릴리스됐습니다.<br>
+Hooks API를 지원합니다.</p>
+
+<hr>
+
+<h2 id="release-v5-0-0-sindresorhus-np">Release v5.0.0 · sindresorhus/np</h2>
+
+<p><a href="https://github.com/sindresorhus/np/releases/tag/v5.0.0" title="Release v5.0.0 · sindresorhus/np">github.com/sindresorhus/np/releases/tag/v5.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm publish하는 np 5.0.0이 릴리스됐습니다.<br>
+새롭게 공개하는 패키지에 관해서는 이중 인중이 자동으로 활성화 되며 공개에 실패한 경우를 위한 롤백 처리가 개선됐습니다.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-80-webkit">Release Notes for Safari Technology Preview 80 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8825/release-notes-for-safari-technology-preview-80/" title="Release Notes for Safari Technology Preview 80 | WebKit">webkit.org/blog/8825/release-notes-for-safari-technology-preview-80/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 80이 릴리스됐습니다.<br>
+ResizeObserver, <code>contentWindow</code>와 <code>window.open</code>의 두번째 인수에 <code>noreferrer</code>를 지원합니다.<br>
+또, Legacy Safari Extensions가 지원 종료 됐습니다.</p>
+
+<hr>
+
+<h2 id="blog-next-js-8-1-next-js">Blog - Next.js 8.1 | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/next-8-1" title="Blog - Next.js 8.1 | Next.js">nextjs.org/blog/next-8-1</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">AMP</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 8.1이 릴리스됐습니다.<br>
+AMP를 지원합니다. 컴포넌트 내에서 AMP를 위한 처리를 분기할 수 있는 hybrid 방식을 지원하며 <code>next export</code>로 AMP로의 출력과 검증이 가능합니다.</p>
+
+<hr>
+
+<h2 id="release-10-0-0-beta-0-reconcilertron-developit-preact">Release 10.0.0-beta.0 Reconcilertron · developit/preact</h2>
+
+<p><a href="https://github.com/developit/preact/releases/tag/10.0.0-beta.0" title="Release 10.0.0-beta.0 Reconcilertron · developit/preact">github.com/developit/preact/releases/tag/10.0.0-beta.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Preact 10.0.0-beta.0이 릴리스됐습니다.<br>
+<code>Fragments</code>가 안정화 됐고 조건 분기를 포함하는 프리젠테이션 성능이 개선됐습니다. 이어 컴포넌트의 계층 관계를 고려해 갱신을 처리하도록 수정됐습니다.</p>
+
+<hr>
+
+<h2 id="svelte-3-rethinking-reactivity">Svelte 3: Rethinking reactivity</h2>
+
+<p><a href="https://svelte.dev/blog/svelte-3-rethinking-reactivity" title="Svelte 3: Rethinking reactivity">svelte.dev/blog/svelte-3-rethinking-reactivity</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>컴파일을 전제로한 UI 프레임워크 Svelte 3가 릴리스됐습니다.<br>
+기존의 구조를 새롭게 재작성 했기 때문에 템플릿 구문, API 뿐 아니라 웹사이트도 함께 변경됐습니다.<br>
+변경을 전파, 탐지하는 방식이 크게 바뀌어 <code>set</code> API가 아니라 reactive 변수를 <code>$:</code> 선언하며 컴파일 시 변경을 전파하는 코드를 생성하는 방식으로 변경됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="typescript-typescript-javascript-gfx-hub">TypeScript 재입문 「느슨한 TypeScript」를 이용해 JavaScript를 “유연한” 정적 타입 언어로（gfx집필） - 엔지니어 Hub｜젊은 웹 엔지니어의 경력을 생각하다！</h2>
+
+<p><a href="https://employment.en-japan.com/engineerhub/entry/2019/04/16/103000" title="TypeScript 재입문 「느슨한 TypeScript」를 이용해 JavaScript를 “유연한” 정적 타입 언어로（gfx집필） - 엔지니어 Hub｜젊은 웹 엔지니어의 경력을 생각하다！">employment.en-japan.com/engineerhub/entry/2019/04/16/103000</a>(일본어)<br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>느슨한 타입 환경으로 TypeScript를 시작하는 방법과 장점을 이야기합니다.</p>
+
+<hr>
+
+<h2 id="a-horrifying-globalthis-polyfill-in-universal-javascript-mathias-bynens">A horrifying globalThis polyfill in universal JavaScript · Mathias Bynens</h2>
+
+<p><a href="https://mathiasbynens.be/notes/globalthis" title="A horrifying globalThis polyfill in universal JavaScript · Mathias Bynens">mathiasbynens.be/notes/globalthis</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>globalThis</code>의 polyfill과 동작 원리를 설명합니다.</p>
+
+<hr>
+
+<h2 id="experimental-node-js-testing-the-new-performance-hooks">Experimental Node.js: testing the new performance hooks</h2>
+
+<p><a href="https://blog.logrocket.com/experimental-node-js-testing-the-new-performance-hooks-31fcdd2a747e" title="Experimental Node.js: testing the new performance hooks">blog.logrocket.com/experimental-node-js-testing-the-new-performance-hooks-31fcdd2a747e</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js <code>perf_hooks</code>의 사용 방법에 대해 작성돼 있습니다.<br>
+모듈을 불러오는 시간이나 URL의 요청 시간을 측정하는 것을 예로 설명하고 있습니다.</p>
+
+<hr>
+
+<h2 id="the-perfect-unit-test">The perfect unit test</h2>
+
+<p><a href="https://javascriptplayground.com/the-perfect-javascript-unit-test/" title="The perfect unit test">javascriptplayground.com/the-perfect-javascript-unit-test/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Unit Test를 작성하는 방법에 대한 짧은 글입니다.<br>
+테스트 케이스의 이름을 작성하는 방법, 테스트 설정, 코드 실행, Assert를 세 가지 단계로 나눠 작성하는 방법을 소개합니다.</p>
+
+<hr>
+
+<h2 id="a-realworld-comparison-of-front-end-frameworks-with-benchmarks-2019-update">A RealWorld Comparison of Front-End Frameworks with Benchmarks (2019 update)</h2>
+
+<p><a href="https://medium.freecodecamp.org/a-realworld-comparison-of-front-end-frameworks-with-benchmarks-2019-update-4be0d3c78075" title="A RealWorld Comparison of Front-End Frameworks with Benchmarks (2019 update)">medium.freecodecamp.org/a-realworld-comparison-of-front-end-frameworks-with-benchmarks-2019-update-4be0d3c78075</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">article</span> <span class="jser-tag">benchmark</span></p></p>
+
+<p>&quot;RealWorld&quot; 벤치마크 앱을 기반으로 각 JavaScript 프레임워크 구현체의 성능을 비교한 글입니다.<br>
+성능, 빌드된 파일의 크기, Line of Code(LOC) 항목으로 나눠 각 프레임워크를 비교한 결과가 정리돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/gothinkster/realworld" title="gothinkster/realworld: &amp;amp;quot;The mother of all demo apps&amp;amp;quot; — Exemplary fullstack Medium.com clone powered by React, Angular, Node, Django, and many more 🏅">gothinkster/realworld: &quot;The mother of all demo apps&quot; — Exemplary fullstack Medium.com clone powered by React, Angular, Node, Django, and many more 🏅</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="content-security-policy-a-successful-mess-between-hardening-and-mitigation-speaker-deck">Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation" title="Content Security Policy: A successful mess between hardening and mitigation - Speaker Deck">speakerdeck.com/mikispag/content-security-policy-a-successful-mess-between-hardening-and-mitigation</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSP</span> <span class="jser-tag">browser</span> <span class="jser-tag">security</span> <span class="jser-tag">slide</span></p></p>
+
+<p>구글의 CSP에 관한 슬라이드입니다. Google 도메인의 CSP 도입 정도를 나타내는 커버리지와 CSP 상에서의 XSS 차단율과 원리를 소개합니다.<br>
+CSP의 4개 레벨과 도입 단계, 명시적 허가 목록(whitelist) 문제와 nonce-based CSP, CSP와 배포(deploy) 환경과의 절충점(trade off)에 대해서 작성돼 있으며 CSP 대응을 위한 리팩터링 방법과 도입을 위한 각 단계가 소개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://inside.pixiv.blog/kobo/5137" title="Content Security Policy Level 3におけるXSS対策 - pixiv inside">Content Security Policy Level 3におけるXSS対策 - pixiv inside</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="isinputpending-facebooks-first-browser-api-contribution-facebook-code">isInputPending: Facebook&#39;s first browser API contribution - Facebook Code</h2>
+
+<p><a href="https://code.fb.com/developer-tools/isinputpending-api/" title="isInputPending: Facebook&#39;s first browser API contribution - Facebook Code">code.fb.com/developer-tools/isinputpending-api/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">performance</span> <span class="jser-tag">browser</span></p></p>
+
+<p><code>navigator.scheduling.isInputPending()</code>를 사용해 사용자 조작 중에 큐에 쌓인 작업을 처리하지 않도록 제어하는 방법에 대해 작성돼 있습니다.<br>
+불러오기가 완료될 때까지 사용자가 조작할수 없는 시간인 First Input Delay(FID)를 줄일 수 있는 방법에 대해 이야기합니다. </p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2018/05/first-input-delay" title="First Input Delay  |  Web  |  Google Developers">First Input Delay  |  Web  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="do-you-really-know-how-a-lockfile-works-for-yarn-and-npm-packages-snyk">Do you really know how a lockfile works for yarn and npm packages? | Snyk</h2>
+
+<p><a href="https://snyk.io/blog/making-sense-of-package-lock-files-in-the-npm-ecosystem/" title="Do you really know how a lockfile works for yarn and npm packages? | Snyk">snyk.io/blog/making-sense-of-package-lock-files-in-the-npm-ecosystem/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">yarn</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>yarn의 <code>yarn.lock</code>, npm의 <code>package-lock.json</code>가 실제로 어떻게 동작하는지, 애플리케이션과 라이브러리 록(lock) 파일에 대해 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="stryker-mutator-stryker-mutation-testing-for-javascript-and-friends">stryker-mutator/stryker: Mutation testing for JavaScript and friends</h2>
+
+<p><a href="https://github.com/stryker-mutator/stryker" title="stryker-mutator/stryker: Mutation testing for JavaScript and friends">github.com/stryker-mutator/stryker</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">C#</span> <span class="jser-tag">scala</span></p></p>
+
+<p>Mutation testing 라이브러리입니다.<br>
+테스트 코드를 테스트하기 위한 프레임워크 입니다. <br>
+mocha나 jest 등의 여러 테스트 프레임워크와 연동해 동작합니다.</p>
+
+<ul>
+<li><a href="https://github.com/stryker-mutator/stryker-handbook#readme" title="stryker-mutator/stryker-handbook: A comprehensive guide to the stryker ecosystem">stryker-mutator/stryker-handbook: A comprehensive guide to the stryker ecosystem</a></li>
+<li><a href="https://github.com/stryker-mutator/stryker/tree/master/packages/core#readme" title="stryker/packages/core at master · stryker-mutator/stryker">stryker/packages/core at master · stryker-mutator/stryker</a></li>
+<li><a href="https://stryker-mutator.io/blog/2017-01-17/introduction-to-mutation-testing" title="Blog - Stryker Mutator">Blog - Stryker Mutator</a></li>
+</ul>
+
+<hr>
+
+<h2 id="lancedikson-bowser-a-browser-detector">lancedikson/bowser: a browser detector</h2>
+
+<p><a href="https://github.com/lancedikson/bowser" title="lancedikson/bowser: a browser detector">github.com/lancedikson/bowser</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">library</span></p></p>
+
+<p>User-Agent를 이용해 브라우저 명과 버전 등을 구조적인 데이터로 가져올 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+<h2 id="sindresorhus-file-type-detect-the-file-type-of-a-buffer-uint8array-arraybuffer">sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array/ArrayBuffer</h2>
+
+<p><a href="https://github.com/sindresorhus/file-type" title="sindresorhus/file-type: Detect the file type of a Buffer/Uint8Array/ArrayBuffer">github.com/sindresorhus/file-type</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Content sniffing 하여 파일의 종류를 판단하는 Node.js 라이브러리입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="front-end-developer-handbook-2019-learn-the-entire-javascript-css-and-html-development-practice">Front-end Developer Handbook 2019 - Learn the entire JavaScript, CSS and HTML development practice!</h2>
+
+<p><a href="https://frontendmasters.com/books/front-end-handbook/2019/" title="Front-end Developer Handbook 2019 - Learn the entire JavaScript, CSS and HTML development practice!">frontendmasters.com/books/front-end-handbook/2019/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span> <span class="jser-tag">links</span></p></p>
+
+<p>프런트엔드 개발에 관한 개요 그리고 기술을 항목별 리소스를 정리한 전자 도서의 2019년 판입니다. </p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-04-23-svelte-3change-everythinggooglecspcontent-security-policy.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Svelte","CSP","security"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Svelte</li>
+                
+                <li>CSP</li>
+                
+                <li>security</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/04/23/svelte-3change-everythinggooglecspcontent-security-policy/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

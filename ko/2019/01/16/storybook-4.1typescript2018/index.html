@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2019-01-16: Storybook 4.1, TypeScript로 단계적 전환, 2018년 스타 수 증가율 - JSer.info</title>
+    <meta name="description" content="JSer.info #418 - Storybook 4.1을 릴리스 했습니다.">
+    
+    <meta name="keywords" content="storybook,typescript,github" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2019-01-16T11:26:58+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="storybook" property="article:tag">
+      
+      <meta content="typescript" property="article:tag">
+      
+      <meta content="github" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2019/01/16/storybook-4.1typescript2018/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #418 - Storybook 4.1을 릴리스 했습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2019-01-16: Storybook 4.1, TypeScript로 단계적 전환, 2018년 스타 수 증가율">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2019/01/16/storybook-4.1typescript2018/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #418 - Storybook 4.1을 릴리스 했습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2019-01-16T11:26:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="storybook">
+
+<meta property="article:tag" content="typescript">
+
+<meta property="article:tag" content="github">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2019/01/16/storybook-4.1typescript2018/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2019/01/16/storybook-4.1typescript2018/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2019/01/16/storybook-4.1typescript2018/">2019-01-16: Storybook 4.1, TypeScript로 단계적 전환, 2018년 스타 수 증가율</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2019年01月16日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-01-16-storybook-4.1typescript2018.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2019/2019-01-16-storybook-4.1typescript2018.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/01/16/storybook-4.1typescript2018/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #418 - Storybook 4.1을 릴리스 했습니다.</p>
+
+<ul>
+<li><a href="https://medium.com/storybookjs/storybook-4-1-need-for-speed-b05fd5f1e83d">Storybook 4.1: Need for Speed – Storybook – Medium</a></li>
+</ul>
+
+<p>Preview 부분(area)와 Manager 부분을 분리하여 성능을 개선했습니다.<br>
+<a href="https://medium.com/storybookjs/storybook-4-0-is-here-10b9857fc7de">Storybook 4.0</a>은 React의 Context API를 의존하고 있어 React 16.3 이상의 환경에서만 동작했습니다만 Storybook 4.1에서 React 15.x에서도 동작하도록 하위호환을 위한 수정도 함께 진행했습니다. </p>
+
+<p>그리고 <a href="https://github.com/storybooks/storybook/tree/next/addons/cssresources">Storybook Addon Cssresources</a>도 함께 추가했습니다.</p>
+
+<hr>
+
+<p><a href="https://efcl.info/2019/01/09/babel-to-typescript-library/">Babel을 이용하고 있는 JavaScript 라이브러리를 TypeScript(tsc)로 변경하는 방법 | Web Scratch</a>(일본어)에서는 TypeScript로의 이전을 단계적으로 수행하는 방법에 대해 이야기합니다.<br>
+Babel를 이용해 ES2015 문법으로 작성돼 있는 라이브러리를 예로 들어 한 단계씩 TypeScript로 이전하는 방법을 소개합니다.</p>
+
+<hr>
+
+<p>GitHub의 스타의 증가율을 정리한 JavaScript Rising Start 2018년 버전을 공개했습니다.</p>
+
+<ul>
+<li><a href="https://risingstars.js.org/2018/en/">2018 JavaScript Rising Stars</a></li>
+</ul>
+
+<p>프런트 엔드 프레임워크, 프레임워크 별 에코 시스템, Node.js, 모바일, 컴파일러(Transpiler), 빌드 도구, 테스트 프레임워크, 에디터, CSS in JS, 정적 사이트 개발 도구, GraphQL 등 항목별로 스타 증가율이 정리돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="storybook-4-1-need-for-speed-storybook-medium">Storybook 4.1: Need for Speed – Storybook – Medium</h2>
+
+<p><a href="https://medium.com/storybookjs/storybook-4-1-need-for-speed-b05fd5f1e83d" title="Storybook 4.1: Need for Speed – Storybook – Medium">medium.com/storybookjs/storybook-4-1-need-for-speed-b05fd5f1e83d</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Storybook 4.1을 릴리스 했습니다.<br>
+성능 개선을 개선하고 React 15.x를 하위 호환하며 CSS Resources addon를 추가했습니다.</p>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-73-webkit">Release Notes for Safari Technology Preview 73 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/8555/release-notes-for-safari-technology-preview-73/" title="Release Notes for Safari Technology Preview 73 | WebKit">webkit.org/blog/8555/release-notes-for-safari-technology-preview-73/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 73을 릴리스 했습니다.<br>
+<code>globalThis</code> 지원하며 Web Inspector에서 m3u8의 내용을 텍스트로 표시할 수 있습니다.</p>
+
+<hr>
+
+<h2 id="video-js-7-4-video-js-blog">Video.js 7.4 | Video.js Blog</h2>
+
+<p><a href="https://blog.videojs.com/video-js-7-4/" title="Video.js 7.4 | Video.js Blog">blog.videojs.com/video-js-7-4/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">video</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Video.js 7.4을 릴리스했습니다.<br>
+Live UI를 지원하며 VoiceOver를 대응하는 등 접근성을 위한 개선이 이뤄졌습니다.</p>
+
+<hr>
+
+<h2 id="release-v3-0-0-juliangarnier-anime">Release v3.0.0 · juliangarnier/anime</h2>
+
+<p><a href="https://github.com/juliangarnier/anime/releases/tag/v3.0.0" title="Release v3.0.0 · juliangarnier/anime">github.com/juliangarnier/anime/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">animation</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>애니메이션 라이브리 anime 3.0.0을 릴리스했습니다.<br>
+새로운 이징(easing) 함수와 라이프 사이클 콜백을 추가했고 keyframes 시스템 개선이 이뤄졌습니다.<br>
+또, 일부 API가 이름 변경 되는 등 비호환 변경 사항을 포함합니다. </p>
+
+<hr>
+
+<h2 id="release-1-1-0-avajs-ava">Release 1.1.0 · avajs/ava</h2>
+
+<p><a href="https://github.com/avajs/ava/releases/tag/v1.1.0" title="Release 1.1.0 · avajs/ava">github.com/avajs/ava/releases/tag/v1.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>AVA 1.1.0을 릴리스했습니다.<br>
+실행 중인 테스트 파일의 경로를 가져올 수 있는 <code>meta</code> 객체를 추가했습니다.</p>
+
+<hr>
+
+<h2 id="donejs-3">DoneJS 3</h2>
+
+<p><a href="https://www.bitovi.com/blog/donejs-3" title="DoneJS 3">www.bitovi.com/blog/donejs-3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>DoneJS 3를 릴리스했습니다.<br>
+CanJS 5.0, StealJS 2.0으로 버전을 갱신 했습니다.</p>
+
+<ul>
+<li><a href="https://www.bitovi.com/blog/canjs-5" title="CanJS 5.0">CanJS 5.0</a></li>
+<li><a href="https://donejs.com/Features.html#incremental-rendering" title="donejs - Features">donejs - Features</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="abel-javascript-typescript-tsc-web-scratch">abel을 이용하고 있는 JavaScript 라이브러리를 TypeScript(tsc)로 변경하는 방법 | Web Scratch(일본어)</h2>
+
+<p><a href="https://efcl.info/2019/01/09/babel-to-typescript-library/" title="Babel을 이용하고 있는 JavaScript 라이브러리를 TypeScript(tsc)로 변경하는 방법 | Web Scratch">efcl.info/2019/01/09/babel-to-typescript-library/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">babel</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>라이브러리의 코드 베이스를 TypeScript로 이전하는 방법을 소개합니다.<br>
+Babel로 하던 ES2015의 변환 처리를 <code>tsc</code>로 전환한 후 코드 베이스를 TypeScript로 변경하는 과정을 단계적으로 소개하는 튜토리얼입니다. </p>
+
+<hr>
+
+<h2 id="typescript-2-8-conditional-types-marius-schulz">TypeScript 2.8: Conditional Types — Marius Schulz</h2>
+
+<p><a href="https://blog.mariusschulz.com/2019/01/09/typescript-2-8-conditional-types" title="TypeScript 2.8: Conditional Types — Marius Schulz">blog.mariusschulz.com/2019/01/09/typescript-2-8-conditional-types</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>TypeScript 2.8에 추가된 Conditional Types와 이를 사용한 타입 분기 처리에 대해 다양한 예와 함께 소개합니다.<br>
+NonNullable, Infer 사용 예에 대해서도 작성돼 있습니다.</p>
+
+<hr>
+
+<h2 id="computer-science-in-javascript-2019-linked-list-human-who-codes">Computer science in JavaScript 2019: Linked list - Human Who Codes</h2>
+
+<p><a href="https://humanwhocodes.com/blog/2019/01/computer-science-in-javascript-linked-list/" title="Computer science in JavaScript 2019: Linked list - Human Who Codes">humanwhocodes.com/blog/2019/01/computer-science-in-javascript-linked-list/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">algorithm</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScript에서 LinkedList를 구현해보면서 그 데이터 구조에 대해 학습할 수 있는 글입니다.</p>
+
+<hr>
+
+<h2 id="vue-vue-router-vuex-laravel-1-hypertext-candy">Vue + Vue Router + Vuex + Laravel로 사진 공유 앱을 만들자(1) 인트로덕션 | Hypertext Candy(일본어)</h2>
+
+<p><a href="https://www.hypertextcandy.com/vue-laravel-tutorial-introduction" title="Vue + Vue Router + Vuex + Laravel로 사진 공유 앱을 만들자(1) 인트로덕션 | Hypertext Candy">www.hypertextcandy.com/vue-laravel-tutorial-introduction</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">php</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Vue.js + Vue Router + Laravel를 사용한 SPA 애플리케이션을 개발하는 연재 글입니다.<br>
+사진 공유 앱을 예로 클라이언트 사이드와 서버 사이드를 모두 구현해보면 튜토리얼입니다.</p>
+
+<hr>
+
+<h2 id="how-to-learn-css-smashing-magazine">How To Learn CSS — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2019/01/how-to-learn-css/" title="How To Learn CSS — Smashing Magazine">www.smashingmagazine.com/2019/01/how-to-learn-css/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p></p>
+
+<p>CSS를 어떻게 학습하는게 좋을지 정리한 글입니다.<br>
+Selector, Box 모델, Flow, Layout, Aligment, Sizing 등 CSS의 기초 요소에 대해 설명하고 리소스를 소개합니다.</p>
+
+<hr>
+
+<h2 id="front-end-performance-checklist-2019-pdf-apple-pages-ms-word-smashing-magazine">Front-End Performance Checklist 2019 [PDF, Apple Pages, MS Word] — Smashing Magazine</h2>
+
+<p><a href="https://www.smashingmagazine.com/2019/01/front-end-performance-checklist-2019-pdf-pages/" title="Front-End Performance Checklist 2019 \[PDF, Apple Pages, MS Word\] — Smashing Magazine">www.smashingmagazine.com/2019/01/front-end-performance-checklist-2019-pdf-pages/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">article</span> <span class="jser-tag">browser</span></p></p>
+
+<p>프런트엔드를 위한 성능 체크리스트를 정리한 글입니다.</p>
+
+<hr>
+
+<h2 id="fast-gif-parsing-on-the-web-with-wasm-wuffs-dev-community">Fast GIF parsing on the web with WASM + Wuffs - DEV Community 👩‍💻👨‍💻</h2>
+
+<p><a href="https://dev.to/chromiumdev/fast-gif-parsing-on-the-web-with-wasm--wuffs-48l4" title="Fast GIF parsing on the web with WASM + Wuffs - DEV Community 👩‍💻👨‍💻">dev.to/chromiumdev/fast-gif-parsing-on-the-web-with-wasm--wuffs-48l4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">article</span></p></p>
+
+<p>mscripten + WebAssembly를 이용해 GIF를 파싱하는 방법을 소개합니다.<br>
+binding을 작성하는 방법과 디코드 처리 그리고 Canvas로 그리는 과정에 대해 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://developers.google.com/web/updates/2019/01/emscripten-npm" title="Emscripten and npm  |  Web  |  Google Developers">Emscripten and npm  |  Web  |  Google Developers</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="2018-javascript-rising-stars">2018 JavaScript Rising Stars</h2>
+
+<p><a href="https://risingstars.js.org/2018/en/" title="2018 JavaScript Rising Stars">risingstars.js.org/2018/en/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">github</span></p></p>
+
+<p>JavaScript 프레임워크나 도구 등의 GitHub 스타 증가율 순위를 공개했습니다.</p>
+
+<hr>
+
+<h2 id="markdown-driven-scaffolding-wadackel-me">Markdown Driven한 scaffolding 도구를 만들었다 - wadackel.me(일본어)</h2>
+
+<p><a href="https://blog.wadackel.me/2019/scaffdog/" title="Markdown Driven한 scaffolding 도구를 만들었다 - wadackel.me">blog.wadackel.me/2019/scaffdog/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Markdown</span> <span class="jser-tag">Tools</span> <span class="jser-tag">node.js</span></p></p>
+
+<p>Markdown 파일에 여러 개의 파일 템플릿을 작성해 파일을 생성할 수 있는 도구를 소개합니다.</p>
+
+<hr>
+
+<h2 id="fromjs-an-experimental-data-flow-analysis-tool-for-front-end-javascript">FromJS - An experimental data-flow analysis tool for front-end JavaScript</h2>
+
+<p><a href="http://www.fromjs.com/" title="FromJS - An experimental data-flow analysis tool for front-end JavaScript">www.fromjs.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">DOM</span> <span class="jser-tag">Extension</span> <span class="jser-tag">babel</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>화면에 렌더링돼 있는 문자열이 코드의 어디에서 생성되고 있는지를 DOM 인스팩트할 수 있는 도구입니다.<br>
+HTML을 생성하는 DOM API를 덮어써 트레이스 가능하게 만든 Chrome을 설치해 디버깅할 수 있도록 제공합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="dominictobias-keshi-a-better-in-memory-cache-for-node-and-the-browser">DominicTobias/keshi: A better in-memory cache for Node and the browser</h2>
+
+<p><a href="https://github.com/DominicTobias/keshi" title="DominicTobias/keshi: A better in-memory cache for Node and the browser">github.com/DominicTobias/keshi</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>브라우저와 Node.js에서 사용할 수 있는 인메모리 캐시 라이브러리입니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2019/2019-01-16-storybook-4.1typescript2018.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["storybook","typescript","github"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>storybook</li>
+                
+                <li>typescript</li>
+                
+                <li>github</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2019/01/16/storybook-4.1typescript2018/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-09-11 JS: Yarn 1.0과 workspace, Node.js 웹 프레임워크 fastify - JSer.info</title>
+    <meta name="description" content="JSer.info #348 - Yarn 1.0이 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="Yarn,Node.js,framework" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-09-11T20:21:47+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Yarn" property="article:tag">
+      
+      <meta content="Node.js" property="article:tag">
+      
+      <meta content="framework" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/09/11/yarn-1.0workspace-node.jsfastify/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #348 - Yarn 1.0이 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-09-11 JS: Yarn 1.0과 workspace, Node.js 웹 프레임워크 fastify">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/09/11/yarn-1.0workspace-node.jsfastify/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #348 - Yarn 1.0이 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-09-11T20:21:47+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="Yarn">
+
+<meta property="article:tag" content="Node.js">
+
+<meta property="article:tag" content="framework">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/09/11/yarn-1.0workspace-node.jsfastify/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/09/11/yarn-1.0workspace-node.jsfastify/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/09/11/yarn-1.0workspace-node.jsfastify/">2017-09-11 JS: Yarn 1.0과 workspace, Node.js 웹 프레임워크 fastify</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年09月11日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-09-11-yarn-1.0workspace-node.jsfastify.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-09-11-yarn-1.0workspace-node.jsfastify.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/09/11/yarn-1.0workspace-node.jsfastify/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #348 - Yarn 1.0이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://code.facebook.com/posts/274518539716230">Announcing Yarn 1.0 | Engineering Blog | Facebook Code</a></li>
+<li><a href="https://github.com/yarnpkg/yarn/releases/tag/v1.0.0">Release v1.0.0 ! 🎉 · yarnpkg/yarn</a></li>
+</ul>
+
+<p><a href="https://yarnpkg.com/en/docs/workspaces#search" title="Workspaces">Workspaces</a>, <a href="https://github.com/yarnpkg/yarn/pull/3359" title="link:">link:</a> 식별자, <code>--cwd</code>를 지원하고 <code>yarn.lock</code> 파서를 <a href="https://www.npmjs.com/package/@yarnpkg/lockfile" title="@yarnpkg/lockfile">@yarnpkg/lockfile</a>로써 모듈화 하여 분리했으며 <code>yarn.lock</code>의 충돌을 자동으로 해결 가능하도록 개선됐습니다.</p>
+
+<p>Yarn workspace는 <a href="https://github.com/lerna/lerna" title="Lerna">Lerna</a> 처럼 monorepo를 관리하는 기능이며 Lerna와는 다르게 조금 더 저수준의 기능을 제공하는 것을 목적으로 두고 있습니다.</p>
+
+<blockquote>
+<p>Yarn’s workspaces are the low-level primitives that tools like Lerna can (and do!) use. They will never try to support the high-level feature that Lerna offers, but by implementing the core logic of the resolution and linking steps inside Yarn itself we hope to enable new usages and improve performance.<br><br>
+-- <a href="https://yarnpkg.com/en/docs/workspaces#toc-how-does-it-compare-to-lerna" title="How does it compare to Lerna?">How does it compare to Lerna?</a></p>
+</blockquote>
+
+<p>Yarn workspace에 관해서는 아래 문서에 잘 소개돼 있습니다.</p>
+
+<ul>
+<li><a href="https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/" title="Workspaces in Yarn | Yarn Blog">Workspaces in Yarn | Yarn Blog</a></li>
+</ul>
+
+<p>또, publish 관련 작업을 할 수 없으며 관련한 내용은 아래 이슈에서 다루고 있으니 참고하시기 바랍니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/yarn/issues/3294" title="Workspaces issue progress · Issue #3294 · yarnpkg/yarn">Workspaces issue progress · Issue #3294 · yarnpkg/yarn</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://github.com/fastify/fastify" title="fastify">fastify</a>는 속도와 오버헤드를 가능한한 줄이는데 초점을 둔 Node.js 웹 프레임워크입니다. Connect/Express와 Restify와의 호환 가능한 <a href="http://www.fastify.io/docs/v0.27.x/Middlewares/" title="Middlewares">Middlewares</a>를 지원하여 확장할 수 있게 디자인돼 있습니다. 또한 JSON Schema를 사용해 <a href="http://www.fastify.io/docs/v0.27.x/Validation-And-Serialize/" title="Validation and Serialize">Validation과 Serialize</a>를 정의할 수 있는 구조를 가지고 있습니다.(<a href="https://github.com/fastify/fast-json-stringify" title="fast-json-stringify">fast-json-stringify</a>는 이 JSON Schema를 사용해 직렬화를 고속으로 처리 하고 있습니다.)</p>
+
+<p>아래 문서에 어떻게 오버 헤드를 줄이고 있는지 그 원리에 대해서 작성돼 있으니 함께 읽어보시면 좋을 것 같습니다.</p>
+
+<ul>
+<li><a href="https://thenewstack.io/introducing-fastify-speedy-node-js-web-framework/" title="Introducing Fastify, a Speedy Node.js Web Framework - The New Stack">Introducing Fastify, a Speedy Node.js Web Framework - The New Stack</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="node-v6-11-3-lts-node-js">Node v6.11.3 (LTS) | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v6.11.3/" title="Node v6.11.3 (LTS) | Node.js">nodejs.org/en/blog/release/v6.11.3/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v6.11.3(LTS)가 릴리됐습니다.<br>
+hash flooding의 취약점 때문에 비활성화 됐던 V8의 Snapshots이 다시 활성화됐습니다.</p>
+
+<ul>
+<li><a href="https://v8project.blogspot.jp/2017/08/about-that-hash-flooding-vulnerability.html" title="V8 JavaScript Engine: About that hash flooding vulnerability in Node.js…">V8 JavaScript Engine: About that hash flooding vulnerability in Node.js…</a></li>
+</ul>
+
+<hr>
+
+<h2 id="angulardart-4">AngularDart 4</h2>
+
+<p><a href="http://news.dartlang.org/2017/09/angulardart-4.html" title="AngularDart 4">news.dartlang.org/2017/09/angulardart-4.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">dart</span></p></p>
+
+<p>AngularDart 4가 릴리즈됐습니다.</p>
+
+<hr>
+
+<h2 id="new-in-chrome-61-web-google-developers">New in Chrome 61  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/09/nic61" title="New in Chrome 61  |  Web  |  Google Developers">developers.google.com/web/updates/2017/09/nic61</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 61이 릴리즈됐습니다.<br>
+<code>&lt;script type=module&gt;</code>, <code>navigator.share</code>, WebUSB API 등을 지원합니다.</p>
+
+<ul>
+<li><a href="https://www.chromestatus.com/features#browsers.chrome.desktop%3D61" title="Chrome Platform Status">Chrome Platform Status</a></li>
+<li><a href="https://blog.chromium.org/2017/08/chrome-61-beta-javascript-modules.html" title="Chromium Blog: Chrome 61 Beta: JavaScript modules, Payment Request API on desktop, Web Share API, and WebUSB">Chromium Blog: Chrome 61 Beta: JavaScript modules, Payment Request API on desktop, Web Share API, and WebUSB</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-39-webkit">Release Notes for Safari Technology Preview 39 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/7913/release-notes-for-safari-technology-preview-39/" title="Release Notes for Safari Technology Preview 39 | WebKit">webkit.org/blog/7913/release-notes-for-safari-technology-preview-39/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview Release 39가 릴리즈됐습니다.<br>
+Beacon API를 개선했고 <code>FetchRequest.body</code>와 Stage 3의 RegExp <code>dotAll</code>을 지원합니다.</p>
+
+<hr>
+
+<h2 id="assemblyscript-assemblyscript-a-subset-of-typescript-that-compiles-to-webassembly">AssemblyScript/assemblyscript: A subset of TypeScript that compiles to WebAssembly.</h2>
+
+<p><a href="https://github.com/AssemblyScript/assemblyscript" title="AssemblyScript/assemblyscript: A subset of TypeScript that compiles to WebAssembly.">github.com/AssemblyScript/assemblyscript</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">WebAssembly</span></p></p>
+
+<p>assemblyscript는 WebAssembly로 컴파일 가능한 TypeScript의 서브셋으로 정의된 언어입니다.</p>
+
+<hr>
+
+<h2 id="react-16-rc-issue-10294-facebook-react">React 16 RC · Issue #10294 · facebook/react</h2>
+
+<p><a href="https://github.com/facebook/react/issues/10294" title="React 16 RC · Issue #10294 · facebook/react">github.com/facebook/react/issues/10294</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">issue</span></p></p>
+
+<p>React 16 RC가 릴리즈됐습니다. <code>Map</code>/<code>Set</code>을 의존하고 있으므로 polyfill이 필요하며 코어가 재작성(Fiber)된 버전입니다. Stream SSR을 지원하고 <code>componentDidCatch</code>로 자식 컴포넌트의 에러를 처리할 수 있도록 개선됐습니다. 또, bundle된 파일이 배포되도록 변경됐습니다.</p>
+
+<hr>
+
+<h2 id="announcing-yarn-1-0-engineering-blog-facebook-code">Announcing Yarn 1.0 | Engineering Blog | Facebook Code</h2>
+
+<p><a href="https://code.facebook.com/posts/274518539716230" title="Announcing Yarn 1.0 | Engineering Blog | Facebook Code">code.facebook.com/posts/274518539716230</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Yarn 1.0이 릴리즈됐습니다.<br>
+Yarn Workspace가 기본적으로 활성화 됐으며 <code>yarn.lock</code>의 파서를 모듈로 분리했습니다. 그리고 <code>--cwd</code>를 지원하고 <code>yarn.lock</code>의 충돌을 자동으로 해결하도록 개선됐습니다.<br>
+또, 암묵적 <code>file:</code> 의존에 경고를 발생시키도록 변경됐고 <code>yarn clean</code>이 <code>yarn autoclean</code>으로 이름이 변경됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/yarn/releases/tag/v1.0.0" title="Release v1.0.0 ! 🎉 · yarnpkg/yarn">Release v1.0.0 ! 🎉 · yarnpkg/yarn</a></li>
+<li><a href="https://www.npmjs.com/package/@yarnpkg/lockfile" title="@yarnpkg/lockfile">@yarnpkg/lockfile</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v0-6-0-sonarwhal-sonar">Release v0.6.0 · sonarwhal/sonar</h2>
+
+<p><a href="https://github.com/sonarwhal/sonar/releases/tag/0.6.0" title="Release v0.6.0 · sonarwhal/sonar">github.com/sonarwhal/sonar/releases/tag/0.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>sonar v0.6.0이 릴리즈됐습니다.<br>
+<code>apple-touch-icon</code> 체크 규칙이 <code>summary</code> 포멧터가 추가됐습니다.</p>
+
+<hr>
+
+<h2 id="release-workbox-v2-0-0-googlechrome-workbox">Release Workbox v2.0.0 · GoogleChrome/workbox</h2>
+
+<p><a href="https://github.com/GoogleChrome/workbox/releases/tag/v2.0.0" title="Release Workbox v2.0.0 · GoogleChrome/workbox">github.com/GoogleChrome/workbox/releases/tag/v2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Workbox v2.0.0이 릴리즈됐습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="web-blog">미완・Web 브라우저의 색상 관리 대응 정리  : 왕잠자리 마노의 blog(임시)(일본어)</h2>
+
+<p><a href="http://blog.livedoor.jp/yamma_ma/archives/38413741.html" title="続・Webブラウザのカラーマネジメント対応まとめ : やんま まのblog（仮）">blog.livedoor.jp/yamma_ma/archives/38413741.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">color</span></p></p>
+
+<p>브라우저의 색상 관리 및 프로파일에 관해 정리된 글입니다.</p>
+
+<hr>
+
+<h2 id="angular-vs-react-vs-vue-a-2017-comparison-unicorn-supplies-medium">Angular vs. React vs. Vue: A 2017 comparison – unicorn.supplies – Medium</h2>
+
+<p><a href="https://medium.com/unicorn-supplies/angular-vs-react-vs-vue-a-2017-comparison-c5c52d620176" title="Angular vs. React vs. Vue: A 2017 comparison – unicorn.supplies – Medium">medium.com/unicorn-supplies/angular-vs-react-vs-vue-a-2017-comparison-c5c52d620176</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">opinion</span> <span class="jser-tag">article</span></p></p>
+
+<p>JavaScript 프레임워크를 비교한 글입니다.<br>
+Angular, React, Vue가 여러 측면에서 비교돼 있습니다.</p>
+
+<hr>
+
+<h2 id="learn-how-to-debug-javascript-with-chrome-devtools-codeburst">Learn How To Debug JavaScript with Chrome DevTools – codeburst</h2>
+
+<p><a href="https://codeburst.io/learn-how-to-debug-javascript-with-chrome-devtools-9514c58479db" title="Learn How To Debug JavaScript with Chrome DevTools – codeburst">codeburst.io/learn-how-to-debug-javascript-with-chrome-devtools-9514c58479db</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 개발자 도구를 사용한 디버깅 방법에 관해 소개돼 있습니다.<br>
+디버거에서 브레이크 포인트를 걸어 디버깅하는 방법을 단계별로 설명합니다.</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="polymer-summit-2017-youtube">Polymer Summit 2017 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=tNulrEbTQf8" title="Polymer Summit 2017 - YouTube">www.youtube.com/watch?v&#x3D;tNulrEbTQf8</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">video</span></p></p>
+
+<p>Polymer Summit 2017의 영상이 공개됐습니다.</p>
+
+<ul>
+<li><a href="https://summit.polymer-project.org/" title="Polymer Summit 2017">Polymer Summit 2017</a></li>
+</ul>
+
+<hr>
+
+<h2 id="google-developer-days-europe-2017-youtube">Google Developer Days Europe 2017 - YouTube</h2>
+
+<p><a href="http://www.youtube.com/playlist?list=PLOU2XLYxmsIJz-cYWfjQP8SV7n8C-PTVm" title="Google Developer Days Europe 2017 - YouTube">www.youtube.com/playlist?list&#x3D;PLOU2XLYxmsIJz-cYWfjQP8SV7n8C-PTVm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">google</span> <span class="jser-tag">ProgressiveWebApp</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">video</span></p></p>
+
+<p>Google Developer Days Europe의 영상이 공개됐습니다.</p>
+
+<hr>
+
+<h2 id="webdnn-speaker-deck">웹 브라우저 용 심층 학습 모델 고속 실행 프레임워크 「WebDNN」 // Speaker Deck</h2>
+
+<p><a href="https://speakerdeck.com/kiikurage/uebuburauzaxiang-keshen-ceng-xue-xi-moderugao-su-shi-xing-huremuwaku-webdnn" title="ウェブブラウザ向け深層学習モデル高速実行フレームワーク「WebDNN」 // Speaker Deck">speakerdeck.com/kiikurage/uebuburauzaxiang-keshen-ceng-xue-xi-moderugao-su-shi-xing-huremuwaku-webdnn</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">slide</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">기계학습</span></p></p>
+
+<p>WebDNN을 소개하는 슬라이드 입니다.<br>
+WebGPU / WebGL / WebAssembly 등을 사용한 웹브라우저에서의 계산 백엔드 구조, Keras나 TensorFlow 등의 학습 모델의 변환, 클라이언트 사이드에서 연산을 고속으로 처리하기 위한 최적화 방법 등에 대해 이야기합니다.</p>
+
+<ul>
+<li><a href="https://mil-tokyo.github.io/webdnn/" title="MIL WebDNN">MIL WebDNN</a></li>
+</ul>
+
+<hr>
+
+<h2 id="javascript-conferences-in-2017-confs-tech">JavaScript conferences in 2017 | Confs.tech</h2>
+
+<p><a href="https://confs.tech/" title="JavaScript conferences in 2017 | Confs.tech">confs.tech/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">이벤트</span> <span class="jser-tag">정리</span></p></p>
+
+<p>JavaScript 관련 컨퍼런스가 정리돼 있는 사이트입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="pinterest-service-workers-a-collection-of-utilities-for-creating-testing-experimenting-with-service-workers">pinterest/service-workers: A collection of utilities for creating/testing/experimenting with service workers.</h2>
+
+<p><a href="https://github.com/pinterest/service-workers" title="pinterest/service-workers: A collection of utilities for creating/testing/experimenting with service workers.">github.com/pinterest/service-workers</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p></p>
+
+<p>pinterest의 Service Worker와 관련된 유틸리티 도구 묶음입니다.<br>
+Service Worker에서 캐시할 파일 관리하는 도구와 webpack 플러그인 그리고 테스트 유틸리티를 제공합니다.</p>
+
+<hr>
+
+<h2 id="transform-all-important-transforms-at-one-place">Transform | All important transforms at one place.</h2>
+
+<p><a href="https://transform.now.sh/" title="Transform | All important transforms at one place.">transform.now.sh/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">webservice</span></p></p>
+
+<p>JSON에서 React PropTypes, HTML에서 JSX, GraphQL에서 TypeScript 등 여러가지 변환 기능을 제공하는 도구입니다.</p>
+
+<hr>
+
+<h2 id="fastify-fastify-fast-and-low-overhead-web-framework-for-node-js">fastify/fastify: Fast and low overhead web framework, for Node.js</h2>
+
+<p><a href="https://github.com/fastify/fastify" title="fastify/fastify: Fast and low overhead web framework, for Node.js">github.com/fastify/fastify</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">library</span> <span class="jser-tag">node.js</span> <span class="jser-tag">サーバー</span></p></p>
+
+<p>Node.js 웹 프레임워크입니다. 오버 해드가 작은 라우팅, Schema를 기반으로한 직렬화, express / connect와 호환성을 갖는 middleware를 제공합니다.</p>
+
+<hr>
+
+<h2 id="antonmedv-jsize-find-out-minified-and-gzipped-npm-package-size">antonmedv/jsize: Find out minified and gzipped npm package size</h2>
+
+<p><a href="https://github.com/antonmedv/jsize" title="antonmedv/jsize: Find out minified and gzipped npm package size">github.com/antonmedv/jsize</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">npm</span> <span class="jser-tag">node.js</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>npm 모듈의 사이즈(gzip)을 살펴 볼 수 있는 도구입니다.<br>
+복수의 모듈을 + 로 조합하면 중복을 고려한 모듈의 총 크기도 알 수 있습니다.</p>
+
+<hr>
+
+<h2 id="allegro-node-worker-nodes-a-node-js-library-to-run-cpu-intensive-tasks-in-a-separate-processes-and-not-block-the-event-loop">allegro/node-worker-nodes: A node.js library to run cpu-intensive tasks in a separate processes and not block the event loop.</h2>
+
+<p><a href="https://github.com/allegro/node-worker-nodes" title="allegro/node-worker-nodes: A node.js library to run cpu-intensive tasks in a separate processes and not block the event loop.">github.com/allegro/node-worker-nodes</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">library</span></p></p>
+
+<p>Node.js 환경에서 복수의 프로세스로 분할하여 cpu-intensive한 처리를 다룰 수 있는 라이브러리입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="oreilly-japan">O&#39;Reilly Japan - 처음 하는 자동 테스트(일본어)</h2>
+
+<p><a href="https://www.oreilly.co.jp/books/9784873118161/" title="O&#39;Reilly Japan - 初めての自動テスト">www.oreilly.co.jp/books/9784873118161/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">testing</span> <span class="jser-tag">book</span></p></p>
+
+<p>2017년 9월 21일 출간 예정인 도서로 UI 테스트, 통합 테스트, 유닛테스트, TDD 등 테스트와 관련한 주제를 다룹니다.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-09-11-yarn-1.0workspace-node.jsfastify.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Yarn","Node.js","framework"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Yarn</li>
+                
+                <li>Node.js</li>
+                
+                <li>framework</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/09/11/yarn-1.0workspace-node.jsfastify/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>

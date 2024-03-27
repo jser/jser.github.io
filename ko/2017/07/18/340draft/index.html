@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2017-07-18 JS: Babylon.js 3.0, Yarn을 만드는 방법, Code splitting의 중복 모듈 검사 - JSer.info</title>
+    <meta name="description" content="JSer.info #340 - WebGL 프레임워크 Babylon.js 3.0이 릴리즈됐습니다.">
+    
+    <meta name="keywords" content="WebGL,Yarn,webpack" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2017-07-18T10:03:49+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="WebGL" property="article:tag">
+      
+      <meta content="Yarn" property="article:tag">
+      
+      <meta content="webpack" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2017/07/18/340draft/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #340 - WebGL 프레임워크 Babylon.js 3.0이 릴리즈됐습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2017-07-18 JS: Babylon.js 3.0, Yarn을 만드는 방법, Code splitting의 중복 모듈 검사">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2017/07/18/340draft/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #340 - WebGL 프레임워크 Babylon.js 3.0이 릴리즈됐습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2017-07-18T10:03:49+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">
+
+
+
+
+
+<meta property="article:tag" content="WebGL">
+
+<meta property="article:tag" content="Yarn">
+
+<meta property="article:tag" content="webpack">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2017/07/18/340draft/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2017/07/18/340draft/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2017/07/18/340draft/">2017-07-18 JS: Babylon.js 3.0, Yarn을 만드는 방법, Code splitting의 중복 모듈 검사</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2017年07月18日</span>
+                
+                <span class="post-translator">Translator: U-Yeong Ju</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-07-18-340draft.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2017/2017-07-18-340draft.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/07/18/340draft/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #340 - WebGL 프레임워크 <a href="http://www.babylonjs.com/" title="Babylon.js">Babylon.js</a> 3.0이 릴리즈됐습니다.</p>
+
+<ul>
+<li><a href="https://blogs.windows.com/buildingapps/2017/07/12/announcing-babylon-js-3-0">Announcing Babylon.js 3.0 - Building Apps for WindowsBuilding Apps for Windows</a></li>
+</ul>
+
+<p>WebGL 2, WebVR 1.1, morph target을 지원하고 Babylon.GUI가 추가됐습니다 또, WebCam을 이용한 라이브 텍스쳐를 대응하는 등 다양한 변경이 이뤄졌습니다.<br>
+자세한 내용은 릴리즈 노트 등을 참고하세요.</p>
+
+<ul>
+<li><a href="http://doc.babylonjs.com/overviews/webgl2" title="BabylonJS Documentation">BabylonJS Documentation</a></li>
+<li><a href="https://github.com/BabylonJS/Babylon.js/releases/tag/v3.0.7" title="Release v3.0.0 · BabylonJS/Babylon.js">Release v3.0.0 · BabylonJS/Babylon.js</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://yarnpkg.com/blog/2017/07/11/lets-dev-a-package-manager/" title="Let&amp;#39;s Dev: A Package Manager | Yarn Blog">Let&#39;s Dev: A Package Manager | Yarn Blog</a>에는 Yarn과 같은 패키지 매니저를 만드는 방법이 작성돼 있습니다.</p>
+
+<p>300행 정도의 코드로 어떻게 패키지를 다운로드 하고 의존 관계 문제를 해결하며 링크하는지 또, 의존 관계 최적화가 성능에 미치는 영향 등 Yarn과 관련된 디자인에 관해 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/lets-dev-demo" title="yarnpkg/lets-dev-demo">yarnpkg/lets-dev-demo</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://github.com/samccone/bundle-buddy" title="samccone/bundle-buddy: A tool to identify bundle duplication across splits.">samccone/bundle-buddy: A tool to identify bundle duplication across splits.</a>는 Code Splitting 했을 때 생성된 각 bundle(chunck)에서 중복된 모듈이 없는지 시각화 해줍니다.</p>
+
+<p>최근, 초기 로드 시간을 줄이기 위해 <a href="https://developers.google.com/web/updates/2017/06/supercharged-codesplit" title="Code Splitting">Code Splitting</a>을 하는 경우가 늘어나고 있습니다.<br>
+한편, 본래 하나였던 bundle을 분리하게 되면 코드 간 공통으로 사용하는 모듈이 여러 bundle에서 참조될 가능성이 생깁니다. 이때 분리된 각 bundle에 같은 모듈의 복사본이 포함되게 됩니다.</p>
+
+<p>이 도구는 Source Map을 사용해 각 bundle에서 중복해 포함돼 있는 모듈이 있는지 조사할 수 있도록 관련 정보를 시각화 해줍니다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="announcing-babylon-js-3-0-building-apps-for-windowsbuilding-apps-for-windows">Announcing Babylon.js 3.0 - Building Apps for WindowsBuilding Apps for Windows</h2>
+
+<p><a href="https://blogs.windows.com/buildingapps/2017/07/12/announcing-babylon-js-3-0/" title="Announcing Babylon.js 3.0 - Building Apps for WindowsBuilding Apps for Windows">blogs.windows.com/buildingapps/2017/07/12/announcing-babylon-js-3-0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebGL</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">3D</span></p></p>
+
+<p>WebGL 프레임워크 Babylon.js 3.0이 릴리즈됐습니다.<br>
+WebGL 2, WebVR 1.1, morph target을 지원하고 Babylon.GUI가 추가됐습니다. 또, WebCam을 이용한 라이브 텍스쳐를 대응했습니다.</p>
+
+<hr>
+
+<h2 id="release-v2-4-0-kill-la-kill-vuejs-vue">Release v2.4.0 Kill la Kill · vuejs/vue</h2>
+
+<p><a href="https://github.com/vuejs/vue/releases/tag/v2.4.0" title="Release v2.4.0 Kill la Kill · vuejs/vue">github.com/vuejs/vue/releases/tag/v2.4.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vue 2.4.0이 릴리즈됐습니다.<br>
+SSR에서 async component를 지원합니다. 컴포넌트 옵션으로 <code>inheritAttrs</code>, 인스턴스 프로퍼티로 <code>$attrs</code>과 <code>$listeners</code>가 추가됐습니다.<br>
+<code>comments</code> 옵션을 사용하여 템플릿 내에 HTML 코멘트를 유지할 수 있게 되는 등 다양한 변경이 이뤄졌습니다.</p>
+
+<ul>
+<li><a href="http://vuejsdevelopers.com/2017/07/17/vue-js-2-4-important-features/?jsdojo_id=ech_v24" title="Vue.js 2.4.0">Vue.js 2.4.0</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-0-21-0-avajs-ava">Release 0.21.0 · avajs/ava</h2>
+
+<p><a href="https://github.com/avajs/ava/releases/tag/v0.21.0" title="Release 0.21.0 · avajs/ava">github.com/avajs/ava/releases/tag/v0.21.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>AVA 0.21.0이 릴리즈됐습니다.<br>
+<code>Buffer</code>를 사용하고 있어 Node.js 4.5 미만에서 동작하지 않는 문제와 flow 타입과 관련된 사항이 수정됐습니다.</p>
+
+<hr>
+
+<h2 id="security-updates-for-all-active-release-lines-july-2017-node-js">Security updates for all active release lines, July 2017 | Node.js</h2>
+
+<p><a href="https://nodejs.org/en/blog/vulnerability/july-2017-security-releases/" title="Security updates for all active release lines, July 2017 | Node.js">nodejs.org/en/blog/vulnerability/july-2017-security-releases/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ReleaseNote</span> <span class="jser-tag">node.js</span> <span class="jser-tag">security</span></p></p>
+
+<p>Node.js v4, 6, 7, 8의 보안 업데이트가 이뤄졌습니다. V8 Snapshots를 활성화 할 경우 문제가 있어 기본적으로 snapshots이 비활성화 됐습니다. 따라서 이 문제가 해결되기 전 까지 당분간 <code>vm.runInNewContext</code>의 성능이 저하된 상태가 지속될 예정입니다.</p>
+
+<ul>
+<li><a href="http://yosuke-furukawa.hatenablog.com/entry/2017/07/15/104616" title="Node.js에서 발생한 Hash flooding DoS와 그 내용에 대하여 - from scratch">Node.js에서 발생한 Hash flooding DoS와 그 내용에 대하여- from scratch</a>(일본어)</li>
+</ul>
+
+<hr>
+
+<h2 id="sass-3-5-is-released-sass-blog">Sass 3.5 is Released « Sass Blog</h2>
+
+<p><a href="http://sass.logdown.com/posts/2026639-sass-35-is-released" title="Sass 3.5 is Released « Sass Blog">sass.logdown.com/posts/2026639-sass-35-is-released</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Sass</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Sass 3.5이 릴리즈됐습니다.<br>
+<code>::slotted()</code>을 지원하고 CSS color function에 <code>var()</code>를 전달(pass)할 수 있도록 변경됐습니다. 또, Dart Sass의 호환성 개선이 이뤄졌습니다.</p>
+
+<hr>
+
+<h2 id="release-8-0-0-stylelint-stylelint">Release 8.0.0 · stylelint/stylelint</h2>
+
+<p><a href="https://github.com/stylelint/stylelint/releases/tag/8.0.0" title="Release 8.0.0 · stylelint/stylelint">github.com/stylelint/stylelint/releases/tag/8.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>stylelint 8.0.0이 릴리즈됐습니다.<br>
+Semver policy와 새로운 config인 <code>stylelint-config-recommended</code>가 추가됐으며 일부 규칙이 삭제거나 비권장(deprecated) 됐습니다.</p>
+
+<ul>
+<li><a href="https://github.com/stylelint/stylelint/blob/8.0.0/README.md#semantic-versioning-policy" title="Semantic Versioning Policy">Semantic Versioning Policy</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">아티클</h1>
+
+<hr>
+
+<h2 id="javascript-test-runners-benchmark-dailyjs-medium">JavaScript Test-Runners Benchmark – DailyJS – Medium</h2>
+
+<p><a href="https://medium.com/dailyjs/javascript-test-runners-benchmark-3a78d4117b4" title="JavaScript Test-Runners Benchmark – DailyJS – Medium">medium.com/dailyjs/javascript-test-runners-benchmark-3a78d4117b4</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">benchmark</span></p></p>
+
+<p>여러개의 JavaScript 테스트 프레임워크를 벤치마크하여 소개한 글입니다.<br>
+동기 및 비동기 테스트를 jasmine, mocha, AVA, Jest 등 유명한 테스트 프레임워크에서 실행하고 각 속도를 비교 및 분석하고 있습니다.</p>
+
+<hr>
+
+<h2 id="whats-new-in-devtools-chrome-61-web-google-developers">What&#39;s New In DevTools (Chrome 61)  |  Web  |  Google Developers</h2>
+
+<p><a href="https://developers.google.com/web/updates/2017/07/devtools-release-notes" title="What&#39;s New In DevTools (Chrome 61)  |  Web  |  Google Developers">developers.google.com/web/updates/2017/07/devtools-release-notes</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">debug</span> <span class="jser-tag">article</span></p></p>
+
+<p>Chrome 61 개발자 도구의 변경 사항이 정리돼 있습니다.<br>
+모바일 디바이스 시뮬레이트에 Throttling 설정이 추가됐고 Storage의 이용 현황이 표시됩니다. 또 Flamechart의 마우스 휠 동작을 설정 가능하도록 변경됐으며 ES Modules의 디버깅 기능이 추가됐습니다.</p>
+
+<hr>
+
+<h2 id="lets-dev-a-package-manager-yarn-blog">Let&#39;s Dev: A Package Manager | Yarn Blog</h2>
+
+<p><a href="https://yarnpkg.com/blog/2017/07/11/lets-dev-a-package-manager/" title="Let&#39;s Dev: A Package Manager | Yarn Blog">yarnpkg.com/blog/2017/07/11/lets-dev-a-package-manager/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">yarn</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">article</span></p></p>
+
+<p>Yarn 같은 패키지 관리 도구를 만들어보면서 그 디자인을 살펴볼 수 있는 튜토리얼입니다.<br>
+어떻게 패키지를 다운로드하고 의존 관계 문제를 해결하며 링크하는지 알 수 있습니다.<br>
+또, 의존 관계를 어떻게 최적화하는지에 대해서도 작성돼 있습니다.</p>
+
+<ul>
+<li><a href="https://github.com/yarnpkg/lets-dev-demo" title="yarnpkg/lets-dev-demo">yarnpkg/lets-dev-demo</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="samccone-bundle-buddy-a-tool-to-identify-bundle-duplication-across-splits">samccone/bundle-buddy: A tool to identify bundle duplication across splits.</h2>
+
+<p><a href="https://github.com/samccone/bundle-buddy" title="samccone/bundle-buddy: A tool to identify bundle duplication across splits.">github.com/samccone/bundle-buddy</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>webpack 등으로 Code Splitting한 경우에 각 bundle 파일에 중복돼 있는 모듈이 있는지 찾아볼 수 있는 도구입니다.</p>
+
+<hr>
+
+<h2 id="learn-apollo-hands-on-graphql-tutorial">Learn Apollo | Hands-on GraphQL Tutorial</h2>
+
+<p><a href="https://www.learnapollo.com/" title="Learn Apollo | Hands-on GraphQL Tutorial">www.learnapollo.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">tutorial</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>Apollo 클라이언트(GraphQL)를 학습할 수 있는 튜토리얼 사이트입니다.</p>
+
+<hr>
+
+<h2 id="web-speed-index-paint-timing-tti-etc">Web 클라이언트 사이드의 성능 측정 항목 — Speed Index、Paint Timing、TTI etc... ::허브로그(일본어)</h2>
+
+<p><a href="https://havelog.ayumusato.com/develop/performance/e744-performance_metrics.html" title="Web クライアントサイドのパフォーマンスメトリクス — Speed Index、Paint Timing、TTI etc... ::ハブろぐ">havelog.ayumusato.com/develop/performance/e744-performance_metrics.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span></p></p>
+
+<p>웹 클라이언트 사이드 성능에 있어 중요 지표가 되는 값이나 Performance Budget 등, 관련된 용어가 설명돼 있습니다.</p>
+
+<hr>
+
+<h2 id="redux-isnt-slow-youre-just-doing-it-wrong-an-optimization-guide-react-rocket">Redux isn&#39;t slow, you&#39;re just doing it wrong - An optimization guide | React Rocket</h2>
+
+<p><a href="http://reactrocket.com/post/react-redux-optimization/" title="Redux isn&#39;t slow, you&#39;re just doing it wrong - An optimization guide | React Rocket">reactrocket.com/post/react-redux-optimization/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">redux</span> <span class="jser-tag">performance</span></p></p>
+
+<p>Redux 기반의 애플리케이션의 성능 튜닝에 대해 작성돼 있는 글입니다. <code>connect</code> 옵션을 이용하고 컴포넌트에 필요한 최소한의 데이터를 전달하며 Reselect을 사용해 데이터를 플랫하게 운영하는 방법 등에 대해 소개돼 있습니다.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="vadimdemedes-ink-react-for-clis">vadimdemedes/ink: 🌈 React for CLIs</h2>
+
+<p><a href="https://github.com/vadimdemedes/ink" title="vadimdemedes/ink: 🌈 React for CLIs">github.com/vadimdemedes/ink</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">console</span> <span class="jser-tag">library</span></p></p>
+
+<p>React스러운 접근법과 문법을 이용해 커맨드 라인 애플리케이션을 만들 수 있는 라이브러리입니다.<br>
+커맨드 라인 결과를 컴포넌트로 출력할 수 있도록 디자인돼 있습니다.</p>
+
+<hr>
+
+<h2 id="azu-immutable-array-prototype-a-collection-of-immutable-array-prototype-methods-per-method-packages">azu/immutable-array-prototype: A collection of Immutable Array prototype methods(Per method packages).</h2>
+
+<p><a href="https://github.com/azu/immutable-array-prototype" title="azu/immutable-array-prototype: A collection of Immutable Array prototype methods(Per method packages).">github.com/azu/immutable-array-prototype</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">npm</span></p></p>
+
+<p><code>Array#push</code>와 같이 배열 관련 가변 메서드를 불변 메서드로 개발한 버전을 모아놓은 라이브러리입니다.<br>
+메서드를 개별 패키지로 설치하는 것도 가능합니다.</p>
+
+<hr>
+
+<h2 id="indutny-webpack-common-shake-commonjs-tree-shaker-plugin-for-webpack">indutny/webpack-common-shake: CommonJS Tree Shaker plugin for WebPack</h2>
+
+<p><a href="https://github.com/indutny/webpack-common-shake" title="indutny/webpack-common-shake: CommonJS Tree Shaker plugin for WebPack">github.com/indutny/webpack-common-shake</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">node.js</span> <span class="jser-tag">JavaScript</span></p></p>
+
+<p>CommonJS의 모듈을 대상으로 Tree Shaking하는 webpack 플러그인 입니다.</p>
+
+<ul>
+<li><a href="https://github.com/indutny/common-shake" title="indutny/common-shake: CommonJS Tree Shaker API">indutny/common-shake: CommonJS Tree Shaker API</a></li>
+</ul>
+
+<hr>
+
+<h2 id="atomic-lab-component-guide-generator-based-on-partial-templates">Atomic Lab - component guide generator based on partial templates</h2>
+
+<p><a href="https://steelydylan.github.io/atomic-lab/" title="Atomic Lab - component guide generator based on partial templates">steelydylan.github.io/atomic-lab/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">CSS</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Custom Element, EJS 등의 HTML 프래그먼트를 실제로 출력해보고 확인할 수 있는 개발 환경 도구입니다.</p>
+
+<hr>
+
+<h2 id="glayzzle-php-parser-nodejs-php-parser-extract-ast-or-tokens-php5-and-php7">glayzzle/php-parser: NodeJS PHP Parser - extract AST or tokens (PHP5 and PHP7)</h2>
+
+<p><a href="https://github.com/glayzzle/php-parser" title="glayzzle/php-parser: NodeJS PHP Parser - extract AST or tokens (PHP5 and PHP7)">github.com/glayzzle/php-parser</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">AST</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">php</span> <span class="jser-tag">library</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>JavaScript로 작성된 PHP 5/7의 파서입니다.</p>
+
+<ul>
+<li><a href="https://gitlab.com/kornelski/babel-preset-php" title="Kornel / babel-preset-php · GitLab">Kornel / babel-preset-php · GitLab</a></li>
+</ul>
+
+<hr>
+
+<h2 id="kornel-babel-preset-php-gitlab">Kornel / babel-preset-php · GitLab</h2>
+
+<p><a href="https://gitlab.com/kornelski/babel-preset-php" title="Kornel / babel-preset-php · GitLab">gitlab.com/kornelski/babel-preset-php</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">php</span> <span class="jser-tag">library</span></p></p>
+
+<p>PHP의 문법으로 작성된 코드를 JavaScript의 문법으로 변환할 수 있는 Babel presets 입니다.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="practical-node-js-building-real-world-scalable-web-apps-azat-mardan-9781484230381-amazon-com-books">Practical Node.js: Building Real-World Scalable Web Apps: Azat Mardan: 9781484230381: Amazon.com: Books</h2>
+
+<p><a href="https://www.amazon.com/dp/1484230388" title="Practical Node.js: Building Real-World Scalable Web Apps: Azat Mardan: 9781484230381: Amazon.com: Books">www.amazon.com/dp/1484230388</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">node.js</span> <span class="jser-tag">book</span></p></p>
+
+<p>2018년 3월 22일에 출간 예정인 Practical Node.js의 제 2 판입니다.</p>
+
+<ul>
+<li><a href="http://www.apress.com/us/book/9781430265955" title="Practical Node.js - Building Real-World Scalable Web Apps | Azat Mardan | Apress">Practical Node.js - Building Real-World Scalable Web Apps | Azat Mardan | Apress</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2017/2017-07-18-340draft.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["WebGL","Yarn","webpack"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>WebGL</li>
+                
+                <li>Yarn</li>
+                
+                <li>webpack</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2017/07/18/340draft/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19: Storybook 8, Nuxt 3.11, Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12: Tailwind CSS v4.0 alpha, TypeScript 5.4, Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05: Parcel v2.12.0, `polyfill.io` 대체하기, express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27: Firefox 123, Remix 2.7.0(Remix Vite is Stable), Node.js 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20: ES2024 RC, typescript-eslint v7, React Compiler</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/12/jquery-4.0.0-storybook-8-beta-vite-5.1runtime-api/">2024-02-12: jQuery 4.0.0, Storybook 8 Beta, Vite 5.1(Runtime API)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/02/05/typescript-5.4-beta-learn-testingperformance-interop-2024/">2024-02-05: TypeScript 5.4 Beta, Learn Testing/Performance, Interop 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/01/28/firefox-122-deno-1.40-safari-17.4-beta/">2024-01-28: Firefox 122, Deno 1.40, Safari 17.4 Beta</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
