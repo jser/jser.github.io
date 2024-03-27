@@ -2,7 +2,7 @@
 title: "2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー"
 author: "azu"
 layout: post
-date: 2024-03-27T02:45:02.563Z
+date: 2024-03-27T02:56:05.492Z
 category: JSer
 tags:
 - nodejs
@@ -13,20 +13,43 @@ tags:
 
 ---
 
-JSer.info #686 - - [Firefox 124.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/124.0/releasenotes/)
+JSer.info #686 - Firefox 124がリリースされました。
+
+- [Firefox 124.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/124.0/releasenotes/)
 - [Firefox 124 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/124)
 
+ `AbortSignal.any()`のサポート、WebDriver BiDiの対応改善が含まれています。
+また、フラグ付きで`SharedArrayBuffer.prototype.grow()`と` ArrayBuffer.prototype.resize()`のサポートなども行われています。
+
+
 ---
+
+Chrome 123がリリースされました。
 
 - [New in Chrome 123  |  Blog  |  Chrome for Developers](https://developer.chrome.com/blog/new-in-chrome-123?hl=en)
 
+CSSの`light-dark()`のサポート、Service worker Static Routing APIのサポート、Content-Encoding: zstdをサポートなどが含まれています。
+また、BFCacheが利用できなかった理由を取得できる`notRestoredReasons`のサポート、ES Proposal Stage 3のImport Attributesをサポートなども行われています。
+
 ---
 
-- [Node.js — Node v18.20.0 (LTS)](https://nodejs.org/en/blog/release/v18.20.0)
-- [Node.js — Node v20.12.0 (LTS)](https://nodejs.org/en/blog/release/v20.12.0)
-- [Node.js — Diving into the Node.js Website Redesign](https://nodejs.org/en/blog/announcements/diving-into-the-nodejs-website-redesign)
+Node.jsのドキュメンタリー動画が公開されています。
+
 - [Node.js: The Documentary | An origin story - YouTube](https://www.youtube.com/watch?v=LB8KwiiUGy0)
 
+Node.jsの誕生からRyan→Isaac→TJへのオーナーの移譲、Joyentでの停滞、io.jsのForkからの統合、Node.js Foundationの設立までの話をまとめた動画になっています。
+
+同じタイミングで、Node.jsのウェブサイトがNext.jsでリデザインされたことが発表されています。
+
+- [Node.js — Diving into the Node.js Website Redesign](https://nodejs.org/en/blog/announcements/diving-into-the-nodejs-website-redesign)
+
+Node.jsの作者でもありDenoの作者でもあるRyan Dahl氏が、[X](https://twitter.com/rough__sea)に復帰したり、次のPodcastでは[JSR: the JavaScript Registry](https://jsr.io/)について話されています。
+
+- [Why the creator of Node.js® created a new JavaScript runtime - Stack Overflow](https://stackoverflow.blog/2024/03/19/why-the-creator-of-node-js-r-created-a-new-javascript-runtime/)
+
+また、2代目のNode.jsのオーナーでもあるIsaacが、JavaScriptパッケージマネージャーの開発を行う[vlt](https://www.vlt.sh/)に参加したことも発表されています。
+
+- [Introducing our team, investors & more...](https://blog.vlt.sh/blog/the-team)
 
 ----
 
