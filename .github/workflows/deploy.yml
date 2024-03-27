@@ -23,13 +23,29 @@ jobs:
       - name: Build
         run: |
           npm run build
-      - uses: jeffreytse/jekyll-deploy-action@v0.5.1
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          provider: 'github'
-          token: ${{ secrets.SHARED_BOT_GITHUB_TOKEN }} # rss-to-twitter require PAT for page_build event
-          branch: 'master'          # Default is gh-pages for github provider
-          jekyll_src: './'           # Default is root directory
-          jekyll_cfg: '_config.yml'  # Default is _config.yml
-          jekyll_baseurl: ''         # Default is according to _config.yml
-          bundler_ver: '~>2.4.0'         # Default is latest bundler version
-          cname: 'jser.info'         # Default is to not use a cname
+          ruby-version: 2.7.8
+      - name: Install Bundler
+        run: gem install bundler
+      - name: Bundle install
+        run: bundle install
+      - name: Build Jekyll
+        run: bundle exec jekyll build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/master'
+        with:
+          github_token: ${{ secrets.SHARED_BOT_GITHUB_TOKEN }}
+          publish_dir: ./_site
+#      - uses: jeffreytse/jekyll-deploy-action@v0.5.1
+#        with:
+#          provider: 'github'
+#          token: ${{ secrets.SHARED_BOT_GITHUB_TOKEN }} # rss-to-twitter require PAT for page_build event
+#          branch: 'master'          # Default is gh-pages for github provider
+#          jekyll_src: './'           # Default is root directory
+#          jekyll_cfg: '_config.yml'  # Default is _config.yml
+#          jekyll_baseurl: ''         # Default is according to _config.yml
+#          bundler_ver: '~>2.4.0'         # Default is latest bundler version
+#          cname: 'jser.info'         # Default is to not use a cname
