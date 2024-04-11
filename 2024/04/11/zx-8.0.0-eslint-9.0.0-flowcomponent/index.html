@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2024-04-11のJS: zx 8.0.0、ESLint 9.0.0、Flowの`component`構文 - JSer.info</title>
+    <meta name="description" content="JSer.info #688 - zx 8.0.0がリリースされました。">
+    
+    <meta name="keywords" content="React,Next.js,nodejs,flowtype,ShellScript" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2024-04-11T11:42:24+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="flowtype" property="article:tag">
+      
+      <meta content="ShellScript" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #688 - zx 8.0.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2024-04-11のJS: zx 8.0.0、ESLint 9.0.0、Flowの`component`構文">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #688 - zx 8.0.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2024-04-11T11:42:24+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/04/02/gulp-5.0.0-deno-1.42-bun-1.1windows/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/27/firefox-124-chrome-123-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="flowtype">
+
+<meta property="article:tag" content="ShellScript">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">2024-04-11のJS: zx 8.0.0、ESLint 9.0.0、Flowの`component`構文</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2024年04月11日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2024/2024-04-11-zx-8.0.0-eslint-9.0.0-flowcomponent.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2024/2024-04-11-zx-8.0.0-eslint-9.0.0-flowcomponent.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #688 - zx 8.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.com/google/zx/releases/tag/8.0.0">Release 8.0.0 · google/zx</a></li>
+</ul>
+
+<p>パッケージサイズの削減、<code>$.sync</code>の追加、<code>input</code>オプションの追加、AbortControllerのサポート、<code>kill</code>メソッドの追加などが行われています。<br>
+そのほかには、<code>$.verbose</code>のデフォルト値を<code>false</code>に変更、<code>ssh</code> APIの削除などの変更も含まれています</p>
+
+<hr>
+
+<p>ESLint 9.0.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://eslint.org/blog/2024/04/eslint-v9.0.0-released/">ESLint v9.0.0 released - ESLint - Pluggable JavaScript Linter</a></li>
+</ul>
+
+<p>Node.js 18.18未満のサポート終了、Flat Configをデフォルト化、ビルトインのformatterの一部をパッケージに移動、JSDocのルールを削除、<code>eslint:recommende</code>の更新などの変更が行われています。<br>
+また、開発者向けの変更としても<code>loadESLint()</code> APIの追加、RuleTesterのバリデーションの強化、ルールの書き方の変更などが行われています。</p>
+
+<p>次のページにマイグレーションガイドが公開されています。</p>
+
+<ul>
+<li><a href="https://eslint.org/docs/latest/use/migrate-to-9.0.0">Migrate to v9.x - ESLint - Pluggable JavaScript Linter</a></li>
+</ul>
+
+<p>まだプラグイン側やtypescript-eslintなどがESLint v9をサポートしていないこともあるため、アップデートには注意が必要です。</p>
+
+<ul>
+<li><a href="https://github.com/typescript-eslint/typescript-eslint/issues/8211">ESLint v9 Support · Issue #8211 · typescript-eslint/typescript-eslint</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://medium.com/flow-type/announcing-component-syntax-b6c5285660d0">New Flow Language Features for React | by Alex Taylor | Flow | Apr, 2024 | Medium</a>という記事では、Flow v0.233.0で導入された<code>component</code>/<code>hook</code>/<code>renders</code>構文について紹介されています。<br>
+通常の関数とは異なる構文にすることでPropsのread-onlyのチェック、refのチェック、Hooksのチェックなどが行えるようになります。<br>
+これによって、間違いを減らすことや可読性を向上させることができるとしています。</p>
+
+<hr>
+
+<p><strong>PR</strong></p>
+
+<p><blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Webフロントエンドを一緒にやる人を探しています(📩DM下さい) <br><br>会社的にやっていることは、以前Open Job Letterで書いていたものが近いと思います。(詳細はDMで)<a href="https://t.co/sCqdhjGhnx"><a href="https://t.co/sCqdhjGhnx">https://t.co/sCqdhjGhnx</a></a><br>ヒト/モノ/カネ/クニが動いて、状況が激しく変化している領域なので、それを楽しめる人が向いてると思います。</p>&mdash; azu (@azu<em>re) &lt;a href=&quot;<a href="https://twitter.com/azu">https://twitter.com/azu</a></em>re/status/1775702750585925799?ref_src=twsrc%5Etfw&quot;&gt;April 4, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-8-0-0-google-zx">Release 8.0.0 · google/zx</h2>
+
+<p><a href="https://github.com/google/zx/releases/tag/8.0.0" title="Release 8.0.0 · google/zx">github.com/google/zx/releases/tag/8.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ShellScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>zx 8.0.0リリース。<br>
+パッケージサイズの削減、<code>$.sync</code>の追加、<code>input</code>オプションの追加、AbortControllerのサポート、<code>kill</code>メソッドの追加。<br>
+<code>$.verbose</code>のデフォルト値を<code>false</code>に変更、<code>ssh</code> APIの削除など</p>
+
+<hr>
+
+<h2 id="announcing-rspack-v0-6-rspack">Announcing Rspack v0.6 - Rspack</h2>
+
+<p><a href="https://www.rspack.dev/blog/announcing-0.6" title="Announcing Rspack v0.6 - Rspack">www.rspack.dev/blog/announcing-0.6</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Rspack 0.6リリース。<br>
+mini-css-extract-pluginの機能を組み込みサポート、デフォルトでTree Shakingを有効化。<br>
+CSSの順番が複数のchunkで矛盾している場合に警告を表示するようになるなど</p>
+
+<hr>
+
+<h2 id="node-js-wednesday-april-10-2024-security-releases">Node.js — Wednesday, April 10, 2024 Security Releases</h2>
+
+<p><a href="https://nodejs.org/en/blog/vulnerability/april-2024-security-releases-2" title="Node.js — Wednesday, April 10, 2024 Security Releases">nodejs.org/en/blog/vulnerability/april-2024-security-releases-2</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">windows</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.jsのセキュリティアップデートとして v18.20.2 (LTS)/v20.12.2 (LTS)/v21.7.3 (Current)がそれぞれリリース。<br>
+Windowsにおける<code>child_process.spawn</code>のコマンドインジェクションの脆弱性の修正</p>
+
+<hr>
+
+<h2 id="eslint-v9-0-0-released-eslint-pluggable-javascript-linter">ESLint v9.0.0 released - ESLint - Pluggable JavaScript Linter</h2>
+
+<p><a href="https://eslint.org/blog/2024/04/eslint-v9.0.0-released/" title="ESLint v9.0.0 released - ESLint - Pluggable JavaScript Linter">eslint.org/blog/2024/04/eslint-v9.0.0-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ESLint v9.0.0リリース。<br>
+Node.js 18.18未満のサポート終了、Flat Configをデフォルト化、ビルトインのformatterの一部をパッケージに移動、JSDocのルールを削除。<br>
+<code>eslint:recommende</code>の更新、<code>loadESLint()</code> APIの追加、RuleTesterのバリデーションの強化、ルールの書き方を変更など</p>
+
+<ul>
+<li><a href="https://eslint.org/docs/latest/use/migrate-to-9.0.0" title="Migrate to v9.x - ESLint - Pluggable JavaScript Linter">Migrate to v9.x - ESLint - Pluggable JavaScript Linter</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="new-flow-language-features-for-react-by-alex-taylor-flow-apr-2024-medium">New Flow Language Features for React | by Alex Taylor | Flow | Apr, 2024 | Medium</h2>
+
+<p><a href="https://medium.com/flow-type/announcing-component-syntax-b6c5285660d0" title="New Flow Language Features for React | by Alex Taylor | Flow | Apr, 2024 | Medium">medium.com/flow-type/announcing-component-syntax-b6c5285660d0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">flowtype</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>Flow v0.233.0で導入された<code>component</code>/<code>hook</code>/<code>renders</code>構文について。<br>
+通常の関数とは異なる構文にすることでPropsのread-onlyのチェック、refのチェック、Hooksのチェックなどが行える</p>
+
+<hr>
+
+<h2 id="app-router-0-01-csr-404">App Router移行時に0.01%の確率でCSR遷移が404エラーになる - とろろこんぶろぐ</h2>
+
+<p><a href="https://oisham.hatenablog.com/entry/2024/04/04/105444" title="App Router移行時に0.01%の確率でCSR遷移が404エラーになる - とろろこんぶろぐ">oisham.hatenablog.com/entry/2024/04/04/105444</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.jsではApp RouterとPages Routerが共存しているときは、パスがどちらのRouterかを判定するのに Bloom Filter を利用している。<br>
+この判定は確率的に判定ミスをするが、その際にはハードナビゲーションするため本来は問題が起きない。しかし、<code>basePath</code>オプションを利用時には問題があったという話。</p>
+
+<hr>
+
+<h2 id="breaking-down-next-js-14-focusreactive">Breaking Down Next.js 14 | FocusReactive</h2>
+
+<p><a href="https://focusreactive.com/breaking-down-next-js-14/" title="Breaking Down Next.js 14 | FocusReactive">focusreactive.com/breaking-down-next-js-14/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js 14のApp Router/Server Components/Data Fetching/Caching/Metadata/Dynamic Image Generationについて。</p>
+
+<hr>
+
+<h2 id="history-of-js-interop-in-dart-support-for-wasm-just-landed-in-the-by-sigmund-cherem-dart-mar-2024-medium">History of JS interop in Dart. Support for Wasm just landed in the… | by Sigmund Cherem | Dart | Mar, 2024 | Medium</h2>
+
+<p><a href="https://medium.com/dartlang/history-of-js-interop-in-dart-98b06991158f" title="History of JS interop in Dart. Support for Wasm just landed in the… | by Sigmund Cherem | Dart | Mar, 2024 | Medium">medium.com/dartlang/history-of-js-interop-in-dart-98b06991158f</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">dart</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>DartのJavaScriptとの総合運用性の歴史について。<br>
+Dart 3.3で追加された<code>dart:js_interop</code>について</p>
+
+<hr>
+
+<h2 id="learn-javascript-web-dev">Learn JavaScript  |  web.dev</h2>
+
+<p><a href="https://web.dev/learn/javascript" title="Learn JavaScript  |  web.dev">web.dev/learn/javascript</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">tutorial</span></p></p>
+
+<p>JavaScriptの基礎を学習するチュートリアル</p>
+
+<hr>
+
+<h2 id="migrating-500-tests-from-mocha-to-node-js-astro">Migrating 500+ tests from Mocha to Node.js | Astro</h2>
+
+<p><a href="https://astro.build/blog/node-test-migration/" title="Migrating 500+ tests from Mocha to Node.js | Astro">astro.build/blog/node-test-migration/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">testing</span> <span class="jser-tag">article</span></p></p>
+
+<p>Mocha/Chaiから<code>node:test</code>/<code>node:assert</code>へテストを移行した話</p>
+
+<hr>
+
+<h2 id="optimizing-webkit-safari-for-speedometer-3-0-webkit">Optimizing WebKit &amp; Safari for Speedometer 3.0 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/15249/optimizing-webkit-safari-for-speedometer-3-0/" title="Optimizing WebKit &amp;amp; Safari for Speedometer 3.0 | WebKit">webkit.org/blog/15249/optimizing-webkit-safari-for-speedometer-3-0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webkit</span> <span class="jser-tag">safari</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>WebKitでSpeedometer 3.0のベンチマークに合わせた最適化を色々と取り入れた話。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="home-ark-ui">Home | Ark UI</h2>
+
+<p><a href="https://ark-ui.com/" title="Home | Ark UI">ark-ui.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span></p></p>
+
+<p>React/Solid/Vueで、Panda CSS/Tailwind/Vanilla CSSに対応したHeadless UIコンポーネントライブラリ</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="the-framework-field-guide-fundamentals-unicorn-utterances">The Framework Field Guide - Fundamentals | Unicorn Utterances</h2>
+
+<p><a href="https://unicorn-utterances.com/collections/framework-field-guide-fundamentals" title="The Framework Field Guide - Fundamentals | Unicorn Utterances">unicorn-utterances.com/collections/framework-field-guide-fundamentals</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">Angular</span> <span class="jser-tag">Vue</span> <span class="jser-tag">book</span></p></p>
+
+<p>Angular/React/Vueを一度に学べることを目的にした書籍。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2024/2024-04-11-zx-8.0.0-eslint-9.0.0-flowcomponent.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","Next.js","nodejs","flowtype","ShellScript"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>Next.js</li>
+                
+                <li>nodejs</li>
+                
+                <li>flowtype</li>
+                
+                <li>ShellScript</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/04/11/zx-8.0.0-eslint-9.0.0-flowcomponent/">2024-04-11のJS: zx 8.0.0、ESLint 9.0.0、Flowの`component`構文</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/04/02/gulp-5.0.0-deno-1.42-bun-1.1windows/">2024-04-02のJS: gulp 5.0.0、Deno 1.42、Bun 1.1(Windows)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/27/firefox-124-chrome-123-node.js/">2024-03-27のJS: Firefox 124、Chrome 123、Node.jsドキュメンタリー</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/19/storybook-8-nuxt-3.11-cloudflare-workers-vitest/">2024-03-19のJS: Storybook 8、Nuxt 3.11、Cloudflare Workers + Vitest</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/12/tailwind-css-v4.0-alpha-typescript-5.4-speedometer-3.0/">2024-03-12のJS: Tailwind CSS v4.0 alpha、TypeScript 5.4、Speedometer 3.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/03/05/parcel-v2.12.0-polyfill.io-express-4.18.3/">2024-03-05のJS: Parcel v2.12.0、`polyfill.io`の代用、express 4.18.3</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/27/firefox-123-remix-2.7.0remix-vite-is-stable-2023node.js/">2024-02-27のJS: Firefox 123、Remix 2.7.0(Remix Vite is Stable)、2023年のNode.jsまとめ</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/02/20/es2024-rc-typescript-eslint-v7-react-compiler/">2024-02-20のJS: ES2024 RC、typescript-eslint v7、React Compiler</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
