@@ -133,7 +133,7 @@ Server Component/Server Actionのサポート、`forwardRef`が不要となる�
 Hydrationのエラーの表示の改善、`<Context>`自体が`<Context.Provider>`としての機能を持つように変更、`ref`のcleanup処理を定義できるように。
 `useDeferredValue`の第二引数に初期値をサポート、`<title>`などのメタデータタグのサポート、`<link ref=stylesheet>`でのスタイルシートのサポート。
 `<script async={true}>`のサポート、`preload`などの`<link rel=preload>`を扱う関数を追加。
-React 18ではサードパーティによってHTMLが改変されたときはHydration時にレンダリングし直すことで消えていたが、残るように変更、Custme Elementのサポートなど。
+React 18ではサードパーティによってHTMLが改変されたときはHydration時にレンダリングし直すことで消えていたが、残るように変更、Custom Elementのサポートなど。
 
 
 ----
