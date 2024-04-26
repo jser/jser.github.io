@@ -49,7 +49,7 @@ React 19 Betaがリリースされました。
 
 Actionという概念の導入と`useActionState`/`useFormStatus`の追加されています。
 楽観的な更新を扱う`useOptimistic`、Promiseをunwrapする`use`の追加されています。
-Server Component/Server Actionのサポート、`fowardRef`が不要となるように変更なども行われています。
+Server Component/Server Actionのサポート、`forwardRef`が不要となるように変更なども行われています。
 
 ---
 
@@ -129,7 +129,7 @@ Androidの最小SDKバージョンを23 (Android 6.0)に変更、PropTypesの削
 React 19 Betaリリース。
 Actionという概念の導入と`useActionState`/`useFormStatus`の追加。
 楽観的な更新を扱う`useOptimistic`、Promiseをunwrapする`use`の追加。
-Server Component/Server Actionのサポート、`fowardRef`が不要となるように変更。
+Server Component/Server Actionのサポート、`forwardRef`が不要となるように変更。
 Hydrationのエラーの表示の改善、`<Context>`自体が`<Context.Provider>`としての機能を持つように変更、`ref`のcleanup処理を定義できるように。
 `useDeferredValue`の第二引数に初期値をサポート、`<title>`などのメタデータタグのサポート、`<link ref=stylesheet>`でのスタイルシートのサポート。
 `<script async={true}>`のサポート、`preload`などの`<link rel=preload>`を扱う関数を追加。
