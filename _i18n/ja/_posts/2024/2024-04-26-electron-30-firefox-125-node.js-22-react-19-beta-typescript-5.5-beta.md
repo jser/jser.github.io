@@ -170,7 +170,7 @@ TypeScript 5.5リリース。
 JSDocで`@import {foo} from "foo"`をサポート、正規表現の基本的な構文チェックをサポート、`isolatedDeclarations`をサポート。
 設定ファイル内で`${configDir}`のテンプレート値をサポート。
 `typescript`パッケージのサイズを削減、Named Importをサポート、`transpileDeclaration` APIの追加。
-`out`や`target: ES3`などの非推奨となっていたオプションを削除など
+`out`や`target: ES3`などの非推奨となっていたオプションが無効化され、`ignoreDeprecations`オプションを指定しないと利用できなくなる変更など
 
 - [The Making of a TypeScript Feature: Inferring Type Predicates](https://effectivetypescript.com/2024/04/16/inferring-a-type-predicate/ "The Making of a TypeScript Feature: Inferring Type Predicates")
 
