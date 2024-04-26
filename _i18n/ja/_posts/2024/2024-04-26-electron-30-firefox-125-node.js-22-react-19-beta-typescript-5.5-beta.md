@@ -2,7 +2,7 @@
 title: "2024-04-26のJS: Electron 30、Firefox 125、Node.js 22、React 19 Beta、TypeScript 5.5 Beta"
 author: "azu"
 layout: post
-date: 2024-04-26T02:19:10.451Z
+date: 2024-04-26T02:30:50.846Z
 category: JSer
 tags:
 - React
@@ -13,25 +13,57 @@ tags:
 
 ---
 
-JSer.info #690 - - [Electron 30.0.0 | Electron](https://www.electronjs.org/blog/electron-30-0)
+JSer.info #690 - Electron 30.0.0がリリースされました。
+
+- [Electron 30.0.0 | Electron](https://www.electronjs.org/blog/electron-30-0)
+
+V8 12.4、Chromium 124、Node.js 20.11.1へアップデート。
+File System APIをサポート、Cross Origin iframeにPermission Policyを使うように変更、`WebContentsView`/`BaseWindow`の廃止などの変更が含まれています。
 
 ---
+
+Firefox 125がリリースされました。
 
 - [Firefox 125.0.1, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/125.0.1/releasenotes/)
 - [Firefox 125 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/125)
 
+`Intl.Segmenter`のサポート、Popover APIのサポート、AV1コーデックのサポート、WasmのMulti Memoryをサポートなどが追加されています。
+
 ---
+
+Node.js 22がリリースされました。
 
 - [Node.js — Node.js 22 is now available!](https://nodejs.org/en/blog/announcements/v22-release-announce)
 
+Node.js 22.x は2024-10-29に[LTS](https://github.com/nodejs/release#release-schedule)となる予定のメジャーバージョンです。
+
+V8 12.4へアップデート、`require()`でのESMモジュールのロードをサポートする`--experimental-require-module`フラグの追加が含まれています。
+また、npm run-scriptを実行する`node --run <script>`を追加、`node --watch`フラグを追加、WebSocketをデフォルトで有効化、`node:fs`に`glob`の追加などが行われています。
+そのほかには、StreamのHigh Water Markのデフォルト値を16KiBから64KiBへ変更なども行われています。
+
 ---
+
+React 19 Betaがリリースされました。
 
 - [React 19 Beta – React](https://react.dev/blog/2024/04/25/react-19)
 
+Actionという概念の導入と`useActionState`/`useFormStatus`の追加されています。
+楽観的な更新を扱う`useOptimistic`、Promiseをunwrapする`use`の追加されています。
+Server Component/Server Actionのサポート、`fowardRef`が不要となるように変更なども行われています。
+
 ---
 
+TypeScript 5.5 Betaがリリースされました。
+
 - [Announcing TypeScript 5.5 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-5-beta/)
+
+関数からtype predicatesを推論できるようになり、`Array.prototype.filter`などでの絞り込みが簡潔に書けるようになっています。
+
 - [The Making of a TypeScript Feature: Inferring Type Predicates](https://effectivetypescript.com/2024/04/16/inferring-a-type-predicate/)
+
+JSDocで`@import {foo} from "foo"`をサポート、正規表現の基本的な構文チェックをサポート、`isolatedDeclarations`をサポートが追加されています。
+また、`out`や`target: ES3`などの非推奨となっていたオプションが無効化され、`ignoreDeprecations`オプションを指定しないと利用できなくなっています。
+
 
 
 ----
