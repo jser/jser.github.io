@@ -2,7 +2,7 @@
 title: "2024-04-26のJS: Electron 30、Firefox 125、Node.js 22、React 19 Beta、TypeScript 5.5 Beta"
 author: "azu"
 layout: post
-date: 2024-04-26T02:30:50.846Z
+date: 2024-04-26T02:31:56.430Z
 category: JSer
 tags:
 - React
