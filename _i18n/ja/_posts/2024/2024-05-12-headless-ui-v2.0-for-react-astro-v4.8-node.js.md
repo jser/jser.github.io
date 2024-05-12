@@ -2,7 +2,7 @@
 title: "2024-05-12のJS: Headless UI v2.0 for React、Astro v4.8、外部パッケージに依存せずにNode.jsで使えるようになった機能"
 author: "azu"
 layout: post
-date: 2024-05-12T06:43:47.798Z
+date: 2024-05-12T06:47:28.714Z
 category: JSer
 tags:
 - test
@@ -13,16 +13,34 @@ tags:
 
 ---
 
-JSer.info #692 - - [Headless UI v2.0 for React - Tailwind CSS](https://tailwindcss.com/blog/headless-ui-v2)
+JSer.info #692 - Headless UI v2.0 for Reactがリリースされました。
+
+- [Headless UI v2.0 for React - Tailwind CSS](https://tailwindcss.com/blog/headless-ui-v2)
+
+Floating UIのanchor指定をサポート、Checkboxコンポーネント、Fieldsetコンポーネント、Comboboxが`virtual` propsをサポートなどの変更が含まれています。
 
 ---
+
+Astro 4.8がリリースされました。
 
 - [Astro 4.8 | Astro](https://astro.build/blog/astro-480/)
 
+実験的な機能としてAstro Actions、Request Rewritingの追加が行われています。
+また、パフォーマンスの改善や`injectRoute`のバグ修正などの変更が含まれています。
+
 ---
 
-- [Node.js の進化に伴い不要となったかもしれないパッケージたち](https://zenn.dev/morinokami/articles/npm-uninstall)
+[Node.js の進化に伴い不要となったかもしれないパッケージたち](https://zenn.dev/morinokami/articles/npm-uninstall)という記事では、外部パッケージで提供されていた機能の一部がNode.jsにも実装されていることについて紹介されています。
 
+- Fetch API
+- `.env`ファイルの読み込み
+- `util.styleText`
+- `node:test`
+- `--watch`フラグ
+- `glob`
+- `util.parseArgs`
+
+などについて紹介されています。
 
 ----
 
