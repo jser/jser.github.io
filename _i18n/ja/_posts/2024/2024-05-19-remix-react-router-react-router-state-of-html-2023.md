@@ -2,7 +2,7 @@
 title: "2024-05-19のJS: Remix + React Router = React Router、State of HTML 2023"
 author: "azu"
 layout: post
-date: 2024-05-19T13:27:58.214Z
+date: 2024-05-19T14:15:49.809Z
 category: JSer
 tags:
 - React
@@ -13,7 +13,32 @@ tags:
 
 ---
 
-JSer.info #693
+JSer.info #693 - 次の記事では、Remix v3はReact Router v7としてリリースする予定という話が紹介されています。
+
+- [Merging Remix and React Router | Remix](https://remix.run/blog/merging-remix-and-react-router)
+
+RemixとReact Routerは、Viteとサーバ以外はほぼ同等の機能になってきています。
+そのため、React RouterをRemixにマイグレーションするのではなく、React RouterをアップデートするだけでRemixの機能を使えるようにしたいという話が書かれています。
+既存のRemixアプリは、import先のパッケージを`react-router`に変更するだけで動く予定とのことです。
+
+この意思決定の詳細は、Xでも書かれています。
+
+- https://x.com/ryanflorence/status/1791479313939976313
+
+React Routerの安定化のために、Remix自体の開発は少しの間止まるとのことですが、
+今後Remixプロジェクトとしての予定があるそうです。
+
+---
+
+State of HTML 2023の結果が公開されました。
+
+- [State of HTML 2023](https://2023.stateofhtml.com/en-US/)
+
+HTMLの要素や属性、Web Components、アクセシビリティ、課題や欲しい機能についてのアンケート結果がまとめられています。
+
+----
+
+{% include inline-support.html %}
 
 ----
 
