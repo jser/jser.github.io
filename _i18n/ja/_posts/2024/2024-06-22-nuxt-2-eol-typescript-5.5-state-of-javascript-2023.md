@@ -2,7 +2,7 @@
 title: "2024-06-22のJS: Nuxt 2 EOL、TypeScript 5.5、State of JavaScript 2023の結果"
 author: "azu"
 layout: post
-date: 2024-06-22T06:28:27.215Z
+date: 2024-06-22T06:30:30.339Z
 category: JSer
 tags:
 - Vue
