@@ -66,7 +66,7 @@ JavaScriptの言語機能、フレームワーク、ツール、テスト、Type
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">news</span></p>
 
 Nuxt 2は2024年6月30日でEnd-of-Life (EOL)となる。
-Nuext 2.xの最終版となる2.18.0が6月末にリリースされる予定
+Nuxt 2.xの最終版となる2.18.0が6月末にリリースされる予定
 
 
 ----
