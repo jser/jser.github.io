@@ -2,7 +2,7 @@
 title: "2024-06-22のJS: Nuxt 2 EOL、TypeScript 5.5、State of JavaScript 2023の結果"
 author: "azu"
 layout: post
-date: 2024-06-22T06:10:01.531Z
+date: 2024-06-22T06:28:27.215Z
 category: JSer
 tags:
 - Vue
@@ -13,10 +13,43 @@ tags:
 
 ---
 
-JSer.info #697 - - [Nuxt 2 End-of-Life (EOL) · Nuxt Blog](https://nuxt.com/blog/nuxt2-eol)
+JSer.info #697 - 
+Nuxt 2は2024年6月30日でEnd-of-Life (EOL)となることが発表されました。
+
+- [Nuxt 2 End-of-Life (EOL) · Nuxt Blog](https://nuxt.com/blog/nuxt2-eol)
+
+Nuxt 2.xの最終版となる2.18.0が6月末にリリースされる予定となっていて、それ以降はセキュリティアップデートも公式には提供されなくなります。
+
+---
+
+TypeScript 5.5がリリースされました。
+
 - [Announcing TypeScript 5.5 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-5/)
+
+TypeScript 5.5では、関数からtype predicatesを推論できるようになり、`Array.prototype.filter`などでの絞り込みが簡潔に書けるようになっています。
+また、Stage 3のSet Methodsをサポート、JSDocで`@import {foo} from "foo"`をサポート、正規表現の基本的な構文チェックをサポート、`isolatedDeclarations`をサポートしています。
+
+`isolatedDeclarations`は、それぞれのTSファイルに明示的な型注釈を書くことを強制することで、複雑な型推論が不要な状態のTSファイルを扱うためのオプションです。
+これによって、`isolatedDeclarations`が有効なプロジェクトでは、ファイル単位で型チェックが可能になるため並列に扱いやすくなったり、`tsc`以外のツールでも型を扱いやすくなるといったメリットがあります。
+
+- [Faster TypeScript builds with --isolatedDeclarations by Titian-Cornel Cernicova-Dragomir - Video recording - GitNation](https://portal.gitnation.org/contents/faster-typescript-builds-with-isolateddeclarations)
+- [明示的な型注釈によって推論コストを下げるというアプローチ](https://zenn.dev/cybozu_frontend/articles/ts-explicit-type-annotation)
+
+すでにoxcやswcは、この`isolatedDeclarations`をサポートして、型定義ファイルである`d.ts`の出力への対応を進めています。
+
+- <https://x.com/kdy1dev/status/1804363859014357303>
+- [feat(transformer-dts): `--isolatedDeclarations` dts transform by Dunqing · Pull Request #3664 · oxc-project/oxc](https://github.com/oxc-project/oxc/pull/3664)
+
+そのほかには、設定ファイル内で`${configDir}`のテンプレート値をサポート、`typescript`パッケージのサイズを削減、Named Importをサポート、`transpileDeclaration` APIの追加などが行われています。
+また、`out`や`target: ES3`などの非推奨となっていたオプションが無効化され、`ignoreDeprecations`オプションを指定しないと利用できなくなる変更も行われています。
+
+---
+
+State of JavaScript 2023のアンケート結果が公開されました。
+
 - [State of JavaScript 2023](https://2023.stateofjs.com/en-US/)
 
+JavaScriptの言語機能、フレームワーク、ツール、テスト、TypeScriptなどについてのアンケートの結果がまとめられています。
 
 ----
 
