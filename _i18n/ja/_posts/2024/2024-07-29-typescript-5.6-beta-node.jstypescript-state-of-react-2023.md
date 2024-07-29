@@ -2,7 +2,7 @@
 title: "2024-07-29のJS: TypeScript 5.6 Beta、Node.jsの実験的なTypeScriptサポート、State of React 2023"
 author: "azu"
 layout: post
-date: 2024-07-29T01:11:35.357Z
+date: 2024-07-29T01:18:59.277Z
 category: JSer
 tags:
 - nodejs
@@ -27,6 +27,9 @@ Iterator Helperのサポート、ES2022のArbitrary module namespace identifier 
 ----
 
 Node.jsに`--experimental-strip-types`という実験的なフラグが実装されています。
+
+- [module: add --experimental-strip-types by marco-ippolito · Pull Request #53725 · nodejs/node](https://github.com/nodejs/node/pull/53725)
+
 この`--experimental-strip-types`フラグを使うと、TypeScriptのコードから型情報を削除してJavaScriptファイルとして実行できるようになります。
 
 [Node.jsのTypeScriptサポートについて](https://gist.github.com/azu/ac5dafbf211ef8b5ecf386930ac75250)では、Node.jsのTypeScriptサポートがどのような経緯で進んできているかをまとめています。
