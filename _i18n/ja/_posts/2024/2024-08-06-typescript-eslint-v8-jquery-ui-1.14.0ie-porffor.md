@@ -2,7 +2,7 @@
 title: "2024-08-06のJS: typescript-eslint v8、jQuery UI 1.14.0(IEサポートの終了)、Porffor"
 author: "azu"
 layout: post
-date: 2024-08-06T00:28:21.073Z
+date: 2024-08-06T00:30:13.575Z
 category: JSer
 tags:
 - TypeScript
