@@ -61,19 +61,6 @@ porffor自体もJavaScriptで書かれており、AOT(Ahead-Of-Time)でJS/TSをW
 typescript-eslint v8リリース。
 ESLint 9のサポート、`projectService`をStableに変更、プリセットのルール変更など
 
-
-----
-
-## Porffor
-[porffor.dev/](https://porffor.dev/ "Porffor")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">Tools</span></p>
-
-WasmにコンパイルできるJavaScriptエンジン/コンパイラー/ランタイム。
-JavaScript/TypeScriptのコードをAOTコンパイルしてWasmにできるため、Wasmのファイルサイズが小さく効率的に動かせる。
-Wasm to Cへのコンパイラなども実装している
-
-- [CanadaHonk/porffor: A from-scratch experimental AOT JS engine, written in JS](https://github.com/CanadaHonk/porffor "CanadaHonk/porffor: A from-scratch experimental AOT JS engine, written in JS")
-
 ----
 
 ## jQuery UI 1.14.0 released | jQuery UI Blog
@@ -174,9 +161,25 @@ Google BotsによるインデックスとJavaScript/CSSのレンダリングの�
 Datadog RUMを使ったフロントエンドのモニタリングについて。
 ユーザーアクションのトラッキングの設定や可視化について
 
+----
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## Porffor
+[porffor.dev/](https://porffor.dev/ "Porffor")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">Tools</span></p>
+
+WasmにコンパイルできるJavaScriptエンジン/コンパイラー/ランタイム。
+JavaScript/TypeScriptのコードをAOTコンパイルしてWasmにできるため、Wasmのファイルサイズが小さく効率的に動かせる。
+Wasm to Cへのコンパイラなども実装している
+
+- [CanadaHonk/porffor: A from-scratch experimental AOT JS engine, written in JS](https://github.com/CanadaHonk/porffor "CanadaHonk/porffor: A from-scratch experimental AOT JS engine, written in JS")
+
 
 ----
 <h1 class="site-genre">スライド、動画関係</h1>
+
 
 ----
 
