@@ -2,7 +2,7 @@
 title: "2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x)"
 author: "azu"
 layout: post
-date: 2024-08-25T01:33:35.630Z
+date: 2024-08-25T01:34:12.084Z
 category: JSer
 tags:
 - nodejs
@@ -28,7 +28,7 @@ Node.js v22.7.0がリリースされました。
 - [Node.js — Node v22.7.0 (Current)](https://nodejs.org/en/blog/release/v22.7.0)
 
 新しい機能として、`--experimental-transform-types`フラグによるTypeScriptの`enum`と`namespace`の変換をサポートしました。
-また、あいまいなJSをCommonJSかES Modulesかを判定して実行する`--experimental-detect-module`フラグをデフォルトで有効、Bufferのパフォーマンス改善などが追加されました。
+また、あいまいなJSをCommonJSかES Modulesかを判定して実行する`--experimental-detect-module`フラグをデフォルトで有効化、Bufferのパフォーマンス改善なども含まれています。
 
 ---
 
