@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x) - JSer.info</title>
+    <meta name="description" content="JSer.info #704 - WebdriverIO v9がリリースされました。">
+    
+    <meta name="keywords" content="nodejs,Vue,TypeScript,webdriver,Bun" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2024-08-25T10:34:12+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="Vue" property="article:tag">
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="webdriver" property="article:tag">
+      
+      <meta content="Bun" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #704 - WebdriverIO v9がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #704 - WebdriverIO v9がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2024-08-25T10:34:12+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2024/08/15/node-v22.6.0-experimental-strip-types-firefox-129/">
+
+<meta property="og:see_also" content="https://jser.info/2024/08/06/typescript-eslint-v8-jquery-ui-1.14.0ie-porffor/">
+
+<meta property="og:see_also" content="https://jser.info/2024/07/29/typescript-5.6-beta-node.jstypescript-state-of-react-2023/">
+
+
+
+
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="Vue">
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="webdriver">
+
+<meta property="article:tag" content="Bun">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x)</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2024年08月25日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2024/2024-08-25-webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2024/2024-08-25-webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #704 - WebdriverIO v9がリリースされました。</p>
+
+<ul>
+<li><a href="https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/">WebdriverIO v9 Released | WebdriverIO</a></li>
+</ul>
+
+<p>新しい機能として、WebDriver BiDiのサポート、<code>url</code>コマンドの追加、<code>addInitScript</code>コマンドの追加、<code>setViewport</code>コマンドの追加、ShadowRootのサポートなどがあります。</p>
+
+<p>また、<code>emulate</code>コマンドでClockのエミュレーションサポートや、要素がinteractiveになるまで自動的に待機する変更も含まれています。</p>
+
+<hr>
+
+<p>Node.js v22.7.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v22.7.0">Node.js — Node v22.7.0 (Current)</a></li>
+</ul>
+
+<p>新しい機能として、<code>--experimental-transform-types</code>フラグによるTypeScriptの<code>enum</code>と<code>namespace</code>の変換をサポートしました。<br>
+また、あいまいなJSをCommonJSかES Modulesかを判定して実行する<code>--experimental-detect-module</code>フラグをデフォルトで有効化、Bufferのパフォーマンス改善なども含まれています。</p>
+
+<hr>
+
+<p>Deno v1.46がリリースされました。</p>
+
+<ul>
+<li><a href="https://deno.com/blog/v1.46">Deno 1.46: The Last 1.x Release</a></li>
+</ul>
+
+<p>Deno 1.xの最終リリースとなる予定です。</p>
+
+<p><code>deno run main.ts</code>の<code>run</code>を省略できるように、<code>deno task</code>を<code>deno run</code>でも呼べるように、<code>--allow-*</code>/<code>--deny-*</code>の省略形を追加、<code>--env</code>を<code>--env-file</code>に名前を変更、<code>deno fmt</code>がHTML/CSS/YAMLなどをサポート、<code>deno remove</code>/<code>deno clean</code>コマンドの追加、<code>deno compile</code>がCode Signに対応しています。</p>
+
+<p>その他にもstdパッケージの大部分がStableとなりました。</p>
+
+<ul>
+<li><a href="https://github.com/denoland/std/issues/4600">The Road to Stabilizing the Standard Library · Issue #4600 · denoland/std</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v11-0-0-vueuse-vueuse">Release v11.0.0 · vueuse/vueuse</h2>
+
+<p><a href="https://github.com/vueuse/vueuse/releases/tag/v11.0.0" title="Release v11.0.0 · vueuse/vueuse">github.com/vueuse/vueuse/releases/tag/v11.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>vueuse v11.0.0リリース。<br>
+依存のmajorアップデート、オプションの追加など</p>
+
+<hr>
+
+<h2 id="webdriverio-v9-released-webdriverio">WebdriverIO v9 Released | WebdriverIO</h2>
+
+<p><a href="https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/" title="WebdriverIO v9 Released | WebdriverIO">webdriver.io/blog/2024/08/15/webdriverio-v9-release/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webdriver</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>WebdriverIO v9.リリース。<br>
+WebDriver BiDiをサポート、<code>url</code>コマンドの追加、<code>addInitScript</code>コマンドの追加、<code>setViewport</code>コマンドの追加、ShadowRootのサポート。<br>
+<code>emulate</code>コマンドでClockのエミュレーションサポート、要素がinteractiveになるまで自動的に待機する変更など。</p>
+
+<hr>
+
+<h2 id="node-js-node-v20-17-0-lts">Node.js — Node v20.17.0 (LTS)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v20.17.0" title="Node.js — Node v20.17.0 (LTS)">nodejs.org/en/blog/release/v20.17.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v20.17.0リリース。<br>
+ESMを<code>require()</code>でロードできる<code>--experimental-require-module</code>フラグを追加,<br>
+Globパターンの判定ができる<code>path.matchesGlob</code>を追加。<br>
+DuplexPair APIの公開など</p>
+
+<hr>
+
+<h2 id="bun-v1-1-25-bun-blog">Bun v1.1.25 | Bun Blog</h2>
+
+<p><a href="https://bun.sh/blog/bun-v1.1.25" title="Bun v1.1.25 | Bun Blog">bun.sh/blog/bun-v1.1.25</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Bun v1.1.25リリース。<br>
+<code>node:cluster</code>のサポート、V8のinteral APIを部分的にサポート、<code>bun build --compile</code>で指定したファイルをバイナリ内にファイルを埋め込めるようになるなど</p>
+
+<hr>
+
+<h2 id="stackblitz-labs-pkg-pr-new-continuous-preview-releases-for-your-libraries">stackblitz-labs/pkg.pr.new: Continuous (Preview) Releases for your libraries!</h2>
+
+<p><a href="https://github.com/stackblitz-labs/pkg.pr.new" title="stackblitz-labs/pkg.pr.new: Continuous (Preview) Releases for your libraries!">github.com/stackblitz-labs/pkg.pr.new</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">github</span> <span class="jser-tag">CI</span></p></p>
+
+<p>CIからコミットごとにnpmパッケージを公開できるツールとサービス。</p>
+
+<hr>
+
+<h2 id="release-v15-0-0-capricorn86-happy-dom">Release v15.0.0 · capricorn86/happy-dom</h2>
+
+<p><a href="https://github.com/capricorn86/happy-dom/releases/tag/v15.0.0" title="Release v15.0.0 · capricorn86/happy-dom">github.com/capricorn86/happy-dom/releases/tag/v15.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">DOM</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Happy DOM v15.0.0リリース。<br>
+Node.js 18未満のサポート終了、<code>HTML*Element</code>のサポートの追加など</p>
+
+<hr>
+
+<h2 id="announcing-typescript-5-6-rc-typescript">Announcing TypeScript 5.6 RC - TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-5-6-rc/" title="Announcing TypeScript 5.6 RC - TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-5-6-rc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 5.6 RCリリース。<br>
+ESLintの<code>no-constant-binary-expression</code>と似た常にtrue/nullishとなる間違った書き方をエラーにする変更、Iterator Helperのサポート。<br>
+ES2022のArbitrary module namespace identifier namesをサポート、<code>--noUncheckedSideEffectImports</code>フラグの追加。<br>
+型チェックせずにファイルを出力できる<code>--noCheck</code>フラグの追加、<code>--stopOnBuildErrors</code>フラグの追加など</p>
+
+<hr>
+
+<h2 id="node-js-node-v22-7-0-current">Node.js — Node v22.7.0 (Current)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v22.7.0" title="Node.js — Node v22.7.0 (Current)">nodejs.org/en/blog/release/v22.7.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v22.7.0リリース。<br>
+TypeScriptの<code>enum</code>と<code>namaspace</code>の変換を行う<code>--experimental-transform-types</code>フラグの追加。<br>
+あいまいなJSをCommonJSかES Modulesかを判定して実行する<code>--experimental-detect-module</code>フラグをデフォルトで有効化、Bufferのパフォーマンス改善など</p>
+
+<hr>
+
+<h2 id="release-v1-0-0-rc-0-web-infra-dev-rspack">Release v1.0.0-rc.0 · web-infra-dev/rspack</h2>
+
+<p><a href="https://github.com/web-infra-dev/rspack/releases/tag/v1.0.0-rc.0" title="Release v1.0.0-rc.0 · web-infra-dev/rspack">github.com/web-infra-dev/rspack/releases/tag/v1.0.0-rc.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">bundler</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>rspack v1.0.0-rc.0リリース。<br>
+eval-source-mapのパフォーマンス改善、<code>HtmlRspackPlugin</code>がエスケープ構文をサポートなど</p>
+
+<hr>
+
+<h2 id="nuxt-3-13-nuxt-blog">Nuxt 3.13 · Nuxt Blog</h2>
+
+<p><a href="https://nuxt.com/blog/v3-13" title="Nuxt 3.13 · Nuxt Blog">nuxt.com/blog/v3-13</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">Nuxt</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nuxt v3.13リリース。<br>
+Route Groupsのサポート、<code>NuxtLink</code>に<code>prefetchOn</code>を追加、<code>@vue/runtime-core</code>の型を拡張しないように変更など</p>
+
+<hr>
+
+<h2 id="electron-32-0-0-electron">Electron 32.0.0 | Electron</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-32-0" title="Electron 32.0.0 | Electron">www.electronjs.org/blog/electron-32-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 32リリース。<br>
+Chromium 128/Node.js 20.16.0/V8 12.8にアップデート、<code>webcontents.navigationHistory</code> APIの追加、<code>zstd</code>に対応など。<br>
+<code>File</code>オブジェクトから非標準な<code>path</code>プロパティを削除といった破壊的な変更も含まれている</p>
+
+<hr>
+
+<h2 id="deno-1-46-the-last-1-x-release">Deno 1.46: The Last 1.x Release</h2>
+
+<p><a href="https://deno.com/blog/v1.46" title="Deno 1.46: The Last 1.x Release">deno.com/blog/v1.46</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno v1.46リリース。<br>
+Denov 1.xの最終リリース。<br>
+<code>deno run</code>の<code>run</code>を省略できるように、<code>deno task</code>を<code>deno run</code>でも呼べるように、<code>--allow-*</code>/<code>--deny-*</code>の省略形を追加。<br>
+<code>--env</code>を<code>--env-file</code>に名前を変更、<code>deno fmt</code>がHTML/CSS/YAMLなどをサポート、<code>deno remove</code>/<code>deno clean</code>コマンドの追加。<br>
+<code>deno compile</code>がCode Signに対応、stdをStable変更など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="blocking-render-why-would-you-do-that-harry-roberts-web-performance-consultant">blocking=render: Why would you do that?! – Harry Roberts – Web Performance Consultant</h2>
+
+<p><a href="https://csswizardry.com/2024/08/blocking-render-why-whould-you-do-that/" title="blocking=render: Why would you do that?! – Harry Roberts – Web Performance Consultant">csswizardry.com/2024/08/blocking-render-why-whould-you-do-that/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">browser</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>blocking=render</code>について。<br>
+アンチフリッカースニペットのような意図的にページを非表示状態にしたい場合のユースケースについて</p>
+
+<hr>
+
+<h2 id="node-js-web-scratch">Node.jsで型安全な環境変数を扱うスニペット | Web Scratch</h2>
+
+<p><a href="https://efcl.info/2024/08/24/type-safe-env/" title="Node.jsで型安全な環境変数を扱うスニペット | Web Scratch">efcl.info/2024/08/24/type-safe-env/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsで環境変数をTypeScript定義、コマンドに対して環境変数のセットを型安全に渡す方法について</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="vitest-dev-eslint-plugin-vitest-eslint-plugin-for-vitest">vitest-dev/eslint-plugin-vitest: eslint plugin for vitest</h2>
+
+<p><a href="https://github.com/vitest-dev/eslint-plugin-vitest?tab=readme-ov-file" title="vitest-dev/eslint-plugin-vitest: eslint plugin for vitest">github.com/vitest-dev/eslint-plugin-vitest?tab&#x3D;readme-ov-file</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">test</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">plugin</span></p></p>
+
+<p>vitest向けのESLintプラグイン</p>
+
+<hr>
+
+<h1 class="site-genre">書籍関係</h1>
+
+<hr>
+
+<h2 id="tailwind-css-amazon">Tailwind CSSフロントエンド開発の教科書 | 仮 |本 | 通販 | Amazon</h2>
+
+<p><a href="https://www.amazon.co.jp/dp/4798070971/" title="Tailwind CSSフロントエンド開発の教科書 | 仮 |本 | 通販 | Amazon">www.amazon.co.jp/dp/4798070971/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css </span> <span class="jser-tag">book</span></p></p>
+
+<p>2024年12月31日発売<br>
+Tailwind CSSについての書籍</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2024/2024-08-25-webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["nodejs","Vue","TypeScript","webdriver","Bun"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>nodejs</li>
+                
+                <li>Vue</li>
+                
+                <li>TypeScript</li>
+                
+                <li>webdriver</li>
+                
+                <li>Bun</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/08/15/node-v22.6.0-experimental-strip-types-firefox-129/">2024-08-15のJS: Node v22.6.0(`--experimental-strip-types`)、Firefox 129</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/08/06/typescript-eslint-v8-jquery-ui-1.14.0ie-porffor/">2024-08-06のJS: typescript-eslint v8、jQuery UI 1.14.0(IEサポートの終了)、Porffor</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/07/29/typescript-5.6-beta-node.jstypescript-state-of-react-2023/">2024-07-29のJS: TypeScript 5.6 Beta、Node.jsの実験的なTypeScriptサポート、State of React 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/07/18/700-vitest-2.0.0-node.js-22.5.0sqlite-private-browsing-mode/">2024-07-18のJS: #700 - Vitest 2.0.0、Node.js 22.5.0(sqlite)、Private Browsing Mode</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/07/11/esbuild-v0.220.23-node.js-22.4.0-pnpm-9.5-catalogs/">2024-07-11のJS: esbuild v0.22/0.23、Node.js 22.4.0、pnpm 9.5 Catalogs</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/07/01/es2024-playwright-v1.45.0-e18eecosystem-performance/">2024-07-01のJS: ES2024、Playwright v1.45.0、e18e(Ecosystem Performance) </a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/06/22/nuxt-2-eol-typescript-5.5-state-of-javascript-2023/">2024-06-22のJS: Nuxt 2 EOL、TypeScript 5.5、State of JavaScript 2023の結果</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
