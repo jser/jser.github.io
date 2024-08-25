@@ -214,6 +214,7 @@ Node.jsで環境変数をTypeScript定義、コマンドに対して環境変数
 
 vitest向けのESLintプラグイン
 
+- [Vitest公式になったeslint-plugin-vitestを導入して、適切なVitestのお作法を学んでみる](https://zenn.dev/bs_kansai/articles/8ff70404804f60)
 
 ----
 <h1 class="site-genre">書籍関係</h1>
