@@ -2,7 +2,7 @@
 title: "2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x)"
 author: "azu"
 layout: post
-date: 2024-08-25T01:32:57.043Z
+date: 2024-08-25T01:33:35.630Z
 category: JSer
 tags:
 - nodejs
@@ -23,7 +23,7 @@ JSer.info #704 - WebdriverIO v9がリリースされました。
 
 ---
 
-Node.js v22.7.0リリース。
+Node.js v22.7.0がリリースされました。
 
 - [Node.js — Node v22.7.0 (Current)](https://nodejs.org/en/blog/release/v22.7.0)
 
@@ -32,13 +32,13 @@ Node.js v22.7.0リリース。
 
 ---
 
-Deno v1.46リリース。
+Deno v1.46がリリースされました。
 
 - [Deno 1.46: The Last 1.x Release](https://deno.com/blog/v1.46)
 
-Deno 1.xの最終リリースです。
+Deno 1.xの最終リリースとなる予定です。
 
-`deno run`の`run`を省略できるように、`deno task`を`deno run`でも呼べるように、`--allow-*`/`--deny-*`の省略形を追加、`--env`を`--env-file`に名前を変更、`deno fmt`がHTML/CSS/YAMLなどをサポート、`deno remove`/`deno clean`コマンドの追加、`deno compile`がCode Signに対応しています。
+`deno run main.ts`の`run`を省略できるように、`deno task`を`deno run`でも呼べるように、`--allow-*`/`--deny-*`の省略形を追加、`--env`を`--env-file`に名前を変更、`deno fmt`がHTML/CSS/YAMLなどをサポート、`deno remove`/`deno clean`コマンドの追加、`deno compile`がCode Signに対応しています。
 
 その他にもstdパッケージの大部分がStableとなりました。
 
