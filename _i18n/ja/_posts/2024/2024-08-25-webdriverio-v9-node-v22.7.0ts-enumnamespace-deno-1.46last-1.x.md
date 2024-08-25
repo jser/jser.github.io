@@ -2,7 +2,7 @@
 title: "2024-08-25のJS: WebdriverIO v9、Node v22.7.0(TS `enum`と`namespace`の対応)、Deno 1.46(Last 1.x)"
 author: "azu"
 layout: post
-date: 2024-08-25T01:23:40.536Z
+date: 2024-08-25T01:32:57.043Z
 category: JSer
 tags:
 - nodejs
@@ -13,11 +13,36 @@ tags:
 
 ---
 
-JSer.info #704 - - [WebdriverIO v9 Released | WebdriverIO](https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/)
-- [Node.js — Node v20.17.0 (LTS)](https://nodejs.org/en/blog/release/v20.17.0)
+JSer.info #704 - WebdriverIO v9がリリースされました。
+
+- [WebdriverIO v9 Released | WebdriverIO](https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/)
+
+新しい機能として、WebDriver BiDiのサポート、`url`コマンドの追加、`addInitScript`コマンドの追加、`setViewport`コマンドの追加、ShadowRootのサポートなどがあります。
+
+また、`emulate`コマンドでClockのエミュレーションサポートや、要素がinteractiveになるまで自動的に待機する変更も含まれています。
+
+---
+
+Node.js v22.7.0リリース。
+
 - [Node.js — Node v22.7.0 (Current)](https://nodejs.org/en/blog/release/v22.7.0)
+
+新しい機能として、`--experimental-transform-types`フラグによるTypeScriptの`enum`と`namespace`の変換をサポートしました。
+また、あいまいなJSをCommonJSかES Modulesかを判定して実行する`--experimental-detect-module`フラグをデフォルトで有効、Bufferのパフォーマンス改善などが追加されました。
+
+---
+
+Deno v1.46リリース。
+
 - [Deno 1.46: The Last 1.x Release](https://deno.com/blog/v1.46)
 
+Deno 1.xの最終リリースです。
+
+`deno run`の`run`を省略できるように、`deno task`を`deno run`でも呼べるように、`--allow-*`/`--deny-*`の省略形を追加、`--env`を`--env-file`に名前を変更、`deno fmt`がHTML/CSS/YAMLなどをサポート、`deno remove`/`deno clean`コマンドの追加、`deno compile`がCode Signに対応しています。
+
+その他にもstdパッケージの大部分がStableとなりました。
+
+- [The Road to Stabilizing the Standard Library · Issue #4600 · denoland/std](https://github.com/denoland/std/issues/4600)
 
 ----
 
