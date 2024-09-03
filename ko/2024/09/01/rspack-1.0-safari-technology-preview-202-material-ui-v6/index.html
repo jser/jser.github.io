@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2024-09-01: Rspack 1.0, Safari Technology Preview 202, Material UI v6 - JSer.info</title>
+    <meta name="description" content="JSer.info #705 - webpack와 호환성을 있으면서 Rust로 작성한 bundler, Rspack 1.0가 출시되었어요.">
+    
+    <meta name="keywords" content="webpack,css,React,security,Next.js" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2024-09-01T14:25:04+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="webpack" property="article:tag">
+      
+      <meta content="css" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #705 - webpack와 호환성을 있으면서 Rust로 작성한 bundler, Rspack 1.0가 출시되었어요." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2024-09-01: Rspack 1.0, Safari Technology Preview 202, Material UI v6">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #705 - webpack와 호환성을 있으면서 Rust로 작성한 bundler, Rspack 1.0가 출시되었어요.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2024-09-01T14:25:04+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/08/15/node-v22.6.0-experimental-strip-types-firefox-129/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/08/06/typescript-eslint-v8-jquery-ui-1.14.0ie-porffor/">
+
+
+
+
+
+<meta property="article:tag" content="webpack">
+
+<meta property="article:tag" content="css">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="Next.js">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/">2024-09-01: Rspack 1.0, Safari Technology Preview 202, Material UI v6</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2024年09月01日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2024/2024-09-01-rspack-1.0-safari-technology-preview-202-material-ui-v6.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2024/2024-09-01-rspack-1.0-safari-technology-preview-202-material-ui-v6.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #705 - webpack와 호환성을 있으면서 Rust로 작성한 bundler, Rspack 1.0가 출시되었어요.</p>
+
+<ul>
+<li><a href="https://rspack.dev/blog/announcing-1-0">Announcing Rspack 1.0 - Rspack</a></li>
+</ul>
+
+<p>0.7에서 파괴적 변경이 몇 있어, 이행 가이드도 공개되어있어요.</p>
+
+<ul>
+<li><a href="https://rspack.dev/guide/migration/rspack_0.x">Migrating from Rspack 0.x - Rspack</a></li>
+</ul>
+
+<hr>
+
+<p>Safari Technology Preview 202가 출시되었어요.</p>
+
+<ul>
+<li><a href="https://webkit.org/blog/15798/release-notes-for-safari-technology-preview-202/">Release Notes for Safari Technology Preview 202</a></li>
+</ul>
+
+<p>CSS <code>background-clip: border-area</code>/<code>ruby-align</code>, <code>shape()</code> function/<code>@page</code>에서 <code>jis-b4</code>와 <code>jis-b5</code> 지원이 추가되었어요.<br>
+또한, ECMAScript Proposal Stage 3의 Float16Array 구현, <code>WebAssembly.{Memory/Table}.prototype.type()</code> 구현도 있어요.<br>
+WebAssembly에서, Wasm GC/Wasm Tail Calls 지원, JIT 없이 WebAssembly 실행 가능하게 한 변경도 있어요.</p>
+
+<hr>
+
+<p>Material UI v6가 출시되었어요.</p>
+
+<ul>
+<li><a href="https://mui.com/blog/material-ui-v6-is-out/">Material UI v6 is out now 🎉 - MUI</a></li>
+</ul>
+
+<p>CSS theme variables 추가, Color schemes에서 Light/Dark mode 전환, Container queries 지원가 추가되었어요.<br>
+<a href="https://github.com/mui/pigment-css">Pigment CSS</a>로 Zero Runtime Styling 구조를 opt-in 도입, React 19 대응도 있어요.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="chrome-129-beta-blog-chrome-for-developers">Chrome 129 beta  |  Blog  |  Chrome for Developers</h2>
+
+<p><a href="https://developer.chrome.com/blog/chrome-129-beta?hl=en" title="Chrome 129 beta  |  Blog  |  Chrome for Developers">developer.chrome.com/blog/chrome-129-beta?hl&#x3D;en</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 129 beta 출시.<br>
+CSS <code>interpolate-size</code> 프로퍼티와 <code>calc-size()</code> 지원, <code>Intl.DurationFormat</code> 지원, <code>scheduler.yield()</code> 지원.<br>
+Origin Traial로 File System Observer API 추가, <code>0.0.0.0</code> 이용한 Private Network Access를 Deprecate으로</p>
+
+<hr>
+
+<h2 id="release-version-25-0-0-jsdom-jsdom">Release Version 25.0.0 · jsdom/jsdom</h2>
+
+<p><a href="https://github.com/jsdom/jsdom/releases/tag/25.0.0" title="Release Version 25.0.0 · jsdom/jsdom">github.com/jsdom/jsdom/releases/tag/25.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>jsdom 25.0.0 출시.<br>
+<code>EventTarget.prototype</code> 참조처를 jsdom 내 <code>Object.prototype</code>에 변경.</p>
+
+<hr>
+
+<h2 id="announcing-rspack-1-0-rspack">Announcing Rspack 1.0 - Rspack</h2>
+
+<p><a href="https://rspack.dev/blog/announcing-1-0" title="Announcing Rspack 1.0 - Rspack">rspack.dev/blog/announcing-1-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">rspack</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">webpack</span></p></p>
+
+<p>webpack와 호환성 있으면서 Rust로 작성한 bundler, Rspack 1.0 출시.</p>
+
+<ul>
+<li><a href="https://rspack.dev/guide/migration/rspack_0.x" title="Migrating from Rspack 0.x - Rspack">Migrating from Rspack 0.x - Rspack</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-5-19-0-prisma-prisma">Release 5.19.0 · prisma/prisma</h2>
+
+<p><a href="https://github.com/prisma/prisma/releases/tag/5.19.0" title="Release 5.19.0 · prisma/prisma">github.com/prisma/prisma/releases/tag/5.19.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">prisma</span> <span class="jser-tag">MySQL</span></p></p>
+
+<p>Prisma 5.19.0 출시.<br>
+TypedSQL 도입</p>
+
+<hr>
+
+<h2 id="release-v2-0-0-pmndrs-valtio">Release v2.0.0 · pmndrs/valtio</h2>
+
+<p><a href="https://github.com/pmndrs/valtio/releases/tag/v2.0.0" title="Release v2.0.0 · pmndrs/valtio">github.com/pmndrs/valtio/releases/tag/v2.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Valito 2.0.0 출시.<br>
+React 19에서 <code>use</code> hook이 도입됨에 따라, Promise 다루는 방법 변경</p>
+
+<ul>
+<li><a href="https://github.com/pmndrs/valtio/blob/main/docs/guides/migrating-to-v2.mdx" title="valtio/docs/guides/migrating-to-v2.mdx at main · pmndrs/valtio">valtio/docs/guides/migrating-to-v2.mdx at main · pmndrs/valtio</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-notes-for-safari-technology-preview-202-webkit">Release Notes for Safari Technology Preview 202 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/15798/release-notes-for-safari-technology-preview-202/" title="Release Notes for Safari Technology Preview 202 | WebKit">webkit.org/blog/15798/release-notes-for-safari-technology-preview-202/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari Technology Preview 202 출시.<br>
+CSS <code>background-clip: border-area</code>/<code>ruby-align</code>, <code>shape()</code> function/<code>@page</code>에서 <code>jis-b4</code>와 <code>jis-b5</code> 지원.<br>
+ES Proposal Stage 3의 Float16Array 구현, <code>WebAssembly.{Memory/Table}.prototype.type()</code> 구현.<br>
+Wasm GC/Wasm Tail Calls 지원, JIT업싱 WebAssembly 실행 가능해짐</p>
+
+<hr>
+
+<h2 id="svelte-has-a-potential-mxss-vulnerability-due-to-improper-html-escaping-cve-2024-45047-github-advisory-database">Svelte has a potential mXSS vulnerability due to improper HTML escaping · CVE-2024-45047 · GitHub Advisory Database</h2>
+
+<p><a href="https://github.com/advisories/GHSA-8266-84wp-wv5c" title="Svelte has a potential mXSS vulnerability due to improper HTML escaping · CVE-2024-45047 · GitHub Advisory Database">github.com/advisories/GHSA-8266-84wp-wv5c</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Svelte</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">XSS</span></p></p>
+
+<p>Svelte <code>&lt;noscript&gt;</code>안에 요소 속성치에 유저 입력이 있을 때 발생하던 XSS 수정.<br>
+Svelte 4.2.19에서 수정.</p>
+
+<ul>
+<li><a href="https://github.com/sveltejs/svelte/releases/tag/svelte%404.2.19" title="Release svelte@4.2.19 · sveltejs/svelte">Release svelte@4.2.19 · sveltejs/svelte</a></li>
+</ul>
+
+<hr>
+
+<h2 id="material-ui-v6-is-out-now-mui">Material UI v6 is out now 🎉 - MUI</h2>
+
+<p><a href="https://mui.com/blog/material-ui-v6-is-out/" title="Material UI v6 is out now 🎉 - MUI">mui.com/blog/material-ui-v6-is-out/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">UI</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Material UI v6 출시.<br>
+CSS theme variables 추가, Color schemes에서 Light/Dark mode 전환, Container queries 지원.<br>
+Pigment CSS로 Zero Runtime Styling 구조를 opt-in으로 도입, React 19 대응</p>
+
+<hr>
+
+<h2 id="dom-clobbering-gadget-found-in-webpacks-autopublicpathruntimemodule-that-leads-to-xss-advisory-webpack-webpack">DOM Clobbering Gadget found in Webpack&#039;s AutoPublicPathRuntimeModule that leads to XSS · Advisory · webpack/webpack</h2>
+
+<p><a href="https://github.com/webpack/webpack/security/advisories/GHSA-4vvj-4cpr-p986" title="DOM Clobbering Gadget found in Webpack&amp;#039;s AutoPublicPathRuntimeModule that leads to XSS · Advisory · webpack/webpack">github.com/webpack/webpack/security/advisories/GHSA-4vvj-4cpr-p986</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">security</span></p></p>
+
+<p>webpack 보안 출시.<br>
+유저가 임의 속성 포함한 <code>&lt;img&gt;</code> 태그가 있을 경우, webpack의 <code>publicPath: &#39;auto&#39;</code>가 유효한 bundle 읽을 때 XSS 발생하는 문제.<br>
+webpack 5.94.0에서 수정.</p>
+
+<ul>
+<li><a href="https://github.com/webpack/webpack/releases/tag/v5.94.0" title="Release v5.94.0 · webpack/webpack">Release v5.94.0 · webpack/webpack</a></li>
+<li><a href="https://github.com/webpack/webpack/pull/18700" title="security: fix DOM clobbering in auto public path by alexander-akait · Pull Request #18700 · webpack/webpack">security: fix DOM clobbering in auto public path by alexander-akait · Pull Request #18700 · webpack/webpack</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="state-of-css-2024">State of CSS 2024</h2>
+
+<p><a href="https://survey.devographics.com/en-US/survey/state-of-css/2024" title="State of CSS 2024">survey.devographics.com/en-US/survey/state-of-css/2024</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css </span> <span class="jser-tag">Survey</span></p></p>
+
+<p>State of CSS 2024 개발자 앙케이트 접수 시작</p>
+
+<hr>
+
+<h2 id="monorepo-one-version-rule-pnpm-catalog-newmo">monorepo내 패키지 버전을 하나로 통일 하는 One Version Rule를 pnpm catalog으로 구현하기 - newmo 기술 블로그</h2>
+
+<p><a href="https://tech.newmo.me/entry/one-version-rule-built-on-pnpm-catalog" title="monorepo내 패키지 버전을 하나로 통일 하는 One Version Rule를 pnpm catalog으로 구현하기 - newmo 기술 블로그">tech.newmo.me/entry/one-version-rule-built-on-pnpm-catalog</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">pnpm</span> <span class="jser-tag">monorepo</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>pnpm catalog 사용해, monorepo 내에 의존 라이브러 버전을 하나로 하는 방법에 대하여.<br>
+pnpm 9.5 도입 된 catalog 사용해 의존하는 패키지 목록 관리, <code>.pnpmfile.cjs</code>의 hooks 사용해 catalog에서 관리되지 않은 의존을 에러로 처리.</p>
+
+<hr>
+
+<h2 id="toon-next-js-app-router-cyberagent-developers-blog">점프 TOON Next.js App Router 활용〜얻은 은혜와 과제〜 | CyberAgent Developers Blog</h2>
+
+<p><a href="https://developers.cyberagent.co.jp/blog/archives/49429/" title="점프 TOON Next.js App Router 활용〜얻은 은혜와 과제〜 | CyberAgent Developers Blog">developers.cyberagent.co.jp/blog/archives/49429/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js App Router와 Server Components/Server Actions 사용한 개발과 주의점에 대하여</p>
+
+<hr>
+
+<h2 id="common-misconceptions-about-how-to-optimize-lcp-blog-web-dev">Common misconceptions about how to optimize LCP  |  Blog  |  web.dev</h2>
+
+<p><a href="https://web.dev/blog/common-misconceptions-lcp?hl=en" title="Common misconceptions about how to optimize LCP  |  Blog  |  web.dev">web.dev/blog/common-misconceptions-lcp?hl&#x3D;en</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>Largest Contentful Paint (LCP) 최적화 관련한 오해.<br>
+이미지 용량 최적화, p75 타일의 LCP 10% 미만에 영향을 있는 경우가 많음, TTFB나 리소스 로딩 우선도 문제가 LCP에 강한 영향을 주는 경우에 대하여</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="2024-x">프론트엔드 컨퍼런스 홋카이도 2024 공개 자료・X 계정 링크 모음</h2>
+
+<p><a href="https://zenn.dev/yumemi_inc/articles/2024-08-25-frontend-conf-hokkaido-2024" title="프론트엔드 컨퍼런스 홋카이도 2024 공개 자료・X 계정 링크 모음">zenn.dev/yumemi_inc/articles/2024-08-25-frontend-conf-hokkaido-2024</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Conference</span> <span class="jser-tag">slide</span></p></p>
+
+<p>프론트엔드 컨퍼런스 홋카이도 2024 슬라이드 모음</p>
+
+<ul>
+<li><a href="https://www.frontend-conf.jp/" title="프론트엔드 컨퍼런스 홋카이도 2024">프론트엔드 컨퍼런스 홋카이도 2024</a></li>
+</ul>
+
+<hr>
+
+<h2 id="bramus-style-observer-mutationobserver-for-css-get-notified-when-the-computed-value-of-a-css-property-changes">bramus/style-observer: MutationObserver for CSS. Get notified when the computed value of a CSS property changes.</h2>
+
+<p><a href="https://github.com/bramus/style-observer" title="bramus/style-observer: MutationObserver for CSS. Get notified when the computed value of a CSS property changes.">github.com/bramus/style-observer</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css </span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Mutation Observer로 스타일 변환 감시하는 라이브러리.<br>
+짧은 transition과 <code>transition-behavior: allow-discrete;</code> 사용해서, <code>transitionstart</code> 이벤트를 발견해 변화 감지</p>
+
+<ul>
+<li><a href="https://www.bram.us/2024/08/31/introducing-bramus-style-observer-a-mutationobserver-for-css/" title="Introducing @bramus/style-observer, a MutationObserver for CSS – Bram.us">Introducing @bramus/style-observer, a MutationObserver for CSS – Bram.us</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="vue-email-vue-email-write-email-templates-with-vue">vue-email/vue-email: 💌 Write email templates with vue</h2>
+
+<p><a href="https://github.com/vue-email/vue-email?tab=readme-ov-file" title="vue-email/vue-email: 💌 Write email templates with vue">github.com/vue-email/vue-email?tab&#x3D;readme-ov-file</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">mail</span></p></p>
+
+<p>Vue로 메일 컨텐츠 다루는 라이브러리</p>
+
+<hr>
+
+<h2 id="hoppergee-heic-to-convert-heic-heif-images-to-jpeg-png-in-browser">hoppergee/heic-to: Convert HEIC/HEIF images to JPEG, PNG in browser</h2>
+
+<p><a href="https://github.com/hoppergee/heic-to?tab=readme-ov-file" title="hoppergee/heic-to: Convert HEIC/HEIF images to JPEG, PNG in browser">github.com/hoppergee/heic-to?tab&#x3D;readme-ov-file</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">browser</span> <span class="jser-tag">Image</span> <span class="jser-tag">library</span></p></p>
+
+<p>libheif를 사용해 HEIC/HEIF 이미지를 JPEG/PNG로 변환하는 라이브러리</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="next-js">Next.js의 사고방식</h2>
+
+<p><a href="https://zenn.dev/akfm/books/nextjs-basic-principle" title="Next.js의 사고방식">zenn.dev/akfm/books/nextjs-basic-principle</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">book</span></p></p>
+
+<p>Next.js의 Server Component에 관하여</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2024/2024-09-01-rspack-1.0-safari-technology-preview-202-material-ui-v6.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["webpack","css","React","security","Next.js"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>webpack</li>
+                
+                <li>css</li>
+                
+                <li>React</li>
+                
+                <li>security</li>
+                
+                <li>Next.js</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/09/01/rspack-1.0-safari-technology-preview-202-material-ui-v6/">2024-09-01: Rspack 1.0, Safari Technology Preview 202, Material UI v6</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/08/25/webdriverio-v9-node-v22.7.0ts-enumnamespace-deno-1.46last-1.x/">2024-08-25: WebdriverIO v9, Node v22.7.0(TS `enum`와 `namespace` 지원), Deno 1.46(Last 1.x)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/08/15/node-v22.6.0-experimental-strip-types-firefox-129/">2024-08-15: Node v22.6.0(`--experimental-strip-types`), Firefox 129</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/08/06/typescript-eslint-v8-jquery-ui-1.14.0ie-porffor/">2024-08-06: typescript-eslint v8, jQuery UI 1.14.0(IE 지원 종료), Porffor</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/07/29/typescript-5.6-beta-node.jstypescript-state-of-react-2023/">2024-07-29: TypeScript 5.6 Beta, Node.js 실험적인 TypeScript 지원, State of React 2023</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/07/18/700-vitest-2.0.0-node.js-22.5.0sqlite-private-browsing-mode/">2024-07-18: #700 - Vitest 2.0.0, Node.js 22.5.0(sqlite), Private Browsing Mode</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/07/11/esbuild-v0.220.23-node.js-22.4.0-pnpm-9.5-catalogs/">2024-07-11: esbuild v0.22/0.23, Node.js 22.4.0, pnpm 9.5 Catalogs</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/07/01/es2024-playwright-v1.45.0-e18eecosystem-performance/">2024-07-01: ES2024, Playwright v1.45.0, e18e(Ecosystem Performance)</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
