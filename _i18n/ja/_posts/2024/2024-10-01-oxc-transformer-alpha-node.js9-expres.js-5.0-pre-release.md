@@ -2,7 +2,7 @@
 title: "2024-10-01のJS: Oxc Transformer Alpha、Node.jsの9つの柱、Expres.js 5.0 pre-release"
 author: "azu"
 layout: post
-date: 2024-10-01T01:13:43.881Z
+date: 2024-10-01T01:37:42.326Z
 category: JSer
 tags:
 - nodejs
@@ -13,15 +13,18 @@ tags:
 
 ---
 
-JSer.info #709 - - [Oxc Transformer Alpha | The JavaScript Oxidation Compiler](https://oxc.rs/blog/2024-09-29-transformer-alpha.html)
+JSer.info #709 - TypeScriptのTranspilerであるoxc-transformのαリリースされました。
 
-TypeScriptのTranspilerであるoxc-transformのαリリース。
+- [Oxc Transformer Alpha | The JavaScript Oxidation Compiler](https://oxc.rs/blog/2024-09-29-transformer-alpha.html)
+
+Rustで書かれたTypeScript to JavaScriptのtranspilerで、isolatedDeclarationsに対応した型定義ファイルの生成にも対応しています。
 
 ---
 
-- [The Nine Node Pillars](https://www.platformatichq.com/node-principles)
+[The Nine Node Pillars](https://www.platformatichq.com/node-principles)は、Node.jsアプリケーションの9つのプラクティスについて書かれたドキュメントです。
 
-Node.jsアプリケーションの9つのプラクティスについて書かれたドキュメント。
+次のような項目について、Node.jsでのアプリケーション開発について書かれています。
+
 - イベントループをブロックしない
 - メトリクスを監視して行動する
 - Node.js LTSを使う
@@ -34,12 +37,16 @@ Node.jsアプリケーションの9つのプラクティスについて書かれ
 
 ---
 
-- [What's New in Express.js v5.0](https://www.trevorlasn.com/blog/whats-new-in-express-5)
+express v5.0.0のpre-releaseが行われています。
+
+- [Release 5.0.0 · expressjs/express](https://github.com/expressjs/express/releases/tag/v5.0.0)
 - [Migrating to Express 5](https://expressjs.com/en/guide/migrating-5.html)
 
-Express 5.0(pre-release)の変更点について。
-`app.del()`/`app.param(fn)`/`req.param(name)`の削除、Path Routeのマッチングが正規表現としてStrictなものへと変更。
-RouterのHandlerがasync awaitをサポート、Node.js 18未満のサポートを終了など
+
+[What's New in Express.js v5.0](https://www.trevorlasn.com/blog/whats-new-in-express-5)という記事では、
+Express 5.0(pre-release)の変更点についてまとめられています。
+`app.del()`/`app.param(fn)`/`req.param(name)`の削除、Path Routeのマッチングが正規表現としてStrictなものへと変更されています。
+また、RouterのHandlerがasync awaitをサポート、Node.js 18未満のサポートを終了などの変更が含まれています。
 
 
 ----
