@@ -2,7 +2,7 @@
 title: "2024-10-01のJS: Oxc Transformer Alpha、Node.jsの9つの柱、Express 5.0 pre-release"
 author: "azu"
 layout: post
-date: 2024-10-01T01:37:56.927Z
+date: 2024-10-01T01:40:30.220Z
 category: JSer
 tags:
 - nodejs
@@ -13,7 +13,7 @@ tags:
 
 ---
 
-JSer.info #709 - TypeScriptのTranspilerであるoxc-transformのαリリースされました。
+JSer.info #709 - TypeScriptのTranspilerであるoxc-transformがαリリースされました。
 
 - [Oxc Transformer Alpha | The JavaScript Oxidation Compiler](https://oxc.rs/blog/2024-09-29-transformer-alpha.html)
 
