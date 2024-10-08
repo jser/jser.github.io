@@ -1,8 +1,8 @@
 ---
-title: "2024-10-08のJS: WebPlatformの新機能リリースノート、Node v20.18.0(networkのinspect)、StyleX 0.8.0"
+title: "2024-10-08のJS: WebPlatformのリリースノート、Node v20.18.0(networkのinspect)、StyleX 0.8.0"
 author: "azu"
 layout: post
-date: 2024-10-08T11:06:46.767Z
+date: 2024-10-08T11:13:58.188Z
 category: JSer
 tags:
 - webservice
@@ -13,10 +13,29 @@ tags:
 
 ---
 
-JSer.info #710 - - [Web features explorer - Web platform release notes](https://web-platform-dx.github.io/web-features-explorer/release-notes/)
+JSer.info #710 - [Web features explorer - Web platform release notes](https://web-platform-dx.github.io/web-features-explorer/release-notes/)というサイトでは、[web-features](https://github.com/web-platform-dx/web-features/)や[@mdn/browser-compat-data](https://github.com/mdn/browser-compat-data/)のデータを元に、月毎のブラウザなどの新機能をまとめたリリースノートを自動的にまとめてくれています。
+
+[web-features](https://github.com/web-platform-dx/web-features/)は[Baseline](https://github.com/web-platform-dx/web-features/blob/main/docs/baseline.md)という最大公約数のベースラインとなるブラウザでサポートされているかの指標となるデータも生成しています。
+
+どのような機能が利用できるようになったかがわかるので、新しい機能を知りたい人はチェックしてみると良いかもしれません。
+
+---
+
+Node.js 20.18.0がリリースされました。
+
 - [Node.js — Node v20.18.0 (LTS)](https://nodejs.org/en/blog/release/v20.18.0)
+
+`--experimental-network-inspection`で開発者ツールでのNetwork Inspectionをサポートしています。
+`vm`内の`globalThis`をfreezeする`vm.constants.DONT_CONTEXTIFY`の追加もされています。
+
+---
+
+CSS in JSライブラリのStyleX 0.8.0がリリースされました。
+
 - [Release 0.8.0 | StyleX](https://stylexjs.com/blog/v0.8.0)
 
+Lintとしてshorthandを禁止する`valid-shorthands`ルールの追加、`enforce-extension`ルールの追加が行われています。
+また、lightningcssを使ったminifyやautoprefixのpost-processを行うようになっています。
 
 ----
 
