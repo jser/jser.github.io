@@ -1,5 +1,5 @@
 ---
-title: "2024-10-16: Deno v2, TypeScript 5.7 Beta, ES2025に入る5つのProposal"
+title: "2024-10-16: Deno v2, TypeScript 5.7 Beta, ES2025에 들어 갈 Proposal 다섯가지"
 author: "azu"
 translator: rewrite0w0
 layout: post
