@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2024-10-29: Svelte 5, MSW v2.6.0(WebSockets API), State of CSS 2024 - JSer.info</title>
+    <meta name="description" content="JSer.info #713 - Svelte 5가 출시되었습니다.">
+    
+    <meta name="keywords" content="React,Svelte,Unicode,Next.js,nodejs" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2024-10-29T23:06:46+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="Svelte" property="article:tag">
+      
+      <meta content="Unicode" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #713 - Svelte 5가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2024-10-29: Svelte 5, MSW v2.6.0(WebSockets API), State of CSS 2024">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #713 - Svelte 5가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2024-10-29T23:06:46+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/10/22/node.js-v23.0.0-next.js-15-express-v5pre/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/10/16/deno-v2-typescript-5.7-beta-es20255proposal/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/10/08/webplatform-node-v20.18.0networkinspect-stylex-0.8.0/">
+
+
+
+
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="Svelte">
+
+<meta property="article:tag" content="Unicode">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="nodejs">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/">2024-10-29: Svelte 5, MSW v2.6.0(WebSockets API), State of CSS 2024</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2024年10月29日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2024/2024-10-29-svelte-5-msw-v2.6.0websockets-api-state-of-css-2024.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2024/2024-10-29-svelte-5-msw-v2.6.0websockets-api-state-of-css-2024.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #713 - Svelte 5가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/blog/svelte-5-is-alive">Svelte 5 is alive</a></li>
+</ul>
+
+<p>Svelte 5에는, <a href="https://svelte.dev/docs/svelte/what-are-runes">Runes</a> 구문과 Reactive 구조 지원됩니다<br>
+Svelte 4 구문은 지속해서 지원하지만, 이행가이드에는 Runes으로 이행 방법이 소개되어 있습니다.</p>
+
+<ul>
+<li><a href="https://svelte.dev/docs/svelte/v5-migration-guide">Svelte 5 migration guide • Docs • Svelte</a></li>
+</ul>
+
+<hr>
+
+<p>MSW v2.6.0가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://github.com/mswjs/msw/releases/tag/v2.6.0">Release v2.6.0 · mswjs/msw</a></li>
+</ul>
+
+<p>MSW v2.6.0에는, WebSockets API 목이 지원됩니다.<br>
+상세한 것은 다음 글을 참조하시길 바랍니다.</p>
+
+<ul>
+<li><a href="https://mswjs.io/docs/basics/handling-websocket-events">Handling WebSocket events - Mock Service Worker</a></li>
+<li><a href="https://mswjs.io/docs/api/ws">ws - Mock Service Worker</a></li>
+</ul>
+
+<hr>
+
+<p>State of CSS 2024 결과가 공개되었습니다.</p>
+
+<ul>
+<li><a href="https://2024.stateofcss.com/en-US/">State of CSS 2024</a></li>
+</ul>
+
+<p>State of CSS 2024에는, CSS 언어 기능, 라이브러리와 프레임워크, 개발 타겟, 학습 자원 등 관련하여 앙케이트 결과가 정리되어 있습니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="svelte-5-is-alive">Svelte 5 is alive</h2>
+
+<p><a href="https://svelte.dev/blog/svelte-5-is-alive" title="Svelte 5 is alive">svelte.dev/blog/svelte-5-is-alive</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Svelte</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Svelte 5 출시.<br>
+rune 지원, 이벤트 속성 전달 방법 변경, Slot 작성 방법 변경, 컴포넌트는 Class가 아니게 되서 <code>new</code> 할 수 없음</p>
+
+<ul>
+<li><a href="https://svelte.dev/docs/svelte/v5-migration-guide" title="Svelte 5 migration guide • Docs • Svelte">Svelte 5 migration guide • Docs • Svelte</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v5-0-0-pmndrs-zustand">Release v5.0.0 · pmndrs/zustand</h2>
+
+<p><a href="https://github.com/pmndrs/zustand/releases/tag/v5.0.0" title="Release v5.0.0 · pmndrs/zustand">github.com/pmndrs/zustand/releases/tag/v5.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Zustand v5 출시.<br>
+default export 삭제, deprecated 기능 삭제, ES5 지원 삭제, 무한 루프가 일어나는 케이스를 명시적으로 에러</p>
+
+<ul>
+<li><a href="https://github.com/pmndrs/zustand/blob/main/docs/migrations/migrating-to-v5.md" title="zustand/docs/migrations/migrating-to-v5.md at main · pmndrs/zustand">zustand/docs/migrations/migrating-to-v5.md at main · pmndrs/zustand</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-js-node-v23-1-0-current">Node.js — Node v23.1.0 (Current)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v23.1.0" title="Node.js — Node v23.1.0 (Current)">nodejs.org/en/blog/release/v23.1.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v23.1.0 출시.<br>
+<code>Buffer</code>가 <code>ArrayBuffer</code>의 resize에 대응, <code>node:test</code>의 MockTimers를 Stable로</p>
+
+<hr>
+
+<h2 id="webstorm-and-rider-are-now-free-for-non-commercial-use-the-jetbrains-blog">WebStorm and Rider Are Now Free for Non-Commercial Use | The JetBrains Blog</h2>
+
+<p><a href="https://blog.jetbrains.com/blog/2024/10/24/webstorm-and-rider-are-now-free-for-non-commercial-use/" title="WebStorm and Rider Are Now Free for Non-Commercial Use | The JetBrains Blog">blog.jetbrains.com/blog/2024/10/24/webstorm-and-rider-are-now-free-for-non-commercial-use/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebStorm</span> <span class="jser-tag">editor</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">software</span></p></p>
+
+<p>비상용이라면, WebStorm와 Rider가 무료로 이용 가능.</p>
+
+<hr>
+
+<h2 id="release-pnpm-10-0-alpha-0-pnpm-pnpm">Release pnpm 10.0 Alpha 0 · pnpm/pnpm</h2>
+
+<p><a href="https://github.com/pnpm/pnpm/releases/tag/v10.0.0-alpha.0" title="Release pnpm 10.0 Alpha 0 · pnpm/pnpm">github.com/pnpm/pnpm/releases/tag/v10.0.0-alpha.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>pnpm v10.0.0 alpha.0 출시.<br>
+<code>pnpm link</code> 동작 변경, <code>packageManager</code> 참조하는 pnpm 버전 확인하도록, store 버전 업데이트</p>
+
+<hr>
+
+<h2 id="release-version-8-14-0-acornjs-acorn">Release Version 8.14.0 · acornjs/acorn</h2>
+
+<p><a href="https://github.com/acornjs/acorn/releases/tag/8.14.0" title="Release Version 8.14.0 · acornjs/acorn">github.com/acornjs/acorn/releases/tag/8.14.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>acorn 8.14.0 출시.<br>
+ES2025 import attributes/RegExp modifiers 지원</p>
+
+<hr>
+
+<h2 id="release-v3-0-0-tinylibs-tinybench">Release v3.0.0 · tinylibs/tinybench</h2>
+
+<p><a href="https://github.com/tinylibs/tinybench/releases/tag/v3.0.0" title="Release v3.0.0 · tinylibs/tinybench">github.com/tinylibs/tinybench/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">benchmark</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>tinybench v3.0.0 출시.<br>
+Node.js 16 지원 종료, <code>*Concurrently</code> 메서드 삭제, <code>warmup()</code> 메서드 삭제하고 <code>warmup</code> 옵션 추가</p>
+
+<hr>
+
+<h2 id="release-v2-6-0-mswjs-msw">Release v2.6.0 · mswjs/msw</h2>
+
+<p><a href="https://github.com/mswjs/msw/releases/tag/v2.6.0" title="Release v2.6.0 · mswjs/msw">github.com/mswjs/msw/releases/tag/v2.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">test</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>msw 2.6.0 출시.<br>
+WebSocket API 목 지원</p>
+
+<hr>
+
+<h2 id="webkit-features-in-safari-18-1-webkit">WebKit Features in Safari 18.1 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/16188/webkit-features-in-safari-18-1/" title="WebKit Features in Safari 18.1 | WebKit">webkit.org/blog/16188/webkit-features-in-safari-18-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari 18.1 출시.</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="the-nuances-of-base64-encoding-strings-in-javascript-articles-web-dev">The nuances of base64 encoding strings in JavaScript  |  Articles  |  web.dev</h2>
+
+<p><a href="https://web.dev/articles/base64-encoding" title="The nuances of base64 encoding strings in JavaScript  |  Articles  |  web.dev">web.dev/articles/base64-encoding</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Unicode</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>이모지나 써로게이트 페어를 안전하게 다루는 Base64 엔코딩에 대하여.<br>
+<code>btoa()</code>/<code>atob()</code>는 Unicode 다룰 때 문제가 있으므로 <code>TextEncoder</code>로 엔코드해서 다룸.<br>
+<code>TextEncoder</code>은 단독 써로게이트를 갖는 문자열을 부정한 데이터로  � 으로 변경함으로, <code>isWellFormed()</code> 사용해 판정한다는 이야기</p>
+
+<hr>
+
+<h2 id="our-journey-with-caching-next-js">Our Journey with Caching | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/our-journey-with-caching" title="Our Journey with Caching | Next.js">nextjs.org/blog/our-journey-with-caching</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>&quot;use cache&quot;</code> directive 사용한 Next.js 새로운 캐시 구조에 대하여</p>
+
+<hr>
+
+<h2 id="state-of-css-2024">State of CSS 2024</h2>
+
+<p><a href="https://2024.stateofcss.com/en-US/" title="State of CSS 2024">2024.stateofcss.com/en-US/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css </span> <span class="jser-tag">Survey</span></p></p>
+
+<p>State of CSS 2024 앙케이트 결과가 공개.<br>
+CSS 언어 기능, 라이브러리나 프레임워크, 개발 타겟, 학습 자원에 대한 앙케이트</p>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="homepage-jeasx-jsx-with-ease">Homepage » Jeasx - JSX with Ease</h2>
+
+<p><a href="https://www.jeasx.dev/" title="Homepage » Jeasx - JSX with Ease">www.jeasx.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">jsx</span> <span class="jser-tag">server</span> <span class="jser-tag">library</span></p></p>
+
+<p>JSX 템플릿으로 이용해서 SSR 하는 프레임워크.<br>
+비동기처리, 디렉토리 기반 라우팅, Static Assets 다루기 대응</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="one-a-react-framework">One, a React Framework</h2>
+
+<p><a href="https://onestack.dev/" title="One, a React Framework">onestack.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">iOS</span> <span class="jser-tag">Android</span> <span class="jser-tag">library</span></p></p>
+
+<p>웹과 네이티브 대응한 React 프레임워크.<br>
+tamagui 팀이 개발</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2024/2024-10-29-svelte-5-msw-v2.6.0websockets-api-state-of-css-2024.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["React","Svelte","Unicode","Next.js","nodejs"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>React</li>
+                
+                <li>Svelte</li>
+                
+                <li>Unicode</li>
+                
+                <li>Next.js</li>
+                
+                <li>nodejs</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2024/10/29/svelte-5-msw-v2.6.0websockets-api-state-of-css-2024/">2024-10-29: Svelte 5, MSW v2.6.0(WebSockets API), State of CSS 2024</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/10/22/node.js-v23.0.0-next.js-15-express-v5pre/">2024-10-22: Node.js v23.0.0, Next.js 15, Express v5(pre)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/10/16/deno-v2-typescript-5.7-beta-es20255proposal/">2024-10-16: Deno v2, TypeScript 5.7 Beta, ES2025에 들어 갈 Proposal 다섯가지</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/10/08/webplatform-node-v20.18.0networkinspect-stylex-0.8.0/">2024-10-08: WebPlatform 출시노트, Node v20.18.0(network의 inspect), StyleX 0.8.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/10/01/oxc-transformer-alpha-node.js9-express-5.0-pre-release/">2024-10-01: Oxc Transformer Alpha, Node.js 9개의 기둥, Express 5.0 pre-release</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/09/23/date-fns-v.4.0.0timezone-deno-2.0-rc-safari-18.0/">2024-09-23: date-fns v.4.0.0(timezone), Deno 2.0 RC, Safari 18.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/09/16/biome-v1.9-eslint-8.xeol-typescript-5.6-es5/">2024-09-16: Biome v1.9, ESLint 8.xのEOL, TypeScript 5.6, ES5의 현재</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/09/09/vue-3.5-jsprimer-v6-a11y-visualizer/">2024-09-09: Vue 3.5, jsprimer v6, a11y-visualizer</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
