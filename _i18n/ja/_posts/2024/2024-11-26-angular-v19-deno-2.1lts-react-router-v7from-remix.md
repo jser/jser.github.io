@@ -2,7 +2,7 @@
 title: "2024-11-26のJS: Angular v19、Deno 2.1(LTS)、React Router v7(from Remix)"
 author: "azu"
 layout: post
-date: 2024-11-26T01:49:24.626Z
+date: 2024-11-26T02:04:02.199Z
 category: JSer
 tags:
 - React
@@ -13,15 +13,48 @@ tags:
 
 ---
 
-JSer.info #716 - - [Meet Angular v19. In the past two years we doubled down… | by Minko Gechev | Nov, 2024 | Angular Blog](https://blog.angular.dev/meet-angular-v19-7b29dfd05b84)
+JSer.info #716 - Angular v19がリリースされました。
+
+- [Meet Angular v19. In the past two years we doubled down… | by Minko Gechev | Nov, 2024 | Angular Blog](https://blog.angular.dev/meet-angular-v19-7b29dfd05b84)
 - [Release v19.0.0 · angular/angular](https://github.com/angular/angular/releases/tag/19.0.0)
 - [Angular v19 Developer Event - YouTube](https://www.youtube.com/watch?v=JvkX2_46gUY)
-- [Deno 2.1: Wasm Imports and other enhancements](https://deno.com/blog/v2.1)
-- [Stability and releases](https://docs.deno.com/runtime/fundamentals/stability_and_releases/)
-- [React Router v7 | Remix](https://remix.run/blog/react-router-v7)
-- [Upgrading from v6 | React Router](https://reactrouter.com/upgrading/v6)
-- [reactrouter.com/upgrading/remix](about:blank)
 
+Developer previewとして新しいIncremental Hydrationの仕組みを追加、ServerRouteでレンダリングモードを指定できるように、HMRのサポートが追加されています。
+
+Incremental Hydrationは、`@defer`でHydrationを遅延実行でき、Hydrationがするまでは`@placeholder`でプレースホルダーを表示することができます。Qwikの[Resumable](https://qwik.dev/docs/concepts/resumable/)とやや似た概念ですが、`@defer`ではHydrationするタイミングも指定できるようになっています。
+
+- [Incremental Hydration • Angular](https://angular.dev/guide/incremental-hydration)
+- [[Complete] RFC: Incremental Hydration · angular/angular · Discussion #57664](https://github.com/angular/angular/discussions/57664)
+
+また、Standalone componentがデフォルトで`true`に変更、`linkedSignal`の追加、`resource()` APIの追加なども行われています。
+
+
+----
+
+Deno v2.1がリリースされました。
+
+- [Deno 2.1: Wasm Imports and other enhancements](https://deno.com/blog/v2.1)
+
+Deno 2.1はLTSとなるリリースで、2025年4月までサポートされる予定です。
+
+![Deno LTS](https://docs.deno.com/runtime/fundamentals/images/deno-lts-support.png)
+
+- [Stability and releases](https://docs.deno.com/runtime/fundamentals/stability_and_releases/)
+
+`.wasm`のインポートに対応、`deno init --npm`を追加、`deno outdated`の追加、`deno compile`がAssetsを埋め込めるように。
+`deno task`にdescriptionを表示できるように、task間の依存関係を定義できるようになるなどの変更が行われています。
+
+---
+
+React Router v7がリリースされました。
+
+- [React Router v7 | Remix](https://remix.run/blog/react-router-v7)
+
+React Router v7は、Remix v2のメジャーアップデートバージョンとなるバージョンにもなっています。
+そのため、React Router v6とRemix v2からのアップデートガイドも公開されています。
+
+- [Upgrading from v6 | React Router](https://reactrouter.com/upgrading/v6)
+- [Upgrading from Remix | React Router](https://reactrouter.com/upgrading/remix)
 
 ----
 
