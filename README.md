@@ -29,7 +29,7 @@ JSer.infoに関する質問を気軽にしていただいて大丈夫です。
 
 ``` sh
 # テストやJavaScript関係
-npm install
+npm ci
 # Jekyllのインストールとビルド
 bundle install
 ```
