@@ -2,7 +2,7 @@
 title: "2024-12-11のJS: React v19、Astro v5、The 2024 Web Almanac"
 author: "azu"
 layout: post
-date: 2024-12-11T02:44:00.334Z
+date: 2024-12-11T02:51:36.980Z
 category: JSer
 tags:
 - React
@@ -13,13 +13,39 @@ tags:
 
 ---
 
-JSer.info #718 - - [React v19 – React](https://react.dev/blog/2024/12/05/react-19)
+JSer.info #718 - React v19がリリースされました。
+
+- [React v19 – React](https://react.dev/blog/2024/12/05/react-19)
 - [Release 19.0.0 (December 5, 2024) · facebook/react](https://github.com/facebook/react/releases/tag/v19.0.0)
-- [Release v15.0.4 · vercel/next.js](https://github.com/vercel/next.js/releases/tag/v15.0.4)
+
+2年半ぶりのメジャーリリースとなります。
+非同期遷移を扱うアクションの概念の追加と`useActionState`/`useFormStatus`/`useOptimistic`/`use` APIの追加が行わなわれています。
+また、react-domにprerender APIの追加、Server ComponentとServer Actionの追加が行われています。
+
+そのほかの改善として、`ref`をpropsとして渡す際に`forwardRef`は不要に、Hydration Errorの改善、`ref` callbackがcleanup関数を返せるようになりました。
+`<title>`/`<meta>`/`<link>`などのメタタグをサポート、`<link rel=stylesheet>`や`<script async={true} src=...>`のサポートも追加されています。
+また、リソースのpreload APIのサポート、Custom Elementをサポートなども行われています。
+
+Next.jsは15.1でReact v19のStableをサポートしています。
+
+- [Next.js 15.1 | Next.js](https://nextjs.org/blog/next-15-1)
+
+---
+
+Astro 5.0がリリースされました。
+
 - [Astro 5.0 | Astro](https://astro.build/blog/astro-5/)
 - [astro/packages/astro/CHANGELOG.md at main · withastro/astro](https://github.com/withastro/astro/blob/main/packages/astro/CHANGELOG.md#500)
+
+Content Layerの改善、Server Islands/astro:envをStableに、Vite 6へアップデートなどが行われています。
+
+---
+
+HTTP Archiveのデータを元にしたウェブのステータスをまとめたレポートであるThe 2024 Web Almanacがリリースされました。
+
 - [The 2024 Web Almanac](https://almanac.httparchive.org/en/2024/)
 
+HTML/CSS/JavaScript/Performance/Accessibility/SEO/Securityなど幅広い項目にわたって調査されたレポートがまとめられています。
 
 ----
 
