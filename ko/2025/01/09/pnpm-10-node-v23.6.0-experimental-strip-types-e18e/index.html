@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2025-01-09: pnpm 10, Node v23.6.0(` --experimental-strip-types` 기본 유효화), e18e - JSer.info</title>
+    <meta name="description" content="JSer.info #721 - pnpm 10가 출시되었습니다.">
+    
+    <meta name="keywords" content="nodejs,React,Tools,performance,pnpm" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2025-01-09T20:30:40+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+      <meta content="pnpm" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #721 - pnpm 10가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2025-01-09: pnpm 10, Node v23.6.0(` --experimental-strip-types` 기본 유효화), e18e">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #721 - pnpm 10가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2025-01-09T20:30:40+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/12/28/pnpm-10.0-rc.1-state-of-javascript-2024-design-token-based-ui-architecture/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/12/19/safari-18.2-state-of-node.js-performance-2024-astro-server-islands/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2024/12/11/react-v19-astro-v5-the-2024-web-almanac/">
+
+
+
+
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="performance">
+
+<meta property="article:tag" content="pnpm">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">2025-01-09: pnpm 10, Node v23.6.0(` --experimental-strip-types` 기본 유효화), e18e</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2025年01月09日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2025/2025-01-09-pnpm-10-node-v23.6.0-experimental-strip-types-e18e.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2025/2025-01-09-pnpm-10-node-v23.6.0-experimental-strip-types-e18e.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #721 - pnpm 10가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://github.com/pnpm/pnpm/releases/tag/v10.0.0">Release pnpm 10 · pnpm/pnpm</a></li>
+</ul>
+
+<p>pnpm v10.0.0, 설치할 패키지의 lifecycle script를 기본적으로 실행하지 않도록 변경되었습니다.<br>
+<code>pnpm.onlyBuiltDependencies</code> 허용 리스트에 정의한 패키지만 <code>postinstall</code>의 lifecycle script가 실행됩니다.</p>
+
+<p>또한, <code>pnpm link</code> 동작 변경, <code>packageManager</code> 참조해서 pnpm 버전 확인하도록, 해시 알고리즘을 SHA256으로 변경, store 버전 갱신이 있습니다.<br>
+그 외로는, pnpm 관련해서 설정 공유 가능한 <code>configDependencies</code> 추가. <code>verifyDepsBeforeRun</code> 옵션으로 lock과 <code>node_modules/</code> 상태 비교해서 자동 설치하는 동작을 선택할 수 있게 되었습니다.</p>
+
+<hr>
+
+<p>Node.js v23.6.0 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v23.6.0">Node.js — Node v23.6.0 (Current)</a></li>
+</ul>
+
+<p>Node.js v23.6.0, <code>--experimental-strip-types</code> 플래그가 기본적으로 유효화 되었습니다.<br>
+이로 인해, TypeScript 파일에서 자료형 정보를 삭제한 것을 실행할 수 있습니다.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">"const add = (a: number, b: number) =&gt; a + b; console.log(add(1, 2));"</span> <span class="o">&gt;</span> index.ts
+<span class="nv">$ </span>node index.ts
+3
+</code></pre></div>
+<p>단, <code>enum</code>이나 <code>namespace</code> 변환이 필요한 TypeScript 기능은 계속해서 <a href="https://nodejs.org/docs/latest/api/cli.html#--experimental-transform-types">--experimental-transform-types</a> 플래그가 필요합니다.</p>
+
+<hr>
+
+<p><a href="https://e18e.dev/blog/journey-so-far.html">The journey so far | e18e</a>에서는, e18e (Ecosystem Performance) 이니셔티브는 JavaScript 에코시스템 정리가 어떻게 되고 있는지 다뤄지고 있습니다.</p>
+
+<p>여러 도구나 라이브러리 필요없는 의존을 걷어내는 활동에 대해서도 정리되어 있습니다</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h10>
+
+----
+
+## Release v12.3.0 · vueuse/vueuse
+[github.com/vueuse/vueuse/releases/tag/v12.3.0](https://github.com/vueuse/vueuse/releases/tag/v12.3.0 "Release v12.3.0 · vueuse/vueuse")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+vueuse v12.3.0 출시.
+
+
+----
+
+## Release @pandacss/dev@0.50.0 · chakra-ui/panda
+[github.com/chakra-ui/panda/releases/tag/%40pandacss%2Fdev%400.50.0](https://github.com/chakra-ui/panda/releases/tag/%40pandacss%2Fdev%400.50.0 "Release @pandacss/dev@0.50.0 · chakra-ui/panda")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pandacs</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Panda CSS 0.50.0 출시.
+`panda analyze`으로 Design Token이나 하드코딩된 값 비율 보이도록
+
+
+----
+
+## Release 0.10.0 | StyleX
+[stylexjs.com/blog/v0.10.0](https://stylexjs.com/blog/v0.10.0 "Release 0.10.0 | StyleX")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">css </span> <span class="jser-tag">PostCSS</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+StyleX v0.10.0 출시.
+PostCSS 플러그인 업데이트, `@stylexjs/nextjs-plugin` 비권장으로 변경.
+`debug` 옵션 추가, `inherit: false`의 `@property` 사용해 동적으로 CSS Custom Property 관리해서 성능 개선
+
+
+----
+
+## Release v3.11.0 · lerna-lite/lerna-lite
+[github.com/lerna-lite/lerna-lite/releases/tag/v3.11.0](https://github.com/lerna-lite/lerna-lite/releases/tag/v3.11.0 "Release v3.11.0 · lerna-lite/lerna-lite")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+lerna-lite v3.11.0 출시.
+pnpm `catalog:` protocol 한정적 지원 추가
+
+
+----
+
+## facebookexperimental/Recoil: Recoil is an experimental state management library for React apps. It provides several capabilities that are difficult to achieve with React alone, while being compatible with the newest features of React.
+[github.com/facebookexperimental/Recoil](https://github.com/facebookexperimental/Recoil "facebookexperimental/Recoil: Recoil is an experimental state management library for React apps. It provides several capabilities that are difficult to achieve with React alone, while being compatible with the newest features of React.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">news</span></p>
+
+Recoil 레포지토리 아카이브 됨
+
+----
+
+## Release pnpm 10 · pnpm/pnpm
+[github.com/pnpm/pnpm/releases/tag/v10.0.0](https://github.com/pnpm/pnpm/releases/tag/v10.0.0 "Release pnpm 10 · pnpm/pnpm")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p>
+
+pnpm v10.0.0 출시.
+설치하는 패키지 lifecycle script을 기본적으로 실행하지 않도록 변경.
+ `pnpm link` 동작 변경, `packageManager` 참조해서 pnpm 버전 확인하도록, 해시 알고리즘 SHA256으로 변경, store 버전 업데이트.
+pnpm 관련한 설정 공유하는 `configDependencies` 추가. `verifyDepsBeforeRun` 옵션 추가되었고, lock과 `node_modules/` 상태를 비교해 자동 설치 동작 선택 가능해짐.
+
+
+----
+
+## Firefox 134.0, See All New Features, Updates and Fixes
+[www.mozilla.org/en-US/firefox/134.0/releasenotes/](https://www.mozilla.org/en-US/firefox/134.0/releasenotes/ "Firefox 134.0, See All New Features, Updates and Fixes")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Firefox 134 출시.
+Stage 3 `RegExp.escape()`, Stage 4 `Promise.try()` 지원
+
+- [Firefox 134 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/134 "Firefox 134 for developers - Mozilla | MDN")
+
+----
+
+## Release v26.0 Reactime · open-source-labs/Reactime
+[github.com/open-source-labs/Reactime/releases/tag/v26.0](https://github.com/open-source-labs/Reactime/releases/tag/v26.0 "Release v26.0 Reactime · open-source-labs/Reactime")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">performance</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+React 디버그 확장 도구 Reactime 26.0 출시.
+UI 업데이트, useContext 상태 가시화, 타임트레블 디버그 기능 개선
+
+
+----
+
+## Node.js — Node v22.13.0 (LTS)
+[nodejs.org/en/blog/release/v22.13.0](https://nodejs.org/en/blog/release/v22.13.0 "Node.js — Node v22.13.0 (LTS)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node.js v22.13.0 출시.
+Permission Model를 Stable으로 변경 
+
+
+----
+
+## Node.js — Node v23.6.0 (Current)
+[nodejs.org/en/blog/release/v23.6.0](https://nodejs.org/en/blog/release/v23.6.0 "Node.js — Node v23.6.0 (Current)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node.js v23.6.0 출시.
+`--experimental-strip-types`를 기본적으로 유효화해서, TypeScript 파일을 플래그 없이 실행 가능하도록 변경.
+
+
+----
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="composable-caching-with-next-js-next-js">Composable Caching with Next.js | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/composable-caching" title="Composable Caching with Next.js | Next.js">nextjs.org/blog/composable-caching</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.js의 &quot;use cache&quot; directive에 대해.<br>
+&quot;use cache&quot; 붙인 함수는 server function에 변환되고, 메모화된 결과 반환.<br>
+클로저는 캐시 동작이나 <code>cache()</code> 함수 관련 됨</p>
+
+<hr>
+
+<h2 id="the-journey-so-far-e18e">The journey so far | e18e</h2>
+
+<p><a href="https://e18e.dev/blog/journey-so-far.html" title="The journey so far | e18e">e18e.dev/blog/journey-so-far.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">performance</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>e18e에서의 JavaScript 에코시스템 정리하는 노력에 대하여.</p>
+
+<hr>
+
+<h2 id="1-intl-advent-calendar-2024-adventar">1인 Intl Advent Calendar 2024 - Adventar</h2>
+
+<p><a href="https://adventar.org/calendars/10555" title="1인 Intl Advent Calendar 2024 - Adventar">adventar.org/calendars/10555</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">i18n</span> <span class="jser-tag">article</span></p></p>
+
+<p>Intl API 연재 글</p>
+
+<ul>
+<li><a href="https://zenn.dev/cybozu_frontend/articles/intl-advent-calendar-24-recap" title="1인 Intl Advent Calendar 완주했습니다">1인 Intl Advent Calendar 완주했습니다</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="codspeed-optimize-performance-eliminate-regressions">CodSpeed: Optimize Performance, Eliminate Regressions</h2>
+
+<p><a href="https://codspeed.io/" title="CodSpeed: Optimize Performance, Eliminate Regressions">codspeed.io/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webservice</span> <span class="jser-tag">benchmark</span> <span class="jser-tag">python</span> <span class="jser-tag">Rust</span> <span class="jser-tag">nodejs</span></p></p>
+
+<p>CI로 벤치마크 얻어서 Regressions 검지하는 서비스.<br>
+Python/Rust/Node.js 대응.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2025/2025-01-09-pnpm-10-node-v23.6.0-experimental-strip-types-e18e.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["nodejs","React","Tools","performance","pnpm"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>nodejs</li>
+                
+                <li>React</li>
+                
+                <li>Tools</li>
+                
+                <li>performance</li>
+                
+                <li>pnpm</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">2025-01-09: pnpm 10, Node v23.6.0(` --experimental-strip-types` 기본 유효화), e18e</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/12/28/pnpm-10.0-rc.1-state-of-javascript-2024-design-token-based-ui-architecture/">2024-12-28: pnpm 10.0 RC.1, State of JavaScript 2024, Design Token-Based UI Architecture</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/12/19/safari-18.2-state-of-node.js-performance-2024-astro-server-islands/">2024-12-19: Safari 18.2, State of Node.js Performance 2024, Astro Server Islands</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/12/11/react-v19-astro-v5-the-2024-web-almanac/">2024-12-11: React v19, Astro v5, The 2024 Web Almanac</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/12/04/node.js-v22.12.0-vite-6.0-tailwind-css-v4.0-beta-1/">2024-12-04: Node.js v22.12.0, Vite 6.0, Tailwind CSS v4.0 Beta 1</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/11/26/angular-v19-deno-2.1lts-react-router-v7from-remix/">2024-11-26: Angular v19, Deno 2.1(LTS), React Router v7(from Remix)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/11/16/node-v23.2.0-storybook-8.4-i-html/">2024-11-16: Node v23.2.0, Storybook 8.4, i-html</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2024/11/07/node-v22.11.0-lts-nuxt-3.14-vlt-package-manager/">2024-11-07: Node v22.11.0 (LTS), Nuxt 3.14, vlt Package Manager</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
