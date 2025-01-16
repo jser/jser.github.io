@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2025-01-16のJS: WinterTC (TC55)、Node.jsのTypeScriptサポートの背景、Angular 2025 - JSer.info</title>
+    <meta name="description" content="JSer.info #722 - Node.js/Deno/Cloudflare WorkersなどのサーバサイドのJavaScript実行環境の相互運用性について議論をしていたWinterCGが、EcmaのTC55(WinterTC)として標準化などの作業を進めることが発表されました。">
+    
+    <meta name="keywords" content="TypeScript,nodejs,React,pnpm,security" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2025-01-16T22:42:36+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="pnpm" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #722 - Node.js/Deno/Cloudflare WorkersなどのサーバサイドのJavaScript実行環境の相互運用性について議論をしていたWinterCGが、EcmaのTC55(WinterTC)として標準化などの作業を進めることが発表されました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2025-01-16のJS: WinterTC (TC55)、Node.jsのTypeScriptサポートの背景、Angular 2025">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #722 - Node.js/Deno/Cloudflare WorkersなどのサーバサイドのJavaScript実行環境の相互運用性について議論をしていたWinterCGが、EcmaのTC55(WinterTC)として標準化などの作業を進めることが発表されました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2025-01-16T22:42:36+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">
+
+<meta property="og:see_also" content="https://jser.info/2024/12/28/pnpm-10.0-rc.1-state-of-javascript-2024-design-token-based-ui-architecture/">
+
+<meta property="og:see_also" content="https://jser.info/2024/12/19/safari-18.2-state-of-node.js-performance-2024-astro-server-islands/">
+
+
+
+
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="pnpm">
+
+<meta property="article:tag" content="security">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">2025-01-16のJS: WinterTC (TC55)、Node.jsのTypeScriptサポートの背景、Angular 2025</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2025年01月16日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2025/2025-01-16-wintertc-tc55-node.jstypescript-angular-2025.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2025/2025-01-16-wintertc-tc55-node.jstypescript-angular-2025.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #722 - Node.js/Deno/Cloudflare WorkersなどのサーバサイドのJavaScript実行環境の相互運用性について議論をしていたWinterCGが、EcmaのTC55(<a href="https://wintercg.org/">WinterTC</a>)として標準化などの作業を進めることが発表されました。</p>
+
+<ul>
+<li><a href="https://ecma-international.org/news/collaborating-across-w3c-and-ecma-for-web-interoperable-server-runtimes-through-wintertc/">Collaborating across W3C and Ecma for web-interoperable server runtimes through WinterTC - Ecma International</a></li>
+</ul>
+
+<p>ECMAScriptやHTMLなどの標準仕様には特許とライセンスが関わってくるため、実際にAPIの標準を作成するにはEcmaやW3Cのような標準化団体のプロセスに従って行った方が良い部分があります。<br>
+WinterCGは元々 W3C のコミュニティグループから始まっていますが、W3CとEcmaどちらで標準化を進めていくかを議論して、多くのメンバーがすでにEcmaに参加していた(TC39などのECMAScriptの標準化などに関わっていた)ため、EcmaのTC55として標準化を進めることになったようです。</p>
+
+<ul>
+<li><a href="https://github.com/wintercg/admin/issues/70">Dedicated standardization meeting 2024-08-29 · Issue #70 · wintercg/admin</a></li>
+<li><a href="https://github.com/wintercg/admin/issues/58">Tracking issue: consider ECMA TC / W3C WG to publish standards · Issue #58 · wintercg/admin</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://satanacchio.hashnode.dev/everything-you-need-to-know-about-nodejs-type-stripping">Node.js Type Stripping Explained</a>という記事では、Node.jsのTypeScriptサポートのアプローチであるType Strippingについて解説されています。<br>
+なぜ型を取り除くというアプローチをしているのかや、コードの変換とSource Map、今後のTypeScriptサポートの方向性などについても書かれています。</p>
+
+<hr>
+
+<p><a href="https://blog.angular.dev/angular-2025-strategy-9ca333dfc334">Angular 2025 Strategy. For the past two and a half years… | by Minko Gechev | Jan, 2025 | Angular Blog</a>という記事では、Angularの2025年の展望について書かれています。</p>
+
+<p>Angularの2024年のアンケート結果の分析、2025年に取り組む点についてなどについて書かれています。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="eslint-v9-18-0-released-eslint-pluggable-javascript-linter">ESLint v9.18.0 released - ESLint - Pluggable JavaScript Linter</h2>
+
+<p><a href="https://eslint.org/blog/2025/01/eslint-v9.18.0-released/" title="ESLint v9.18.0 released - ESLint - Pluggable JavaScript Linter">eslint.org/blog/2025/01/eslint-v9.18.0-released/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>ESLint v9.18.0リリース。<br>
+TypeScriptで設定ファイルを書ける<code>eslint.config.ts</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="collaborating-across-w3c-and-ecma-for-web-interoperable-server-runtimes-through-wintertc-ecma-international">Collaborating across W3C and Ecma for web-interoperable server runtimes through WinterTC - Ecma International</h2>
+
+<p><a href="https://ecma-international.org/news/collaborating-across-w3c-and-ecma-for-web-interoperable-server-runtimes-through-wintertc/" title="Collaborating across W3C and Ecma for web-interoperable server runtimes through WinterTC - Ecma International">ecma-international.org/news/collaborating-across-w3c-and-ecma-for-web-interoperable-server-runtimes-through-wintertc/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ecma</span> <span class="jser-tag">news</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">deno</span> <span class="jser-tag">cloudflare</span></p></p>
+
+<p>サーバサイドJavaScript APIの相互運用性について議論していたWinterCGはEcmaのTC55として標準化などの議論を進めていく方針</p>
+
+<ul>
+<li><a href="https://wintercg.org/" title="WinterTC">WinterTC</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-3-40-0-2025-01-08-zloirock-core-js">Release 3.40.0 - 2025.01.08 · zloirock/core-js</h2>
+
+<p><a href="https://github.com/zloirock/core-js/releases/tag/v3.40.0" title="Release 3.40.0 - 2025.01.08 · zloirock/core-js">github.com/zloirock/core-js/releases/tag/v3.40.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>core-js v3.40.0リリース。<br>
+Stage 3の<code>Error.isError</code>を追加、バグの修正など</p>
+
+<hr>
+
+<h2 id="release-v3-0-0-automattic-node-canvas">Release v3.0.0 · Automattic/node-canvas</h2>
+
+<p><a href="https://github.com/Automattic/node-canvas/releases/tag/v3.0.0" title="Release v3.0.0 · Automattic/node-canvas">github.com/Automattic/node-canvas/releases/tag/v3.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">canvas</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>node-canvas 3.0.0リリース。<br>
+Node.js 16のサポート終了、N-APIを利用するように変更など</p>
+
+<hr>
+
+<h2 id="release-version-26-0-0-jsdom-jsdom">Release Version 26.0.0 · jsdom/jsdom</h2>
+
+<p><a href="https://github.com/jsdom/jsdom/releases/tag/26.0.0" title="Release Version 26.0.0 · jsdom/jsdom">github.com/jsdom/jsdom/releases/tag/26.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>jsdom 26.0.0リリース。<br>
+node-canvasをv3にアップデート、<code>AbortSignal.any()</code>のサポート、<code>URL.parse()</code>のサポートなど</p>
+
+<hr>
+
+<h2 id="release-v136-esm-dev-esm-sh">Release v136 · esm-dev/esm.sh</h2>
+
+<p><a href="https://github.com/esm-dev/esm.sh/releases/tag/v136" title="Release v136 · esm-dev/esm.sh">github.com/esm-dev/esm.sh/releases/tag/v136</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">cdn</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>esm.sh v136リリース。<br>
+jsrのサポート、pkg.pr.newのサポート。<br>
+ビルドパフォーマンスの改善、<code>build</code> API/Deno CLIスクリプトの非推奨化など</p>
+
+<hr>
+
+<h2 id="2024-javascript-rising-stars">2024 JavaScript Rising Stars</h2>
+
+<p><a href="https://risingstars.js.org/2024/en" title="2024 JavaScript Rising Stars">risingstars.js.org/2024/en</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">news</span></p></p>
+
+<p>GitHubのスター数の比較をするJavaScript Rising Starsの2024年の結果が公開された</p>
+
+<hr>
+
+<h2 id="january-15-2025-release-react-spectrum-releases">January 15, 2025 Release – React Spectrum Releases</h2>
+
+<p><a href="https://react-spectrum.adobe.com/releases/2025-01-15.html" title="January 15, 2025 Release – React Spectrum Releases">react-spectrum.adobe.com/releases/2025-01-15.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React Aria January 15, 2025リリース。<br>
+Autocompleteコンポーネントの追加、OverlayコンポーネントでのCSS Transitionsのサポート、<code>@react-aria/test-utils</code>パッケージの追加。<br>
+<code>usePress</code>からiOS 13のバグ対応のコードを削除など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="pnpm-10-0-0-blocks-lifecycle-scripts-by-default-socket">pnpm 10.0.0 Blocks Lifecycle Scripts by Default - Socket</h2>
+
+<p><a href="https://socket.dev/blog/pnpm-10-0-0-blocks-lifecycle-scripts-by-default" title="pnpm 10.0.0 Blocks Lifecycle Scripts by Default - Socket">socket.dev/blog/pnpm-10-0-0-blocks-lifecycle-scripts-by-default</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>pnpm 10ではインストールしたパッケージのlifecycle scriptの実行をデフォルトで無効にしている。</p>
+
+<hr>
+
+<h2 id="introducing-tanstack-start-frontend-masters-boost">Introducing TanStack Start – Frontend Masters Boost</h2>
+
+<p><a href="https://frontendmasters.com/blog/introducing-tanstack-start/" title="Introducing TanStack Start – Frontend Masters Boost">frontendmasters.com/blog/introducing-tanstack-start/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>TanStack Router を利用したフルスタック React フレームワークであるTanStack Startについて</p>
+
+<hr>
+
+<h2 id="node-js-type-stripping-explained">Node.js Type Stripping Explained</h2>
+
+<p><a href="https://satanacchio.hashnode.dev/everything-you-need-to-know-about-nodejs-type-stripping" title="Node.js Type Stripping Explained">satanacchio.hashnode.dev/everything-you-need-to-know-about-nodejs-type-stripping</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.jsのTypeScriptサポートに対するアプローチについて。<br>
+また、今後のTypeScriptチームとの取り組みやロードマップについて</p>
+
+<hr>
+
+<h2 id="angular-2025-strategy-for-the-past-two-and-a-half-years-by-minko-gechev-jan-2025-angular-blog">Angular 2025 Strategy. For the past two and a half years… | by Minko Gechev | Jan, 2025 | Angular Blog</h2>
+
+<p><a href="https://blog.angular.dev/angular-2025-strategy-9ca333dfc334" title="Angular 2025 Strategy. For the past two and a half years… | by Minko Gechev | Jan, 2025 | Angular Blog">blog.angular.dev/angular-2025-strategy-9ca333dfc334</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Angular</span> <span class="jser-tag">article</span></p></p>
+
+<p>Angularの2024年のアンケート結果の分析、2025年に取り組む点について。<br>
+開発者体験に対するものとしてzoneless、Signal forms、Karmaを置き換えることについてなど</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="standard-schema-standard-schema-a-standard-interface-for-typescript-schema-validation-libraries">standard-schema/standard-schema: A standard interface for TypeScript schema validation libraries</h2>
+
+<p><a href="https://github.com/standard-schema/standard-schema" title="standard-schema/standard-schema: A standard interface for TypeScript schema validation libraries">github.com/standard-schema/standard-schema</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">proposal</span></p></p>
+
+<p>zodなどのスキーマバリデーションライブラリの標準インターフェースを議論しているリポジトリ。<br>
+標準的なインターフェースを決めることで、UIライブラリなどが特定のスキーマバリデーションライブラリへ依存しないようにしたいという目的</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2025/2025-01-16-wintertc-tc55-node.jstypescript-angular-2025.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["TypeScript","nodejs","React","pnpm","security"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>TypeScript</li>
+                
+                <li>nodejs</li>
+                
+                <li>React</li>
+                
+                <li>pnpm</li>
+                
+                <li>security</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2025/01/16/wintertc-tc55-node.jstypescript-angular-2025/">2025-01-16のJS: WinterTC (TC55)、Node.jsのTypeScriptサポートの背景、Angular 2025</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/01/09/pnpm-10-node-v23.6.0-experimental-strip-types-e18e/">2025-01-09のJS: pnpm 10、Node v23.6.0(` --experimental-strip-types`をデフォルトで有効化)、e18e</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/12/28/pnpm-10.0-rc.1-state-of-javascript-2024-design-token-based-ui-architecture/">2024-12-28のJS: pnpm 10.0 RC.1、State of JavaScript 2024、Design Token-Based UI Architecture</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/12/19/safari-18.2-state-of-node.js-performance-2024-astro-server-islands/">2024-12-19のJS: Safari 18.2、State of Node.js Performance 2024、Astro Server Islands</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/12/11/react-v19-astro-v5-the-2024-web-almanac/">2024-12-11のJS: React v19、Astro v5、The 2024 Web Almanac</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/12/04/node.js-v22.12.0-vite-6.0-tailwind-css-v4.0-beta-1/">2024-12-04のJS: Node.js v22.12.0、Vite 6.0、Tailwind CSS v4.0 Beta 1</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/11/26/angular-v19-deno-2.1lts-react-router-v7from-remix/">2024-11-26のJS: Angular v19、Deno 2.1(LTS)、React Router v7(from Remix)</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2024/11/16/node-v23.2.0-storybook-8.4-i-html/">2024-11-16のJS: Node v23.2.0、Storybook 8.4、i-html</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
