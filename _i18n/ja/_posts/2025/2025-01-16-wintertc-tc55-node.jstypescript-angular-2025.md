@@ -2,7 +2,7 @@
 title: "2025-01-16のJS: WinterTC (TC55)、Node.jsのTypeScriptサポートの背景、Angular 2025"
 author: "azu"
 layout: post
-date: 2025-01-16T13:32:34.286Z
+date: 2025-01-16T13:41:34.115Z
 category: JSer
 tags:
 - TypeScript
@@ -13,7 +13,30 @@ tags:
 
 ---
 
-JSer.info #722
+JSer.info #722 - Node.js/Deno/Cloudflare WorkersなどのサーバサイドのJavaScript実行環境の相互運用性について議論をしていたWinterCGが、EcmaのTC55([WinterTC](https://wintercg.org/))として標準化などの作業を進めることが発表されました。
+
+- [Collaborating across W3C and Ecma for web-interoperable server runtimes through WinterTC - Ecma International](https://ecma-international.org/news/collaborating-across-w3c-and-ecma-for-web-interoperable-server-runtimes-through-wintertc/)
+
+ECMAScriptやHTMLなどの標準仕様には特許事項とライセンスが関わってくるため、実際にAPIの標準を作成するにはEcmaやW3Cのような標準化団体のプロセスに従って行った方が部分があります。
+WinterCGは元々 W3C のコミュニティグループから始まっていますが、W3CとEcmaどちらで標準化を進めていくかを議論して、多くのメンバーがすでにEcmaに参加していた(TC39などのECMAScriptの標準化などに関わっていた)ため、EcmaのTC55として標準化を進めることになったようです。
+
+- [Dedicated standardization meeting 2024-08-29 · Issue #70 · wintercg/admin](https://github.com/wintercg/admin/issues/70)
+- [Tracking issue: consider ECMA TC / W3C WG to publish standards · Issue #58 · wintercg/admin](https://github.com/wintercg/admin/issues/58)
+
+---
+
+[Node.js Type Stripping Explained](https://satanacchio.hashnode.dev/everything-you-need-to-know-about-nodejs-type-stripping)という記事では、Node.jsのTypeScriptサポートのアプローチであるType Strippingについて解説されています。
+なぜ型を取り除くというアプローチをしているのかや、コードの変換とSource Map、今後のTypeScriptサポートの方向性などについても書かれています。
+
+---
+
+[Angular 2025 Strategy. For the past two and a half years… | by Minko Gechev | Jan, 2025 | Angular Blog](https://blog.angular.dev/angular-2025-strategy-9ca333dfc334)という記事では、Angularの2025年の展望について書かれています。
+
+Angularの2024年のアンケート結果の分析、2025年に取り組む点についてなどについて書かれています。
+
+----
+
+{% include inline-support.html %}
 
 ----
 
