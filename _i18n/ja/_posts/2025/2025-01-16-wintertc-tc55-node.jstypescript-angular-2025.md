@@ -2,7 +2,7 @@
 title: "2025-01-16のJS: WinterTC (TC55)、Node.jsのTypeScriptサポートの背景、Angular 2025"
 author: "azu"
 layout: post
-date: 2025-01-16T13:41:34.115Z
+date: 2025-01-16T13:42:36.358Z
 category: JSer
 tags:
 - TypeScript
@@ -17,7 +17,7 @@ JSer.info #722 - Node.js/Deno/Cloudflare WorkersなどのサーバサイドのJa
 
 - [Collaborating across W3C and Ecma for web-interoperable server runtimes through WinterTC - Ecma International](https://ecma-international.org/news/collaborating-across-w3c-and-ecma-for-web-interoperable-server-runtimes-through-wintertc/)
 
-ECMAScriptやHTMLなどの標準仕様には特許事項とライセンスが関わってくるため、実際にAPIの標準を作成するにはEcmaやW3Cのような標準化団体のプロセスに従って行った方が部分があります。
+ECMAScriptやHTMLなどの標準仕様には特許とライセンスが関わってくるため、実際にAPIの標準を作成するにはEcmaやW3Cのような標準化団体のプロセスに従って行った方が良い部分があります。
 WinterCGは元々 W3C のコミュニティグループから始まっていますが、W3CとEcmaどちらで標準化を進めていくかを議論して、多くのメンバーがすでにEcmaに参加していた(TC39などのECMAScriptの標準化などに関わっていた)ため、EcmaのTC55として標準化を進めることになったようです。
 
 - [Dedicated standardization meeting 2024-08-29 · Issue #70 · wintercg/admin](https://github.com/wintercg/admin/issues/70)
