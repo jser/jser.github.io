@@ -1,0 +1,197 @@
+---
+title: "2025-03-06のJS: TypeScript 5.8(erasableSyntaxOnly)、Next.js 15.2、Lynx"
+author: "azu"
+layout: post
+date: 2025-03-06T01:41:05.109Z
+category: JSer
+tags:
+- TypeScript
+- React
+- Native
+- ESLint
+- css
+
+---
+
+JSer.info #727 - - [Announcing TypeScript 5.8 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-8/)
+- [Next.js 15.2 | Next.js](https://nextjs.org/blog/next-15-2)
+- [Lynx](https://lynxjs.org/)
+
+
+----
+
+{% include inline-support.html %}
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## ArkType Docs: Optimized runtime validation for TypeScript syntax
+[arktype.io/docs/blog/2.1](https://arktype.io/docs/blog/2.1 "ArkType Docs: Optimized runtime validation for TypeScript syntax")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+ArkType 2.1リリース。
+パターンマッチを行う`match`　APIを追加、`configure`でキーワードに対するエラーメッセージをカスタマイズできるようになるなど
+
+
+----
+
+## Release 0.11.0 | StyleX
+[stylexjs.com/blog/v0.11.0](https://stylexjs.com/blog/v0.11.0 "Release 0.11.0 | StyleX")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">css</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+StyleX v0.11.0リリース。
+デバッグ情報の改善、CLIキャッシュの改善など
+
+
+----
+
+## Announcing TypeScript 5.8 - TypeScript
+[devblogs.microsoft.com/typescript/announcing-typescript-5-8/](https://devblogs.microsoft.com/typescript/announcing-typescript-5-8/ "Announcing TypeScript 5.8 - TypeScript")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+TypeScript 5.8リリース。
+conditional return typeの改善、`require(esm)`の対応、`--module node18`を追加。 Node.jsの`--experimental-strip-types`と合わせた設定をする`--erasableSyntaxOnly`フラグの追加、`--libReplacement`フラグの追加など
+
+
+----
+
+## Release 3.41.0 - 2025.03.01 · zloirock/core-js
+[github.com/zloirock/core-js/releases/tag/v3.41.0](https://github.com/zloirock/core-js/releases/tag/v3.41.0 "Release 3.41.0 - 2025.03.01 · zloirock/core-js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">polyfill</span> <span class="jser-tag">ReleaseNote</span></p>
+
+core-js v3.41.0リリース。
+Stage 4となった`RegExp.escape`/Float16、Stage 1の`Math.clamp`への対応など
+
+
+----
+
+## Next.js 15.2 | Next.js
+[nextjs.org/blog/next-15-2](https://nextjs.org/blog/next-15-2 "Next.js 15.2 | Next.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Next.js 15.2リリース。
+Error Overlayのスタックトレースの表示を改善、Dev indicatorの改善、`generateMetadata`の処理を非同期対応、Turbopackのパフォーマンス改善。
+実験的な機能としてView Transition APIの対応、Node.js middlewareのサポートなど
+
+
+----
+
+## Re.Pack 5: Mobile Microfrontends, 5x Faster, Less Configuration - Re.Pack
+[re-pack.dev/blog/repack-5-release](https://re-pack.dev/blog/repack-5-release "Re.Pack 5: Mobile Microfrontends, 5x Faster, Less Configuration - Re.Pack")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Native</span> <span class="jser-tag">bundler</span> <span class="jser-tag">ReleaseNote</span></p>
+
+React Native向けのビルドツールであるRe.Pack 5リリース。
+webpackの代わりにRspackを利用するように、Module Federationの対応など
+
+
+----
+
+## Release pnpm 10.5 · pnpm/pnpm
+[github.com/pnpm/pnpm/releases/tag/v10.5.0](https://github.com/pnpm/pnpm/releases/tag/v10.5.0 "Release pnpm 10.5 · pnpm/pnpm")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p>
+
+pnpm v10.5.0リリース。
+`package.json`に分散していた`pnpm.*`の設定を`pnpm-workspace.yaml`にかけるように変更など
+
+
+----
+
+## Chrome 134  |  Release notes  |  Chrome for Developers
+[developer.chrome.com/release-notes/134](https://developer.chrome.com/release-notes/134 "Chrome 134  |  Release notes  |  Chrome for Developers")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Chrome 134リリース。
+`<select>`のカスタマイズをサポート、`<dialog>`の`closedby`属性のサポート、Document-Policyに`expect-no-linked-resources`を追加。
+Shared StorageでWeb Locks APIをサポート、Canvasで`imageSmoothingQuality`オプションをサポート。
+`getUserMedia`の非標準なAPIを削除など
+
+- [WICG/shared-storage: Explainer for proposed web platform Shared Storage API](https://github.com/WICG/shared-storage "WICG/shared-storage: Explainer for proposed web platform Shared Storage API")
+
+----
+
+## Lynx
+[lynxjs.org/](https://lynxjs.org/ "Lynx")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Native</span> <span class="jser-tag">iOS</span> <span class="jser-tag">Android</span></p>
+
+React 17ベースのAPIとJavaScript/TypeScript/CSSを使ってネイティブアプリを開発できるツールキット。
+
+
+----
+
+## Release v8.26.0 · typescript-eslint/typescript-eslint
+[github.com/typescript-eslint/typescript-eslint/releases/tag/v8.26.0](https://github.com/typescript-eslint/typescript-eslint/releases/tag/v8.26.0 "Release v8.26.0 · typescript-eslint/typescript-eslint")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p>
+
+typescript-eslint v8.26.0リリース。
+TypeScript 5.8のサポートなど
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## What is TypeScript? An overview for JavaScript programmers
+[2ality.com/2025/02/what-is-typescript.html](https://2ality.com/2025/02/what-is-typescript.html "What is TypeScript? An overview for JavaScript programmers")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
+
+TypeScriptとは何かという概要的な記事。
+TypeScriptはJavaScriptに型構文を足したものである点、TypeScriptのビルド、type strippingなどの`tsc`以外のコンパイルについてなど
+
+
+----
+
+## Migrating 160,000 Lines of Production Banking JavaScript to TypeScript with Zero Downtime - Ben Howdle - Software Consultant &amp; Advisor
+[benhowdle.im/migrating-js-to-ts-zero-downtime.html](https://benhowdle.im/migrating-js-to-ts-zero-downtime.html "Migrating 160,000 Lines of Production Banking JavaScript to TypeScript with Zero Downtime - Ben Howdle - Software Consultant &amp; Advisor")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
+
+JavaScriptからTypeScriptへの移行について。
+移行ブランチを使った移行のアプローチについて
+
+
+----
+
+## Temporalで変わるJavaScriptの日時操作 ［JS Modern Features no.1］ | gihyo.jp
+[gihyo.jp/article/2025/02/ride-modern-frontend-07](https://gihyo.jp/article/2025/02/ride-modern-frontend-07 "Temporalで変わるJavaScriptの日時操作 ［JS Modern Features no.1］ | gihyo.jp")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">article</span></p>
+
+ECMAScript Proposal Stage 3のTemporalについて
+
+
+----
+
+## Lynx: Unlock Native for More - Lynx
+[lynxjs.org/blog/lynx-unlock-native-for-more.html](https://lynxjs.org/blog/lynx-unlock-native-for-more.html "Lynx: Unlock Native for More - Lynx")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Native</span> <span class="jser-tag">article</span></p>
+
+ReactベースのAPIとCSSを使ってネイティブアプリ開発ができるLynxについて。
+Instant First-Frame Rendering (IFR)やMain Thread Scriptについて
+
+
+----
+
+## oxlint で eslint を高速化させる
+[zenn.dev/hiruno\_tarte/articles/how-to-use-oxlint](https://zenn.dev/hiruno_tarte/articles/how-to-use-oxlint "oxlint で eslint を高速化させる")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">article</span></p>
+
+oxlintとESLintを組み合わせて利用する設定について。
+oxlintとESLintで被っている内容をoxlintに寄せて、ESLintはプラグイン周りのものだけをチェックするようにする設定について
+
+
+----
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+----
+
+## lynx-family/primjs: JavaScript Engine Optimized for Lynx
+[github.com/lynx-family/primjs](https://github.com/lynx-family/primjs "lynx-family/primjs: JavaScript Engine Optimized for Lynx")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Native</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p>
+
+Lynxで使われているJavaScriptエンジン。
+QuickJSをベースにしていて、GCの実装やChrome DevTools Protocol (CDP)の実装などが追加されている
+
+
+----
