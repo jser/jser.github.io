@@ -2,7 +2,7 @@
 title: "2025-03-06のJS: TypeScript 5.8(erasableSyntaxOnly)、Next.js 15.2、Lynx"
 author: "azu"
 layout: post
-date: 2025-03-06T01:41:05.109Z
+date: 2025-03-06T02:01:38.698Z
 category: JSer
 tags:
 - TypeScript
@@ -13,9 +13,45 @@ tags:
 
 ---
 
-JSer.info #727 - - [Announcing TypeScript 5.8 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-8/)
+JSer.info #727 - TypeScript 5.8がリリースされました。
+
+- [Announcing TypeScript 5.8 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-8/)
+
+TypeScript 5.8では、conditional return typeの改善、`require(esm)`の対応、`--module node18`を追加が行われています
+また、Node.jsの`--experimental-strip-types`と合わせた設定をする`--erasableSyntaxOnly`フラグの追加、`--libReplacement`フラグの追加なども行われています。
+
+[erasableSyntaxOnly](https://www.typescriptlang.org/tsconfig/#erasableSyntaxOnly)オプションは、次の機能を禁止することで型を取り除くだけで、JavaScriptとして実行できるTypeScriptのコードを書くための設定です。
+
+- enum declarations
+- namespaces and modules with runtime code
+- parameter properties in classes
+- Non-ECMAScript `import =` and `export =` assignments
+
+Node.jsのType Strippingについては、以下の記事が参考になります。
+
+- [Node.js Type Stripping Explained](https://satanacchio.hashnode.dev/everything-you-need-to-know-about-nodejs-type-stripping)
+
+----
+
+Next.js 15.2がリリースされました。
+
 - [Next.js 15.2 | Next.js](https://nextjs.org/blog/next-15-2)
-- [Lynx](https://lynxjs.org/)
+
+Error Overlayのスタックトレースの表示を改善、Dev indicatorの改善、`generateMetadata`の処理を非同期対応、Turbopackのパフォーマンス改善が行われています。
+また、実験的な機能としてView Transition APIの対応、Node.js middlewareのサポートなども追加されています。
+
+----
+
+[Lynx](https://lynxjs.org/)というReact/CSS/TypeScriptを使ってネイティブアプリを開発できるツールキットがByteDanceから公開されました。
+
+LynxはReact 17のAPIとQuickJSをベースにした[PrimJS](https://github.com/lynx-family/primjs)というJavaScriptエンジンを使用しています。
+
+- [Why is it based on compatibility with React 17?](https://lynxjs.org/api/react/index.html#react-apis)
+- [JavaScript Runtime - Lynx](https://lynxjs.org/guide/scripting-runtime/index.html)
+
+リリースの記事では、Instant First-Frame Rendering (IFR)やMain Thread Scriptについてなどのレンダリングの最適化についても書かれています。
+
+- [Lynx: Unlock Native for More - Lynx](https://lynxjs.org/blog/lynx-unlock-native-for-more)
 
 
 ----
