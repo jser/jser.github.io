@@ -2,7 +2,7 @@
 title: "2025-03-12のJS: React Aria March 5, 2025、Firefox 136.0、TypeScriptコンパイラをGoに移植"
 author: "azu"
 layout: post
-date: 2025-03-12T02:20:21.443Z
+date: 2025-03-12T03:35:33.452Z
 category: JSer
 tags:
 - React
@@ -13,11 +13,54 @@ tags:
 
 ---
 
-JSer.info #728 - - [March 5, 2025 Release – React Spectrum Releases](https://react-spectrum.adobe.com/releases/2025-03-05.html)
-- [A 10x Faster TypeScript - TypeScript](https://devblogs.microsoft.com/typescript/typescript-native-port/)
+JSer.info #728 - React Aria March 5, 2025リリースされました
+
+- [March 5, 2025 Release – React Spectrum Releases](https://react-spectrum.adobe.com/releases/2025-03-05.html)
+
+Toast/Tree/Virtualizerコンポーネントを追加、AutocompleteをMenu/Selectなどと組み合わせて利用できるようになりました。
+また、`<Pressable>`/`<Focusable>`の追加、`usePress`のリファクタリングなどが含まれています。
+その他には、ドキュメントをTailwind v4に対応など
+
+---
+
+Firefox 136.0リリースされました
+
 - [Firefox 136.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/136.0/releasenotes/)
 - [Firefox 136 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/136)
 
+HTMLの`autocorrect`属性をサポート、`Intl.DurationFormat`のサポート、Data URLsの最大サイズを32MBからChromeと同じ512MBに変更されています。
+Cookie Storage APIのサポート、HTTPS-Firstに変更されています。
+実験的な機能として、`Error.captureStackTrace()`のサポート、`Clear-Site-Data`ヘッダのサポート、SVGの`<discard>`要素のサポートなどが含まれています。
+
+----
+
+TypeScriptコンパイラのGo言語へのポートの計画が公開されました。
+
+- [A 10x Faster TypeScript - TypeScript](https://devblogs.microsoft.com/typescript/typescript-native-port/)
+
+TypeScriptの型チェックやLSPのパフォーマンスを改善するために、TypeScriptコンパイルやLSPなどのツールをGo言語へポートするという計画が公開されました。
+移植したnative版をTypeScript 7としてリリースする予定で、native版が安定するまではJS版もメンテナンスしていく予定となっています。
+TypeScript 7が出たあとも、移行の問題がなくなるまでJS版をメンテして、99.99%はそのまま移行できることを目指しているようです。
+
+- https://github.com/microsoft/typescript-go
+
+> "Why a port instead of a rewrite? What's the difference? · microsoft/typescript-go · Discussion #410"
+> https://github.com/microsoft/typescript-go/discussions/411
+
+なぜ書き直しではなく移植を選んだのかについては、TypeScriptのコードベースのサイズの大きさや、TypeScriptは仕様があるわけではなくリファレンス実装のみであるという理由などが挙げらています。
+
+> Why Go? #411 
+> https://github.com/microsoft/typescript-go/discussions/411
+
+Goを選んだ理由として、GCがあることやセマンティクスとコードの構造がJSと似ているため、移植性が高いという理由が挙げられています。
+
+- [TypeScript is being ported to Go | interview with Anders Hejlsberg - YouTube](https://www.youtube.com/watch?v=10qowKUW82U)
+
+C#はOOP言語なので、既存のTypeScriptコンパイラのコードを移植するには、構造を変更する必要があるため選択肢にするのが難しかったという話がされています。
+また、TypeScriptコンパイラはGCなどに依存しているため、Rustなどの言語は選択肢にするのが難しかったという話もされています。
+書き直しであれば、最初からGC/循環参照グラフに依存しないような構造にしていたなどの話もされています。
+
+まだ、具体的なリリーススケジュールは未定ですが、基本的には移行がスムーズに行えるようにすることを目指しているようです。
 
 ----
 
