@@ -35,7 +35,7 @@ Cookie Storage API 지원, HTTPS-First로 변경되었다.
 
 ----
 
-TypeScript 컴파일러를 Go언ㄴ어로 포팅하는 계획이 공개되었다.
+TypeScript 컴파일러를 Go언어로 포팅하는 계획이 공개되었다.
 
 - [A 10x Faster TypeScript - TypeScript](https://devblogs.microsoft.com/typescript/typescript-native-port/)
 
