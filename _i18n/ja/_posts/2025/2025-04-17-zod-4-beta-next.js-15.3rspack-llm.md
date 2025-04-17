@@ -13,11 +13,28 @@ tags:
 
 ---
 
-JSer.info #732 - - [Introducing Zod 4 beta | Zod Docs](https://v4.zod.dev/v4)
+JSer.info #732 - Zod 4 betaがリリースされました。
+
+- [Introducing Zod 4 beta | Zod Docs](https://v4.zod.dev/v4)
+
+パフォーマンスとBundle Sizeの改善が行われ、Tree Shaking可能なAPIを提供する`@zod/mini`と`@zod/core`パッケージが公開されています。また、再帰も可能なオブジェクトの定義をする`z.interface()` API、メタデータを管理する`z.registry()` API、JSONスキーマ変換のための`toJSONSchema()` APIなどが追加されています。その他にも文字列のTop Level APIの追加や変更、エラーメッセージを`message`から`error`パラメータへ変更など多くの変更が含まれています。
+
+----
+
+Next.js 15.3がリリースされ、Rspackをビルドツールとしてサポートするようになりました。
+
 - [Next.js 15.3 | Next.js](https://nextjs.org/blog/next-15-3)
 - [Rspack joins the Next.js ecosystem - Rspack](https://rspack.dev/blog/rspack-next-partner)
+
+Next.js 15.3では、Turbopackを`next build`でも利用可能になったほか、Rspackのサポート、クライアントサイドの計測を行う`instrumentation-client.{js,ts}`のサポート、Navigation Hooksのサポートなどが追加されています。また、`useLinkStatus`の追加やTypeScript LSPのパフォーマンス改善も行われました。実験的な機能として`<Link unstable_dynamicOnHovertrue>`のサポートなども含まれています。
+
+----
+
+AirbnbがEnzymeからReact Testing Libraryへの大規模なテスト移行をLLMを活用して行った事例について紹介されています。
+
 - [Accelerating Large-Scale Test Migration with LLMs | by Charles Covey-Brandt | The Airbnb Tech Blog | Mar, 2025 | Medium](https://medium.com/airbnb-engineering/accelerating-large-scale-test-migration-with-llms-9565c208023b)
 
+移行プロセスをステップ化し、再試行ループの導入、関連するテストや移行ガイドラインをコンテキストとして追加することで、当初は75%のテストが自動的に移行できました。さらに、失敗したファイルにどのステップでうまくいかなかったかをコメントとして残し、それらのファイルを使って学習することで、最終的には97%まで自動的に移行できるようになったとのことです。
 
 ----
 
