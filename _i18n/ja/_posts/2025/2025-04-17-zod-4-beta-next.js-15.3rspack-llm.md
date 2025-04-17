@@ -2,7 +2,7 @@
 title: "2025-04-17のJS: Zod 4 beta、Next.js 15.3とRspack、LLMを使ったテストのマイグレーション"
 author: "azu"
 layout: post
-date: 2025-04-17T14:36:16.916Z
+date: 2025-04-17T14:41:52.073Z
 category: JSer
 tags:
 - Next.js
