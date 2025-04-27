@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2025-04-27のJS: Node v22.15.0、Reactの実験的な機能、Node.jsとV8 GC - JSer.info</title>
+    <meta name="description" content="JSer.info #733 - Node.js v22.15.0がリリースされました。">
+    
+    <meta name="keywords" content="nodejs,React,pnpm,css,performance" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2025-04-27T11:43:58+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="pnpm" property="article:tag">
+      
+      <meta content="css" property="article:tag">
+      
+      <meta content="performance" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #733 - Node.js v22.15.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2025-04-27のJS: Node v22.15.0、Reactの実験的な機能、Node.jsとV8 GC">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #733 - Node.js v22.15.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2025-04-27T11:43:58+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2025/04/17/zod-4-beta-next.js-15.3rspack-llm/">
+
+<meta property="og:see_also" content="https://jser.info/2025/04/09/express-5.1-safari-18.4-eslint-bulk-suppressions/">
+
+<meta property="og:see_also" content="https://jser.info/2025/04/03/next.js-lts-policy-rsdoctor-1.0-zxlite/">
+
+
+
+
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="pnpm">
+
+<meta property="article:tag" content="css">
+
+<meta property="article:tag" content="performance">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">2025-04-27のJS: Node v22.15.0、Reactの実験的な機能、Node.jsとV8 GC</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2025年04月27日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2025/2025-04-27-node-v22.15.0-react-node.jsv8-gc.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2025/2025-04-27-node-v22.15.0-react-node.jsv8-gc.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2025/04/27/node-v22.15.0-react-node.jsv8-gc/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #733 - Node.js v22.15.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/blog/release/v22.15.0">Node.js — Node v22.15.0 (LTS)</a></li>
+</ul>
+
+<p><code>assert.partialDeepStrictEqual()</code>や<code>module.registerHooks()</code>などの新しいAPIが追加されました。また、<code>util.diff()</code>の追加やzstdのサポートなども含まれています。</p>
+
+<hr>
+
+<p>Reactチームが実験的な機能について紹介する記事を公開しました。</p>
+
+<ul>
+<li><a href="https://react.dev/blog/2025/04/23/react-labs-view-transitions-activity-and-more">React Labs: View Transitions, Activity, and more – React</a></li>
+</ul>
+
+<p><code>&lt;ViewTransition&gt;</code>、<code>addTransitionType()</code>、<code>&lt;Activity&gt;</code>などの新しい実験的なAPIの紹介が含まれています。<br>
+また、DevToolsでのPerformance Profilerの改善や依存のないuseEffect、React Compilerなどの開発中の機能についても言及されています。</p>
+
+<hr>
+
+<p>Node.jsとV8のGCに関する解説記事が公開されました。</p>
+
+<ul>
+<li><a href="https://blog.platformatic.dev/optimizing-nodejs-performance-v8-memory-management-and-gc-tuning">Boost Node.js with V8 GC Optimization</a></li>
+</ul>
+
+<p>V8の世代別GCの仕組みや、Scavengeによる高速なGC処理、semi-spaceのサイズ調整によるメモリチューニングなど書かれています。</p>
+
+<hr>
+
+<h2 id="pr">PR</h2>
+
+<p><a href="https://jsprimer.net/">JavaScript Primer</a>のES2025の対応を手伝ってくれるContributorとSponsorを募集しています。<br>
+毎年6月末にECMAScriptの正式公開に合わせて、今年のアップデートをjsprimerに反映していく作業をしていく予定です。</p>
+
+<ul>
+<li><a href="https://efcl.info/2025/04/25/jsprimer-es2025-proposal/">JavaScript PrimerのES2025対応を手伝ってくれるContributorとSponsorを募集しています | Web Scratch</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-v1-52-0-microsoft-playwright">Release v1.52.0 · microsoft/playwright</h2>
+
+<p><a href="https://github.com/microsoft/playwright/releases/tag/v1.52.0" title="Release v1.52.0 · microsoft/playwright">github.com/microsoft/playwright/releases/tag/v1.52.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">playwright</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>playwright v1.52.0リリース。<br>
+破壊的な変更として<code>page.route()</code>で<code>?</code>はwildcardとして扱わないように変更、<code>route.continue()</code>で<code>Cookie</code>ヘッダを上書きできないように変更。<br>
+<code>expect(locator).toContainClass()</code>の追加、Aria Snapshotの更新。<br>
+プロジェクトごとに<code>workers</code>を設定できるように、<code>failOnFlakyTests</code>オプションの追加。</p>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2025-04-ecmascript-daily">ECMAScript proposal updates @ 2025-04 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2025/04/19/ecmascript-proposal-update" title="ECMAScript proposal updates @ 2025-04 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2025/04/19/ecmascript-proposal-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">proposal</span> <span class="jser-tag">news</span></p></p>
+
+<p>2025年4月のTC39ミーティングでのECMAScript ProposalのStatus変更のまとめ。<br>
+Record &amp; Tupleがwithdrawnとなった。</p>
+
+<hr>
+
+<h2 id="release-fastify-react-1-0-0-fastify-fastify-vite">Release @fastify/<a href="mailto:react@1.0.0">react@1.0.0</a> · fastify/fastify-vite</h2>
+
+<p><a href="https://github.com/fastify/fastify-vite/releases/tag/react-v1.0.0" title="Release @fastify/react@1.0.0 · fastify/fastify-vite">github.com/fastify/fastify-vite/releases/tag/react-v1.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>@fastify/react 1.0.0リリース。</p>
+
+<hr>
+
+<h2 id="node-js-node-v22-15-0-lts">Node.js — Node v22.15.0 (LTS)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v22.15.0" title="Node.js — Node v22.15.0 (LTS)">nodejs.org/en/blog/release/v22.15.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v22.15.0リリース。<br>
+<code>assert.partialDeepStrictEqual()</code>の追加、<code>module.registerHooks()</code>の追加、<code>util.diff()</code>の追加、zstdのサポートなど</p>
+
+<hr>
+
+<h2 id="release-pnpm-10-9-pnpm-pnpm">Release pnpm 10.9 · pnpm/pnpm</h2>
+
+<p><a href="https://github.com/pnpm/pnpm/releases/tag/v10.9.0" title="Release pnpm 10.9 · pnpm/pnpm">github.com/pnpm/pnpm/releases/tag/v10.9.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>pnpm v10.9.0リリース。<br>
+<code>pnpm add jsr:&lt;pkg_name&gt;</code>でJSRをサポート、<code>dangerouslyAllowAllBuilds</code>オプションを追加</p>
+
+<hr>
+
+<h2 id="release-release-v1-9-0-axios-axios">Release Release v1.9.0 · axios/axios</h2>
+
+<p><a href="https://github.com/axios/axios/releases/tag/v1.9.0" title="Release Release v1.9.0 · axios/axios">github.com/axios/axios/releases/tag/v1.9.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>axios v1.9.0リリース。<br>
+<code>getSetCookie</code>のサポート</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="react-labs-view-transitions-activity-and-more-react">React Labs: View Transitions, Activity, and more – React</h2>
+
+<p><a href="https://react.dev/blog/2025/04/23/react-labs-view-transitions-activity-and-more" title="React Labs: View Transitions, Activity, and more – React">react.dev/blog/2025/04/23/react-labs-view-transitions-activity-and-more</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>Reactの実験的な機能の紹介。<br>
+<code>&lt;ViewTransition&gt;</code>/<code>addTransitionType</code>/<code>&lt;Activity&gt;</code>。<br>
+DevToolsでReactのPerformance Profilerの可視化、依存のない<code>useEffect</code>、React Compilerなどについて</p>
+
+<hr>
+
+<h2 id="tailwind-vs-linaria-performance-investigation">Tailwind vs Linaria: Performance Investigation</h2>
+
+<p><a href="https://www.developerway.com/posts/tailwind-vs-linaria-performance" title="Tailwind vs Linaria: Performance Investigation">www.developerway.com/posts/tailwind-vs-linaria-performance</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p>TailwindとLinariaのパフォーマンスを比較調査した記事。<br>
+調査していくと、ベースとなるスタイルで<code>*</code>に対するスタイルが存在することで実行時のパフォーマンスに差異が発生していたという話</p>
+
+<hr>
+
+<h2 id="introducing-socket-fix-for-safe-automated-dependency-upgrad">Introducing Socket Fix for Safe, Automated Dependency Upgrad...</h2>
+
+<p><a href="https://socket.dev/blog/introducing-socket-fix" title="Introducing Socket Fix for Safe, Automated Dependency Upgrad...">socket.dev/blog/introducing-socket-fix</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">pnpm</span> <span class="jser-tag">article</span></p></p>
+
+<p>パッケージのセキュリティアップデートの修正を行う<code>socket fix</code>コマンドについて。<br>
+npm/pnpmをサポートしている。</p>
+
+<hr>
+
+<h2 id="polishing-your-typography-with-line-height-units-webkit">Polishing your typography with line height units | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/16831/line-height-units/" title="Polishing your typography with line height units | WebKit">webkit.org/blog/16831/line-height-units/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>1lh</code>は1 line heightで1行の高さを表す単位、<code>1rlh</code>はremと同じくRootの1行の高さを表す単位。<br>
+<code>1lh</code>を使ったタイポグラフィについて</p>
+
+<hr>
+
+<h2 id="boost-node-js-with-v8-gc-optimization">Boost Node.js with V8 GC Optimization</h2>
+
+<p><a href="https://blog.platformatic.dev/optimizing-nodejs-performance-v8-memory-management-and-gc-tuning" title="Boost Node.js with V8 GC Optimization">blog.platformatic.dev/optimizing-nodejs-performance-v8-memory-management-and-gc-tuning</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">V8</span> <span class="jser-tag">article</span> <span class="jser-tag">performance</span></p></p>
+
+<p>V8の世代別GCは、Scavengeという高速なGCをsemi-spaceのオブジェクトに行い、何回か生き残ったオブジェクトを昇格し、GCの頻度が少ないspaceに移動させる。<br>
+間違って昇格したオブジェクトが多いとなかなかメモリから解放されないため、このsemi-spaceのサイズを調整するオプションやメモリチューニングの方法についてなど</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="unnoq-orpc-typesafe-apis-made-simple">unnoq/orpc: Typesafe APIs Made Simple 🪄</h2>
+
+<p><a href="https://github.com/unnoq/orpc?tab=readme-ov-file" title="unnoq/orpc: Typesafe APIs Made Simple 🪄">github.com/unnoq/orpc?tab&#x3D;readme-ov-file</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">OpenAPI</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">library</span></p></p>
+
+<p>ルーティングの定義からOpen API Specを出力できるサーバ/クライアントのHTTPフレームワーク</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="slevithan-oniguruma-to-es-convert-patterns-from-oniguruma-the-regex-flavor-used-by-ruby-textmate-grammars-etc-to-native-javascript-regexp">slevithan/oniguruma-to-es: Convert patterns from Oniguruma (the regex flavor used by Ruby, TextMate grammars, etc.) to native JavaScript RegExp</h2>
+
+<p><a href="https://github.com/slevithan/oniguruma-to-es" title="slevithan/oniguruma-to-es: Convert patterns from Oniguruma (the regex flavor used by Ruby, TextMate grammars, etc.) to native JavaScript RegExp">github.com/slevithan/oniguruma-to-es</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">RegExp</span></p></p>
+
+<p>Onigurumaの正規表現をJavaScriptの正規表現に変換するライブラリ</p>
+
+<hr>
+
+<h2 id="nom-nom-hub-flash-install-a-fast-drop-in-replacement-for-npm-install-focused-on-drastically-speeding-up-node-js-dependency-installation-through-deterministic-caching-parallel-operations-and-flashpack-archive-snapshotting">Nom-nom-hub/flash-install: A fast, drop-in replacement for npm install, focused on drastically speeding up Node.js dependency installation through deterministic caching, parallel operations, and .flashpack archive snapshotting.</h2>
+
+<p><a href="https://github.com/Nom-nom-hub/flash-install" title="Nom-nom-hub/flash-install: A fast, drop-in replacement for npm install, focused on drastically speeding up Node.js dependency installation through deterministic caching, parallel operations, and .flashpack archive snapshotting.">github.com/Nom-nom-hub/flash-install</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">console</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>キャッシュとスナップショットをサポートしたnpmパッケージのインストールを行うツール。<br>
+ハッシュベースのパスとhard linkを使ったキャッシュ、<code>.flashpack</code>というスナップショットファイルを扱うことができブランチ切り替え時の復元が高速に行える。</p>
+
+<hr>
+
+<h2 id="andrewmd5-hako-an-embeddable-lightweight-secure-high-performance-javascript-engine">andrewmd5/hako: An embeddable, lightweight, secure, high-performance JavaScript engine.</h2>
+
+<p><a href="https://github.com/andrewmd5/hako" title="andrewmd5/hako: An embeddable, lightweight, secure, high-performance JavaScript engine.">github.com/andrewmd5/hako</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">WebAssembly</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p></p>
+
+<p>QuickJSベースのWebAssemblyにコンパイルして利用するJavaScriptエンジン。<br>
+Lynx/primjsをforkしたものをベースにしている。</p>
+
+<ul>
+<li><a href="https://github.com/lynx-family/primjs" title="lynx-family/primjs: JavaScript Engine Optimized for Lynx">lynx-family/primjs: JavaScript Engine Optimized for Lynx</a></li>
+<li><a href="https://andrews.substack.com/p/hako" title="Hako - by Andrew Sampson - ./make">Hako - by Andrew Sampson - ./make</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2025/2025-04-27-node-v22.15.0-react-node.jsv8-gc.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["nodejs","React","pnpm","css","performance"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>nodejs</li>
+                
+                <li>React</li>
+                
+                <li>pnpm</li>
+                
+                <li>css</li>
+                
+                <li>performance</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/2025/04/27/node-v22.15.0-react-node.jsv8-gc/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">2025-04-27のJS: Node v22.15.0、Reactの実験的な機能、Node.jsとV8 GC</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/04/17/zod-4-beta-next.js-15.3rspack-llm/">2025-04-17のJS: Zod 4 beta、Next.js 15.3とRspack、LLMを使ったテストのマイグレーション</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/04/09/express-5.1-safari-18.4-eslint-bulk-suppressions/">2025-04-09のJS: express 5.1(正式リリース)、Safari 18.4、ESLint bulk suppressions</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/04/03/next.js-lts-policy-rsdoctor-1.0-zxlite/">2025-04-03のJS: Next.js LTS Policy、Rsdoctor 1.0、zx@lite</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/03/25/node.js-v20.19.0-valibot-v1-css-relative-colors/">2025-03-25のJS: Node.js v20.19.0、Valibot v1、CSS Relative Colors</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/03/12/react-aria-march-5-2025-firefox-136.0-typescriptgo/">2025-03-12のJS: React Aria March 5, 2025、Firefox 136.0、TypeScriptコンパイラをGoに移植</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/03/06/typescript-5.8erasablesyntaxonly-next.js-15.2-lynx/">2025-03-06のJS: TypeScript 5.8(erasableSyntaxOnly)、Next.js 15.2、Lynx</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/02/24/create-react-app-deno-2.2-bun-1.2.3-eslintcss/">2025-02-24のJS: Create React Appが非推奨に、Deno 2.2、Bun 1.2.3、ESLintのCSSサポート</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
