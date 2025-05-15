@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JSer.info의 MCP 서버를 공개했습니다 - JSer.info</title>
+    <meta name="description" content="AI Agent 같은 곳에서, JSer.info 데이터에 접근하기 위한 Model Context Protocol (MCP) 서버를 공개했습니다.">
+    
+    <meta name="keywords" content="JSer.info" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2025-05-09T12:30:00+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="잡담" property="article:section">
+      
+    
+    
+      
+      <meta content="JSer.info" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2025/05/09/jser-mcp/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="AI Agent 같은 곳에서, JSer.info 데이터에 접근하기 위한 Model Context Protocol (MCP) 서버를 공개했습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="JSer.info의 MCP 서버를 공개했습니다">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2025/05/09/jser-mcp/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="AI Agent 같은 곳에서, JSer.info 데이터에 접근하기 위한 Model Context Protocol (MCP) 서버를 공개했습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2025-05-09T12:30:00+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2025/05/07/koa-v3.0.0-node.js-24node.js-18-eol-allfunctionscalledonload/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2025/04/17/zod-4-beta-next.js-15.3rspack-llm/">
+
+
+
+
+
+<meta property="article:tag" content="JSer.info">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2025/05/09/jser-mcp/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2025/05/09/jser-mcp/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2025/05/09/jser-mcp/">JSer.info의 MCP 서버를 공개했습니다</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2025年05月09日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2025/2025-05-09-jser-mcp.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2025/2025-05-09-jser-mcp.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2025/05/09/jser-mcp/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>AI Agent 같은 곳에서, JSer.info 데이터에 접근하기 위한 <a href="https://modelcontextprotocol.io/introduction">Model Context Protocol (MCP)</a> 서버를 공개했습니다.</p>
+
+<h2 id="jser-mcp"><a href="https://github.com/jser/mcp"><code>jser/mcp</code></a>이란</h2>
+
+<p><a href="https://github.com/jser/mcp"><code>jser/mcp</code></a>이란, <a href="http://JSer.info">JSer.info</a> 데이터셋에 프로그램으로 접근하기 위한 MCP 서버입니다.<br>
+MCP는, AI 에이전스나 개발도구가 외부 데이터 소스나 기능과 연계하기 위한 프로토콜입니다.<br>
+<code>jser/mcp</code> 이용함으로, JSer.info 가 소개한 아이템이나 작성한 글, URL 프로덕트명 (JSer.info 소개에서 이용하고 있음)을 얻을 수 있습니다.</p>
+
+<h2 id="jser-mcp-tools"><a href="https://github.com/jser/mcp"><code>jser/mcp</code></a> 제공하는 tools</h2>
+
+<p><code>jser/mcp</code>에 접속하면, 이하의 도구를 이용할 수 있습니다.</p>
+
+<ul>
+<li><strong><code>jser_search_items</code></strong>: JSer.info에 등록된 아이템 (글, 슬라이드, 라이브러리)를, 타이틀, 설명문, URL, 태그 같은 정보 기반으로 검색합니다. 복수의 키워드 지정한 경우에는 OR 검색입니다.</li>
+<li><strong><code>jser_search_posts</code></strong>: JSer.info의 주간 정리 글을, 타이틀, 설명문, URL, 태그 같은 정보 검색합니다.</li>
+<li><strong><code>jser_product_name</code></strong>: 지정된 URL에서 프로덕트명(예시: Deno, React) 를 지정해서 얻습니다. 연관 정보로, 그 URL이 리소스 노트인 확률이나 버전 정보를 포함할 수도 있습니다.</li>
+<li><strong><code>jser_week</code></strong>: JSer.info 주간 정리 글을, 몇 호인지 지정해 얻습니다.</li>
+<li><strong><code>jser_weeks</code></strong>: 지금까지 공개된 모든 JSer.info 주간 정리 글을 얻습니다.</li>
+<li><strong><code>jser_weeks_between</code></strong>: 지정한 날짜 범위 내의 공개된  JSer.info 주간 정리 기사를 얻습니다.</li>
+<li><strong><code>jser_week_with_item_url</code></strong>: 지정 아이템 URL이 포함된 JSer.info 주간 정리 글 정보를 얻습니다.</li>
+<li><strong><code>jser_item_with_item_url</code></strong>: 지정한 URL에 맞는 아이템의 상세 정보를 얻습니다.</li>
+</ul>
+
+<p>이 도구를 이용해서, 「특정 JavaScript 라이브러리에 대한 것을 다루는 JSer.info 글 목록 얻기」같은 것이나, 「JSer.info 스타일에서 URL 글 해설」같은 것도 가능합니다.</p>
+
+<p>예를 들어, <a href="https://github.com/jser/jser.info/blob/gh-pages/.github/prompts/jser-info-article.prompt.md">jser-info-article.prompt.md</a> 같은 프롬프트를 사용해, 다음과 같은 URL 전달하면, JSer.info 스타일로 글을 해설합니다.</p>
+
+<ul>
+<li>URL: <a href="https://github.com/reduxjs/redux-toolkit/releases/tag/v2.8.0">https://github.com/reduxjs/redux-toolkit/releases/tag/v2.8.0</a></li>
+</ul>
+<div class="highlight"><pre><code class="language-" data-lang="">Redux Toolkit v2.8.0 출시.
+React Native 패키지 엑스포트를 수정 / Infinite Query 기본 파라메타 함수에 `queryArg` 추가.
+</code></pre></div>
+<p>같은 해설문을 생성할 수 있습니다.</p>
+
+<h2 id="jser-mcp"><code>jser/mcp</code> 이용 방법</h2>
+
+<p><code>jser/mcp</code>은, VSCode 같은 MCP 클라이언트에서 이용 가능합니다.<br>
+주된 이용방법으로, 공개된 원격 서버에 접속하는 방법과, 로컬 환경에서 서버를 동작하는 방법이 있습니다.</p>
+
+<h3 id="part-5b0b2c8cc9f29f9a">원격 서버 이용</h3>
+
+<p>공개된 원격 서버의 엔드포인트는 <code>https://mcp.jser.info/mcp</code> 입니다.</p>
+
+<h4 id="vscode-1">VSCode에서 설정 예시 1: 커맨드 라인에서 추가</h4>
+
+<p>VSCode가 설치된 환경에서는, 터미널에서 이하의 커맨드를 실행함으로 MCP 서버 정보를 추가할 수 있습니다.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">code <span class="nt">--add-mcp</span> <span class="s1">'{"name":"jser-info-mcp","url":"https://mcp.jser.info/mcp"}'</span>
+</code></pre></div>
+<h4 id="vscode-2-settings-json">VSCode에서 설정 예시 2: <code>settings.json</code> 에 추가</h4>
+
+<p>VSCode의 <code>settings.json</code> 파일에 이하 같은 설정을 작성함으로 이용 가능합니다.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"mcp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"servers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"jser-info-mcp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://mcp.jser.info/mcp"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<h3 id="part-3a3d1311c95bd279">로컬 서버 이용</h3>
+
+<p>로컬 환경에서 서버를 동작해서 이용하는 것도 가능합니다.</p>
+
+<ol>
+<li>터미널에서 <code>@jser/mcp</code> 패키지를 실행해 서버를 동작합니다.</li>
+</ol>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">npx @jser/mcp
+</code></pre></div>
+<ol>
+<li>VSCode의 명령어 팔렛트 (Cmd+Shift+P 혹은 Ctrl+Shift+P) 에서「MCP: Add Server...」선택합니다.</li>
+<li>서버 URL로, 로컬 서버가 listen하고 있는 <code>http://localhost:14561/mcp</code> 입력해 접속합니다.</li>
+</ol>
+
+<h2 id="part-26a86f439de86de3">데이터 소스</h2>
+
+<p>JSer.info 데이터는 <a href="https://github.com/jser/dataset">jser/dataset: JSer.info 데이터셋이나 처리 라이브러리</a>에서 다룹니다.<br>
+기본적으로 지금까지 소개된 글이나 업로드한 글이 JSON으로 얻을 수 있습니다.</p>
+
+<p>URL에서 프로덕트명(라이브러리명)를 과거 JSer.info 데이터 기반으로 합니다.<br>
+이 기능은 하나의 Web API로 공개합니다.</p>
+
+<ul>
+<li><a href="https://github.com/jser/product-name">JSer.info Product Name API</a></li>
+</ul>
+
+<h2 id="part-4a9737eeb3616769">연관 정보</h2>
+
+<p><code>jser/mcp</code>에서 관련해 상세 정보나 최신 정보에 대해서는, 이하의 레포지토리를 참조해주세요.</p>
+
+<ul>
+<li>레포지토리 <a href="https://github.com/jser/mcp">https://github.com/jser/mcp</a></li>
+</ul>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2025/2025-05-09-jser-mcp.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["JSer.info"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>JSer.info</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2025/05/09/jser-mcp/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/09/jser-mcp/">JSer.info의 MCP 서버를 공개했습니다</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/07/koa-v3.0.0-node.js-24node.js-18-eol-allfunctionscalledonload/">2025-05-07: koa v3.0.0, Node.js 24とNode.js 18 EOL, `//# allFunctionsCalledOnLoad`</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">2025-04-27: Node v22.15.0, React 실험적 기능, Node.js와 V8 GC</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/04/17/zod-4-beta-next.js-15.3rspack-llm/">2025-04-17: Zod 4 beta, Next.js 15.3과 Rspack, LLM를 사용한 테스트 이행</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/04/09/express-5.1-safari-18.4-eslint-bulk-suppressions/">2025-04-09: express 5.1(정식 출시), Safari 18.4, ESLint bulk suppressions</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/04/03/next.js-lts-policy-rsdoctor-1.0-zxlite/">2025-04-03: Next.js LTS Policy, Rsdoctor 1.0, zx@lite</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/03/25/node.js-v20.19.0-valibot-v1-css-relative-colors/">2025-03-25: Node.js v20.19.0, Valibot v1, CSS Relative Colors</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/03/12/react-aria-march-5-2025-firefox-136.0-typescriptgo/">2025-03-12: React Aria March 5, 2025, Firefox 136.0, TypeScript 컴포넌트를 Go로 이식</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
