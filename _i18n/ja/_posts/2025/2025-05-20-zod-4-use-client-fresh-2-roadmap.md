@@ -1,0 +1,232 @@
+---
+title: '2025-05-20のJS: Zod 4、"use client"、Fresh 2 Roadmap'
+author: "azu"
+layout: post
+date: 2025-05-20T14:11:55.779Z
+category: JSer
+tags:
+- React
+- Design
+- video
+- GraphQL
+- jsx
+
+---
+
+JSer.info #735 - Zod 4がリリースされました。
+
+また、zod@4自体は公開されていませんが、`zod@3.25.0`がリリースされ、`zod/v4`として参照できるようになっています。
+
+- [Introducing Zod 4 | Zod](https://zod.dev/v4)
+- [Migration guide | Zod](https://zod.dev/v4/changelog)
+
+Zod 4では、型チェックのパフォーマンスとバンドルサイズの改善が行われています。
+また、スキーマにメタデータを紐付ける`z.registry()`や`toJSONSchema()`の追加、i18nのサポートなどが追加されています。破壊的変更として、トップレベルの文字列形式の変更やメールアドレスの正規表現の変更などが含まれています。
+
+----
+
+Reactの`"use client"`ディレクティブの役割について解説した記事が公開されました。
+
+- [What Does "use client" Do? — overreacted](https://overreacted.io/what-does-use-client-do/)
+
+この記事では、`"use client"`や`"use server"`は、コードがクライアント側またはサーバー側のどちらで実行されるかをマークするものではなく、`"use client"`はクライアントコンポーネントのコードをサーバーコンポーネントから参照可能にするためのものであるとうことについて説明されています。
+
+----
+
+DenoのウェブフレームワークであるFreshのバージョン2に関するロードマップが公開されました。
+
+- [An Update on Fresh | Deno](https://deno.com/blog/an-update-on-fresh)
+
+Fresh 2は2025年9月のリリースを目標としており、現在はアルファ版が公開されています。
+記事では、Fresh 2での変更予定について説明されています。
+
+----
+
+{% include inline-support.html %}
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Release v19.0.0 · facebook/relay
+[github.com/facebook/relay/releases/tag/v19.0.0](https://github.com/facebook/relay/releases/tag/v19.0.0 "Release v19.0.0 · facebook/relay")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">GraphQL</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Relay v19.0.0リリース。
+`@alias`がconditional fragmentsに必須となるように変更、ドキュメントの改善、React 19の対応など。
+
+
+----
+
+## Version v8.0.0 | Mantine
+[mantine.dev/changelog/8-0-0/](https://mantine.dev/changelog/8-0-0/ "Version v8.0.0 | Mantine")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Mantine v8.0.0リリース。
+DatePickerが`Date`ではなく`string`を扱うように変更、CodeHighlightにshikiを使うように変更。
+Menuコンポーネントがsubmenusをサポート、TimePickerコンポーネントを追加など
+
+
+----
+
+## WebKit Features in Safari 18.5 | WebKit
+[webkit.org/blog/16923/webkit-features-in-safari-18-5/](https://webkit.org/blog/16923/webkit-features-in-safari-18-5/ "WebKit Features in Safari 18.5 | WebKit")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webkit</span> <span class="jser-tag">safari</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Safari 18.5の変更点。
+Declarative Web PushをmacOSでもサポート。
+
+
+----
+
+## Node.js — Wednesday, May 14, 2025 Security Releases
+[nodejs.org/en/blog/vulnerability/may-2025-security-releases](https://nodejs.org/en/blog/vulnerability/may-2025-security-releases "Node.js — Wednesday, May 14, 2025 Security Releases")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node.js 24.x、23.x、22.x、20.x に対するセキュリティアップデートがそれぞれ公開されている。
+
+
+----
+
+## Release pnpm 10.11 · pnpm/pnpm
+[github.com/pnpm/pnpm/releases/tag/v10.11.0](https://github.com/pnpm/pnpm/releases/tag/v10.11.0 "Release pnpm 10.11 · pnpm/pnpm")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p>
+
+pnpm v10.11.0リリース。
+`pnpm init`に`init-type=module`オプションの追加、`pnpm audit`に`--ignore`と`--ignore-unfixable`フラグの追加
+
+
+----
+
+## Introducing Zod 4 | Zod
+[zod.dev/v4](https://zod.dev/v4 "Introducing Zod 4 | Zod")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p>
+
+zod 4リリース。
+zod 3.25.0がリリースされ`zod/v4`として参照できるようになっている。
+型チェックのパフォーマンスとbundle sizeの改善、zod miniパッケージの追加。スキーマに紐付けたメタデータを管理する`z.regisry()`の追加、`toJSONSchema()`の追加、i18nのサポート。
+トップレベルの文字列形式の変更、メールアドレスの正規表現を変更できるように、テンプレートリテラル型のサポートなど
+
+- [Migration guide | Zod](https://zod.dev/v4/changelog "Migration guide | Zod")
+
+----
+
+## May 19, 2025 Release – React Spectrum Releases
+[react-spectrum.adobe.com/releases/2025-05-19.html](https://react-spectrum.adobe.com/releases/2025-05-19.html "May 19, 2025 Release – React Spectrum Releases")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+React Aria May 19, 2025リリース。
+`useTreeData`に`moveBefore`と`moveAfter`メソッドの追加、`shouldSelectOnPressUp` propsをcollection componentsに追加など。
+React 19のref cleanup callbackのサポートなど
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## Converting values to strings in JavaScript has pitfalls
+[2ality.com/2025/04/stringification-javascript.html](https://2ality.com/2025/04/stringification-javascript.html "Converting values to strings in JavaScript has pitfalls")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
+
+JavaScriptで値を文字列に変換する方法の比較
+
+
+----
+
+## An Update on Fresh | Deno
+[deno.com/blog/an-update-on-fresh](https://deno.com/blog/an-update-on-fresh "An Update on Fresh | Deno")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">article</span></p>
+
+Fresh 2のマイルストーンについて。
+2025年9月にリリースする予定で、alpha版を公開している
+
+
+----
+
+## ESLint can now lint HTML using the html-eslint language plugin - ESLint - Pluggable JavaScript Linter
+[eslint.org/blog/2025/05/eslint-html-plugin/](https://eslint.org/blog/2025/05/eslint-html-plugin/ "ESLint can now lint HTML using the html-eslint language plugin - ESLint - Pluggable JavaScript Linter")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ESLint</span> <span class="jser-tag">HTML</span> <span class="jser-tag">article</span></p>
+
+ESLintでHTMLをLintするための`html-eslint`がリリースされた
+
+
+----
+
+## What Does &quot;use client&quot; Do? — overreacted
+[overreacted.io/what-does-use-client-do/](https://overreacted.io/what-does-use-client-do/ "What Does \&quot;use client\&quot; Do? — overreacted")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">article</span></p>
+
+`"use client"`と`"use server"`とは何かについて。
+クライアント側/サーバ側とマークする手段ではなく、`"use client"`はクライアント関数をサーバにexportするものとして認識していることについて
+
+
+----
+<h1 class="site-genre">スライド、動画関係</h1>
+
+----
+
+## Design Tokens Course with Brad Frost and Ian Frost
+[designtokenscourse.com/](https://designtokenscourse.com/ "Design Tokens Course with Brad Frost and Ian Frost")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Design</span> <span class="jser-tag">video</span></p>
+
+Design Tokenについての講座
+
+
+----
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## ije/mono-jsx: \`&lt;html&gt;\` as a \`Response\`.
+[github.com/ije/mono-jsx](https://github.com/ije/mono-jsx "ije/mono-jsx: \`&lt;html&gt;\` as a \`Response\`.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">jsx</span> <span class="jser-tag">server</span> <span class="jser-tag">library</span></p>
+
+JSX Runtimeライブラリ。
+サーバサイドのテンプレートとしてJSXを利用でき、コンポーネントのStateやStreaming Renderingをサポートしている
+
+
+----
+
+## aidenybai/bippy: ⚠️ hack into react internals
+[github.com/aidenybai/bippy](https://github.com/aidenybai/bippy "aidenybai/bippy: ⚠️ hack into react internals")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">debug</span> <span class="jser-tag">Tools</span> <span class="jser-tag">library</span></p>
+
+Reactの内部状態を使ってReactアプリケーションをデバッグするツール/ライブラリ。
+React DevTools向けの処理を使って内部状態を見ている
+
+
+----
+
+## webdiscus/ansis: CJS/ESM ANSI color library for CI, terminals and Chromium-based browser consoles. Compatible with Bun, Deno, Next.JS.
+[github.com/webdiscus/ansis](https://github.com/webdiscus/ansis "webdiscus/ansis: CJS/ESM ANSI color library for CI, terminals and Chromium-based browser consoles. Compatible with Bun, Deno, Next.JS.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">color</span></p>
+
+ANSI colorライブラリ
+
+
+----
+
+## macieklamberski/feedsmith: Robust and fast parser and generator for RSS, Atom, JSON Feed, and RDF feeds, with support for Podcast, iTunes, Dublin Core, and OPML files.
+[github.com/macieklamberski/feedsmith](https://github.com/macieklamberski/feedsmith "macieklamberski/feedsmith: Robust and fast parser and generator for RSS, Atom, JSON Feed, and RDF feeds, with support for Podcast, iTunes, Dublin Core, and OPML files.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">rss</span> <span class="jser-tag">library</span></p>
+
+RSSとOPMLのパーサ/ジェネレータライブラリ
+
+
+----
+<h1 class="site-genre">書籍関係</h1>
+
+----
+
+## ハイパーメディアシステム | 技術評論社
+[gihyo.jp/book/2025/978-4-297-14945-1](https://gihyo.jp/book/2025/978-4-297-14945-1 "ハイパーメディアシステム | 技術評論社")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">book</span></p>
+
+2025年6月11日発売
+htmxについての書籍。
+
+
+----
