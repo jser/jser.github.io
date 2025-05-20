@@ -1,5 +1,5 @@
 ---
-title: "2025-05-20のJS: Zod 4、"use client"、Fresh 2 Roadmap"
+title: '2025-05-20のJS: Zod 4、"use client"、Fresh 2 Roadmap'
 author: "azu"
 layout: post
 date: 2025-05-20T14:06:04.156Z
@@ -13,17 +13,32 @@ tags:
 
 ---
 
-JSer.info #735 - - [Introducing Zod 4 | Zod](https://zod.dev/v4)
-- [Migration guide | Zod](https://zod.dev/v4/changelog)
+JSer.info #735 - Zod 4がリリースされました。
+
+また、zod@4自体は公開されていませんが、`zod@3.25.0`がリリースされ、`zod/v4`として参照できるようになっています。
+
 - [Introducing Zod 4 | Zod](https://zod.dev/v4)
+- [Migration guide | Zod](https://zod.dev/v4/changelog)
+
+Zod 4では、型チェックのパフォーマンスとバンドルサイズの改善が行われています。
+また、スキーマにメタデータを紐付ける`z.registry()`や`toJSONSchema()`の追加、i18nのサポートなどが追加されています。破壊的変更として、トップレベルの文字列形式の変更やメールアドレスの正規表現の変更などが含まれています。
 
 ----
+
+Reactの`"use client"`ディレクティブの役割について解説した記事が公開されました。
 
 - [What Does "use client" Do? — overreacted](https://overreacted.io/what-does-use-client-do/)
 
+この記事では、`"use client"`や`"use server"`は、コードがクライアント側またはサーバー側のどちらで実行されるかをマークするものではなく、`"use client"`はクライアントコンポーネントのコードをサーバーコンポーネントから参照可能にするためのものであるとうことについて説明されています。
+
 ----
 
+DenoのウェブフレームワークであるFreshのバージョン2に関するロードマップが公開されました。
+
 - [An Update on Fresh | Deno](https://deno.com/blog/an-update-on-fresh)
+
+Fresh 2は2025年9月のリリースを目標としており、現在はアルファ版が公開されています。
+記事では、Fresh 2での変更予定について説明されています。
 
 ----
 
