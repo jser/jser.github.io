@@ -2,7 +2,7 @@
 title: '2025-05-20のJS: Zod 4、"use client"、Fresh 2 Roadmap'
 author: "azu"
 layout: post
-date: 2025-05-20T14:06:04.156Z
+date: 2025-05-20T14:11:55.779Z
 category: JSer
 tags:
 - React
