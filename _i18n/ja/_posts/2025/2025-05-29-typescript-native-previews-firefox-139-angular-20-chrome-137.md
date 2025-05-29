@@ -2,7 +2,7 @@
 title: "2025-05-29のJS: TypeScript Native Previews、Firefox 139、Angular 20、Chrome 137"
 author: "azu"
 layout: post
-date: 2025-05-29T01:22:21.969Z
+date: 2025-05-29T01:31:32.863Z
 category: JSer
 tags:
 - TypeScript
