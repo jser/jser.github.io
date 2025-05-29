@@ -13,21 +13,41 @@ tags:
 
 ---
 
-JSer.info #736 - - [Announcing TypeScript Native Previews - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-native-previews/)
+JSer.info #736 - TypeSciptのGo言語でのネイティブ実装である`@typescript/native-preview`が公開されました。
+
+- [Announcing TypeScript Native Previews - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-native-previews/)
+
+TypeScriptをGo言語に移植した実装で、コンパイラである`tsgo`と合わせてVSCode拡張などもリリースされています。
+
+- [TypeScriptネイティブ移植観察レポート TSKaigi 2025 - Speaker Deck](https://speakerdeck.com/berlysia/typescript-native-porting-observation-tskaigi-2025)
+
 
 ---
+
+Firefox 139がリリースされました。
 
 - [Firefox 139.0, See All New Features, Updates and Fixes](https://www.mozilla.org/en-US/firefox/139.0/releasenotes/)
 - [Firefox 139 for developers - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/139)
 
-----
+`hidden=until-found`属性のサポートとTemporal APIの実装が含まれています。実験的機能として、Prioritized Task Scheduling API、View Transition API、HTMLの属性における`<`と`>`の自動エスケープ機能が追加されています。
+
+---
+
+Angular v20がリリースされました。
 
 - [Announcing Angular v20. The past couple of years have been… | by Minko Gechev | May, 2025 | Angular Blog](https://blog.angular.dev/announcing-angular-v20-b5c9c06cf301)
 
-----
+`effect`、`linkedSignal`、`toSignal`、Incremental hydrationとroute-level render mode configがStableに変更されました。ZonelessはDeveloper Previewに移行し、実験的機能として`httpResource`とvitestサポートが追加されています。また、Chrome DevToolsでのAngular固有のパフォーマンス情報を扱う`ng.enableProfiling()` APIが追加されています。
+また、`*ngIf`/`*ngFor`/`*ngSwitch`の非推奨化も含まれています。
 
-https://developer.chrome.com/blog/new-in-chrome-137
-https://developer.chrome.com/release-notes/137
+---
+
+Chrome 137がリリースされました。
+
+- [New in Chrome 137  |  Blog  |  Chrome for Developers](https://developer.chrome.com/blog/new-in-chrome-137)
+- [Chrome 137  |  Release notes  |  Chrome for Developers](https://developer.chrome.com/release-notes/137)
+
+CSS関連では条件付き値を表現する`if()`関数と、フォーカスナビゲーション順序を制御する`reading-flow`/`reading-order`プロパティが追加されました。Web API関連では、Selection APIに`getComposedRanges()`と`direction`プロパティ、Web CryptographyでのEd25519サポートが追加されています。WebAssemblyでは、JavaScript Promise Integration（JSPI）の正式サポートが含まれています。
 
 ----
 
