@@ -1,0 +1,167 @@
+---
+title: "2025-06-06のJS: Rolldown-Vite、Vite 3.2、React RouterのGovernance Model"
+author: "azu"
+layout: post
+date: 2025-06-05T22:12:07.241Z
+category: JSer
+tags:
+- vite
+- Rust
+- nodejs
+- babel
+- DOM
+
+---
+
+JSer.info #737 - - https://vitest.dev/blog/vitest-3-2.html
+- https://voidzero.dev/posts/announcing-rolldown-vite
+- https://remix.run/blog/rr-governance
+
+----
+
+{% include inline-support.html %}
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Release v8.0.0-beta.0 · babel/babel
+[github.com/babel/babel/releases/tag/v8.0.0-beta.0](https://github.com/babel/babel/releases/tag/v8.0.0-beta.0 "Release v8.0.0-beta.0 · babel/babel")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Babel v8.0.0-beta.0リリース。
+
+
+----
+
+## Vitest 3.2 is out! | Vitest
+[vitest.dev/blog/vitest-3-2.html](https://vitest.dev/blog/vitest-3-2.html "Vitest 3.2 is out! | Vitest")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">test</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Vitest 3.2リリース。
+`workspace`オプションを非推奨にし`vitest.workspace`ファイルを推奨するように変更。
+`context.annotate` APIの追加、`test.extends`に`scope`オプションを追加、`locators.extend`を追加、`context.signal`の追加。
+`using`でモック関数の自動クリーンアップができるようになり、`sequence.groupOrder`オプションの追加など
+
+
+----
+
+## Release astro@5.9.0 · withastro/astro
+[github.com/withastro/astro/releases/tag/astro%405.9.0](https://github.com/withastro/astro/releases/tag/astro%405.9.0 "Release astro@5.9.0 · withastro/astro")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">astro</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Astro v5.9.0リリース。
+実験的な機能としてContent Security Policy（CSP）サポートの追加、content loaderにMarkdownレンダラーの提供。
+アダプター向けに`supportedAstroFeatures`オプションを追加など
+
+
+----
+
+## ECMAScript proposal updates @ 2025-05 | ECMAScript Daily
+[ecmascript-daily.github.io/ecmascript/2025/06/05/ecmascript-proposal-update](https://ecmascript-daily.github.io/ecmascript/2025/06/05/ecmascript-proposal-update "ECMAScript proposal updates @ 2025-05 | ECMAScript Daily")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">news</span></p>
+
+2025年5月のTC39ミーティングでのECMAScript Proposalのステータス変更まとめ。
+Inspector/More Random FunctionsがStage 1に新規追加。
+SeededPRNG/`Math.clamp`がStage 2に。
+Error.isErrorがStage 4になりES2026で入る。
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## Announcing Rolldown-Vite | VoidZero
+[voidzero.dev/posts/announcing-rolldown-vite](https://voidzero.dev/posts/announcing-rolldown-vite "Announcing Rolldown-Vite | VoidZero")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">Rust</span> <span class="jser-tag">article</span></p>
+
+Rolldown-Viteのリリース。
+RolldownベースのViteで`rolldown-vite`パッケージとして公開されている
+
+
+----
+
+## Resilient Import Maps - Better Theme Development and Beyond (2025) - Shopify
+[shopify.engineering/resilient-import-maps](https://shopify.engineering/resilient-import-maps "Resilient Import Maps - Better Theme Development and Beyond (2025) - Shopify")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">module</span> <span class="jser-tag">article</span></p>
+
+Import Mapsは複数定義があると動かないなど問題があったが、仕様やブラウザ側を修正していったという話
+
+
+----
+
+## Seamlessly Blend PHP with Node.js
+[blog.platformatic.dev/seamlessly-blend-php-with-nodejs](https://blog.platformatic.dev/seamlessly-blend-php-with-nodejs "Seamlessly Blend PHP with Node.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">php</span> <span class="jser-tag">article</span> <span class="jser-tag">Rust</span></p>
+
+Node.jsの中でPHPを動かす`@platformatic/php-node`について。
+
+- [platformatic/php-node: PHP HTTP Request handler for Node.js](https://github.com/platformatic/php-node "platformatic/php-node: PHP HTTP Request handler for Node.js")
+
+----
+
+## minify の効果を最大限に引き出す TypeScript コードを書く
+[zenn.dev/j\_sakamoto/articles/1b5e1d563b1c30](https://zenn.dev/j_sakamoto/articles/1b5e1d563b1c30 "minify の効果を最大限に引き出す TypeScript コードを書く")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p>
+
+minifyされやすいコードについて
+
+
+----
+
+## React Router Open Governance | Remix
+[remix.run/blog/rr-governance](https://remix.run/blog/rr-governance "React Router Open Governance | Remix")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Remix</span> <span class="jser-tag">article</span></p>
+
+React RouterのGovernance Modelについて。
+ステージ制を含む開発のプロセスについて
+
+- [react-router/GOVERNANCE.md at main · remix-run/react-router](https://github.com/remix-run/react-router/blob/main/GOVERNANCE.md#new-feature-process "react-router/GOVERNANCE.md at main · remix-run/react-router")
+
+----
+
+## Exploring the OKLCH ecosystem and its tools—Martian Chronicles, Evil Martians’ team blog
+[evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools](https://evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools "Exploring the OKLCH ecosystem and its tools—Martian Chronicles, Evil Martians’ team blog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css</span> <span class="jser-tag">color</span> <span class="jser-tag">article</span></p>
+
+OKLCHを使い明度と彩度を一定に維持しながらテーマを扱う方法について
+
+
+----
+
+## プロファイラを利用して Node.js サーバーのレスポンス時間を 200 秒 → 20 秒に短縮した話
+[zenn.dev/dinii/articles/improve-latency-with-profiler](https://zenn.dev/dinii/articles/improve-latency-with-profiler "プロファイラを利用して Node.js サーバーのレスポンス時間を 200 秒 → 20 秒に短縮した話")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p>
+
+`node:async_hooks`を使ったログから、ブロッキング処理を見つけてCloud Profilerなどを使った処理を改善していった話
+
+
+----
+<h1 class="site-genre">スライド、動画関係</h1>
+
+----
+
+## JavaScriptフレームワークがDOMをレンダリングする3つの方法 - YouTube
+[www.youtube.com/watch?v&#x3D;0C-y59betmY](https://www.youtube.com/watch?v=0C-y59betmY "JavaScriptフレームワークがDOMをレンダリングする3つの方法 - YouTube")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">video</span></p>
+
+フレームワークのDOMのレンダリング方法について解説している動画、
+  Dirty Check、Virtual DOM、Fine-Grained Renderingについて
+
+
+----
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## almadoro/react-just: React Server Components without a framework. Powered by Vite
+[github.com/almadoro/react-just](https://github.com/almadoro/react-just "almadoro/react-just: React Server Components without a framework. Powered by Vite")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">React</span> <span class="jser-tag">Tools</span></p>
+
+ViteベースのReact Server Componentをサポートするフレームワーク。
+
+
+----
