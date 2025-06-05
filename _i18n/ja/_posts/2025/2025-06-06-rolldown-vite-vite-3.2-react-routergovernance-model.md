@@ -2,7 +2,7 @@
 title: "2025-06-06のJS: Rolldown-Vite、Vite 3.2、React RouterのGovernance Model"
 author: "azu"
 layout: post
-date: 2025-06-05T22:12:07.241Z
+date: 2025-06-05T22:16:06.098Z
 category: JSer
 tags:
 - vite
