@@ -13,9 +13,32 @@ tags:
 
 ---
 
-JSer.info #737 - - https://vitest.dev/blog/vitest-3-2.html
-- https://voidzero.dev/posts/announcing-rolldown-vite
-- https://remix.run/blog/rr-governance
+JSer.info #737 - RustベースのRolldownを利用したRolldown-Viteがリリースされました。
+
+- [Announcing Rolldown-Vite | VoidZero](https://voidzero.dev/posts/announcing-rolldown-vite)
+
+Rolldown-Viteは、Rustで書かれたRolldownベースのViteで、`rolldown-vite`パッケージとして公開されています。
+RolldownはRust製のJavaScriptバンドラーで、Rollupとの互換性を保ちながらパフォーマンスの向上を目指しています。従来のViteから移行する際の互換性や性能の改善について検証が進められています。
+
+Rolldown-Viteが安定したら`vite`パッケージに統合される予定です。
+
+---
+
+Vitest 3.2がリリースされました。
+
+- [Vitest 3.2 is out! | Vitest](https://vitest.dev/blog/vitest-3-2.html)
+
+`workspace`オプションを非推奨にし、`projects`オプション/`vitest.workspace`ファイルを推奨するように変更されています。
+また、`context.annotate` APIの追加、`test.extends`に`scope`オプションを追加、`locators.extend`の追加、`context.signal`の追加などの新機能が含まれています。`using`(Explicit Resource Management)でモック関数の自動クリーンアップができるようになり、`sequence.groupOrder`オプションも追加されています。
+
+---
+
+React RouterのGovernance Modelについて詳しく説明した記事が公開されました。
+
+- [React Router Open Governance | Remix](https://remix.run/blog/rr-governance)
+- [react-router/GOVERNANCE.md at main · remix-run/react-router](https://github.com/remix-run/react-router/blob/main/GOVERNANCE.md#new-feature-process)
+
+ステージ制を含む開発プロセスについて詳細に説明されていて、React Routerの今後の開発方針などが書かれています。
 
 ----
 
