@@ -18,7 +18,8 @@ JSer.info #737 - RustベースのRolldownを利用したRolldown-Viteがリリ�
 - [Announcing Rolldown-Vite | VoidZero](https://voidzero.dev/posts/announcing-rolldown-vite)
 
 Rolldown-Viteは、Rustで書かれたRolldownベースのViteで、`rolldown-vite`パッケージとして公開されています。
-RolldownはRust製のJavaScriptバンドラーで、Rollupとの互換性を保ちながらパフォーマンスの向上を目指しています。従来のViteから移行する際の互換性や性能の改善について検証が進められています。
+RolldownはRust製のJavaScriptバンドラーで、Rollupとの互換性を保ちながらパフォーマンスの向上を目指しています。
+従来のViteから移行する際の互換性や性能のフィードバックを得る目的で、`rolldown-vite`パッケージとして公開されました。
 
 Rolldown-Viteが安定したら`vite`パッケージに統合される予定です。
 
