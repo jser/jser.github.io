@@ -1,5 +1,5 @@
 ---
-title: "2025-06-06: Rolldown-Vite, Vite 3.2, React RouterのGovernance Model"
+title: "2025-06-06: Rolldown-Vite, Vite 3.2, React Router의 Governance Model"
 author: "azu"
 translator: rewrite0w0
 layout: post
@@ -31,7 +31,7 @@ Vitest 3.2가 출시되었습니다.
 - [Vitest 3.2 is out! | Vitest](https://vitest.dev/blog/vitest-3-2.html)
 
 `workspace` 옵션을 비권장으로하고, `projects` 옵션/`vitest.workspace` 파일을 권장하도록 변경되었습니다.
-또한, `context.annotate` API 추가, `test.extends`에 `scope` 옵션 추가, `locators.extend` 추가, `context.signal` 추가 신기능도 포함되어 있습니다. `using`(Explicit Resource Management)으로 목 함수 자동 클린업하도록 되었으며, `sequence.groupOrder` 옵션도 추가되었습니다.
+또한, `context.annotate` API 추가, `test.extends`에 `scope` 옵션 추가, `locators.extend` 추가, `context.signal` 추가 신기능도 포함되어 있습니다. `using`(Explicit Resource Management)으로 mock 함수 자동 클린업하도록 되었으며, `sequence.groupOrder` 옵션도 추가되었습니다.
 
 ---
 
@@ -68,7 +68,7 @@ Babel v8.0.0-beta.0 출시.
 Vitest 3.2 출시.
 `workspace` 옵션 비권장 `vitest.workspace` 파일을 권장 하도록 변경.
 `context.annotate` API 추가, `test.extends`에 `scope` 옵션을 추가, `locators.extend` 추가, `context.signal` 추가.
-`using`으로 목 함수르 자동 클린업할 수 있으며, `sequence.groupOrder` 옵션 추가
+`using`으로 mock 함수르 자동 클린업할 수 있으며, `sequence.groupOrder` 옵션 추가
 
 
 ----
