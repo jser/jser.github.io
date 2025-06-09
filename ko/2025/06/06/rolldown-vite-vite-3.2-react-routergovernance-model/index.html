@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2025-06-06: Rolldown-Vite, Vite 3.2, React RouterのGovernance Model - JSer.info</title>
+    <meta name="description" content="JSer.info #737 - Rust 기반 Rolldown 이용한 Rolldown-Vite가 출시되었습니다.">
+    
+    <meta name="keywords" content="vite,Rust,nodejs,babel,DOM" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2025-06-06T07:17:29+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="vite" property="article:tag">
+      
+      <meta content="Rust" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="babel" property="article:tag">
+      
+      <meta content="DOM" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #737 - Rust 기반 Rolldown 이용한 Rolldown-Vite가 출시되었습니다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2025-06-06: Rolldown-Vite, Vite 3.2, React RouterのGovernance Model">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #737 - Rust 기반 Rolldown 이용한 Rolldown-Vite가 출시되었습니다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2025-06-06T07:17:29+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2025/05/29/typescript-native-previews-firefox-139-angular-20-chrome-137/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2025/05/24/jser-14th/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2025/05/20/zod-4-use-client-fresh-2-roadmap/">
+
+
+
+
+
+<meta property="article:tag" content="vite">
+
+<meta property="article:tag" content="Rust">
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="babel">
+
+<meta property="article:tag" content="DOM">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/">2025-06-06: Rolldown-Vite, Vite 3.2, React RouterのGovernance Model</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2025年06月06日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2025/2025-06-06-rolldown-vite-vite-3.2-react-routergovernance-model.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2025/2025-06-06-rolldown-vite-vite-3.2-react-routergovernance-model.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #737 - Rust 기반 Rolldown 이용한 Rolldown-Vite가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://voidzero.dev/posts/announcing-rolldown-vite">Announcing Rolldown-Vite | VoidZero</a></li>
+</ul>
+
+<p>Rolldown-Vite는, Rust로 작성된 Rolldown 기반 Vite로, <code>rolldown-vite</code> 패키지로 공개됩니다.<br>
+Rolldown는 Rust로 만든 JavaScript 번들러인데, Rollup와 호환성을 갖으면서 성능 향상을 목표로 합니다.<br>
+앞으로 Vite에서 이행할 때 호환성이나 성능 피드백을 얻을 목적으로, <code>rolldown-vite</code> 패키지를 공개했습니다.</p>
+
+<p>Rolldown-Vite가 안정되면 <code>vite</code> 패키지와 통합될 예정입니다.</p>
+
+<hr>
+
+<p>Vitest 3.2가 출시되었습니다.</p>
+
+<ul>
+<li><a href="https://vitest.dev/blog/vitest-3-2.html">Vitest 3.2 is out! | Vitest</a></li>
+</ul>
+
+<p><code>workspace</code> 옵션을 비권장으로하고, <code>projects</code> 옵션/<code>vitest.workspace</code> 파일을 권장하도록 변경되었습니다.<br>
+또한, <code>context.annotate</code> API 추가, <code>test.extends</code>에 <code>scope</code> 옵션 추가, <code>locators.extend</code> 추가, <code>context.signal</code> 추가 신기능도 포함되어 있습니다. <code>using</code>(Explicit Resource Management)으로 목 함수 자동 클린업하도록 되었으며, <code>sequence.groupOrder</code> 옵션도 추가되었습니다.</p>
+
+<hr>
+
+<p>React Router의 Governance Model 관련해 상세한 설명한 글을 공개했습니다.</p>
+
+<ul>
+<li><a href="https://remix.run/blog/rr-governance">React Router Open Governance | Remix</a></li>
+<li><a href="https://github.com/remix-run/react-router/blob/main/GOVERNANCE.md#new-feature-process">react-router/GOVERNANCE.md at main · remix-run/react-router</a></li>
+</ul>
+
+<p>스테이지 제도를 포함한 개발 프로세스에 관련한 상세한 설명 및 React Router의 앞으로의 개발 방침이 작성되어 있습니다.</p>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="release-v8-0-0-beta-0-babel-babel">Release v8.0.0-beta.0 · babel/babel</h2>
+
+<p><a href="https://github.com/babel/babel/releases/tag/v8.0.0-beta.0" title="Release v8.0.0-beta.0 · babel/babel">github.com/babel/babel/releases/tag/v8.0.0-beta.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">babel</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Babel v8.0.0-beta.0 출시.</p>
+
+<hr>
+
+<h2 id="vitest-3-2-is-out-vitest">Vitest 3.2 is out! | Vitest</h2>
+
+<p><a href="https://vitest.dev/blog/vitest-3-2.html" title="Vitest 3.2 is out! | Vitest">vitest.dev/blog/vitest-3-2.html</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">test</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Vitest 3.2 출시.<br>
+<code>workspace</code> 옵션 비권장 <code>vitest.workspace</code> 파일을 권장 하도록 변경.<br>
+<code>context.annotate</code> API 추가, <code>test.extends</code>에 <code>scope</code> 옵션을 추가, <code>locators.extend</code> 추가, <code>context.signal</code> 추가.<br>
+<code>using</code>으로 목 함수르 자동 클린업할 수 있으며, <code>sequence.groupOrder</code> 옵션 추가</p>
+
+<hr>
+
+<h2 id="release-astro-5-9-0-withastro-astro">Release <a href="mailto:astro@5.9.0">astro@5.9.0</a> · withastro/astro</h2>
+
+<p><a href="https://github.com/withastro/astro/releases/tag/astro%405.9.0" title="Release astro@5.9.0 · withastro/astro">github.com/withastro/astro/releases/tag/astro%405.9.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">astro</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Astro v5.9.0 출시.<br>
+실험적 기능으로 Content Security Policy(CSP)지원 추가, content loader으로 Markdown 렌더러 제공.<br>
+어댑터 대상 <code>supportedAstroFeatures</code> 옵션 추가</p>
+
+<hr>
+
+<h2 id="ecmascript-proposal-updates-2025-05-ecmascript-daily">ECMAScript proposal updates @ 2025-05 | ECMAScript Daily</h2>
+
+<p><a href="https://ecmascript-daily.github.io/ecmascript/2025/06/05/ecmascript-proposal-update" title="ECMAScript proposal updates @ 2025-05 | ECMAScript Daily">ecmascript-daily.github.io/ecmascript/2025/06/05/ecmascript-proposal-update</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">news</span></p></p>
+
+<p>2025년 5월 TC39 미팅에서 ECMAScript Proposal 상태 변경 정리.<br>
+Inspector/More Random Functions가 Stage 1으로 신규 추가.<br>
+SeededPRNG/<code>Math.clamp</code>가 Stage 2으로.<br>
+Error.isError가 Stage 4가 되어 ES2026에 추가.</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="announcing-rolldown-vite-voidzero">Announcing Rolldown-Vite | VoidZero</h2>
+
+<p><a href="https://voidzero.dev/posts/announcing-rolldown-vite" title="Announcing Rolldown-Vite | VoidZero">voidzero.dev/posts/announcing-rolldown-vite</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">Rust</span> <span class="jser-tag">article</span></p></p>
+
+<p>Rolldown-Vite 출시.<br>
+Rolldown 기반 Vite로 <code>rolldown-vite</code> 패키지 공개</p>
+
+<hr>
+
+<h2 id="resilient-import-maps-better-theme-development-and-beyond-2025-shopify">Resilient Import Maps - Better Theme Development and Beyond (2025) - Shopify</h2>
+
+<p><a href="https://shopify.engineering/resilient-import-maps" title="Resilient Import Maps - Better Theme Development and Beyond (2025) - Shopify">shopify.engineering/resilient-import-maps</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">HTML</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">module</span> <span class="jser-tag">article</span></p></p>
+
+<p>Import Maps은 여럿을 정의하면 동작하지 않아서, 사양이랑 브라우저를 수정한 이야기</p>
+
+<hr>
+
+<h2 id="seamlessly-blend-php-with-node-js">Seamlessly Blend PHP with Node.js</h2>
+
+<p><a href="https://blog.platformatic.dev/seamlessly-blend-php-with-nodejs" title="Seamlessly Blend PHP with Node.js">blog.platformatic.dev/seamlessly-blend-php-with-nodejs</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">php</span> <span class="jser-tag">article</span> <span class="jser-tag">Rust</span></p></p>
+
+<p>Node.js에서 PHP 동작시키는 <code>@platformatic/php-node</code>에 대하여.</p>
+
+<ul>
+<li><a href="https://github.com/platformatic/php-node" title="platformatic/php-node: PHP HTTP Request handler for Node.js">platformatic/php-node: PHP HTTP Request handler for Node.js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="minify-typescript">minify 효과를 최대한으로 끌어내는 TypeScript 코드 작성</h2>
+
+<p><a href="https://zenn.dev/j_sakamoto/articles/1b5e1d563b1c30" title="minify 효과를 최대한으로 끌어내는 TypeScript 코드 작성">zenn.dev/j_sakamoto/articles/1b5e1d563b1c30</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>minify 되기 쉬운 코드에 대하여</p>
+
+<hr>
+
+<h2 id="react-router-open-governance-remix">React Router Open Governance | Remix</h2>
+
+<p><a href="https://remix.run/blog/rr-governance" title="React Router Open Governance | Remix">remix.run/blog/rr-governance</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Remix</span> <span class="jser-tag">article</span></p></p>
+
+<p>React Router의 Governance Model 관련하여.<br>
+스테이지 제도를 포함한 개발 프로세스 다룸</p>
+
+<ul>
+<li><a href="https://github.com/remix-run/react-router/blob/main/GOVERNANCE.md#new-feature-process" title="react-router/GOVERNANCE.md at main · remix-run/react-router">react-router/GOVERNANCE.md at main · remix-run/react-router</a></li>
+</ul>
+
+<hr>
+
+<h2 id="exploring-the-oklch-ecosystem-and-its-tools-martian-chronicles-evil-martians-team-blog">Exploring the OKLCH ecosystem and its tools—Martian Chronicles, Evil Martians’ team blog</h2>
+
+<p><a href="https://evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools" title="Exploring the OKLCH ecosystem and its tools—Martian Chronicles, Evil Martians’ team blog">evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css</span> <span class="jser-tag">color</span> <span class="jser-tag">article</span></p></p>
+
+<p>OKLCH 사용해 명도와 채도를 일정하게 유지하면서 테마를 다루는 방법</p>
+
+<hr>
+
+<h2 id="node-js-200-20">프로파일러를 이용해서 Node.js 서버의 리스폰스 시간을 200 초 → 20 초 단축한 이야기</h2>
+
+<p><a href="https://zenn.dev/dinii/articles/improve-latency-with-profiler" title="프로파일러를 이용해서 Node.js 서버의 리스폰스 시간을 200 초 → 20 초 단축한 이야기">zenn.dev/dinii/articles/improve-latency-with-profiler</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">performance</span> <span class="jser-tag">article</span></p></p>
+
+<p><code>node:async_hooks</code> 사용해 로그에서, 블록킹 처리를 발견해 Cloud Profiler 사용한 처리를 개선한 이야기</p>
+
+<hr>
+
+<h1 class="site-genre">슬라이드, 영상</h1>
+
+<hr>
+
+<h2 id="javascript-dom-3-youtube">JavaScript 프레임워크가 DOM 렌더링하는 3가지 방법 - YouTube</h2>
+
+<p><a href="https://www.youtube.com/watch?v=0C-y59betmY" title="JavaScript 프레임워크가 DOM 렌더링하는 3가지 방법 - YouTube">www.youtube.com/watch?v&#x3D;0C-y59betmY</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">DOM</span> <span class="jser-tag">video</span></p></p>
+
+<p>프레임워크 DOM 렌더링 방법 해설 영상, Dirty Check, Virtual DOM, Fine-Grained Rendering 다룸</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="almadoro-react-just-react-server-components-without-a-framework-powered-by-vite">almadoro/react-just: React Server Components without a framework. Powered by Vite</h2>
+
+<p><a href="https://github.com/almadoro/react-just" title="almadoro/react-just: React Server Components without a framework. Powered by Vite">github.com/almadoro/react-just</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vite</span> <span class="jser-tag">React</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Vite 기반 React Server Component 지원하는 프레임워크.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2025/2025-06-06-rolldown-vite-vite-3.2-react-routergovernance-model.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["vite","Rust","nodejs","babel","DOM"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>vite</li>
+                
+                <li>Rust</li>
+                
+                <li>nodejs</li>
+                
+                <li>babel</li>
+                
+                <li>DOM</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Pocket -->
+    <li>
+        <a href="https://getpocket.com/save" class="pocket-btn" data-lang="ja" data-save-url="https://jser.info/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/"
+            data-pocket-count="horizontal" data-pocket-align="left">Pocket</a>
+    </li>
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+        a("https://widgets.getpocket.com/v1/j/btn.js?v=1");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://github.com/cybozu-sponsorship.png" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/">2025-06-06: Rolldown-Vite, Vite 3.2, React RouterのGovernance Model</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/29/typescript-native-previews-firefox-139-angular-20-chrome-137/">2025-05-29: TypeScript Native Previews, Firefox 139, Angular 20, Chrome 137</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/24/jser-14th/">JSer.info 14주년</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/20/zod-4-use-client-fresh-2-roadmap/">2025-05-20: Zod 4, "use client", Fresh 2 Roadmap</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/09/jser-mcp/">JSer.info의 MCP 서버를 공개했습니다</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/05/07/koa-v3.0.0-node.js-24node.js-18-eol-allfunctionscalledonload/">2025-05-07: koa v3.0.0, Node.js 24とNode.js 18 EOL, `//# allFunctionsCalledOnLoad`</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/04/27/node-v22.15.0-react-node.jsv8-gc/">2025-04-27: Node v22.15.0, React 실험적 기능, Node.js와 V8 GC</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2025/04/17/zod-4-beta-next.js-15.3rspack-llm/">2025-04-17: Zod 4 beta, Next.js 15.3과 Rspack, LLM를 사용한 테스트 이행</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
