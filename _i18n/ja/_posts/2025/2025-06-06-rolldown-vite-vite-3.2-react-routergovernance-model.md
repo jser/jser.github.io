@@ -1,11 +1,11 @@
 ---
-title: "2025-06-06のJS: Rolldown-Vite、Vite 3.2、React RouterのGovernance Model"
+title: "2025-06-06のJS: Rolldown-Vite、Vitest 3.2、React RouterのGovernance Model"
 author: "azu"
 layout: post
 date: 2025-06-05T22:17:29.129Z
 category: JSer
 tags:
-- vite
+- vitest
 - Rust
 - nodejs
 - babel
