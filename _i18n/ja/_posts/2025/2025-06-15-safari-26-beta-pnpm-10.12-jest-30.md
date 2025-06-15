@@ -13,10 +13,35 @@ tags:
 
 ---
 
-JSer.info #738 - - [News from WWDC25: WebKit in Safari 26 beta | WebKit](https://webkit.org/blog/16993/news-from-wwdc25-web-technology-coming-this-fall-in-safari-26-beta/)
+JSer.info #738 - Safari 26 betaがリリースされました。
+
+- [News from WWDC25: WebKit in Safari 26 beta | WebKit](https://webkit.org/blog/16993/news-from-wwdc25-web-technology-coming-this-fall-in-safari-26-beta/)
+
+このバージョンからmacOSと同じく、西暦の下2桁がSafariのバージョンとなるようです。
+
+CSSでは、Anchor Positioning、Scroll-driven Animations、`text-wrap:pretty`、`contrast-color()`、`progress()`をサポートしています。
+Web APIでは、WebGPU、HDR Images、Digital Credentials API、Trusted Types API、URL Patternを新たにサポートしています。
+Web InspectorではService Workerや非同期処理のデバッグが改善されています。
+その他、SVGファビコンの対応やWebAssemblyのインタープリタ対応による実行開始速度の改善なども含まれています。
+
+---
+
+pnpm v10.12.1がリリースされました。
+
 - [Release pnpm 10.12.1 · pnpm/pnpm](https://github.com/pnpm/pnpm/releases/tag/v10.12.1)
-- [pnpm 10.12 Introduces Global Virtual Store and Expanded Vers...](https://socket.dev/blog/pnpm-introduces-global-virtual-store-and-expanded-version-catalogs)
+- [pnpm 10.12 Introduces Global Virtual Store and Expanded Version Catalogs](https://socket.dev/blog/pnpm-introduces-global-virtual-store-and-expanded-version-catalogs)
+
+実験的な機能として`enableGlobalVirtualStore`オプションでグローバル仮想ストアをサポートし、依存関係のキャッシュがある時のインストール速度が高速化されています。また、`pnpm update`がcatalogをサポートし、`catalogMode`オプションや`--save-catalog`フラグが追加されています。
+
+---
+
+Jest 30がリリースされました。
+
 - [Jest 30: Faster, Leaner, Better · Jest](https://jestjs.io/blog/2025/06/04/jest-30)
+
+Node.js 14/16/19/21のサポートを終了し、TypeScript 5.4+、jsdom 26へアップデートされています。
+[unrs-resolver](https://github.com/unrs/unrs-resolver)を使ったパフォーマンスとメモリの改善、設定ファイルのTypeScriptサポート、`import.meta`のサポート、`using`を使ったspyの自動復元などが追加されています。
+また、`expect.arrayOf`、`jest.advanceTimersToNextFrame()`、`jest.unstable_unmockModule()`などの新しいAPIも追加されています。
 
 ----
 
