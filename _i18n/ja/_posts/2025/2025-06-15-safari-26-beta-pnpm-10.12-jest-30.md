@@ -2,7 +2,7 @@
 title: "2025-06-15のJS: Safari 26 Beta、pnpm 10.12、Jest 30"
 author: "azu"
 layout: post
-date: 2025-06-15T11:32:35.162Z
+date: 2025-06-15T11:38:12.338Z
 category: JSer
 tags:
 - test
