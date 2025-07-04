@@ -34,7 +34,9 @@ Rspack 1.4 がリリースされました。
 
 - [Announcing Rspack 1.4 - Rspack](https://rspack.rs/blog/announcing-1-4)
 
-Wasm を利用したブラウザ環境での実行サポートが追加され、bundle size の改善も行われています。デフォルトで Incremental build が有効化され、実験的な CssChunkingPlugin の追加、MultiCompiler での lazy compilation サポートなどの機能強化が含まれています。また、Perfetto ベースのパフォーマンス分析ツールも追加されました。
+Wasm を利用したブラウザ環境での実行サポートが追加され、bundle size の改善も行われています。
+デフォルトで Incremental build が有効化され、実験的な CssChunkingPlugin の追加、MultiCompiler での lazy compilation サポートなどの機能強化が含まれています。
+また、Perfetto ベースのパフォーマンス分析ツールも追加されました。
 
 ---
 
@@ -42,7 +44,8 @@ Deno 2.4 がリリースされ、`deno bundle`コマンドが復活しました�
 
 - [Deno 2.4: deno bundle is back | Deno](https://deno.com/blog/v2.4)
 
-以前に廃止された`deno bundle`コマンドが復活し、テキストの`byte`インポート機能や OpenTelemetry の安定化が行われています。`--preload`フラグの追加、`deno update`コマンドの追加、package.json の conditional exports サポートなど、開発体験の向上を図る多くの機能が追加されています。
+以前に廃止された`deno bundle`コマンドが復活し、テキストの`byte`インポート機能や OpenTelemetry の安定化が行われています。
+`--preload`フラグの追加、`deno update`コマンドの追加、package.json の conditional exports サポートなど、開発体験の向上を図る多くの機能が追加されています。
 
 ---
 
