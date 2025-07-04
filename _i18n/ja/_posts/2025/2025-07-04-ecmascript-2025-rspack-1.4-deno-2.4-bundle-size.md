@@ -2,7 +2,7 @@
 title: "2025-07-04のJS: ECMAScript 2025、Rspack 1.4、Deno 2.4、Bundle Sizeの改善"
 author: "azu"
 layout: post
-date: 2025-07-04T01:25:12.237Z
+date: 2025-07-04T01:59:16.555Z
 category: JSer
 tags:
   - React
