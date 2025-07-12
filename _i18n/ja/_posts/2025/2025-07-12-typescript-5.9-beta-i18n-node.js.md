@@ -2,7 +2,7 @@
 title: "2025-07-12のJS: TypeScript 5.9 Beta、i18nとローカライズ、Node.jsのモダンな機能"
 author: "azu"
 layout: post
-date: 2025-07-12T07:51:38.417Z
+date: 2025-07-12T07:52:38.994Z
 category: JSer
 tags:
 - TypeScript
