@@ -13,9 +13,27 @@ tags:
 
 ---
 
-JSer.info #741 - - [Announcing TypeScript 5.9 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-9-beta/)
-- [4 Untranslatable Words Behind Patreon’s Internationalization Overhaul](https://www.patreon.com/posts/133137028)
+JSer.info #741 - TypeScript 5.9 Betaがリリースされました。
+
+- [Announcing TypeScript 5.9 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-5-9-beta/)
+
+`tsc --init`で生成する設定の変更、`import defer`構文のサポート、`--module node20`オプションの追加などが含まれています。また、型チェックの改善やパフォーマンスの向上も行われています。
+
+---
+
+Patreonの国際化とローカライズの実装についての記事が公開されています。
+
+- [4 Untranslatable Words Behind Patreon's Internationalization Overhaul](https://www.patreon.com/posts/133137028)
+
+条件式で文を分ける際の注意点、数値表現でのIntl APIの活用、複数形表現のローカライズなど、実践的なベストプラクティスが紹介されています。ローカライズシステム移行時に起きた問題と解決方法についても書かれています。
+
+---
+
+次の記事では、2025年に向けたNode.jsのモダンな機能とパターンについてまとめられています。
+
 - [Modern Node.js Patterns for 2025](https://kashw1n.com/blog/nodejs-2025/)
+
+ESM、built-in fetch API、Worker threadsによる並列処理、AbortControllerによるキャンセル処理など、最新のNode.js機能の活用方法が説明されています。Permission modelやSingle Executable Applicationsなどの新機能についても触れられています。
 
 ----
 
@@ -101,8 +119,8 @@ Rollupなどが行うScope Hoistingは、Code splittingと概念が反発しあ�
 
 ----
 
-## 4 Untranslatable Words Behind Patreon’s Internationalization Overhaul
-[www.patreon.com/posts/133137028](https://www.patreon.com/posts/133137028 "4 Untranslatable Words Behind Patreon’s Internationalization Overhaul")
+## 4 Untranslatable Words Behind Patreon's Internationalization Overhaul
+[www.patreon.com/posts/133137028](https://www.patreon.com/posts/133137028 "4 Untranslatable Words Behind Patreon's Internationalization Overhaul")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">i18n</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
 
 ローカライズされるコンテンツを作成するときにきをつけることについて。
