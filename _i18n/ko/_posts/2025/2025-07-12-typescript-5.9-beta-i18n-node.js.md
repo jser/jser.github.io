@@ -1,5 +1,5 @@
 ---
-title: "2025-07-12: TypeScript 5.9 Beta, i18n와 로컬라이즈, Node.js 모던한에서 기능"
+title: "2025-07-12: TypeScript 5.9 Beta, i18n와 로컬라이즈, Node.js 모던한 기능"
 author: "azu"
 translator: rewrite0w0
 layout: post
