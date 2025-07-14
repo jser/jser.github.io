@@ -211,6 +211,6 @@ React の`useOptimistic` hooks の使い方や`setState`との違いについて
 
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p>
 
-緯度経度から地名を検索するライブラリ
+緯度経度からタイムゾーンを検索するライブラリ
 
 ---
