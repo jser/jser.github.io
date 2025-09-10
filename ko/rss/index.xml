@@ -5,9 +5,275 @@
     <description>JavaScriptの最新情報を紹介する週刊ブログ</description>
     <link>https://jser.info/ko/</link>
     <atom:link href="https://jser.info/ko/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 09 Sep 2025 18:50:46 +0900</pubDate>
-    <lastBuildDate>Tue, 09 Sep 2025 18:50:46 +0900</lastBuildDate>
+    <pubDate>Wed, 10 Sep 2025 14:21:34 +0900</pubDate>
+    <lastBuildDate>Wed, 10 Sep 2025 14:21:34 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
+    
+      <item>
+        <title>2025-09-09: Zod 4.1.0, `debug`와 `chalk` 패키지 공격, monorepo한 애플리케이션을 `node --experimental-strip-types`으로 이행</title>
+        <description>&lt;p&gt;JSer.info #747 - Zod 4.1.0가 출시되어, 새로운 Codecs API가 추가되었다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/colinhacks/zod/releases/tag/v4.1.0&quot;&gt;Release v4.1.0 · colinhacks/zod&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://colinhacks.com/essays/introducing-zod-codecs&quot;&gt;Introducing Zod Codecs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;스키마 정의에 더해, 데이터의 encode/decode 정의 가능한 Codecs API가 새로히 추가되었다. 또한, &lt;code&gt;.safeExtend()&lt;/code&gt; 메소드, &lt;code&gt;z.has()&lt;/code&gt;나 &lt;code&gt;z.hex()&lt;/code&gt; 새로운 밸리데이션 함수도 추가.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;&lt;code&gt;debug&lt;/code&gt;나 &lt;code&gt;chalk&lt;/code&gt; 같은 저명한 npm 패키지가 공격 당해, 멀웨어를 포함한 버전이 공개되는 문제가 발생했다.&lt;br&gt;
+현재는 npm registry에서 해당 버전은 삭제.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.aikido.dev/blog/npm-debug-and-chalk-packages-compromised&quot;&gt;npm debug and chalk packages compromised&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;패키지 오너의 말: &lt;a href=&quot;https://github.com/debug-js/debug/issues/1005#issuecomment-3266868187&quot;&gt;https://github.com/debug-js/debug/issues/1005#issuecomment-3266868187&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;영향 받은 패키지에는 &lt;code&gt;debug@4.4.2&lt;/code&gt;, &lt;code&gt;chalk@5.6.1&lt;/code&gt;, &lt;code&gt;ansi-styles@6.2.2&lt;/code&gt;가 포함되어 있어, 해당 버전에는 브라우저에서 동작하는 멀웨어가 포함 삽입되어 있음. 현재 해당 버전 자체가 npm registry에서 삭제되었다.&lt;/p&gt;
+
+&lt;p&gt;멀웨어가 포함된 버전에 의존하는지는, 다음 명령어로 확인 가능.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# npm - 결과가 공란이면 영향 없음&lt;/span&gt;
+npm list &lt;span class=&quot;s2&quot;&gt;&quot;ansi-styles@6.2.2&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;debug@4.4.2&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;chalk@5.6.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;supports-color@10.2.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;strip-ansi@7.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ansi-regex@6.2.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;wrap-ansi@9.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color-convert@3.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color-name@2.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;is-arrayish@0.3.3&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;slice-ansi@7.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color@5.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color-string@2.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;simple-swizzle@0.2.3&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;supports-hyperlinks@4.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;has-ansi@6.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;chalk-template@1.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;backslash@0.2.1&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# pnpm - 결과가 공란이면 영향 없음&lt;/span&gt;
+pnpm list &lt;span class=&quot;nt&quot;&gt;--depth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Infinity &lt;span class=&quot;s2&quot;&gt;&quot;ansi-styles@6.2.2&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;debug@4.4.2&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;chalk@5.6.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;supports-color@10.2.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;strip-ansi@7.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ansi-regex@6.2.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;wrap-ansi@9.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color-convert@3.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color-name@2.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;is-arrayish@0.3.3&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;slice-ansi@7.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color@5.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;color-string@2.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;simple-swizzle@0.2.3&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;supports-hyperlinks@4.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;has-ansi@6.0.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;chalk-template@1.1.1&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;backslash@0.2.1&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# yarn은 list 명령어 없음&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;멀웨어가 &lt;code&gt;node_modules&lt;/code&gt;나 빌드파일에 없는지 확인하려면, 다음 명령어로 확인 가능.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# ripgrep가 필요&lt;/span&gt;
+rg &lt;span class=&quot;nt&quot;&gt;-uu&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--max-columns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;80 &lt;span class=&quot;nt&quot;&gt;--glob&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'*.js'&lt;/span&gt; _0x112fa8 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/chalk/chalk/issues/656#issuecomment-3266880534&quot;&gt;https://github.com/chalk/chalk/issues/656#issuecomment-3266880534&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이번에는, 패키지 오너가 npm의 2중 인증을 켜두고 있었지만, 공격자는 피싱(피싱사이트 상에 TOTP도 입력 받기)을 이용해서 유효한 npm token를 취탈하고, 악의있는 버전을 공개했다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://news.ycombinator.com/item?id=45172742&quot;&gt;https://news.ycombinator.com/item?id=45172742&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;다음 글에는, npm의 Trusted Publishing와 OIDC 사용해, CI에서 npm token 사용하지 않고 패키지 공개하는 방법에 대해 소개되어 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://efcl.info/2025/09/07/npm-oidc/&quot;&gt;npm Trusted Publishing에서 OIDC를 사용해 토큰없이 CI에서 npm 패키지 공개하기 | Web Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;npm Trusted Publishing 설정 방법, GitHub Actions으로 OIDC 설정, 단일/monorepo 패키지 운용 방법, GitHub의 Protection 설정에 대해서도 해설.&lt;br&gt;
+또한, npm의 &lt;a href=&quot;https://docs.npmjs.com/requiring-2fa-for-package-publishing-and-settings-modification&quot;&gt;Require two-factor authentication and disallow tokens&lt;/a&gt; 설정에 대해서도 작성되어 있다.&lt;br&gt;
+&amp;quot;Require two-factor authentication and disallow tokens&amp;quot;가 켜져있는 패키지는, 패키지 공개에도 2중 인증 필요하기에, npm 계정이 취탈되어도 여러번 MFA 인증해야 하므로, 피해를 적게할 가능성이 있다.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;Node.js와 TypeScript으로 작성된 monorepo 애플리케이션을 &lt;code&gt;node --experimental-strip-types&lt;/code&gt;으로 이행한 사례에 대해 소개한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.calm.com/engineering/how-we-migrated-our-rushjs-monorepo-to-node-type-stripping&quot;&gt;How we migrated our Rush.js monorepo to Node type stripping&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;monorepo와 &lt;code&gt;node_modules&lt;/code&gt; 내의 코드에 &lt;code&gt;--experimental-strip-types&lt;/code&gt;가 되지 않는 문제를, &lt;code&gt;--conditions&lt;/code&gt; 플러그로 경로 조절해 해결. ESM으로 이행, stub 작성, CommonJS 대응, &lt;code&gt;erasableSyntaxOnly&lt;/code&gt; 설정에 의한 미대응 구문 처리도 한다. TypeScript 코드를 직접 실행할 수 있게 하는 구체적 순서는 이하에 자세히 설명되어 있음.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://nodejs.org/en/blog/release/v22.18.0&quot;&gt;Node.js v22.18.0 (LTS)&lt;/a&gt;에서 &lt;code&gt;--experimental-strip-types&lt;/code&gt;는 플래그 없이, 기본적으로 Node.js가 TypeScript 파일 실행할 수 있음.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h3 class=&quot;inline-support&quot;&gt;To support JSer.info&lt;/h3&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;😘 Recommend JSer.info to your friends!&lt;/li&gt;
+    &lt;li&gt;❤️ Support &lt;a href=&quot;https://github.com/sponsors/azu&quot;&gt;@azu on GitHub Sponsors&lt;/a&gt;/&lt;a
+            href=&quot;https://jser.info/sponsor/&quot;&gt;JSer.info Sponsors&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;🐦 Follow &lt;a href=&quot;https://twitter.com/jser_info&quot;&gt;@jser_info on X(Twitter)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;헤드라인&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;release-v4-1-0-colinhacks-zod&quot;&gt;Release v4.1.0 · colinhacks/zod&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/colinhacks/zod/releases/tag/v4.1.0&quot; title=&quot;Release v4.1.0 · colinhacks/zod&quot;&gt;github.com/colinhacks/zod/releases/tag/v4.1.0&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;TypeScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;library&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;zod 4.1.0 출시.&lt;br&gt;
+encode/decode 정의하는 Codecs API 추가, &lt;code&gt;.safeExtend()&lt;/code&gt; 추가, &lt;code&gt;z.has()&lt;/code&gt;/&lt;code&gt;z.hex()&lt;/code&gt; 추가&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://colinhacks.com/essays/introducing-zod-codecs&quot; title=&quot;Introducing Zod Codecs&quot;&gt;Introducing Zod Codecs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;fresh-2-0-graduates-to-beta-adds-vite-support-deno&quot;&gt;Fresh 2.0 Graduates to Beta, Adds Vite Support | Deno&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://deno.com/blog/fresh-and-vite&quot; title=&quot;Fresh 2.0 Graduates to Beta, Adds Vite Support | Deno&quot;&gt;deno.com/blog/fresh-and-vite&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;deno&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;vite&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;Fresh 2.0 Beta 출시.&lt;br&gt;
+Vite 사용한 HMR 대응, &lt;code&gt;react&lt;/code&gt;의 alias 대응, &lt;code&gt;&amp;lt;Head&amp;gt;&lt;/code&gt; 추가&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;nuxt-4-1-nuxt-blog&quot;&gt;Nuxt 4.1 · Nuxt Blog&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://nuxt.com/blog/v4-1&quot; title=&quot;Nuxt 4.1 · Nuxt Blog&quot;&gt;nuxt.com/blog/v4-1&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;Vue&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;library&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;Nuxt v4.1 출시.&lt;br&gt;
+Import Map를 사용한 chunk 캐시 개선, 실험적인 Rolldown 지원, &lt;code&gt;getLayerDirectories&lt;/code&gt; 추가&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;읽을거리&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;fetch-host-object-create-null&quot;&gt;fetch() 에는 Host 헤더를 설정하지도 못하는데 간단한 이야기가 아님 - Object.create(null)&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://susisu.hatenablog.com/entry/2025/08/31/190757&quot; title=&quot;fetch() 에는 Host 헤더를 설정하지도 못하는데 간단한 이야기가 아님 - Object.create(null)&quot;&gt;susisu.hatenablog.com/entry/2025/08/31/190757&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;browser&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Fetch&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;nodejs&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;Fetch API와 Host 헤더에 대하여.&lt;br&gt;
+서버 사이드 실행 환경인 Node.js/Deno/Claudflare Workers 동작에 대하여&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;tsx-node-js-type-stripping-mizdras-blog&quot;&gt;tsx와 Node.js Type Stripping 차이 - mizdra&amp;#039;s blog&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.mizdra.net/entry/2025/08/28/122040&quot; title=&quot;tsx와 Node.js Type Stripping 차이 - mizdra&amp;amp;#039;s blog&quot;&gt;www.mizdra.net/entry/2025/08/28/122040&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;TypeScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;tsx&lt;/code&gt; 패키지와 Node.js의 Type Stripping 동작 차이에 대하여&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;why-i-won-t-use-jsdom-epic-web-dev&quot;&gt;Why I Won’t Use JSDOM | Epic Web Dev&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.epicweb.dev/why-i-won-t-use-jsdom&quot; title=&quot;Why I Won’t Use JSDOM | Epic Web Dev&quot;&gt;www.epicweb.dev/why-i-won-t-use-jsdom&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;DOM&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;JSDOM 한계와 브라우저에서 컴포넌트 테스트에 대하여&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;npm-trusted-publishing-oidc-ci-npm-web-scratch&quot;&gt;npm Trusted Publishing에서 OIDC를 사용해 토큰없이 CI에서 npm 패키지 공개하기 | Web Scratch&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://efcl.info/2025/09/07/npm-oidc/&quot; title=&quot;npm Trusted Publishing에서 OIDC를 사용해 토큰없이 CI에서 npm 패키지 공개하기 | Web Scratch&quot;&gt;efcl.info/2025/09/07/npm-oidc/&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;npm&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;security&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;npm Trusted Publishing와 OIDC에 의해 토큰없이 CI/CD에서 npm 패키지 공개.&lt;br&gt;
+설정 순서, 브라우저 완결하는 출시 흐름,&lt;br&gt;
+신규/기존/monorepo 패키지 운용 방법, GitHub의 Protection 설정에 대하여&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;npm-debug-and-chalk-packages-compromised&quot;&gt;npm debug and chalk packages compromised&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.aikido.dev/blog/npm-debug-and-chalk-packages-compromised&quot; title=&quot;npm debug and chalk packages compromised&quot;&gt;www.aikido.dev/blog/npm-debug-and-chalk-packages-compromised&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;npm&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;security&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;debug&lt;/code&gt;와 &lt;code&gt;chalk&lt;/code&gt; 저명한 npm 패키지에 브라우저에서 동작하는 멀웨어 포함 버전이 공개된 문제.&lt;/p&gt;
+
+&lt;p&gt;현재 npm registry에서 해당 버전은 삭제됨.&lt;br&gt;
+다음 패키지 버전에 영향을 줌.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;ansi-styles@6.2.2
+debug@4.4.2
+chalk@5.6.1
+supports-color@10.2.1
+strip-ansi@7.1.1
+ansi-regex@6.2.1
+wrap-ansi@9.0.1
+color-convert@3.1.1
+color-name@2.0.1
+is-arrayish@0.3.3
+slice-ansi@7.1.1
+color@5.0.1
+color-string@2.1.1
+simple-swizzle@0.2.3
+supports-hyperlinks@4.1.1
+has-ansi@6.0.1
+chalk-template@1.1.1
+backslash@0.2.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/debug-js/debug/issues/1005#issuecomment-3266868187&quot; title=&quot;(RESOLVED) Version 4.4.2 published to npm is compromised · Issue #1005 · debug-js/debug&quot;&gt;(RESOLVED) Version 4.4.2 published to npm is compromised · Issue #1005 · debug-js/debug&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/github/advisory-database/issues/6099&quot; title=&quot;npm debug, color-convert, backslash, error-ex, simple-swizzle, is-arrayish, color-name, color-string have incorrect wildcard version in their malware advisory (2025-09-08) · Issue #6099 · github/advisory-database&quot;&gt;npm debug, color-convert, backslash, error-ex, simple-swizzle, is-arrayish, color-name, color-string have incorrect wildcard version in their malware advisory (2025-09-08) · Issue #6099 · github/advisory-database&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;bringing-node-js-http-servers-to-cloudflare-workers&quot;&gt;Bringing Node.js HTTP servers to Cloudflare Workers&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.cloudflare.com/bringing-node-js-http-servers-to-cloudflare-workers/&quot; title=&quot;Bringing Node.js HTTP servers to Cloudflare Workers&quot;&gt;blog.cloudflare.com/bringing-node-js-http-servers-to-cloudflare-workers/&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;cloudflare&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;nodejs&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;Cloudflare Workers의 Node.js &lt;code&gt;http&lt;/code&gt; server 대응에 대하여.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;how-we-migrated-our-rush-js-monorepo-to-node-type-stripping-calm-blog&quot;&gt;How we migrated our Rush.js monorepo to Node type stripping — Calm Blog&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.calm.com/engineering/how-we-migrated-our-rushjs-monorepo-to-node-type-stripping&quot; title=&quot;How we migrated our Rush.js monorepo to Node type stripping — Calm Blog&quot;&gt;blog.calm.com/engineering/how-we-migrated-our-rushjs-monorepo-to-node-type-stripping&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;nodejs&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;TypeScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;TypeScript로 작성된 Node.js 애플리케이션 코드 기반을 어떻게 type stripping으로 이행하였는가에 대하여.&lt;br&gt;
+monorepo와 &lt;code&gt;node_modules&lt;/code&gt;에 코드가 있기에, &lt;code&gt;node --experimental-strip-types&lt;/code&gt;가 적용되지 않지만, &lt;code&gt;--conditions&lt;/code&gt;로 참조하는 경로 해결.&lt;br&gt;
+ESM으로 이행, stub, CJS 대응, &lt;code&gt;erasableSyntaxOnly&lt;/code&gt; 미대응 구문 처리, &lt;code&gt;node --experimental-strip-types&lt;/code&gt;로 실행한 이야기.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;슬라이드, 영상&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;1-web-push-speaker-deck&quot;&gt;1부터 이해하는 Web Push - Speaker Deck&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://speakerdeck.com/dora1998/1karali-jie-suruweb-push&quot; title=&quot;1부터 이해하는 Web Push - Speaker Deck&quot;&gt;speakerdeck.com/dora1998/1karali-jie-suruweb-push&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;browser&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;WebPlatformAPI&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;slide&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;Web Push와 Push Service 관련하여.&lt;br&gt;
+Web Push가 어떤 식으로 동작하는지, 브라우저 벤더의 Push Server 구현에 대하여&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h1 class=&quot;site-genre&quot;&gt;도서&lt;/h1&gt;
+
+&lt;hr&gt;
+
+&lt;h2 id=&quot;javascript-typescript&quot;&gt;JavaScript/TypeScript 실력 강화서 | 기술평가사&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://gihyo.jp/book/2025/978-4-297-15194-2&quot; title=&quot;JavaScript/TypeScript 실력 강화서 | 기술평가사&quot;&gt;gihyo.jp/book/2025/978-4-297-15194-2&lt;/a&gt;&lt;br&gt;
+&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;TypeScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;book&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;2025년 9월 29일 발매&lt;br&gt;
+JavaScript/TypeScript 곤련한 책&lt;/p&gt;
+
+&lt;hr&gt;
+</description>
+        <pubDate>Tue, 09 Sep 2025 18:02:57 +0900</pubDate>
+        <link>https://jser.info/ko/2025/09/09/zod-4.1.0-debugchalk-monoreponode-experimental-strip-types/</link>
+        <guid isPermaLink="true">https://jser.info/ko/2025/09/09/zod-4.1.0-debugchalk-monoreponode-experimental-strip-types/</guid>
+        
+        <category>TypeScript</category>
+        
+        <category>nodejs</category>
+        
+        <category>browser</category>
+        
+        <category>npm</category>
+        
+        <category>security</category>
+        
+        
+        <category>JSer</category>
+        
+      </item>
     
       <item>
         <title>2025-08-31: Bun v1.2.21, Apollo Client v4, nx 패키지 침해와 공급망 공격</title>
@@ -2192,225 +2458,6 @@ Vite-powered Next.js, Svelte 5, React Native 개선&lt;/p&gt;
         <category>ESLint</category>
         
         <category>polyfill</category>
-        
-        
-        <category>JSer</category>
-        
-      </item>
-    
-      <item>
-        <title>2025-06-06: Rolldown-Vite, Vite 3.2, React Router의 Governance Model</title>
-        <description>&lt;p&gt;JSer.info #737 - Rust 기반 Rolldown 이용한 Rolldown-Vite가 출시되었습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://voidzero.dev/posts/announcing-rolldown-vite&quot;&gt;Announcing Rolldown-Vite | VoidZero&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Rolldown-Vite는, Rust로 작성된 Rolldown 기반 Vite로, &lt;code&gt;rolldown-vite&lt;/code&gt; 패키지로 공개됩니다.&lt;br&gt;
-Rolldown는 Rust로 만든 JavaScript 번들러인데, Rollup와 호환성을 갖으면서 성능 향상을 목표로 합니다.&lt;br&gt;
-앞으로 Vite에서 이행할 때 호환성이나 성능 피드백을 얻을 목적으로, &lt;code&gt;rolldown-vite&lt;/code&gt; 패키지를 공개했습니다.&lt;/p&gt;
-
-&lt;p&gt;Rolldown-Vite가 안정되면 &lt;code&gt;vite&lt;/code&gt; 패키지와 통합될 예정입니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;p&gt;Vitest 3.2가 출시되었습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://vitest.dev/blog/vitest-3-2.html&quot;&gt;Vitest 3.2 is out! | Vitest&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;code&gt;workspace&lt;/code&gt; 옵션을 비권장으로하고, &lt;code&gt;projects&lt;/code&gt; 옵션/&lt;code&gt;vitest.workspace&lt;/code&gt; 파일을 권장하도록 변경되었습니다.&lt;br&gt;
-또한, &lt;code&gt;context.annotate&lt;/code&gt; API 추가, &lt;code&gt;test.extends&lt;/code&gt;에 &lt;code&gt;scope&lt;/code&gt; 옵션 추가, &lt;code&gt;locators.extend&lt;/code&gt; 추가, &lt;code&gt;context.signal&lt;/code&gt; 추가 신기능도 포함되어 있습니다. &lt;code&gt;using&lt;/code&gt;(Explicit Resource Management)으로 mock 함수 자동 클린업하도록 되었으며, &lt;code&gt;sequence.groupOrder&lt;/code&gt; 옵션도 추가되었습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;p&gt;React Router의 Governance Model 관련해 상세한 설명한 글을 공개했습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://remix.run/blog/rr-governance&quot;&gt;React Router Open Governance | Remix&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/remix-run/react-router/blob/main/GOVERNANCE.md#new-feature-process&quot;&gt;react-router/GOVERNANCE.md at main · remix-run/react-router&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;스테이지 제도를 포함한 개발 프로세스에 관련한 상세한 설명 및 React Router의 앞으로의 개발 방침이 작성되어 있습니다.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h3 class=&quot;inline-support&quot;&gt;To support JSer.info&lt;/h3&gt;
-
-&lt;ul&gt;
-    &lt;li&gt;😘 Recommend JSer.info to your friends!&lt;/li&gt;
-    &lt;li&gt;❤️ Support &lt;a href=&quot;https://github.com/sponsors/azu&quot;&gt;@azu on GitHub Sponsors&lt;/a&gt;/&lt;a
-            href=&quot;https://jser.info/sponsor/&quot;&gt;JSer.info Sponsors&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;🐦 Follow &lt;a href=&quot;https://twitter.com/jser_info&quot;&gt;@jser_info on X(Twitter)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;헤드라인&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;release-v8-0-0-beta-0-babel-babel&quot;&gt;Release v8.0.0-beta.0 · babel/babel&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/babel/babel/releases/tag/v8.0.0-beta.0&quot; title=&quot;Release v8.0.0-beta.0 · babel/babel&quot;&gt;github.com/babel/babel/releases/tag/v8.0.0-beta.0&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;babel&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Babel v8.0.0-beta.0 출시.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;vitest-3-2-is-out-vitest&quot;&gt;Vitest 3.2 is out! | Vitest&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://vitest.dev/blog/vitest-3-2.html&quot; title=&quot;Vitest 3.2 is out! | Vitest&quot;&gt;vitest.dev/blog/vitest-3-2.html&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;vite&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Vitest 3.2 출시.&lt;br&gt;
-&lt;code&gt;workspace&lt;/code&gt; 옵션 비권장 &lt;code&gt;vitest.workspace&lt;/code&gt; 파일을 권장 하도록 변경.&lt;br&gt;
-&lt;code&gt;context.annotate&lt;/code&gt; API 추가, &lt;code&gt;test.extends&lt;/code&gt;에 &lt;code&gt;scope&lt;/code&gt; 옵션을 추가, &lt;code&gt;locators.extend&lt;/code&gt; 추가, &lt;code&gt;context.signal&lt;/code&gt; 추가.&lt;br&gt;
-&lt;code&gt;using&lt;/code&gt;으로 mock 함수르 자동 클린업할 수 있으며, &lt;code&gt;sequence.groupOrder&lt;/code&gt; 옵션 추가&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;release-astro-5-9-0-withastro-astro&quot;&gt;Release &lt;a href=&quot;mailto:astro@5.9.0&quot;&gt;astro@5.9.0&lt;/a&gt; · withastro/astro&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/withastro/astro/releases/tag/astro%405.9.0&quot; title=&quot;Release astro@5.9.0 · withastro/astro&quot;&gt;github.com/withastro/astro/releases/tag/astro%405.9.0&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;astro&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;ReleaseNote&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Astro v5.9.0 출시.&lt;br&gt;
-실험적 기능으로 Content Security Policy(CSP)지원 추가, content loader으로 Markdown 렌더러 제공.&lt;br&gt;
-어댑터 대상 &lt;code&gt;supportedAstroFeatures&lt;/code&gt; 옵션 추가&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;ecmascript-proposal-updates-2025-05-ecmascript-daily&quot;&gt;ECMAScript proposal updates @ 2025-05 | ECMAScript Daily&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://ecmascript-daily.github.io/ecmascript/2025/06/05/ecmascript-proposal-update&quot; title=&quot;ECMAScript proposal updates @ 2025-05 | ECMAScript Daily&quot;&gt;ecmascript-daily.github.io/ecmascript/2025/06/05/ecmascript-proposal-update&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;ECMAScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;news&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;2025년 5월 TC39 미팅에서 ECMAScript Proposal 상태 변경 정리.&lt;br&gt;
-Inspector/More Random Functions가 Stage 1으로 신규 추가.&lt;br&gt;
-SeededPRNG/&lt;code&gt;Math.clamp&lt;/code&gt;가 Stage 2으로.&lt;br&gt;
-Error.isError가 Stage 4가 되어 ES2026에 추가.&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;읽을거리&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;announcing-rolldown-vite-voidzero&quot;&gt;Announcing Rolldown-Vite | VoidZero&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://voidzero.dev/posts/announcing-rolldown-vite&quot; title=&quot;Announcing Rolldown-Vite | VoidZero&quot;&gt;voidzero.dev/posts/announcing-rolldown-vite&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;vite&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Rust&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Rolldown-Vite 출시.&lt;br&gt;
-Rolldown 기반 Vite로 &lt;code&gt;rolldown-vite&lt;/code&gt; 패키지 공개&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;resilient-import-maps-better-theme-development-and-beyond-2025-shopify&quot;&gt;Resilient Import Maps - Better Theme Development and Beyond (2025) - Shopify&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://shopify.engineering/resilient-import-maps&quot; title=&quot;Resilient Import Maps - Better Theme Development and Beyond (2025) - Shopify&quot;&gt;shopify.engineering/resilient-import-maps&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;HTML&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Import Maps은 여럿을 정의하면 동작하지 않아서, 사양이랑 브라우저를 수정한 이야기&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;seamlessly-blend-php-with-node-js&quot;&gt;Seamlessly Blend PHP with Node.js&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://blog.platformatic.dev/seamlessly-blend-php-with-nodejs&quot; title=&quot;Seamlessly Blend PHP with Node.js&quot;&gt;blog.platformatic.dev/seamlessly-blend-php-with-nodejs&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;nodejs&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;php&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Rust&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Node.js에서 PHP 동작시키는 &lt;code&gt;@platformatic/php-node&lt;/code&gt;에 대하여.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/platformatic/php-node&quot; title=&quot;platformatic/php-node: PHP HTTP Request handler for Node.js&quot;&gt;platformatic/php-node: PHP HTTP Request handler for Node.js&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;minify-typescript&quot;&gt;minify 효과를 최대한으로 끌어내는 TypeScript 코드 작성&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zenn.dev/j_sakamoto/articles/1b5e1d563b1c30&quot; title=&quot;minify 효과를 최대한으로 끌어내는 TypeScript 코드 작성&quot;&gt;zenn.dev/j_sakamoto/articles/1b5e1d563b1c30&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;TypeScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;minify 되기 쉬운 코드에 대하여&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;react-router-open-governance-remix&quot;&gt;React Router Open Governance | Remix&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://remix.run/blog/rr-governance&quot; title=&quot;React Router Open Governance | Remix&quot;&gt;remix.run/blog/rr-governance&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;Remix&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;React Router의 Governance Model 관련하여.&lt;br&gt;
-스테이지 제도를 포함한 개발 프로세스 다룸&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/remix-run/react-router/blob/main/GOVERNANCE.md#new-feature-process&quot; title=&quot;react-router/GOVERNANCE.md at main · remix-run/react-router&quot;&gt;react-router/GOVERNANCE.md at main · remix-run/react-router&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;exploring-the-oklch-ecosystem-and-its-tools-martian-chronicles-evil-martians-team-blog&quot;&gt;Exploring the OKLCH ecosystem and its tools—Martian Chronicles, Evil Martians’ team blog&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools&quot; title=&quot;Exploring the OKLCH ecosystem and its tools—Martian Chronicles, Evil Martians’ team blog&quot;&gt;evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;css&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;OKLCH 사용해 명도와 채도를 일정하게 유지하면서 테마를 다루는 방법&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;node-js-200-20&quot;&gt;프로파일러를 이용해서 Node.js 서버의 리스폰스 시간을 200 초 → 20 초 단축한 이야기&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zenn.dev/dinii/articles/improve-latency-with-profiler&quot; title=&quot;프로파일러를 이용해서 Node.js 서버의 리스폰스 시간을 200 초 → 20 초 단축한 이야기&quot;&gt;zenn.dev/dinii/articles/improve-latency-with-profiler&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;nodejs&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;performance&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;article&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;node:async_hooks&lt;/code&gt; 사용해 로그에서, 블록킹 처리를 발견해 Cloud Profiler 사용한 처리를 개선한 이야기&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;슬라이드, 영상&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;javascript-dom-3-youtube&quot;&gt;JavaScript 프레임워크가 DOM 렌더링하는 3가지 방법 - YouTube&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=0C-y59betmY&quot; title=&quot;JavaScript 프레임워크가 DOM 렌더링하는 3가지 방법 - YouTube&quot;&gt;www.youtube.com/watch?v&amp;#x3D;0C-y59betmY&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;JavaScript&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;DOM&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;video&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;프레임워크 DOM 렌더링 방법 해설 영상, Dirty Check, Virtual DOM, Fine-Grained Rendering 다룸&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h1 class=&quot;site-genre&quot;&gt;소프트웨어, 도구, 라이브러리&lt;/h1&gt;
-
-&lt;hr&gt;
-
-&lt;h2 id=&quot;almadoro-react-just-react-server-components-without-a-framework-powered-by-vite&quot;&gt;almadoro/react-just: React Server Components without a framework. Powered by Vite&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/almadoro/react-just&quot; title=&quot;almadoro/react-just: React Server Components without a framework. Powered by Vite&quot;&gt;github.com/almadoro/react-just&lt;/a&gt;&lt;br&gt;
-&lt;p class=&quot;jser-tags jser-tag-icon&quot;&gt;&lt;span class=&quot;jser-tag&quot;&gt;vite&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;jser-tag&quot;&gt;Tools&lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-
-&lt;p&gt;Vite 기반 React Server Component 지원하는 프레임워크.&lt;/p&gt;
-
-&lt;hr&gt;
-</description>
-        <pubDate>Fri, 06 Jun 2025 07:17:29 +0900</pubDate>
-        <link>https://jser.info/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/</link>
-        <guid isPermaLink="true">https://jser.info/ko/2025/06/06/rolldown-vite-vite-3.2-react-routergovernance-model/</guid>
-        
-        <category>vite</category>
-        
-        <category>Rust</category>
-        
-        <category>nodejs</category>
-        
-        <category>babel</category>
-        
-        <category>DOM</category>
         
         
         <category>JSer</category>
