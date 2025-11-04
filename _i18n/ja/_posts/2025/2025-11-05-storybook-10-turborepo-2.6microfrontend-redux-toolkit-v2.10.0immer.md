@@ -2,7 +2,7 @@
 title: "2025-11-05のJS: Storybook 10、Turborepo 2.6(Microfrontend)、 redux-toolkit v2.10.0とImmerのパフォーマンス改善"
 author: "azu"
 layout: post
-date: 2025-11-04T23:50:03.534Z
+date: 2025-11-04T23:58:24.027Z
 category: JSer
 tags:
 - Tools
