@@ -159,7 +159,7 @@ Node.js v22からv24の変更とマイグレーションツールについて
 [www.polarsignals.com/blog/posts/2025/11/04/javascript-source-maps-internals](https://www.polarsignals.com/blog/posts/2025/11/04/javascript-source-maps-internals "The Inner Workings of JavaScript Source Maps")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">sourcemap</span> <span class="jser-tag">article</span></p>
 
-Source Maoの仕組みについて。
+Source Mapの仕組みについて。
 Source Mapの形式やVLQエンコーディングの仕組みにについて
 
 
