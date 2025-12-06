@@ -13,9 +13,33 @@ tags:
 
 ---
 
-JSer.info #757 - - [Bun is joining Anthropic | Bun Blog](https://bun.com/blog/bun-joins-anthropic)
+JSer.info #757 - AnthropicがBunを買収することが発表されました。
+
+- [Bun is joining Anthropic | Bun Blog](https://bun.com/blog/bun-joins-anthropic)
+- [Anthropic acquires Bun as Claude Code reaches $1B milestone \ Anthropic](https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone)
+
+今後はClaude Codeチームと連携して開発を進めていく予定ですが、Bun自体はBunとして独立したプロジェクトとして開発を継続するとのことです。
+
+---
+
+React Server Componentsにおいて、任意のコード実行が可能なRCEの脆弱性が発見されました。
+
 - [Critical Security Vulnerability in React Server Components – React](https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components)
+
+この脆弱性は、Next.jsなどのReact Server Componentsに対応したサーバとして起動している場合に影響があります。ReactやNext.jsなどのセキュリティ修正版がリリースされており、すでにPoCも公開されているため、アプデートが推奨されています。
+
+Next.jsはReactをBundleしているため、個別にアップデートが必要です。
+それぞれminorバージョンに対応するセキュリティアップデートがリリースされています。
+
+- [Security Advisory: CVE-2025-66478 | Next.js](https://nextjs.org/blog/CVE-2025-66478)
+
+---
+
+Vite 8 Betaがリリースされました。
+
 - [Vite 8 Beta: The Rolldown-powered Vite | VoidZero](https://voidzero.dev/posts/announcing-vite-8-beta)
+
+このバージョンでは、バンドラとしてRollupの代わりにRolldownを利用するようになります。Rolldownはパフォーマンスの向上を目的としたRollupの代替実装です。
 
 ----
 
