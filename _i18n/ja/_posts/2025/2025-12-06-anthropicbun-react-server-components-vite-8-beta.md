@@ -2,7 +2,7 @@
 title: "2025-12-06のJS: AnthropicがBunを買収、React Server  Componentsの脆弱性、Vite 8 Betaリリース"
 author: "azu"
 layout: post
-date: 2025-12-06T06:31:04.955Z
+date: 2025-12-06T06:35:24.158Z
 category: JSer
 tags:
 - Tools
