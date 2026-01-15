@@ -14,7 +14,7 @@ import matplotlib.font_manager as fm
 import matplotlib.patches as mpatches
 
 # 한국어 폰트 설정 (NotoSansKR)
-font_path = '/sessions/adoring-sharp-ramanujan/mnt/dataset/NotoSansKR-Regular.ttf'
+font_path = './NotoSansKR-Regular.ttf'
 fm.fontManager.addfont(font_path)
 font_prop = fm.FontProperties(fname=font_path)
 plt.rcParams['font.family'] = font_prop.get_name()
@@ -24,7 +24,7 @@ from matplotlib.lines import Line2D
 import numpy as np
 
 # 출력 디렉토리
-OUTPUT_DIR = '/sessions/adoring-sharp-ramanujan/mnt/dataset'
+OUTPUT_DIR = '.'
 
 
 # =============================================================================
@@ -488,21 +488,23 @@ def create_publisher_types():
 
 def create_content_types_bar():
     """콘텐츠 타입별 추이"""
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(12, 6))
 
     years = ['2011-13', '2017-19', '2023-25']
-    release_notes = [23, 305, 349]
-    official_docs = [31, 68, 328]
-    books = [257, 73, 18]
-    slides = [179, 63, 13]
+    release_notes = [560, 862, 986]
+    articles = [719, 813, 526]
+    books = [192, 135, 45]
+    slides = [292, 170, 49]
+    tutorials = [97, 93, 14]
 
     x = np.arange(len(years))
-    width = 0.2
+    width = 0.15
 
-    bars1 = ax.bar(x - 1.5*width, release_notes, width, label='릴리스 노트', color='#27ae60')
-    bars2 = ax.bar(x - 0.5*width, official_docs, width, label='공식 문서', color='#3498db')
-    bars3 = ax.bar(x + 0.5*width, books, width, label='서적', color='#e74c3c')
-    bars4 = ax.bar(x + 1.5*width, slides, width, label='슬라이드', color='#9b59b6')
+    bars1 = ax.bar(x - 2*width, release_notes, width, label='릴리스 노트', color='#27ae60')
+    bars2 = ax.bar(x - width, articles, width, label='해설 기사', color='#3498db')
+    bars3 = ax.bar(x, books, width, label='서적', color='#e74c3c')
+    bars4 = ax.bar(x + width, slides, width, label='슬라이드/동영상', color='#9b59b6')
+    bars5 = ax.bar(x + 2*width, tutorials, width, label='튜토리얼', color='#f39c12')
 
     ax.set_xlabel('기간', fontsize=12)
     ax.set_ylabel('건수', fontsize=12)
@@ -511,14 +513,14 @@ def create_content_types_bar():
     ax.set_xticklabels(years, fontsize=12)
     ax.legend(loc='upper right', fontsize=10)
 
-    for bars in [bars1, bars2, bars3, bars4]:
+    for bars in [bars1, bars2, bars3, bars4, bars5]:
         for bar in bars:
             height = bar.get_height()
-            if height > 50:
+            if height > 30:
                 ax.annotate(f'{int(height)}',
                             xy=(bar.get_x() + bar.get_width() / 2, height),
                             xytext=(0, 3), textcoords="offset points",
-                            ha='center', va='bottom', fontsize=9)
+                            ha='center', va='bottom', fontsize=8)
 
     plt.tight_layout()
     plt.savefig(f'{OUTPUT_DIR}/15th_content_types_bar_ko.png', dpi=150, bbox_inches='tight', facecolor='white')
@@ -528,14 +530,15 @@ def create_content_types_bar():
 
 def create_content_change_rate():
     """콘텐츠 타입 변화율"""
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(10, 7))
 
-    categories = ['릴리스 노트', '공식 문서', '서적', '슬라이드']
+    categories = ['릴리스 노트', '해설 기사', '서적', '슬라이드/동영상', '튜토리얼']
     changes = [
-        (349-23)/23*100,
-        (328-31)/31*100,
-        (18-257)/257*100,
-        (13-179)/179*100
+        (986-560)/560*100,   # +76%
+        (526-719)/719*100,   # -27%
+        (45-192)/192*100,    # -77%
+        (49-292)/292*100,    # -83%
+        (14-97)/97*100       # -86%
     ]
     colors = ['#27ae60' if c > 0 else '#e74c3c' for c in changes]
 
@@ -557,7 +560,7 @@ def create_content_change_rate():
                     f'{val:+.0f}%', va='center', ha='center', fontsize=12, fontweight='bold',
                     color='white')
 
-    ax.text(0.95, 0.05, '스터디/서적에서\n공식 문서/\n릴리스 노트로',
+    ax.text(0.95, 0.05, '튜토리얼/서적에서\n릴리스 노트\n중심으로',
              transform=ax.transAxes, fontsize=11, ha='right', va='bottom',
              bbox=dict(boxstyle='round', facecolor='#ecf0f1', alpha=0.8))
 
@@ -935,41 +938,49 @@ def create_publishers_combined():
 
 def create_content_types_combined():
     """콘텐츠 타입 대시보드 (2개 통합)"""
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     fig.suptitle("콘텐츠 타입의 변화: 'JavaScript 학습 방법'의 변화", fontsize=16, fontweight='bold', y=1.02)
 
     # 콘텐츠 타입별 추이
     ax1 = axes[0]
     years = ['2011-13', '2017-19', '2023-25']
-    release_notes = [23, 305, 349]
-    official_docs = [31, 68, 328]
-    books = [257, 73, 18]
-    slides = [179, 63, 13]
+    release_notes = [560, 862, 986]
+    articles = [719, 813, 526]
+    books = [192, 135, 45]
+    slides = [292, 170, 49]
+    tutorials = [97, 93, 14]
     x = np.arange(len(years))
-    width = 0.2
-    bars1 = ax1.bar(x - 1.5*width, release_notes, width, label='릴리스 노트', color='#27ae60')
-    bars2 = ax1.bar(x - 0.5*width, official_docs, width, label='공식 문서', color='#3498db')
-    bars3 = ax1.bar(x + 0.5*width, books, width, label='서적', color='#e74c3c')
-    bars4 = ax1.bar(x + 1.5*width, slides, width, label='슬라이드', color='#9b59b6')
+    width = 0.15
+    bars1 = ax1.bar(x - 2*width, release_notes, width, label='릴리스 노트', color='#27ae60')
+    bars2 = ax1.bar(x - width, articles, width, label='해설 기사', color='#3498db')
+    bars3 = ax1.bar(x, books, width, label='서적', color='#e74c3c')
+    bars4 = ax1.bar(x + width, slides, width, label='슬라이드/동영상', color='#9b59b6')
+    bars5 = ax1.bar(x + 2*width, tutorials, width, label='튜토리얼', color='#f39c12')
     ax1.set_xlabel('기간', fontsize=11)
     ax1.set_ylabel('건수', fontsize=11)
     ax1.set_title('콘텐츠 타입별 추이', fontsize=12, fontweight='bold')
     ax1.set_xticks(x)
     ax1.set_xticklabels(years)
-    ax1.legend(loc='upper right')
-    for bars in [bars1, bars2, bars3, bars4]:
+    ax1.legend(loc='upper right', fontsize=9)
+    for bars in [bars1, bars2, bars3, bars4, bars5]:
         for bar in bars:
             height = bar.get_height()
-            if height > 50:
+            if height > 30:
                 ax1.annotate(f'{int(height)}',
                             xy=(bar.get_x() + bar.get_width() / 2, height),
                             xytext=(0, 3), textcoords="offset points",
-                            ha='center', va='bottom', fontsize=8)
+                            ha='center', va='bottom', fontsize=7)
 
     # 변화율
     ax2 = axes[1]
-    categories = ['릴리스 노트', '공식 문서', '서적', '슬라이드']
-    changes = [(349-23)/23*100, (328-31)/31*100, (18-257)/257*100, (13-179)/179*100]
+    categories = ['릴리스 노트', '해설 기사', '서적', '슬라이드/동영상', '튜토리얼']
+    changes = [
+        (986-560)/560*100,   # +76%
+        (526-719)/719*100,   # -27%
+        (45-192)/192*100,    # -77%
+        (49-292)/292*100,    # -83%
+        (14-97)/97*100       # -86%
+    ]
     colors = ['#27ae60' if c > 0 else '#e74c3c' for c in changes]
     bars = ax2.barh(categories, changes, color=colors, alpha=0.8)
     ax2.axvline(x=0, color='black', linewidth=0.5)
@@ -981,7 +992,7 @@ def create_content_types_combined():
         ax2.text(x_pos, bar.get_y() + bar.get_height()/2,
                  f'{val:+.0f}%', va='center', ha='center', fontsize=10, fontweight='bold',
                  color='white')
-    ax2.text(0.95, 0.05, '스터디/서적에서\n공식 문서/\n릴리스 노트로',
+    ax2.text(0.95, 0.05, '튜토리얼/서적에서\n릴리스 노트\n중심으로',
              transform=ax2.transAxes, fontsize=10, ha='right', va='bottom',
              bbox=dict(boxstyle='round', facecolor='#ecf0f1', alpha=0.8))
 
