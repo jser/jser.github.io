@@ -1,0 +1,32 @@
+name: Jekyll Build
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          lfs: 'true'
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 18
+      - name: Install npm dependencies
+        run: yarn install
+      - name: Build
+        run: npm run build
+      - name: Install Ruby
+        uses: ruby/setup-ruby@708024e6c902387ab41de36e1669e43b5ee7085e # v1.283.0
+        with:
+          ruby-version-file: '.ruby-version'
+      - name: Bundle install
+        run: bundle install
+      - name: Build Jekyll
+        run: bundle exec jekyll build
