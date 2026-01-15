@@ -154,17 +154,17 @@ def create_info_sources():
     # Early
     sources_early = ['github.com', 'd.hatena.ne.jp', 'slideshare.net', 'amazon.co.jp', 'amazon.com']
     values_early = [327, 154, 147, 98, 83]
-    colors_early = ['#2c3e50', '#e74c3c', '#9b59b6', '#f39c12', '#f39c12']
+    colors_early = ['#2c3e50', '#27ae60', '#9b59b6', '#9b59b6', '#9b59b6']
 
     # Mid
     sources_mid = ['github.com', 'medium.com', 'developers.google.com', 'webkit.org', 'nodejs.org']
     values_mid = [828, 134, 103, 69, 64]
-    colors_mid = ['#2c3e50', '#27ae60', '#3498db', '#3498db', '#27ae60']
+    colors_mid = ['#2c3e50', '#27ae60', '#3498db', '#3498db', '#e67e22']
 
     # Late
     sources_late = ['github.com', 'nodejs.org', 'bun.sh', 'zenn.dev', 'developer.chrome.com']
     values_late = [568, 98, 62, 56, 55]
-    colors_late = ['#2c3e50', '#27ae60', '#e67e22', '#3498db', '#3498db']
+    colors_late = ['#2c3e50', '#e67e22', '#e67e22', '#27ae60', '#3498db']
 
     def create_bar_chart(ax, sources, values, colors, title, period_desc):
         y_pos = np.arange(len(sources))
@@ -191,9 +191,9 @@ def create_info_sources():
 
     category_colors = {
         'GitHub': '#2c3e50',
-        'Personal Blog/Platform': '#e74c3c',
-        'Official Docs/Vendor': '#3498db',
-        'Emerging Platform': '#27ae60',
+        'Blog Platform': '#27ae60',
+        'Official Docs': '#3498db',
+        'Project Official': '#e67e22',
         'Slides/Books': '#9b59b6',
     }
     legend_patches = [mpatches.Patch(color=v, label=k, alpha=0.8)

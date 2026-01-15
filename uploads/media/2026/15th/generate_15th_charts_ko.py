@@ -163,17 +163,17 @@ def create_info_sources():
     # 초기
     sources_early = ['github.com', 'd.hatena.ne.jp', 'slideshare.net', 'amazon.co.jp', 'amazon.com']
     values_early = [327, 154, 147, 98, 83]
-    colors_early = ['#2c3e50', '#e74c3c', '#9b59b6', '#f39c12', '#f39c12']
+    colors_early = ['#2c3e50', '#27ae60', '#9b59b6', '#9b59b6', '#9b59b6']
 
     # 중기
     sources_mid = ['github.com', 'medium.com', 'developers.google.com', 'webkit.org', 'nodejs.org']
     values_mid = [828, 134, 103, 69, 64]
-    colors_mid = ['#2c3e50', '#27ae60', '#3498db', '#3498db', '#27ae60']
+    colors_mid = ['#2c3e50', '#27ae60', '#3498db', '#3498db', '#e67e22']
 
     # 후기
     sources_late = ['github.com', 'nodejs.org', 'bun.sh', 'zenn.dev', 'developer.chrome.com']
     values_late = [568, 98, 62, 56, 55]
-    colors_late = ['#2c3e50', '#27ae60', '#e67e22', '#3498db', '#3498db']
+    colors_late = ['#2c3e50', '#e67e22', '#e67e22', '#27ae60', '#3498db']
 
     def create_bar_chart(ax, sources, values, colors, title, period_desc):
         y_pos = np.arange(len(sources))
@@ -200,9 +200,9 @@ def create_info_sources():
 
     category_colors = {
         'GitHub': '#2c3e50',
-        '개인 블로그/플랫폼': '#e74c3c',
-        '공식 문서/벤더': '#3498db',
-        '신흥 플랫폼': '#27ae60',
+        '블로그 플랫폼': '#27ae60',
+        '공식 문서': '#3498db',
+        '프로젝트 공식': '#e67e22',
         '슬라이드/서적': '#9b59b6',
     }
     legend_patches = [mpatches.Patch(color=v, label=k, alpha=0.8)
