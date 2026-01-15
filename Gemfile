@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 gem 'jekyll', '~>3.0'
 gem 'redcarpet'
+gem 'kramdown-parser-gfm'
 gem 'jemoji'
 gem 'jekyll-sitemap'
 gem 'rake'
