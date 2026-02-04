@@ -17,7 +17,9 @@ JSer.info #763 - Yarn 6のプレビュー版が公開されました。
 
 - [Yarn 6 Preview | Yarn](https://yarn6.netlify.app/blog/2026-01-28-yarn-6-preview/)
 
-Yarn 6はRustでの書き直しが行われ、パフォーマンスの改善が行われています。Corepackの代わりにYarnのバージョン管理を行う`yarn switch`コマンドの追加、package.jsonの変更時に自動でインストールを行うLazy Installsがデフォルトで有効化されます。移行ステップとして、JS実装のYarn 5が数ヶ月内にリリース予定で、Rust実装のYarn 6は2026年Q3以降にリリース予定となっています。
+Yarn 6はRustでの書き直しが行われ、パフォーマンスの改善が行われています。
+Corepackの代わりにYarnのバージョン管理を行う`yarn switch`コマンドの追加、package.jsonの変更時に自動でインストールを行うLazy Installsがデフォルトで有効化されます。
+移行ステップとして、JS実装のYarn 5が数ヶ月内にリリース予定で、Rust実装のYarn 6は2026年Q3以降にリリース予定となっています。
 
 ---
 
@@ -29,7 +31,7 @@ WebAssemblyの誕生から10年を振り返る記事が公開されています�
 
 ---
 
-State of JavaScript 2025の調査結果が公開されています。
+State of JavaScript 2025のアンケート結果が公開されています。
 
 - [State of JavaScript 2025](https://2025.stateofjs.com/en-US)
 
