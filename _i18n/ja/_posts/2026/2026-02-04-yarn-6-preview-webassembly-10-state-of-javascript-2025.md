@@ -2,7 +2,7 @@
 title: "2026-02-04のJS: Yarn 6 Preview、WebAssembly 10年、State of JavaScript 2025の結果公開"
 author: "azu"
 layout: post
-date: 2026-02-04T13:02:12.198Z
+date: 2026-02-04T13:19:34.984Z
 category: JSer
 tags:
 - Tools
