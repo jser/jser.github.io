@@ -1,5 +1,5 @@
 ---
-title: "2026-02-04のJS: Yarn 6 Preview、WebAssembly 10年"
+title: "2026-02-04のJS: Yarn 6 Preview、WebAssembly 10年、State of JavaScript 2025の結果公開"
 author: "azu"
 layout: post
 date: 2026-02-04T12:55:53.135Z
@@ -13,9 +13,27 @@ tags:
 
 ---
 
-JSer.info #763 - - [Yarn 6 Preview | Yarn](https://yarn6.netlify.app/blog/2026-01-28-yarn-6-preview/)
+JSer.info #763 - Yarn 6のプレビュー版が公開されました。
+
+- [Yarn 6 Preview | Yarn](https://yarn6.netlify.app/blog/2026-01-28-yarn-6-preview/)
+
+Yarn 6はRustでの書き直しが行われ、パフォーマンスの改善が行われています。Corepackの代わりにYarnのバージョン管理を行う`yarn switch`コマンドの追加、package.jsonの変更時に自動でインストールを行うLazy Installsがデフォルトで有効化されます。移行ステップとして、JS実装のYarn 5が数ヶ月内にリリース予定で、Rust実装のYarn 6は2026年Q3以降にリリース予定となっています。
+
+---
+
+WebAssemblyの誕生から10年を振り返る記事が公開されています。
+
 - [Bytecode Alliance — 10 Years of Wasm: A Retrospective](https://bytecodealliance.org/articles/ten-years-of-webassembly-a-retrospective)
+
+2013年のasm.jsから始まり、MozillaのLuke WagnerとGoogleのBen Titzerの協力によってWebAssemblyが誕生した経緯を紹介しています。2015年に主要ブラウザが同時に対応を発表し、2017年には全ブラウザが対応を完了しました。その後、WASIやComponent Modelの開発によりブラウザ外での利用が広がっており、WASIをPOSIXのコピーとしなかった点などについても触れられています。
+
+---
+
+State of JavaScript 2025の調査結果が公開されています。
+
 - [State of JavaScript 2025](https://2025.stateofjs.com/en-US)
+
+JavaScriptの言語機能、フレームワーク、ライブラリ、ツール、テスト、AI活用などについてのアンケート結果がまとめられています。
 
 ----
 
