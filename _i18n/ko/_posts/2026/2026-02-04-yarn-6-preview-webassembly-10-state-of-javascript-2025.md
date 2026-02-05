@@ -214,7 +214,7 @@ JavaScript 언어 기능, 프레임워크, 라이브러리, 도구, 테스트, A
 [github.com/libpdf-js/core](https://github.com/libpdf-js/core "LibPDF-js/core: A modern PDF library for TypeScript. Parse, modify, and generate PDFs with a clean, intuitive API.")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">PDF</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span> <span class="jser-tag">JavaScript</span></p>
 
-ブラウザ나 Node.js 등에서 동작하는 PDF 편집, 작성 라이브러리.
+Browser나 Node.js 등에서 동작하는 PDF 편집, 작성 라이브러리.
 PDF 해석, 수정, 생성 지원하며, RC4/AES 암호화, 디지털 서명, 폼 입력, 페이지 머지/분리, 텍스트 추출 등 대응.
 
 
