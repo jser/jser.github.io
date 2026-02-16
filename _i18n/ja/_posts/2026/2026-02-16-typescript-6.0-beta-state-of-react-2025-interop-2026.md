@@ -1,0 +1,191 @@
+---
+title: "2026-02-16のJS: TypeScript 6.0 Beta、State of React 2025の結果、Interop 2026"
+author: "azu"
+layout: post
+date: 2026-02-16T10:37:37.219Z
+category: JSer
+tags:
+- browser
+- CSS
+- TypeScript
+- safari
+- Fetch
+
+---
+
+JSer.info #764 - [Announcing TypeScript 6.0 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/)
+[State of React 2025](https://2025.stateofreact.com/en-US)
+[Interop 2026が始まりました！](https://zenn.dev/yamanoku/articles/interop-2026-launched)
+
+
+----
+
+{% include inline-support.html %}
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Announcing TypeScript 6.0 Beta - TypeScript
+[devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/ "Announcing TypeScript 6.0 Beta - TypeScript")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+TypeScript 6.0 Betaリリース。
+TypeScript 7(Go言語ベース)への移行を見据えたリリースで、多くのデフォルト設定の変更や非推奨化が含まれる。
+`strict`がデフォルトで`true`に変更、`module`のデフォルトが`esnext`に変更、`target`のデフォルトが`es2025`に変更、`types`のデフォルトが`[]`に変更。
+`target: es5`/`--moduleResolution node10`/`--module amd|umd|system`/`--outFile`などを非推奨化。
+ES2025の`RegExp.escape`やTemporalの型定義を追加、`lib.dom`に`dom.iterable`と`dom.asynciterable`を統合。
+TypeScript 7への移行を補助する`--stableTypeOrdering`フラグの追加など。
+
+
+----
+
+## WebKit features for Safari 26.3 | WebKit
+[webkit.org/blog/17798/webkit-features-for-safari-26-3/](https://webkit.org/blog/17798/webkit-features-for-safari-26-3/ "WebKit features for Safari 26.3 | WebKit")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">browser</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Safari 26.3リリース。
+zstdのサポート、Navigation APIの`NavigateEvent`に`AbortSignal`を公開し、ナビゲーション中断時に進行中の処理をキャンセルできるように。
+CSSの`position-try`や`text-decoration`、マルチカラムレイアウトに関するバグ修正など。
+
+
+----
+
+## Biome v2.4—Embedded Snippets, HTML Accessibility, and Better Framework Support | Biome
+[biomejs.dev/blog/biome-v2-4/](https://biomejs.dev/blog/biome-v2-4/ "Biome v2.4—Embedded Snippets, HTML Accessibility, and Better Framework Support | Biome")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">biome</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Biome v2.4リリース。
+JavaScript内に埋め込まれたCSSやGraphQLスニペットのFormatterとLintをサポート。
+HTMLアクセシビリティ向けの15個のLintルールの追加。
+Vue/Svelte/Astroのサポート改善、CSSパーサーでVue SFCの`:slotted`や`:deep`に対応。
+SARIFレポーターの追加、`--skip`/`--only`フラグのサポートなど。
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## Blog &gt; Writing Good Unit Tests
+[eliocapella.com/blog/writing-good-unit-tests/](https://eliocapella.com/blog/writing-good-unit-tests/ "Blog &gt; Writing Good Unit Tests")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">test</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
+
+ユニットテストの書き方についての記事。
+関数ではなく動作をテストすること、システム境界のみをモック化すること、インメモリデータベースの活用、HTTPのモックについてなど
+
+
+----
+
+## State of React 2025
+[2025.stateofreact.com/en-US](https://2025.stateofreact.com/en-US "State of React 2025")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Survey</span></p>
+
+State of React 2025のアンケート結果が公開された。
+Reactの機能、フレームワーク、状態管理、データフェッチング、メタフレームワーク、ツール、AI活用などについてのアンケート結果がまとめられている。
+
+
+----
+
+## The CSS Selection - 2026 Edition - Project Wallace
+[www.projectwallace.com/the-css-selection/2026](https://www.projectwallace.com/the-css-selection/2026 "The CSS Selection - 2026 Edition - Project Wallace")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">article</span></p>
+
+10万以上のウェブサイトを対象にした実際のCSS利用状況の調査レポート。
+Web AlmanacのCSSの章の代替として、CSSファイルサイズ、プロパティの利用率、モダンCSS機能の採用率などをまとめている。
+`:where()` 91%、`:has()` 41%、`@container` 10%、`@layer` 2.7%などの採用率になっている。
+ベンダープレフィックスやIE6時代のブラウザハックが依然として残っている点についても触れている。
+
+
+----
+
+## Interop 2026が始まりました！
+[zenn.dev/yamanoku/articles/interop-2026-launched](https://zenn.dev/yamanoku/articles/interop-2026-launched "Interop 2026が始まりました！")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">browser</span> <span class="jser-tag">WebPlatformAPI</span> <span class="jser-tag">article</span></p>
+
+ブラウザの相互運用性の向上を目指すプロジェクトであるInterop 2026について。
+Apple、Google、Microsoft、Mozillaなどのブラウザベンダーが参加している。
+CSS Anchor Positioning、Container Style Queries、Navigation API、View Transitionsなどがフォーカスエリアに選ばれている。
+その他にもScroll-driven Animations、IndexedDB、WebRTC、WebTransportなど合計20の分野が対象となっている。
+調査対象としてアクセシビリティテスト、JPEG XL、モバイルテスト、WebVTTの4分野が含まれる。
+
+- [Launching Interop 2026 - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2026/02/launching-interop-2026/ "Launching Interop 2026 - Mozilla Hacks - the Web developer blog")
+- [Announcing Interop 2026 | WebKit](https://webkit.org/blog/17818/announcing-interop-2026/ "Announcing Interop 2026 | WebKit")
+- [Interop 2026 Focus Areas Announced | Igalia](https://www.igalia.com/news/interop-2026.html "Interop 2026 Focus Areas Announced | Igalia")
+- [Microsoft Edge and Interop 2026 - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2026/02/12/microsoft-edge-and-interop-2026/ "Microsoft Edge and Interop 2026 - Microsoft Edge Blog")
+- [Launching Interop 2026 - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2026/02/launching-interop-2026/ "Launching Interop 2026 - Mozilla Hacks - the Web developer blog")
+
+----
+
+## Web フォントを使って contenteditable から脱出する
+[techblog.lycorp.co.jp/ja/20260216c](https://techblog.lycorp.co.jp/ja/20260216c "Web フォントを使って contenteditable から脱出する")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">fonts</span> <span class="jser-tag">article</span></p>
+
+任意の大きさに変形できる空白の文字を持つウェブフォントとテキストのオーバレイを使ってテキストエリアに絵文字などの装飾を表示する方法について
+
+
+----
+
+## Roadmap 2026 (2026-02-04) | webpack
+[webpack.js.org/blog/2026-04-02-roadmap-2026/](https://webpack.js.org/blog/2026-04-02-roadmap-2026/ "Roadmap 2026 (2026-02-04) | webpack")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">article</span></p>
+
+webpack 2026年のロードマップ。
+CSS Modulesのネイティブサポート、TypeScriptのローダーなしでのビルド、HTMLエントリーポイントのプラグインなしでの利用をwebpack本体に組み込む予定。
+Node.js/Deno/Bunなどのクロスランタイム対応、Barrel Fileの遅延最適化、Minimizerプラグインの統合なども計画している。
+webpack 6のリリースに向けた変更についても紹介されている。
+
+
+----
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+----
+
+## npmx - Package Browser for the npm Registry
+[npmx.dev/](https://npmx.dev/ "npmx - Package Browser for the npm Registry")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">search</span> <span class="jser-tag">webservice</span></p>
+
+npmレジストリのインクリメンタル検索サービス。
+Algoliaによるパッケージ検索、パッケージの比較機能、npm/pnpm/yarn/bun/deno/vltなどのパッケージマネージャーに対応したインストールコマンドの表示などの機能がある。
+
+
+----
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## hamzaydia/verifyfetch: Resumable, verified downloads for large browser files. Fail at 3.8GB, resume from 3.8GB.
+[github.com/hamzaydia/verifyfetch](https://github.com/hamzaydia/verifyfetch "hamzaydia/verifyfetch: Resumable, verified downloads for large browser files. Fail at 3.8GB, resume from 3.8GB.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">Fetch</span> <span class="jser-tag">WebAssembly</span></p>
+
+ブラウザでの大容量ファイルのダウンロードにおいて、レジューム対応と整合性の検証を行うライブラリ。
+WebAssemblyによるストリーミングハッシュ計算、HTTP Rangeリクエストによるレジュームダウンロード、IndexedDBへのChunk保存をサポートする。
+事前にファイルを一定のchunkで分けたハッシュを生成しておき、Chunk毎の検証ができる。
+
+
+----
+
+## bikeshaving/shovel: Run Service Workers anywhere
+[github.com/bikeshaving/shovel](https://github.com/bikeshaving/shovel "bikeshaving/shovel: Run Service Workers anywhere")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ServiceWorker</span> <span class="jser-tag">server</span> <span class="jser-tag">library</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">Bun</span> <span class="jser-tag">cloudflare</span></p>
+
+Service Worker APIやWeb標準APIのインターフェースをベースにしたサーバアプリケーションを書けるメタフレームワーク。
+Node.js/Bun/Cloudflare Workersなどで動作する。
+Service Workerの`install`/`activate`/`fetch`イベントをベースにしたサーバライフサイクルを持つ。
+Fetch API、Cache API、FileSystem API、CookieStore API、URLPatternなどのWeb標準APIをベースとしている。
+
+
+----
+
+## ubugeeei/vize: Unofficial High-Performance Vue.js Toolchain in Rust
+[github.com/ubugeeei/vize](https://github.com/ubugeeei/vize "ubugeeei/vize: Unofficial High-Performance Vue.js Toolchain in Rust")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">Rust</span> <span class="jser-tag">Tools</span> <span class="jser-tag">compiler</span></p>
+
+Rustで書かれたVue.jsツールチェイン。
+Vue SFCのコンパイラ、Linter、Formatter、型チェッカー、LSPなどを含む。
+CLI/Browser(WebAssembly)/Vite Pluginとして利用できる
+
+
+----
