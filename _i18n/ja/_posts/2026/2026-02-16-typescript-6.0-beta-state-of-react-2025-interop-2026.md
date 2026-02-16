@@ -13,10 +13,32 @@ tags:
 
 ---
 
-JSer.info #764 - [Announcing TypeScript 6.0 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/)
-[State of React 2025](https://2025.stateofreact.com/en-US)
-[Interop 2026が始まりました！](https://zenn.dev/yamanoku/articles/interop-2026-launched)
+JSer.info #764 - TypeScript 6.0 Betaがリリースされました。
 
+- [Announcing TypeScript 6.0 Beta - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/)
+
+TypeScript 7(Go言語ベース)への移行を見据えたリリースで、多くのデフォルト設定の変更や非推奨化が含まれています。`strict`がデフォルトで`true`に、`module`のデフォルトが`esnext`に、`target`のデフォルトが`es2025`にそれぞれ変更されています。また、`target: es5`や`--moduleResolution node10`などが非推奨化され、ES2025の`RegExp.escape`やTemporalの型定義の追加、TypeScript 7への移行を補助する`--stableTypeOrdering`フラグの追加なども含まれています。
+
+---
+
+State of React 2025のアンケート結果が公開されました。
+
+- [State of React 2025](https://2025.stateofreact.com/en-US)
+
+Reactの機能、フレームワーク、状態管理、データフェッチング、メタフレームワーク、ツール、AI活用などについてのアンケート結果がまとめられています。
+
+---
+
+ブラウザの相互運用性の向上を目指すプロジェクトであるInterop 2026が開始されました。
+
+- [Interop 2026が始まりました！](https://zenn.dev/yamanoku/articles/interop-2026-launched)
+- [Launching Interop 2026 - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2026/02/launching-interop-2026/)
+- [Announcing Interop 2026 | WebKit](https://webkit.org/blog/17818/announcing-interop-2026/)
+- [Interop 2026 Focus Areas Announced | Igalia](https://www.igalia.com/news/interop-2026.html)
+- [Interop 2026: Continuing to improve the web for developers | web.dev](https://web.dev/blog/interop-2026)
+- [Microsoft Edge and Interop 2026 - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2026/02/12/microsoft-edge-and-interop-2026/)
+
+Apple、Google、Microsoft、Mozillaなどのブラウザベンダーが参加し、CSS Anchor Positioning、Container Style Queries、Navigation API、View Transitionsなどがフォーカスエリアに選ばれています。その他にもScroll-driven Animations、IndexedDB、WebRTC、WebTransportなど合計20の分野が対象となっています。
 
 ----
 
@@ -114,8 +136,8 @@ CSS Anchor Positioning、Container Style Queries、Navigation API、View Transit
 - [Launching Interop 2026 - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2026/02/launching-interop-2026/ "Launching Interop 2026 - Mozilla Hacks - the Web developer blog")
 - [Announcing Interop 2026 | WebKit](https://webkit.org/blog/17818/announcing-interop-2026/ "Announcing Interop 2026 | WebKit")
 - [Interop 2026 Focus Areas Announced | Igalia](https://www.igalia.com/news/interop-2026.html "Interop 2026 Focus Areas Announced | Igalia")
+- [Interop 2026: Continuing to improve the web for developers | web.dev](https://web.dev/blog/interop-2026 "Interop 2026: Continuing to improve the web for developers | web.dev")
 - [Microsoft Edge and Interop 2026 - Microsoft Edge Blog](https://blogs.windows.com/msedgedev/2026/02/12/microsoft-edge-and-interop-2026/ "Microsoft Edge and Interop 2026 - Microsoft Edge Blog")
-- [Launching Interop 2026 - Mozilla Hacks - the Web developer blog](https://hacks.mozilla.org/2026/02/launching-interop-2026/ "Launching Interop 2026 - Mozilla Hacks - the Web developer blog")
 
 ----
 
