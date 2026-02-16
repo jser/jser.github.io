@@ -2,7 +2,7 @@
 title: "2026-02-16のJS: TypeScript 6.0 Beta、State of React 2025の結果、Interop 2026"
 author: "azu"
 layout: post
-date: 2026-02-16T10:37:37.219Z
+date: 2026-02-16T10:52:55.838Z
 category: JSer
 tags:
 - browser
