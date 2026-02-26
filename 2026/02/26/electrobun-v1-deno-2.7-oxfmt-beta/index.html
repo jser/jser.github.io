@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2026-02-26のJS: Electrobun v1、Deno 2.7、Oxfmt Beta - JSer.info</title>
+    <meta name="description" content="JSer.info #765 - Electrobun v1がリリースされました。">
+    
+    <meta name="keywords" content="security,Tools,nodejs,React,AI" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2026-02-26T23:48:54+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="AI" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #765 - Electrobun v1がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2026-02-26のJS: Electrobun v1、Deno 2.7、Oxfmt Beta">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #765 - Electrobun v1がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2026-02-26T23:48:54+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2026/02/16/typescript-6.0-beta-state-of-react-2025-interop-2026/">
+
+<meta property="og:see_also" content="https://jser.info/2026/02/04/yarn-6-preview-webassembly-10-state-of-javascript-2025/">
+
+<meta property="og:see_also" content="https://jser.info/2026/01/26/jquery-4.0.0-rolldown-1.0-rc-styelelint-17/">
+
+
+
+
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="AI">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">2026-02-26のJS: Electrobun v1、Deno 2.7、Oxfmt Beta</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2026年02月26日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2026/2026-02-26-electrobun-v1-deno-2.7-oxfmt-beta.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2026/2026-02-26-electrobun-v1-deno-2.7-oxfmt-beta.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #765 - Electrobun v1がリリースされました。</p>
+
+<ul>
+<li><a href="https://blackboard.sh/blog/electrobun-v1/">Electrobun v1 - Blackboard Blog</a></li>
+</ul>
+
+<p>TypeScriptでクロスプラットフォームのデスクトップアプリを作成できるフレームワークで、ランタイムにBunを使い、ZigやC/C++で実装されています。<br>
+ウィンドウ管理やメニュー、グローバルショートカットなどのネイティブ機能をサポートし、差分パッチによる自動アップデート機能やプロセス分離されたwebviewの仕組みなどを持っています。</p>
+
+<hr>
+
+<p>Deno v2.7がリリースされました。</p>
+
+<ul>
+<li><a href="https://deno.com/blog/v2.7">Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno</a></li>
+</ul>
+
+<p>Temporal APIがstableに変更され、Windows ARM(aarch64)のサポートが追加されています。<code>package.json</code>の<code>overrides</code>フィールドのサポート、<code>CompressionStream</code>/<code>DecompressionStream</code>でのBrotliサポート、Web Crypto APIでのSHA3アルゴリズムのサポートなどが含まれています。</p>
+
+<hr>
+
+<p>OxcのJavaScript FormatterであるOxfmtのβがリリースされました。</p>
+
+<ul>
+<li><a href="https://oxc.rs/blog/2026-02-24-oxfmt-beta">Oxfmt Beta | The JavaScript Oxidation Compiler</a></li>
+</ul>
+
+<p>PrettierのJavaScript/TypeScriptの互換テストを100%パスするようになっています。Tailwind CSSのクラスソート、importのソート、<code>package.json</code>のフィールドソートの組み込みサポートなどが含まれています。</p>
+
+<hr>
+
+<h3 class="inline-support">JSer.infoをサポートするには</h3>
+
+<ul>
+    <li>😘 知り合いにJSer.infoをおすすめする</li>
+    <li>❤️ GitHub Sponsorsで<a href="https://github.com/sponsors/azu">@azuのスポンサー</a>になる</li>
+    <li>🐦 X(Twitter)で<a href="https://twitter.com/jser_info">@jser_info</a>をフォローする</li>
+</ul>
+
+<h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://avatars.githubusercontent.com/u/76428554?v=4" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+
+<p></div></p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="electrobun-v1-blackboard-blog">Electrobun v1 - Blackboard Blog</h2>
+
+<p><a href="https://blackboard.sh/blog/electrobun-v1/" title="Electrobun v1 - Blackboard Blog">blackboard.sh/blog/electrobun-v1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">Bun</span> <span class="jser-tag">Zig</span> <span class="jser-tag">Electron</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScriptでクロスプラットフォームのデスクトップアプリを作成できるフレームワーク。<br>
+ランタイムにBunを使い、ZigやC/C++で実装されている。<br>
+ウィンドウ管理/メニュー/グローバルショートカット/クリップボード/ダイアログなどのネイティブ機能をサポートしている。<br>
+差分パッチによる自動アップデート機能、プロセス分離されたwebviewを<code>&lt;electrobun-webview&gt;</code>要素として扱える仕組みなどを持つ。<br>
+macOS/Windows/Ubuntuに対応している。</p>
+
+<ul>
+<li><a href="https://github.com/blackboardsh/electrobun" title="blackboardsh/electrobun: Build ultra fast, tiny, and cross-platform desktop apps with Typescript.">blackboardsh/electrobun: Build ultra fast, tiny, and cross-platform desktop apps with Typescript.</a></li>
+<li><a href="https://blackboard.sh/electrobun/docs/" title="Electrobun Documentation - Build ultra fast, tiny, cross-platform desktop apps">Electrobun Documentation - Build ultra fast, tiny, cross-platform desktop apps</a></li>
+</ul>
+
+<hr>
+
+<h2 id="release-v4-12-0-honojs-hono">Release v4.12.0 · honojs/hono</h2>
+
+<p><a href="https://github.com/honojs/hono/releases/tag/v4.12.0" title="Release v4.12.0 · honojs/hono">github.com/honojs/hono/releases/tag/v4.12.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Hono</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Hono v4.12.0リリース。<br>
+Hono Clientに<code>$path()</code>メソッドの追加、SSG向けのredirect pluginの追加、Basic Authの<code>onAuthSuccess</code>コールバックの追加。<br>
+<code>getConnInfo</code>がAWS Lambda/Cloudflare Pages/Netlifyに対応。<br>
+TrieRouterのパフォーマンスの改善、<code>c.json()</code>のFast Pathの追加など</p>
+
+<hr>
+
+<h2 id="oxfmt-beta-the-javascript-oxidation-compiler">Oxfmt Beta | The JavaScript Oxidation Compiler</h2>
+
+<p><a href="https://oxc.rs/blog/2026-02-24-oxfmt-beta" title="Oxfmt Beta | The JavaScript Oxidation Compiler">oxc.rs/blog/2026-02-24-oxfmt-beta</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Rust</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>OxcのJavaScript FormatterであるOxfmtのβリリース。<br>
+PrettierのJavaScript/TypeScriptの互換テストを100%パスするようになった。<br>
+Tailwind CSSのクラスソート、importのソート、<code>package.json</code>のフィールドソートの組み込みサポートなど</p>
+
+<ul>
+<li><a href="https://oxc.rs/docs/guide/usage/formatter" title="Oxfmt | The JavaScript Oxidation Compiler">Oxfmt | The JavaScript Oxidation Compiler</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-js-node-js-25-7-0-current">Node.js — Node.js 25.7.0 (Current)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v25.7.0" title="Node.js — Node.js 25.7.0 (Current)">nodejs.org/en/blog/release/v25.7.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v25.7.0リリース。<br>
+<code>node:sqlite</code>モジュールがRelease Candidate(RC)に昇格。<br>
+Single Executable Applications(SEA)でESMエントリーポイントをサポート、<br>
+HTTP/2でHTTP/1へのフォールバック設定として<code>http1Options</code>を追加。<br>
+<code>Duplex.toWeb()</code>のtypeオプションを<code>readableType</code>にリネーム、<code>node:test</code>でSIGINT時に中断されたテストを表示するように。<br>
+<code>fs.stat</code>に<code>throwIfNoEntry</code>オプションの追加、<code>zlib</code>でBrotli圧縮辞書のサポートなど。</p>
+
+<hr>
+
+<h2 id="node-js-node-js-24-14-0-lts">Node.js — Node.js 24.14.0 (LTS)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v24.14.0" title="Node.js — Node.js 24.14.0 (LTS)">nodejs.org/en/blog/release/v24.14.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node v24.14.0リリース。<br>
+<code>async_hooks</code>の<code>createHook()</code>に<code>trackPromises</code>オプションの追加、<code>fs.watch()</code>に<code>ignore</code>オプションの追加。<br>
+<code>http.setGlobalProxyFromEnv()</code>の追加、Subpath Importsで<code>#/</code>から始まるパスをサポート。<br>
+SQLiteのdefensive modeをデフォルトで有効化、Embedder APIでESMの初期サポートを追加。<br>
+<code>stream/consumers</code>に<code>bytes()</code>メソッドの追加、<code>node:test</code>の<code>run()</code>に<code>env</code>オプションの追加や<code>it.expectFailure</code>のサポートなど。</p>
+
+<hr>
+
+<h2 id="deno-2-7-temporal-api-windows-arm-and-npm-overrides-deno">Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno</h2>
+
+<p><a href="https://deno.com/blog/v2.7" title="Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno">deno.com/blog/v2.7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Deno v2.7リリース。<br>
+Temporal APIがstableに変更、Windows ARM(aarch64)のサポート。<br>
+<code>package.json</code>の<code>overrides</code>フィールドのサポート、<code>deno install --compile</code>の追加。<br>
+<code>CompressionStream</code>/<code>DecompressionStream</code>がBrotliをサポート、Web Crypto APIでSHA3アルゴリズムのサポート。<br>
+<code>deno task</code>でglobstar(<code>**</code>)と<code>pipefail</code>のサポート、<code>deno compile --self-extracting</code>オプションの追加。<br>
+Web WorkerのDevToolsデバッグに対応、OpenTelemetryでDeno Cronの自動計装に対応。<br>
+Node.js互換性の改善として<code>node:worker_threads</code>/<code>node:child_process</code>/<code>node:zlib</code>(Zstd)などの修正、V8 14.5へのアップデートなど。</p>
+
+<hr>
+
+<h2 id="the-react-foundation-a-new-home-for-react-hosted-by-the-linux-foundation-react">The React Foundation: A New Home for React Hosted by the Linux Foundation – React</h2>
+
+<p><a href="https://react.dev/blog/2026/02/24/the-react-foundation" title="The React Foundation: A New Home for React Hosted by the Linux Foundation – React">react.dev/blog/2026/02/24/the-react-foundation</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">OpenSource</span> <span class="jser-tag">community</span> <span class="jser-tag">organization</span> <span class="jser-tag">news</span></p></p>
+
+<p>React FoundationがLinux Foundation傘下に正式に設立された。<br>
+React、React Native、JSXなどのプロジェクトがMetaからReact Foundationへ移管される。<br>
+プラチナメンバーとしてAmazon、Callstack、Expo、Huawei、Meta、Microsoft、Software Mansion、Vercelが参加。<br>
+技術的なガバナンスはFoundation本体から独立して維持され、貢献者やメンテナーが技術的な方向性を決定する。<br>
+今後数カ月でリポジトリやインフラの移管が進められる予定。</p>
+
+<hr>
+
+<h2 id="release-styled-components-6-3-7-styled-components-styled-components">Release <a href="mailto:styled-components@6.3.7">styled-components@6.3.7</a> · styled-components/styled-components</h2>
+
+<p><a href="https://github.com/styled-components/styled-components/releases/tag/styled-components%406.3.7" title="Release styled-components@6.3.7 · styled-components/styled-components">github.com/styled-components/styled-components/releases/tag/styled-components%406.3.7</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>styled-components v6.3.7リリース。<br>
+<code>createGlobalStyle</code>がReact StrictModeやRSC(React Server Components)で正しく動作しない問題の修正。<br>
+package.jsonに<code>exports</code>フィールドを追加しESMの対応を改善など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="clinejection-compromising-clines-production-releases-just-by-prompting-an-issue-triager-adnan-khan-security-research">Clinejection — Compromising Cline&#039;s Production Releases just by Prompting an Issue Triager | Adnan Khan - Security Research</h2>
+
+<p><a href="https://adnanthekhan.com/posts/clinejection/" title="Clinejection — Compromising Cline&amp;#039;s Production Releases just by Prompting an Issue Triager | Adnan Khan - Security Research">adnanthekhan.com/posts/clinejection/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">security</span> <span class="jser-tag">VSCode</span> <span class="jser-tag">AI</span> <span class="jser-tag">article</span></p></p>
+
+<p>ClineのGitHub Actionsワークフローに対する攻撃手法についての記事。<br>
+AIを使ったIssueトリアージボットへのPrompt Injectionを起点に、GitHub Actionsのキャッシュポイズニングを組み合わせる攻撃手法について。<br>
+攻撃が成功した場合、VSCode Marketplace/OpenVSX/npmの公開用トークンを取れる問題があり、実際にCline CLIのnpmパッケージが侵害されていた。</p>
+
+<hr>
+
+<h2 id="goodbye-innerhtml-hello-sethtml-stronger-xss-protection-in-firefox-148-mozilla-hacks-the-web-developer-blog">Goodbye innerHTML, Hello setHTML: Stronger XSS Protection in Firefox 148 - Mozilla Hacks - the Web developer blog</h2>
+
+<p><a href="https://hacks.mozilla.org/2026/02/goodbye-innerhtml-hello-sethtml-stronger-xss-protection-in-firefox-148/" title="Goodbye innerHTML, Hello setHTML: Stronger XSS Protection in Firefox 148 - Mozilla Hacks - the Web developer blog">hacks.mozilla.org/2026/02/goodbye-innerhtml-hello-sethtml-stronger-xss-protection-in-firefox-148/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">XSS</span> <span class="jser-tag">security</span> <span class="jser-tag">DOM</span> <span class="jser-tag">article</span></p></p>
+
+<p>Firefox 148で実装されたSanitizer APIについて。<br>
+<code>innerHTML</code>はHTMLをフィルタリングせずに挿入するが、<code>setHTML()</code>は自動的にサニタイズしてXSSの原因となる危険な要素や属性を除去する。<br>
+Sanitizer APIのデフォルト設定やカスタム設定、Trusted Typesとの組み合わせについて。</p>
+
+<hr>
+
+<h2 id="how-we-rebuilt-next-js-with-ai-in-one-week">How we rebuilt Next.js with AI in one week</h2>
+
+<p><a href="https://blog.cloudflare.com/vinext/" title="How we rebuilt Next.js with AI in one week">blog.cloudflare.com/vinext/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">cloudflare</span> <span class="jser-tag">vite</span> <span class="jser-tag">article</span></p></p>
+
+<p>CloudflareによるNext.js互換フレームワークvinextについて。<br>
+Next.jsのルーティング、React Server Components、Server Actionsなどの機能をViteベースで再実装している。</p>
+
+<ul>
+<li><a href="https://github.com/cloudflare/vinext" title="cloudflare/vinext: Vite plugin that reimplements the Next.js API surface — deploy anywhere">cloudflare/vinext: Vite plugin that reimplements the Next.js API surface — deploy anywhere</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">スライド、動画関係</h1>
+
+<hr>
+
+<h2 id="npm-bulk-trusted-publishing-config-and-script-security-now-generally-available-github-changelog">npm bulk trusted publishing config and script security now generally available - GitHub Changelog</h2>
+
+<p><a href="https://github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/" title="npm bulk trusted publishing config and script security now generally available - GitHub Changelog">github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span></p></p>
+
+<p>npm CLI v11.10.0リリース。<br>
+<code>min-release-age</code>でパッケージの公開から一定日経過したものだけをインストールできるように。<br>
+<code>npm trust</code>コマンドで複数パッケージのOIDC Trusted Publishingの設定を一括で行えるように。<br>
+<code>--allow-git</code>フラグの追加により、git依存関係のインストール時のセキュリティ制御が可能に。<code>.npmrc</code>でgit実行パスを上書きすることで<code>--ignore-scripts</code>使用時でもコード実行が可能だった問題に対処している。<br>
+<code>--allow-git=none</code>の利用が推奨されており、npm CLI v12でデフォルトになる予定。</p>
+
+<ul>
+<li><a href="https://github.com/npm/cli/releases/tag/v11.11.0" title="Release v11.11.0 · npm/cli">Release v11.11.0 · npm/cli</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="millionco-react-doctor-let-coding-agents-diagnose-and-fix-your-react-code">millionco/react-doctor: Let coding agents diagnose and fix your React code</h2>
+
+<p><a href="https://github.com/millionco/react-doctor" title="millionco/react-doctor: Let coding agents diagnose and fix your React code">github.com/millionco/react-doctor</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">performance</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">AI</span></p></p>
+
+<p>Reactのコードベースを静的解析して、ヘルススコア(0〜100)を算出するツール。<br>
+60以上のルールでstate/effects、パフォーマンス、アーキテクチャ、バンドルサイズ、セキュリティ、アクセシビリティなどをチェックできる。<br>
+未使用のファイルやエクスポートの検出、Next.js/Vite/Remixなどのフレームワーク自動検出にも対応している。<br>
+CLIやGitHub Actions、Node.js APIとして利用できる。</p>
+
+<hr>
+
+<h2 id="vercel-labs-portless-replace-port-numbers-with-stable-named-localhost-urls-for-humans-and-agents">vercel-labs/portless: Replace port numbers with stable, named .localhost URLs. For humans and agents.</h2>
+
+<p><a href="https://github.com/vercel-labs/portless" title="vercel-labs/portless: Replace port numbers with stable, named .localhost URLs. For humans and agents.">github.com/vercel-labs/portless</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">server</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">debug</span></p></p>
+
+<p>ポート番号の代わりに<code>myapp.localhost</code>のような名前付き<code>.localhost</code> URLを使えるようにする開発用プロキシツール。<br>
+<code>portless proxy start</code>でデーモンを起動し、<code>portless myapp next dev</code>のように開発サーバーを起動する。<br>
+<code>http://myapp.localhost:1355</code>のようなURLでアクセスできる。<br>
+HTTP/2やHTTPSの証明書の自動生成に対応し、Next.js/Express/Nuxt/Vite/Astroなどのフレームワークで利用できる。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2026/2026-02-26-electrobun-v1-deno-2.7-oxfmt-beta.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["security","Tools","nodejs","React","AI"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>security</li>
+                
+                <li>Tools</li>
+                
+                <li>nodejs</li>
+                
+                <li>React</li>
+                
+                <li>AI</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://avatars.githubusercontent.com/u/76428554?v=4" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">2026-02-26のJS: Electrobun v1、Deno 2.7、Oxfmt Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/02/16/typescript-6.0-beta-state-of-react-2025-interop-2026/">2026-02-16のJS: TypeScript 6.0 Beta、State of React 2025の結果、Interop 2026</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/02/04/yarn-6-preview-webassembly-10-state-of-javascript-2025/">2026-02-04のJS: Yarn 6 Preview、WebAssembly 10年、State of JavaScript 2025の結果公開</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/01/26/jquery-4.0.0-rolldown-1.0-rc-styelelint-17/">2026-01-26のJS: jQuery 4.0.0、Rolldown 1.0 RC、Stylelint 17</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/01/17/node.js-chrome-144-firefox-147-electron-40/">2026-01-17のJS: Node.js のセキュリティアップデート、Chrome 144、Firefox 147、Electron 40</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/01/16/jser-info-15th/">JSer.info 15周年: 15年間のJavaScriptを振り返る</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/01/08/zod-v4.3.0-flint-pnpm-in-2025/">2026-01-08のJS: zod v4.3.0、Flint、pnpm in 2025</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2025/12/30/next.js-16.1-vue-3.6.0-beta-1-css-wrapped-2025/">2025-12-30のJS: Next.js 16.1、Vue 3.6.0 beta 1、CSS Wrapped 2025</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
