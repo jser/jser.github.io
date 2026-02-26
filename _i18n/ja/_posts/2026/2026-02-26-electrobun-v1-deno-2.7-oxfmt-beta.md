@@ -1,0 +1,214 @@
+---
+title: "2026-02-26のJS: Electrobun v1、Deno 2.7、Oxfmt Beta"
+author: "azu"
+layout: post
+date: 2026-02-26T14:45:56.538Z
+category: JSer
+tags:
+- security
+- Tools
+- nodejs
+- React
+- AI
+
+---
+
+JSer.info #765 - [Electrobun asdv1 - Blackboard Blog](https://blackboard.sh/blog/electrobun-v1/)
+[Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno](https://deno.com/blog/v2.7)
+[Oxfmt Beta | The JavaScript Oxidation Compiler](https://oxc.rs/blog/2026-02-24-oxfmt-beta)
+
+
+----
+
+{% include inline-support.html %}
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Electrobun v1 - Blackboard Blog
+[blackboard.sh/blog/electrobun-v1/](https://blackboard.sh/blog/electrobun-v1/ "Electrobun v1 - Blackboard Blog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">Bun</span> <span class="jser-tag">Zig</span> <span class="jser-tag">Electron</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+TypeScriptでクロスプラットフォームのデスクトップアプリを作成できるフレームワーク。
+ランタイムにBunを使い、ZigやC/C++で実装されている。
+ウィンドウ管理/メニュー/グローバルショートカット/クリップボード/ダイアログなどのネイティブ機能をサポートしている。
+差分パッチによる自動アップデート機能、プロセス分離されたwebviewを`<electrobun-webview>`要素として扱える仕組みなどを持つ。
+macOS/Windows/Ubuntuに対応している。
+
+- [blackboardsh/electrobun: Build ultra fast, tiny, and cross-platform desktop apps with Typescript.](https://github.com/blackboardsh/electrobun "blackboardsh/electrobun: Build ultra fast, tiny, and cross-platform desktop apps with Typescript.")
+- [Electrobun Documentation - Build ultra fast, tiny, cross-platform desktop apps](https://blackboard.sh/electrobun/docs/ "Electrobun Documentation - Build ultra fast, tiny, cross-platform desktop apps")
+
+----
+
+## Release v4.12.0 · honojs/hono
+[github.com/honojs/hono/releases/tag/v4.12.0](https://github.com/honojs/hono/releases/tag/v4.12.0 "Release v4.12.0 · honojs/hono")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Hono</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Hono v4.12.0リリース。
+Hono Clientに`$path()`メソッドの追加、SSG向けのredirect pluginの追加、Basic Authの`onAuthSuccess`コールバックの追加。
+`getConnInfo`がAWS Lambda/Cloudflare Pages/Netlifyに対応。
+TrieRouterのパフォーマンスの改善、`c.json()`のFast Pathの追加など
+
+
+----
+
+## Oxfmt Beta | The JavaScript Oxidation Compiler
+[oxc.rs/blog/2026-02-24-oxfmt-beta](https://oxc.rs/blog/2026-02-24-oxfmt-beta "Oxfmt Beta | The JavaScript Oxidation Compiler")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">Rust</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p>
+
+OxcのJavaScript FormatterであるOxfmtのβリリース。
+PrettierのJavaScript/TypeScriptの互換テストを100%パスするようになった。
+Tailwind CSSのクラスソート、importのソート、`package.json`のフィールドソートの組み込みサポートなど
+
+- [Oxfmt | The JavaScript Oxidation Compiler](https://oxc.rs/docs/guide/usage/formatter "Oxfmt | The JavaScript Oxidation Compiler")
+
+----
+
+## Node.js — Node.js 25.7.0 (Current)
+[nodejs.org/en/blog/release/v25.7.0](https://nodejs.org/en/blog/release/v25.7.0 "Node.js — Node.js 25.7.0 (Current)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node v25.7.0リリース。
+`node:sqlite`モジュールがRelease Candidate(RC)に昇格。
+Single Executable Applications(SEA)でESMエントリーポイントをサポート、
+HTTP/2でHTTP/1へのフォールバック設定として`http1Options`を追加。
+`Duplex.toWeb()`のtypeオプションを`readableType`にリネーム、`node:test`でSIGINT時に中断されたテストを表示するように。
+`fs.stat`に`throwIfNoEntry`オプションの追加、`zlib`でBrotli圧縮辞書のサポートなど。
+
+
+----
+
+## Node.js — Node.js 24.14.0 (LTS)
+[nodejs.org/en/blog/release/v24.14.0](https://nodejs.org/en/blog/release/v24.14.0 "Node.js — Node.js 24.14.0 (LTS)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node v24.14.0リリース。
+`async_hooks`の`createHook()`に`trackPromises`オプションの追加、`fs.watch()`に`ignore`オプションの追加。
+`http.setGlobalProxyFromEnv()`の追加、Subpath Importsで`#/`から始まるパスをサポート。
+SQLiteのdefensive modeをデフォルトで有効化、Embedder APIでESMの初期サポートを追加。
+`stream/consumers`に`bytes()`メソッドの追加、`node:test`の`run()`に`env`オプションの追加や`it.expectFailure`のサポートなど。
+
+
+----
+
+## Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno
+[deno.com/blog/v2.7](https://deno.com/blog/v2.7 "Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Deno v2.7リリース。
+Temporal APIがstableに変更、Windows ARM(aarch64)のサポート。
+`package.json`の`overrides`フィールドのサポート、`deno install --compile`の追加。
+`CompressionStream`/`DecompressionStream`がBrotliをサポート、Web Crypto APIでSHA3アルゴリズムのサポート。
+`deno task`でglobstar(`**`)と`pipefail`のサポート、`deno compile --self-extracting`オプションの追加。
+Web WorkerのDevToolsデバッグに対応、OpenTelemetryでDeno Cronの自動計装に対応。
+Node.js互換性の改善として`node:worker_threads`/`node:child_process`/`node:zlib`(Zstd)などの修正、V8 14.5へのアップデートなど。
+
+
+----
+
+## The React Foundation: A New Home for React Hosted by the Linux Foundation – React
+[react.dev/blog/2026/02/24/the-react-foundation](https://react.dev/blog/2026/02/24/the-react-foundation "The React Foundation: A New Home for React Hosted by the Linux Foundation – React")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">OpenSource</span> <span class="jser-tag">community</span> <span class="jser-tag">organization</span> <span class="jser-tag">news</span></p>
+
+React FoundationがLinux Foundation傘下に正式に設立された。
+React、React Native、JSXなどのプロジェクトがMetaからReact Foundationへ移管される。
+プラチナメンバーとしてAmazon、Callstack、Expo、Huawei、Meta、Microsoft、Software Mansion、Vercelが参加。
+技術的なガバナンスはFoundation本体から独立して維持され、貢献者やメンテナーが技術的な方向性を決定する。
+今後数カ月でリポジトリやインフラの移管が進められる予定。
+
+
+----
+
+## Release styled-components@6.3.7 · styled-components/styled-components
+[github.com/styled-components/styled-components/releases/tag/styled-components%406.3.7](https://github.com/styled-components/styled-components/releases/tag/styled-components%406.3.7 "Release styled-components@6.3.7 · styled-components/styled-components")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">CSS</span> <span class="jser-tag">React</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p>
+
+styled-components v6.3.7リリース。
+`createGlobalStyle`がReact StrictModeやRSC(React Server Components)で正しく動作しない問題の修正。
+package.jsonに`exports`フィールドを追加しESMの対応を改善など
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## Clinejection — Compromising Cline&#039;s Production Releases just by Prompting an Issue Triager | Adnan Khan - Security Research
+[adnanthekhan.com/posts/clinejection/](https://adnanthekhan.com/posts/clinejection/ "Clinejection — Compromising Cline&#039;s Production Releases just by Prompting an Issue Triager | Adnan Khan - Security Research")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">security</span> <span class="jser-tag">VSCode</span> <span class="jser-tag">AI</span> <span class="jser-tag">article</span></p>
+
+ClineのGitHub Actionsワークフローに対する攻撃手法についての記事。
+AIを使ったIssueトリアージボットへのPrompt Injectionを起点に、GitHub Actionsのキャッシュポイズニングを組み合わせる攻撃手法について。
+攻撃が成功した場合、VSCode Marketplace/OpenVSX/npmの公開用トークンを取れる問題があり、実際にCline CLIのnpmパッケージが侵害されていた。
+
+
+----
+
+## Goodbye innerHTML, Hello setHTML: Stronger XSS Protection in Firefox 148 - Mozilla Hacks - the Web developer blog
+[hacks.mozilla.org/2026/02/goodbye-innerhtml-hello-sethtml-stronger-xss-protection-in-firefox-148/](https://hacks.mozilla.org/2026/02/goodbye-innerhtml-hello-sethtml-stronger-xss-protection-in-firefox-148/ "Goodbye innerHTML, Hello setHTML: Stronger XSS Protection in Firefox 148 - Mozilla Hacks - the Web developer blog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Firefox</span> <span class="jser-tag">XSS</span> <span class="jser-tag">security</span> <span class="jser-tag">DOM</span> <span class="jser-tag">article</span></p>
+
+Firefox 148で実装されたSanitizer APIについて。
+`innerHTML`はHTMLをフィルタリングせずに挿入するが、`setHTML()`は自動的にサニタイズしてXSSの原因となる危険な要素や属性を除去する。
+Sanitizer APIのデフォルト設定やカスタム設定、Trusted Typesとの組み合わせについて。
+
+
+----
+
+## How we rebuilt Next.js with AI in one week
+[blog.cloudflare.com/vinext/](https://blog.cloudflare.com/vinext/ "How we rebuilt Next.js with AI in one week")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">cloudflare</span> <span class="jser-tag">vite</span> <span class="jser-tag">article</span></p>
+
+CloudflareによるNext.js互換フレームワークvinextについて。
+Next.jsのルーティング、React Server Components、Server Actionsなどの機能をViteベースで再実装している。
+
+- [cloudflare/vinext: Vite plugin that reimplements the Next.js API surface — deploy anywhere](https://github.com/cloudflare/vinext "cloudflare/vinext: Vite plugin that reimplements the Next.js API surface — deploy anywhere")
+
+----
+<h1 class="site-genre">スライド、動画関係</h1>
+
+----
+
+## npm bulk trusted publishing config and script security now generally available - GitHub Changelog
+[github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/](https://github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/ "npm bulk trusted publishing config and script security now generally available - GitHub Changelog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span></p>
+
+npm CLI v11.10.0リリース。
+`min-release-age`でパッケージの公開から一定日経過したものだけをインストールできるように。
+`npm trust`コマンドで複数パッケージのOIDC Trusted Publishingの設定を一括で行えるように。
+`--allow-git`フラグの追加により、git依存関係のインストール時のセキュリティ制御が可能に。`.npmrc`でgit実行パスを上書きすることで`--ignore-scripts`使用時でもコード実行が可能だった問題に対処している。
+`--allow-git=none`の利用が推奨されており、npm CLI v12でデフォルトになる予定。
+
+- [Release v11.11.0 · npm/cli](https://github.com/npm/cli/releases/tag/v11.11.0 "Release v11.11.0 · npm/cli")
+
+----
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+----
+
+## millionco/react-doctor: Let coding agents diagnose and fix your React code
+[github.com/millionco/react-doctor](https://github.com/millionco/react-doctor "millionco/react-doctor: Let coding agents diagnose and fix your React code")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">performance</span> <span class="jser-tag">accessibility</span> <span class="jser-tag">AI</span></p>
+
+Reactのコードベースを静的解析して、ヘルススコア(0〜100)を算出するツール。
+60以上のルールでstate/effects、パフォーマンス、アーキテクチャ、バンドルサイズ、セキュリティ、アクセシビリティなどをチェックできる。
+未使用のファイルやエクスポートの検出、Next.js/Vite/Remixなどのフレームワーク自動検出にも対応している。
+CLIやGitHub Actions、Node.js APIとして利用できる。
+
+
+----
+
+## vercel-labs/portless: Replace port numbers with stable, named .localhost URLs. For humans and agents.
+[github.com/vercel-labs/portless](https://github.com/vercel-labs/portless "vercel-labs/portless: Replace port numbers with stable, named .localhost URLs. For humans and agents.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">server</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">debug</span></p>
+
+ポート番号の代わりに`myapp.localhost`のような名前付き`.localhost` URLを使えるようにする開発用プロキシツール。
+`portless proxy start`でデーモンを起動し、`portless myapp next dev`のように開発サーバーを起動する。
+`http://myapp.localhost:1355`のようなURLでアクセスできる。
+HTTP/2やHTTPSの証明書の自動生成に対応し、Next.js/Express/Nuxt/Vite/Astroなどのフレームワークで利用できる。
+
+
+----
