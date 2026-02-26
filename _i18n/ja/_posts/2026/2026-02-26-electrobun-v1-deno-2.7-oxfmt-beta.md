@@ -2,7 +2,7 @@
 title: "2026-02-26のJS: Electrobun v1、Deno 2.7、Oxfmt Beta"
 author: "azu"
 layout: post
-date: 2026-02-26T14:45:56.538Z
+date: 2026-02-26T14:48:54.395Z
 category: JSer
 tags:
 - security
