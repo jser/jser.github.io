@@ -129,6 +129,21 @@ Node.js互換性の改善として`node:worker_threads`/`node:child_process`/`no
 
 ----
 
+
+## npm bulk trusted publishing config and script security now generally available - GitHub Changelog
+[github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/](https://github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/ "npm bulk trusted publishing config and script security now generally available - GitHub Changelog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span></p>
+
+npm CLI v11.10.0リリース。
+`min-release-age`でパッケージの公開から一定日経過したものだけをインストールできるように。
+`npm trust`コマンドで複数パッケージのOIDC Trusted Publishingの設定を一括で行えるように。
+`--allow-git`フラグの追加により、git依存関係のインストール時のセキュリティ制御が可能に。`.npmrc`でgit実行パスを上書きすることで`--ignore-scripts`使用時でもコード実行が可能だった問題に対処している。
+`--allow-git=none`の利用が推奨されており、npm CLI v12でデフォルトになる予定。
+
+- [Release v11.11.0 · npm/cli](https://github.com/npm/cli/releases/tag/v11.11.0 "Release v11.11.0 · npm/cli")
+
+----
+
 ## The React Foundation: A New Home for React Hosted by the Linux Foundation – React
 [react.dev/blog/2026/02/24/the-react-foundation](https://react.dev/blog/2026/02/24/the-react-foundation "The React Foundation: A New Home for React Hosted by the Linux Foundation – React")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">OpenSource</span> <span class="jser-tag">community</span> <span class="jser-tag">organization</span> <span class="jser-tag">news</span></p>
@@ -186,23 +201,6 @@ CloudflareによるNext.js互換フレームワークvinextについて。
 Next.jsのルーティング、React Server Components、Server Actionsなどの機能をViteベースで再実装している。
 
 - [cloudflare/vinext: Vite plugin that reimplements the Next.js API surface — deploy anywhere](https://github.com/cloudflare/vinext "cloudflare/vinext: Vite plugin that reimplements the Next.js API surface — deploy anywhere")
-
-----
-<h1 class="site-genre">スライド、動画関係</h1>
-
-----
-
-## npm bulk trusted publishing config and script security now generally available - GitHub Changelog
-[github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/](https://github.blog/changelog/2026-02-18-npm-bulk-trusted-publishing-config-and-script-security-now-generally-available/ "npm bulk trusted publishing config and script security now generally available - GitHub Changelog")
-<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span></p>
-
-npm CLI v11.10.0リリース。
-`min-release-age`でパッケージの公開から一定日経過したものだけをインストールできるように。
-`npm trust`コマンドで複数パッケージのOIDC Trusted Publishingの設定を一括で行えるように。
-`--allow-git`フラグの追加により、git依存関係のインストール時のセキュリティ制御が可能に。`.npmrc`でgit実行パスを上書きすることで`--ignore-scripts`使用時でもコード実行が可能だった問題に対処している。
-`--allow-git=none`の利用が推奨されており、npm CLI v12でデフォルトになる予定。
-
-- [Release v11.11.0 · npm/cli](https://github.com/npm/cli/releases/tag/v11.11.0 "Release v11.11.0 · npm/cli")
 
 ----
 <h1 class="site-genre">サイト、サービス、ドキュメント</h1>
