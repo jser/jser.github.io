@@ -13,10 +13,30 @@ tags:
 
 ---
 
-JSer.info #765 - [Electrobun asdv1 - Blackboard Blog](https://blackboard.sh/blog/electrobun-v1/)
-[Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno](https://deno.com/blog/v2.7)
-[Oxfmt Beta | The JavaScript Oxidation Compiler](https://oxc.rs/blog/2026-02-24-oxfmt-beta)
+JSer.info #765 - Electrobun v1がリリースされました。
 
+- [Electrobun v1 - Blackboard Blog](https://blackboard.sh/blog/electrobun-v1/)
+
+TypeScriptでクロスプラットフォームのデスクトップアプリを作成できるフレームワークで、ランタイムにBunを使い、ZigやC/C++で実装されています。
+ウィンドウ管理やメニュー、グローバルショートカットなどのネイティブ機能をサポートし、差分パッチによる自動アップデート機能やプロセス分離されたwebviewの仕組みなどを持っています。
+
+
+---
+
+Deno v2.7がリリースされました。
+
+- [Deno 2.7: Temporal API, Windows ARM, and npm overrides | Deno](https://deno.com/blog/v2.7)
+
+Temporal APIがstableに変更され、Windows ARM(aarch64)のサポートが追加されています。`package.json`の`overrides`フィールドのサポート、`CompressionStream`/`DecompressionStream`でのBrotliサポート、Web Crypto APIでのSHA3アルゴリズムのサポートなどが含まれています。
+
+
+---
+
+OxcのJavaScript FormatterであるOxfmtのβがリリースされました。
+
+- [Oxfmt Beta | The JavaScript Oxidation Compiler](https://oxc.rs/blog/2026-02-24-oxfmt-beta)
+
+PrettierのJavaScript/TypeScriptの互換テストを100%パスするようになっています。Tailwind CSSのクラスソート、importのソート、`package.json`のフィールドソートの組み込みサポートなどが含まれています。
 
 ----
 
