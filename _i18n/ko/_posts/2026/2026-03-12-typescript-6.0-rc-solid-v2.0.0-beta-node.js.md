@@ -1,5 +1,5 @@
 ---
-title: "2026-03-12: TypeScript 6.0 RC, Solid v2.0.0 Beta, Node.js 출시スケジュールの変更"
+title: "2026-03-12: TypeScript 6.0 RC, Solid v2.0.0 Beta, Node.js 출시 스케쥴 변경"
 author: "azu"
 translator: rewrite0w0
 layout: post
