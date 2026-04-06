@@ -161,7 +161,7 @@ Web표준 API(fetch, Request, Response)를 그대로 이용, 설정보다 합성
 [bloomberg.github.io/js-blog/post/temporal/](https://bloomberg.github.io/js-blog/post/temporal/ "Temporal: The 9-Year Journey to Fix Time in JavaScript | Bloomberg JS Blog")
 <p class="jser-tags jser-tag-icon"><span class="jser-tag">TC39</span> <span class="jser-tag">ECMAScript</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
 
-ECMAScript Proposal의 Temporal가 Stage 4가 되어 ES2026에 포함되는 것이 결정되는 경위에 대한 글.
+ECMAScript Proposal의 Temporal가 Stage 4가 되어 ES2027에 포함되는 것이 결정되는 경위에 대한 글.
 JavaScript의 `Date` 오브젝트가 안고 있는 뮤터블한 설계, 타임존 대응 부족, 애매한 경로 문제를 각 해결하기 위해 Temporal가 어떤 설계했는가 설명하고 있다.
 Temporal는 이뮤터블한 설계, 타임존 설정, 달력 네이티브 지원, 나노초 정밀 특정이 갖고 있음.
 `ZonedDateTime`/`Instant`/`PlainDate`/`PlainTime` 같은 자료형.`temporal_rs`이나 Bloomberg/Google/Microsoft/Igalia 등 복수 조직에 의한 협력도 소개되어 있음.
