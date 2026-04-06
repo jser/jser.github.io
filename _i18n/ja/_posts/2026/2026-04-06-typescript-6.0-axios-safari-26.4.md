@@ -1,5 +1,5 @@
 ---
-title: "2026-04-06のJS: TypeScript 6.0、axiosサプライチェーン攻撃、Safari 26.4"
+title: "2026-04-06のJS: TypeScript 6.0、ES2026 RC、axiosサプライチェーン攻撃"
 author: "azu"
 layout: post
 date: 2026-04-06T01:03:11.614Z
@@ -21,6 +21,14 @@ JSer.info #768 - TypeScript 6.0がリリースされました。
 
 ---
 
+ECMAScript 2026のRelease Candidateが公開されました。
+
+- [Release ES2026 Candidate March 31st 2026 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2026-candidate-2026-03-31)
+
+TC39によって2026年3月に承認され、2026年6月のEcma General Assemblyでの承認を経て正式リリースとなる予定です。ES2026には、Temporal、`Iterator.concat()`、`Promise.try()`、`RegExp.escape()`、Sync Iterator helpersなどが含まれる予定です。
+
+---
+
 axiosのnpmパッケージに対するサプライチェーン攻撃が発生しました。
 
 - [axios Compromised on npm - Malicious Versions Drop Remote Access Trojan - StepSecurity](https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan)
@@ -28,14 +36,6 @@ axiosのnpmパッケージに対するサプライチェーン攻撃が発生し
 - [The Hidden Blast Radius of the Axios Compromise - Socket](https://socket.dev/blog/hidden-blast-radius-of-the-axios-compromise)
 
 ソーシャルエンジニアリングによりメンテナーアカウントが乗っ取られ、悪意のある`axios@1.14.1`と`axios@0.30.4`が公開されました。これらのバージョンには`plain-crypto-js`というマルウェアが依存関係として追加されており、postinstallフックを通じてmacOS/Windows/Linux向けのRemote Access Trojan(RAT)をインストールする仕組みになっていました。該当バージョンを利用している場合は、速やかにバージョンの確認と更新が必要です。
-
----
-
-Safari 26.4がリリースされました。
-
-- [WebKit Features for Safari 26.4 | WebKit](https://webkit.org/blog/17862/webkit-features-for-safari-26-4/)
-
-CSS Grid Lanesによるmasonry/ウォーターフォールスタイルのレイアウトのサポート、`font-size: math`と`math-depth`プロパティのサポートが追加されています。WebTransportのサポート、Keyboard Lock APIのサポート、ReadableByteStreamのサポートなどのWeb APIも追加されています。また、Scoped Custom Element Registriesの改善や`Iterator.concat()`のサポートなども含まれています。
 
 ----
 
