@@ -2,7 +2,7 @@
 title: "2026-04-06のJS: TypeScript 6.0、ES2026 RC、axiosサプライチェーン攻撃"
 author: "azu"
 layout: post
-date: 2026-04-06T01:05:18.399Z
+date: 2026-04-06T01:07:31.761Z
 category: JSer
 tags:
 - TypeScript
