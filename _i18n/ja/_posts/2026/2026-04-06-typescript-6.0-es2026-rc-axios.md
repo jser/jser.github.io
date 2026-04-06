@@ -35,7 +35,9 @@ axiosのnpmパッケージに対するサプライチェーン攻撃が発生し
 - [Attackers Are Hunting High-Impact Node.js Maintainers in a C...](https://socket.dev/blog/attackers-hunting-high-impact-nodejs-maintainers)
 - [The Hidden Blast Radius of the Axios Compromise - Socket](https://socket.dev/blog/hidden-blast-radius-of-the-axios-compromise)
 
-ソーシャルエンジニアリングによりメンテナーアカウントが乗っ取られ、悪意のある`axios@1.14.1`と`axios@0.30.4`が公開されました。これらのバージョンには`plain-crypto-js`というマルウェアが依存関係として追加されており、postinstallフックを通じてmacOS/Windows/Linux向けのRemote Access Trojan(RAT)をインストールする仕組みになっていました。該当バージョンを利用している場合は、速やかにバージョンの確認と更新が必要です。
+ソーシャルエンジニアリングによりメンテナーアカウントが乗っ取られ、悪意のある`axios@1.14.1`と`axios@0.30.4`が公開されました。これらのバージョンには`plain-crypto-js`というマルウェアが依存関係として追加されており、postinstallフックを通じてmacOS/Windows/Linux向けのRemote Access Trojan(RAT)をインストールする仕組みになっていました。影響を受けたかどうかの確認方法は次のページにまとめられています。
+
+- [Am I affected? - StepSecurity](https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan#am-i-affected)
 
 ----
 
