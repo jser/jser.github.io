@@ -25,7 +25,7 @@ ECMAScript 2026のRelease Candidateが公開されました。
 
 - [Release ES2026 Candidate March 31st 2026 · tc39/ecma262](https://github.com/tc39/ecma262/releases/tag/es2026-candidate-2026-03-31)
 
-TC39によって2026年3月に承認され、2026年6月のEcma General Assemblyでの承認を経て正式リリースとなる予定です。ES2026には、Iterator Sequencing、`Uint8Array`のBase64変換、`Math.sumPrecise`、`Error.isError`、`Array.fromAsync`、JSON.parse source text accessなどが含まれる予定です。
+TC39によって2026年3月に承認され、2026年6月のEcma General Assemblyでの承認を経て正式リリースとなる予定です。ES2026には、`Array.fromAsync`、JSON.parse source text access、Iterator Sequencing、`Uint8Array`のBase64変換、`Math.sumPrecise`、`Error.isError`、Upsert(`Map.prototype.getOrInsert`)などが含まれる予定です。
 
 ---
 
