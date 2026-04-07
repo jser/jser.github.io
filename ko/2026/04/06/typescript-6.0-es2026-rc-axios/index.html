@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2026-04-06: TypeScript 6.0, ES2026 RC, axios 공급망 공격 - JSer.info</title>
+    <meta name="description" content="JSer.info #768 - TypeScript 6.0가 출시되었다.">
+    
+    <meta name="keywords" content="TypeScript,nodejs,security,Tools,React" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2026-04-06T10:32:51+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="Tools" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2026/04/06/typescript-6.0-es2026-rc-axios/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #768 - TypeScript 6.0가 출시되었다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2026-04-06: TypeScript 6.0, ES2026 RC, axios 공급망 공격">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2026/04/06/typescript-6.0-es2026-rc-axios/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #768 - TypeScript 6.0가 출시되었다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2026-04-06T10:32:51+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2026/03/22/vite-8.0-temporal-stage-4-next.js-16.2/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2026/03/12/typescript-6.0-rc-solid-v2.0.0-beta-node.js/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">
+
+
+
+
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="Tools">
+
+<meta property="article:tag" content="React">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2026/04/06/typescript-6.0-es2026-rc-axios/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2026/04/06/typescript-6.0-es2026-rc-axios/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2026/04/06/typescript-6.0-es2026-rc-axios/">2026-04-06: TypeScript 6.0, ES2026 RC, axios 공급망 공격</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2026年04月06日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2026/2026-04-06-typescript-6.0-es2026-rc-axios.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2026/2026-04-06-typescript-6.0-es2026-rc-axios.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #768 - TypeScript 6.0가 출시되었다.</p>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/">Announcing TypeScript 6.0 - TypeScript</a></li>
+</ul>
+
+<p>현재 JavaScript 코드 기반 마지막 출시, Go로 재작성된 TypeScript 7.0 이행 준비를 위한 출시이다. <code>strict</code>가 기본적으로 <code>true</code>, <code>target</code> 기본값이 <code>es2025</code>, <code>module</code> 기본값이 <code>esnext</code>으로 변경됨. <code>target: es5</code>이나 <code>--moduleResolution node</code>(node10), <code>--outFile</code> 비권장이 되어 에러로 변경됨. 새로운 기능으로, <code>es2025</code> 타겟 추가, Temporal API 자료형 정의, Map/WeakMap의 <code>getOrInsert()</code>/<code>getOrInsertComputed()</code> 메서드 추가, TypeScript 7.0 자료형 순서 합치는 <code>--stableTypeOrdering</code> 플래그 추가 포함.</p>
+
+<hr>
+
+<p>ECMAScript 2026의 Release Candidate가 공개되었다.</p>
+
+<ul>
+<li><a href="https://github.com/tc39/ecma262/releases/tag/es2026-candidate-2026-03-31">Release ES2026 Candidate March 31st 2026 · tc39/ecma262</a></li>
+</ul>
+
+<p>TC39에 의해 2026년 3월에 승인, 2026년 6월 Ecma General Assembly에서 승인을 거쳐 정식 출시할 예정. ES2026에는, <code>Array.fromAsync</code>, JSON.parse source text access, Iterator Sequencing, <code>Uint8Array</code>의 Base64 변환, <code>Math.sumPrecise</code>, <code>Error.isError</code>, Upsert(<code>Map.prototype.getOrInsert</code>) 포함될 예정이다.</p>
+
+<hr>
+
+<p>axios의 npm 패키지 공급망 공격이 발생했다.</p>
+
+<ul>
+<li><a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan">axios Compromised on npm - Malicious Versions Drop Remote Access Trojan - StepSecurity</a></li>
+<li><a href="https://socket.dev/blog/attackers-hunting-high-impact-nodejs-maintainers">Attackers Are Hunting High-Impact Node.js Maintainers in a C...</a></li>
+<li><a href="https://socket.dev/blog/hidden-blast-radius-of-the-axios-compromise">The Hidden Blast Radius of the Axios Compromise - Socket</a></li>
+</ul>
+
+<p>소셜 엔지니어링으로 관리자 계정을 탈취, 악의있는 <code>axios@1.14.1</code>와 <code>axios@0.30.4</code>가 공개됨. 이 버전에는 <code>plain-crypto-js</code> 멀웨어가 의존관계로 추가되어, postinstall 훅을 통해 macOS/Windows/Linux 대상 Remote Access Trojan(RAT)을 설치하는 구조다.</p>
+
+<p>영향을 받았는지 확인하는 방법은 다음 페이지에 정리되어 있다.</p>
+
+<ul>
+<li><a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan#am-i-affected">Am I affected? - StepSecurity</a></li>
+</ul>
+
+<hr>
+
+<h3 class="inline-support">To support JSer.info</h3>
+
+<ul>
+    <li>😘 Recommend JSer.info to your friends!</li>
+    <li>❤️ Support <a href="https://github.com/sponsors/azu">@azu on GitHub Sponsors</a>/<a
+            href="https://jser.info/sponsor/">JSer.info Sponsors</a></li>
+    <li>🐦 Follow <a href="https://twitter.com/jser_info">@jser_info on X(Twitter)</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="announcing-typescript-6-0-typescript">Announcing TypeScript 6.0 - TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/" title="Announcing TypeScript 6.0 - TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-6-0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 6.0 출시.<br>
+현재 JavaScript 코드 기반 마지막 출시, Go로 재작성된 TypeScript 7.0으로 이행 준비하는 출시이다.<br>
+<code>strict</code>가 기본 <code>true</code>, <code>target</code> 기본값이 <code>es2025</code>, <code>module</code> 기본값이 <code>esnext</code>으로 변경.<br>
+<code>target: es5</code>, <code>--moduleResolution node</code>(node10), <code>--outFile</code>, <code>--esModuleInterop false</code> 비권장이 되어 에러로 변경.<br>
+<code>es2025</code> 타겟 추가, Temporal API 자료형 정의 추가, Map/WeakMap의 <code>getOrInsert()</code>/<code>getOrInsertComputed()</code> 메서드 추가.<br>
+Node.js의 Subpath Imports의 <code>#/</code> 지원, <code>--moduleResolution bundler</code>와 <code>--module commonjs</code> 구조 조합 지원.<br>
+TypeScript 7.0 자료형 순서 합치는 <code>--stableTypeOrdering</code> 플래그 추가</p>
+
+<hr>
+
+<h2 id="webkit-features-for-safari-26-4-webkit">WebKit Features for Safari 26.4 | WebKit</h2>
+
+<p><a href="https://webkit.org/blog/17862/webkit-features-for-safari-26-4/" title="WebKit Features for Safari 26.4 | WebKit">webkit.org/blog/17862/webkit-features-for-safari-26-4/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">safari</span> <span class="jser-tag">browser</span> <span class="jser-tag">CSS</span> <span class="jser-tag">WebTransport</span> <span class="jser-tag">WebAuthentication</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Safari 26.4 출시.<br>
+CSS Grid Lanes에 의한 masonry/워터폴 스타일 레이아웃 지원, 이름 뿐이었던 <code>@container</code> 쿼리 지원.<br>
+<code>font-size: math</code>와 <code>math-depth</code> 프로퍼티 지원.<br>
+CSS Zoom 수정, Scroll-driven Animations 성능 개선.<br>
+WebTransport 지원, Keyboard Lock API 지원, ReadableByteStream 지원.<br>
+Scoped Custom Element Registries 개선, <code>Iterator.concat()</code> 지원.<br>
+<code>&lt;img&gt;</code>의 <code>sizes</code> 속성에서 math 함수 (<code>min()</code>/<code>max()</code>/<code>clamp()</code>) 지원, SVG의 <code>lighter</code> 합성연산자 지원.<br>
+WebAuthn의 PRF 확장 지원.</p>
+
+<hr>
+
+<h2 id="release-v20-0-0-raineorshine-npm-check-updates">Release v20.0.0 · raineorshine/npm-check-updates</h2>
+
+<p><a href="https://github.com/raineorshine/npm-check-updates/releases/tag/v20.0.0" title="Release v20.0.0 · raineorshine/npm-check-updates">github.com/raineorshine/npm-check-updates/releases/tag/v20.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm-check-updates v20.0.0 출시.<br>
+npm/yarn/pnpm의 설정인 minimum release age 설정을 자동적으로 읽어, cooldown 옵션으로 적용할 수 있음.</p>
+
+<hr>
+
+<h2 id="release-es2026-candidate-march-31st-2026-tc39-ecma262">Release ES2026 Candidate March 31st 2026 · tc39/ecma262</h2>
+
+<p><a href="https://github.com/tc39/ecma262/releases/tag/es2026-candidate-2026-03-31" title="Release ES2026 Candidate March 31st 2026 · tc39/ecma262">github.com/tc39/ecma262/releases/tag/es2026-candidate-2026-03-31</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">ECMAScript</span> <span class="jser-tag">spec</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>ECMAScript 2026のRelease Candidate가 공개됨.<br>
+TC39에 2026년 3월 승인되어, 2026년 6월 Ecma GA에서 승인을 거쳐 정식 출시될 예정.</p>
+
+<hr>
+
+<h2 id="release-v15-0-0-sindresorhus-got">Release v15.0.0 · sindresorhus/got</h2>
+
+<p><a href="https://github.com/sindresorhus/got/releases/tag/v15.0.0" title="Release v15.0.0 · sindresorhus/got">github.com/sindresorhus/got/releases/tag/v15.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Got v15.0.0 출시.<br>
+Node.js 22 미만 지원 삭제, <br>
+<code>promise.cancel()</code> 삭제하고 AbortController의 <code>signal</code> 옵션으로 이행, <code>isStream</code> 옵션 삭제.<br>
+<code>responseType: &#39;buffer&#39;</code>가 <code>Buffer</code> 대신에 <code>Uint8Array</code> 반환하도록 변경.<br>
+네이티브 FormData API 이용하도록 변경, <code>strictContentLength</code> 기본적으로 <code>true</code>으로 변경.<br>
+RFC 9110에 표준으로 300/304 리스폰스 자동 리다이렉트 폐지</p>
+
+<hr>
+
+<h2 id="release-4-18-0-lodash-lodash">Release 4.18.0 · lodash/lodash</h2>
+
+<p><a href="https://github.com/lodash/lodash/releases/tag/4.18.0" title="Release 4.18.0 · lodash/lodash">github.com/lodash/lodash/releases/tag/4.18.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">lodash</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>lodash 4.18.0 출시.<br>
+<code>_.unset</code>과 <code>_.omit</code>의 Prototype Pollution 취약성 수정, <code>_.template</code> 코드 인젝션 수정.<br>
+<code>lodash.unset</code>나 <code>lodash.template</code> 개별 패키지가 낡아서 수정하고 재공개.</p>
+
+<hr>
+
+<h2 id="node-js-node-js-25-9-0-current">Node.js — Node.js 25.9.0 (Current)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v25.9.0" title="Node.js — Node.js 25.9.0 (Current)">nodejs.org/en/blog/release/v25.9.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v25.9.0 출시.<br>
+테스너 런너 목 모듈 API에 <code>defaultExport</code>와 <code>namedExports</code> 옵션을 <code>exports</code> 옵션에 통합.<br>
+<code>--max-heap-size</code> 플래그, Web Crypto으로 TurboSHAKE와 KangarooTwelve 알고리즘 지원.<br>
+SEA(Single Executable Applications)에 ESM 엔트리포인트 코드 캐시 지원, 실험적 <code>stream/iter</code> 모듈 추가.<br>
+<code>AsyncLocalStorage</code>에 <code>using</code> 스코프 추가, REPL에서 커스텀 에러 번들링 지원.</p>
+
+<hr>
+
+<h2 id="release-v5-0-0-lerna-lite-lerna-lite">Release v5.0.0 · lerna-lite/lerna-lite</h2>
+
+<p><a href="https://github.com/lerna-lite/lerna-lite/releases/tag/v5.0.0" title="Release v5.0.0 · lerna-lite/lerna-lite">github.com/lerna-lite/lerna-lite/releases/tag/v5.0.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">monorepo</span> <span class="jser-tag">Tools</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>lerna-lite v5.0.0 출시.<br>
+Node.js 20 지원 종료, Conventional Changelog 레거시 설정 파일 읽기 삭제, <code>--remove-package-fields</code> 옵션 삭제.<br>
+내부 의존을 자체 구현으로 크기 절감</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="storybook-mcp-for-react">Storybook MCP for React</h2>
+
+<p><a href="https://storybook.js.org/blog/storybook-mcp-for-react/" title="Storybook MCP for React">storybook.js.org/blog/storybook-mcp-for-react/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">storybook</span> <span class="jser-tag">MCP</span> <span class="jser-tag">React</span> <span class="jser-tag">article</span></p></p>
+
+<p>Storybook MCP 서버에 대하여.<br>
+AI 에이언트에 의존 UI 컴포넌트 메타데이터(스토리, API, 문서) 제공하는 MCP 서버.<br>
+복수 Storybook를 조합함으로 사용하는 Composition에도 대응.<br>
+MCP Apps에 대응해서, 챗의 리스폰스에 직접 Story를 포함.</p>
+
+<hr>
+
+<h2 id="node-js-security-bug-bounty-program-paused-due-to-loss-of-funding">Node.js — Security Bug Bounty Program Paused Due to Loss of Funding</h2>
+
+<p><a href="https://nodejs.org/en/blog/announcements/discontinuing-security-bug-bounties" title="Node.js — Security Bug Bounty Program Paused Due to Loss of Funding">nodejs.org/en/blog/announcements/discontinuing-security-bug-bounties</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Node.js 시큐리티 버그 바운티 프로그램 일시정지에 대하여.<br>
+2016년부터 HackerOne의 Internet Bug Bounty(IBB) 프로그램을 운용하고 있었지만, IBB 프로그램이 종료 되어 자금 고갈로 인해 일시정지됨.<br>
+자금 80%을 발견, 20%을 수정에 부여했지만, AI에 의한 발견이 확대됨에 밸런스가 변경됨.<br>
+취약성 보고자체는 HackerOne 통해서 지속해서 받지만, 보고자에 금전적 제공은 없어짐. 전용 자금 확보될 경우 프로그램 재개가 검토될 예정</p>
+
+<hr>
+
+<h2 id="signals-the-push-pull-based-algorithm-willy-brauner">Signals, the push-pull based algorithm — Willy Brauner</h2>
+
+<p><a href="https://willybrauner.com/journal/signal-the-push-pull-based-algorithm" title="Signals, the push-pull based algorithm — Willy Brauner">willybrauner.com/journal/signal-the-push-pull-based-algorithm</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Signal에 의한 push-pull 기반 리엑티브 알고리즘 해설 글.<br>
+Signal 기본적인 구조를 보고, 값의 변경 시에 구독으로 알림하는 Push형과, 계신값을 실제로 접근할 때까지 지연평가하는 Pull형 구조에 대해 설명한다.</p>
+
+<hr>
+
+<h2 id="core-javascript-and-typescript-features-become-free-in-intellij-idea-the-intellij-idea-blog">Core JavaScript and TypeScript Features Become Free in IntelliJ IDEA | The IntelliJ IDEA Blog</h2>
+
+<p><a href="https://blog.jetbrains.com/idea/2026/03/js-ts-free-support/" title="Core JavaScript and TypeScript Features Become Free in IntelliJ IDEA | The IntelliJ IDEA Blog">blog.jetbrains.com/idea/2026/03/js-ts-free-support/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JetBrains</span> <span class="jser-tag">IDE</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span></p></p>
+
+<p>IntelliJ IDEA v2026.1로, JavaScript/TypeScript/HTML/CSS 코어 기능이 무료로 이용 가능.<br>
+지금까지는 Ultimate 버전에서는 제공하고 있던 Web 개발 대상 기능이, Community Edition에서도 이용 가능해짐.<br>
+JS/TS 코드 보완이나 리팩토링, ESLint/Prettier 통합, Vite로 프로젝트 구성, npm 스크립트 실행, 의존관계 취약성 검출도 함.</p>
+
+<hr>
+
+<h2 id="axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan-stepsecurity">axios Compromised on npm - Malicious Versions Drop Remote Access Trojan - StepSecurity</h2>
+
+<p><a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan" title="axios Compromised on npm - Malicious Versions Drop Remote Access Trojan - StepSecurity">www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>axios의 npm 패키지에 공급망 공격 관련해서.<br>
+소셜 엔지니어링으로 관리자 계정 탈취당함, 악의있는 <code>axios@1.14.1</code>와 <code>axios@0.30.4</code>가 공개됨.<br>
+<code>plain-crypto-js</code> 멀웨어가 의존관계에 추가됨.<br>
+postinstall 훅을 통해 macOS/Windows/Linux 대상 Remote Access Trojan(RAT)을 설치하는 구조.</p>
+
+<ul>
+<li><a href="https://socket.dev/blog/attackers-hunting-high-impact-nodejs-maintainers" title="Attackers Are Hunting High-Impact Node.js Maintainers in a C...">Attackers Are Hunting High-Impact Node.js Maintainers in a C...</a></li>
+<li><a href="https://socket.dev/blog/hidden-blast-radius-of-the-axios-compromise" title="The Hidden Blast Radius of the Axios Compromise - Socket">The Hidden Blast Radius of the Axios Compromise - Socket</a></li>
+</ul>
+
+<hr>
+
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
+
+<hr>
+
+<h2 id="introducing-emdash-the-spiritual-successor-to-wordpress-that-solves-plugin-security">Introducing EmDash — the spiritual successor to WordPress that solves plugin security</h2>
+
+<p><a href="https://blog.cloudflare.com/emdash-wordpress/" title="Introducing EmDash — the spiritual successor to WordPress that solves plugin security">blog.cloudflare.com/emdash-wordpress/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cloudflare</span> <span class="jser-tag">CMS</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">astro</span> <span class="jser-tag">security</span> <span class="jser-tag">OpenSource</span> <span class="jser-tag">wordpress</span></p></p>
+
+<p>Cloudflare의 서버리스 CMS.<br>
+TypeScript로 작성, Astro 6.0을 기반으로 한 오픈소스 (MIT 라이센스) CMS.<br>
+플러그인을 독립해 샌드박스 환경 (Dynamic Workers)으로 실행, 플러그인 기원의 보안 문제 해결하는 아키텍처 채용.<br>
+MCP이나 CLI에 의한 AI에이전트 연계, x402 프로토콜에 의한 결제 통합 기능도 있음.</p>
+
+<hr>
+
+<h2 id="vercel-labs-emulate-local-api-emulation-for-ci-and-no-network-sandboxes">vercel-labs/emulate: Local API emulation for CI and no-network sandboxes</h2>
+
+<p><a href="https://github.com/vercel-labs/emulate" title="vercel-labs/emulate: Local API emulation for CI and no-network sandboxes">github.com/vercel-labs/emulate</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vercel</span> <span class="jser-tag">API</span> <span class="jser-tag">testing</span> <span class="jser-tag">CI</span> <span class="jser-tag">Tools</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">server</span></p></p>
+
+<p>Vercel/GitHub/Google/Slack/AWS(S3/SQS)의 API를 로컬에서 에뮬레이트하는 도구.<br>
+외부 API의 목 서버에서 이용 가능.<br>
+각 서비스는 스테이풀한 데이터를 저장하고, OAuth 2.0 플로우나 Webhook에도 대응하고 있음.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="arrowjs-the-first-ui-framework-for-the-agentic-era">ArrowJS — The first UI framework for the agentic era</h2>
+
+<p><a href="https://arrow-js.com/" title="ArrowJS — The first UI framework for the agentic era">arrow-js.com/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">WebAssembly</span> <span class="jser-tag">library</span></p></p>
+
+<p>빌드 단계없이 동작하는 경량 UI 프레임워크. <code>reactive</code>, <code>html</code>, <code>component</code> 3개 함수로 구성.<br>
+AI 대상 WebAssembly 샌드박스 안에서 컴포넌트 로직을 분리해 실행하는 기능 갖고 있음.</p>
+
+<hr>
+
+<h1 class="site-genre">도서</h1>
+
+<hr>
+
+<h2 id="react">React 본격 입문 | 기술평론사</h2>
+
+<p><a href="https://gihyo.jp/book/2026/978-4-297-15523-0" title="React 본격 입문 | 기술평론사">gihyo.jp/book/2026/978-4-297-15523-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">book</span></p></p>
+
+<p>2026년 4월 15일 발매.<br>
+React 19 기반 입문서.</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2026/2026-04-06-typescript-6.0-es2026-rc-axios.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["TypeScript","nodejs","security","Tools","React"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>TypeScript</li>
+                
+                <li>nodejs</li>
+                
+                <li>security</li>
+                
+                <li>Tools</li>
+                
+                <li>React</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://avatars.githubusercontent.com/u/76428554?v=4" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2026/04/06/typescript-6.0-es2026-rc-axios/">2026-04-06: TypeScript 6.0, ES2026 RC, axios 공급망 공격</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/03/22/vite-8.0-temporal-stage-4-next.js-16.2/">2026-03-22: Vite 8.0, Temporal Stage 4, Next.js 16.2</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/03/12/typescript-6.0-rc-solid-v2.0.0-beta-node.js/">2026-03-12: TypeScript 6.0 RC, Solid v2.0.0 Beta, Node.js 출시 스케쥴 변경</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/02/26/electrobun-v1-deno-2.7-oxfmt-beta/">2026-02-26: Electrobun v1, Deno 2.7, Oxfmt Beta</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/02/16/typescript-6.0-beta-state-of-react-2025-interop-2026/">2026-02-16: TypeScript 6.0 Beta, State of React 2025 결과, Interop 2026</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/02/04/yarn-6-preview-webassembly-10-state-of-javascript-2025/">2026-02-04: Yarn 6 Preview, WebAssembly 10년, State of JavaScript 2025 결과 공개</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/01/26/jquery-4.0.0-rolldown-1.0-rc-styelelint-17/">2026-01-26: jQuery 4.0.0, Rolldown 1.0 RC, Stylelint 17</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/01/17/node.js-chrome-144-firefox-147-electron-40/">2026-01-17: Node.js 보안 업데이트, Chrome 144, Firefox 147, Electron 40</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
