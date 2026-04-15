@@ -20,9 +20,23 @@ interface EmbedHeadlineParams {
     headline?: string;
 }
 
+const HEADLINE_SECTION_PATTERN = /---\s+JSer\.info #\d+(?:\s+-\s+)?\s*([\s\S]*?)\s*----/;
+
+const hasExistingHeadline = (content: string): boolean => {
+    const match = content.match(HEADLINE_SECTION_PATTERN);
+    if (!match) {
+        return false;
+    }
+    return match[1].trim().length > 0;
+};
+
 const embedHeadline = ({ content, headline }: EmbedHeadlineParams): string => {
     if (!headline) {
         console.log("headline is not defined");
+        return content;
+    }
+    if (hasExistingHeadline(content)) {
+        console.log("headline is already written in content; skip overwrite");
         return content;
     }
     console.log("# headline")
