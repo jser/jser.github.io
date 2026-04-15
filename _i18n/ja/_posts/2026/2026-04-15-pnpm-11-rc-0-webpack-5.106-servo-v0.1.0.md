@@ -2,7 +2,7 @@
 title: "2026-04-15のJS: pnpm 11 RC 0、webpack 5.106、Servo v0.1.0"
 author: "azu"
 layout: post
-date: 2026-04-15T11:18:42.246Z
+date: 2026-04-15T11:19:46.465Z
 category: JSer
 tags:
 - React
