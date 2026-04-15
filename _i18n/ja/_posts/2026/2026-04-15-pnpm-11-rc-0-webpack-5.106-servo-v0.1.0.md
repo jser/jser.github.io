@@ -101,7 +101,7 @@ Pure ESMパッケージへの移行、Node.js 18-21のサポートを終了。
 Bun v1.3.12リリース。
 `Bun.WebView`の追加、Markdownファイルをターミナルで直接実行できる`bun ./file.md`のサポート。
 インプロセスで動作するコールバックベースのcronスケジューラ`Bun.cron()`の追加。
-JavaScriptCoreのアップグレードにより、ES ProposalのStage 3のExplicit Resource Management(`using`/`await using`)のサポート。。
+JavaScriptCoreのアップグレードにより、ES ProposalのStage 3のExplicit Resource Management(`using`/`await using`)のサポート。
 cgroupのCPU制限を考慮するように変更など
 
 
