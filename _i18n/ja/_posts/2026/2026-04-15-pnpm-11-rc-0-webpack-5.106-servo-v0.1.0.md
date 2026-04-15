@@ -13,10 +13,36 @@ tags:
 
 ---
 
-JSer.info #769 - 📦 pnpm 11 RC 0: Pure ESM化、Node.js 18-21サポート終了、minimumReleaseAgeデフォルト1日などサプライチェーン強化
-🛠️ webpack 5.106: Plugin Validation Hook追加、CSS Modulesランタイム注入、oxc-parser対応
-🦀 Servo v0.1.0: crates.ioで公開、Embedding API提供、LTSバージョン導入
+JSer.info #769 - pnpm v11.0.0 RC 0がリリースされました。
 
+- [Release pnpm 11 RC 0 · pnpm/pnpm](https://github.com/pnpm/pnpm/releases/tag/v11.0.0-rc.0)
+
+Pure ESMパッケージへ移行し、Node.js 18から21のサポートを終了しています。
+`.npmrc`は認証/レジストリ設定のみに限定し、その他の設定は`pnpm-workspace.yaml`へ移行、`pnpm server`コマンドの削除など多くの破壊的変更を含んでいます。
+また、`pnpm ci`コマンドの追加、`pnpm sbom`でのSBOM生成に対応しています。
+`minimumReleaseAge`のデフォルトを1日に設定、`blockExoticSubdeps`のデフォルトを`true`に変更するなど、サプライチェーンセキュリティの強化も行われています。
+その他にも、ストアのインデックスにSQLiteを使用するように変更、`undici`の採用によるHTTPリクエストの改善なども含まれています。
+
+----
+
+webpack 5.106がリリースされました。
+
+- [Webpack 5.106 | webpack](https://webpack.js.org/blog/2026-04-08-webpack-5-106/)
+
+Plugin Validation Hook(`compiler.hooks.validate`)の追加、CSS Modulesのランタイムスタイル注入(`exportType: "style"`)のサポートが含まれています。
+将来的にcss-loader/style-loader/mini-css-extract-pluginの廃止が予定されています。
+その他にも、CommonJSのTree Shaking改善、`create-webpack-app`ツールの追加、実験的な機能としてES Stage 3のSource Phase ImportsによるWebAssemblyサポート、oxc-parserのサポートが追加されています。
+また、webpack-cli 7.0.0ではNode.js 20.9.0以上が必要となり、ネイティブTypeScriptサポートが追加されています。
+
+----
+
+Servo v0.1.0がリリースされました。
+
+- [Servo is now available on crates.io](https://servo.org/blog/2026/04/13/servo-0.1.0-release/)
+
+Rustで書かれた組み込み可能なWebレンダリングエンジンであるServoの`servo`クレートがcrates.ioで公開されました。
+アプリケーションにWebレンダリング機能を組み込むためのEmbedding APIを提供しています。
+また、LTSバージョンも導入され、半年ごとのメジャーアップグレードとセキュリティアップデートが提供されます。
 ----
 
 {% include inline-support.html %}
