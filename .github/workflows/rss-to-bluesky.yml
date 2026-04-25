@@ -1,0 +1,75 @@
+# Source: https://github.com/joschi/blueskyfeedbot
+name: rss-to-bluesky
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+concurrency:
+  group: feedbot-bluesky
+jobs:
+  realtime:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Generate cache key
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
+        id: generate-key
+        with:
+          script: |
+            core.setOutput('cache-key', new Date().valueOf())
+
+      - name: Retrieve cache
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3.5.0
+        with:
+          path: ${{ github.workspace }}/blueskyfeedbot
+          key: feed-cache-realtime-jser-info-bluesky-${{ steps.generate-key.outputs.cache-key }}
+          restore-keys: feed-cache-realtime-jser-info-bluesky-
+
+      - name: JSer.info realtime
+        uses: 'joschi/blueskyfeedbot@ded1962e3afb0d7283f49a037bf4d4fd9d7b86ad' # v1
+        with:
+          rss-feed: https://realtime.jser.info/feed.xml
+          template: |
+            {{item.title}}
+            {{item.link}}
+
+            {{item.description}}
+          service-url: https://bsky.social
+          username: ${{ secrets.JSER_BLUESKY_USERNAME }}
+          password: ${{ secrets.JSER_BLUESKY_PASSWORD }}
+          cache-file: ${{ github.workspace }}/blueskyfeedbot/cache.json
+          initial-post-limit: 1
+
+  jser:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Generate cache key
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
+        id: generate-key
+        with:
+          script: |
+            core.setOutput('cache-key', new Date().valueOf())
+
+      - name: Retrieve cache
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3.5.0
+        with:
+          path: ${{ github.workspace }}/blueskyfeedbot
+          key: feed-cache-jser-info-bluesky-${{ steps.generate-key.outputs.cache-key }}
+          restore-keys: feed-cache-jser-info-bluesky-
+
+      - name: JSer.info
+        uses: 'joschi/blueskyfeedbot@ded1962e3afb0d7283f49a037bf4d4fd9d7b86ad' # v1
+        with:
+          rss-feed: https://jser.info/rss/
+          template: |
+            今週のJSer.infoを更新しました！
+            {{item.title}}
+            {{item.link}}
+          service-url: https://bsky.social
+          username: ${{ secrets.JSER_BLUESKY_USERNAME }}
+          password: ${{ secrets.JSER_BLUESKY_PASSWORD }}
+          cache-file: ${{ github.workspace }}/blueskyfeedbot/cache.json
+          initial-post-limit: 1
