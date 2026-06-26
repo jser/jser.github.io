@@ -201,7 +201,7 @@ MCP 경유로 MDN 검색, 문서, 브라우저 호환성 데이터를 LLM이나 
 
 
 ----
-<h1 class="site-genre">웹사아트, 서비스, 문서</h1>
+<h1 class="site-genre">웹사이트, 서비스, 문서</h1>
 
 ----
 
