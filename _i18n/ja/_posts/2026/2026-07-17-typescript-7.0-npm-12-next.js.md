@@ -1,0 +1,237 @@
+---
+title: "2026-07-17のJS: TypeScript 7.0、npm 12、Next.jsのセキュリティリリース方針"
+author: "azu"
+layout: post
+date: 2026-07-16T15:07:18.836Z
+category: JSer
+tags:
+- TypeScript
+- nodejs
+- npm
+- Next.js
+- security
+
+---
+
+JSer.info #776 - TypeScript 7.0がリリースされました。
+
+- [Announcing TypeScript 7.0 - TypeScript](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)
+
+Goへ移植されたネイティブ版の`tsc`が、npmの`typescript`パッケージとして公開されています。
+TypeScript 6.0で非推奨となった`target: es5`や`baseUrl`などの設定はエラーとなります。
+また、並列処理を制御する`--checkers`/`--builders`/`--singleThreaded`オプション、作り直された`--watch`、LSPを使ったエディタ対応などが含まれます。
+一方で、プログラム向けのAPIはまだ公開されていないため、VueなどのTypeScript APIを利用するツールはTypeScript 7.0を利用できない場合があります。
+
+---
+
+npm 12がリリースされました。
+
+- [npm install-time security and GAT bypass2fa deprecation - GitHub Changelog](https://github.blog/changelog/2026-07-08-npm-install-time-security-and-gat-bypass2fa-deprecation/)
+- [Release v12.0.0 · npm/cli](https://github.com/npm/cli/releases/tag/v12.0.0)
+
+npm 12では、依存パッケージのライフサイクルスクリプトを制御する`allowScripts`がデフォルトで無効化されています。
+また、GitやリモートURLからの依存パッケージを制御する`--allow-git`/`--allow-remote`もデフォルトで`none`となります。
+2026年8月上旬から、2FAを回避するGranular Access Tokenはアカウントやパッケージの管理操作で2FAを省略できなくなり、2027年1月ごろには同トークンを使った直接publishもできなくなる予定です。
+
+---
+
+Next.jsがセキュリティリリースの新しい方針を発表しました。
+
+- [Next.js Security Release and Our Next Patch Release | Next.js](https://nextjs.org/blog/next-security-release-program)
+
+今後は月1回程度、対象バージョンと脆弱性の最大深刻度を事前告知した上で、セキュリティリリースを公開する方針です。
+緊急性が高い場合や実際に悪用されている脆弱性については、従来どおり随時パッチを公開します。
+初回は2026年7月20日の公開を目標とし、Next.js 16.2と15.5向けのパッチを予定しています。
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Release pnpm 11.10 · pnpm/pnpm
+[github.com/pnpm/pnpm/releases/tag/v11.10.0](https://github.com/pnpm/pnpm/releases/tag/v11.10.0 "Release pnpm 11.10 · pnpm/pnpm")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p>
+
+pnpm v11.10.0リリース。
+`pnpm issues`/`pnpm prefix`コマンドの追加、`pnpm_config__auth`環境変数での`_auth`設定をサポート。
+`pnpm self-update`のpnpm v12対応。
+`pnpm up -r <pkg>`が関係しないパッケージを更新する問題、`pnpm pack-app`のパス検証の修正など。
+
+
+----
+
+## Chrome 150  |  Release notes  |  Chrome for Developers
+[developer.chrome.com/release-notes/150](https://developer.chrome.com/release-notes/150 "Chrome 150  |  Release notes  |  Chrome for Developers")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">browser</span> <span class="jser-tag">css</span> <span class="jser-tag">DOM</span> <span class="jser-tag">WebGPU</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Chrome 150リリース。
+CSSの`AccentColor`/`AccentColorText`、`polygon()`の丸め指定、`text-fit`をサポート。
+CSS `url()`の`cross-origin()`/`integrity()`/`referrer-policy()`修飾子をサポート。
+DOMでは`focusgroup`属性、`popover=hint`の挙動を変更。
+`Element`/`Window`のスクロールメソッドがPromiseを返す変更など。
+WebGPUの`setImmediateData()`、PWAのorigin migration。
+Origin Trialとして`performance.getSpeculations()`の追加
+
+- [New in Chrome 150  |  Blog  |  Chrome for Developers](https://developer.chrome.com/blog/new-in-chrome-150?hl=en "New in Chrome 150  |  Blog  |  Chrome for Developers")
+
+----
+
+## Electron 43 | Electron
+[www.electronjs.org/blog/electron-43-0](https://www.electronjs.org/blog/electron-43-0 "Electron 43 | Electron")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Electron 43リリース。
+Chromium 150.0.7871.46、Node.js v24.17.0、V8 15.0へアップデート。
+ファイルダウンロード時のファイルダイアログが、既定でDownloadsフォルダを開くように変更。
+`WebContents`インスタンスの`clone()`、macOSの`Notification.remove()`/`Notification.removeAll()`を追加。
+`globalShortcut.setSuspended()`の追加、startup snapshotやV8 bytecode cacheによる起動パフォーマンスの改善など
+
+
+----
+
+## Announcing TypeScript 7.0 - TypeScript
+[devblogs.microsoft.com/typescript/announcing-typescript-7-0/](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/ "Announcing TypeScript 7.0 - TypeScript")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+TypeScript 7.0リリース。
+Goへ移植したネイティブ版の`tsc`をnpmの`typescript`パッケージとして公開。
+TypeScript 6.0で非推奨となった`target: es5`/`baseUrl`などはエラーとなる。
+`--checkers`/`--builders`/`--singleThreaded`による並列処理の制御を追加。
+`--watch`をParcelのfile watcherを元に作り直し、LSPの対応などが含まれる。
+一方でまだプログラム向けのAPIは公開していないため、VueなどのTypeScript APIを使うツールはまだ動作しない場合がある。
+
+
+----
+
+## Better Auth is joining Vercel
+[better-auth.com/blog/better-auth-joins-vercel](https://better-auth.com/blog/better-auth-joins-vercel "Better Auth is joining Vercel")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">vercel</span> <span class="jser-tag">news</span> <span class="jser-tag">nodejs</span></p>
+
+VercelがBetter Authの買収を発表した。
+Better AuthはTypeScript製の認証ライブラリで、MITライセンスのまま開発体制を維持する予定。
+Agent Auth Protocolの開発を継続し、Vercel ConnectやEveへエージェントのID管理を組み込む予定。
+
+- [Vercel acquires Better Auth to accelerate open source auth - Vercel](https://vercel.com/blog/vercel-acquires-better-auth "Vercel acquires Better Auth to accelerate open source auth - Vercel")
+
+----
+
+## npm install-time security and GAT bypass2fa deprecation - GitHub Changelog
+[github.blog/changelog/2026-07-08-npm-install-time-security-and-gat-bypass2fa-deprecation/](https://github.blog/changelog/2026-07-08-npm-install-time-security-and-gat-bypass2fa-deprecation/ "npm install-time security and GAT bypass2fa deprecation - GitHub Changelog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p>
+
+npm v12リリース。
+`allowScripts`がデフォルトで無効化され、`--allow-git`/`--allow-remote`はデフォルトで`none`になる。
+2FAを回避するGranular Access Tokenは、2026年8月からアカウントやパッケージ管理操作で2FAを省略できなくなる。
+2027年1月ごろから2FAを回避するGranular Access Tokenを使った直接publishもできなくなる予定。
+自動公開にはTrusted Publishing、または人間の2FA承認を伴うStaged Publishingへの移行を推奨している
+
+- [Release v12.0.0 · npm/cli](https://github.com/npm/cli/releases/tag/v12.0.0 "Release v12.0.0 · npm/cli")
+
+----
+
+## Node.js — Node.js 26.5.0 (Current)
+[nodejs.org/en/blog/release/v26.5.0](https://nodejs.org/en/blog/release/v26.5.0 "Node.js — Node.js 26.5.0 (Current)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node.js v26.5.0リリース。
+`Blob.prototype.textStream()`、`--experimental-import-text`、`ReadableStreamTee`を追加。
+`perf_hooks.monitorEventLoopDelay`に`samplePerIteration`オプションを追加など
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## Your Worker can now have its own cache in front of it
+[blog.cloudflare.com/workers-cache/](https://blog.cloudflare.com/workers-cache/ "Your Worker can now have its own cache in front of it")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cloudflare</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p>
+
+Cloudflare Workers Cacheについて。
+Workerの前段にキャッシュを置き、`wrangler.jsonc`の`cache.enabled`で有効化できる。
+`Cache-Control`/`Vary`に対応し、`ctx.cache.purge()`でタグやパスによる削除ができる。
+
+
+----
+
+## Next.js Security Release and Our Next Patch Release | Next.js
+[nextjs.org/blog/next-security-release-program](https://nextjs.org/blog/next-security-release-program "Next.js Security Release and Our Next Patch Release | Next.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p>
+
+Next.jsのセキュリティリリースの方針について。
+今後は月1回程度の事前告知付きリリースを公開し、緊急時は従来通りアドホックなパッチを公開する方針。
+2026年7月20日の公開を目標とし、Next.js 16.2と15.5向けのパッチを予定している。
+
+
+----
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+----
+
+## Blume — fast, AI-ready, markdown-first docs
+[useblume.dev/](https://useblume.dev/ "Blume — fast, AI-ready, markdown-first docs")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">Markdown</span> <span class="jser-tag">document</span> <span class="jser-tag">AI</span></p>
+
+Markdown/MDXからドキュメントサイトを生成するツール。
+`blume init`/`blume dev`/`blume build`などのCLIを提供し、AstroとViteを使って静的HTMLを生成する。
+検索、OpenAPI/AsyncAPIから生成できるAPIリファレンス、`llms.txt`、MCPサーバ、Ask AIなどの機能を持つ。
+
+
+----
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## samchon/ttsc: A \`typescript-go\` toolchain for compiler-powered plugins and type-safe execution + 500x faster lint integrated into compiler
+[github.com/samchon/ttsc](https://github.com/samchon/ttsc "samchon/ttsc: A \`typescript-go\` toolchain for compiler-powered plugins and type-safe execution + 500x faster lint integrated into compiler")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">lint</span></p>
+
+`typescript-go`を使ったTypeScript向けのツールチェイン。
+ビルド、型チェック付きの実行、Lint、Formatなどのツールを提供している。
+Vite/Rollup/esbuild/webpack/Rspack/Next.js向けのプラグインも提供している。
+
+
+----
+
+## theMackabu/ant: javascript for 🐜&#039;s, a tiny runtime with big ambitions
+[github.com/theMackabu/ant](https://github.com/theMackabu/ant "theMackabu/ant: javascript for 🐜&#039;s, a tiny runtime with big ambitions")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">C</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p>
+
+Cで実装された小さなJavaScript Runtime。
+WinterTC Minimum Common API互換の実装にすることを目的にしている。
+
+
+----
+
+## Wordgard
+[wordgard.net/](https://wordgard.net/ "Wordgard")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span></p>
+
+リッチテキストエディタ向けのJavaScriptライブラリ。
+ProseMirror/CodeMirrorの作者が開発しており、スキーマベースの文書構造と、CodeMirrorライクな拡張機構を持つ。
+
+- [Wordgard Release 0.1](https://marijnhaverbeke.nl/blog/wordgard-0.1.html "Wordgard Release 0.1")
+
+----
+
+## inokawa/virtua: A zero-config, fast and small (~3kB) virtual list (and grid) component for React, Vue, Solid and Svelte.
+[github.com/inokawa/virtua/](https://github.com/inokawa/virtua/ "inokawa/virtua: A zero-config, fast and small (~3kB) virtual list (and grid) component for React, Vue, Solid and Svelte.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Vue</span> <span class="jser-tag">Solid</span> <span class="jser-tag">Svelte</span> <span class="jser-tag">library</span></p>
+
+React/Vue/Solid/Svelte向けのVirtual Scrollコンポーネントライブラリ。
+`VList`/`Virtualizer`/`WindowVirtualizer`/`experimental_VGrid`を提供し、可変サイズ、横スクロール、Windowスクロール、グリッド表示に対応している。
+
+
+----
+
+## unjs/httpxy: 🔀 A Full-Featured HTTP and WebSocket Proxy for Node.js
+[github.com/unjs/httpxy](https://github.com/unjs/httpxy "unjs/httpxy: 🔀 A Full-Featured HTTP and WebSocket Proxy for Node.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">WebSocket</span> <span class="jser-tag">library</span></p>
+
+Node.js向けのHTTP/WebSocketプロキシライブラリ。
+Fetch API互換の`proxyFetch`、WebSocket Upgrade向けの`proxyUpgrade`、`createProxyServer`を提供する。
+Unix Socket、`changeOrigin`、`xfwd`、リダイレクトやCookieの書き換えに対応している。
+
+
+----
