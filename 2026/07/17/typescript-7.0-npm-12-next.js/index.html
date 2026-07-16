@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2026-07-17のJS: TypeScript 7.0、npm 12、Next.jsのセキュリティリリース方針 - JSer.info</title>
+    <meta name="description" content="JSer.info #776 - TypeScript 7.0がリリースされました。">
+    
+    <meta name="keywords" content="TypeScript,nodejs,npm,Next.js,security" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2026-07-17T00:07:18+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="TypeScript" property="article:tag">
+      
+      <meta content="nodejs" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/2026/07/17/typescript-7.0-npm-12-next.js/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #776 - TypeScript 7.0がリリースされました。" />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2026-07-17のJS: TypeScript 7.0、npm 12、Next.jsのセキュリティリリース方針">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/2026/07/17/typescript-7.0-npm-12-next.js/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #776 - TypeScript 7.0がリリースされました。">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2026-07-17T00:07:18+09:00">
+
+<meta property="og:see_also" content="https://jser.info/2026/07/05/deno-2.9-vite-8.1-es2026/">
+
+<meta property="og:see_also" content="https://jser.info/2026/06/22/typescript-7.0-rc-babel-8.0.0-react-router-v8/">
+
+<meta property="og:see_also" content="https://jser.info/2026/06/09/pnpm11.5-node.js26.3.0-cloudflare-void0/">
+
+
+
+
+
+<meta property="article:tag" content="TypeScript">
+
+<meta property="article:tag" content="nodejs">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="security">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScriptの最新情報を紹介する週刊ブログ</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2026/07/17/typescript-7.0-npm-12-next.js/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2026/07/17/typescript-7.0-npm-12-next.js/">한국어</a></li>
+        </ul>
+        
+        <div>
+            <p>リアルタイム版は<a href="https://realtime.jser.info/" title="Realtime JSer.info">Realtime JSer.info</a></p>
+        </div>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2026/07/17/typescript-7.0-npm-12-next.js/">2026-07-17のJS: TypeScript 7.0、npm 12、Next.jsのセキュリティリリース方針</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2026年07月17日</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2026/2026-07-17-typescript-7.0-npm-12-next.js.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ja/_posts/2026/2026-07-17-typescript-7.0-npm-12-next.js.md"><span class="revision-on-github-label"></span>編集履歴を見る</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2026/07/17/typescript-7.0-npm-12-next.js/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #776 - TypeScript 7.0がリリースされました。</p>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/">Announcing TypeScript 7.0 - TypeScript</a></li>
+</ul>
+
+<p>Goへ移植されたネイティブ版の<code>tsc</code>が、npmの<code>typescript</code>パッケージとして公開されています。<br>
+TypeScript 6.0で非推奨となった<code>target: es5</code>や<code>baseUrl</code>などの設定はエラーとなります。<br>
+また、並列処理を制御する<code>--checkers</code>/<code>--builders</code>/<code>--singleThreaded</code>オプション、作り直された<code>--watch</code>、LSPを使ったエディタ対応などが含まれます。<br>
+一方で、プログラム向けのAPIはまだ公開されていないため、VueなどのTypeScript APIを利用するツールはTypeScript 7.0を利用できない場合があります。</p>
+
+<hr>
+
+<p>npm 12がリリースされました。</p>
+
+<ul>
+<li><a href="https://github.blog/changelog/2026-07-08-npm-install-time-security-and-gat-bypass2fa-deprecation/">npm install-time security and GAT bypass2fa deprecation - GitHub Changelog</a></li>
+<li><a href="https://github.com/npm/cli/releases/tag/v12.0.0">Release v12.0.0 · npm/cli</a></li>
+</ul>
+
+<p>npm 12では、依存パッケージのライフサイクルスクリプトを制御する<code>allowScripts</code>がデフォルトで無効化されています。<br>
+また、GitやリモートURLからの依存パッケージを制御する<code>--allow-git</code>/<code>--allow-remote</code>もデフォルトで<code>none</code>となります。<br>
+2026年8月上旬から、2FAを回避するGranular Access Tokenはアカウントやパッケージの管理操作で2FAを省略できなくなり、2027年1月ごろには同トークンを使った直接publishもできなくなる予定です。</p>
+
+<hr>
+
+<p>Next.jsがセキュリティリリースの新しい方針を発表しました。</p>
+
+<ul>
+<li><a href="https://nextjs.org/blog/next-security-release-program">Next.js Security Release and Our Next Patch Release | Next.js</a></li>
+</ul>
+
+<p>今後は月1回程度、対象バージョンと脆弱性の最大深刻度を事前告知した上で、セキュリティリリースを公開する方針です。<br>
+緊急性が高い場合や実際に悪用されている脆弱性については、従来どおり随時パッチを公開します。<br>
+初回は2026年7月20日の公開を目標とし、Next.js 16.2と15.5向けのパッチを予定しています。</p>
+
+<hr>
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+<hr>
+
+<h2 id="release-pnpm-11-10-pnpm-pnpm">Release pnpm 11.10 · pnpm/pnpm</h2>
+
+<p><a href="https://github.com/pnpm/pnpm/releases/tag/v11.10.0" title="Release pnpm 11.10 · pnpm/pnpm">github.com/pnpm/pnpm/releases/tag/v11.10.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>pnpm v11.10.0リリース。<br>
+<code>pnpm issues</code>/<code>pnpm prefix</code>コマンドの追加、<code>pnpm_config__auth</code>環境変数での<code>_auth</code>設定をサポート。<br>
+<code>pnpm self-update</code>のpnpm v12対応。<br>
+<code>pnpm up -r &lt;pkg&gt;</code>が関係しないパッケージを更新する問題、<code>pnpm pack-app</code>のパス検証の修正など。</p>
+
+<hr>
+
+<h2 id="chrome-150-release-notes-chrome-for-developers">Chrome 150  |  Release notes  |  Chrome for Developers</h2>
+
+<p><a href="https://developer.chrome.com/release-notes/150" title="Chrome 150  |  Release notes  |  Chrome for Developers">developer.chrome.com/release-notes/150</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">browser</span> <span class="jser-tag">css</span> <span class="jser-tag">DOM</span> <span class="jser-tag">WebGPU</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Chrome 150リリース。<br>
+CSSの<code>AccentColor</code>/<code>AccentColorText</code>、<code>polygon()</code>の丸め指定、<code>text-fit</code>をサポート。<br>
+CSS <code>url()</code>の<code>cross-origin()</code>/<code>integrity()</code>/<code>referrer-policy()</code>修飾子をサポート。<br>
+DOMでは<code>focusgroup</code>属性、<code>popover=hint</code>の挙動を変更。<br>
+<code>Element</code>/<code>Window</code>のスクロールメソッドがPromiseを返す変更など。<br>
+WebGPUの<code>setImmediateData()</code>、PWAのorigin migration。<br>
+Origin Trialとして<code>performance.getSpeculations()</code>の追加</p>
+
+<ul>
+<li><a href="https://developer.chrome.com/blog/new-in-chrome-150?hl=en" title="New in Chrome 150  |  Blog  |  Chrome for Developers">New in Chrome 150  |  Blog  |  Chrome for Developers</a></li>
+</ul>
+
+<hr>
+
+<h2 id="electron-43-electron">Electron 43 | Electron</h2>
+
+<p><a href="https://www.electronjs.org/blog/electron-43-0" title="Electron 43 | Electron">www.electronjs.org/blog/electron-43-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Electron</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Electron 43リリース。<br>
+Chromium 150.0.7871.46、Node.js v24.17.0、V8 15.0へアップデート。<br>
+ファイルダウンロード時のファイルダイアログが、既定でDownloadsフォルダを開くように変更。<br>
+<code>WebContents</code>インスタンスの<code>clone()</code>、macOSの<code>Notification.remove()</code>/<code>Notification.removeAll()</code>を追加。<br>
+<code>globalShortcut.setSuspended()</code>の追加、startup snapshotやV8 bytecode cacheによる起動パフォーマンスの改善など</p>
+
+<hr>
+
+<h2 id="announcing-typescript-7-0-typescript">Announcing TypeScript 7.0 - TypeScript</h2>
+
+<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/" title="Announcing TypeScript 7.0 - TypeScript">devblogs.microsoft.com/typescript/announcing-typescript-7-0/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>TypeScript 7.0リリース。<br>
+Goへ移植したネイティブ版の<code>tsc</code>をnpmの<code>typescript</code>パッケージとして公開。<br>
+TypeScript 6.0で非推奨となった<code>target: es5</code>/<code>baseUrl</code>などはエラーとなる。<br>
+<code>--checkers</code>/<code>--builders</code>/<code>--singleThreaded</code>による並列処理の制御を追加。<br>
+<code>--watch</code>をParcelのfile watcherを元に作り直し、LSPの対応などが含まれる。<br>
+一方でまだプログラム向けのAPIは公開していないため、VueなどのTypeScript APIを使うツールはまだ動作しない場合がある。</p>
+
+<hr>
+
+<h2 id="better-auth-is-joining-vercel">Better Auth is joining Vercel</h2>
+
+<p><a href="https://better-auth.com/blog/better-auth-joins-vercel" title="Better Auth is joining Vercel">better-auth.com/blog/better-auth-joins-vercel</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">vercel</span> <span class="jser-tag">news</span> <span class="jser-tag">nodejs</span></p></p>
+
+<p>VercelがBetter Authの買収を発表した。<br>
+Better AuthはTypeScript製の認証ライブラリで、MITライセンスのまま開発体制を維持する予定。<br>
+Agent Auth Protocolの開発を継続し、Vercel ConnectやEveへエージェントのID管理を組み込む予定。</p>
+
+<ul>
+<li><a href="https://vercel.com/blog/vercel-acquires-better-auth" title="Vercel acquires Better Auth to accelerate open source auth - Vercel">Vercel acquires Better Auth to accelerate open source auth - Vercel</a></li>
+</ul>
+
+<hr>
+
+<h2 id="npm-install-time-security-and-gat-bypass2fa-deprecation-github-changelog">npm install-time security and GAT bypass2fa deprecation - GitHub Changelog</h2>
+
+<p><a href="https://github.blog/changelog/2026-07-08-npm-install-time-security-and-gat-bypass2fa-deprecation/" title="npm install-time security and GAT bypass2fa deprecation - GitHub Changelog">github.blog/changelog/2026-07-08-npm-install-time-security-and-gat-bypass2fa-deprecation/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>npm v12リリース。<br>
+<code>allowScripts</code>がデフォルトで無効化され、<code>--allow-git</code>/<code>--allow-remote</code>はデフォルトで<code>none</code>になる。<br>
+2FAを回避するGranular Access Tokenは、2026年8月からアカウントやパッケージ管理操作で2FAを省略できなくなる。<br>
+2027年1月ごろから2FAを回避するGranular Access Tokenを使った直接publishもできなくなる予定。<br>
+自動公開にはTrusted Publishing、または人間の2FA承認を伴うStaged Publishingへの移行を推奨している</p>
+
+<ul>
+<li><a href="https://github.com/npm/cli/releases/tag/v12.0.0" title="Release v12.0.0 · npm/cli">Release v12.0.0 · npm/cli</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-js-node-js-26-5-0-current">Node.js — Node.js 26.5.0 (Current)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v26.5.0" title="Node.js — Node.js 26.5.0 (Current)">nodejs.org/en/blog/release/v26.5.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v26.5.0リリース。<br>
+<code>Blob.prototype.textStream()</code>、<code>--experimental-import-text</code>、<code>ReadableStreamTee</code>を追加。<br>
+<code>perf_hooks.monitorEventLoopDelay</code>に<code>samplePerIteration</code>オプションを追加など</p>
+
+<hr>
+
+<h1 class="site-genre">アーティクル</h1>
+
+<hr>
+
+<h2 id="your-worker-can-now-have-its-own-cache-in-front-of-it">Your Worker can now have its own cache in front of it</h2>
+
+<p><a href="https://blog.cloudflare.com/workers-cache/" title="Your Worker can now have its own cache in front of it">blog.cloudflare.com/workers-cache/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cloudflare</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span></p></p>
+
+<p>Cloudflare Workers Cacheについて。<br>
+Workerの前段にキャッシュを置き、<code>wrangler.jsonc</code>の<code>cache.enabled</code>で有効化できる。<br>
+<code>Cache-Control</code>/<code>Vary</code>に対応し、<code>ctx.cache.purge()</code>でタグやパスによる削除ができる。</p>
+
+<hr>
+
+<h2 id="next-js-security-release-and-our-next-patch-release-next-js">Next.js Security Release and Our Next Patch Release | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/next-security-release-program" title="Next.js Security Release and Our Next Patch Release | Next.js">nextjs.org/blog/next-security-release-program</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>Next.jsのセキュリティリリースの方針について。<br>
+今後は月1回程度の事前告知付きリリースを公開し、緊急時は従来通りアドホックなパッチを公開する方針。<br>
+2026年7月20日の公開を目標とし、Next.js 16.2と15.5向けのパッチを予定している。</p>
+
+<hr>
+
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+<hr>
+
+<h2 id="blume-fast-ai-ready-markdown-first-docs">Blume — fast, AI-ready, markdown-first docs</h2>
+
+<p><a href="https://useblume.dev/" title="Blume — fast, AI-ready, markdown-first docs">useblume.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Tools</span> <span class="jser-tag">Markdown</span> <span class="jser-tag">document</span> <span class="jser-tag">AI</span></p></p>
+
+<p>Markdown/MDXからドキュメントサイトを生成するツール。<br>
+<code>blume init</code>/<code>blume dev</code>/<code>blume build</code>などのCLIを提供し、AstroとViteを使って静的HTMLを生成する。<br>
+検索、OpenAPI/AsyncAPIから生成できるAPIリファレンス、<code>llms.txt</code>、MCPサーバ、Ask AIなどの機能を持つ。</p>
+
+<hr>
+
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+<hr>
+
+<h2 id="samchon-ttsc-a-typescript-go-toolchain-for-compiler-powered-plugins-and-type-safe-execution-500x-faster-lint-integrated-into-compiler">samchon/ttsc: A `typescript-go` toolchain for compiler-powered plugins and type-safe execution + 500x faster lint integrated into compiler</h2>
+
+<p><a href="https://github.com/samchon/ttsc" title="samchon/ttsc: A \`typescript-go\` toolchain for compiler-powered plugins and type-safe execution + 500x faster lint integrated into compiler">github.com/samchon/ttsc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">lint</span></p></p>
+
+<p><code>typescript-go</code>を使ったTypeScript向けのツールチェイン。<br>
+ビルド、型チェック付きの実行、Lint、Formatなどのツールを提供している。<br>
+Vite/Rollup/esbuild/webpack/Rspack/Next.js向けのプラグインも提供している。</p>
+
+<hr>
+
+<h2 id="themackabu-ant-javascript-for-s-a-tiny-runtime-with-big-ambitions">theMackabu/ant: javascript for 🐜&#039;s, a tiny runtime with big ambitions</h2>
+
+<p><a href="https://github.com/theMackabu/ant" title="theMackabu/ant: javascript for 🐜&amp;#039;s, a tiny runtime with big ambitions">github.com/theMackabu/ant</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">C</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>Cで実装された小さなJavaScript Runtime。<br>
+WinterTC Minimum Common API互換の実装にすることを目的にしている。</p>
+
+<hr>
+
+<h2 id="wordgard">Wordgard</h2>
+
+<p><a href="https://wordgard.net/" title="Wordgard">wordgard.net/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">editor</span> <span class="jser-tag">library</span></p></p>
+
+<p>リッチテキストエディタ向けのJavaScriptライブラリ。<br>
+ProseMirror/CodeMirrorの作者が開発しており、スキーマベースの文書構造と、CodeMirrorライクな拡張機構を持つ。</p>
+
+<ul>
+<li><a href="https://marijnhaverbeke.nl/blog/wordgard-0.1.html" title="Wordgard Release 0.1">Wordgard Release 0.1</a></li>
+</ul>
+
+<hr>
+
+<h2 id="inokawa-virtua-a-zero-config-fast-and-small-3kb-virtual-list-and-grid-component-for-react-vue-solid-and-svelte">inokawa/virtua: A zero-config, fast and small (~3kB) virtual list (and grid) component for React, Vue, Solid and Svelte.</h2>
+
+<p><a href="https://github.com/inokawa/virtua/" title="inokawa/virtua: A zero-config, fast and small (~3kB) virtual list (and grid) component for React, Vue, Solid and Svelte.">github.com/inokawa/virtua/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">Vue</span> <span class="jser-tag">Solid</span> <span class="jser-tag">Svelte</span> <span class="jser-tag">library</span></p></p>
+
+<p>React/Vue/Solid/Svelte向けのVirtual Scrollコンポーネントライブラリ。<br>
+<code>VList</code>/<code>Virtualizer</code>/<code>WindowVirtualizer</code>/<code>experimental_VGrid</code>を提供し、可変サイズ、横スクロール、Windowスクロール、グリッド表示に対応している。</p>
+
+<hr>
+
+<h2 id="unjs-httpxy-a-full-featured-http-and-websocket-proxy-for-node-js">unjs/httpxy: 🔀 A Full-Featured HTTP and WebSocket Proxy for Node.js</h2>
+
+<p><a href="https://github.com/unjs/httpxy" title="unjs/httpxy: 🔀 A Full-Featured HTTP and WebSocket Proxy for Node.js">github.com/unjs/httpxy</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">HTTP</span> <span class="jser-tag">WebSocket</span> <span class="jser-tag">library</span></p></p>
+
+<p>Node.js向けのHTTP/WebSocketプロキシライブラリ。<br>
+Fetch API互換の<code>proxyFetch</code>、WebSocket Upgrade向けの<code>proxyUpgrade</code>、<code>createProxyServer</code>を提供する。<br>
+Unix Socket、<code>changeOrigin</code>、<code>xfwd</code>、リダイレクトやCookieの書き換えに対応している。</p>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ja/_posts/2026/2026-07-17-typescript-7.0-npm-12-next.js.md"><span
+                class="edit-on-github-label"></span>この記事へ修正リクエストをする</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>JSer.info Slackに参加する</a>
+        </nav>
+        
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/favorite.svg" alt="" /></span>
+            <span>JSer.infoへ記事を紹介したい場合は<a href="https://jser.info/support/">Pingで紹介</a></span>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["TypeScript","nodejs","npm","Next.js","security"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>タグ:</span>
+            <ul>
+                
+                <li>TypeScript</li>
+                
+                <li>nodejs</li>
+                
+                <li>npm</li>
+                
+                <li>Next.js</li>
+                
+                <li>security</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+    <!-- Hatena -->
+    <li>
+        <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-url="https://jser.info/2026/07/17/typescript-7.0-npm-12-next.js/">
+            <img src="https://b.st-hatena.com/images/entry-button/button-only.gif" alt="はてなブックマークに追加" width="20" height="20" style="border: none">
+        </a>
+    </li>
+    
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">コメントを表示</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b>は<a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>としてJSer.infoを支援してくれている方々です。
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://avatars.githubusercontent.com/u/76428554?v=4" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <div class="slack-bar">
+        <details>
+            <summary><img src="/public/svg/slack.svg" alt="" width="50" height="50"
+                    loading="lazy" /><span>SlackでJSer.infoを購読する</span></summary>
+            <p>次のコマンドをSlackのチャンネルで実行すると、JSer.infoのRSSフィードを購読できます</p>
+
+            <pre><code>/feed subscribe https://jser.info/rss/</code></pre>
+
+            <p><button id="js-slack-command-button">Copy</button></p>
+            <p><a href='https://get.slack.help/hc/ja/articles/218688467-Slack-%E3%81%AB-RSS-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B'
+                    target='blank'>
+                    📝 Slack に RSS フィードを追加する
+                </a>
+            </p>
+        </details>
+    </div>
+    <script async type="module">
+        const copyButtonLabel = "Copy";
+        const codeBlock = document.querySelector(".slack-bar pre");
+        const button = document.querySelector("#js-slack-command-button");
+        if (navigator.clipboard) {
+            button.addEventListener("click", async () => {
+                await copyCode(codeBlock, button);
+            });
+        }
+        async function copyCode(block, button) {
+            const code = block.querySelector("code");
+            const text = code.textContent;
+            await navigator.clipboard.writeText(text);
+            // visual feedback that task is completed
+            button.innerText = "Copied";
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 1000);
+        }
+    </script>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>ページ</h1>
+            <ul>
+                <li><a class="page-link" href="https://jser.info/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/support/" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+                
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>最近の投稿</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/2026/07/17/typescript-7.0-npm-12-next.js/">2026-07-17のJS: TypeScript 7.0、npm 12、Next.jsのセキュリティリリース方針</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/07/05/deno-2.9-vite-8.1-es2026/">2026-07-05のJS: Deno 2.9、Vite 8.1、ES2026</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/06/22/typescript-7.0-rc-babel-8.0.0-react-router-v8/">2026-06-22のJS: TypeScript 7.0 RC、Babel 8.0.0、React Router v8</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/06/09/pnpm11.5-node.js26.3.0-cloudflare-void0/">2026-06-09のJS: pnpm 11.5、Node.js 26.3.0、CloudflareがVoidZeroを買収</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/05/25/pnpm-11.111.3-npm-cli-v11.15.0-deno-2.8/">2026-05-24のJS: pnpm 11.1〜11.3、npm CLI v11.15.0、Deno 2.8</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/05/11/node.js-26.0.0-rolldown-1.0-jest-v30.4.0/">2026-05-11のJS: Node.js 26.0.0、Rolldown 1.0、Jest v30.4.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/04/29/node.js-24.15.0lts-rspack-2.0-pnpm-11/">2026-04-29のJS: Node.js 24.15.0(LTS)、Rspack 2.0、pnpm 11</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/2026/04/15/pnpm-11-rc-0-webpack-5.106-servo-v0.1.0/">2026-04-15のJS: pnpm 11 RC 0、webpack 5.106、Servo v0.1.0</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
