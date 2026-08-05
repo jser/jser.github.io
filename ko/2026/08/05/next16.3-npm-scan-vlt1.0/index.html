@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2026-08-05: Next.js 16.3, npm에서 publish할 때 멀웨어 스캔, vlt 1.0 - JSer.info</title>
+    <meta name="description" content="JSer.info #777 - Next.js 16.3가 출시되었다.">
+    
+    <meta name="keywords" content="Next.js,React,npm,security,vlt" />
+    
+    <meta name="author" content="azu">
+    <link href="https://github.com/jser" rel="me">
+    <link href="https://twitter.com/azu_re" rel="me">
+    <link href="https://twitter.com/jser_info" rel="me">
+    <link href="https://mstdn.jp/@azu_re" rel="me">
+    <link href="https://mstdn.jp/@jser" rel="me">
+    
+    <meta content="2026-08-05T09:23:21+09:00" property="article:published_time">
+    <meta content="https://jser.info/about/" property="article:author">
+    
+    
+      
+      <meta content="JSer" property="article:section">
+      
+    
+    
+      
+      <meta content="Next.js" property="article:tag">
+      
+      <meta content="React" property="article:tag">
+      
+      <meta content="npm" property="article:tag">
+      
+      <meta content="security" property="article:tag">
+      
+      <meta content="vlt" property="article:tag">
+      
+    
+
+    
+    <link rel="canonical" href="https://jser.info/ko/2026/08/05/next16.3-npm-scan-vlt1.0/">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jser.info/ko/rss/">
+    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/public/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/public/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/public/img/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/public/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Preload Hero Images: Improves LCP-->
+    <link rel="preload" as="image" href="/public/img/logo.png"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/css/index.css">
+    <!-- JavaScript -->
+    <script src="/public/js/switch-alt-link.js" async defer></script>
+    <script src="/public/js/external-links-new-tab.js" async defer></script>
+    <!-- Open graph tags -->
+<meta name="twitter:card" content="JSer.info #777 - Next.js 16.3가 출시되었다." />
+<meta name="twitter:site" content="@jser_info" />
+
+
+<meta property="og:title" content="2026-08-05: Next.js 16.3, npm에서 publish할 때 멀웨어 스캔, vlt 1.0">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jser.info/ko/2026/08/05/next16.3-npm-scan-vlt1.0/">
+<meta property="og:image" content="https://jser.info/media/logo.png">
+
+<meta property="og:description" content="JSer.info #777 - Next.js 16.3가 출시되었다.">
+<meta property="og:site_name" content="JSer.info">
+
+
+
+<meta property="article:published_time" content="2026-08-05T09:23:21+09:00">
+
+<meta property="og:see_also" content="https://jser.info/ko/2026/07/17/typescript-7.0-npm-12-next.js/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2026/07/05/deno-2.9-vite-8.1-es2026/">
+
+<meta property="og:see_also" content="https://jser.info/ko/2026/06/22/typescript-7.0-rc-babel-8.0.0-react-router-v8/">
+
+
+
+
+
+<meta property="article:tag" content="Next.js">
+
+<meta property="article:tag" content="React">
+
+<meta property="article:tag" content="npm">
+
+<meta property="article:tag" content="security">
+
+<meta property="article:tag" content="vlt">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q66PHF829Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q66PHF829Y');
+</script>
+<script>
+    /*
+    ga-on="click" がついている要素がクリックされたら、
+    イベントをトリガーして、Google Analytics に送信する
+    @example
+    ga-on="click"
+    ga-event-name="join_slack"
+    @see https://developers.google.com/analytics/devguides/collection/ga4/tag-guide?hl=ja#custom_events
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        const gaOnElements = document.querySelectorAll('[ga-on="click"]');
+        gaOnElements.forEach(function (element) {
+            element.addEventListener("click", function () {
+                const eventName = element.getAttribute('ga-event-name');
+                gtag('event', eventName);
+            });
+        });
+    });
+</script>
+
+</head>
+
+
+<body>
+<header>
+    <a href="https://github.com/jser/jser.github.io" class="github-ribbon">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="/public/img/github-ribbon.png"
+             alt="Fork me on GitHub"
+             loading="lazy"
+        >
+    </a>
+    <div class="global-header">
+    <h1 class="site-title"><a href="/ko/" title="JSer.info">
+        <!-- 3:1 aspect ratio-->
+        <img
+            alt=""
+            src="/public/img/logo.png"
+            width="518"
+            height="172"
+    /></a></h1>
+    <h2 class="site-description">JavaScript의 최신 소식을 소개하는 주간 블로그</h2>
+    <nav class="lang-menu">
+        <ul>
+            <li><a href="/" data-alt-href="/2026/08/05/next16.3-npm-scan-vlt1.0/">日本語</a></li>
+            <li><a href="/ko/" data-alt-href="/ko/2026/08/05/next16.3-npm-scan-vlt1.0/">한국어</a></li>
+        </ul>
+        
+    </nav>
+</div>
+
+</header>
+<div class="content-wrapper">
+    <article>
+        <div class="page-content">
+            <div class="post">
+    <header>
+        <div class="post-header">
+            <h1><a href="/2026/08/05/next16.3-npm-scan-vlt1.0/">2026-08-05: Next.js 16.3, npm에서 publish할 때 멀웨어 스캔, vlt 1.0</a></h1>
+
+            <div class="pre-post-toolbar">
+                <span class="post-date">2026年08月05日</span>
+                
+                <span class="post-translator">Translator: rewrite0w0</span>
+                
+                <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+                <a class="btn edit-on-github" href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2026/2026-08-05-next16.3-npm-scan-vlt1.0.md"><span class="edit-on-github-label"></span>Edit on GitHub</a>
+                <span class="svg-icon"><img src="/public/svg/git.svg" alt="" /></span>
+                <a class="btn revision-on-github" href="https://github.com/jser/jser.github.io/commits/develop/_i18n/ko/_posts/2026/2026-08-05-next16.3-npm-scan-vlt1.0.md"><span class="revision-on-github-label"></span>See Revisions</a>
+            </div>
+
+        </div>
+        <div class="social-buttons">
+            <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+</ul>
+
+        </div>
+    </header>
+    <article class="post-content">
+        <p>JSer.info #777 - Next.js 16.3가 출시되었다.</p>
+
+<ul>
+<li><a href="https://nextjs.org/blog/next-16-3">Next.js 16.3 | Next.js</a></li>
+<li><a href="https://github.com/vercel/next.js/releases/tag/v16.3.0">Release v16.3.0 · vercel/next.js</a></li>
+</ul>
+
+<p>옵트인 Instant Navigations으로, <code>cacheComponents</code>와 <code>partialPrefetching</code> 사용한 네비게이션 개선이 추가된다.<br>
+<code>import.meta.glob</code> 지원, App Router의 SSR 내부를 Web Streams에서 Node.js Streams으로 이행하여 성능 개선이 있다.<br>
+실험적 기능으로, Turbopack의 파일시스템 캐시와 메모리 해방 설정, Rust 기반 React Compiler, <code>useOffline</code>가 추가된다.</p>
+
+<hr>
+
+<p>npm에서, publish할 때 멀웨어 스캔이 도입되었다.</p>
+
+<ul>
+<li><a href="https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/">npm publish-time malware scanning and dual-use metadata - GitHub Changelog</a></li>
+</ul>
+
+<p>글에는, npm의 publish할 때 멀웨어스캔과 dual-use content 대상 메타데이터에 대해 다뤄진다.<br>
+새롭게 publish된 패키지는, 설치 가능하기 전에 스캔된다. 그 결과에 따라 통상적인 공개, 수동 리뷰, 블록처리가 된다.<br>
+또한, 멀웨어로 오인될 가능성이 있는 패키지에 <code>package.json</code>의 <code>contentPolicy</code>와 <code>DISCLOSURE</code> 파일로 dual-use content 선언하는 구조가 추가된다.<br>
+선언한 패키지는 2FA를 강제하는 trusted publishing, 대화적 publish, staged publishing에서 공개할 필요가 있다.</p>
+
+<hr>
+
+<p>vlt 1.0가 출시되어, Hosted Package Registries와 ecosystem mirrors가 일반 공개되었다.</p>
+
+<ul>
+<li><a href="https://www.vlt.io/blog/1-0">vlt 1.0 &amp; Hosted Package Registries | vlt /vōlt/</a></li>
+</ul>
+
+<p>의존 패키지의 라이프사이클 스크립트를 <code>vlt install</code>와 <code>vlt build</code>로 나눠서 처리하는 Phased Installations, npm 공개 레지스트리로의 OIDC Trusted Publishing에 대응한다.<br>
+Hosted Package Registries는 npm Registry API와 호환성이 있고, npm, pnpm, Yarn, Bun, Deno에서 이용 가능하며, 이미 알려진 멀웨어를 블록하는 구조를 갖고있다.</p>
+
+<hr>
+
+<h1 class="site-genre">헤드라인</h1>
+
+<hr>
+
+<h2 id="pnpm-11-11-11-14-pnpm">pnpm 11.11-11.14 | pnpm</h2>
+
+<p><a href="https://pnpm.io/blog/releases/11.11-11.14" title="pnpm 11.11-11.14 | pnpm">pnpm.io/blog/releases/11.11-11.14</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>pnpm 11.11-11.14 변경점에 대하여.<br>
+<code>pnpm change</code>/<code>pnpm lane</code>/<code>pnpm version -r</code>에 의한 workspace 출시 관리 추가.<br>
+<code>pnpm doctor</code>, <code>pnpm access</code>, <code>pnpm team</code> 명령어 추가.<br>
+<code>overrides</code>의 <code>&quot;pkg@&quot;</code> 형식을 지원, <code>pnpm run --sequential</code> 추가.<br>
+<code>pnpm install</code>의 path traversal 취약점, peer dependency 해결 deadlock, cold-cache 해결할 때 메모리 사용량 수정.</p>
+
+<hr>
+
+<h2 id="nuxt-4-5-nuxt-blog">Nuxt 4.5 · Nuxt Blog</h2>
+
+<p><a href="https://nuxt.com/blog/v4-5" title="Nuxt 4.5 · Nuxt Blog">nuxt.com/blog/v4-5</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">vite</span> <span class="jser-tag">rspack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nuxt v4.5.0 출시.<br>
+Vite 8/Rspack 2/Rsbuild 으로 업데이트, 실험적인 SSR Streaming, Stable Error Codes 추가.<br>
+<code>useLayout</code>, Named Views, <code>useFetch</code>/<code>useAsyncData</code>에 <code>enabled</code> 옵션 추가.<br>
+<code>import.meta.envName</code>, <code>tracingChannel</code> 추가.<br>
+더불어 2026년 7월 31일 지원 종료된 Nuxt 3의, 마지막 출시인 v3.21.9도 공개됨.</p>
+
+<hr>
+
+<h2 id="type-aware-linting-stable-the-javascript-oxidation-compiler">Type-Aware Linting Stable | The JavaScript Oxidation Compiler</h2>
+
+<p><a href="https://oxc.rs/blog/2026-07-22-type-aware-linting-stable" title="Type-Aware Linting Stable | The JavaScript Oxidation Compiler">oxc.rs/blog/2026-07-22-type-aware-linting-stable</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">ESLint</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Oxlint의 Type-Aware Linting Stable 출시.<br>
+tsgolint v7.0.2000은 TypeScript v7.0.2 대응하는 형태로 버전을 TypeScript와 맞춤.<br>
+<code>options.typeAware</code>/<code>options.typeCheck</code>, <code>--type-check</code>, <code>--debug timings</code> 대응</p>
+
+<hr>
+
+<h2 id="webpack-5-109-webpack">Webpack 5.109 | webpack</h2>
+
+<p><a href="https://webpack.js.org/blog/2026-07-24-webpack-5-109/" title="Webpack 5.109 | webpack">webpack.js.org/blog/2026-07-24-webpack-5-109/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">webpack</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>webpack 5.109 출시.<br>
+CSS, HTML, TypeScript, 비동기 WebAssembly 내장 지원은, 대응하는 loader가 설정되지 않은 경우 유효인 <code>auto</code>가 기본으로.<br>
+실험적으로 <code>output.html</code>에서 <code>title</code>/<code>meta</code>/<code>base</code>, <code>output.resourceHints</code> 지원.<br>
+<code>import.meta.glob</code>/<code>import.meta.resolve</code>, CommonJS의 Module Concatenation 지원.<br>
+<code>infrastructureLogging.progress</code>, Worklet의 bundle, CSS의 <code>@custom-media</code> 지원도 추가.<br>
+webpack-dev-server 6.0.0도 동시에 공개, Express 5으로 업데이트, Node.js 22.15.0 이상이 필요함.</p>
+
+<hr>
+
+<h2 id="nuxt-security-patch-releases-nuxt-blog">Nuxt Security Patch Releases · Nuxt Blog</h2>
+
+<p><a href="https://nuxt.com/blog/v4-5-security" title="Nuxt Security Patch Releases · Nuxt Blog">nuxt.com/blog/v4-5-security</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Vue</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Nuxt v4.5.1とv3.21.10 출시.<br>
+<code>vue.runtimeCompiler</code>를 유효한 Server Islands에서의 RCE, <code>routeRules</code> 허가 바이패스, Server Components의 DoS 수정.<br>
+<code>cache</code>/<code>swr</code>/<code>isr</code>를 사용하는 Nuxt 4에서의 <code>_payload.json</code> 캐시 데이터 유출, 개발할 때만 영향 주는 Nuxt DevTools의 RCE 수정.</p>
+
+<hr>
+
+<h2 id="release-v1-62-0-microsoft-playwright">Release v1.62.0 · microsoft/playwright</h2>
+
+<p><a href="https://github.com/microsoft/playwright/releases/tag/v1.62.0" title="Release v1.62.0 · microsoft/playwright">github.com/microsoft/playwright/releases/tag/v1.62.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">playwright</span> <span class="jser-tag">testing</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Playwright v1.62.0 출시.<br>
+Component Testing가 Story/Gallery 모델로 변경.<br>
+<code>AbortSignal</code>에 의한 조작 캔슬, <code>.webp</code> 스크린샷 지원, <code>Reporter.preprocess()</code> 추가.<br>
+<code>retryStrategy: &quot;isolated&quot;</code>, <code>apiResponse.timing()</code>, Playwright MCP를 CLI에 포함하도록 변경</p>
+
+<hr>
+
+<h2 id="ember-7-1-released">Ember 7.1 Released</h2>
+
+<p><a href="https://blog.emberjs.com/ember-released-7-1/" title="Ember 7.1 Released">blog.emberjs.com/ember-released-7-1/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Ember</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Ember.js 7.1 출시.<br>
+<code>/</code>/<code>/</code>의 빌트인 헬퍼 추가.<br>
+strict template으로 <code>/</code>/<code>/</code> 자동 import 대응</p>
+
+<hr>
+
+<h2 id="pnpm-11-15-11-19-pnpm">pnpm 11.15-11.19 | pnpm</h2>
+
+<p><a href="https://pnpm.io/blog/releases/11.15-11.19" title="pnpm 11.15-11.19 | pnpm">pnpm.io/blog/releases/11.15-11.19</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">pnpm</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>pnpm 11.15에서 11.19까지 변경점에 대하여.<br>
+<code>pnpm update</code>/<code>pnpm outdated</code>의 GitHub Actions 업데이트 대응, <code>pnpm update --changeset</code> 추가.<br>
+<code>update</code>/<code>audit</code> 설정, <code>publishConfig.name</code>, <code>save-prefix</code>의 <code>=</code> 지원 추가.<br>
+<code>pnpm self-update</code>가 객체 설정을 참조하지 않도록 변경, TTY없는 <code>pnpm login</code> 대응</p>
+
+<hr>
+
+<h2 id="v1-20-0-react-aria">v1.20.0 | React Aria</h2>
+
+<p><a href="https://react-aria.adobe.com/releases/v1-20-0" title="v1.20.0 | React Aria">react-aria.adobe.com/releases/v1-20-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>React Aria Components v1.20.0 출시.<br>
+Popover를 hover/focus/long press로 보이는 <code>PreviewTrigger</code>, 텍스트 입력 중에 보완을 다루는 <code>TokenField</code> alpha 추가.<br>
+<code>MenuTrigger</code>에 <code>trigger=&quot;contextMenu&quot;</code> 추가, <code>useKeyboard</code> 단축키 API 개선.<br>
+Table내에 TextField 대화적 컴포넌트 지원</p>
+
+<hr>
+
+<h2 id="next-js-16-3-next-js">Next.js 16.3 | Next.js</h2>
+
+<p><a href="https://nextjs.org/blog/next-16-3" title="Next.js 16.3 | Next.js">nextjs.org/blog/next-16-3</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Next.js 16.3 출시.<br>
+옵트인 Instant Navigations으로, <code>cacheComponents</code>와 <code>partialPrefetching</code>에 의한 네비게이션 개선 추가.<br>
+<code>import.meta.glob</code> 지원, App Router의 SSR 내부를 Web Streams에서 Node.js Streams으로 이행함으로 성능 개선.<br>
+실험적 기능으로 Turbopack 파일시스템 캐시와 메모리 해방 설정, Rust 기반 React Compiler, <code>useOffline</code> 추가.</p>
+
+<ul>
+<li><a href="https://github.com/vercel/next.js/releases/tag/v16.3.0" title="Release v16.3.0 · vercel/next.js">Release v16.3.0 · vercel/next.js</a></li>
+</ul>
+
+<hr>
+
+<h2 id="node-js-node-js-26-6-0-current">Node.js — Node.js 26.6.0 (Current)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v26.6.0" title="Node.js — Node.js 26.6.0 (Current)">nodejs.org/en/blog/release/v26.6.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v26.6.0 출시.<br>
+<code>ffi.getCurrentEventLoop()</code> 추가, <code>node:test</code>에 <code>context.log()</code>와 <code>test:log</code> 이벤트 추가.<br>
+<code>TestStream</code>イベントに<code>entryFile</code> 추가, npm 11.18.0으로 업데이트.</p>
+
+<hr>
+
+<h2 id="node-js-node-js-24-19-0-lts">Node.js — Node.js 24.19.0 (LTS)</h2>
+
+<p><a href="https://nodejs.org/en/blog/release/v24.19.0" title="Node.js — Node.js 24.19.0 (LTS)">nodejs.org/en/blog/release/v24.19.0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>Node.js v24.19.0(LTS) 출시.<br>
+<code>Blob.prototype.textStream()</code>, <code>--experimental-import-text</code>, <code>fs.readFile()</code>에서의 <code>buffer</code> 옵션 지원.<br>
+<code>stream.compose</code>의 Stable화, TLS의 <code>certificateCompression</code> 옵션 추가.</p>
+
+<hr>
+
+<h2 id="vlt-1-0-hosted-package-registries-vlt-v-lt">vlt 1.0 &amp; Hosted Package Registries | vlt /vōlt/</h2>
+
+<p><a href="https://www.vlt.io/blog/1-0" title="vlt 1.0 &amp;amp; Hosted Package Registries | vlt /vōlt/">www.vlt.io/blog/1-0</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">vlt</span> <span class="jser-tag">npm</span> <span class="jser-tag">package</span> <span class="jser-tag">security</span> <span class="jser-tag">ReleaseNote</span></p></p>
+
+<p>vlt 1.0 출시.<br>
+Hosted Package Registries와 ecosystem mirrors 일반 공개.<br>
+Graph Modifiers와 Catalogs 준비.<br>
+의존 패키지의 라이프사이클 스크립트를 <code>vlt install</code>와 <code>vlt build</code>로 나눠 다루는 Phased Installations, npm 공개 레지스트리 OIDC Trusted Publishing에 대응.<br>
+Hosted Package Registries은 npm Registry API와 호환성이 있어, npm, pnpm, Yarn, Bun, Deno에서 이용 가능, 알려진 멀웨러를 블록하는 구조임.</p>
+
+<hr>
+
+<h1 class="site-genre">읽을거리</h1>
+
+<hr>
+
+<h2 id="errors-worth-reading-nostics">Errors worth reading - nostics</h2>
+
+<p><a href="https://nostics.dev/" title="Errors worth reading - nostics">nostics.dev/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>라이브러리 에러 코드를 관리하는 TypeScript 라이브러리.<br>
+에러 코드 대응하는 이유/수정 방법 정의, 소스 위치, 문서 URL를 갖는 <code>Diagnostic</code> 옵션을 정의 가능.<br>
+Nuxt에서 이용</p>
+
+<hr>
+
+<h2 id="npm-publish-time-malware-scanning-and-dual-use-metadata-github-changelog">npm publish-time malware scanning and dual-use metadata - GitHub Changelog</h2>
+
+<p><a href="https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/" title="npm publish-time malware scanning and dual-use metadata - GitHub Changelog">github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">npm</span> <span class="jser-tag">security</span> <span class="jser-tag">article</span></p></p>
+
+<p>npm의 publish할 때 멀웨어 스캔과 dual-use content 대상 메타 데이터에 대하여.<br>
+새롭게 publish된 패키지는, 설치 가능하기 전에 스캔 됨.<br>
+결과에 대해 통상적인 공개, 수동 리뷰, 블록처리 중 하나가 됨.<br>
+멀웨어로 오인될 가능성이 있는 패키지는 <code>package.json</code>의 <code>contentPolicy</code>와 <code>DISCLOSURE</code> 파일에서 dual-use content를 선언하는 구조 추가.<br>
+선언된 패키지는 2FA를 강제하는 trusted publishing, 대화적 publish, staged publishing에서 공개 필요함.</p>
+
+<hr>
+
+<h2 id="cloudflare-workers-and-containers-now-support-inbound-tcp-connections-and-grpc-the-cloudflare-blog">Cloudflare Workers and Containers now support inbound TCP connections and gRPC | The Cloudflare Blog</h2>
+
+<p><a href="https://blog.cloudflare.com/grpc-workers/" title="Cloudflare Workers and Containers now support inbound TCP connections and gRPC | The Cloudflare Blog">blog.cloudflare.com/grpc-workers/</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">cloudflare</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">server</span> <span class="jser-tag">article</span></p></p>
+
+<p>Cloudflare Workers와 Containers의 Inbound TCP/gRPC 대응에 대하여.<br>
+Workers Runtime에 <code>connect(socket)</code> 핸들러 추가, Spectrum 경유 TCP 소켓를 Workerで에서 처리.<br>
+Durable Objects에서 Containers의 TCP포트로 전송하고, Container 상의 gRPC 서버를 양방향 스트리밍을 다룸.<br>
+<code>@connectrpc/connect</code>와 gRPC-web 변환에 의해, Worker만으로 Unary/Server Streaming의 gRPC API를 다룰 수 있음.</p>
+
+<hr>
+
+<h2 id="web-streams-api">Web Streams API 입문 ― 기본개념부터 실전까지</h2>
+
+<p><a href="https://zenn.dev/cybozu_frontend/articles/web-streams-api-guide" title="Web Streams API 입문 ― 기본개념부터 실전까지">zenn.dev/cybozu_frontend/articles/web-streams-api-guide</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">article</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">stream</span></p></p>
+
+<p>Web Streams API 기본 개념부터 사용 방법에 대하여.<br>
+<code>ReadableStream</code>/<code>TransformStream</code>/<code>WritableStream</code> 역할에 대한 설명. tee나 Backpressure, Node.js Stream와 차이도 다룸.</p>
+
+<hr>
+
+<h1 class="site-genre">소프트웨어, 도구, 라이브러리</h1>
+
+<hr>
+
+<h2 id="octanejs-octane-octane-is-an-incredibly-efficient-react-replacement-ui-library-with-improved-developer-ergonomics">octanejs/octane: Octane is an incredibly efficient React replacement UI library with improved developer ergonomics</h2>
+
+<p><a href="https://github.com/octanejs/octane" title="octanejs/octane: Octane is an incredibly efficient React replacement UI library with improved developer ergonomics">github.com/octanejs/octane</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span></p></p>
+
+<p>Inferno 후속 React의 Hooks이나 Suspense에 가까운 모델을 컴파일해서 동작하는 UI 라이브러리.<br>
+Virtual DOM 사용하지 않고, TSX/TSRX 지원, Vite/Rspack/Rsbuild 대상 플러그인 제공.<br>
+조건적으로 Hooks이나 의존 배열업싱 <code>useEffect</code>, SSR/Streaming SSR 대응.</p>
+
+<hr>
+
+<h2 id="vercel-labs-scriptc-typescript-to-native-compiler">vercel-labs/scriptc: TypeScript-to-Native Compiler</h2>
+
+<p><a href="https://github.com/vercel-labs/scriptc" title="vercel-labs/scriptc: TypeScript-to-Native Compiler">github.com/vercel-labs/scriptc</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">compiler</span> <span class="jser-tag">Tools</span></p></p>
+
+<p>TypeScript를 네이티브 실행파일로 컴파일하는 컴파일러.<br>
+TypeScript Compiler API로 자료형 체크하고, Typed IR의 LLVM/C백엔드에서 네이티브 코드로 컴파일함.<br>
+quickjs-ng를 사용해서 동적 JS 라이브러리를 다루는 구조를 가지고 있음.</p>
+
+<ul>
+<li><a href="https://scriptc.dev/limitations" title="Limitations | scriptc">Limitations | scriptc</a></li>
+</ul>
+
+<hr>
+
+<h2 id="tanstack-charts-a-tiny-typescript-visualization-grammar-for-responsive-accessible-server-rendered-charts-powered-by-granular-d3-primitives">TanStack/charts: A tiny TypeScript visualization grammar for responsive, accessible, server-rendered charts—powered by granular D3 primitives.</h2>
+
+<p><a href="https://github.com/TanStack/charts" title="TanStack/charts: A tiny TypeScript visualization grammar for responsive, accessible, server-rendered charts—powered by granular D3 primitives.">github.com/TanStack/charts</a><br>
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">SVG</span> <span class="jser-tag">graphic</span> <span class="jser-tag">library</span></p></p>
+
+<p>D3 기반 차트 라이브러리.<br>
+<code>defineChart</code>으로 프레임워크 비의존 차트 정의를 작성, React/Vue/Solid/Svelte의 어댑터로 렌더링 가능.<br>
+SVG SSR, Canvas 렌더러, 접근성, 반응형 레이아웃 다루는 런타임도 포함.</p>
+
+<ul>
+<li><a href="https://tanstack.com/charts/latest" title="TanStack Charts">TanStack Charts</a></li>
+</ul>
+
+<hr>
+
+    </article>
+
+    <div class="post-post-toolbar">
+        <span class="svg-icon"><img src="/public/svg/github.svg" alt="" /></span>
+        <a class="btn edit-on-github"
+            href="https://github.com/jser/jser.github.io/edit/develop/_i18n/ko/_posts/2026/2026-08-05-next16.3-npm-scan-vlt1.0.md"><span
+                class="edit-on-github-label"></span>Pull Request to this article</a>
+        <nav>
+            <span class="svg-icon"><img src="/public/svg/slack.svg" alt="" /></span>
+            <a class="btn"
+                href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"><span
+                    class="join-to-slack"></span>Join to JSer.info Slack</a>
+        </nav>
+        
+        <nav class="tags" id="js-post-tags"
+            data-post-tags='["Next.js","React","npm","security","vlt"]'>
+            <span><span class="svg-icon"><img src="/public/svg/tag.svg"
+                        alt="" /></span>Tags:</span>
+            <ul>
+                
+                <li>Next.js</li>
+                
+                <li>React</li>
+                
+                <li>npm</li>
+                
+                <li>security</li>
+                
+                <li>vlt</li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="social-buttons post-content">
+    <ul>
+    <!-- Feedly -->
+    
+    <!-- Twitter -->
+    <li class="twitter-button-item">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="jser_info">Tweet</a>
+    </li>
+    
+</ul>
+
+
+    <iframe src="https://github.com/sponsors/azu/card" title="Sponsor azu" height="200" width="600" style="border: 0;"
+        loading="lazy"></iframe>
+</div>
+<div class="disqus-embed" id="js-disqus-embed">
+    <button class="comment-button" id="js-comment-button">Show Comments</button>
+</div>
+<script async type="text/javascript" src="/public/js/show-disqus.js"></script>
+<script>
+    (function (w, d) {
+        var s, e = d.getElementsByTagName("script")[0],
+            a = function (u, f) {
+                if (!d.getElementById(f)) {
+                    s = d.createElement("script");
+                    s.async = true;
+                    s.src = u;
+                    e.parentNode.insertBefore(s, e);
+                }
+            };
+        a("https://b.st-hatena.com/js/bookmark_button_wo_al.js");
+        a("https://platform.twitter.com/widgets.js");
+    })(window, document);
+</script>
+<div class="social-buttons post-content">
+    <h3 class="sponsors-title"><a href="https://jser.info/sponsor/">JSer.info Sponsors</a></h3>
+
+<p class="sponsors-description">
+
+    <b>JSer.info Sponsors</b> are those who have support JSer.info as <a href="https://github.com/sponsors/azu" aria-label="Sponsor @azu on GitHub">GitHub Sponsors</a>.
+
+</p>
+<div class="sponsors-list">
+<!-- Sponsor for https://github.com/sponsors/azu -->
+<div class="sponsors-listItem">
+<a href="https://cybozu.co.jp" title="Cybozu, Inc." target="_blank" rel="noopener"><img src="https://avatars.githubusercontent.com/u/76428554?v=4" alt="" width="64" height="64" loading="lazy" /></a>
+</div>
+</div>
+
+</div>
+
+        </div>
+    </article>
+    <aside>
+        <div class="page-sidebar">
+    <div class="profile">
+        <a href="https://twitter.com/azu_re" title="Twitter: azu_re">
+            <img src="/public/img/azu.png" alt=""></a>
+
+        <h2><a href="https://twitter.com/azu_re">azu</a></h2>
+    </div>
+    
+    <div class="social-icons">
+        <a class="social-icon__twitter" href="https://twitter.com/jser_info" title="Twitter">
+            <img src="/public/svg/twitter.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__github" href="https://github.com/jser" title="GitHub">
+            <img src="/public/svg/github.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__rss" href="https://jser.info/ko/rss/" title="RSS Feed">
+            <img src="/public/svg/feed.svg" alt="" width='28' height='28' loading="lazy">
+        </a>
+        <a class="social-icon__feedly" href='https://feedly.com/i/subscription/feed%2Fhttps://jser.info/ko/rss/'
+            target='blank'>
+            <img id='feedlyFollow' src='https://s3.feedly.com/img/follows/feedly-follow-square-flat-green_2x.png' alt=''
+                width='28' height='28' loading="lazy">
+        </a>
+    </div>
+    
+    <nav>
+        <div class="search-bar">
+            <div class="search-and-submit">
+                <form class="search-box" method="get" action="https://www.google.co.jp/search">
+                    <label>
+                        <input type="search" name="q" placeholder="Enter Search" />
+                    </label>
+                    <input type="hidden" name="q" value="site:jser.info">
+                    <button type="submit">
+                        <span class="drawic drawic-search"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="side-menu">
+            <h1>페이지</h1>
+            <ul>
+                
+                <li><a class="page-link" href="https://jser.info/ko/about/" title="JSer.info About">JSer.info About</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/support" title="JSer.info Sponsors">JSer.info Support</a></li>
+                
+                <li><a class="page-link" href="https://jser.info/ko/sponsor/" title="JSer.info Sponsors">JSer.info Sponsors</a></li>
+            </ul>
+        </div>
+        <div class="side-menu">
+            <h1>최신 글</h1>
+            <ul>
+                
+                
+                <li><a class="page-link" href="/ko/2026/08/05/next16.3-npm-scan-vlt1.0/">2026-08-05: Next.js 16.3, npm에서 publish할 때 멀웨어 스캔, vlt 1.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/07/17/typescript-7.0-npm-12-next.js/">2026-07-17: TypeScript 7.0, npm 12, Next.js 보안 출시 방침</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/07/05/deno-2.9-vite-8.1-es2026/">2026-07-05: Deno 2.9, Vite 8.1, ES2026</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/06/22/typescript-7.0-rc-babel-8.0.0-react-router-v8/">2026-06-22: TypeScript 7.0 RC, Babel 8.0.0, React Router v8</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/06/09/pnpm11.5-node.js26.3.0-cloudflare-void0/">2026-06-09: pnpm 11.5, Node.js 26.3.0, Cloudflare가 VoidZero 매수</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/05/25/pnpm-11.111.3-npm-cli-v11.15.0-deno-2.8/">2026-05-24: pnpm 11.1 ~ 11.3, npm CLI v11.15.0, Deno 2.8</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/05/11/node.js-26.0.0-rolldown-1.0-jest-v30.4.0/">2026-05-11: Node.js 26.0.0, Rolldown 1.0, Jest v30.4.0</a></li>
+                
+                
+                
+                <li><a class="page-link" href="/ko/2026/04/29/node.js-24.15.0lts-rspack-2.0-pnpm-11/">2026-04-29: Node.js 24.15.0(LTS), Rspack 2.0, pnpm 11</a></li>
+                
+                
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    </aside>
+</div>
+<footer>
+    <div class="page-footer">
+    <div class="copyright-footer">
+        <div class="copyright">
+            <p>JSer.info is maintained by @<a href="https://twitter.com/azu_re"
+                                              title="azu (azu_re) on Twitter">azu_re</a>.
+            </p>
+        </div>
+        <div class="cc-license">
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                <img alt="Creative commons LICENSE"
+                     style="border-width:0"
+                     width="88"
+                     height="31"
+                     src="https://i.creativecommons.org/l/by/4.0/88x31.png"
+                     loading="lazy"></a>
+        </div>
+    </div>
+</div>
+
+</footer>
+<style>
+    @media screen and (max-width: 1000px) and (max-height: 800px) {
+        .ping-show-button {
+            display: none !important;
+        }
+    }
+
+    .ping-show-button {
+        color: #000000;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 10px;
+        padding: 1em 3em;
+        background-color: #ffffff;
+        border: 1px solid #868686;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<a
+    class="ping-show-button"
+    href="https://join.slack.com/t/jserinfo/shared_invite/zt-g2shzp7o-f_tj6OaphCAFw5Qlt2Jw0A"
+    ga-on="click"
+    ga-event-name="join_slack"
+    target="_blank"
+><img src="/public/svg/slack.svg" alt="" width="28" height="28" /><span>JSer.info Slackに参加する</span></a>
+
+</body>
+</html>
