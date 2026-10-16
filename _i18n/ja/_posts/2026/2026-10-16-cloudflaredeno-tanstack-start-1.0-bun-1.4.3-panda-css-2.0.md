@@ -19,6 +19,7 @@ tags:
 JSer.info #781 - CloudflareによるDenoの買収が発表されました。
 
 - [Deno is joining Cloudflare | Deno](https://deno.com/blog/cloudflare)
+- [The state of Deno after the Cloudflare announcement · Issue #37030 · denoland/deno](https://github.com/denoland/deno/issues/37030)
 
 Denoランタイムは1年間の不具合修正・セキュリティ更新を行った後、Denoチームによる開発を終了するとしています。
 Deno Deployは6か月後に終了し、JSRはCloudflareへ移行して継続するとしています。
