@@ -1,0 +1,242 @@
+---
+title: "2026-10-16のJS: CloudflareがDenoを買収、TanStack Start 1.0、Bun 1.4.3、Panda CSS 2.0"
+author: "azu"
+layout: post
+date: 2026-10-16T00:46:17.876Z
+category: JSer
+tags:
+- deno
+- cloudflare
+- TanStack
+- React
+- Solid
+- Bun
+- TypeScript
+- css
+
+---
+
+JSer.info #781 - CloudflareによるDenoの買収が発表されました。
+
+- [Deno is joining Cloudflare | Deno](https://deno.com/blog/cloudflare)
+- [The state of Deno after the Cloudflare announcement · Issue #37030 · denoland/deno](https://github.com/denoland/deno/issues/37030)
+
+Denoランタイムは1年間の不具合修正・セキュリティ更新を行った後、Denoチームによる開発を終了するとしています。
+Deno Deployは6か月後に終了し、JSRはCloudflareへ移行して継続するとしています。
+今後はWorkersとDurable Objectsのプラットフォームに注力し、`rusty_v8`は引き続きサポートして`workerd`への統合を進める予定としています。
+
+---
+
+TanStack Start 1.0がリリースされました。
+
+- [TanStack Start 1.0 is Stable | TanStack Blog](https://tanstack.com/blog/tanstack-start-1-0)
+
+TanStack Startは、TanStack Routerを基盤とするReact/Solid向けのフルスタックフレームワークです。
+SSRとストリーミング、型付きサーバ関数の`createServerFn`、実行環境ごとに処理を切り替える`createIsomorphicFn`を提供しています。
+
+---
+
+Bun 1.4.3がリリースされました。
+
+- [Bun v1.4.3 | Bun Blog](https://bun.com/blog/bun-v1.4.3)
+
+TypeScriptの型チェックを行う`bun check`が追加され、`bun run --check`/`bun test --check`/`bun build --check`に対応しています。
+また、`--disallow-code-generation-from-strings`による文字列からのコード生成の禁止、`bun build --compile --bytecode-order`に対応しています。
+
+---
+
+Panda CSS 2.0がリリースされました。
+
+- [Panda CSS 2.0 | Panda CSS Blog - Panda CSS](https://panda-css.com/blog/panda-css-v2)
+
+Panda CSS 2.0では、ESMのみとなりNode.js 22以上が必要になり、`hooks`が`plugins`へ移動しています。
+また、コンパイラがRustとOxcで書き直され、`panda lib`と`designSystem`によるデザインシステムの配布に対応しています。
+そのほか、`viewTransition()`/`firstThatWorks()`/`keyframes()`/`positionTry()`、`panda doctor`/`panda analyze`/`panda debug`が追加されています。
+
+----
+
+<h1 class="site-genre">ヘッドライン</h1>
+
+----
+
+## Preact 11 – Preact
+[preactjs.com/blog/preact-11/](https://preactjs.com/blog/preact-11/ "Preact 11 – Preact")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">React</span></p>
+
+Preact 11.0.0リリース。
+破壊的な変更として、`.mjs`のESM配布のみとなりCommonJS/UMDバンドルを削除、`render()`の第3引数を削除。
+`Hydration 2.0`、`Object.is`によるHook引数の比較、refをデフォルトで転送するように変更し`forwardRef`を不要に、`createPortal`のcoreへの追加など。
+
+- [Upgrading from Preact 10.x – Preact Guide v11](https://preactjs.com/guide/v11/upgrade-guide/ "Upgrading from Preact 10.x – Preact Guide v11")
+
+----
+
+## Next.js 16.4 | Next.js
+[nextjs.org/blog/next-16-4](https://nextjs.org/blog/next-16-4 "Next.js 16.4 | Next.js")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Next.js</span> <span class="jser-tag">React</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Next.js 16.4リリース。
+`create-next-app`でCache Componentsがデフォルトで有効化、`ensureStatic`/`navigation()`/`prefetch()`を追加。
+`next upgrade --agent`と`experimental.agentUpgrade`、`experimental.agentFeedback`を追加。
+Turbopackのディスクキャッシュ削減、Lazy server HMR、Turbopackの共有Runtime。
+CSS Modulesでproductionビルドでは短いクラス名で生成するように変更、React 19.3への更新など。
+
+
+----
+
+## Panda CSS 2.0 | Panda CSS Blog - Panda CSS
+[panda-css.com/blog/panda-css-v2](https://panda-css.com/blog/panda-css-v2 "Panda CSS 2.0 | Panda CSS Blog - Panda CSS")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">css</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Panda CSS 2.0リリース。
+ESMのみとなりNode.js 22以上が必要、`hooks`を`plugins`へ移動。
+`createStyleContext`を`createSlotRecipeContext`/`createRecipeContext`へ分割。
+RustとOxcでコンパイラを書き直し、`panda lib`と`designSystem`によるデザインシステムの配布に対応。
+`viewTransition()`/`firstThatWorks()`/`keyframes()`/`positionTry()`を追加。
+`panda doctor`/`panda analyze`/`panda debug`、ESLintプラグインを正式サポートなど
+
+
+----
+
+## Node.js — Node.js 26.11.0 (Current)
+[nodejs.org/en/blog/release/v26.11.0](https://nodejs.org/en/blog/release/v26.11.0 "Node.js — Node.js 26.11.0 (Current)")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Node.js v26.11.0リリース。
+`isLatin1`/`Buffer.stringLength()`、`http.isValidHeaderName()`/`http.isValidHeaderValue()`を追加。
+`http2`の`connectionWindowSize`、`histogram.diff()`/`histogram.snapshot()`、`--process-timeout=N`を追加。
+`process.ref()`/`process.unref()`がStable化、npm 11.20.0へ更新など。
+
+
+----
+
+## Release 3.0.0 · qunitjs/qunit
+[github.com/qunitjs/qunit/releases/tag/3.0.0](https://github.com/qunitjs/qunit/releases/tag/3.0.0 "Release 3.0.0 · qunitjs/qunit")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">ReleaseNote</span> <span class="jser-tag">test</span></p>
+
+QUnit 3.0.0リリース。
+Node.js 16以下/PhantomJS/AMD向けビルトインexport/`QUnit.load()`などを削除。
+ネイティブESM配布、`before`/`after`フックのmodule context、`QUnit.config.reporters.html`を追加。
+デフォルトのテストタイムアウトを3秒に変更、HTML Reporterのデザイン刷新など。
+
+- [QUnit 3.0 Upgrade Guide | QUnit](https://qunitjs.com/upgrade-guide-3.x/ "QUnit 3.0 Upgrade Guide | QUnit")
+
+----
+
+## Bun v1.4.3 | Bun Blog
+[bun.com/blog/bun-v1.4.3](https://bun.com/blog/bun-v1.4.3 "Bun v1.4.3 | Bun Blog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Bun</span> <span class="jser-tag">TypeScript</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Bun v1.4.3リリース。
+TypeScriptの型チェックを行う`bun check`を追加し、`bun run --check`/`bun test --check`/`bun build --check`に対応。
+`--disallow-code-generation-from-strings`による文字列からのコード生成の禁止に対応、`bun build --compile --bytecode-order`のサポートなど
+
+
+----
+
+## Deno is joining Cloudflare | Deno
+[deno.com/blog/cloudflare](https://deno.com/blog/cloudflare "Deno is joining Cloudflare | Deno")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">deno</span> <span class="jser-tag">cloudflare</span> <span class="jser-tag">JavaScript</span> <span class="jser-tag">news</span></p>
+
+CloudflareがDenoを買収。
+Denoランタイムは1年間の不具合修正・セキュリティ更新を行った後、Denoチームによる開発を終了する、Deno Deployは6か月後に終了、JSRはCloudflareへ移行して継続する。
+今後はWorkersとDurable Objectsのプラットフォームに注力し、`rusty_v8`は引き続きサポートして`workerd`への統合を進める予定。
+
+- [Deno is joining Cloudflare | Cloudflare Blog](https://blog.cloudflare.com/deno-joins-cloudflare "Deno is joining Cloudflare | Cloudflare Blog")
+
+----
+
+## TanStack Start 1.0 is Stable | TanStack Blog
+[tanstack.com/blog/tanstack-start-1-0](https://tanstack.com/blog/tanstack-start-1-0 "TanStack Start 1.0 is Stable | TanStack Blog")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TanStack</span> <span class="jser-tag">React</span> <span class="jser-tag">Solid</span> <span class="jser-tag">ReleaseNote</span></p>
+
+TanStack Start 1.0リリース。
+TanStack Routerを基盤とするReact/Solid向けのフルスタックフレームワーク。
+SSR/ストリーミング、型付きサーバ関数の`createServerFn`、実行環境ごとに処理を切り替える`createIsomorphicFn`を提供する。
+
+
+----
+
+## Release v5.3.0 · expressjs/express
+[github.com/expressjs/express/releases/tag/v5.3.0](https://github.com/expressjs/express/releases/tag/v5.3.0 "Release v5.3.0 · expressjs/express")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">express</span> <span class="jser-tag">nodejs</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Express 5.3.0リリース。
+`Content-Disposition`のファイル名の引用符を省略する条件を変更、`res.send()`で既存の`Content-Type`パラメーターを保持するように変更。
+`req.fresh`が`QUERY`メソッドに対応、デフォルトのエラーハンドラーが`Error.cause`を含むエラー全体をログに出力。
+
+
+----
+
+## Release v1.0.0 · QwikDev/partytown
+[github.com/QwikDev/partytown/releases/tag/v1.0.0](https://github.com/QwikDev/partytown/releases/tag/v1.0.0 "Release v1.0.0 · QwikDev/partytown")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">library</span> <span class="jser-tag">webworker</span> <span class="jser-tag">ReleaseNote</span></p>
+
+Partytown v1.0.0リリース。
+サードパーティスクリプトをWeb Workerで実行するライブラリ。
+
+
+----
+<h1 class="site-genre">アーティクル</h1>
+
+----
+
+## Responsive iframes in Chrome 154  |  Blog  |  Chrome for Developers
+[developer.chrome.com/blog/responsive-iframes?hl&#x3D;en](https://developer.chrome.com/blog/responsive-iframes?hl=en "Responsive iframes in Chrome 154  |  Blog  |  Chrome for Developers")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">Chrome</span> <span class="jser-tag">browser</span> <span class="jser-tag">HTML</span> <span class="jser-tag">css</span></p>
+
+Chrome 154で追加されたレスポンシブな`iframe`の解説記事。
+`frame-sizing: content-height`で、埋め込み先の内容に合わせてサイズ調整できる。
+埋め込まれる側の`responsive-embedded-sizing`メタタグ、`window.requestResize()`、Cross-Origin対応についても解説している。
+
+
+----
+
+## Scrolling is All You Need: Building a Swipeable Sheet | React Aria
+[react-aria.adobe.com/blog/sheet](https://react-aria.adobe.com/blog/sheet "Scrolling is All You Need: Building a Swipeable Sheet | React Aria")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">React</span> <span class="jser-tag">css</span> <span class="jser-tag">UI</span> <span class="jser-tag">animation</span> <span class="jser-tag">article</span></p>
+
+React Ariaのスワイプ操作で閉じられるSheetコンポーネントの実装について。
+CSS Scroll Snapと`view-timeline`を使い、JavaScriptでタッチイベントを処理せずにスワイプ操作と連動したアニメーションを実現する。
+途中の位置で停止するスナップポイント、シートの重ね合わせ、ソフトウェアキーボードへの対応についても解説している。
+
+
+----
+<h1 class="site-genre">サイト、サービス、ドキュメント</h1>
+
+----
+
+## tester-army/e2e: Next generation e2e testing framework for web and mobile apps.
+[github.com/tester-army/e2e](https://github.com/tester-army/e2e "tester-army/e2e: Next generation e2e testing framework for web and mobile apps.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">E2E</span> <span class="jser-tag">testing</span> <span class="jser-tag">library</span> <span class="jser-tag">web</span> <span class="jser-tag">mobile</span> <span class="jser-tag">AI</span></p>
+
+Webとモバイルアプリ向けのE2Eテストフレームワーク。
+自然言語で書いた手順をエージェントが実行し、LocatorとAssertionで結果を検証できる。
+WebはPlaywright経由でChromium/Firefox/WebKit、モバイルはiOS/Androidに対応している。
+
+
+----
+
+## tarwin/tinyjsapp: Build native apps in JS. Backend, frontend. ~5Mb.
+[github.com/tarwin/tinyjsapp](https://github.com/tarwin/tinyjsapp "tarwin/tinyjsapp: Build native apps in JS. Backend, frontend. ~5Mb.")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">JavaScript</span> <span class="jser-tag">app</span> <span class="jser-tag">Tools</span> <span class="jser-tag">webview</span> <span class="jser-tag">macOS</span> <span class="jser-tag">windows</span> <span class="jser-tag">linux</span></p>
+
+txiki.jsとOSネイティブのWebViewを使ってデスクトップアプリを作るツール。
+バックエンドはJavaScriptで書き、フロントエンドはHTML/CSS/JSをOSのWebViewで表示する。
+`tinyjs new`/`tinyjs dev`/`tinyjs build`などのCLI、メニュー/通知/トレイ/ドラッグアンドドロップなどのネイティブ機能を提供する。
+
+
+----
+<h1 class="site-genre">ソフトウェア、ツール、ライブラリ関係</h1>
+
+----
+
+## rauchg/gdp-ts
+[github.com/rauchg/gdp-ts/tree/main](https://github.com/rauchg/gdp-ts/tree/main "rauchg/gdp-ts")
+<p class="jser-tags jser-tag-icon"><span class="jser-tag">TypeScript</span> <span class="jser-tag">security</span> <span class="jser-tag">library</span> <span class="jser-tag">lint</span></p>
+
+TypeScript向けのGhosts of Departed Proofsを実装するライブラリ。
+`name()`で値にコンパイル時の名前を付け、`defineProof()`で認可チェックの結果を型として扱い、関数側で`_proof`引数を受け取って認可チェック済みの型かをチェックする。
+
+
+----
