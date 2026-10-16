@@ -2,7 +2,7 @@
 title: "2026-10-16のJS: CloudflareがDenoを買収、TanStack Start 1.0、Bun 1.4.3、Panda CSS 2.0"
 author: "azu"
 layout: post
-date: 2026-10-16T00:44:33.886Z
+date: 2026-10-16T00:45:25.599Z
 category: JSer
 tags:
 - deno
