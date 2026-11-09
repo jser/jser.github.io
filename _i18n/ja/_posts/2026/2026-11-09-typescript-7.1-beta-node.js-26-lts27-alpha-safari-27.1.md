@@ -35,6 +35,11 @@ Node.js 25以降のLinux公式バイナリは`libatomic`にリンクされてお
 
 - [Node.js — Node.js 27.0.0-alpha.0.0.0 (Alpha)](https://nodejs.org/en/blog/release/v27.0.0-alpha.0.0.0)
 
+Node.js 27からは、[リリーススケジュール](https://nodejs.org/en/blog/announcements/evolving-the-nodejs-release-schedule)が変更されています。
+メジャーリリースは年2回から年1回となり、奇数・偶数の区別なく各メジャーバージョンがLTSへ移行します。
+6か月のAlpha、6か月のCurrentを経て、30か月のLTSとしてサポートされます。
+Node.js 27は、2027年4月にCurrent、同年10月にLTSへ移行する予定です。
+
 V8 15.6へアップデートされ、`Math.sumPrecise()`/`Iterator.zip()`などに対応しています。
 破壊的変更として、ヒープ上限の既定値が変更されています。
 `Buffer`/`ArrayBuffer`のメモリもヒープ上限に算入されます。
