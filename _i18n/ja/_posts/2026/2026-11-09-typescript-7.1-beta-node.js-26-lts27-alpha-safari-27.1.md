@@ -2,7 +2,7 @@
 title: "2026-11-09のJS: TypeScript 7.1 Beta、Node.js 26 LTS/27 Alpha、Safari 27.1"
 author: "azu"
 layout: post
-date: 2026-11-09T00:33:48.461Z
+date: 2026-11-09T00:33:58.440Z
 category: JSer
 tags:
 - TypeScript
